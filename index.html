@@ -27,6 +27,67 @@
   ::-webkit-scrollbar-thumb{background:#cfc8e6;border-radius:8px}
   ::-webkit-scrollbar-thumb:hover{background:#b3abd2}
   ::-webkit-scrollbar-track{background:transparent}
+
+  /* ===== V24 UI 统一优化 ===== */
+  .ui-modal-card input:not([type="file"]):not([type="color"]),
+  .ui-modal-card select,
+  .ui-modal-card button[style*="width:100%"]{
+    min-height:42px !important;
+    padding:0 11px !important;
+    border-radius:9px !important;
+    border:1px solid #ded7ee !important;
+    font-size:14px !important;
+    font-family:'Noto Sans SC',sans-serif !important;
+    box-sizing:border-box !important;
+  }
+  .ui-modal-card textarea{
+    width:100% !important;
+    min-height:86px !important;
+    padding:10px 11px !important;
+    border-radius:9px !important;
+    border:1px solid #ded7ee !important;
+    font-size:14px !important;
+    line-height:1.45 !important;
+    font-family:'Noto Sans SC',sans-serif !important;
+    box-sizing:border-box !important;
+  }
+  .ui-modal-card input[type="color"]{height:42px !important;border-radius:9px !important;}
+  .ui-modal-card .ui-form-grid{display:grid !important;grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:14px !important;}
+  .ui-modal-card .ui-modal-footer{display:flex !important;gap:8px !important;align-items:center !important;flex-wrap:wrap !important;padding:14px 18px !important;border-top:1px solid #e1dbf0 !important;background:linear-gradient(0deg,#f4f1fb,#fbfaff) !important;position:sticky !important;bottom:0 !important;}
+  .ui-modal-card .ui-footer-spacer{flex:1;min-width:8px}
+  .ui-modal-card .ui-btn-ghost{font-family:inherit !important;font-size:14px !important;color:#595287 !important;background:rgba(50,38,90,.05) !important;border:1px solid #ded7ee !important;padding:10px 18px !important;border-radius:11px !important;cursor:pointer !important;min-height:42px !important;}
+  .ui-modal-card .ui-btn-primary{font-family:inherit !important;font-size:14px !important;font-weight:700 !important;color:#fff !important;background:var(--accent,#ff3355) !important;border:none !important;padding:10px 24px !important;border-radius:11px !important;cursor:pointer !important;box-shadow:0 6px 18px rgba(255,51,85,.3) !important;min-height:42px !important;}
+  .ui-modal-card .ui-btn-danger{font-family:inherit !important;font-size:14px !important;color:#e23b5d !important;background:rgba(255,51,85,.08) !important;border:1px solid rgba(255,51,85,.25) !important;padding:10px 14px !important;border-radius:11px !important;cursor:pointer !important;min-height:42px !important;}
+  .ui-modal-card .ui-btn-soft{font-family:inherit !important;font-size:14px !important;color:#544f7e !important;background:rgba(50,38,90,.05) !important;border:1px solid #ded7ee !important;padding:10px 14px !important;border-radius:11px !important;cursor:pointer !important;min-height:42px !important;}
+  @media (max-width:640px){
+    .ui-modal-card .ui-form-grid{grid-template-columns:1fr !important;}
+    .ui-modal-card{max-height:94vh !important;}
+    .ui-modal-card .ui-modal-footer{padding:12px 14px !important;}
+    .ui-modal-card .ui-btn-primary,.ui-modal-card .ui-btn-ghost{flex:1 1 120px !important;}
+  }
+
+  /* ===== V25 修复：设置底部按钮固定、新增谷子左右对齐、表格视图改为稳定 div 结构 ===== */
+  .ui-settings-modal{max-height:92vh !important;display:flex !important;flex-direction:column !important;}
+  .ui-settings-modal > div:nth-child(2){flex:1 1 auto !important;min-height:0 !important;overflow-y:auto !important;}
+  .ui-settings-modal > .ui-modal-footer{position:sticky !important;bottom:0 !important;flex-shrink:0 !important;margin-top:auto !important;z-index:5 !important;}
+
+  .ui-settings-modal{position:relative !important;overflow:hidden !important;}
+  .ui-settings-modal .ui-settings-footer{width:100% !important;flex-shrink:0 !important;display:flex !important;align-items:center !important;gap:8px !important;padding:14px 18px !important;border-top:1px solid #e1dbf0 !important;background:linear-gradient(0deg,#f4f1fb,#fbfaff) !important;box-shadow:0 -8px 18px rgba(50,38,90,.04) !important;}
+  .ui-settings-modal .ui-settings-footer .ui-footer-spacer{flex:1 !important;min-width:8px !important;}
+  .ui-item-modal .ui-form-grid > div{min-width:0 !important;}
+  .ui-item-modal .ui-form-grid > div:not([style*="grid-column:1/-1"]) > div:first-child{min-height:30px !important;display:flex !important;align-items:center !important;}
+  .ui-item-modal .ui-form-grid input:not([type="file"]):not([type="color"]),
+  .ui-item-modal .ui-form-grid select,
+  .ui-item-modal .ui-form-grid textarea,
+  .ui-item-modal .ui-form-grid button[style*="width:100%"]{width:100% !important;}
+  .ui-table-wrap{overflow-x:auto;background:linear-gradient(160deg,#ffffff,#f3f0fb);border:1px solid #ded7ee;border-radius:16px;}
+  .ui-table-grid{min-width:1080px;font-size:13.5px;}
+  .ui-table-row{display:grid;grid-template-columns:64px 220px 150px 220px 90px 90px 64px 100px 100px 118px 100px 100px 130px 120px 110px;align-items:center;border-top:1px solid rgba(50,38,90,.05);}
+  .ui-table-head{background:rgba(50,38,90,.05);color:#544f7e;font-size:12px;font-weight:600;border-top:0;}
+  .ui-table-cell{padding:9px 10px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .ui-table-num{text-align:right;font-family:'Orbitron';}
+  .ui-table-center{text-align:center;}
+
 </style>
 </helmet>
 <div ref="{{ setRoot }}" style="min-height:100vh;background:radial-gradient(circle at 15% -5%, #ddd2f2 0%, transparent 50%), radial-gradient(circle at 92% 4%, #f3d8e6 0%, transparent 45%), linear-gradient(165deg,#e7e1f4,#ece8f6 70%);color:#251d49;font-family:'Noto Sans SC',sans-serif;padding:clamp(14px,3vw,34px) clamp(12px,3vw,34px) 60px;-webkit-font-smoothing:antialiased">
@@ -54,6 +115,17 @@
         <input ref="{{ setImportRef }}" type="file" accept="application/json" onChange="{{ onImportFile }}" style="display:none">
       </div>
     </div>
+
+    <sc-if value="{{ showWelcomeCard }}" hint-placeholder-val="false">
+      <div style="background:linear-gradient(135deg,#fff7fb,#f4f1ff);border:1px solid #eadff3;border-left:4px solid var(--accent,#ff3355);border-radius:18px;padding:18px 20px;margin-bottom:18px;box-shadow:0 10px 28px rgba(95,68,140,.08)">
+        <div style="font-weight:900;font-size:17px;color:#251d49;margin-bottom:8px">🌸 欢迎来到谷子收纳！</div>
+        <div style="font-size:13.5px;color:#544f7e;line-height:1.8">
+          在开始收谷之前，先给自己的收藏库起个名字吧！<br>
+          以后换电脑、换手机的时候，复制同步代码，收藏就会跟着你一起搬家啦 ✨
+        </div>
+        <button onClick="{{ openSettings }}" style="margin-top:12px;font-family:inherit;font-size:13px;font-weight:700;color:#fff;background:var(--accent,#ff3355);border:none;padding:9px 16px;border-radius:10px;cursor:pointer;box-shadow:0 6px 18px rgba(255,51,85,.24)">前往设置</button>
+      </div>
+    </sc-if>
 
     <!-- ===== WORK SWITCH ===== -->
     <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;background:linear-gradient(120deg,#ffffff,#f3f0fb);border:1px solid #e3def1;border-radius:14px;padding:11px 15px;margin-bottom:16px">
@@ -169,6 +241,16 @@
         </div>
       </div>
       </sc-if>
+      <sc-if value="{{ showStatusF }}" hint-placeholder-val="false">
+      <div style="display:flex;align-items:center;gap:9px">
+        <span style="font-size:12px;color:#837da4;flex-shrink:0;width:34px">{{ labelStatus }}</span>
+        <div style="display:flex;gap:7px;overflow-x:auto;padding-bottom:3px">
+          <sc-for list="{{ statusChips }}" as="chip" hint-placeholder-count="5">
+            <button draggable="{{ chip.draggable }}" onDragStart="{{ chip.onDragStart }}" onDragOver="{{ chip.onDragOver }}" onDrop="{{ chip.onDrop }}" onDoubleClick="{{ chip.onDblClick }}" onClick="{{ chip.onClick }}" style="{{ chip.style }}">{{ chip.label }}</button>
+          </sc-for>
+        </div>
+      </div>
+      </sc-if>
       <sc-if value="{{ showAcquireF }}" hint-placeholder-val="{{ true }}">
       <div style="display:flex;align-items:center;gap:9px">
         <span style="font-size:12px;color:#837da4;flex-shrink:0;width:34px">{{ labelAcquire }}</span>
@@ -189,6 +271,16 @@
         </div>
       </div>
       </sc-if>
+      <sc-for list="{{ customFilterRows }}" as="cf" hint-placeholder-count="0">
+      <div style="display:flex;align-items:center;gap:9px">
+        <span style="font-size:12px;color:#837da4;flex-shrink:0;width:34px">{{ cf.label }}</span>
+        <div style="display:flex;gap:7px;overflow-x:auto;padding-bottom:3px">
+          <sc-for list="{{ cf.chips }}" as="chip" hint-placeholder-count="3">
+            <button draggable="{{ chip.draggable }}" onDragStart="{{ chip.onDragStart }}" onDragOver="{{ chip.onDragOver }}" onDrop="{{ chip.onDrop }}" onDoubleClick="{{ chip.onDblClick }}" onClick="{{ chip.onClick }}" style="{{ chip.style }}">{{ chip.label }}</button>
+          </sc-for>
+        </div>
+      </div>
+      </sc-for>
       <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
         <span style="font-size:12px;color:#837da4;flex-shrink:0;width:34px">统计</span>
         <div style="display:flex;gap:7px;flex-wrap:wrap">
@@ -197,7 +289,7 @@
           </sc-for>
         </div>
       </div>
-      <div style="font-size:11.5px;color:#938db0">角色 / 种类 / 形态 / 渠道 可多选；拖动标签可换顺序；双击角色标签可改名</div>
+      <div style="font-size:11.5px;color:#938db0">角色 / 种类 / 形态 / 状态 / 获取 / 渠道 可多选；拖动标签可换顺序；双击标签可改名；拖动收藏卡片可换顺序</div>
     </div>
 
     <sc-if value="{{ hasRows }}" hint-placeholder-val="{{ false }}">
@@ -240,7 +332,7 @@
             </div>
           </sc-if>
           <sc-if value="{{ row.isItem }}" hint-placeholder-val="{{ true }}">
-          <div draggable="{{ row.draggable }}" onDragStart="{{ row.onDragStart }}" onDragOver="{{ row.onDragOver }}" onDrop="{{ row.onDrop }}" style="background:#ffffff;border:1px solid #ded7ee;border-radius:16px;overflow:hidden;display:flex;flex-direction:column">
+          <div draggable="{{ row.draggable }}" onDragStart="{{ row.onDragStart }}" onDragOver="{{ row.onDragOver }}" onDrop="{{ row.onDrop }}" onDragEnd="{{ row.onDragEnd }}" style="background:#ffffff;border:1px solid #ded7ee;border-radius:16px;overflow:hidden;display:flex;flex-direction:column">
             <div style="position:relative;aspect-ratio:1/1;background:linear-gradient(145deg,#eae5f4,#e1dcf0);display:flex;align-items:stretch;justify-content:center;overflow:hidden">
               <sc-for list="{{ row.galleryImgs }}" as="g" hint-placeholder-count="1">
                 <div style="{{ g.style }}"></div>
@@ -294,73 +386,67 @@
 
     <!-- ===== TABLE VIEW ===== -->
     <sc-if value="{{ isTable }}" hint-placeholder-val="{{ false }}">
-      <div style="overflow-x:auto;background:linear-gradient(160deg,#ffffff,#f3f0fb);border:1px solid #ded7ee;border-radius:16px">
-        <table style="width:100%;border-collapse:collapse;min-width:1080px;font-size:13.5px;white-space:nowrap">
-          <thead>
-            <tr style="background:rgba(50,38,90,.05);color:#544f7e;font-size:12px;text-align:left">
-              <th style="padding:12px 10px;font-weight:600">图片</th>
-              <th style="padding:12px 10px;font-weight:600">名称</th>
-              <th style="padding:12px 10px;font-weight:600;min-width:148px">角色</th>
-              <th style="padding:12px 10px;font-weight:600">种类 / 细分</th>
-              <th style="padding:12px 10px;font-weight:600">分组</th>
-              <th style="padding:12px 10px;font-weight:600">状态</th>
-              <th style="padding:12px 10px;font-weight:600;text-align:center">数量</th>
-              <th style="padding:10px 6px;font-weight:600;text-align:right">原价(日元)</th>
-              <th style="padding:10px 6px;font-weight:600;text-align:right">买入价</th>
-              <th style="padding:10px 6px;font-weight:600;text-align:right">邮费(内·际)</th>
-              <th style="padding:10px 6px;font-weight:600;text-align:right">卖出价</th>
-              <th style="padding:10px 6px;font-weight:600;text-align:right">盈亏</th>
-              <th style="padding:12px 10px;font-weight:600">渠道</th>
-              <th style="padding:12px 10px;font-weight:600">日期</th>
-              <th style="padding:12px 10px;font-weight:600;text-align:center">操作</th>
-            </tr>
-          </thead>
-          <tbody>
-            <sc-for list="{{ displayRows }}" as="row" hint-placeholder-count="5">
-              <sc-if value="{{ row.isHeader }}" hint-placeholder-val="{{ false }}">
-                <tr><td colspan="15" style="padding:11px 12px;background:linear-gradient(120deg,#eee9f8,#f5f2fc);border-top:1px solid #ded7ee;border-left:3px solid var(--accent,#ff3355)">
-                  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-                    <sc-if value="{{ row.headerHasImg }}" hint-placeholder-val="{{ false }}"><div style="{{ row.headerImgT }}"></div></sc-if>
-                    <sc-if value="{{ row.headerNoImg }}" hint-placeholder-val="{{ true }}"><span style="{{ row.dotStyle }}"></span></sc-if>
-                    <span style="font-weight:700;font-size:14px">{{ row.label }}</span>
-                    <span style="font-size:12px;color:#837da4">{{ row.countText }}</span>
-                    <span style="font-family:'Orbitron';font-size:12.5px;color:#4c4580;margin-left:auto">{{ row.costText }}</span>
-                    <span style="font-family:'Orbitron';font-size:12.5px"><span style="{{ row.profitStyle }}">{{ row.profitText }}</span></span>
-                  </div>
-                </td></tr>
-              </sc-if>
-              <sc-if value="{{ row.isItem }}" hint-placeholder-val="{{ true }}">
-              <tr style="border-top:1px solid rgba(50,38,90,.05)">
-                <td style="padding:9px 10px">
+      <div class="ui-table-wrap">
+        <div class="ui-table-grid">
+          <div class="ui-table-row ui-table-head">
+            <div class="ui-table-cell">图片</div>
+            <div class="ui-table-cell">名称</div>
+            <div class="ui-table-cell">角色</div>
+            <div class="ui-table-cell">种类 / 细分</div>
+            <div class="ui-table-cell">分组</div>
+            <div class="ui-table-cell">状态</div>
+            <div class="ui-table-cell ui-table-center">数量</div>
+            <div class="ui-table-cell ui-table-num">原价(日元)</div>
+            <div class="ui-table-cell ui-table-num">买入价</div>
+            <div class="ui-table-cell ui-table-num">邮费(内·际)</div>
+            <div class="ui-table-cell ui-table-num">卖出价</div>
+            <div class="ui-table-cell ui-table-num">盈亏</div>
+            <div class="ui-table-cell">渠道</div>
+            <div class="ui-table-cell">日期</div>
+            <div class="ui-table-cell ui-table-center">操作</div>
+          </div>
+          <sc-for list="{{ displayRows }}" as="row" hint-placeholder-count="5">
+            <sc-if value="{{ row.isHeader }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:11px 12px;background:linear-gradient(120deg,#eee9f8,#f5f2fc);border-top:1px solid #ded7ee;border-left:3px solid var(--accent,#ff3355)">
+                <sc-if value="{{ row.headerHasImg }}" hint-placeholder-val="{{ false }}"><div style="{{ row.headerImgT }}"></div></sc-if>
+                <sc-if value="{{ row.headerNoImg }}" hint-placeholder-val="{{ true }}"><span style="{{ row.dotStyle }}"></span></sc-if>
+                <span style="font-weight:700;font-size:14px">{{ row.label }}</span>
+                <span style="font-size:12px;color:#837da4">{{ row.countText }}</span>
+                <span style="font-family:'Orbitron';font-size:12.5px;color:#4c4580;margin-left:auto">{{ row.costText }}</span>
+                <span style="font-family:'Orbitron';font-size:12.5px"><span style="{{ row.profitStyle }}">{{ row.profitText }}</span></span>
+              </div>
+            </sc-if>
+            <sc-if value="{{ row.isItem }}" hint-placeholder-val="{{ true }}">
+              <div class="ui-table-row">
+                <div class="ui-table-cell">
                   <div style="position:relative;width:42px;height:42px;border-radius:9px;background:linear-gradient(145deg,#eae5f4,#e1dcf0);display:flex;align-items:center;justify-content:center;font-family:'Orbitron';font-weight:900;color:#b9b3d2;font-size:16px;overflow:hidden">
                     <div style="{{ row.thumbBg }}"></div>
                     <sc-if value="{{ row.noImg }}" hint-placeholder-val="{{ true }}"><span style="position:relative">{{ row.ph }}</span></sc-if>
                   </div>
-                </td>
-                <td style="padding:9px 10px;font-weight:600;max-width:240px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ row.name }}</td>
-                <td style="padding:9px 10px;min-width:148px"><span style="{{ row.charStyle }}"><sc-if value="{{ row.hasAvatar }}" hint-placeholder-val="{{ false }}"><div style="{{ row.avatarStyle }}"></div></sc-if>{{ row.character }}</span></td>
-                <td style="padding:9px 10px;color:#595287">{{ row.typeText }} <sc-if value="{{ row.showForm }}" hint-placeholder-val="{{ false }}"><span style="{{ row.formStyle }}">{{ row.formText }}</span></sc-if> <sc-if value="{{ row.hasSeries }}" hint-placeholder-val="{{ false }}"><span style="{{ row.seriesStyle }}">{{ row.seriesText }}</span></sc-if> <sc-if value="{{ row.showAcquire }}" hint-placeholder-val="{{ false }}"><span style="{{ row.acquireStyle }}">{{ row.acquireText }}</span></sc-if> <sc-if value="{{ row.hasSwap }}" hint-placeholder-val="{{ false }}"><span style="{{ row.swapStyle }}">{{ row.swapText }}</span></sc-if></td>
-                <td style="padding:9px 10px"><span style="{{ row.groupStyle }}">{{ row.groupText }}</span></td>
-                <td style="padding:9px 10px"><span style="{{ row.statusStyle }}">{{ row.status }}</span></td>
-                <td style="padding:9px 10px;text-align:center;color:#595287">{{ row.qtyText }}</td>
-                <td style="padding:8px 6px;text-align:right;color:#544f7e;font-family:'Orbitron'">{{ row.originalText }}</td>
-                <td style="padding:8px 6px;text-align:right;font-family:'Orbitron';color:#251d49">{{ row.buyText }}</td>
-                <td style="padding:8px 6px;text-align:right;color:#544f7e">{{ row.shipText }}</td>
-                <td style="padding:8px 6px;text-align:right;font-family:'Orbitron';color:#c8860d">{{ row.sellText }}</td>
-                <td style="padding:8px 6px;text-align:right;font-family:'Orbitron'"><span style="{{ row.profitCellStyle }}">{{ row.profitTableText }}</span></td>
-                <td style="padding:9px 10px;color:#595287">{{ row.channel }}</td>
-                <td style="padding:9px 10px;color:#544f7e">{{ row.dateText }}</td>
-                <td style="padding:9px 10px;text-align:center">
+                </div>
+                <div class="ui-table-cell" style="font-weight:600">{{ row.name }}</div>
+                <div class="ui-table-cell"><span style="{{ row.charStyle }}"><sc-if value="{{ row.hasAvatar }}" hint-placeholder-val="{{ false }}"><div style="{{ row.avatarStyle }}"></div></sc-if>{{ row.character }}</span></div>
+                <div class="ui-table-cell" style="color:#595287">{{ row.typeText }} <sc-if value="{{ row.showForm }}" hint-placeholder-val="{{ false }}"><span style="{{ row.formStyle }}">{{ row.formText }}</span></sc-if> <sc-if value="{{ row.hasSeries }}" hint-placeholder-val="{{ false }}"><span style="{{ row.seriesStyle }}">{{ row.seriesText }}</span></sc-if> <sc-if value="{{ row.showAcquire }}" hint-placeholder-val="{{ false }}"><span style="{{ row.acquireStyle }}">{{ row.acquireText }}</span></sc-if> <sc-if value="{{ row.hasSwap }}" hint-placeholder-val="{{ false }}"><span style="{{ row.swapStyle }}">{{ row.swapText }}</span></sc-if></div>
+                <div class="ui-table-cell"><span style="{{ row.groupStyle }}">{{ row.groupText }}</span></div>
+                <div class="ui-table-cell"><span style="{{ row.statusStyle }}">{{ row.status }}</span></div>
+                <div class="ui-table-cell ui-table-center" style="color:#595287">{{ row.qtyText }}</div>
+                <div class="ui-table-cell ui-table-num" style="color:#544f7e">{{ row.originalText }}</div>
+                <div class="ui-table-cell ui-table-num" style="color:#251d49">{{ row.buyText }}</div>
+                <div class="ui-table-cell ui-table-num" style="color:#544f7e;font-family:'Noto Sans SC',sans-serif">{{ row.shipText }}</div>
+                <div class="ui-table-cell ui-table-num" style="color:#c8860d">{{ row.sellText }}</div>
+                <div class="ui-table-cell ui-table-num"><span style="{{ row.profitCellStyle }}">{{ row.profitTableText }}</span></div>
+                <div class="ui-table-cell" style="color:#595287">{{ row.channel }}</div>
+                <div class="ui-table-cell" style="color:#544f7e">{{ row.dateText }}</div>
+                <div class="ui-table-cell ui-table-center">
                   <div style="display:inline-flex;gap:6px">
                     <button onClick="{{ row.onEdit }}" style="font-family:inherit;font-size:12px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:5px 10px;border-radius:8px;cursor:pointer">编辑</button>
                     <button onClick="{{ row.onTrend }}" style="font-family:inherit;font-size:12px;color:#2f6fdb;background:rgba(47,111,219,.08);border:1px solid rgba(47,111,219,.25);padding:5px 10px;border-radius:8px;cursor:pointer">趋势</button>
                   </div>
-                </td>
-              </tr>
-              </sc-if>
-            </sc-for>
-          </tbody>
-        </table>
+                </div>
+              </div>
+            </sc-if>
+          </sc-for>
+        </div>
       </div>
     </sc-if>
 
@@ -377,7 +463,7 @@
             </div>
           </sc-if>
           <sc-if value="{{ row.isItem }}" hint-placeholder-val="{{ true }}">
-            <button onClick="{{ row.onEdit }}" draggable="{{ row.draggable }}" onDragStart="{{ row.onDragStart }}" onDragOver="{{ row.onDragOver }}" onDrop="{{ row.onDrop }}" title="{{ row.name }}" style="width:92px;display:flex;flex-direction:column;align-items:center;gap:6px;background:none;border:none;cursor:pointer;padding:0;font-family:inherit">
+            <button onClick="{{ row.onEdit }}" draggable="{{ row.draggable }}" onDragStart="{{ row.onDragStart }}" onDragOver="{{ row.onDragOver }}" onDrop="{{ row.onDrop }}" onDragEnd="{{ row.onDragEnd }}" title="{{ row.name }}" style="width:92px;display:flex;flex-direction:column;align-items:center;gap:6px;background:none;border:none;cursor:pointer;padding:0;font-family:inherit">
               <div style="position:relative;width:84px;height:84px;border-radius:50%;overflow:hidden;background:linear-gradient(145deg,#eae5f4,#e1dcf0);border:2px solid #ffffff;box-shadow:0 3px 10px rgba(50,38,90,.14)">
                 <div style="{{ row.thumbBg }}"></div>
                 <sc-if value="{{ row.noImg }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Orbitron';font-weight:900;font-size:26px;color:#b9b3d2">{{ row.ph }}</div></sc-if>
@@ -399,13 +485,13 @@
   <!-- ===== MODAL ===== -->
   <sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
     <div onClick="{{ closeModal }}" style="position:fixed;inset:0;z-index:60;background:rgba(70,58,110,.32);backdrop-filter:blur(6px);display:flex;align-items:flex-start;justify-content:center;padding:28px 14px;overflow-y:auto;animation:fadein .18s ease">
-      <div onClick="{{ stop }}" style="width:100%;max-width:720px;max-height:92vh;display:flex;flex-direction:column;background:linear-gradient(160deg,#ffffff,#f4f1fb);border:1px solid #d6cfe9;border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.5);animation:modalpop .22s cubic-bezier(.2,.8,.3,1);overflow:hidden">
+      <div class="ui-modal-card ui-item-modal" onClick="{{ stop }}" style="width:100%;max-width:720px;max-height:96vh;display:flex;flex-direction:column;background:linear-gradient(160deg,#ffffff,#f4f1fb);border:1px solid #d6cfe9;border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.5);animation:modalpop .22s cubic-bezier(.2,.8,.3,1);overflow:hidden">
         <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid #e1dbf0">
           <div style="font-family:'Orbitron';font-weight:700;font-size:17px">{{ modalTitle }}</div>
           <button onClick="{{ closeModal }}" style="width:32px;height:32px;border-radius:9px;border:1px solid #ded7ee;background:rgba(50,38,90,.045);color:#595287;font-size:18px;cursor:pointer;line-height:1">×</button>
         </div>
         <div style="padding:20px 22px;flex:1;min-height:0;overflow-y:auto">
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <div class="ui-form-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
 
             <!-- image upload -->
             <div style="grid-column:1/-1;display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap">
@@ -437,16 +523,36 @@
             </div>
 
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>{{ lblForm }}</span><button onClick="{{ addFormOpt }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 9px;border-radius:7px;cursor:pointer">＋ 添加</button></div>
-              <select name="form" value="{{ draft.form }}" onChange="{{ onDraftChange }}" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
-                <sc-for list="{{ FORMS }}" as="f" hint-placeholder-count="3"><option value="{{ f }}">{{ f }}</option></sc-for>
-              </select>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>{{ lblForm }}</span><button onClick="{{ addFormOpt }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 9px;border-radius:7px;cursor:pointer">添加</button></div>
+              <div style="position:relative">
+                <button onClick="{{ toggleFormMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ formDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
+                <sc-if value="{{ formMenuOpen }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:7;background:#ffffff;border:1px solid #ded7ee;border-radius:11px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:220px;overflow-y:auto">
+                    <sc-for list="{{ formMenuItems }}" as="ch" hint-placeholder-count="3">
+                      <div style="{{ ch.rowStyle }}">
+                        <button onClick="{{ ch.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ch.name }}</button>
+                        <button onClick="{{ ch.onDel }}" style="flex-shrink:0;width:22px;height:22px;border-radius:6px;border:none;background:rgba(226,59,93,.1);color:#e23b5d;cursor:pointer;font-size:14px;line-height:1">×</button>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
             </div>
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>{{ lblStatus }}</span><button onClick="{{ addStatusOpt }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 9px;border-radius:7px;cursor:pointer">＋ 添加</button></div>
-              <select name="status" value="{{ draft.status }}" onChange="{{ onDraftChange }}" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
-                <sc-for list="{{ STATUSES }}" as="s" hint-placeholder-count="6"><option value="{{ s }}">{{ s }}</option></sc-for>
-              </select>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>{{ lblStatus }}</span><button onClick="{{ addStatusOpt }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 9px;border-radius:7px;cursor:pointer">添加</button></div>
+              <div style="position:relative">
+                <button onClick="{{ toggleStatusMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ statusDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
+                <sc-if value="{{ statusMenuOpen }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:7;background:#ffffff;border:1px solid #ded7ee;border-radius:11px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:220px;overflow-y:auto">
+                    <sc-for list="{{ statusMenuItems }}" as="ch" hint-placeholder-count="6">
+                      <div style="{{ ch.rowStyle }}">
+                        <button onClick="{{ ch.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ch.name }}</button>
+                        <button onClick="{{ ch.onDel }}" style="flex-shrink:0;width:22px;height:22px;border-radius:6px;border:none;background:rgba(226,59,93,.1);color:#e23b5d;cursor:pointer;font-size:14px;line-height:1">×</button>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
             </div>
 
             <div>
@@ -509,15 +615,38 @@
             </div>
 
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>{{ lblAcquire }}</span><button onClick="{{ addAcquireOpt }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 9px;border-radius:7px;cursor:pointer">＋ 添加</button></div>
-              <select name="acquire" value="{{ draft.acquire }}" onChange="{{ onDraftChange }}" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
-                <option value="直购">直购</option><option value="单领">单领</option><option value="盲盒">盲盒（可置换）</option>
-              </select>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>{{ lblAcquire }}</span><button onClick="{{ addAcquireOpt }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 9px;border-radius:7px;cursor:pointer">添加</button></div>
+              <div style="position:relative">
+                <button onClick="{{ toggleAcquireMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ acquireDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
+                <sc-if value="{{ acquireMenuOpen }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:7;background:#ffffff;border:1px solid #ded7ee;border-radius:11px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:220px;overflow-y:auto">
+                    <sc-for list="{{ acquireMenuItems }}" as="ch" hint-placeholder-count="3">
+                      <div style="{{ ch.rowStyle }}">
+                        <button onClick="{{ ch.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ch.name }}</button>
+                        <button onClick="{{ ch.onDel }}" style="flex-shrink:0;width:22px;height:22px;border-radius:6px;border:none;background:rgba(226,59,93,.1);color:#e23b5d;cursor:pointer;font-size:14px;line-height:1">×</button>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
             </div>
 
-            <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">数量</div>
-              <input name="qty" type="number" min="1" value="{{ draft.qty }}" onChange="{{ onDraftChange }}" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+            <div style="position:relative">
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>购买渠道 / 店铺</span><button onClick="{{ addChannel }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer">添加</button></div>
+              <button onClick="{{ toggleChannelMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ channelDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
+              <sc-if value="{{ channelMenuOpen }}" hint-placeholder-val="{{ false }}">
+                <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:5;background:#ffffff;border:1px solid #ded7ee;border-radius:11px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:240px;overflow-y:auto">
+                  <sc-if value="{{ hasChannelMenuItems }}" hint-placeholder-val="{{ false }}">
+                    <sc-for list="{{ channelMenuItems }}" as="ch" hint-placeholder-count="4">
+                      <div style="{{ ch.rowStyle }}">
+                        <button onClick="{{ ch.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ch.name }}</button>
+                        <button onClick="{{ ch.onDel }}" style="flex-shrink:0;width:22px;height:22px;border-radius:6px;border:none;background:rgba(226,59,93,.1);color:#e23b5d;cursor:pointer;font-size:14px;line-height:1">×</button>
+                      </div>
+                    </sc-for>
+                  </sc-if>
+                  <button onClick="{{ addChannel }}" style="display:none"></button>
+                </div>
+              </sc-if>
             </div>
             <div>
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">原价（日元 円）</div>
@@ -580,23 +709,9 @@
               <input name="shipIntl" type="number" min="0" value="{{ draft.shipIntl }}" onChange="{{ onDraftChange }}" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
 
-            <div style="position:relative">
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>购买渠道 / 店铺</span><button onClick="{{ addChannel }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer">添加</button></div>
-              <button onClick="{{ toggleChannelMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ channelDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
-              <sc-if value="{{ channelMenuOpen }}" hint-placeholder-val="{{ false }}">
-                <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:5;background:#ffffff;border:1px solid #ded7ee;border-radius:11px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:240px;overflow-y:auto">
-                  <sc-if value="{{ hasChannelMenuItems }}" hint-placeholder-val="{{ false }}">
-                    <sc-for list="{{ channelMenuItems }}" as="ch" hint-placeholder-count="4">
-                      <div style="{{ ch.rowStyle }}">
-                        <button onClick="{{ ch.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ch.name }}</button>
-                        <button onClick="{{ ch.onDel }}" style="flex-shrink:0;width:22px;height:22px;border-radius:6px;border:none;background:rgba(226,59,93,.1);color:#e23b5d;cursor:pointer;font-size:14px;line-height:1">×</button>
-                      </div>
-                    </sc-for>
-                  </sc-if>
-                  <button onClick="{{ addChannel }}" style="display:none"></button>
-                </div>
-              </sc-if>
-            </div>
+            <div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">数量</div>
+              <input name="qty" type="number" min="1" value="{{ draft.qty }}" onChange="{{ onDraftChange }}" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             <div>
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">购买日期</div>
@@ -604,14 +719,12 @@
             </div>
 
             <sc-if value="{{ hasCustomFields }}" hint-placeholder-val="{{ false }}">
-              <div style="grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:14px">
-                <sc-for list="{{ draftCustomInputs }}" as="cf" hint-placeholder-count="0">
-                  <div>
-                    <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">{{ cf.label }}</div>
-                    <input value="{{ cf.value }}" onChange="{{ cf.onChange }}" placeholder="可自行输入" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
-                  </div>
-                </sc-for>
-              </div>
+              <sc-for list="{{ draftCustomInputs }}" as="cf" hint-placeholder-count="0">
+                <div>
+                  <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">{{ cf.label }}</div>
+                  <input value="{{ cf.value }}" onChange="{{ cf.onChange }}" placeholder="可自行输入" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+                </div>
+              </sc-for>
             </sc-if>
 
             <div style="grid-column:1/-1">
@@ -627,81 +740,117 @@
             </div>
           </div>
         </div>
-        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:14px 18px;border-top:1px solid #e1dbf0;background:linear-gradient(0deg,#f4f1fb,#fbfaff);position:sticky;bottom:0">
+        <div class="ui-modal-footer">
           <sc-if value="{{ isEditing }}" hint-placeholder-val="{{ false }}">
-            <button onClick="{{ deleteCurrent }}" style="font-family:inherit;font-size:14px;color:#e23b5d;background:rgba(255,51,85,.08);border:1px solid rgba(255,51,85,.25);padding:10px 14px;border-radius:11px;cursor:pointer">删除</button>
-            <button onClick="{{ duplicateCurrent }}" style="font-family:inherit;font-size:14px;color:#544f7e;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:10px 14px;border-radius:11px;cursor:pointer">复制为新</button>
+            <button class="ui-btn-danger" onClick="{{ deleteCurrent }}">删除</button>
+            <button class="ui-btn-soft" onClick="{{ duplicateCurrent }}">复制为新</button>
           </sc-if>
-          <div style="flex:1;min-width:8px"></div>
-          <button onClick="{{ closeModal }}" style="font-family:inherit;font-size:14px;color:#595287;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:10px 18px;border-radius:11px;cursor:pointer">取消</button>
-          <button onClick="{{ saveItem }}" style="font-family:inherit;font-size:14px;font-weight:700;color:#fff;background:var(--accent,#ff3355);border:none;padding:10px 24px;border-radius:11px;cursor:pointer;box-shadow:0 6px 18px rgba(255,51,85,.3)">保存</button>
+          <div class="ui-footer-spacer"></div>
+          <button class="ui-btn-ghost" onClick="{{ closeModal }}">取消</button>
+          <button class="ui-btn-primary" onClick="{{ saveItem }}">保存</button>
         </div>
       </div>
     </div>
   </sc-if>
 
   <!-- ===== SETTINGS MODAL ===== -->
-  <sc-if value="{{ settingsOpen }}" hint-placeholder-val="{{ false }}">
+  <sc-if value="{{ settingsOpen }}" hint-placeholder-val="false">
     <div onClick="{{ closeSettings }}" style="position:fixed;inset:0;z-index:70;background:rgba(70,58,110,.32);backdrop-filter:blur(4px);display:flex;align-items:flex-start;justify-content:center;padding:30px 14px;overflow-y:auto">
-      <div onClick="{{ stop }}" style="width:100%;max-width:560px;max-height:92vh;display:flex;flex-direction:column;background:linear-gradient(160deg,#ffffff,#f4f1fb);border:1px solid #d6cfe9;border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.4);overflow:hidden">
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid #e1dbf0">
+      <div class="ui-modal-card ui-settings-modal" onClick="{{ stop }}" style="width:100%;max-width:680px;max-height:92vh;display:flex;flex-direction:column;background:linear-gradient(160deg,#ffffff,#f4f1fb);border:1px solid #d6cfe9;border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.4);overflow:hidden">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid #e1dbf0;flex-shrink:0">
           <div style="font-weight:800;font-size:17px;color:#251d49">项目设置</div>
-          <button onClick="{{ closeSettings }}" style="width:32px;height:32px;border-radius:9px;border:1px solid #ded7ee;background:rgba(50,38,90,.05);color:#595287;font-size:18px;cursor:pointer;line-height:1">×</button>
+          <button onClick="{{ cancelSettings }}" style="width:32px;height:32px;border-radius:9px;border:1px solid #ded7ee;background:rgba(50,38,90,.05);color:#595287;font-size:18px;cursor:pointer;line-height:1">×</button>
         </div>
-        <div style="padding:20px 22px;flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:16px">
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-            <div style="grid-column:1/-1">
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">CN / 收藏者昵称（选填，会显示在标题前）</div>
-              <input value="{{ cnVal }}" onChange="{{ onCn }}" placeholder="例如：诺克斯 / 梦境特工" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+
+        <div style="padding:20px 22px;flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:18px">
+          <div>
+            <div style="font-weight:700;font-size:14px;color:#251d49;margin-bottom:10px">基础信息</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+              <div style="grid-column:1/-1">
+                <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">CN / 收藏者昵称</div>
+                <input value="{{ cnVal }}" onChange="{{ onCn }}" placeholder="例如：诺克斯 / 梦境特工" style="width:100%;min-height:42px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:14px;font-family:inherit;outline:none;box-sizing:border-box">
+                <div style="font-size:11.5px;color:#938db0;line-height:1.6;margin-top:6px">建议先填写 CN，方便同步到其他设备。</div>
+
+                <div style="margin-top:12px;background:rgba(255,255,255,.68);border:1px solid #e1dbf0;border-radius:13px;padding:12px 13px">
+                  <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+                    <div style="font-weight:700;font-size:13px;color:#251d49">☁️ 同步代码</div>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap">
+                      <button onClick="{{ createCloudCollection }}" style="font-family:inherit;font-size:12.5px;font-weight:700;color:#fff;background:var(--accent,#ff3355);border:none;padding:7px 12px;border-radius:9px;cursor:pointer">生成同步代码</button>
+                      <sc-if value="{{ hasCloudCode }}" hint-placeholder-val="false"><button onClick="{{ copyCloudCode }}" style="font-family:inherit;font-size:12.5px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:7px 12px;border-radius:9px;cursor:pointer">复制</button></sc-if>
+                    </div>
+                  </div>
+                  <sc-if value="{{ hasCloudCode }}" hint-placeholder-val="false">
+                    <div style="font-family:'Orbitron';font-weight:800;font-size:22px;letter-spacing:.14em;color:#251d49;background:#fff;border:1px solid #ded7ee;border-radius:10px;padding:9px 12px;display:inline-block">{{ cloudSyncCode }}</div>
+                  </sc-if>
+                  <sc-if value="{{ noCloudCode }}" hint-placeholder-val="true">
+                    <div style="font-size:13px;color:#938db0;background:#fff;border:1px dashed #ded7ee;border-radius:10px;padding:10px 12px;display:inline-block">还没有生成同步代码</div>
+                  </sc-if>
+                  <div style="font-size:11.5px;color:#938db0;line-height:1.65;margin-top:8px">换电脑？换手机？复制这串同步代码，在新的设备输入即可继续使用同一个收藏库。</div>
+                  <sc-if value="{{ hasCloudStatus }}" hint-placeholder-val="false"><div style="font-size:11.5px;color:#544f7e;line-height:1.6;margin-top:6px">{{ cloudStatus }}</div></sc-if>
+                </div>
+              </div>
+              <div style="grid-column:1/-1">
+                <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">项目标题</div>
+                <input value="{{ titleVal }}" onChange="{{ onTitleSet }}" placeholder="谷子收纳" style="width:100%;min-height:42px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:14px;font-family:inherit;outline:none;box-sizing:border-box">
+              </div>
+              <div style="grid-column:1/-1">
+                <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">副标题</div>
+                <input value="{{ subtitleVal }}" onChange="{{ onSubtitleSet }}" placeholder="梦 境 特 工 档 案" style="width:100%;min-height:42px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:14px;font-family:inherit;outline:none;box-sizing:border-box">
+              </div>
+              <div style="grid-column:1/-1">
+                <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">底部文字</div>
+                <input value="{{ footerVal }}" onChange="{{ onFooterSet }}" placeholder="梦境特工档案 · コードナンバー：収集家" style="width:100%;min-height:42px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:14px;font-family:inherit;outline:none;box-sizing:border-box">
+              </div>
+              <div>
+                <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">货币符号</div>
+                <input value="{{ curVal }}" onChange="{{ onCurrency }}" placeholder="¥ / S$ / RM / $" style="width:100%;min-height:42px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:14px;font-family:inherit;outline:none;box-sizing:border-box">
+              </div>
+              <div>
+                <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">主题色</div>
+                <input type="color" value="{{ accentVal }}" onChange="{{ onAccent }}" style="width:100%;height:42px;padding:3px;border-radius:9px;border:1px solid #ded7ee;background:#fff;cursor:pointer;box-sizing:border-box">
+              </div>
             </div>
-            <div style="grid-column:1/-1">
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">项目标题</div>
-              <input value="{{ titleVal }}" onChange="{{ onTitleSet }}" placeholder="谷子收纳" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
-            </div>
-            <div style="grid-column:1/-1">
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">副标题</div>
-              <input value="{{ subtitleVal }}" onChange="{{ onSubtitleSet }}" placeholder="梦 境 特 工 档 案" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
-            </div>
-            <div style="grid-column:1/-1">
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">底部文字</div>
-              <input value="{{ footerVal }}" onChange="{{ onFooterSet }}" placeholder="梦境特工档案 · コードナンバー：収集家" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
-            </div>
-            <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">货币符号</div>
-              <input value="{{ curVal }}" onChange="{{ onCurrency }}" placeholder="¥ / S$ / RM / $" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
-            </div>
-            <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">主题色</div>
-              <input type="color" value="{{ accentVal }}" onChange="{{ onAccent }}" style="width:100%;height:40px;padding:3px;border-radius:9px;border:1px solid #ded7ee;background:#fff;cursor:pointer">
-            </div>
-            <div style="grid-column:1/-1"></div>
+            <div style="font-size:11.5px;color:#938db0;line-height:1.6;margin-top:10px">标题、副标题、底部文字、Logo 也可以直接在首页点上去改。</div>
           </div>
-          <div style="font-size:11.5px;color:#938db0;line-height:1.6">标题、副标题、底部文字、Logo 也可以直接在首页点上去改。切换 / 管理「系列IP · 作品」在首页的「切换」按钮里。</div>
 
           <div style="border-top:1px solid #e1dbf0;padding-top:16px">
             <div style="font-weight:700;font-size:14px;color:#251d49;margin-bottom:4px">背景图</div>
-            <div style="font-size:11.5px;color:#938db0;margin-bottom:10px">上传一张图作为整个页面背景（会加一层柔和遮罩保证文字清晰）。</div>
-            <div style="display:flex;gap:10px">
+            <div style="font-size:11.5px;color:#938db0;margin-bottom:10px">上传一张图作为整个页面背景，会加柔和遮罩保证文字清晰。</div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap">
               <button onClick="{{ uploadBg }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:9px 16px;border-radius:9px;cursor:pointer">上传背景图</button>
-              <sc-if value="{{ hasBg }}" hint-placeholder-val="{{ false }}"><button onClick="{{ clearBg }}" style="font-family:inherit;font-size:13px;color:#e23b5d;background:rgba(255,51,85,.08);border:1px solid rgba(255,51,85,.25);padding:9px 16px;border-radius:9px;cursor:pointer">清除背景</button></sc-if>
+              <sc-if value="{{ hasBg }}" hint-placeholder-val="false"><button onClick="{{ clearBg }}" style="font-family:inherit;font-size:13px;color:#e23b5d;background:rgba(255,51,85,.08);border:1px solid rgba(255,51,85,.25);padding:9px 16px;border-radius:9px;cursor:pointer">清除背景</button></sc-if>
+            </div>
+          </div>
+
+          <div style="border-top:1px solid #e1dbf0;padding-top:16px">
+            <div style="font-weight:700;font-size:14px;color:#251d49;margin-bottom:4px">连接其他收藏库</div>
+            <div style="font-size:11.5px;color:#938db0;margin-bottom:10px;line-height:1.6">已经有同步代码的话，在这里输入即可连接。当前版本只同步文字数据和配置；图片、Logo、背景仍保存在本机。</div>
+            <div style="display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center">
+              <input value="{{ cloudCodeInput }}" onChange="{{ onCloudCodeInput }}" placeholder="输入同步代码，例如 K7M9Q2" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:14px;font-family:inherit;outline:none;text-transform:uppercase">
+              <button onClick="{{ connectCloudCollection }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:9px 14px;border-radius:9px;cursor:pointer;white-space:nowrap">连接</button>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+              <button onClick="{{ pushCloud }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:9px 16px;border-radius:9px;cursor:pointer">上传本机数据</button>
+              <button onClick="{{ pullCloud }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:9px 16px;border-radius:9px;cursor:pointer">读取云端数据</button>
+              <sc-if value="{{ hasCloudSync }}" hint-placeholder-val="false"><button onClick="{{ disconnectCloud }}" style="font-family:inherit;font-size:13px;color:#e23b5d;background:rgba(255,51,85,.08);border:1px solid rgba(255,51,85,.25);padding:9px 16px;border-radius:9px;cursor:pointer">退出同步</button></sc-if>
             </div>
           </div>
 
           <div style="border-top:1px solid #e1dbf0;padding-top:16px">
             <div style="font-weight:700;font-size:14px;color:#251d49;margin-bottom:4px">作品设置</div>
-            <div style="font-size:11.5px;color:#938db0;margin-bottom:10px">先选中一个作品才能编辑。每个系列下可多个作品，每个作品有独立的角色/种类/选项和独立 logo。标蓝色「用」的是当前作品，「否」点一下即切换。</div>
+            <div style="font-size:11.5px;color:#938db0;margin-bottom:10px">每个系列下可以有多个作品，每个作品拥有独立的角色、种类、选项和 Logo。蓝色「用」代表当前作品。</div>
             <div style="display:flex;flex-direction:column;gap:14px">
               <sc-for list="{{ workSettingGroups }}" as="g" hint-placeholder-count="1">
                 <div style="background:rgba(50,38,90,.03);border:1px solid #e1dbf0;border-radius:12px;padding:10px 12px">
                   <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
                     <span style="font-size:11px;color:#837da4;flex-shrink:0">系列</span>
-                    <input value="{{ g.group }}" onChange="{{ g.onGroupName }}" style="flex:1;min-width:0;padding:6px 9px;border-radius:8px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:14px;font-weight:700;font-family:inherit;outline:none">
+                    <input value="{{ g.group }}" onChange="{{ g.onGroupName }}" style="flex:1;min-width:0;min-height:36px;padding:6px 9px;border-radius:8px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:14px;font-weight:700;font-family:inherit;outline:none;box-sizing:border-box">
                   </div>
                   <div style="display:flex;flex-direction:column;gap:7px">
                     <sc-for list="{{ g.works }}" as="w" hint-placeholder-count="1">
                       <div style="display:flex;gap:7px;align-items:center">
                         <div onClick="{{ w.onLogo }}" title="点击上传作品 logo" style="{{ w.logoStyle }}">logo</div>
-                        <input value="{{ w.nameVal }}" onChange="{{ w.onName }}" placeholder="作品名" style="flex:1;min-width:0;padding:7px 8px;border-radius:8px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:13px;font-family:inherit;outline:none">
+                        <input value="{{ w.nameVal }}" onChange="{{ w.onName }}" placeholder="作品名" style="flex:1;min-width:0;min-height:36px;padding:7px 8px;border-radius:8px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:13px;font-family:inherit;outline:none;box-sizing:border-box">
                         <button onClick="{{ w.onPick }}" style="{{ w.useStyle }}">{{ w.useText }}</button>
                         <button onClick="{{ w.onDel }}" style="flex-shrink:0;width:26px;height:26px;border-radius:6px;border:none;background:rgba(226,59,93,.1);color:#e23b5d;cursor:pointer;font-size:14px;line-height:1">×</button>
                       </div>
@@ -716,39 +865,58 @@
 
           <div style="border-top:1px solid #e1dbf0;padding-top:16px">
             <div style="font-weight:700;font-size:14px;color:#251d49;margin-bottom:4px">字段管理</div>
-            <div style="font-size:11.5px;color:#938db0;margin-bottom:10px">改字段名称（直接在框里改）；「顶部筛选」开关决定这个字段是否出现在首页筛选栏。例如把「系列」改成「厂商/品牌」。</div>
+            <div style="font-size:11.5px;color:#938db0;margin-bottom:10px">改字段名称；「顶部筛选」决定是否出现在首页筛选栏，「统计」决定是否出现在统计分组里。</div>
             <div style="display:flex;flex-direction:column;gap:8px">
-              <sc-for list="{{ fieldRows }}" as="f" hint-placeholder-count="5">
+              <sc-for list="{{ fieldRows }}" as="f" hint-placeholder-count="7">
                 <div style="display:flex;gap:10px;align-items:center">
-                  <input value="{{ f.labelVal }}" onChange="{{ f.onLabel }}" style="flex:1;min-width:0;padding:7px 9px;border-radius:8px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:13px;font-family:inherit;outline:none">
-                  <div onClick="{{ f.onToggle }}" style="{{ f.filterStyle }}"><span style="{{ f.dot }}"><span style="{{ f.knob }}"></span></span>顶部筛选</div>
+                  <input value="{{ f.labelVal }}" onChange="{{ f.onLabel }}" style="flex:1;min-width:0;min-height:36px;padding:7px 9px;border-radius:8px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:13px;font-family:inherit;outline:none;box-sizing:border-box">
+                  <div onClick="{{ f.onToggle }}" style="{{ f.filterStyle }}"><span style="{{ f.dot }}"><span style="{{ f.knob }}"></span></span>顶部筛选</div><div onClick="{{ f.onStatsToggle }}" style="{{ f.statStyle }}"><span style="{{ f.statDot }}"><span style="{{ f.statKnob }}"></span></span>统计</div><button onClick="{{ f.onDel }}" title="删除字段" style="flex-shrink:0;width:26px;height:26px;border-radius:6px;border:none;background:rgba(226,59,93,.1);color:#e23b5d;cursor:pointer;font-size:14px;line-height:1">×</button>
                 </div>
               </sc-for>
             </div>
             <div style="margin-top:10px;display:flex;flex-direction:column;gap:8px">
               <sc-for list="{{ customFieldRows }}" as="cf" hint-placeholder-count="0">
                 <div style="display:flex;gap:10px;align-items:center">
-                  <input value="{{ cf.labelVal }}" onChange="{{ cf.onLabel }}" placeholder="自定义字段名" style="flex:1;min-width:0;padding:7px 9px;border-radius:8px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:13px;font-family:inherit;outline:none">
-                  <span style="font-size:11px;color:#938db0;flex-shrink:0">自定义</span>
+                  <input value="{{ cf.labelVal }}" onChange="{{ cf.onLabel }}" placeholder="自定义字段名" style="flex:1;min-width:0;min-height:36px;padding:7px 9px;border-radius:8px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:13px;font-family:inherit;outline:none;box-sizing:border-box">
+                  <div onClick="{{ cf.onToggle }}" style="{{ cf.filterStyle }}"><span style="{{ cf.dot }}"><span style="{{ cf.knob }}"></span></span>顶部筛选</div><div onClick="{{ cf.onStatsToggle }}" style="{{ cf.statStyle }}"><span style="{{ cf.statDot }}"><span style="{{ cf.statKnob }}"></span></span>统计</div>
                   <button onClick="{{ cf.onDel }}" style="flex-shrink:0;width:26px;height:26px;border-radius:6px;border:none;background:rgba(226,59,93,.1);color:#e23b5d;cursor:pointer;font-size:14px;line-height:1">×</button>
                 </div>
               </sc-for>
-              <button onClick="{{ addCustomField }}" style="align-self:flex-start;font-family:inherit;font-size:13px;color:#544f7e;background:none;border:1px dashed #ded7ee;padding:8px 14px;border-radius:9px;cursor:pointer">＋ 新增字段（会出现在编辑谷子里）</button>
+              <div style="display:flex;gap:8px;flex-wrap:wrap"><button onClick="{{ addCustomField }}" style="align-self:flex-start;font-family:inherit;font-size:13px;color:#544f7e;background:none;border:1px dashed #ded7ee;padding:8px 14px;border-radius:9px;cursor:pointer">＋ 新增字段（会出现在编辑谷子里）</button><button onClick="{{ restoreBaseFields }}" style="align-self:flex-start;font-family:inherit;font-size:13px;color:#8b5d00;background:rgba(255,193,75,.12);border:1px dashed rgba(200,134,13,.35);padding:8px 14px;border-radius:9px;cursor:pointer">恢复默认字段</button></div>
             </div>
           </div>
+
+          <div style="border-top:1px solid #e1dbf0;padding-top:16px">
+            <div style="font-weight:700;font-size:14px;color:#251d49;margin-bottom:4px">选项管理</div>
             <div style="font-size:11.5px;color:#938db0;margin-bottom:10px">每个带下拉的字段都可在这里改选项，一行一个。改完首页筛选、编辑页会一起同步。</div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px">
               <sc-for list="{{ optionGroups }}" as="o" hint-placeholder-count="4">
                 <div>
                   <div style="font-size:12px;color:#4a4570;margin-bottom:5px;font-weight:500">{{ o.label }}</div>
-                  <textarea value="{{ o.text }}" onChange="{{ o.onChange }}" rows="5" placeholder="每行一个选项" style="width:100%;padding:8px 10px;border-radius:9px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:13px;font-family:inherit;outline:none;resize:vertical"></textarea>
+                  <textarea value="{{ o.text }}" onChange="{{ o.onChange }}" rows="5" placeholder="每行一个选项" style="width:100%;padding:8px 10px;border-radius:9px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:13px;font-family:inherit;outline:none;resize:vertical;box-sizing:border-box"></textarea>
                 </div>
               </sc-for>
             </div>
           </div>
+
+          <div style="border:2px solid rgba(226,59,93,.55);background:linear-gradient(135deg,rgba(226,59,93,.09),rgba(255,255,255,.86));border-radius:13px;padding:14px 15px">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px">
+              <div>
+                <div style="font-weight:900;font-size:14px;color:#b42342;letter-spacing:.02em">危险操作 · 清空资料</div>
+                <div style="font-size:11.5px;color:#8f3047;line-height:1.65;margin-top:4px">会清空本机收藏、作品、标签、设置和本地图片缓存。建议先导出备份；点击清空后需要连续确认两次。</div>
+              </div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <button onClick="{{ doExport }}" style="font-family:inherit;font-size:13px;color:#8f3047;background:#fff;border:1px solid rgba(226,59,93,.28);padding:9px 14px;border-radius:9px;cursor:pointer">先导出备份</button>
+                <button onClick="{{ clearAllData }}" style="font-family:inherit;font-size:13px;font-weight:900;color:#fff;background:#e23b5d;border:1px solid #c82849;padding:9px 16px;border-radius:9px;cursor:pointer;box-shadow:0 8px 20px rgba(226,59,93,.22)">清空全部资料</button>
+              </div>
+            </div>
+          </div>
         </div>
-        <div style="display:flex;justify-content:flex-end;padding:16px 22px;border-top:1px solid #e1dbf0">
-          <button onClick="{{ closeSettings }}" style="font-family:inherit;font-size:14px;font-weight:700;color:#fff;background:var(--accent,#ff3355);border:none;padding:10px 26px;border-radius:11px;cursor:pointer">完成</button>
+
+        <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;width:100%;padding:14px 18px;border-top:1px solid #e1dbf0;background:linear-gradient(0deg,#f4f1fb,#fbfaff);box-shadow:0 -8px 18px rgba(50,38,90,.04);box-sizing:border-box">
+          <div style="flex:1;min-width:8px"></div>
+          <button onClick="{{ cancelSettings }}" style="font-family:inherit;font-size:14px;color:#595287;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:10px 18px;border-radius:11px;cursor:pointer;min-height:42px">取消</button>
+          <button onClick="{{ saveSettings }}" style="font-family:inherit;font-size:14px;font-weight:700;color:#fff;background:var(--accent,#ff3355);border:none;padding:10px 24px;border-radius:11px;cursor:pointer;box-shadow:0 6px 18px rgba(255,51,85,.3);min-height:42px">保存</button>
         </div>
       </div>
     </div>
@@ -757,12 +925,12 @@
   <!-- ===== TREND MODAL ===== -->
   <sc-if value="{{ trendOpen }}" hint-placeholder-val="{{ false }}">
     <div onClick="{{ closeTrend }}" style="position:fixed;inset:0;z-index:70;background:rgba(70,58,110,.32);backdrop-filter:blur(4px);display:flex;align-items:flex-start;justify-content:center;padding:28px 14px;overflow-y:auto">
-      <div onClick="{{ stop }}" style="width:100%;max-width:880px;max-height:92vh;display:flex;flex-direction:column;background:linear-gradient(160deg,#ffffff,#f4f1fb);border:1px solid #d6cfe9;border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.4);overflow:hidden">
+      <div class="ui-modal-card ui-trend-modal" onClick="{{ stop }}" style="width:100%;max-width:880px;max-height:96vh;display:flex;flex-direction:column;background:linear-gradient(160deg,#ffffff,#f4f1fb);border:1px solid #d6cfe9;border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.4);overflow:hidden">
         <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid #e1dbf0">
           <div style="font-weight:800;font-size:16px;color:#251d49">{{ trendTitle }}</div>
           <button onClick="{{ closeTrend }}" style="width:32px;height:32px;border-radius:9px;border:1px solid #ded7ee;background:rgba(50,38,90,.05);color:#595287;font-size:18px;cursor:pointer;line-height:1">×</button>
         </div>
-        <div style="padding:18px 22px;flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:18px">
+        <div style="padding:14px 16px;flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:14px">
           <div>
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
               <div style="font-weight:700;font-size:14px;color:#251d49">成交记录</div>
@@ -783,6 +951,22 @@
               <label style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:8px 14px;border-radius:9px;cursor:pointer;display:inline-block">上传截图自动识别<input type="file" accept="image/*" multiple onChange="{{ onOcr }}" style="display:none"></label>
               <div style="font-size:11px;color:#938db0;margin-top:6px;line-height:1.6">把成交截图传上来，自动识别日期+价格填进表格（截图不会上传，仅本地识别）。</div>
               <sc-if value="{{ ocrStatus }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;color:#2f6fdb;margin-top:5px">{{ ocrStatus }}</div></sc-if>
+              <sc-if value="{{ hasOcrText }}" hint-placeholder-val="{{ false }}">
+                <div style="margin-top:10px;display:grid;grid-template-columns:1fr;gap:8px">
+                  <div>
+                    <div style="font-size:11.5px;color:#837da4;margin-bottom:4px">OCR 原始文字（可整体修改）</div>
+                    <textarea value="{{ ocrRawText }}" onChange="{{ onOcrRawChange }}" rows="4" style="width:100%;padding:8px 9px;border-radius:9px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:12.5px;font-family:inherit;outline:none;resize:vertical"></textarea>
+                  </div>
+                  <div>
+                    <div style="font-size:11.5px;color:#837da4;margin-bottom:4px">识别记录（每行：日期 价格 平台，可手改）</div>
+                    <textarea value="{{ ocrBulkText }}" onChange="{{ onOcrBulkChange }}" rows="4" placeholder="2026-07-02 30 Mercari" style="width:100%;padding:8px 9px;border-radius:9px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:12.5px;font-family:inherit;outline:none;resize:vertical"></textarea>
+                  </div>
+                  <div style="display:flex;gap:8px;flex-wrap:wrap">
+                    <button onClick="{{ reparseOcrRaw }}" style="font-family:inherit;font-size:12px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:6px 11px;border-radius:8px;cursor:pointer">从原始文字重新提取</button>
+                    <button onClick="{{ fillOcrBulk }}" style="font-family:inherit;font-size:12px;font-weight:700;color:#fff;background:var(--accent,#ff3355);border:none;padding:6px 13px;border-radius:8px;cursor:pointer">一次性填入表格</button>
+                  </div>
+                </div>
+              </sc-if>
             </div>
           </div>
           <div>
@@ -795,12 +979,13 @@
               </div>
               <div style="font-size:12px;color:#544f7e;line-height:1.6;background:rgba(47,111,219,.06);border:1px solid rgba(47,111,219,.18);border-radius:10px;padding:10px 12px;margin-bottom:12px">{{ trendMetrics.advice }}</div>
             </sc-if>
-            <div style="height:230px;background:#fff;border:1px solid #e1dbf0;border-radius:12px;padding:8px"><canvas ref="{{ setChartCanvas }}"></canvas></div>
+            <div style="height:180px;background:#fff;border:1px solid #e1dbf0;border-radius:12px;padding:8px"><canvas ref="{{ setChartCanvas }}"></canvas></div>
           </div>
         </div>
-        <div style="display:flex;gap:10px;justify-content:flex-end;padding:16px 22px;border-top:1px solid #e1dbf0">
-          <button onClick="{{ closeTrend }}" style="font-family:inherit;font-size:14px;color:#595287;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:10px 20px;border-radius:11px;cursor:pointer">取消</button>
-          <button onClick="{{ saveTrend }}" style="font-family:inherit;font-size:14px;font-weight:700;color:#fff;background:var(--accent,#ff3355);border:none;padding:10px 26px;border-radius:11px;cursor:pointer">保存趋势</button>
+        <div class="ui-modal-footer">
+          <div class="ui-footer-spacer"></div>
+          <button class="ui-btn-ghost" onClick="{{ closeTrend }}">取消</button>
+          <button class="ui-btn-primary" onClick="{{ saveTrend }}">保存趋势</button>
         </div>
       </div>
     </div>
@@ -817,21 +1002,22 @@ class Component extends DCLogic {
   CHANNELS = ['プレミアムバンダイ','万代官店','一番くじ','駿河屋','メルカリ','代购','闲鱼','官方商店','其他'];
   MAIN_WORK = 'w_main';
   DEFAULT_GROUP = '假面骑士系列';
-  SUPA_URL = '';
-  SUPA_KEY = '';
+  SUPA_URL = 'https://kgifcpdajnyhxxmenazz.supabase.co';
+  SUPA_KEY = 'sb_publishable_Bvg4r_n3JiokW3cY3NDo3A_9M2CNfaU';
   FIELD_DEFAULTS = { character: '角色', type: '种类', series: '厂商/品牌', channel: '渠道', status: '状态', form: '形态', acquire: '获取' };
   CHAR_IMG = { '万津莫': 'assets/c_matsu.webp', 'ねむ': 'assets/c_nemu.webp', '万津美浪': 'assets/c_minami.webp', '富士見鉄也': 'assets/c_fujimi.webp', '南雲なすか': 'assets/c_nagumo.webp', 'ノクス／诺克斯': 'assets/c_nox.webp', 'ザ・レディ': 'assets/c_lady.webp', 'ジーク': 'assets/c_zeke.webp', 'ゼロ／零': 'assets/c_zero.webp', '仮面ライダーゼッツ': 'assets/r_red.webp', '仮面ライダーノクス': 'assets/r_blue.webp', '仮面ライダードォーン': 'assets/r_zeztz.webp', 'ノクスナイト': 'assets/r_lady.webp', '仮面ライダーノクス ミッドナイトシャドウ': 'assets/r_nox_midnight.webp', 'CODE': 'assets/c_code.webp' };
   imgUrls = {};
-  state = { items: [], view: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], acquireSel: [], channelSel: [], channels: [], channelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, hiddenTypes: [], hiddenChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, status: false }, customFields: [], optBuf: {}, settingsOpen: false, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', trendOpen: false, trendItemId: null, trendRows: [], trendResult: null, modalOpen: false, editing: null, draft: null, savedAt: 0 };
+  state = { items: [], view: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, hiddenTypes: [], hiddenChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, trendOpen: false, trendItemId: null, trendRows: [], trendResult: null, ocrRawText: '', ocrBulkText: '', modalOpen: false, editing: null, draft: null, savedAt: 0 };
 
   setRoot = (el) => { this.rootEl = el; if (el) { el.style.setProperty('--accent', this.state.accent || this.props.accent || '#ff3355'); this.applyBg(); } };
   setImportRef = (el) => { this.importRef = el; };
   stop = (e) => { e.stopPropagation(); };
 
   componentDidMount() {
-    let items = [];
-    try { const raw = localStorage.getItem('zzz_goods_v1'); if (raw) items = JSON.parse(raw); } catch (e) {}
-    if (!items || !items.length) { items = this.samples(); }
+    let items = [], hasStoredItems = false;
+    try { const raw = localStorage.getItem('zzz_goods_v1'); if (raw != null) { hasStoredItems = true; items = JSON.parse(raw) || []; } } catch (e) { items = []; }
+    if (!Array.isArray(items)) items = [];
+    if (!hasStoredItems && !items.length) { items = this.samples(); }
     else if (!localStorage.getItem('zzz_migrated_v2')) {
       // 一次性迁移：仅在升级时跑一次，之后永不改动用户数据
       const cmap = { '万津莫 / ZZZ': '万津莫／ゼッツ', '宁梦': 'ねむ', '万津美浪': '万津美波', '诺克斯 / Nox': 'ノクス', 'ZERO 零': 'ゼロ／零', '南云成华': '南雲なすか', '富士见铁也': '富士見鉄也', 'THE LADY': 'ザ・レディ', '梦魇': 'ナイトメア' };
@@ -859,14 +1045,19 @@ class Component extends DCLogic {
     fieldLabels = { ...this.FIELD_DEFAULTS, ...fieldLabels };
     let filterOn = {}; try { filterOn = JSON.parse(localStorage.getItem('zzz_filter_on') || 'null') || null; } catch (e) {}
     if (!filterOn) filterOn = { character: true, type: true, series: true, form: true, acquire: true, channel: true, status: false };
+    let statsOn = null; try { statsOn = JSON.parse(localStorage.getItem('zzz_stats_on') || 'null') || null; } catch (e) {}
+    let deletedFields = []; try { deletedFields = JSON.parse(localStorage.getItem('zzz_deleted_fields') || '[]') || []; } catch (e) {}
     let customFields = []; try { customFields = JSON.parse(localStorage.getItem('zzz_custom_fields') || '[]') || []; } catch (e) {}
+    let customFilterOrder = {}; try { customFilterOrder = JSON.parse(localStorage.getItem('zzz_custom_filter_order') || '{}') || {}; } catch (e) {}
     try {
       title = localStorage.getItem('zzz_title') || title; subtitle = localStorage.getItem('zzz_subtitle') || subtitle; footer = localStorage.getItem('zzz_footer') || footer;
       collectorName = localStorage.getItem('zzz_cn') || ''; currency = localStorage.getItem('zzz_currency') || ''; accent = localStorage.getItem('zzz_accent') || '';
     } catch (e) {}
     const lists = this.loadWorkLists(currentWorkId, items);
     this.charOrder = lists.charOrder;
-    this.setState({ items, works, currentWorkId, workGroupLabel, title, subtitle, footer, collectorName, currency, accent, fieldLabels, filterOn, customFields, view: this.props.startView || 'gallery', ...lists });
+    let cloudSyncId = '', cloudSyncCode = '';
+    try { cloudSyncId = localStorage.getItem('zzz_cloud_id') || ''; cloudSyncCode = localStorage.getItem('zzz_cloud_code') || ''; } catch (e) {}
+    this.setState({ items, works, currentWorkId, workGroupLabel, title, subtitle, footer, collectorName, currency, accent, fieldLabels, filterOn, statsOn, deletedFields, customFields, customFilterOrder, cloudSyncId, cloudSyncCode, cloudCodeInput: cloudSyncCode || '', view: this.props.startView || 'gallery', ...lists });
     this.loadImages(items);
     this.loadCharAvatars();
     this.loadLogo();
@@ -899,7 +1090,7 @@ class Component extends DCLogic {
     try { localStorage.setItem('zzz_current_work', id); } catch (e) {}
     const lists = this.loadWorkLists(id);
     this.charOrder = lists.charOrder;
-    this.setState({ currentWorkId: id, workMenuOpen: false, charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], acquireSel: [], channelSel: [], ...lists });
+    this.setState({ currentWorkId: id, workMenuOpen: false, charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], ...lists });
   };
   saveWorks = (works) => { try { localStorage.setItem('zzz_works', JSON.stringify(works)); } catch (e) {} this.setState({ works }); };
   addWork = () => {
@@ -920,12 +1111,30 @@ class Component extends DCLogic {
     this.saveWorks(works); this.commit(items);
     if (this.state.currentWorkId === w.id) {
       if (works.length) this.switchWork(works[0].id);
-      else { try { localStorage.setItem('zzz_current_work', ''); } catch (e) {} this.setState({ currentWorkId: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], acquireSel: [], channelSel: [], charOrder: [], typesList: [], seriesList: [], channels: [], statusList: [], formOrder: [...this.FORMS], acquireOrder: ['直购', '单领', '盲盒'] }); }
+      else { try { localStorage.setItem('zzz_current_work', ''); } catch (e) {} this.setState({ currentWorkId: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], charOrder: [], typesList: [], seriesList: [], channels: [], statusList: [], formOrder: [...this.FORMS], acquireOrder: ['直购', '单领', '盲盒'] }); }
     }
   };
-  addCustomField = () => { const cf = [...(this.state.customFields || []), { key: 'cf_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5), label: '新字段' }]; try { localStorage.setItem('zzz_custom_fields', JSON.stringify(cf)); } catch (e) {} this.setState({ customFields: cf }); };
+  addCustomField = () => { const base = this.state.settingsDraft ? (this.state.settingsDraft.customFields || []) : (this.state.customFields || []); const cf = [...base, { key: 'cf_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5), label: '新字段' }]; if (this.state.settingsDraft) this.updateSettingsDraft({ customFields: cf }); else { try { localStorage.setItem('zzz_custom_fields', JSON.stringify(cf)); } catch (e) {} this.setState({ customFields: cf }); } };
   setCustomFieldLabel = (key) => (e) => { const cf = (this.state.customFields || []).map(f => f.key === key ? { ...f, label: e.target.value } : f); try { localStorage.setItem('zzz_custom_fields', JSON.stringify(cf)); } catch (er) {} this.setState({ customFields: cf }); };
-  delCustomField = (key) => { const cf = (this.state.customFields || []).filter(f => f.key !== key); try { localStorage.setItem('zzz_custom_fields', JSON.stringify(cf)); } catch (e) {} this.setState({ customFields: cf }); };
+  delCustomField = (key) => {
+    if (this.state.settingsDraft) {
+      const d = this.state.settingsDraft;
+      const cf = (d.customFields || []).filter(f => f.key !== key);
+      const filterOn = { ...(d.filterOn || {}) }; const statsOn = { ...(d.statsOn || {}) };
+      delete filterOn[key]; delete statsOn[key];
+      this.updateSettingsDraft({ customFields: cf, filterOn, statsOn });
+      return;
+    }
+    const cf = (this.state.customFields || []).filter(f => f.key !== key);
+    const filterOn = { ...(this.state.filterOn || {}) };
+    const statsOn = { ...(this.state.statsOn || {}) };
+    const customFilterSel = { ...(this.state.customFilterSel || {}) };
+    delete filterOn[key]; delete statsOn[key]; delete customFilterSel[key];
+    const items = (this.state.items || []).map(it => it.custom ? { ...it, custom: Object.fromEntries(Object.entries(it.custom).filter(([k]) => k !== key)) } : it);
+    try { localStorage.setItem('zzz_custom_fields', JSON.stringify(cf)); localStorage.setItem('zzz_filter_on', JSON.stringify(filterOn)); localStorage.setItem('zzz_stats_on', JSON.stringify(statsOn)); } catch (e) {}
+    this.setState({ customFields: cf, filterOn, statsOn, customFilterSel, items });
+    this.commit(items);
+  };
   onCustomDraft = (key) => (e) => { const v = e.target.value; this.setState(s => ({ draft: { ...s.draft, custom: { ...(s.draft.custom || {}), [key]: v } } })); };
   addOptionTo = (which, lsKey, promptText) => () => { const v = (window.prompt(promptText) || '').trim(); if (!v) return; const cur = this.state[which] || []; if (cur.includes(v)) return; const arr = [...cur, v]; try { localStorage.setItem(this.wkey(lsKey), JSON.stringify(arr)); } catch (e) {} this.setState({ [which]: arr }); };
   toggleWorkMenu = () => this.setState(s => ({ workMenuOpen: !s.workMenuOpen }));
@@ -955,9 +1164,208 @@ class Component extends DCLogic {
     try { const { error } = await this.sb.from('market_records').insert(payload); if (error) throw error; return payload.length; } catch (e) { return 0; }
   }
 
+  // ===== 云同步（文字数据 + 配置，图片仍保存在本机）=====
+  cloudReady() { return !!this.sb; }
+  genSyncCode() {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    let code = '';
+    for (let i = 0; i < 6; i++) code += chars[Math.floor(Math.random() * chars.length)];
+    return code;
+  }
+  cloudSnapshot() {
+    const keys = ['zzz_cn','zzz_currency','zzz_accent','zzz_title','zzz_subtitle','zzz_footer','zzz_works','zzz_current_work','zzz_work_group_label','zzz_field_labels','zzz_filter_on','zzz_stats_on','zzz_custom_fields','zzz_deleted_fields','zzz_custom_filter_order'];
+    const allWorks = this.state.works || [];
+    ['zzz_char_order','zzz_types','zzz_series','zzz_channels','zzz_form_order','zzz_acquire_order','zzz_status','zzz_hidden_types','zzz_hidden_channels'].forEach(base => {
+      allWorks.forEach(w => keys.push(w.id === this.MAIN_WORK ? base : base + '__' + w.id));
+    });
+    const local = {};
+    keys.forEach(k => { try { const v = localStorage.getItem(k); if (v != null) local[k] = v; } catch(e) {} });
+    return { version: 1, updated_at: new Date().toISOString(), items: this.state.items || [], local, note: 'image/logo/background files are kept locally in this version' };
+  }
+  async applyCloudSnapshot(data) {
+    if (!data || typeof data !== 'object') return;
+    try {
+      if (data.local) Object.keys(data.local).forEach(k => localStorage.setItem(k, data.local[k]));
+      if (Array.isArray(data.items)) localStorage.setItem('zzz_goods_v1', JSON.stringify(data.items));
+    } catch (e) {}
+    const items = Array.isArray(data.items) ? data.items : this.state.items;
+    let works = this.state.works || [];
+    try { works = JSON.parse(localStorage.getItem('zzz_works') || 'null') || works; } catch(e) {}
+    if (!Array.isArray(works) || !works.length) works = [{ id: 'w_main', group: this.DEFAULT_GROUP, name: '默认作品' }];
+    let currentWorkId = localStorage.getItem('zzz_current_work') || (works[0] && works[0].id) || this.MAIN_WORK;
+    if (!works.some(w => w.id === currentWorkId)) currentWorkId = works[0].id;
+    let fieldLabels = {}; try { fieldLabels = JSON.parse(localStorage.getItem('zzz_field_labels') || '{}') || {}; } catch(e) {}
+    let filterOn = {}; try { filterOn = JSON.parse(localStorage.getItem('zzz_filter_on') || 'null') || {}; } catch(e) {}
+    let statsOn = null; try { statsOn = JSON.parse(localStorage.getItem('zzz_stats_on') || 'null') || null; } catch(e) {}
+    let deletedFields = []; try { deletedFields = JSON.parse(localStorage.getItem('zzz_deleted_fields') || '[]') || []; } catch(e) {}
+    let customFields = []; try { customFields = JSON.parse(localStorage.getItem('zzz_custom_fields') || '[]') || []; } catch(e) {}
+    let customFilterOrder = {}; try { customFilterOrder = JSON.parse(localStorage.getItem('zzz_custom_filter_order') || '{}') || {}; } catch(e) {}
+    const lists = this.loadWorkLists(currentWorkId, items);
+    this.charOrder = lists.charOrder;
+    this.setState({
+      items, works, currentWorkId,
+      workGroupLabel: localStorage.getItem('zzz_work_group_label') || this.state.workGroupLabel,
+      collectorName: localStorage.getItem('zzz_cn') || '', currency: localStorage.getItem('zzz_currency') || '', accent: localStorage.getItem('zzz_accent') || '',
+      title: localStorage.getItem('zzz_title') || this.state.title, subtitle: localStorage.getItem('zzz_subtitle') || this.state.subtitle, footer: localStorage.getItem('zzz_footer') || this.state.footer,
+      fieldLabels: { ...this.FIELD_DEFAULTS, ...fieldLabels }, filterOn, statsOn, deletedFields, customFields, customFilterOrder, ...lists, savedAt: Date.now()
+    });
+  }
+  async createCloudCollection() {
+    if (!this.cloudReady()) { this.setState({ cloudStatus: 'Supabase 未连接，请检查网络或配置。' }); return; }
+    this.setState({ cloudBusy: true, cloudStatus: '正在创建同步代码…' });
+    try {
+      for (let i = 0; i < 8; i++) {
+        const code = this.genSyncCode();
+        const snap = this.cloudSnapshot();
+        const { data, error } = await this.sb.from('collections').insert([{ sync_code: code, cn: ((this.state.settingsDraft && this.state.settingsDraft.collectorName) || this.state.collectorName || null), title: ((this.state.settingsDraft && this.state.settingsDraft.title) || this.state.title || null), data: snap }]).select('id,sync_code').single();
+        if (!error && data) {
+          localStorage.setItem('zzz_cloud_id', data.id); localStorage.setItem('zzz_cloud_code', data.sync_code);
+          this.setState({ cloudSyncId: data.id, cloudSyncCode: data.sync_code, cloudCodeInput: data.sync_code, cloudStatus: '🎉 同步代码已生成！以后换电脑、换手机，记得带上它一起出发～', cloudBusy: false });
+          return;
+        }
+      }
+      this.setState({ cloudStatus: '创建失败，请稍后再试。', cloudBusy: false });
+    } catch (e) { this.setState({ cloudStatus: '创建失败：' + (e.message || e), cloudBusy: false }); }
+  }
+  onCloudCodeInput = (e) => this.setState({ cloudCodeInput: (e.target.value || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8) });
+  async connectCloudCollection() {
+    const code = (this.state.cloudCodeInput || '').trim().toUpperCase();
+    if (!code) { this.setState({ cloudStatus: '请先输入同步代码。' }); return; }
+    if (!this.cloudReady()) { this.setState({ cloudStatus: 'Supabase 未连接，请检查网络或配置。' }); return; }
+    this.setState({ cloudBusy: true, cloudStatus: '正在连接同步代码…' });
+    try {
+      const { data, error } = await this.sb.from('collections').select('id,sync_code,data').eq('sync_code', code).single();
+      if (error || !data) { this.setState({ cloudStatus: '没有找到这个同步代码。', cloudBusy: false }); return; }
+      localStorage.setItem('zzz_cloud_id', data.id); localStorage.setItem('zzz_cloud_code', data.sync_code);
+      await this.applyCloudSnapshot(data.data || {});
+      this.setState({ cloudSyncId: data.id, cloudSyncCode: data.sync_code, cloudCodeInput: data.sync_code, cloudStatus: '已连接：' + data.sync_code, cloudBusy: false });
+    } catch (e) { this.setState({ cloudStatus: '连接失败：' + (e.message || e), cloudBusy: false }); }
+  }
+  async pushCloud() {
+    const id = this.state.cloudSyncId || localStorage.getItem('zzz_cloud_id');
+    if (!this.cloudReady() || !id) { this.setState({ cloudStatus: '还没有连接同步代码。' }); return; }
+    this.setState({ cloudBusy: true, cloudStatus: '正在上传到云端…' });
+    try {
+      const { error } = await this.sb.from('collections').update({ cn: this.state.collectorName || null, title: this.state.title || null, data: this.cloudSnapshot(), updated_at: new Date().toISOString() }).eq('id', id);
+      if (error) throw error;
+      this.setState({ cloudStatus: '已上传到云端。', cloudBusy: false });
+    } catch (e) { this.setState({ cloudStatus: '上传失败：' + (e.message || e), cloudBusy: false }); }
+  }
+  async pullCloud() {
+    const id = this.state.cloudSyncId || localStorage.getItem('zzz_cloud_id');
+    if (!this.cloudReady() || !id) { this.setState({ cloudStatus: '还没有连接同步代码。' }); return; }
+    this.setState({ cloudBusy: true, cloudStatus: '正在从云端读取…' });
+    try {
+      const { data, error } = await this.sb.from('collections').select('id,sync_code,data').eq('id', id).single();
+      if (error || !data) throw error || new Error('没有找到云端数据');
+      await this.applyCloudSnapshot(data.data || {});
+      this.setState({ cloudStatus: '已从云端同步。', cloudBusy: false });
+    } catch (e) { this.setState({ cloudStatus: '读取失败：' + (e.message || e), cloudBusy: false }); }
+  }
+  disconnectCloud = () => { try { localStorage.removeItem('zzz_cloud_id'); localStorage.removeItem('zzz_cloud_code'); } catch(e) {} this.setState({ cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '已退出云同步，本地数据仍保留。' }); };
+  copyCloudCode = async () => { const code = (this.state.cloudSyncCode || this.state.cloudCodeInput || '').trim(); if (!code) { this.setState({ cloudStatus: '还没有同步代码，先生成一个吧。' }); return; } try { await navigator.clipboard.writeText(code); this.setState({ cloudStatus: '已复制同步代码：' + code }); } catch(e) { window.prompt('复制这串同步代码：', code); } };
+  clearAllData = async () => {
+    const count = (this.state.items || []).length;
+    const first = window.confirm('危险操作：将清空本机全部资料，包括收藏、作品、标签、设置和本地图片缓存。\n\n建议先取消并导出备份。确定要继续吗？');
+    if (!first) return;
+    const second = window.confirm('第二次确认：真的要清空 ' + count + ' 条收藏资料吗？\n\n点击“确定”后会立即删除，无法恢复。');
+    if (!second) return;
+    clearTimeout(this._cloudTimer);
+    try { Object.keys(localStorage).filter(k => k.indexOf('zzz_') === 0).forEach(k => localStorage.removeItem(k)); } catch (e) {}
+    try { await this.idbClear(); } catch (e) {}
+    const works = [{ id: this.MAIN_WORK, group: this.DEFAULT_GROUP, name: '默认作品' }];
+    const filterOn = { character: true, type: true, series: true, form: true, acquire: true, channel: true, status: false };
+    const acquireOrder = ['直购', '单领', '盲盒'];
+    try {
+      localStorage.setItem('zzz_goods_v1', JSON.stringify([]));
+      localStorage.setItem('zzz_works', JSON.stringify(works));
+      localStorage.setItem('zzz_current_work', this.MAIN_WORK);
+      localStorage.setItem('zzz_field_labels', JSON.stringify(this.FIELD_DEFAULTS));
+      localStorage.setItem('zzz_filter_on', JSON.stringify(filterOn));
+      localStorage.setItem('zzz_form_order', JSON.stringify(this.FORMS));
+      localStorage.setItem('zzz_acquire_order', JSON.stringify(acquireOrder));
+      localStorage.setItem('zzz_status', JSON.stringify(this.STATUSES));
+    } catch (e) {}
+    this.imgUrls = {};
+    this.logoUrl = null;
+    this.bgUrl = null;
+    this.workLogoUrls = {};
+    this.charAssetMap = {};
+    this.charImgIds = {};
+    this.charImgMap = { ...this.CHAR_IMG };
+    this._ciInit = true;
+    this.applyBg();
+    const lists = this.loadWorkLists(this.MAIN_WORK, []);
+    this.charOrder = lists.charOrder;
+    if (this.rootEl) this.rootEl.style.setProperty('--accent', this.props.accent || '#ff3355');
+    this.setState({
+      items: [], works, currentWorkId: this.MAIN_WORK, group: 'all', groupBy: 'none', search: '',
+      charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], customFilterSel: {}, customFilterOrder: {},
+      workGroupLabel: '系列IP', workMenuOpen: false, fieldLabels: { ...this.FIELD_DEFAULTS }, filterOn, statsOn: null, deletedFields: [], customFields: [], optBuf: {},
+      settingsOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '本机资料已清空。', cloudBusy: false,
+      modalOpen: false, editing: null, draft: null, trendOpen: false, trendItemId: null, trendRows: [], trendResult: null,
+      title: '谷子收纳', subtitle: '梦 境 特 工 档 案', footer: '梦境特工档案 · コードナンバー：収集家',
+      ...lists, savedAt: Date.now()
+    });
+  };
+
   // ===== 设置 =====
-  openSettings = () => this.setState({ settingsOpen: true });
-  closeSettings = () => this.setState({ settingsOpen: false });
+  makeSettingsDraft() {
+    return {
+      collectorName: this.state.collectorName || '',
+      currency: this.state.currency || '',
+      accent: this.state.accent || this.props.accent || '#ff3355',
+      title: this.state.title || '',
+      subtitle: this.state.subtitle || '',
+      footer: this.state.footer || '',
+      works: (this.state.works || []).map(w => ({ ...w })),
+      fieldLabels: { ...(this.state.fieldLabels || {}) },
+      filterOn: { ...(this.state.filterOn || {}) },
+      statsOn: { ...(this.state.statsOn || {}) },
+      customFields: (this.state.customFields || []).map(f => ({ ...f }))
+    };
+  }
+  openSettings = () => this.setState({ settingsOpen: true, settingsDraft: this.makeSettingsDraft() });
+  cancelSettings = () => this.setState({ settingsOpen: false, settingsDraft: null });
+  closeSettings = this.cancelSettings;
+  updateSettingsDraft = (patch) => this.setState(s => ({ settingsDraft: { ...(s.settingsDraft || this.makeSettingsDraft()), ...patch } }));
+  onDraftSettingField = (key) => (e) => this.updateSettingsDraft({ [key]: e.target.value });
+  saveSettings = () => {
+    const d = this.state.settingsDraft || this.makeSettingsDraft();
+    try {
+      localStorage.setItem('zzz_cn', d.collectorName || '');
+      localStorage.setItem('zzz_currency', d.currency || '');
+      localStorage.setItem('zzz_accent', d.accent || '');
+      localStorage.setItem('zzz_title', d.title || '');
+      localStorage.setItem('zzz_subtitle', d.subtitle || '');
+      localStorage.setItem('zzz_footer', d.footer || '');
+      localStorage.setItem('zzz_works', JSON.stringify(d.works || []));
+      localStorage.setItem('zzz_field_labels', JSON.stringify(d.fieldLabels || {}));
+      localStorage.setItem('zzz_filter_on', JSON.stringify(d.filterOn || {}));
+      localStorage.setItem('zzz_stats_on', JSON.stringify(d.statsOn || {}));
+      localStorage.setItem('zzz_custom_fields', JSON.stringify(d.customFields || []));
+    } catch (e) {}
+    const works = d.works || [];
+    let currentWorkId = this.state.currentWorkId;
+    if (works.length && !works.some(w => w.id === currentWorkId)) currentWorkId = works[0].id;
+    if (this.rootEl) this.rootEl.style.setProperty('--accent', d.accent || this.props.accent || '#ff3355');
+    this.setState({
+      settingsOpen: false,
+      settingsDraft: null,
+      collectorName: d.collectorName || '',
+      currency: d.currency || '',
+      accent: d.accent || '',
+      title: d.title || '',
+      subtitle: d.subtitle || '',
+      footer: d.footer || '',
+      works,
+      currentWorkId,
+      fieldLabels: d.fieldLabels || {},
+      filterOn: d.filterOn || {},
+      statsOn: d.statsOn || {},
+      customFields: d.customFields || []
+    }, () => { if (this.state.cloudSyncId) this.pushCloud(); });
+  };
   onSettingField = (key, lsKey) => (e) => { const v = e.target.value; try { localStorage.setItem(lsKey, v); } catch (er) {} this.setState({ [key]: v }); if (key === 'accent' && this.rootEl) this.rootEl.style.setProperty('--accent', v || this.props.accent || '#ff3355'); };
 
   // ===== 价格趋势 =====
@@ -993,29 +1401,65 @@ class Component extends DCLogic {
   trendItem() { return this.state.items.find(x => x.id === this.state.trendItemId) || {}; }
   setTrendRow = (i, key, v) => { this.setState(s => { const rows = s.trendRows.map((r, idx) => idx === i ? { ...r, [key]: v } : r); return { trendRows: rows }; }, () => this.recalcTrend()); };
   addTrendRow = () => this.setState(s => ({ trendRows: [...s.trendRows, { date: '', price: '', platform: '', note: '' }] }));
+  parseOcrText(text) {
+    const parsed = [];
+    const lines = String(text || '').split(/\n+/);
+    for (const line of lines) {
+      const d = this.trendParseDate(line);
+      const pm = line.match(/(?:¥|￥|RMB|CNY|SGD|S\$|USD|\$)?\s*(\d{1,6})(?:\.\d+)?\s*(?:円|元)?/i);
+      const price = pm ? Number(pm[1]) : 0;
+      let platform = '';
+      if (/mercari|メルカリ|煤炉/i.test(line)) platform = 'Mercari';
+      else if (/闲鱼|咸鱼|xianyu/i.test(line)) platform = '闲鱼';
+      else if (/官方|shop|store|商店/i.test(line)) platform = '官方商店';
+      if (d && price > 0) parsed.push({ date: this.trendFmtDate(d), price: String(price), platform, note: '' });
+    }
+    return parsed;
+  }
+  ocrRowsToText(rows) { return (rows || []).map(r => [r.date || '', r.price || '', r.platform || ''].filter(Boolean).join(' ')).join('\n'); }
+  ocrTextToRows(text) {
+    const rows = [];
+    String(text || '').split(/\n+/).forEach(line => {
+      const d = this.trendParseDate(line);
+      const pm = line.match(/(?:¥|￥|RMB|CNY|SGD|S\$|USD|\$)?\s*(\d{1,6})(?:\.\d+)?\s*(?:円|元)?/i);
+      const price = pm ? Number(pm[1]) : 0;
+      let rest = line.replace(/\d{4}[-/.年]\d{1,2}[-/.月]\d{1,2}日?/, '').replace(/\d{1,2}[-/.月]\d{1,2}日?/, '').replace(pm ? pm[0] : '', '').trim();
+      if (d && price > 0) rows.push({ date: this.trendFmtDate(d), price: String(price), platform: rest || '', note: '' });
+    });
+    return rows;
+  }
+  onOcrRawChange = (e) => this.setState({ ocrRawText: e.target.value });
+  onOcrBulkChange = (e) => this.setState({ ocrBulkText: e.target.value });
+  reparseOcrRaw = () => {
+    const parsed = this.parseOcrText(this.state.ocrRawText || '');
+    this.setState({ ocrBulkText: this.ocrRowsToText(parsed), ocrStatus: parsed.length ? '已重新提取 ' + parsed.length + ' 条，请核对后填入。' : '没有提取到日期+价格，请修改原始文字后再试。' });
+  };
+  fillOcrBulk = () => {
+    const parsed = this.ocrTextToRows(this.state.ocrBulkText || '');
+    if (!parsed.length) { this.setState({ ocrStatus: '没有可填入的记录，请按「日期 价格 平台」每行一条修改。' }); return; }
+    this.setState(s => {
+      const seen = new Set(s.trendRows.map(r => r.date + '|' + r.price + '|' + r.platform));
+      const add = parsed.filter(r => !seen.has(r.date + '|' + r.price + '|' + r.platform));
+      return { trendRows: [...s.trendRows.filter(r => r.date || r.price), ...add], ocrStatus: '已填入 ' + add.length + ' 条，可继续手动修改表格。' };
+    }, () => this.recalcTrend());
+  };
   handleOcr = async (e) => {
-    const files = [...(e.target.files || [])]; if (!files.length) return;
+    const files = Array.from((e.target && e.target.files) || []); if (!files.length) return;
     if (!window.Tesseract) { this.setState({ ocrStatus: '识别库未加载，请检查网络后重试' }); return; }
     this.setState({ ocrStatus: '识别中…（首次会下载语言包，稍候）' });
-    const monthMap = { jan: 1, feb: 2, mar: 3, apr: 4, may: 5, jun: 6, jul: 7, aug: 8, sep: 9, oct: 10, nov: 11, dec: 12 };
-    const parsed = [];
-    for (const f of files) {
-      try {
-        const { data } = await window.Tesseract.recognize(f, 'eng+jpn');
-        const text = (data && data.text) || '';
-        text.split(/\n+/).forEach(line => {
-          const d = this.trendParseDate(line);
-          const pm = String(line).replace(/[０-９]/g, c => String(c.charCodeAt(0) - 65296)).match(/(?:¥|￥|JPY|SGD|S\$|USD|RM|€)?\s*([0-9]{1,3}(?:,[0-9]{3})+|[0-9]{2,7})\s*円?/i);
-          const price = pm ? Number(pm[1].replace(/,/g, '')) : 0;
-          let platform = ''; const ls = line.toLowerCase();
-          if (/mercari|メルカリ/.test(ls)) platform = 'Mercari'; else if (/闲鱼|xianyu/.test(ls)) platform = '闲鱼'; else if (/yahoo|ヤフオク/.test(ls)) platform = 'Yahoo'; else if (/surugaya|駿河屋|骏河屋/.test(ls)) platform = '骏河屋';
-          if (d && price > 0) parsed.push({ date: this.trendFmtDate(d), price: String(price), platform, note: '' });
-        });
-      } catch (err) {}
-    }
-    if (!parsed.length) { this.setState({ ocrStatus: '没识别到「日期+价格」，请手动补充。' }); return; }
-    this.setState(s => { const seen = new Set(s.trendRows.map(r => r.date + '|' + r.price + '|' + r.platform)); const add = parsed.filter(r => !seen.has(r.date + '|' + r.price + '|' + r.platform)); return { trendRows: [...s.trendRows.filter(r => r.date || r.price), ...add], ocrStatus: '识别完成，已加入 ' + add.length + ' 条，请核对后保存。' }; }, () => this.recalcTrend());
-    e.target.value = '';
+    const rawParts = [];
+    let parsed = [];
+    try {
+      for (const f of files) {
+        const res = await window.Tesseract.recognize(f, 'eng+chi_sim+jpn');
+        const text = (res && res.data && res.data.text) || '';
+        rawParts.push(text.trim());
+        parsed = parsed.concat(this.parseOcrText(text));
+      }
+    } catch (err) { this.setState({ ocrStatus: '识别失败：' + err }); return; }
+    const rawText = rawParts.filter(Boolean).join('\n\n---\n\n');
+    if (!parsed.length) { this.setState({ ocrRawText: rawText, ocrBulkText: '', ocrStatus: '没识别到「日期+价格」，可在原始文字框里修改后重新提取。' }); return; }
+    this.setState({ ocrRawText: rawText, ocrBulkText: this.ocrRowsToText(parsed), ocrStatus: '识别完成，提取到 ' + parsed.length + ' 条。请核对后点「一次性填入表格」。' });
   };
   delTrendRow = (i) => this.setState(s => ({ trendRows: s.trendRows.filter((_, idx) => idx !== i) }), () => this.recalcTrend());
   recalcTrend() {
@@ -1057,8 +1501,68 @@ class Component extends DCLogic {
   clearBg = () => { this.bgUrl = null; try { this.idbPut('zzz_bg', null); } catch (e) {} this.applyBg(); this.forceUpdate(); };
   workLogo(id) { return (this.workLogoUrls && this.workLogoUrls[id]) || ''; }
   flabel(key) { return (this.state.fieldLabels && this.state.fieldLabels[key]) || this.FIELD_DEFAULTS[key] || key; }
+  isFieldVisible(key) { return !(this.state.deletedFields || []).includes(key); }
+  deleteBaseField = (key) => () => {
+    const name = this.flabel(key);
+    if (this.state.settingsDraft) {
+      if (!window.confirm('删除字段「' + name + '」？对应编辑项、顶部筛选和统计会一起隐藏。')) return;
+      const d = this.state.settingsDraft;
+      const deletedFields = [...new Set([...(this.state.deletedFields || []), key])];
+      const filterOn = { ...(d.filterOn || {}) }; const statsOn = { ...(d.statsOn || {}) };
+      delete filterOn[key]; delete statsOn[key];
+      this.setState({ deletedFields, settingsDraft: { ...d, filterOn, statsOn } });
+      try { localStorage.setItem('zzz_deleted_fields', JSON.stringify(deletedFields)); } catch (e) {}
+      return;
+    }
+    if (!window.confirm('确定删除字段「' + name + '」吗？删除后编辑页、顶部筛选、统计都会一起隐藏。')) return;
+    const deletedFields = [...new Set([...(this.state.deletedFields || []), key])];
+    const filterOn = { ...(this.state.filterOn || {}) };
+    const statsOn = { ...(this.state.statsOn || {}) };
+    filterOn[key] = false;
+    statsOn[key] = false;
+    const patch = { deletedFields, filterOn, statsOn };
+    if (key === 'character') patch.charSel = [];
+    else if (key === 'type') patch.typeSel = [];
+    else if (key === 'series') patch.seriesFilter = '全部';
+    else if (key === 'form') patch.formSel = [];
+    else if (key === 'status') patch.statusSel = [];
+    else if (key === 'acquire') patch.acquireSel = [];
+    else if (key === 'channel') patch.channelSel = [];
+    if (this.state.groupBy === key) patch.groupBy = 'none';
+    try { localStorage.setItem('zzz_deleted_fields', JSON.stringify(deletedFields)); localStorage.setItem('zzz_filter_on', JSON.stringify(filterOn)); localStorage.setItem('zzz_stats_on', JSON.stringify(statsOn)); } catch (e) {}
+    this.setState(patch);
+  };
+  restoreBaseFields = () => {
+    if (!window.confirm('确定恢复所有默认字段吗？')) return;
+    const deletedFields = [];
+    try { localStorage.setItem('zzz_deleted_fields', JSON.stringify(deletedFields)); } catch (e) {}
+    this.setState({ deletedFields });
+  };
   setFieldLabel = (key) => (e) => { const v = e.target.value; const fieldLabels = { ...this.state.fieldLabels, [key]: v }; try { localStorage.setItem('zzz_field_labels', JSON.stringify(fieldLabels)); } catch (er) {} this.setState({ fieldLabels }); };
-  toggleFilterOn = (key) => () => { const filterOn = { ...this.state.filterOn, [key]: !this.state.filterOn[key] }; try { localStorage.setItem('zzz_filter_on', JSON.stringify(filterOn)); } catch (e) {} this.setState({ filterOn }); };
+  toggleFilterOn = (key) => () => {
+    const nextVal = !this.state.filterOn[key];
+    const filterOn = { ...this.state.filterOn, [key]: nextVal };
+    const patch = { filterOn };
+    // 关闭某个顶部筛选时，同步清空这个筛选，避免看不见的筛选还在生效
+    if (!nextVal) {
+      if (key === 'character') patch.charSel = [];
+      else if (key === 'type') patch.typeSel = [];
+      else if (key === 'series') patch.seriesFilter = '全部';
+      else if (key === 'form') patch.formSel = [];
+      else if (key === 'status') patch.statusSel = [];
+      else if (key === 'acquire') patch.acquireSel = [];
+      else if (key === 'channel') patch.channelSel = [];
+      else patch.customFilterSel = { ...(this.state.customFilterSel || {}), [key]: [] };
+    }
+    try { localStorage.setItem('zzz_filter_on', JSON.stringify(filterOn)); } catch (e) {}
+    this.setState(patch);
+  };
+  toggleStatsOn = (key) => () => {
+    const cur = this.state.statsOn || {};
+    const statsOn = { ...cur, [key]: cur[key] === false };
+    try { localStorage.setItem('zzz_stats_on', JSON.stringify(statsOn)); } catch (e) {}
+    this.setState({ statsOn });
+  };
   setOptionsText = (which, lsKey) => (e) => { const raw = e.target.value; const arr = [...new Set(raw.split(/\n+/).map(x => x.trim()).filter(Boolean))]; try { localStorage.setItem(this.wkey(lsKey), JSON.stringify(arr)); } catch (er) {} this.setState(s => ({ [which]: arr, optBuf: { ...s.optBuf, [which]: raw } })); if (which === 'charOrder') this.charOrder = arr; };
   addSeriesAlone = (group) => { const name = (window.prompt('新增作品名称（' + group + '）：') || '').trim(); if (!name) return; const id = 'w_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5); this.saveWorks([...this.state.works, { id, group, name }]); };
   addGroupAlone = () => { const group = (window.prompt('新增系列IP名称：') || '').trim(); if (!group) return; const name = (window.prompt('该系列下第一个作品名称：') || '').trim() || (group + ' 作品1'); const id = 'w_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5); this.saveWorks([...this.state.works, { id, group, name }]); this.switchWork(id); };
@@ -1093,11 +1597,12 @@ class Component extends DCLogic {
   idbOpen() { return new Promise((res, rej) => { const r = indexedDB.open('zzz_goods_db', 1); r.onupgradeneeded = () => r.result.createObjectStore('images'); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); }); }
   async idbPut(k, v) { const db = await this.idbOpen(); return new Promise((res, rej) => { const tx = db.transaction('images', 'readwrite'); tx.objectStore('images').put(v, k); tx.oncomplete = () => res(); tx.onerror = () => rej(tx.error); }); }
   async idbGet(k) { const db = await this.idbOpen(); return new Promise((res, rej) => { const tx = db.transaction('images', 'readonly'); const rq = tx.objectStore('images').get(k); rq.onsuccess = () => res(rq.result); rq.onerror = () => rej(rq.error); }); }
+  async idbClear() { const db = await this.idbOpen(); return new Promise((res, rej) => { const tx = db.transaction('images', 'readwrite'); tx.objectStore('images').clear(); tx.oncomplete = () => { try { db.close(); } catch (e) {} res(); }; tx.onerror = () => { try { db.close(); } catch (e) {} rej(tx.error); }; }); }
   blobToDataURL(b) { return new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result); fr.readAsDataURL(b); }); }
   dataURLToBlob(d) { const [m, b64] = d.split(','); const mime = (m.match(/:(.*?);/) || [])[1] || 'image/png'; const bin = atob(b64); const arr = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i); return new Blob([arr], { type: mime }); }
 
   // ---- persistence ----
-  commit(items) { try { localStorage.setItem('zzz_goods_v1', JSON.stringify(items)); } catch (e) {} this.setState({ items, savedAt: Date.now() }); }
+  commit(items) { try { localStorage.setItem('zzz_goods_v1', JSON.stringify(items)); } catch (e) {} this.setState({ items, savedAt: Date.now() }, () => { if (this.state.cloudSyncId) { clearTimeout(this._cloudTimer); this._cloudTimer = setTimeout(() => this.pushCloud(), 600); } }); }
 
   // ---- helpers ----
   num(v) { const n = parseFloat(v); return isNaN(n) ? 0 : n; }
@@ -1112,17 +1617,20 @@ class Component extends DCLogic {
   uploadCharAvatar = (name) => { if (!name || name === '全部') return; const inp = document.createElement('input'); inp.type = 'file'; inp.accept = 'image/*'; inp.onchange = async () => { const f = inp.files && inp.files[0]; if (!f) return; const id = 'img_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6); try { await this.idbPut(id, f); this.ensureCharImg(); this.charImgIds[name] = id; try { localStorage.setItem('zzz_char_img_ids', JSON.stringify(this.charImgIds)); } catch (e) {} this.charImgMap[name] = URL.createObjectURL(f); this.forceUpdate(); } catch (e) { alert('头像保存失败：' + e); } }; inp.click(); };
   persistCharMaps() { this.ensureCharImg(); try { localStorage.setItem('zzz_char_img', JSON.stringify(this.charAssetMap)); } catch (e) {} try { localStorage.setItem('zzz_char_img_ids', JSON.stringify(this.charImgIds)); } catch (e) {} }
   orderedChars() { const o = (this.state.charOrder && this.state.charOrder.length) ? this.state.charOrder : this.CHARACTERS; return o; }
-  chipDrag(name, kind) { return { draggable: name !== '全部', onDragStart: (ev) => { this.cdKind = kind; this.cdName = name; if (ev.dataTransfer) ev.dataTransfer.effectAllowed = 'move'; }, onDragOver: (ev) => { if (name !== '全部') ev.preventDefault(); }, onDrop: (ev) => { ev.preventDefault(); if (this.cdKind === kind) this.reorderChip(kind, this.cdName, name); this.cdName = null; } }; }
+  chipDrag(name, kind) { return { draggable: name !== '全部', onDragStart: (ev) => { if (name === '全部') return; this.cdKind = kind; this.cdName = name; if (ev.dataTransfer) { ev.dataTransfer.effectAllowed = 'move'; try { ev.dataTransfer.setData('text/plain', JSON.stringify({ kind, name })); } catch(e) {} } }, onDragOver: (ev) => { if (name !== '全部') { ev.preventDefault(); if (ev.dataTransfer) ev.dataTransfer.dropEffect = 'move'; } }, onDrop: (ev) => { ev.preventDefault(); let src = this.cdName, k = this.cdKind; try { const raw = ev.dataTransfer && ev.dataTransfer.getData('text/plain'); if (raw) { const obj = JSON.parse(raw); src = obj.name || src; k = obj.kind || k; } } catch(e) {} if (k === kind) this.reorderChip(kind, src, name); this.cdName = null; this.cdKind = null; } }; }
   reorderChip(kind, src, dst) {
     if (!src || src === dst || src === '全部' || dst === '全部') return;
-    const cfg = { type: ['typesList', 'zzz_types'], series: ['seriesList', 'zzz_series'], channel: ['channels', 'zzz_channels'], form: ['formOrder', 'zzz_form_order'], acquire: ['acquireOrder', 'zzz_acquire_order'] }[kind];
+    const cfg = { type: ['typesList', 'zzz_types'], series: ['seriesList', 'zzz_series'], channel: ['channels', 'zzz_channels'], form: ['formOrder', 'zzz_form_order'], acquire: ['acquireOrder', 'zzz_acquire_order'], status: ['statusList', 'zzz_status'] }[kind];
     if (kind === 'char') return this.reorderChar(src, dst);
     if (!cfg) return;
-    const arr = [...(this.state[cfg[0]] || [])];
+    const field = { type: 'type', series: 'series', channel: 'channel', form: 'form', acquire: 'acquire', status: 'status' }[kind];
+    const base = [...(this.state[cfg[0]] || [])].filter(Boolean);
+    const present = field ? [...new Set((this.state.items || []).map(i => i[field]).filter(Boolean))] : [];
+    const arr = [...base, ...present.filter(x => !base.includes(x))];
     const si = arr.indexOf(src); if (si < 0) return; arr.splice(si, 1);
     const di = arr.indexOf(dst); if (di < 0) return; arr.splice(di, 0, src);
-    try { localStorage.setItem(cfg[1], JSON.stringify(arr)); } catch (e) {}
-    this.setState({ [cfg[0]]: arr });
+    try { localStorage.setItem(this.wkey(cfg[1]), JSON.stringify(arr)); } catch (e) {}
+    this.setState({ [cfg[0]]: arr }, () => { if (this.state.cloudSyncId) this.pushCloud(); });
   }
   addCharacter = () => {
     const v = (window.prompt('输入新角色名称') || '').trim(); if (!v) return;
@@ -1131,32 +1639,88 @@ class Component extends DCLogic {
     this.setState(s => ({ charOrder: arr, draft: s.draft ? { ...s.draft, character: v } : s.draft }));
     if (window.confirm('要为「' + v + '」上传头像吗？')) this.uploadCharAvatar(v);
   };
-  renameCharacter = (oldName) => {
+  renameCharacter = (oldName, ev) => {
+    if (ev) { ev.preventDefault && ev.preventDefault(); ev.stopPropagation && ev.stopPropagation(); }
     if (!oldName || oldName === '全部') return;
     const nv = (window.prompt('重命名角色「' + oldName + '」为（会同步修改所有该角色的谷子）：', oldName) || '').trim();
     if (!nv || nv === oldName) return;
     const items = this.state.items.map(x => ({ ...x, character: x.character === oldName ? nv : x.character, swapCharacter: x.swapCharacter === oldName ? nv : x.swapCharacter }));
-    const arr = this.orderedChars().map(c => c === oldName ? nv : c);
+    const base = [...this.orderedChars()];
+    const present = [...new Set((this.state.items || []).flatMap(x => [x.character, x.swapCharacter]).filter(Boolean))];
+    const arr = [...base, ...present.filter(x => !base.includes(x))].map(c => c === oldName ? nv : c);
     try { localStorage.setItem(this.wkey('zzz_char_order'), JSON.stringify(arr)); } catch (e) {}
     this.ensureCharImg();
     if (this.charImgIds[oldName] !== undefined) { this.charImgIds[nv] = this.charImgIds[oldName]; delete this.charImgIds[oldName]; }
     if (this.charAssetMap[oldName] !== undefined) { this.charAssetMap[nv] = this.charAssetMap[oldName]; delete this.charAssetMap[oldName]; }
     if (this.charImgMap[oldName] !== undefined) { this.charImgMap[nv] = this.charImgMap[oldName]; delete this.charImgMap[oldName]; }
     this.persistCharMaps();
-    this.setState({ charOrder: arr });
+    this.setState(s => ({ charOrder: arr, charSel: (s.charSel || []).map(x => x === oldName ? nv : x), draft: s.draft ? { ...s.draft, character: s.draft.character === oldName ? nv : s.draft.character, swapCharacter: s.draft.swapCharacter === oldName ? nv : s.draft.swapCharacter } : s.draft }));
     this.commit(items);
   };
   reorderChar = (srcName, dstName) => {
     if (!srcName || srcName === dstName || srcName === '全部' || dstName === '全部') return;
-    const arr = [...this.orderedChars()];
+    const base = [...this.orderedChars()];
+    const present = [...new Set((this.state.items || []).flatMap(x => [x.character, x.swapCharacter]).filter(Boolean))];
+    const arr = [...base, ...present.filter(x => !base.includes(x))];
     const si = arr.indexOf(srcName); if (si < 0) return; arr.splice(si, 1);
     const di = arr.indexOf(dstName); if (di < 0) return; arr.splice(di, 0, srcName);
     try { localStorage.setItem(this.wkey('zzz_char_order'), JSON.stringify(arr)); } catch (e) {}
-    this.setState({ charOrder: arr });
+    this.setState({ charOrder: arr }, () => { if (this.state.cloudSyncId) this.pushCloud(); });
+  };
+  customChipDrag(fieldKey, name) { return { draggable: name !== '全部', onDragStart: (ev) => { if (name === '全部') return; this.cdKind = 'custom:' + fieldKey; this.cdName = name; if (ev.dataTransfer) { ev.dataTransfer.effectAllowed = 'move'; try { ev.dataTransfer.setData('text/plain', JSON.stringify({ kind: 'custom:' + fieldKey, name })); } catch(e) {} } }, onDragOver: (ev) => { if (name !== '全部') { ev.preventDefault(); if (ev.dataTransfer) ev.dataTransfer.dropEffect = 'move'; } }, onDrop: (ev) => { ev.preventDefault(); let src = this.cdName, k = this.cdKind; try { const raw = ev.dataTransfer && ev.dataTransfer.getData('text/plain'); if (raw) { const obj = JSON.parse(raw); src = obj.name || src; k = obj.kind || k; } } catch(e) {} if (k === 'custom:' + fieldKey) this.reorderCustomChip(fieldKey, src, name); this.cdName = null; this.cdKind = null; } }; }
+  reorderCustomChip(fieldKey, src, dst) {
+    if (!fieldKey || !src || src === dst || src === '全部' || dst === '全部') return;
+    const orderMap = { ...(this.state.customFilterOrder || {}) };
+    const existing = orderMap[fieldKey] || [];
+    const items = this.state.items || [];
+    const present = [...new Set(items.map(i => i.custom && i.custom[fieldKey]).filter(Boolean))];
+    let arr = [...existing.filter(x => present.includes(x)), ...present.filter(x => !existing.includes(x))];
+    const si = arr.indexOf(src); if (si < 0) return; arr.splice(si, 1);
+    const di = arr.indexOf(dst); if (di < 0) return; arr.splice(di, 0, src);
+    orderMap[fieldKey] = arr;
+    try { localStorage.setItem('zzz_custom_filter_order', JSON.stringify(orderMap)); } catch(e) {}
+    this.setState({ customFilterOrder: orderMap }, () => { if (this.state.cloudSyncId) this.pushCloud(); });
+  }
+  renameCustomFilterValue = (fieldKey, oldValue, ev) => {
+    if (ev) { ev.preventDefault && ev.preventDefault(); ev.stopPropagation && ev.stopPropagation(); }
+    if (!fieldKey || !oldValue || oldValue === '全部') return;
+    const field = (this.state.customFields || []).find(f => f.key === fieldKey);
+    const label = field ? field.label : '自定义标签';
+    const nv = (window.prompt('重命名' + label + '「' + oldValue + '」为（会同步修改所有使用该标签的谷子）：', oldValue) || '').trim();
+    if (!nv || nv === oldValue) return;
+    const items = (this.state.items || []).map(it => {
+      const custom = it.custom || {};
+      return custom[fieldKey] === oldValue ? { ...it, custom: { ...custom, [fieldKey]: nv } } : it;
+    });
+    const orderMap = { ...(this.state.customFilterOrder || {}) };
+    if (orderMap[fieldKey]) orderMap[fieldKey] = orderMap[fieldKey].map(x => x === oldValue ? nv : x);
+    const customFilterSel = { ...(this.state.customFilterSel || {}) };
+    if (customFilterSel[fieldKey]) customFilterSel[fieldKey] = customFilterSel[fieldKey].map(x => x === oldValue ? nv : x);
+    try { localStorage.setItem('zzz_custom_filter_order', JSON.stringify(orderMap)); } catch(e) {}
+    this.setState({ customFilterOrder: orderMap, customFilterSel }, () => this.commit(items));
   };
   emptyDraft() { return { id: null, custom: {}, name: '', character: this.CHARACTERS[0], type: this.TYPES[0], subtype: '', series: '', form: '通用', heat: 0, rate: '', acquire: '直购', swapped: '未置换', swapTo: '', swapCharacter: '', swapImageId: null, group: '收藏', status: '已到货', qty: '1', originalPrice: '', buyPrice: '', shipDom: '', shipIntl: '', sellPrice: '', channel: '', buyDate: '', note: '', imageId: null, imageId2: null }; }
 
   // ---- modal / crud ----
+  beginItemDrag = (id, ev) => {
+    this.dragId = id;
+    this.blockItemClickUntil = Date.now() + 500;
+    if (ev && ev.dataTransfer) {
+      ev.dataTransfer.effectAllowed = 'move';
+      try { ev.dataTransfer.setData('text/plain', id); } catch(e) {}
+    }
+  };
+  endItemDrag = () => {
+    this.dragId = null;
+    this.blockItemClickUntil = Date.now() + 350;
+  };
+  openItemFromRow = (it, ev) => {
+    if (this.blockItemClickUntil && Date.now() < this.blockItemClickUntil) {
+      if (ev) { ev.preventDefault && ev.preventDefault(); ev.stopPropagation && ev.stopPropagation(); }
+      return;
+    }
+    this.openEdit(it);
+  };
   openAdd = () => this.setState({ modalOpen: true, editing: null, draft: this.emptyDraft() });
   openEdit = (it) => this.setState({ modalOpen: true, editing: it.id, draft: { ...this.emptyDraft(), ...it } });
   openDuplicate = (it) => this.setState({ modalOpen: true, editing: null, draft: { ...this.emptyDraft(), ...it, id: null } });
@@ -1314,9 +1878,36 @@ class Component extends DCLogic {
   saveList = (key, lsKey, list) => { try { localStorage.setItem(this.wkey(lsKey), JSON.stringify(list)); } catch (e) {} this.setState({ [key]: list }); };
   menuRow(active) { return { display: 'flex', alignItems: 'center', gap: '6px', padding: '7px 9px', borderRadius: '8px', background: active ? 'rgba(255,51,85,.08)' : 'transparent' }; }
   toggleTypeMenu = () => this.setState(s => ({ typeMenuOpen: !s.typeMenuOpen }));
+  toggleFormMenu = () => this.setState(s => ({ formMenuOpen: !s.formMenuOpen }));
+  toggleStatusMenu = () => this.setState(s => ({ statusMenuOpen: !s.statusMenuOpen }));
+  toggleAcquireMenu = () => this.setState(s => ({ acquireMenuOpen: !s.acquireMenuOpen }));
+  pickForm = (v) => this.setState(s => ({ draft: { ...s.draft, form: v }, formMenuOpen: false }));
+  pickStatus = (v) => this.setState(s => ({ draft: { ...s.draft, status: v }, statusMenuOpen: false }));
+  pickAcquire = (v) => this.setState(s => ({ draft: { ...s.draft, acquire: v }, acquireMenuOpen: false }));
+  delListOption = (which, lsKey, field, val, ev) => {
+    if (ev) ev.stopPropagation();
+    if (!val) return;
+    const arr = (this.state[which] || []).filter(x => x !== val);
+    try { localStorage.setItem(this.wkey(lsKey), JSON.stringify(arr)); } catch (e) {}
+    this.setState(s => ({ [which]: arr, draft: s.draft && s.draft[field] === val ? { ...s.draft, [field]: (arr[0] || '') } : s.draft }));
+  };
+  renameListOption = (which, lsKey, field, val, label, ev) => {
+    ev && ev.stopPropagation && ev.stopPropagation();
+    if (!val || val === '全部') return;
+    const nv = (window.prompt('重命名' + label + '「' + val + '」为（会同步修改所有使用该选项的谷子）：', val) || '').trim();
+    if (!nv || nv === val) return;
+    const fallbackMap = { formOrder: this.FORMS, statusList: this.STATUSES, acquireOrder: ['直购', '单领', '盲盒'] };
+    const base = (this.state[which] && this.state[which].length) ? this.state[which] : (fallbackMap[which] || []);
+    const next = base.map(x => x === val ? nv : x);
+    try { localStorage.setItem(this.wkey(lsKey), JSON.stringify(next)); } catch (e) {}
+    const items = this.state.items.map(x => (x[field] || '') === val ? { ...x, [field]: nv } : x);
+    this.commit(items);
+    const selKey = { form: 'formSel', status: 'statusSel', acquire: 'acquireSel' }[field];
+    this.setState(s => ({ [which]: next, ...(selKey ? { [selKey]: (s[selKey] || []).map(x => x === val ? nv : x) } : {}), draft: s.draft ? { ...s.draft, [field]: (s.draft[field] || '') === val ? nv : s.draft[field] } : s.draft }));
+  };
   pickType = (c) => this.setState(s => ({ draft: { ...s.draft, type: c }, typeMenuOpen: false }));
   addType = () => { const v = (window.prompt('输入新的种类') || '').trim(); if (!v) return; if (!this.state.typesList.includes(v)) this.saveList('typesList', 'zzz_types', [...this.state.typesList, v]); this.setState(s => ({ draft: { ...s.draft, type: v }, typeMenuOpen: false })); };
-  renameTypeItem = (c, ev) => { ev.stopPropagation(); const nv = (window.prompt('重命名种类「' + c + '」为（会同步修改所有该种类的谷子）：', c) || '').trim(); if (!nv || nv === c) return; this.saveList('typesList', 'zzz_types', this.state.typesList.map(x => x === c ? nv : x)); const items = this.state.items.map(x => x.type === c ? { ...x, type: nv } : x); this.commit(items); this.setState(s => ({ draft: { ...s.draft, type: (s.draft && s.draft.type === c) ? nv : (s.draft ? s.draft.type : '') } })); };
+  renameTypeItem = (c, ev) => { ev.stopPropagation(); const nv = (window.prompt('重命名种类「' + c + '」为（会同步修改所有该种类的谷子）：', c) || '').trim(); if (!nv || nv === c) return; this.saveList('typesList', 'zzz_types', this.state.typesList.map(x => x === c ? nv : x)); const items = this.state.items.map(x => x.type === c ? { ...x, type: nv } : x); this.commit(items); this.setState(s => ({ typeSel: (s.typeSel || []).map(x => x === c ? nv : x), draft: s.draft ? { ...s.draft, type: s.draft.type === c ? nv : s.draft.type } : s.draft })); };
   delTypeItem = (c, ev) => { ev.stopPropagation(); this.saveList('typesList', 'zzz_types', this.state.typesList.filter(x => x !== c)); };
   toggleCharMenu = () => this.setState(s => ({ charMenuOpen: !s.charMenuOpen }));
   pickCharacter = (c) => this.setState(s => ({ draft: { ...s.draft, character: c }, charMenuOpen: false }));
@@ -1325,14 +1916,15 @@ class Component extends DCLogic {
   pickSeries = (c) => this.setState(s => ({ draft: { ...s.draft, series: c }, seriesMenuOpen: false }));
   clearSeries = () => this.pickSeries('');
   addSeries = () => { const v = (window.prompt('输入新的系列名称（如：TV本编 / 剧场版 / 一番赏）') || '').trim(); if (!v) return; if (!this.state.seriesList.includes(v)) this.saveList('seriesList', 'zzz_series', [...this.state.seriesList, v]); this.setState(s => ({ draft: { ...s.draft, series: v }, seriesMenuOpen: false })); };
-  renameSeriesItem = (c, ev) => { ev.stopPropagation(); const nv = (window.prompt('重命名系列「' + c + '」为（会同步修改所有该系列的谷子）：', c) || '').trim(); if (!nv || nv === c) return; this.saveList('seriesList', 'zzz_series', this.state.seriesList.map(x => x === c ? nv : x)); const items = this.state.items.map(x => (x.series || '') === c ? { ...x, series: nv } : x); this.commit(items); this.setState(s => ({ draft: { ...s.draft, series: (s.draft && s.draft.series === c) ? nv : (s.draft ? s.draft.series : '') } })); };
+  renameSeriesItem = (c, ev) => { ev.stopPropagation(); const nv = (window.prompt('重命名系列「' + c + '」为（会同步修改所有该系列的谷子）：', c) || '').trim(); if (!nv || nv === c) return; this.saveList('seriesList', 'zzz_series', this.state.seriesList.map(x => x === c ? nv : x)); const items = this.state.items.map(x => (x.series || '') === c ? { ...x, series: nv } : x); this.commit(items); this.setState(s => ({ seriesFilter: s.seriesFilter === c ? nv : s.seriesFilter, draft: s.draft ? { ...s.draft, series: s.draft.series === c ? nv : s.draft.series } : s.draft })); };
   delSeriesItem = (c, ev) => { ev.stopPropagation(); this.saveList('seriesList', 'zzz_series', this.state.seriesList.filter(x => x !== c)); };
   toggleChannelMenu = () => this.setState(s => ({ channelMenuOpen: !s.channelMenuOpen }));
   pickChannel = (c) => this.setState(s => ({ draft: { ...s.draft, channel: c }, channelMenuOpen: false }));
   addChannel = () => { const v = (window.prompt('输入新的购买渠道 / 店铺') || '').trim(); if (!v) return; if (!this.state.channels.includes(v)) this.saveChannels([...this.state.channels, v]); this.setState(s => ({ draft: { ...s.draft, channel: v }, channelMenuOpen: false })); };
-  renameChannelItem = (c, ev) => { ev.stopPropagation(); const nv = (window.prompt('重命名渠道「' + c + '」为（会同步修改所有该渠道的谷子）：', c) || '').trim(); if (!nv || nv === c) return; this.saveChannels(this.state.channels.map(x => x === c ? nv : x)); const items = this.state.items.map(x => (x.channel || '') === c ? { ...x, channel: nv } : x); this.commit(items); this.setState(s => ({ draft: { ...s.draft, channel: (s.draft && s.draft.channel === c) ? nv : (s.draft ? s.draft.channel : '') } })); };
+  renameChannelItem = (c, ev) => { ev.stopPropagation(); const nv = (window.prompt('重命名渠道「' + c + '」为（会同步修改所有该渠道的谷子）：', c) || '').trim(); if (!nv || nv === c) return; this.saveChannels(this.state.channels.map(x => x === c ? nv : x)); const items = this.state.items.map(x => (x.channel || '') === c ? { ...x, channel: nv } : x); this.commit(items); this.setState(s => ({ channelSel: (s.channelSel || []).map(x => x === c ? nv : x), draft: s.draft ? { ...s.draft, channel: s.draft.channel === c ? nv : s.draft.channel } : s.draft })); };
   delChannelItem = (c, ev) => { ev.stopPropagation(); this.saveChannels(this.state.channels.filter(x => x !== c)); };
   toggleSel = (key, value) => { this.setState(s => { if (value === '__all__') return { [key]: [] }; const cur = s[key] || []; return { [key]: cur.includes(value) ? cur.filter(x => x !== value) : [...cur, value] }; }); };
+  toggleCustomFilter = (key, value) => { this.setState(s => { const all = { ...(s.customFilterSel || {}) }; if (value === '__all__') { all[key] = []; return { customFilterSel: all }; } const cur = all[key] || []; all[key] = cur.includes(value) ? cur.filter(x => x !== value) : [...cur, value]; return { customFilterSel: all }; }); };
 
   groupOf(it) { return (it.status === '出售中' || it.status === '已出/已卖出') ? '出物' : '收藏'; }
 
@@ -1352,10 +1944,14 @@ class Component extends DCLogic {
 
   renderVals() {
     const cur = this.cur();
+    const fieldVisible = (k) => this.isFieldVisible(k);
     const view = this.state.view || this.props.startView || 'gallery';
-    const { group, groupBy, search, charSel, typeSel, seriesFilter, formSel, acquireSel, channelSel } = this.state;
+    const { group, groupBy, search, charSel, typeSel, seriesFilter, formSel, statusSel, acquireSel, channelSel } = this.state;
     const allItems = this.state.items;
-    const items = allItems.filter(it => (it.workId || this.MAIN_WORK) === this.state.currentWorkId);
+    const workListForFilter = this.state.works || [];
+    const curWorkForFilter = workListForFilter.find(w => w.id === this.state.currentWorkId) || workListForFilter[0] || { id: this.MAIN_WORK, group: this.DEFAULT_GROUP, name: '' };
+    const workOfItem = (it) => workListForFilter.find(w => w.id === (it.workId || this.MAIN_WORK)) || { id: it.workId || this.MAIN_WORK, group: this.DEFAULT_GROUP, name: '默认作品' };
+    const items = groupBy === 'workGroup' ? allItems : groupBy === 'work' ? allItems.filter(it => (workOfItem(it).group || this.DEFAULT_GROUP) === (curWorkForFilter.group || this.DEFAULT_GROUP)) : allItems.filter(it => (it.workId || this.MAIN_WORK) === this.state.currentWorkId);
 
     // stats over all
     let totalIn = 0, totalSell = 0, totalProfit = 0, colCount = 0, saleCount = 0;
@@ -1377,26 +1973,44 @@ class Component extends DCLogic {
     const charOrderList = this.orderedChars();
     const presentChars = [...new Set(items.map(i => i.character))];
     const charList = ['全部', ...charOrderList.filter(c => presentChars.includes(c)), ...presentChars.filter(c => c && !charOrderList.includes(c))];
-    const charChips = charList.map(c => { const ci = this.charImg(c); const active = c === '全部' ? charSel.length === 0 : charSel.includes(c); return { label: c, hasImg: !!ci, ...this.chipDrag(c, 'char'), onDblClick: () => this.renameCharacter(c), imgStyle: { width: '18px', height: '18px', borderRadius: '50%', backgroundImage: `url(${ci})`, backgroundSize: 'cover', backgroundPosition: 'center', marginLeft: '-3px', flexShrink: 0 }, style: this.chipStyle(active), onClick: () => this.toggleSel('charSel', c === '全部' ? '__all__' : c) }; });
+    const charChips = charList.map(c => { const ci = this.charImg(c); const active = c === '全部' ? charSel.length === 0 : charSel.includes(c); return { label: c, hasImg: !!ci, ...this.chipDrag(c, 'char'), onDblClick: (ev) => this.renameCharacter(c, ev), imgStyle: { width: '18px', height: '18px', borderRadius: '50%', backgroundImage: `url(${ci})`, backgroundSize: 'cover', backgroundPosition: 'center', marginLeft: '-3px', flexShrink: 0 }, style: this.chipStyle(active), onClick: () => this.toggleSel('charSel', c === '全部' ? '__all__' : c) }; });
     const presentTypes = [...new Set(items.map(i => i.type))];
     const typeBase = (this.state.typesList && this.state.typesList.length) ? this.state.typesList : this.TYPES;
     const typeList = ['全部', ...typeBase.filter(t => presentTypes.includes(t)), ...presentTypes.filter(t => t && !typeBase.includes(t))];
     const typeChips = typeList.map(t => ({ label: t, ...this.chipDrag(t, 'type'), onDblClick: t === '全部' ? null : (ev) => this.renameTypeItem(t, ev), style: this.chipStyle(t === '全部' ? typeSel.length === 0 : typeSel.includes(t)), onClick: () => this.toggleSel('typeSel', t === '全部' ? '__all__' : t) }));
-    const groupByChips = [{ k: 'none', l: '不分组' }, { k: 'character', l: '按角色' }, { k: 'type', l: '按种类' }, { k: 'series', l: '按系列' }, { k: 'form', l: '按形态' }].map(o => ({ label: o.l, style: this.chipStyle(groupBy === o.k), onClick: () => this.setState({ groupBy: o.k }) }));
+    const statsOn = this.state.statsOn || {};
+    const statEnabled = (k) => statsOn[k] !== false;
+    const groupBaseOptions = [{ k: 'none', l: '不分组', always: true }, { k: 'workGroup', l: '按系列IP', always: true }, { k: 'work', l: '按作品', always: true }, { k: 'character', l: '按角色' }, { k: 'type', l: '按种类' }, { k: 'series', l: '按系列' }, { k: 'form', l: '按形态' }, { k: 'status', l: '按状态' }, { k: 'acquire', l: '按获取' }, { k: 'channel', l: '按渠道' }].filter(o => o.always || (fieldVisible(o.k) && statEnabled(o.k))); 
+    const customGroupOptions = (this.state.customFields || []).filter(f => statEnabled(f.key)).map(f => ({ k: 'custom:' + f.key, l: '按' + f.label }));
+    let groupBySafe = groupBy;
+    const availableGroupKeys = new Set([...groupBaseOptions, ...customGroupOptions].map(o => o.k));
+    if (!availableGroupKeys.has(groupBySafe)) groupBySafe = 'none';
+    const groupByChips = [...groupBaseOptions, ...customGroupOptions].map(o => ({ label: o.l, style: this.chipStyle(groupBySafe === o.k), onClick: () => this.setState({ groupBy: o.k }) }));
     const presentSeries = [...new Set(items.map(i => i.series).filter(Boolean))];
     const seriesBase = (this.state.seriesList && this.state.seriesList.length) ? this.state.seriesList : presentSeries;
     const seriesOrdered = [...seriesBase.filter(x => presentSeries.includes(x)), ...presentSeries.filter(x => !seriesBase.includes(x))];
     const seriesChips = ['全部', ...seriesOrdered].map(x => ({ label: x, ...this.chipDrag(x, 'series'), onDblClick: x === '全部' ? null : (ev) => this.renameSeriesItem(x, ev), style: this.chipStyle(seriesFilter === x), onClick: () => this.setState({ seriesFilter: x }) }));
-    const showSeriesFilter = presentSeries.length > 0;
+    const showSeriesFilter = fieldVisible('series');
     const formBase = (this.state.formOrder && this.state.formOrder.length) ? this.state.formOrder : this.FORMS;
-    const formChips = ['全部', ...formBase].map(x => ({ label: x, ...this.chipDrag(x, 'form'), style: this.chipStyle(x === '全部' ? formSel.length === 0 : formSel.includes(x)), onClick: () => this.toggleSel('formSel', x === '全部' ? '__all__' : x) }));
+    const formChips = ['全部', ...formBase].map(x => ({ label: x, ...this.chipDrag(x, 'form'), onDblClick: x === '全部' ? null : (ev) => this.renameListOption('formOrder', 'zzz_form_order', 'form', x, '形态', ev), style: this.chipStyle(x === '全部' ? formSel.length === 0 : formSel.includes(x)), onClick: () => this.toggleSel('formSel', x === '全部' ? '__all__' : x) }));
+    const statusBase = (this.state.statusList && this.state.statusList.length) ? this.state.statusList : this.STATUSES;
+    const statusChips = ['全部', ...statusBase].map(x => ({ label: x, ...this.chipDrag(x, 'status'), onDblClick: x === '全部' ? null : (ev) => this.renameListOption('statusList', 'zzz_status', 'status', x, '状态', ev), style: this.chipStyle(x === '全部' ? statusSel.length === 0 : statusSel.includes(x)), onClick: () => this.toggleSel('statusSel', x === '全部' ? '__all__' : x) }));
+    const showStatusFilter = fieldVisible('status') && !!this.state.filterOn.status;
     const acquireBase = (this.state.acquireOrder && this.state.acquireOrder.length) ? this.state.acquireOrder : ['直购', '单领', '盲盒'];
-    const acquireChips = ['全部', ...acquireBase].map(x => ({ label: x, ...this.chipDrag(x, 'acquire'), style: this.chipStyle(x === '全部' ? acquireSel.length === 0 : acquireSel.includes(x)), onClick: () => this.toggleSel('acquireSel', x === '全部' ? '__all__' : x) }));
+    const acquireChips = ['全部', ...acquireBase].map(x => ({ label: x, ...this.chipDrag(x, 'acquire'), onDblClick: x === '全部' ? null : (ev) => this.renameListOption('acquireOrder', 'zzz_acquire_order', 'acquire', x, '获取方式', ev), style: this.chipStyle(x === '全部' ? acquireSel.length === 0 : acquireSel.includes(x)), onClick: () => this.toggleSel('acquireSel', x === '全部' ? '__all__' : x) }));
     const presentChannels = [...new Set(items.map(i => i.channel).filter(Boolean))];
     const chBase = (this.state.channels && this.state.channels.length) ? this.state.channels : presentChannels;
     const chOrdered = [...chBase.filter(x => presentChannels.includes(x)), ...presentChannels.filter(x => !chBase.includes(x))];
     const channelChips = ['全部', ...chOrdered].map(x => ({ label: x, ...this.chipDrag(x, 'channel'), onDblClick: x === '全部' ? null : (ev) => this.renameChannelItem(x, ev), style: this.chipStyle(x === '全部' ? channelSel.length === 0 : channelSel.includes(x)), onClick: () => this.toggleSel('channelSel', x === '全部' ? '__all__' : x) }));
-    const showChannelFilter = presentChannels.length > 0;
+    const showChannelFilter = fieldVisible('channel');
+    const customFilterRows = (this.state.customFields || []).filter(f => this.state.filterOn[f.key]).map(f => {
+      const present = [...new Set(items.map(i => i.custom && i.custom[f.key]).filter(Boolean))];
+      const orderMap = this.state.customFilterOrder || {};
+      const ordered = [...(orderMap[f.key] || []).filter(x => present.includes(x)), ...present.filter(x => !(orderMap[f.key] || []).includes(x))];
+      const sel = ((this.state.customFilterSel || {})[f.key]) || [];
+      const chips = ['全部', ...ordered].map(x => ({ label: x, ...this.customChipDrag(f.key, x), onDblClick: x === '全部' ? null : (ev) => this.renameCustomFilterValue(f.key, x, ev), style: this.chipStyle(x === '全部' ? sel.length === 0 : sel.includes(x)), onClick: () => this.toggleCustomFilter(f.key, x === '全部' ? '__all__' : x) }));
+      return { key: f.key, label: f.label, chips };
+    });
     const dType = this.state.draft ? this.state.draft.type : '';
     const dChar = this.state.draft ? this.state.draft.character : '';
     const charMenuItems = this.orderedChars().map(c => { const ci = this.charImg(c); return { name: c, hasImg: !!ci, imgStyle: { width: '18px', height: '18px', borderRadius: '50%', backgroundImage: `url(${ci})`, backgroundSize: 'cover', backgroundPosition: 'center', flexShrink: 0 }, onPick: () => this.pickCharacter(c), onAvatar: (ev) => { ev.stopPropagation(); this.uploadCharAvatar(c); }, onDel: (ev) => this.delCharacter(c, ev), rowStyle: this.menuRow(dChar === c) }; });
@@ -1404,6 +2018,15 @@ class Component extends DCLogic {
     const typeMenuItems = (this.state.typesList || []).map(c => ({ name: c, onPick: () => this.pickType(c), onRename: (ev) => this.renameTypeItem(c, ev), onDel: (ev) => this.delTypeItem(c, ev), rowStyle: this.menuRow(dType === c) }));
     const typeDisplay = dType || '选择种类';
     const hasTypeMenuItems = (this.state.typesList || []).length > 0;
+    const dForm = this.state.draft ? (this.state.draft.form || '') : '';
+    const formMenuItems = ((this.state.formOrder && this.state.formOrder.length) ? this.state.formOrder : this.FORMS).map(c => ({ name: c, onPick: () => this.pickForm(c), onRename: (ev) => this.renameListOption('formOrder', 'zzz_form_order', 'form', c, '形态', ev), onDel: (ev) => this.delListOption('formOrder', 'zzz_form_order', 'form', c, ev), rowStyle: this.menuRow(dForm === c) }));
+    const formDisplay = dForm || '选择形态';
+    const dStatus = this.state.draft ? (this.state.draft.status || '') : '';
+    const statusMenuItems = ((this.state.statusList && this.state.statusList.length) ? this.state.statusList : this.STATUSES).map(c => ({ name: c, onPick: () => this.pickStatus(c), onRename: (ev) => this.renameListOption('statusList', 'zzz_status', 'status', c, '状态', ev), onDel: (ev) => this.delListOption('statusList', 'zzz_status', 'status', c, ev), rowStyle: this.menuRow(dStatus === c) }));
+    const statusDisplay = dStatus || '选择状态';
+    const dAcquire = this.state.draft ? (this.state.draft.acquire || '') : '';
+    const acquireMenuItems = ((this.state.acquireOrder && this.state.acquireOrder.length) ? this.state.acquireOrder : ['直购', '单领', '盲盒']).map(c => ({ name: c, onPick: () => this.pickAcquire(c), onRename: (ev) => this.renameListOption('acquireOrder', 'zzz_acquire_order', 'acquire', c, '获取方式', ev), onDel: (ev) => this.delListOption('acquireOrder', 'zzz_acquire_order', 'acquire', c, ev), rowStyle: this.menuRow(dAcquire === c) }));
+    const acquireDisplay = dAcquire || '选择获取方式';
     const dSeries = this.state.draft ? (this.state.draft.series || '') : '';
     const seriesMenuItems = (this.state.seriesList || []).map(c => ({ name: c, onPick: () => this.pickSeries(c), onRename: (ev) => this.renameSeriesItem(c, ev), onDel: (ev) => this.delSeriesItem(c, ev), rowStyle: this.menuRow(dSeries === c) }));
     const seriesDisplay = dSeries || '（未分类）';
@@ -1415,10 +2038,12 @@ class Component extends DCLogic {
     // rows
     const s = (search || '').toLowerCase();
     const matchSearch = it => !s || [it.name, it.note, it.channel, it.subtype, it.character, it.type, it.series].some(x => (x || '').toLowerCase().includes(s));
-    const matchForm = it => formSel.length === 0 || formSel.includes(it.form || '通用');
-    const matchAcquire = it => acquireSel.length === 0 || acquireSel.includes(it.acquire || '直购');
-    const matchChannel = it => channelSel.length === 0 || channelSel.includes(it.channel || '');
-    const filtered = baseList.filter(it => (charSel.length === 0 || charSel.includes(it.character)) && (typeSel.length === 0 || typeSel.includes(it.type)) && (seriesFilter === '全部' || (it.series || '') === seriesFilter) && matchForm(it) && matchAcquire(it) && matchChannel(it) && matchSearch(it));
+    const matchForm = it => !fieldVisible('form') || formSel.length === 0 || formSel.includes(it.form || '通用');
+    const matchStatus = it => !fieldVisible('status') || statusSel.length === 0 || statusSel.includes(it.status || '已收藏');
+    const matchAcquire = it => !fieldVisible('acquire') || acquireSel.length === 0 || acquireSel.includes(it.acquire || '直购');
+    const matchChannel = it => !fieldVisible('channel') || channelSel.length === 0 || channelSel.includes(it.channel || '');
+    const matchCustomFilters = it => Object.entries(this.state.customFilterSel || {}).every(([k, arr]) => !arr || !arr.length || arr.includes((it.custom && it.custom[k]) || ''));
+    const filtered = baseList.filter(it => (!fieldVisible('character') || charSel.length === 0 || charSel.includes(it.character)) && (!fieldVisible('type') || typeSel.length === 0 || typeSel.includes(it.type)) && (!fieldVisible('series') || seriesFilter === '全部' || (it.series || '') === seriesFilter) && matchForm(it) && matchStatus(it) && matchAcquire(it) && matchChannel(it) && matchCustomFilters(it) && matchSearch(it));
     let fQty = 0, fCost = 0, fSell = 0, fProfit = 0, fSold = false;
     filtered.forEach(it => { const e = this.enrich(it); fQty += e.qty; fCost += e.cost; if (e.sold) { fSell += e.revenue; fProfit += e.profit; fSold = true; } });
     const fCountText = filtered.length + ' 项 · ' + fQty + ' 件';
@@ -1462,11 +2087,11 @@ class Component extends DCLogic {
         hasAvatar: !!this.charImg(dispChar), avatarStyle: { width: '16px', height: '16px', borderRadius: '50%', backgroundImage: `url(${this.charImg(dispChar)})`, backgroundSize: 'cover', backgroundPosition: 'center', margin: '0 4px 0 -2px', flexShrink: 0 },
         charStyle: { display: 'inline-flex', alignItems: 'center', padding: '3px 9px', borderRadius: '999px', fontSize: '12px', fontWeight: 500, whiteSpace: 'nowrap', background: `hsla(${hue},60%,55%,.16)`, color: `hsl(${hue},72%,40%)`, border: `1px solid hsla(${hue},60%,60%,.32)` },
         typeText: it.type + (it.subtype ? ' · ' + it.subtype : ''),
-        hasSeries: !!it.series, seriesText: it.series, seriesStyle: this.badge('#3a6ea5', 'rgba(47,111,219,.1)', 'rgba(47,111,219,.28)'),
-        showAcquire: !!(it.acquire && it.acquire !== '直购'), acquireText: it.acquire,
+        hasSeries: fieldVisible('series') && !!it.series, seriesText: it.series, seriesStyle: this.badge('#3a6ea5', 'rgba(47,111,219,.1)', 'rgba(47,111,219,.28)'),
+        showAcquire: fieldVisible('acquire') && !!(it.acquire && it.acquire !== '直购'), acquireText: it.acquire,
         acquireStyle: this.badge(it.acquire === '盲盒' ? '#c0398a' : '#1f9e8f', it.acquire === '盲盒' ? 'rgba(192,57,138,.12)' : 'rgba(31,158,143,.12)', (it.acquire === '盲盒' ? '#c0398a' : '#1f9e8f') + '44'),
         hasSwap: it.acquire === '盲盒' && it.swapped === '已置换', swapText: '已置换' + (it.swapTo ? '→' + it.swapTo : ''), swapStyle: this.badge('#d9701f', 'rgba(217,112,31,.13)', '#d9701f44'),
-        showForm: !!(it.form && it.form !== '通用'), formText: it.form,
+        showForm: fieldVisible('form') && !!(it.form && it.form !== '通用'), formText: it.form,
         formStyle: this.badge(fcol, fbg, fcol + '44'),
         groupText: g, groupStyle,
         status: it.status, statusStyle: this.badge(this.STATUS_COLOR[it.status] || '#6f6996', 'rgba(50,38,90,.05)', (this.STATUS_COLOR[it.status] || '#6f6996') + '44'),
@@ -1489,19 +2114,20 @@ class Component extends DCLogic {
         thumbBg: primaryUrl ? { position: 'absolute', inset: 0, backgroundImage: `url(${primaryUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' } : { display: 'none' },
         groupBadgeStyle: { ...groupStyle, position: 'absolute', top: '9px', left: '9px', backdropFilter: 'blur(4px)' },
         statusBadgeStyle: { ...this.badge(this.STATUS_COLOR[it.status] || '#6f6996', 'rgba(255,255,255,.85)', (this.STATUS_COLOR[it.status] || '#6f6996') + '55'), position: 'absolute', top: '9px', right: '9px', backdropFilter: 'blur(4px)' },
-        onEdit: () => this.openEdit(it), onDelete: () => this.removeItem(it), onDup: () => this.openDuplicate(it), onTrend: () => this.openTrend(it),
-        draggable: groupBy === 'none',
-        onDragStart: (ev) => { this.dragId = it.id; if (ev.dataTransfer) ev.dataTransfer.effectAllowed = 'move'; },
-        onDragOver: (ev) => { if (groupBy === 'none') ev.preventDefault(); },
-        onDrop: (ev) => { ev.preventDefault(); this.reorder(this.dragId, it.id); this.dragId = null; }
+        onEdit: (ev) => this.openItemFromRow(it, ev), onDelete: () => this.removeItem(it), onDup: () => this.openDuplicate(it), onTrend: () => this.openTrend(it),
+        draggable: true,
+        onDragStart: (ev) => this.beginItemDrag(it.id, ev),
+        onDragOver: (ev) => { ev.preventDefault(); if (ev.dataTransfer) ev.dataTransfer.dropEffect = 'move'; },
+        onDrop: (ev) => { ev.preventDefault(); ev.stopPropagation && ev.stopPropagation(); const src = (ev.dataTransfer && ev.dataTransfer.getData('text/plain')) || this.dragId; this.reorder(src, it.id); this.endItemDrag(); },
+        onDragEnd: () => this.endItemDrag()
       };
     });
     const rowById = {}; itemRows.forEach(r => { rowById[r.id] = r; });
 
     // 分组：把同类（同角色的人脸+皮套）合并成一组分区显示
     let displayRows = itemRows;
-    if (groupBy !== 'none') {
-      const keyf = groupBy === 'character' ? (i => i.character || '未分类') : groupBy === 'type' ? (i => i.type || '未分类') : groupBy === 'series' ? (i => i.series || '未分类') : (i => (i.form && i.form !== '通用') ? i.form : '通用');
+    if (groupBySafe !== 'none') {
+      const keyf = groupBySafe === 'character' ? (i => i.character || '未分类') : groupBySafe === 'type' ? (i => i.type || '未分类') : groupBySafe === 'series' ? (i => i.series || '未分类') : groupBySafe === 'form' ? (i => (i.form && i.form !== '通用') ? i.form : '通用') : groupBySafe === 'status' ? (i => i.status || '未分类') : groupBySafe === 'acquire' ? (i => i.acquire || '未分类') : groupBySafe === 'channel' ? (i => i.channel || '未分类') : groupBySafe === 'work' ? (i => workOfItem(i).name || '未命名作品') : groupBySafe === 'workGroup' ? (i => workOfItem(i).group || this.DEFAULT_GROUP) : groupBySafe && groupBySafe.indexOf('custom:') === 0 ? (i => (i.custom && i.custom[groupBySafe.slice(7)]) || '未分类') : (i => '未分类');
       const map = {};
       filtered.forEach(it => { const e = this.enrich(it); const k = keyf(it); (map[k] = map[k] || { label: k, count: 0, qty: 0, cost: 0, profit: 0, sold: false, ids: [] }); const m = map[k]; m.count++; m.qty += e.qty; m.cost += e.cost; if (e.sold) { m.profit += e.profit; m.sold = true; } m.ids.push(it.id); });
       const groups = Object.values(map).sort((a, b) => b.cost - a.cost);
@@ -1509,12 +2135,12 @@ class Component extends DCLogic {
       groups.forEach(gp => {
         displayRows.push({
           isHeader: true, isItem: false, id: 'hd_' + gp.label,
-          headerHasImg: groupBy === 'character' && !!this.charImg(gp.label), headerNoImg: !(groupBy === 'character' && !!this.charImg(gp.label)), headerImgG: { width: '30px', height: '30px', borderRadius: '50%', backgroundImage: `url(${this.charImg(gp.label)})`, backgroundSize: 'cover', backgroundPosition: 'center', border: '1px solid #d4cee7', flexShrink: 0 }, headerImgT: { width: '26px', height: '26px', borderRadius: '50%', backgroundImage: `url(${this.charImg(gp.label)})`, backgroundSize: 'cover', backgroundPosition: 'center', border: '1px solid #d4cee7', flexShrink: 0 },
+          headerHasImg: groupBySafe === 'character' && !!this.charImg(gp.label), headerNoImg: !(groupBySafe === 'character' && !!this.charImg(gp.label)), headerImgG: { width: '30px', height: '30px', borderRadius: '50%', backgroundImage: `url(${this.charImg(gp.label)})`, backgroundSize: 'cover', backgroundPosition: 'center', border: '1px solid #d4cee7', flexShrink: 0 }, headerImgT: { width: '26px', height: '26px', borderRadius: '50%', backgroundImage: `url(${this.charImg(gp.label)})`, backgroundSize: 'cover', backgroundPosition: 'center', border: '1px solid #d4cee7', flexShrink: 0 },
           label: gp.label, countText: gp.count + ' 项 · ' + gp.qty + ' 件',
           costText: '投入 ' + cur + this.fmt(gp.cost),
           profitText: gp.sold ? '盈亏 ' + (gp.profit >= 0 ? '+' : '') + cur + this.fmt(gp.profit) : '',
           profitStyle: { color: gp.sold ? (gp.profit >= 0 ? '#12a85f' : '#e23b5d') : '#8b85ab' },
-          dotStyle: { width: '10px', height: '10px', borderRadius: '50%', flexShrink: 0, background: groupBy === 'character' ? `hsl(${this.charHue(gp.label)},70%,62%)` : 'var(--accent,#ff3355)' }
+          dotStyle: { width: '10px', height: '10px', borderRadius: '50%', flexShrink: 0, background: groupBySafe === 'character' ? `hsl(${this.charHue(gp.label)},70%,62%)` : 'var(--accent,#ff3355)' }
         });
         gp.ids.forEach(id => displayRows.push(rowById[id]));
       });
@@ -1566,36 +2192,62 @@ class Component extends DCLogic {
     const trendMetrics = tr.empty ? null : { weighted: cur + this.fmt(tr.weighted), list: cur + this.fmt(tr.list), deal: cur + this.fmt(tr.deal), profit: (tr.profit >= 0 ? '+' : '') + cur + this.fmt(tr.profit), profitStyle: { color: tr.profit >= 0 ? '#12a85f' : '#e23b5d' }, trend: tr.trend, advice: `趋势判断：${tr.trend}。近期中位 ${cur}${tr.recentMedian}，加权价 ${cur}${tr.weighted}。建议挂牌 ${cur}${tr.list}，预计成交 ${cur}${tr.deal}。` };
 
     // ===== 设置面板数据 =====
-    const L = k => this.flabel(k);
+    const sd = this.state.settingsDraft || this.makeSettingsDraft();
+    const draftFieldLabels = sd.fieldLabels || {};
+    const draftFilterOn = sd.filterOn || {};
+    const draftStatsOn = sd.statsOn || {};
+    const draftCustomFields = sd.customFields || [];
+    const draftWorks = sd.works || [];
+    const updateDraftFieldLabel = (key) => (e) => this.updateSettingsDraft({ fieldLabels: { ...draftFieldLabels, [key]: e.target.value } });
+    const updateDraftCustomFieldLabel = (key) => (e) => this.updateSettingsDraft({ customFields: draftCustomFields.map(f => f.key === key ? { ...f, label: e.target.value } : f) });
+    const toggleDraftFilterOn = (key) => () => this.updateSettingsDraft({ filterOn: { ...draftFilterOn, [key]: !draftFilterOn[key] } });
+    const toggleDraftStatsOn = (key) => () => this.updateSettingsDraft({ statsOn: { ...draftStatsOn, [key]: draftStatsOn[key] === false ? true : false } });
+    const L = k => (Object.prototype.hasOwnProperty.call(draftFieldLabels, k) ? draftFieldLabels[k] : (this.FIELD_DEFAULTS[k] || k));
     const labels = { character: L('character'), type: L('type'), series: L('series'), channel: L('channel'), status: L('status'), form: L('form'), acquire: L('acquire') };
-    const workManageRows = works.map(w => ({
+    const workManageRows = draftWorks.map(w => ({
       id: w.id, nameVal: w.name, groupVal: w.group || this.DEFAULT_GROUP, isCurrent: w.id === this.state.currentWorkId,
-      onName: (e) => this.saveWorks(this.state.works.map(x => x.id === w.id ? { ...x, name: e.target.value } : x)),
-      onGroup: (e) => this.saveWorks(this.state.works.map(x => x.id === w.id ? { ...x, group: e.target.value } : x)),
+      onName: (e) => this.updateSettingsDraft({ works: draftWorks.map(x => x.id === w.id ? { ...x, name: e.target.value } : x) }),
+      onGroup: (e) => this.updateSettingsDraft({ works: draftWorks.map(x => x.id === w.id ? { ...x, group: e.target.value } : x) }),
       onLogo: () => this.uploadWorkLogo(w.id), onDel: () => this.delWork(w), onPick: () => this.switchWork(w.id),
       logoStyle: this.workLogo(w.id) ? { width: '34px', height: '34px', borderRadius: '8px', backgroundImage: `url(${this.workLogo(w.id)})`, backgroundSize: 'cover', backgroundPosition: 'center', flexShrink: 0, cursor: 'pointer', border: '1px solid #ded7ee' } : { width: '34px', height: '34px', borderRadius: '8px', background: 'rgba(50,38,90,.06)', flexShrink: 0, cursor: 'pointer', border: '1px dashed #ccc4e6', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', color: '#938db0' }
     }));
-    const fieldRows = ['character', 'type', 'series', 'channel', 'status', 'form', 'acquire'].map(k => ({ key: k, labelVal: this.flabel(k), onLabel: this.setFieldLabel(k), filterOn: !!this.state.filterOn[k], onToggle: this.toggleFilterOn(k), filterStyle: { display: 'inline-flex', alignItems: 'center', gap: '5px', cursor: 'pointer', fontSize: '12.5px', color: this.state.filterOn[k] ? '#251d49' : '#938db0' }, dot: { width: '34px', height: '20px', borderRadius: '999px', position: 'relative', flexShrink: 0, transition: '.15s', background: this.state.filterOn[k] ? 'var(--accent,#ff3355)' : '#d8d2ea' }, knob: { position: 'absolute', top: '2px', left: this.state.filterOn[k] ? '16px' : '2px', width: '16px', height: '16px', borderRadius: '50%', background: '#fff', transition: '.15s' } }));
+    const fieldRows = ['character', 'type', 'series', 'channel', 'status', 'form', 'acquire'].filter(k => fieldVisible(k)).map(k => {
+      const sOn = (draftStatsOn || {})[k] !== false;
+      const fOn = !!draftFilterOn[k];
+      return { key: k, labelVal: L(k), onLabel: updateDraftFieldLabel(k), onDel: this.deleteBaseField(k), filterOn: fOn, onToggle: toggleDraftFilterOn(k), onStatsToggle: toggleDraftStatsOn(k),
+        filterStyle: { display: 'inline-flex', alignItems: 'center', gap: '5px', cursor: 'pointer', fontSize: '12.5px', color: fOn ? '#251d49' : '#938db0' },
+        statStyle: { display: 'inline-flex', alignItems: 'center', gap: '5px', cursor: 'pointer', fontSize: '12.5px', color: sOn ? '#251d49' : '#938db0' },
+        dot: { width: '34px', height: '20px', borderRadius: '999px', position: 'relative', flexShrink: 0, transition: '.15s', background: fOn ? 'var(--accent,#ff3355)' : '#d8d2ea' },
+        knob: { position: 'absolute', top: '2px', left: fOn ? '16px' : '2px', width: '16px', height: '16px', borderRadius: '50%', background: '#fff', transition: '.15s' },
+        statDot: { width: '34px', height: '20px', borderRadius: '999px', position: 'relative', flexShrink: 0, transition: '.15s', background: sOn ? 'var(--accent,#ff3355)' : '#d8d2ea' },
+        statKnob: { position: 'absolute', top: '2px', left: sOn ? '16px' : '2px', width: '16px', height: '16px', borderRadius: '50%', background: '#fff', transition: '.15s' } };
+    });
     const ob = this.state.optBuf || {};
     const optionGroups = [
-      { label: L('character'), text: ob.charOrder != null ? ob.charOrder : (this.state.charOrder || []).join('\n'), onChange: this.setOptionsText('charOrder', 'zzz_char_order') },
-      { label: L('type'), text: ob.typesList != null ? ob.typesList : (this.state.typesList || []).join('\n'), onChange: this.setOptionsText('typesList', 'zzz_types') },
-      { label: L('series'), text: ob.seriesList != null ? ob.seriesList : (this.state.seriesList || []).join('\n'), onChange: this.setOptionsText('seriesList', 'zzz_series') },
-      { label: L('channel'), text: ob.channels != null ? ob.channels : (this.state.channels || []).join('\n'), onChange: this.setOptionsText('channels', 'zzz_channels') },
-      { label: L('status'), text: ob.statusList != null ? ob.statusList : (this.state.statusList || []).join('\n'), onChange: this.setOptionsText('statusList', 'zzz_status') },
-      { label: L('form'), text: ob.formOrder != null ? ob.formOrder : (this.state.formOrder || []).join('\n'), onChange: this.setOptionsText('formOrder', 'zzz_form_order') },
-      { label: L('acquire'), text: ob.acquireOrder != null ? ob.acquireOrder : (this.state.acquireOrder || []).join('\n'), onChange: this.setOptionsText('acquireOrder', 'zzz_acquire_order') }
-    ];
+      { key: 'character', label: L('character'), text: ob.charOrder != null ? ob.charOrder : (this.state.charOrder || []).join('\n'), onChange: this.setOptionsText('charOrder', 'zzz_char_order') },
+      { key: 'type', label: L('type'), text: ob.typesList != null ? ob.typesList : (this.state.typesList || []).join('\n'), onChange: this.setOptionsText('typesList', 'zzz_types') },
+      { key: 'series', label: L('series'), text: ob.seriesList != null ? ob.seriesList : (this.state.seriesList || []).join('\n'), onChange: this.setOptionsText('seriesList', 'zzz_series') },
+      { key: 'channel', label: L('channel'), text: ob.channels != null ? ob.channels : (this.state.channels || []).join('\n'), onChange: this.setOptionsText('channels', 'zzz_channels') },
+      { key: 'status', label: L('status'), text: ob.statusList != null ? ob.statusList : (this.state.statusList || []).join('\n'), onChange: this.setOptionsText('statusList', 'zzz_status') },
+      { key: 'form', label: L('form'), text: ob.formOrder != null ? ob.formOrder : (this.state.formOrder || []).join('\n'), onChange: this.setOptionsText('formOrder', 'zzz_form_order') },
+      { key: 'acquire', label: L('acquire'), text: ob.acquireOrder != null ? ob.acquireOrder : (this.state.acquireOrder || []).join('\n'), onChange: this.setOptionsText('acquireOrder', 'zzz_acquire_order') }
+    ].filter(o => fieldVisible(o.key));
     // 自定义字段
-    const customFieldRows = (this.state.customFields || []).map(f => ({ key: f.key, labelVal: f.label, onLabel: this.setCustomFieldLabel(f.key), onDel: () => this.delCustomField(f.key) }));
+    const customFieldRows = draftCustomFields.map(f => { const sOn = (draftStatsOn || {})[f.key] !== false; const fOn = !!draftFilterOn[f.key]; return { key: f.key, labelVal: f.label, onLabel: updateDraftCustomFieldLabel(f.key), onDel: () => this.delCustomField(f.key), onToggle: toggleDraftFilterOn(f.key), onStatsToggle: toggleDraftStatsOn(f.key),
+      filterStyle: { display: 'inline-flex', alignItems: 'center', gap: '5px', cursor: 'pointer', fontSize: '12.5px', color: fOn ? '#251d49' : '#938db0' },
+      statStyle: { display: 'inline-flex', alignItems: 'center', gap: '5px', cursor: 'pointer', fontSize: '12.5px', color: sOn ? '#251d49' : '#938db0' },
+      dot: { width: '34px', height: '20px', borderRadius: '999px', position: 'relative', flexShrink: 0, transition: '.15s', background: fOn ? 'var(--accent,#ff3355)' : '#d8d2ea' },
+      knob: { position: 'absolute', top: '2px', left: fOn ? '16px' : '2px', width: '16px', height: '16px', borderRadius: '50%', background: '#fff', transition: '.15s' },
+      statDot: { width: '34px', height: '20px', borderRadius: '999px', position: 'relative', flexShrink: 0, transition: '.15s', background: sOn ? 'var(--accent,#ff3355)' : '#d8d2ea' },
+      statKnob: { position: 'absolute', top: '2px', left: sOn ? '16px' : '2px', width: '16px', height: '16px', borderRadius: '50%', background: '#fff', transition: '.15s' } }; });
     const draftCustomInputs = (this.state.customFields || []).map(f => ({ key: f.key, label: f.label, value: (this.state.draft && this.state.draft.custom && this.state.draft.custom[f.key]) || '', onChange: this.onCustomDraft(f.key) }));
     // 按系列IP分组的作品管理
-    const wgMap = {}; works.forEach(w => { (wgMap[w.group || this.DEFAULT_GROUP] = wgMap[w.group || this.DEFAULT_GROUP] || []).push(w); });
+    const wgMap = {}; draftWorks.forEach(w => { const gkey = (w.group ?? ''); (wgMap[gkey] = wgMap[gkey] || []).push(w); });
     const workSettingGroups = Object.keys(wgMap).map(g => ({
       group: g,
-      onGroupName: (e) => this.saveWorks(this.state.works.map(x => (x.group || this.DEFAULT_GROUP) === g ? { ...x, group: e.target.value } : x)),
+      onGroupName: (e) => this.updateSettingsDraft({ works: draftWorks.map(x => (x.group ?? '') === g ? { ...x, group: e.target.value } : x) }),
       onAddWork: () => this.addSeriesAlone(g),
-      works: wgMap[g].map(w => ({ id: w.id, nameVal: w.name, isCurrent: w.id === this.state.currentWorkId, onName: (e) => this.saveWorks(this.state.works.map(x => x.id === w.id ? { ...x, name: e.target.value } : x)), onLogo: () => this.uploadWorkLogo(w.id), onDel: () => this.delWork(w), onPick: () => this.switchWork(w.id), useStyle: { flexShrink: 0, fontFamily: 'inherit', fontSize: '12px', fontWeight: 700, cursor: 'pointer', padding: '6px 10px', borderRadius: '7px', border: '1px solid ' + (w.id === this.state.currentWorkId ? '#2f6fdb' : '#ded7ee'), background: w.id === this.state.currentWorkId ? 'rgba(47,111,219,.1)' : 'transparent', color: w.id === this.state.currentWorkId ? '#2f6fdb' : '#b9b3d2' }, useText: w.id === this.state.currentWorkId ? '用' : '否', logoStyle: this.workLogo(w.id) ? { width: '32px', height: '32px', borderRadius: '8px', backgroundImage: `url(${this.workLogo(w.id)})`, backgroundSize: 'cover', backgroundPosition: 'center', flexShrink: 0, cursor: 'pointer', border: '1px solid #ded7ee' } : { width: '32px', height: '32px', borderRadius: '8px', background: 'rgba(50,38,90,.06)', flexShrink: 0, cursor: 'pointer', border: '1px dashed #ccc4e6', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '9px', color: '#938db0' } }))
+      works: wgMap[g].map(w => ({ id: w.id, nameVal: w.name, isCurrent: w.id === this.state.currentWorkId, onName: (e) => this.updateSettingsDraft({ works: draftWorks.map(x => x.id === w.id ? { ...x, name: e.target.value } : x) }), onLogo: () => this.uploadWorkLogo(w.id), onDel: () => this.delWork(w), onPick: () => this.switchWork(w.id), useStyle: { flexShrink: 0, fontFamily: 'inherit', fontSize: '12px', fontWeight: 700, cursor: 'pointer', padding: '6px 10px', borderRadius: '7px', border: '1px solid ' + (w.id === this.state.currentWorkId ? '#2f6fdb' : '#ded7ee'), background: w.id === this.state.currentWorkId ? 'rgba(47,111,219,.1)' : 'transparent', color: w.id === this.state.currentWorkId ? '#2f6fdb' : '#b9b3d2' }, useText: w.id === this.state.currentWorkId ? '用' : '否', logoStyle: this.workLogo(w.id) ? { width: '32px', height: '32px', borderRadius: '8px', backgroundImage: `url(${this.workLogo(w.id)})`, backgroundSize: 'cover', backgroundPosition: 'center', flexShrink: 0, cursor: 'pointer', border: '1px solid #ded7ee' } : { width: '32px', height: '32px', borderRadius: '8px', background: 'rgba(50,38,90,.06)', flexShrink: 0, cursor: 'pointer', border: '1px dashed #ccc4e6', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '9px', color: '#938db0' } }))
     }));
     const headerLogoUrl = this.workLogo(this.state.currentWorkId) || this.logoUrl || 'assets/logo.png';
     const cnPrefix = (this.state.collectorName || '').trim();
@@ -1603,12 +2255,13 @@ class Component extends DCLogic {
     return {
       setRoot: this.setRoot, setImportRef: this.setImportRef, stop: this.stop,
       workGroupLabel: this.state.workGroupLabel, workGroupName: curWork.group || this.DEFAULT_GROUP, workName: curWork.name || '', workTabs, workGroups, workMenuOpen: this.state.workMenuOpen, toggleWorkMenu: this.toggleWorkMenu, addWork: this.addWork,
-      openSettings: this.openSettings, closeSettings: this.closeSettings, settingsOpen: this.state.settingsOpen,
-      cnVal: this.state.collectorName || '', curVal: this.cur(), accentVal: this.state.accent || this.props.accent || '#ff3355', titleVal: this.state.title || '', subtitleVal: this.state.subtitle || '', footerVal: this.state.footer || '',
-      onCn: this.onSettingField('collectorName', 'zzz_cn'), onCurrency: this.onSettingField('currency', 'zzz_currency'), onAccent: this.onSettingField('accent', 'zzz_accent'), onTitleSet: this.onSettingField('title', 'zzz_title'), onSubtitleSet: this.onSettingField('subtitle', 'zzz_subtitle'), onFooterSet: this.onSettingField('footer', 'zzz_footer'),
-      trendOpen: this.state.trendOpen, closeTrend: this.closeTrend, saveTrend: this.saveTrend, addTrendRow: this.addTrendRow, trendRowsView, trendMetrics, trendTitle: (trendIt.name || '未命名') + ' · 价格趋势', setChartCanvas: this.setChartCanvas, trendHasData: !tr.empty, onOcr: this.handleOcr, ocrStatus: this.state.ocrStatus || '',
-      labels, workManageRows, fieldRows, optionGroups, customFieldRows, draftCustomInputs, hasCustomFields: (this.state.customFields || []).length > 0, addCustomField: this.addCustomField, workSettingGroups, addGroupAlone: this.addGroupAlone, uploadBg: this.uploadBg, clearBg: this.clearBg, hasBg: !!this.bgUrl, addWorkInline: this.addWork,
-      addFormOpt: this.addOptionTo('formOrder', 'zzz_form_order', '输入新的形态'), addStatusOpt: this.addOptionTo('statusList', 'zzz_status', '输入新的状态'), addAcquireOpt: this.addOptionTo('acquireOrder', 'zzz_acquire_order', '输入新的获取方式'),
+      openSettings: this.openSettings, closeSettings: this.cancelSettings, cancelSettings: this.cancelSettings, saveSettings: this.saveSettings, clearAllData: this.clearAllData, settingsOpen: this.state.settingsOpen,
+      cnVal: sd.collectorName || '', curVal: sd.currency || this.cur(), accentVal: sd.accent || this.props.accent || '#ff3355', titleVal: sd.title || '', subtitleVal: sd.subtitle || '', footerVal: sd.footer || '',
+      onCn: this.onDraftSettingField('collectorName'), onCurrency: this.onDraftSettingField('currency'), onAccent: this.onDraftSettingField('accent'), onTitleSet: this.onDraftSettingField('title'), onSubtitleSet: this.onDraftSettingField('subtitle'), onFooterSet: this.onDraftSettingField('footer'),
+      showWelcomeCard: !cnPrefix, cloudSyncCode: this.state.cloudSyncCode || '', hasCloudCode: !!this.state.cloudSyncCode, noCloudCode: !this.state.cloudSyncCode, hasCloudStatus: !!this.state.cloudStatus, cloudStatus: this.state.cloudStatus || '', copyCloudCode: this.copyCloudCode, cloudCodeInput: this.state.cloudCodeInput || '', onCloudCodeInput: this.onCloudCodeInput, createCloudCollection: this.createCloudCollection, connectCloudCollection: this.connectCloudCollection, pushCloud: this.pushCloud, pullCloud: this.pullCloud, disconnectCloud: this.disconnectCloud, hasCloudSync: !!this.state.cloudSyncId, cloudSyncText: this.state.cloudSyncCode ? ('当前同步代码：' + this.state.cloudSyncCode + '。' + (this.state.cloudStatus || '')) : (this.state.cloudStatus || '未连接云同步。'),
+      trendOpen: this.state.trendOpen, closeTrend: this.closeTrend, saveTrend: this.saveTrend, addTrendRow: this.addTrendRow, trendRowsView, trendMetrics, trendTitle: (trendIt.name || '未命名') + ' · 价格趋势', setChartCanvas: this.setChartCanvas, trendHasData: !tr.empty, onOcr: this.handleOcr, ocrStatus: this.state.ocrStatus || '', hasOcrText: !!(this.state.ocrRawText || this.state.ocrBulkText), ocrRawText: this.state.ocrRawText || '', ocrBulkText: this.state.ocrBulkText || '', onOcrRawChange: this.onOcrRawChange, onOcrBulkChange: this.onOcrBulkChange, reparseOcrRaw: this.reparseOcrRaw, fillOcrBulk: this.fillOcrBulk,
+      labels, workManageRows, fieldRows, optionGroups, customFieldRows, draftCustomInputs, hasCustomFields: draftCustomFields.length > 0, addCustomField: this.addCustomField, restoreBaseFields: this.restoreBaseFields, workSettingGroups, addGroupAlone: this.addGroupAlone, uploadBg: this.uploadBg, clearBg: this.clearBg, hasBg: !!this.bgUrl, addWorkInline: this.addWork,
+      addFormOpt: this.addOptionTo('formOrder', 'zzz_form_order', '输入新的形态'), addStatusOpt: this.addOptionTo('statusList', 'zzz_status', '输入新的状态'), addAcquireOpt: this.addOptionTo('acquireOrder', 'zzz_acquire_order', '输入新的获取方式'), formMenuItems, formDisplay, formMenuOpen: this.state.formMenuOpen, toggleFormMenu: this.toggleFormMenu, statusMenuItems, statusDisplay, statusMenuOpen: this.state.statusMenuOpen, toggleStatusMenu: this.toggleStatusMenu, acquireMenuItems, acquireDisplay, acquireMenuOpen: this.state.acquireMenuOpen, toggleAcquireMenu: this.toggleAcquireMenu,
       lblCharacter: labels.character, lblType: labels.type, lblChannel: labels.channel, lblStatus: labels.status, lblForm: labels.form, lblAcquire: labels.acquire,
       cnPrefix, hasCn: !!cnPrefix,
       rootBgStyle: this.bgUrl ? { backgroundImage: `linear-gradient(rgba(236,232,246,.82),rgba(236,232,246,.92)), url(${this.bgUrl})`, backgroundSize: 'cover', backgroundAttachment: 'fixed', backgroundPosition: 'center' } : {},
@@ -1623,9 +2276,9 @@ class Component extends DCLogic {
       setTable: this.setTable, setGallery: this.setGallery, setCircle: this.setCircle,
       tableBtnStyle: this.segStyle(view === 'table'), galleryBtnStyle: this.segStyle(view === 'gallery'), circleBtnStyle: this.segStyle(view === 'circle'),
       openAdd: this.openAdd,
-      search, onSearch: this.onSearch, charChips, addCharacter: this.addCharacter, typeChips, seriesChips, showSeriesFilter, formChips, acquireChips, channelChips, showChannelFilter, groupByChips, hasRows: filtered.length > 0, fCountText, fCostText, fSellText, fNetText, fProfitText, fProfitStyle,
-      labelChar: labels.character, labelType: labels.type, labelSeries: labels.series, labelChannel: labels.channel, labelForm: labels.form, labelAcquire: labels.acquire,
-      showCharF: this.state.filterOn.character !== false, showTypeF: this.state.filterOn.type !== false, showFormF: this.state.filterOn.form !== false, showAcquireF: this.state.filterOn.acquire !== false,
+      search, onSearch: this.onSearch, charChips, addCharacter: this.addCharacter, typeChips, seriesChips, showSeriesFilter, formChips, statusChips, showStatusFilter, acquireChips, channelChips, showChannelFilter, customFilterRows, groupByChips, hasRows: filtered.length > 0, fCountText, fCostText, fSellText, fNetText, fProfitText, fProfitStyle,
+      labelChar: labels.character, labelType: labels.type, labelSeries: labels.series, labelChannel: labels.channel, labelForm: labels.form, labelStatus: labels.status, labelAcquire: labels.acquire,
+      showCharF: fieldVisible('character') && this.state.filterOn.character !== false, showTypeF: fieldVisible('type') && this.state.filterOn.type !== false, showFormF: fieldVisible('form') && this.state.filterOn.form !== false, showStatusF: showStatusFilter, showAcquireF: fieldVisible('acquire') && this.state.filterOn.acquire !== false,
       showSeriesF: showSeriesFilter && this.state.filterOn.series !== false, showChannelF: showChannelFilter && this.state.filterOn.channel !== false,
       displayRows, isEmpty: itemRows.length === 0, isTable: view === 'table', isGallery: view === 'gallery', isCircle: view === 'circle',
       modalOpen: this.state.modalOpen, modalTitle: this.state.editing ? '编辑谷子' : '新增谷子', isEditing: !!this.state.editing, duplicateCurrent: this.duplicateCurrent, deleteCurrent: this.deleteCurrent,
