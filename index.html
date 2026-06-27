@@ -156,7 +156,7 @@
     <!-- ===== STATS ===== -->
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:13px;margin-bottom:20px">
       <div style="background:linear-gradient(150deg,#ffffff,#ffffff);border:1px solid #e1dbf0;border-radius:16px;padding:16px 18px">
-        <div style="font-size:12px;color:#544f7e;margin-bottom:8px">总花费 · 一共花了多少</div>
+        <div style="font-size:12px;color:#544f7e;margin-bottom:8px">总消费金额</div>
         <div style="font-family:'Orbitron';font-weight:700;font-size:24px;color:#251d49">{{ statIn }}</div>
       </div>
       <div style="background:linear-gradient(150deg,#ffffff,#ffffff);border:1px solid #e1dbf0;border-radius:16px;padding:16px 18px">
@@ -296,8 +296,8 @@
       <div style="display:flex;align-items:center;gap:10px 22px;flex-wrap:wrap;background:linear-gradient(120deg,#ffffff,#f3f0fb);border:1px solid #e1dbf0;border-left:3px solid var(--accent,#ff3355);border-radius:12px;padding:12px 16px;margin-bottom:16px">
         <span style="font-size:13px;font-weight:700;color:#251d49">当前筛选</span>
         <span style="font-size:12.5px;color:#544f7e">{{ fCountText }}</span>
-        <span style="font-size:12.5px;color:#544f7e">投入 <span style="font-family:'Orbitron';color:#251d49">{{ fCostText }}</span></span>
-        <span style="font-size:12.5px;color:#544f7e">卖出 <span style="font-family:'Orbitron';color:#c8860d">{{ fSellText }}</span></span>
+        <span style="font-size:12.5px;color:#544f7e">氪金 <span style="font-family:'Orbitron';color:#251d49">{{ fCostText }}</span></span>
+        <span style="font-size:12.5px;color:#544f7e">回血 <span style="font-family:'Orbitron';color:#c8860d">{{ fSellText }}</span></span>
         <span style="font-size:12.5px;color:#544f7e">净支出 <span style="font-family:'Orbitron';color:#251d49">{{ fNetText }}</span></span>
         <span style="font-size:12.5px;color:#544f7e">盈亏 <span style="font-family:'Orbitron'"><span style="{{ fProfitStyle }}">{{ fProfitText }}</span></span></span>
       </div>
@@ -308,7 +308,7 @@
       <div style="text-align:center;padding:70px 20px;color:#837da4;background:rgba(255,255,255,.5);border:1px dashed #ded7ee;border-radius:18px">
         <div style="font-size:38px;font-weight:900;color:#ded7ee;letter-spacing:.1em;margin-bottom:14px">スヤスヤ…</div>
         <div style="font-size:15px;margin-bottom:6px">这里还空空如也</div>
-        <div style="font-size:13px;margin-bottom:20px">把你的第一只谷子收进梦境档案吧</div>
+        <div style="font-size:13px;margin-bottom:20px">把你的第一只谷子收进来吧</div>
         <button onClick="{{ openAdd }}" style="font-family:inherit;font-size:14px;font-weight:700;color:#fff;background:var(--accent,#ff3355);border:none;padding:10px 20px;border-radius:11px;cursor:pointer">＋ 新增谷子</button>
       </div>
     </sc-if>
@@ -396,7 +396,7 @@
             <div class="ui-table-cell">分组</div>
             <div class="ui-table-cell">状态</div>
             <div class="ui-table-cell ui-table-center">数量</div>
-            <div class="ui-table-cell ui-table-num">原价(日元)</div>
+            <div class="ui-table-cell ui-table-num">原价(日元/人民币)</div>
             <div class="ui-table-cell ui-table-num">买入价</div>
             <div class="ui-table-cell ui-table-num">邮费(内·际)</div>
             <div class="ui-table-cell ui-table-num">卖出价</div>
@@ -556,7 +556,7 @@
             </div>
 
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>角色</span><button onClick="{{ addCharacter }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer">添加</button></div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>角色（设置内可自定义）</span><button onClick="{{ addCharacter }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer">添加</button></div>
               <select name="character" value="{{ draft.character }}" onChange="{{ onDraftChange }}" style="display:none"></select>
               <div style="position:relative">
                 <button onClick="{{ toggleCharMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ charDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
@@ -574,7 +574,7 @@
               </div>
             </div>
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>种类（可自定义）</span><button onClick="{{ addType }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer">添加</button></div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>种类（设置内可自定义）</span><button onClick="{{ addType }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer">添加</button></div>
               <div style="position:relative">
                 <button onClick="{{ toggleTypeMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ typeDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
                 <sc-if value="{{ typeMenuOpen }}" hint-placeholder-val="{{ false }}">
@@ -592,7 +592,7 @@
             </div>
 
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>厂商/品牌（可自定义·归类用）</span><button onClick="{{ addSeries }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer">添加</button></div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>厂商/品牌（设置内可自定义）</span><button onClick="{{ addSeries }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer">添加</button></div>
               <div style="position:relative">
                 <button onClick="{{ toggleSeriesMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ seriesDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
                 <sc-if value="{{ seriesMenuOpen }}" hint-placeholder-val="{{ false }}">
@@ -611,7 +611,7 @@
             </div>
             <div>
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">细分 / 款式</div>
-              <input name="subtype" value="{{ draft.subtype }}" onChange="{{ onDraftChange }}" placeholder="例：趴趴 / 坐姿 / 大头" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              <input name="subtype" value="{{ draft.subtype }}" onChange="{{ onDraftChange }}" placeholder="例：趴趴 / Chibi / 娃娃机" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
 
             <div>
@@ -632,7 +632,7 @@
             </div>
 
             <div style="position:relative">
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>购买渠道 / 店铺</span><button onClick="{{ addChannel }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer">添加</button></div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>购买渠道 / 店铺（设置内可自定义）</span><button onClick="{{ addChannel }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer">添加</button></div>
               <button onClick="{{ toggleChannelMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ channelDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
               <sc-if value="{{ channelMenuOpen }}" hint-placeholder-val="{{ false }}">
                 <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:5;background:#ffffff;border:1px solid #ded7ee;border-radius:11px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:240px;overflow-y:auto">
@@ -973,7 +973,7 @@
             <sc-if value="{{ trendHasData }}" hint-placeholder-val="{{ false }}">
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
                 <div style="background:rgba(50,38,90,.04);border:1px solid #e1dbf0;border-radius:11px;padding:10px 12px"><div style="font-size:11px;color:#837da4">近期加权价</div><div style="font-family:'Orbitron';font-weight:700;font-size:18px;color:#251d49">{{ trendMetrics.weighted }}</div></div>
-                <div style="background:rgba(50,38,90,.04);border:1px solid #e1dbf0;border-radius:11px;padding:10px 12px"><div style="font-size:11px;color:#837da4">建议挂牌</div><div style="font-family:'Orbitron';font-weight:700;font-size:18px;color:#251d49">{{ trendMetrics.list }}</div></div>
+                <div style="background:rgba(50,38,90,.04);border:1px solid #e1dbf0;border-radius:11px;padding:10px 12px"><div style="font-size:11px;color:#837da4">建议标价</div><div style="font-family:'Orbitron';font-weight:700;font-size:18px;color:#251d49">{{ trendMetrics.list }}</div></div>
                 <div style="background:rgba(50,38,90,.04);border:1px solid #e1dbf0;border-radius:11px;padding:10px 12px"><div style="font-size:11px;color:#837da4">预计成交</div><div style="font-family:'Orbitron';font-weight:700;font-size:18px;color:#c8860d">{{ trendMetrics.deal }}</div></div>
                 <div style="background:rgba(50,38,90,.04);border:1px solid #e1dbf0;border-radius:11px;padding:10px 12px"><div style="font-size:11px;color:#837da4">预计盈亏</div><div style="font-family:'Orbitron';font-weight:700;font-size:18px"><span style="{{ trendMetrics.profitStyle }}">{{ trendMetrics.profit }}</span></div></div>
               </div>
@@ -1017,7 +1017,7 @@ class Component extends DCLogic {
     let items = [], hasStoredItems = false;
     try { const raw = localStorage.getItem('zzz_goods_v1'); if (raw != null) { hasStoredItems = true; items = JSON.parse(raw) || []; } } catch (e) { items = []; }
     if (!Array.isArray(items)) items = [];
-    if (!hasStoredItems && !items.length) { items = this.samples(); }
+    if (!hasStoredItems && !items.length) 
     else if (!localStorage.getItem('zzz_migrated_v2')) {
       // 一次性迁移：仅在升级时跑一次，之后永不改动用户数据
       const cmap = { '万津莫 / ZZZ': '万津莫／ゼッツ', '宁梦': 'ねむ', '万津美浪': '万津美波', '诺克斯 / Nox': 'ノクス', 'ZERO 零': 'ゼロ／零', '南云成华': '南雲なすか', '富士见铁也': '富士見鉄也', 'THE LADY': 'ザ・レディ', '梦魇': 'ナイトメア' };
