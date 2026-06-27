@@ -588,13 +588,13 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:&quot;100%&quot;},&quot;currency&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;¥&quot;,&quot;$&quot;,&quot;S$&quot;,&quot;NT$&quot;,&quot;HK$&quot;,&quot;€&quot;],&quot;default&quot;:&quot;¥&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#ff3355&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;startView&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;gallery&quot;,&quot;table&quot;],&quot;default&quot;:&quot;gallery&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
 class Component extends DCLogic {
-  CHARACTERS = ['万津莫','ねむ','万津美浪','富士見鉄也','南雲なすか','ノクス／诺克斯','ザ・レディ','ジーク','ゼロ／零','仮面ライダーゼッツ','仮面ライダーノクス','仮面ライダードォーン','ノクスナイト','仮面ライダーノクス ミッドナイトシャドウ','CODE','其他'];
-  TYPES = ['吧唧','亚克力立牌','亚克力挂件','毛绒','色纸/卡片','贴纸','文件夹','挂绳/吊饰','布制品','包袋/收纳','影像碟片','其他'];
-  STATUSES = ['已到货','在途/运输中','已下单未发货','想要/计划购买','出售中','已出/已卖出'];
-  STATUS_COLOR = {'已到货':'#12a85f','在途/运输中':'#c8860d','已下单未发货':'#2f6fdb','想要/计划购买':'#7c5cd6','出售中':'#d9701f','已出/已卖出':'#6f6996'};
-  FORMS = ['通用','人脸','皮套'];
-  CHANNELS = ['プレミアムバンダイ','万代官店','一番くじ','駿河屋','メルカリ','代购','闲鱼','官方商店','其他'];
-  CHAR_IMG = { '万津莫': 'assets/c_matsu.webp', 'ねむ': 'assets/c_nemu.webp', '万津美浪': 'assets/c_minami.webp', '富士見鉄也': 'assets/c_fujimi.webp', '南雲なすか': 'assets/c_nagumo.webp', 'ノクス／诺克斯': 'assets/c_nox.webp', 'ザ・レディ': 'assets/c_lady.webp', 'ジーク': 'assets/c_zeke.webp', 'ゼロ／零': 'assets/c_zero.webp', '仮面ライダーゼッツ': 'assets/r_red.webp', '仮面ライダーノクス': 'assets/r_blue.webp', '仮面ライダードォーン': 'assets/r_zeztz.webp', 'ノクスナイト': 'assets/r_lady.webp', '仮面ライダーノクス ミッドナイトシャドウ': 'assets/r_nox_midnight.webp', 'CODE': 'assets/c_code.webp' };
+  CHARACTERS = [];
+  TYPES = [];
+  STATUSES = [];
+  STATUS_COLOR = {};
+  FORMS = [];
+  CHANNELS = [];
+  CHAR_IMG = {};
   imgUrls = {};
   state = { items: [], view: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], acquireSel: [], channelSel: [], channels: [], channelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, hiddenTypes: [], hiddenChannels: [], modalOpen: false, editing: null, draft: null, savedAt: 0 };
 
@@ -602,20 +602,6 @@ class Component extends DCLogic {
   setImportRef = (el) => { this.importRef = el; };
   stop = (e) => { e.stopPropagation(); };
 
-  componentDidMount() {
-    let items = [];
-    try { const raw = localStorage.getItem('zzz_goods_v1'); if (raw) items = JSON.parse(raw); } catch (e) {}
-    if (!items || !items.length) { items = this.samples(); }
-    else if (!localStorage.getItem('zzz_migrated_v2')) {
-      // 一次性迁移：仅在升级时跑一次，之后永不改动用户数据
-      const cmap = { '万津莫 / ZZZ': '万津莫／ゼッツ', '宁梦': 'ねむ', '万津美浪': '万津美波', '诺克斯 / Nox': 'ノクス', 'ZERO 零': 'ゼロ／零', '南云成华': '南雲なすか', '富士见铁也': '富士見鉄也', 'THE LADY': 'ザ・レディ', '梦魇': 'ナイトメア' };
-      const nmap = { '宁梦 趴趴毛绒挂件': 'ねむ 趴趴毛绒挂件', '诺克斯 吧唧（重复出物）': 'ノクス 吧唧（重复出物）' };
-      items = items.map(it => ({ ...it, character: cmap[it.character] || it.character, name: nmap[it.name] || it.name }));
-      const tmap = { '立牌': '亚克力立牌', '挂件/钥匙扣': '亚克力挂件', '徽章盒/收纳': '包袋/收纳' };
-      const chrmap = { '万津莫／ゼッツ': '万津莫', '万津美波': '万津美浪', 'ジーク／ドォーン': 'ジーク', '仮面ライダーゼロ': 'ノクスナイト', 'ナイトメア': '其他', 'ノクス': 'ノクス／诺克斯' };
-      items = items.map(it => { const x = { ...it }; if (chrmap[x.character]) x.character = chrmap[x.character]; if (chrmap[x.swapCharacter]) x.swapCharacter = chrmap[x.swapCharacter]; if (tmap[x.type]) x.type = tmap[x.type]; if (x.type === '盲盒') { x.acquire = '盲盒'; x.type = '其他'; } if (x.type === '单领') { x.acquire = '单领'; x.type = '其他'; } return x; });
-      try { localStorage.setItem('zzz_migrated_v2', '1'); } catch (e) {}
-    }
     // 仅补全缺失的新字段默认值（不覆盖任何已有值）
     items = items.map(it => ({ form: '通用', series: '', heat: 0, rate: '', acquire: '直购', swapped: '未置换', swapTo: '', swapCharacter: '', swapImageId: null, imageId2: null, group: '收藏', ...it }));
     try { localStorage.setItem('zzz_goods_v1', JSON.stringify(items)); } catch (e) {}
@@ -658,15 +644,6 @@ class Component extends DCLogic {
       }
     }
     if (changed) this.forceUpdate();
-  }
-
-  samples() {
-    const t = Date.now();
-    return [
-      { id: 'it_s1', name: '万津莫 觉醒形态 亚克力立牌', character: '仮面ライダーゼッツ', type: '亚克力立牌', subtype: '', group: '收藏', status: '已到货', qty: '1', originalPrice: '88', buyPrice: '95', shipDom: '8', shipIntl: '0', sellPrice: '', channel: '万代官店', buyDate: '2025-10-01', note: '', imageId: null },
-      { id: 'it_s2', name: 'ねむ 趴趴毛绒挂件', character: 'ねむ', type: '毛绒', subtype: '趴趴', group: '收藏', status: '在途/运输中', qty: '1', originalPrice: '120', buyPrice: '138', shipDom: '12', shipIntl: '45', sellPrice: '', channel: '日亚代购', buyDate: '2025-11-20', note: '直邮，预计两周到', imageId: null },
-      { id: 'it_s3', name: 'ノクス 吧唧（重复出物）', character: 'ノクス', type: '吧唧', subtype: '', group: '出物', status: '出售中', qty: '3', originalPrice: '15', buyPrice: '12', shipDom: '6', shipIntl: '0', sellPrice: '20', channel: '闲鱼', buyDate: '2025-09-15', note: '原价出，包国内邮', imageId: null }
-    ];
   }
 
   // ---- IndexedDB ----
