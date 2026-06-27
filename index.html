@@ -1017,7 +1017,7 @@ class Component extends DCLogic {
     let items = [], hasStoredItems = false;
     try { const raw = localStorage.getItem('zzz_goods_v1'); if (raw != null) { hasStoredItems = true; items = JSON.parse(raw) || []; } } catch (e) { items = []; }
     if (!Array.isArray(items)) items = [];
-    if (!hasStoredItems && !items.length) 
+    if (!hasStoredItems && !items.length) }
     else if (!localStorage.getItem('zzz_migrated_v2')) {
       // 一次性迁移：仅在升级时跑一次，之后永不改动用户数据
       const cmap = { '万津莫 / ZZZ': '万津莫／ゼッツ', '宁梦': 'ねむ', '万津美浪': '万津美波', '诺克斯 / Nox': 'ノクス', 'ZERO 零': 'ゼロ／零', '南云成华': '南雲なすか', '富士见铁也': '富士見鉄也', 'THE LADY': 'ザ・レディ', '梦魇': 'ナイトメア' };
