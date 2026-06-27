@@ -1210,7 +1210,7 @@ class Component extends DCLogic {
       fieldLabels: { ...this.FIELD_DEFAULTS, ...fieldLabels }, filterOn, statsOn, deletedFields, customFields, customFilterOrder, ...lists, savedAt: Date.now()
     });
   }
-  async createCloudCollection() {
+  createCloudCollection = async () => {
     if (!this.cloudReady()) { this.setState({ cloudStatus: 'Supabase 未连接，请检查网络或配置。' }); return; }
     this.setState({ cloudBusy: true, cloudStatus: '正在创建同步代码…' });
     try {
@@ -1226,9 +1226,9 @@ class Component extends DCLogic {
       }
       this.setState({ cloudStatus: '创建失败，请稍后再试。', cloudBusy: false });
     } catch (e) { this.setState({ cloudStatus: '创建失败：' + (e.message || e), cloudBusy: false }); }
-  }
+  };
   onCloudCodeInput = (e) => this.setState({ cloudCodeInput: (e.target.value || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8) });
-  async connectCloudCollection() {
+  connectCloudCollection = async () => {
     const code = (this.state.cloudCodeInput || '').trim().toUpperCase();
     if (!code) { this.setState({ cloudStatus: '请先输入同步代码。' }); return; }
     if (!this.cloudReady()) { this.setState({ cloudStatus: 'Supabase 未连接，请检查网络或配置。' }); return; }
@@ -1240,8 +1240,8 @@ class Component extends DCLogic {
       await this.applyCloudSnapshot(data.data || {});
       this.setState({ cloudSyncId: data.id, cloudSyncCode: data.sync_code, cloudCodeInput: data.sync_code, cloudStatus: '已连接：' + data.sync_code, cloudBusy: false });
     } catch (e) { this.setState({ cloudStatus: '连接失败：' + (e.message || e), cloudBusy: false }); }
-  }
-  async pushCloud() {
+  };
+  pushCloud = async () => {
     const id = this.state.cloudSyncId || localStorage.getItem('zzz_cloud_id');
     if (!this.cloudReady() || !id) { this.setState({ cloudStatus: '还没有连接同步代码。' }); return; }
     this.setState({ cloudBusy: true, cloudStatus: '正在上传到云端…' });
@@ -1250,8 +1250,8 @@ class Component extends DCLogic {
       if (error) throw error;
       this.setState({ cloudStatus: '已上传到云端。', cloudBusy: false });
     } catch (e) { this.setState({ cloudStatus: '上传失败：' + (e.message || e), cloudBusy: false }); }
-  }
-  async pullCloud() {
+  };
+  pullCloud = async () => {
     const id = this.state.cloudSyncId || localStorage.getItem('zzz_cloud_id');
     if (!this.cloudReady() || !id) { this.setState({ cloudStatus: '还没有连接同步代码。' }); return; }
     this.setState({ cloudBusy: true, cloudStatus: '正在从云端读取…' });
@@ -1261,7 +1261,7 @@ class Component extends DCLogic {
       await this.applyCloudSnapshot(data.data || {});
       this.setState({ cloudStatus: '已从云端同步。', cloudBusy: false });
     } catch (e) { this.setState({ cloudStatus: '读取失败：' + (e.message || e), cloudBusy: false }); }
-  }
+  };
   disconnectCloud = () => { try { localStorage.removeItem('zzz_cloud_id'); localStorage.removeItem('zzz_cloud_code'); } catch(e) {} this.setState({ cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '已退出云同步，本地数据仍保留。' }); };
   copyCloudCode = async () => { const code = (this.state.cloudSyncCode || this.state.cloudCodeInput || '').trim(); if (!code) { this.setState({ cloudStatus: '还没有同步代码，先生成一个吧。' }); return; } try { await navigator.clipboard.writeText(code); this.setState({ cloudStatus: '已复制同步代码：' + code }); } catch(e) { window.prompt('复制这串同步代码：', code); } };
   clearAllData = async () => {
