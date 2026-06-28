@@ -1479,7 +1479,6 @@ class Component extends DCLogic {
       { label: '成交价', data: result.rows.map(r => r.price), tension: .25, pointRadius: 4, borderWidth: 3, borderColor: this.state.accent || this.props.accent || '#ff3355', backgroundColor: 'rgba(255,51,85,.08)' },
       { label: '3单均价', data: result.ma, tension: .25, pointRadius: 0, borderWidth: 2, borderColor: '#7c5cd6' }
     ];
-    if (this.num(it.originalPrice) > 0) ds.push({ label: '原价', data: labels.map(() => this.num(it.originalPrice)), pointRadius: 0, borderWidth: 2, borderDash: [7, 5], borderColor: '#12a85f' });
     if (e.buy > 0) ds.push({ label: '买入价', data: labels.map(() => e.buy), pointRadius: 0, borderWidth: 2, borderDash: [4, 4], borderColor: '#c8860d' });
     try { this._chart = new window.Chart(this.chartCanvas, { type: 'line', data: { labels, datasets: ds }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { size: 11 } } }, tooltip: { callbacks: { label: c => `${c.dataset.label}: ${cur}${c.raw}` } } }, scales: { y: { ticks: { callback: v => cur + v } }, x: { grid: { display: false } } } } }); } catch (e2) {}
   }
