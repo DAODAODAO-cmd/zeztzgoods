@@ -593,7 +593,7 @@
             </div>
 
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>厂商/品牌（设置内可自定义）</span><button onClick="{{ addSeries }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer">添加</button></div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>厂商（设置内可自定义）</span><button onClick="{{ addSeries }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer">添加</button></div>
               <div style="position:relative">
                 <button onClick="{{ toggleSeriesMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ seriesDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
                 <sc-if value="{{ seriesMenuOpen }}" hint-placeholder-val="{{ false }}">
@@ -1005,7 +1005,7 @@ class Component extends DCLogic {
   DEFAULT_GROUP = '假面骑士系列';
   SUPA_URL = 'https://kgifcpdajnyhxxmenazz.supabase.co';
   SUPA_KEY = 'sb_publishable_Bvg4r_n3JiokW3cY3NDo3A_9M2CNfaU';
-  FIELD_DEFAULTS = { character: '角色', type: '种类', series: '厂商/品牌', channel: '渠道', status: '状态', form: '形态', acquire: '获取' };
+  FIELD_DEFAULTS = { character: '角色', type: '种类', series: '厂商', channel: '渠道', status: '状态', form: '形态', acquire: '获取' };
   CHAR_IMG = { '万津莫': 'assets/c_matsu.webp', 'ねむ': 'assets/c_nemu.webp', '万津美浪': 'assets/c_minami.webp', '富士見鉄也': 'assets/c_fujimi.webp', '南雲なすか': 'assets/c_nagumo.webp', 'ノクス／诺克斯': 'assets/c_nox.webp', 'ザ・レディ': 'assets/c_lady.webp', 'ジーク': 'assets/c_zeke.webp', 'ゼロ／零': 'assets/c_zero.webp', '仮面ライダーゼッツ': 'assets/r_red.webp', '仮面ライダーノクス': 'assets/r_blue.webp', '仮面ライダードォーン': 'assets/r_zeztz.webp', 'ノクスナイト': 'assets/r_lady.webp', '仮面ライダーノクス ミッドナイトシャドウ': 'assets/r_nox_midnight.webp', 'CODE': 'assets/c_code.webp' };
   imgUrls = {};
   state = { items: [], view: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, hiddenTypes: [], hiddenChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, trendOpen: false, trendItemId: null, trendRows: [], trendResult: null, ocrRawText: '', ocrBulkText: '', modalOpen: false, editing: null, draft: null, savedAt: 0 };
