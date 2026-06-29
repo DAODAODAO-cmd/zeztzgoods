@@ -122,7 +122,7 @@
         <div style="font-size:13.5px;color:#544f7e;line-height:1.8">
           在开始收谷之前，先给自己的收藏库起个名字吧！<br>
           以后换电脑、换手机的时候，复制同步代码，收藏就会跟着你一起搬家啦 ✨<br>
-          💡 温馨提示： 推荐先在电脑网页端批量上传图片、整理收藏，再导入到手机。图片和资料都会一起保留，日常查看、补充记录会更方便。
+          温馨提示: 推荐先在电脑网页端批量上传图片、整理收藏，再导入到手机。图片和资料都会一起保留，日常查看、补充记录会更方便。
         </div>
         <button onClick="{{ openSettings }}" style="margin-top:12px;font-family:inherit;font-size:13px;font-weight:700;color:#fff;background:var(--accent,#ff3355);border:none;padding:9px 16px;border-radius:10px;cursor:pointer;box-shadow:0 6px 18px rgba(255,51,85,.24)">前往设置</button>
       </div>
@@ -201,7 +201,7 @@
 
     <!-- ===== FILTERS ===== -->
     <div style="background:rgba(255,255,255,.6);border:1px solid #e3def1;border-radius:14px;padding:14px 16px;margin-bottom:18px;display:flex;flex-direction:column;gap:12px">
-      <input value="{{ search }}" onChange="{{ onSearch }}" placeholder="🔍 搜索名称 / 角色 / 渠道 / 备注…" style="width:100%;padding:10px 13px;border-radius:10px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+      <input value="{{ search }}" onChange="{{ onSearch }}" placeholder="🔍 搜索名称 / 角色 / 种类 / 备注…" style="width:100%;padding:10px 13px;border-radius:10px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
       <sc-if value="{{ showCharF }}" hint-placeholder-val="{{ true }}">
       <div style="display:flex;align-items:center;gap:9px">
         <span style="font-size:12px;color:#837da4;flex-shrink:0;width:34px">{{ labelChar }}</span>
@@ -283,14 +283,14 @@
       </div>
       </sc-for>
       <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
-        <span style="font-size:12px;color:#837da4;flex-shrink:0;width:34px">统计</span>
+        <span style="font-size:12px;color:#837da4;flex-shrink:0;width:34px">分组</span>
         <div style="display:flex;gap:7px;flex-wrap:wrap">
           <sc-for list="{{ groupByChips }}" as="chip" hint-placeholder-count="3">
             <button onClick="{{ chip.onClick }}" style="{{ chip.style }}">{{ chip.label }}</button>
           </sc-for>
         </div>
       </div>
-      <div style="font-size:11.5px;color:#938db0">角色 / 种类 / 形态 / 状态 / 获取 / 渠道 可多选；拖动标签可换顺序；双击标签可改名；拖动收藏卡片可换顺序</div>
+      <div style="font-size:11.5px;color:#938db0">角色 / 种类 / 形态 / 状态 / 来源 / 平台 可多选；拖动标签可换顺序；双击标签可改名；拖动收藏卡片可换顺序</div>
     </div>
 
     <sc-if value="{{ hasRows }}" hint-placeholder-val="{{ false }}">
@@ -372,7 +372,7 @@
                   <div style="text-align:right"><div style="font-size:11px;color:#837da4">盈亏</div><div style="font-family:'Orbitron';font-size:15px"><span style="{{ row.profitStyle }}">{{ row.profitText }}</span></div></div>
                 </sc-if>
               </div>
-              <sc-if value="{{ row.hasChannel }}" hint-placeholder-val="{{ false }}"><div style="font-size:11.5px;color:#837da4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">渠道 · {{ row.channelText }}</div></sc-if>
+              <sc-if value="{{ row.hasChannel }}" hint-placeholder-val="{{ false }}"><div style="font-size:11.5px;color:#837da4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">平台 · {{ row.channelText }}</div></sc-if>
               <sc-if value="{{ row.hasHeld }}" hint-placeholder-val="{{ false }}"><div style="font-size:11.5px;color:#837da4">⏳ {{ row.heldText }}</div></sc-if>
               <div style="display:flex;gap:7px;margin-top:3px">
                 <button onClick="{{ row.onEdit }}" style="flex:1;font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:7px;border-radius:9px;cursor:pointer">编辑</button>
@@ -402,7 +402,7 @@
             <div class="ui-table-cell ui-table-num">邮费(内·际)</div>
             <div class="ui-table-cell ui-table-num">卖出价</div>
             <div class="ui-table-cell ui-table-num">盈亏</div>
-            <div class="ui-table-cell">渠道</div>
+            <div class="ui-table-cell">平台</div>
             <div class="ui-table-cell">日期</div>
             <div class="ui-table-cell ui-table-center">操作</div>
           </div>
@@ -633,7 +633,7 @@
             </div>
 
             <div style="position:relative">
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>购买渠道 / 店铺（设置内可自定义）</span><button onClick="{{ addChannel }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer">添加</button></div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>购买平台 / 店铺（设置内可自定义）</span><button onClick="{{ addChannel }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer">添加</button></div>
               <button onClick="{{ toggleChannelMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ channelDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
               <sc-if value="{{ channelMenuOpen }}" hint-placeholder-val="{{ false }}">
                 <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:5;background:#ffffff;border:1px solid #ded7ee;border-radius:11px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:240px;overflow-y:auto">
@@ -866,12 +866,12 @@
 
           <div style="border-top:1px solid #e1dbf0;padding-top:16px">
             <div style="font-weight:700;font-size:14px;color:#251d49;margin-bottom:4px">字段管理</div>
-            <div style="font-size:11.5px;color:#938db0;margin-bottom:10px">改字段名称；「顶部筛选」决定是否出现在首页筛选栏，「统计」决定是否出现在统计分组里。</div>
+            <div style="font-size:11.5px;color:#938db0;margin-bottom:10px">改字段名称；「顶部筛选」决定是否出现在首页筛选栏，「分组」决定是否出现在分组分组里。</div>
             <div style="display:flex;flex-direction:column;gap:8px">
               <sc-for list="{{ fieldRows }}" as="f" hint-placeholder-count="7">
                 <div style="display:flex;gap:10px;align-items:center">
                   <input value="{{ f.labelVal }}" onChange="{{ f.onLabel }}" style="flex:1;min-width:0;min-height:36px;padding:7px 9px;border-radius:8px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:13px;font-family:inherit;outline:none;box-sizing:border-box">
-                  <div onClick="{{ f.onToggle }}" style="{{ f.filterStyle }}"><span style="{{ f.dot }}"><span style="{{ f.knob }}"></span></span>顶部筛选</div><div onClick="{{ f.onStatsToggle }}" style="{{ f.statStyle }}"><span style="{{ f.statDot }}"><span style="{{ f.statKnob }}"></span></span>统计</div><button onClick="{{ f.onDel }}" title="删除字段" style="flex-shrink:0;width:26px;height:26px;border-radius:6px;border:none;background:rgba(226,59,93,.1);color:#e23b5d;cursor:pointer;font-size:14px;line-height:1">×</button>
+                  <div onClick="{{ f.onToggle }}" style="{{ f.filterStyle }}"><span style="{{ f.dot }}"><span style="{{ f.knob }}"></span></span>顶部筛选</div><div onClick="{{ f.onStatsToggle }}" style="{{ f.statStyle }}"><span style="{{ f.statDot }}"><span style="{{ f.statKnob }}"></span></span>分组</div><button onClick="{{ f.onDel }}" title="删除字段" style="flex-shrink:0;width:26px;height:26px;border-radius:6px;border:none;background:rgba(226,59,93,.1);color:#e23b5d;cursor:pointer;font-size:14px;line-height:1">×</button>
                 </div>
               </sc-for>
             </div>
@@ -879,7 +879,7 @@
               <sc-for list="{{ customFieldRows }}" as="cf" hint-placeholder-count="0">
                 <div style="display:flex;gap:10px;align-items:center">
                   <input value="{{ cf.labelVal }}" onChange="{{ cf.onLabel }}" placeholder="自定义字段名" style="flex:1;min-width:0;min-height:36px;padding:7px 9px;border-radius:8px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:13px;font-family:inherit;outline:none;box-sizing:border-box">
-                  <div onClick="{{ cf.onToggle }}" style="{{ cf.filterStyle }}"><span style="{{ cf.dot }}"><span style="{{ cf.knob }}"></span></span>顶部筛选</div><div onClick="{{ cf.onStatsToggle }}" style="{{ cf.statStyle }}"><span style="{{ cf.statDot }}"><span style="{{ cf.statKnob }}"></span></span>统计</div>
+                  <div onClick="{{ cf.onToggle }}" style="{{ cf.filterStyle }}"><span style="{{ cf.dot }}"><span style="{{ cf.knob }}"></span></span>顶部筛选</div><div onClick="{{ cf.onStatsToggle }}" style="{{ cf.statStyle }}"><span style="{{ cf.statDot }}"><span style="{{ cf.statKnob }}"></span></span>分组</div>
                   <button onClick="{{ cf.onDel }}" style="flex-shrink:0;width:26px;height:26px;border-radius:6px;border:none;background:rgba(226,59,93,.1);color:#e23b5d;cursor:pointer;font-size:14px;line-height:1">×</button>
                 </div>
               </sc-for>
@@ -1005,7 +1005,7 @@ class Component extends DCLogic {
   DEFAULT_GROUP = '假面骑士系列';
   SUPA_URL = 'https://kgifcpdajnyhxxmenazz.supabase.co';
   SUPA_KEY = 'sb_publishable_Bvg4r_n3JiokW3cY3NDo3A_9M2CNfaU';
-  FIELD_DEFAULTS = { character: '角色', type: '种类', series: '厂商', channel: '渠道', status: '状态', form: '形态', acquire: '获取' };
+  FIELD_DEFAULTS = { character: '角色', type: '种类', series: '厂商', channel: '平台', status: '状态', form: '形态', acquire: '来源' };
   CHAR_IMG = { '万津莫': 'assets/c_matsu.webp', 'ねむ': 'assets/c_nemu.webp', '万津美浪': 'assets/c_minami.webp', '富士見鉄也': 'assets/c_fujimi.webp', '南雲なすか': 'assets/c_nagumo.webp', 'ノクス／诺克斯': 'assets/c_nox.webp', 'ザ・レディ': 'assets/c_lady.webp', 'ジーク': 'assets/c_zeke.webp', 'ゼロ／零': 'assets/c_zero.webp', '仮面ライダーゼッツ': 'assets/r_red.webp', '仮面ライダーノクス': 'assets/r_blue.webp', '仮面ライダードォーン': 'assets/r_zeztz.webp', 'ノクスナイト': 'assets/r_lady.webp', '仮面ライダーノクス ミッドナイトシャドウ': 'assets/r_nox_midnight.webp', 'CODE': 'assets/c_code.webp' };
   imgUrls = {};
   state = { items: [], view: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, hiddenTypes: [], hiddenChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, trendOpen: false, trendItemId: null, trendRows: [], trendResult: null, ocrRawText: '', ocrBulkText: '', modalOpen: false, editing: null, draft: null, savedAt: 0 };
@@ -1505,7 +1505,7 @@ class Component extends DCLogic {
   deleteBaseField = (key) => () => {
     const name = this.flabel(key);
     if (this.state.settingsDraft) {
-      if (!window.confirm('删除字段「' + name + '」？对应编辑项、顶部筛选和统计会一起隐藏。')) return;
+      if (!window.confirm('删除字段「' + name + '」？对应编辑项、顶部筛选和分组会一起隐藏。')) return;
       const d = this.state.settingsDraft;
       const deletedFields = [...new Set([...(this.state.deletedFields || []), key])];
       const filterOn = { ...(d.filterOn || {}) }; const statsOn = { ...(d.statsOn || {}) };
@@ -1514,7 +1514,7 @@ class Component extends DCLogic {
       try { localStorage.setItem('zzz_deleted_fields', JSON.stringify(deletedFields)); } catch (e) {}
       return;
     }
-    if (!window.confirm('确定删除字段「' + name + '」吗？删除后编辑页、顶部筛选、统计都会一起隐藏。')) return;
+    if (!window.confirm('确定删除字段「' + name + '」吗？删除后编辑页、顶部筛选、分组都会一起隐藏。')) return;
     const deletedFields = [...new Set([...(this.state.deletedFields || []), key])];
     const filterOn = { ...(this.state.filterOn || {}) };
     const statsOn = { ...(this.state.statsOn || {}) };
@@ -1760,10 +1760,10 @@ class Component extends DCLogic {
     const items = this.state.items.map(x => (x.series || '') === cur ? { ...x, series: nv } : x);
     this.commit(items); this.setState(s => ({ draft: { ...s.draft, series: nv } }));
   };
-  onChannelChange = (e) => { let v = e.target.value; if (v === '__custom__') { v = (window.prompt('输入新的购买渠道 / 店铺名称') || '').trim(); if (v === '') return; } else if (v === '__rename__') { return this.renameChannel(); } else if (v === '__delete__') { return this.deleteChannel(); } this.setState(s => ({ draft: { ...s.draft, channel: v } })); };
+  onChannelChange = (e) => { let v = e.target.value; if (v === '__custom__') { v = (window.prompt('输入新的购买平台 / 店铺名称') || '').trim(); if (v === '') return; } else if (v === '__rename__') { return this.renameChannel(); } else if (v === '__delete__') { return this.deleteChannel(); } this.setState(s => ({ draft: { ...s.draft, channel: v } })); };
   renameChannel = () => {
-    const cur = this.state.draft ? (this.state.draft.channel || '') : ''; if (!cur) { alert('请先选中一个渠道再重命名'); return; }
-    const nv = (window.prompt('将渠道「' + cur + '」重命名为（会同步修改所有该渠道的谷子）：', cur) || '').trim();
+    const cur = this.state.draft ? (this.state.draft.channel || '') : ''; if (!cur) { alert('请先选中一个平台再重命名'); return; }
+    const nv = (window.prompt('将平台「' + cur + '」重命名为（会同步修改所有该平台的谷子）：', cur) || '').trim();
     if (nv === cur) return;
     const items = this.state.items.map(x => (x.channel || '') === cur ? { ...x, channel: nv } : x);
     this.commit(items); this.setState(s => ({ draft: { ...s.draft, channel: nv } }));
@@ -1771,7 +1771,7 @@ class Component extends DCLogic {
   deleteChannel = () => {
     const cur = this.state.draft ? (this.state.draft.channel || '') : ''; if (!cur) return;
     const used = this.state.items.filter(x => (x.channel || '') === cur).length;
-    if (used > 0) { alert('还有 ' + used + ' 件谷子在用「' + cur + '」，无法删除。可先把它们改成别的渠道。'); return; }
+    if (used > 0) { alert('还有 ' + used + ' 件谷子在用「' + cur + '」，无法删除。可先把它们改成别的平台。'); return; }
     const hiddenChannels = [...new Set([...(this.state.hiddenChannels || []), cur])];
     try { localStorage.setItem(this.wkey('zzz_hidden_channels'), JSON.stringify(hiddenChannels)); } catch (e) {}
     this.setState(s => ({ hiddenChannels, draft: { ...s.draft, channel: '' } }));
@@ -1918,8 +1918,8 @@ class Component extends DCLogic {
   delSeriesItem = (c, ev) => { ev.stopPropagation(); this.saveList('seriesList', 'zzz_series', this.state.seriesList.filter(x => x !== c)); };
   toggleChannelMenu = () => this.setState(s => ({ channelMenuOpen: !s.channelMenuOpen }));
   pickChannel = (c) => this.setState(s => ({ draft: { ...s.draft, channel: c }, channelMenuOpen: false }));
-  addChannel = () => { const v = (window.prompt('输入新的购买渠道 / 店铺') || '').trim(); if (!v) return; if (!this.state.channels.includes(v)) this.saveChannels([...this.state.channels, v]); this.setState(s => ({ draft: { ...s.draft, channel: v }, channelMenuOpen: false })); };
-  renameChannelItem = (c, ev) => { ev.stopPropagation(); const nv = (window.prompt('重命名渠道「' + c + '」为（会同步修改所有该渠道的谷子）：', c) || '').trim(); if (!nv || nv === c) return; this.saveChannels(this.state.channels.map(x => x === c ? nv : x)); const items = this.state.items.map(x => (x.channel || '') === c ? { ...x, channel: nv } : x); this.commit(items); this.setState(s => ({ channelSel: (s.channelSel || []).map(x => x === c ? nv : x), draft: s.draft ? { ...s.draft, channel: s.draft.channel === c ? nv : s.draft.channel } : s.draft })); };
+  addChannel = () => { const v = (window.prompt('输入新的购买平台 / 店铺') || '').trim(); if (!v) return; if (!this.state.channels.includes(v)) this.saveChannels([...this.state.channels, v]); this.setState(s => ({ draft: { ...s.draft, channel: v }, channelMenuOpen: false })); };
+  renameChannelItem = (c, ev) => { ev.stopPropagation(); const nv = (window.prompt('重命名平台「' + c + '」为（会同步修改所有该平台的谷子）：', c) || '').trim(); if (!nv || nv === c) return; this.saveChannels(this.state.channels.map(x => x === c ? nv : x)); const items = this.state.items.map(x => (x.channel || '') === c ? { ...x, channel: nv } : x); this.commit(items); this.setState(s => ({ channelSel: (s.channelSel || []).map(x => x === c ? nv : x), draft: s.draft ? { ...s.draft, channel: s.draft.channel === c ? nv : s.draft.channel } : s.draft })); };
   delChannelItem = (c, ev) => { ev.stopPropagation(); this.saveChannels(this.state.channels.filter(x => x !== c)); };
   toggleSel = (key, value) => { this.setState(s => { if (value === '__all__') return { [key]: [] }; const cur = s[key] || []; return { [key]: cur.includes(value) ? cur.filter(x => x !== value) : [...cur, value] }; }); };
   toggleCustomFilter = (key, value) => { this.setState(s => { const all = { ...(s.customFilterSel || {}) }; if (value === '__all__') { all[key] = []; return { customFilterSel: all }; } const cur = all[key] || []; all[key] = cur.includes(value) ? cur.filter(x => x !== value) : [...cur, value]; return { customFilterSel: all }; }); };
@@ -1978,7 +1978,7 @@ class Component extends DCLogic {
     const typeChips = typeList.map(t => ({ label: t, ...this.chipDrag(t, 'type'), onDblClick: t === '全部' ? null : (ev) => this.renameTypeItem(t, ev), style: this.chipStyle(t === '全部' ? typeSel.length === 0 : typeSel.includes(t)), onClick: () => this.toggleSel('typeSel', t === '全部' ? '__all__' : t) }));
     const statsOn = this.state.statsOn || {};
     const statEnabled = (k) => statsOn[k] !== false;
-    const groupBaseOptions = [{ k: 'none', l: '不分组', always: true }, { k: 'workGroup', l: '按系列IP', always: true }, { k: 'work', l: '按作品', always: true }, { k: 'character', l: '按角色' }, { k: 'type', l: '按种类' }, { k: 'series', l: '按系列' }, { k: 'form', l: '按形态' }, { k: 'status', l: '按状态' }, { k: 'acquire', l: '按获取' }, { k: 'channel', l: '按渠道' }].filter(o => o.always || (fieldVisible(o.k) && statEnabled(o.k))); 
+    const groupBaseOptions = [{ k: 'none', l: '不分组', always: true }, { k: 'workGroup', l: '按系列IP', always: true }, { k: 'work', l: '按作品', always: true }, { k: 'character', l: '按角色' }, { k: 'type', l: '按种类' }, { k: 'series', l: '按系列' }, { k: 'form', l: '按形态' }, { k: 'status', l: '按状态' }, { k: 'acquire', l: '按来源' }, { k: 'channel', l: '按平台' }].filter(o => o.always || (fieldVisible(o.k) && statEnabled(o.k))); 
     const customGroupOptions = (this.state.customFields || []).filter(f => statEnabled(f.key)).map(f => ({ k: 'custom:' + f.key, l: '按' + f.label }));
     let groupBySafe = groupBy;
     const availableGroupKeys = new Set([...groupBaseOptions, ...customGroupOptions].map(o => o.k));
@@ -1995,7 +1995,7 @@ class Component extends DCLogic {
     const statusChips = ['全部', ...statusBase].map(x => ({ label: x, ...this.chipDrag(x, 'status'), onDblClick: x === '全部' ? null : (ev) => this.renameListOption('statusList', 'zzz_status', 'status', x, '状态', ev), style: this.chipStyle(x === '全部' ? statusSel.length === 0 : statusSel.includes(x)), onClick: () => this.toggleSel('statusSel', x === '全部' ? '__all__' : x) }));
     const showStatusFilter = fieldVisible('status') && !!this.state.filterOn.status;
     const acquireBase = (this.state.acquireOrder && this.state.acquireOrder.length) ? this.state.acquireOrder : ['直购', '单领', '盲盒'];
-    const acquireChips = ['全部', ...acquireBase].map(x => ({ label: x, ...this.chipDrag(x, 'acquire'), onDblClick: x === '全部' ? null : (ev) => this.renameListOption('acquireOrder', 'zzz_acquire_order', 'acquire', x, '获取方式', ev), style: this.chipStyle(x === '全部' ? acquireSel.length === 0 : acquireSel.includes(x)), onClick: () => this.toggleSel('acquireSel', x === '全部' ? '__all__' : x) }));
+    const acquireChips = ['全部', ...acquireBase].map(x => ({ label: x, ...this.chipDrag(x, 'acquire'), onDblClick: x === '全部' ? null : (ev) => this.renameListOption('acquireOrder', 'zzz_acquire_order', 'acquire', x, '来源方式', ev), style: this.chipStyle(x === '全部' ? acquireSel.length === 0 : acquireSel.includes(x)), onClick: () => this.toggleSel('acquireSel', x === '全部' ? '__all__' : x) }));
     const presentChannels = [...new Set(items.map(i => i.channel).filter(Boolean))];
     const chBase = (this.state.channels && this.state.channels.length) ? this.state.channels : presentChannels;
     const chOrdered = [...chBase.filter(x => presentChannels.includes(x)), ...presentChannels.filter(x => !chBase.includes(x))];
@@ -2023,8 +2023,8 @@ class Component extends DCLogic {
     const statusMenuItems = ((this.state.statusList && this.state.statusList.length) ? this.state.statusList : this.STATUSES).map(c => ({ name: c, onPick: () => this.pickStatus(c), onRename: (ev) => this.renameListOption('statusList', 'zzz_status', 'status', c, '状态', ev), onDel: (ev) => this.delListOption('statusList', 'zzz_status', 'status', c, ev), rowStyle: this.menuRow(dStatus === c) }));
     const statusDisplay = dStatus || '选择状态';
     const dAcquire = this.state.draft ? (this.state.draft.acquire || '') : '';
-    const acquireMenuItems = ((this.state.acquireOrder && this.state.acquireOrder.length) ? this.state.acquireOrder : ['直购', '单领', '盲盒']).map(c => ({ name: c, onPick: () => this.pickAcquire(c), onRename: (ev) => this.renameListOption('acquireOrder', 'zzz_acquire_order', 'acquire', c, '获取方式', ev), onDel: (ev) => this.delListOption('acquireOrder', 'zzz_acquire_order', 'acquire', c, ev), rowStyle: this.menuRow(dAcquire === c) }));
-    const acquireDisplay = dAcquire || '选择获取方式';
+    const acquireMenuItems = ((this.state.acquireOrder && this.state.acquireOrder.length) ? this.state.acquireOrder : ['直购', '单领', '盲盒']).map(c => ({ name: c, onPick: () => this.pickAcquire(c), onRename: (ev) => this.renameListOption('acquireOrder', 'zzz_acquire_order', 'acquire', c, '来源方式', ev), onDel: (ev) => this.delListOption('acquireOrder', 'zzz_acquire_order', 'acquire', c, ev), rowStyle: this.menuRow(dAcquire === c) }));
+    const acquireDisplay = dAcquire || '选择来源方式';
     const dSeries = this.state.draft ? (this.state.draft.series || '') : '';
     const seriesMenuItems = (this.state.seriesList || []).map(c => ({ name: c, onPick: () => this.pickSeries(c), onRename: (ev) => this.renameSeriesItem(c, ev), onDel: (ev) => this.delSeriesItem(c, ev), rowStyle: this.menuRow(dSeries === c) }));
     const seriesDisplay = dSeries || '（未分类）';
@@ -2259,7 +2259,7 @@ class Component extends DCLogic {
       showWelcomeCard: !cnPrefix, cloudSyncCode: this.state.cloudSyncCode || '', hasCloudCode: !!this.state.cloudSyncCode, noCloudCode: !this.state.cloudSyncCode, hasCloudStatus: !!this.state.cloudStatus, cloudStatus: this.state.cloudStatus || '', copyCloudCode: this.copyCloudCode, cloudCodeInput: this.state.cloudCodeInput || '', onCloudCodeInput: this.onCloudCodeInput, createCloudCollection: this.createCloudCollection, connectCloudCollection: this.connectCloudCollection, pushCloud: this.pushCloud, pullCloud: this.pullCloud, disconnectCloud: this.disconnectCloud, hasCloudSync: !!this.state.cloudSyncId, cloudSyncText: this.state.cloudSyncCode ? ('当前同步代码：' + this.state.cloudSyncCode + '。' + (this.state.cloudStatus || '')) : (this.state.cloudStatus || '未连接云同步。'),
       trendOpen: this.state.trendOpen, closeTrend: this.closeTrend, saveTrend: this.saveTrend, addTrendRow: this.addTrendRow, trendRowsView, trendMetrics, trendTitle: (trendIt.name || '未命名') + ' · 价格趋势', setChartCanvas: this.setChartCanvas, trendHasData: !tr.empty, onOcr: this.handleOcr, ocrStatus: this.state.ocrStatus || '', hasOcrText: !!(this.state.ocrRawText || this.state.ocrBulkText), ocrRawText: this.state.ocrRawText || '', ocrBulkText: this.state.ocrBulkText || '', onOcrRawChange: this.onOcrRawChange, onOcrBulkChange: this.onOcrBulkChange, reparseOcrRaw: this.reparseOcrRaw, fillOcrBulk: this.fillOcrBulk,
       labels, workManageRows, fieldRows, optionGroups, customFieldRows, draftCustomInputs, hasCustomFields: draftCustomFields.length > 0, addCustomField: this.addCustomField, restoreBaseFields: this.restoreBaseFields, workSettingGroups, addGroupAlone: this.addGroupAlone, uploadBg: this.uploadBg, clearBg: this.clearBg, hasBg: !!this.bgUrl, addWorkInline: this.addWork,
-      addFormOpt: this.addOptionTo('formOrder', 'zzz_form_order', '输入新的形态'), addStatusOpt: this.addOptionTo('statusList', 'zzz_status', '输入新的状态'), addAcquireOpt: this.addOptionTo('acquireOrder', 'zzz_acquire_order', '输入新的获取方式'), formMenuItems, formDisplay, formMenuOpen: this.state.formMenuOpen, toggleFormMenu: this.toggleFormMenu, statusMenuItems, statusDisplay, statusMenuOpen: this.state.statusMenuOpen, toggleStatusMenu: this.toggleStatusMenu, acquireMenuItems, acquireDisplay, acquireMenuOpen: this.state.acquireMenuOpen, toggleAcquireMenu: this.toggleAcquireMenu,
+      addFormOpt: this.addOptionTo('formOrder', 'zzz_form_order', '输入新的形态'), addStatusOpt: this.addOptionTo('statusList', 'zzz_status', '输入新的状态'), addAcquireOpt: this.addOptionTo('acquireOrder', 'zzz_acquire_order', '输入新的来源方式'), formMenuItems, formDisplay, formMenuOpen: this.state.formMenuOpen, toggleFormMenu: this.toggleFormMenu, statusMenuItems, statusDisplay, statusMenuOpen: this.state.statusMenuOpen, toggleStatusMenu: this.toggleStatusMenu, acquireMenuItems, acquireDisplay, acquireMenuOpen: this.state.acquireMenuOpen, toggleAcquireMenu: this.toggleAcquireMenu,
       lblCharacter: labels.character, lblType: labels.type, lblChannel: labels.channel, lblStatus: labels.status, lblForm: labels.form, lblAcquire: labels.acquire,
       cnPrefix, hasCn: !!cnPrefix,
       rootBgStyle: this.bgUrl ? { backgroundImage: `linear-gradient(rgba(236,232,246,.82),rgba(236,232,246,.92)), url(${this.bgUrl})`, backgroundSize: 'cover', backgroundAttachment: 'fixed', backgroundPosition: 'center' } : {},
@@ -2282,7 +2282,7 @@ class Component extends DCLogic {
       modalOpen: this.state.modalOpen, modalTitle: this.state.editing ? '编辑谷子' : '新增谷子', isEditing: !!this.state.editing, duplicateCurrent: this.duplicateCurrent, deleteCurrent: this.deleteCurrent,
       draft: d || this.emptyDraft(),
       CHARACTERS: this.orderedChars(), TYPES: this.TYPES, STATUSES: this.state.statusList || this.STATUSES, FORMS: this.FORMS,
-      closeModal: this.closeModal, saveItem: this.saveItem, onDraftChange: this.onDraftChange, charMenuItems, charDisplay, charMenuOpen: this.state.charMenuOpen, toggleCharMenu: this.toggleCharMenu, onTypeChange: this.onTypeChange, onSeriesChange: this.onSeriesChange, fillName: this.fillName, draftStars, typeMenuItems, typeDisplay, hasTypeMenuItems, typeMenuOpen: this.state.typeMenuOpen, toggleTypeMenu: this.toggleTypeMenu, addType: this.addType, seriesMenuItems, seriesDisplay, hasSeriesMenuItems, seriesMenuOpen: this.state.seriesMenuOpen, toggleSeriesMenu: this.toggleSeriesMenu, addSeries: this.addSeries, clearSeries: this.clearSeries, channelMenuItems, channelMenuOpen: this.state.channelMenuOpen, toggleChannelMenu: this.toggleChannelMenu, addChannel: this.addChannel, channelDisplay: (this.state.draft && this.state.draft.channel) ? this.state.draft.channel : '选择渠道 / 点右边添加', hasChannelMenuItems: (this.state.channels || []).length > 0, fillBuyFromRate: this.fillBuyFromRate, draftHasConv, draftConvText, draftIsGacha, draftSwapped,
+      closeModal: this.closeModal, saveItem: this.saveItem, onDraftChange: this.onDraftChange, charMenuItems, charDisplay, charMenuOpen: this.state.charMenuOpen, toggleCharMenu: this.toggleCharMenu, onTypeChange: this.onTypeChange, onSeriesChange: this.onSeriesChange, fillName: this.fillName, draftStars, typeMenuItems, typeDisplay, hasTypeMenuItems, typeMenuOpen: this.state.typeMenuOpen, toggleTypeMenu: this.toggleTypeMenu, addType: this.addType, seriesMenuItems, seriesDisplay, hasSeriesMenuItems, seriesMenuOpen: this.state.seriesMenuOpen, toggleSeriesMenu: this.toggleSeriesMenu, addSeries: this.addSeries, clearSeries: this.clearSeries, channelMenuItems, channelMenuOpen: this.state.channelMenuOpen, toggleChannelMenu: this.toggleChannelMenu, addChannel: this.addChannel, channelDisplay: (this.state.draft && this.state.draft.channel) ? this.state.draft.channel : '选择平台 / 点右边添加', hasChannelMenuItems: (this.state.channels || []).length > 0, fillBuyFromRate: this.fillBuyFromRate, draftHasConv, draftConvText, draftIsGacha, draftSwapped,
       onImagePick: this.onImagePick, onImagePick2: this.onImagePick2, onImagePickSwap: this.onImagePickSwap, removeDraftImg: this.removeDraftImg, removeDraftImg2: this.removeDraftImg2, removeDraftSwapImg: this.removeDraftSwapImg,
       draftCostText, draftHasSell, draftProfitText, draftProfitStyle, draftThumbBg, draftHasImg, draftNoImg, draftThumbBg2, draftHasImg2, draftNoImg2, draftSwapThumbBg, draftSwapHasImg, draftSwapNoImg
     };
