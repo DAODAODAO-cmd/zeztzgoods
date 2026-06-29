@@ -1827,7 +1827,8 @@ class Component extends DCLogic {
     let logo = null; try { const lb = await this.idbGet('zzz_logo'); if (lb) logo = await this.blobToDataURL(lb); } catch (e) {}
     const payload = { v: 2, exportedAt: new Date().toISOString(), items: this.state.items, images, meta, charAvatars, logo };
     const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
-    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'ゼッツ谷子备份_' + new Date().toISOString().slice(0, 10) + '.json'; a.click();
+    const cn = (this.state.collectorName || '').trim();
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = (cn ? cn + '谷子备份' : '谷子备份') + '_' + new Date().toISOString().slice(0, 10) + '.json'; a.click();
     setTimeout(() => URL.revokeObjectURL(a.href), 2000);
   };
   triggerImport = () => { if (this.importRef) this.importRef.click(); };
