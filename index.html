@@ -94,6 +94,9 @@
   .ui-table-cell{padding:9px 10px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .ui-table-num{text-align:right;font-family:'Orbitron';}
   .ui-table-center{text-align:center;}
+  .ui-table-sort-btn{width:100%;font:inherit;font-weight:700;color:inherit;background:none;border:none;padding:0;cursor:pointer;text-align:left;display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+  .ui-table-num .ui-table-sort-btn,.ui-table-center .ui-table-sort-btn{justify-content:flex-end;text-align:right}
+  .ui-table-sort-mark{font-size:10px;color:var(--accent,#ff3355);min-width:10px;display:inline-block}
 
   /* ===== 手机清爽模式：同一个 index.html，手机自动更轻，完整模式可切回 ===== */
   .ui-mobile-mode-button,.ui-mobile-filter-toggle{display:none !important;}
@@ -481,19 +484,19 @@
         <div class="ui-table-grid">
           <div class="ui-table-row ui-table-head">
             <div class="ui-table-cell">图片</div>
-            <div class="ui-table-cell">名称</div>
-            <div class="ui-table-cell">角色</div>
-            <div class="ui-table-cell">种类 / 细分</div>
-            <div class="ui-table-cell">分组</div>
-            <div class="ui-table-cell">状态</div>
-            <div class="ui-table-cell ui-table-center">数量</div>
-            <div class="ui-table-cell ui-table-num">原价(日元/人民币)</div>
-            <div class="ui-table-cell ui-table-num">买入价</div>
-            <div class="ui-table-cell ui-table-num">邮费(内·际)</div>
-            <div class="ui-table-cell ui-table-num">卖出价</div>
-            <div class="ui-table-cell ui-table-num">盈亏</div>
-            <div class="ui-table-cell">平台</div>
-            <div class="ui-table-cell">日期</div>
+            <div class="ui-table-cell"><button class="ui-table-sort-btn" onClick="{{ sortByName }}">名称<span class="ui-table-sort-mark">{{ sortNameMark }}</span></button></div>
+            <div class="ui-table-cell"><button class="ui-table-sort-btn" onClick="{{ sortByCharacter }}">角色<span class="ui-table-sort-mark">{{ sortCharacterMark }}</span></button></div>
+            <div class="ui-table-cell"><button class="ui-table-sort-btn" onClick="{{ sortByType }}">种类 / 细分<span class="ui-table-sort-mark">{{ sortTypeMark }}</span></button></div>
+            <div class="ui-table-cell"><button class="ui-table-sort-btn" onClick="{{ sortByGroup }}">分组<span class="ui-table-sort-mark">{{ sortGroupMark }}</span></button></div>
+            <div class="ui-table-cell"><button class="ui-table-sort-btn" onClick="{{ sortByStatus }}">状态<span class="ui-table-sort-mark">{{ sortStatusMark }}</span></button></div>
+            <div class="ui-table-cell ui-table-center"><button class="ui-table-sort-btn" onClick="{{ sortByQty }}">数量<span class="ui-table-sort-mark">{{ sortQtyMark }}</span></button></div>
+            <div class="ui-table-cell ui-table-num"><button class="ui-table-sort-btn" onClick="{{ sortByOriginal }}">原价(日元/人民币)<span class="ui-table-sort-mark">{{ sortOriginalMark }}</span></button></div>
+            <div class="ui-table-cell ui-table-num"><button class="ui-table-sort-btn" onClick="{{ sortByBuy }}">买入价<span class="ui-table-sort-mark">{{ sortBuyMark }}</span></button></div>
+            <div class="ui-table-cell ui-table-num"><button class="ui-table-sort-btn" onClick="{{ sortByShip }}">邮费(内·际)<span class="ui-table-sort-mark">{{ sortShipMark }}</span></button></div>
+            <div class="ui-table-cell ui-table-num"><button class="ui-table-sort-btn" onClick="{{ sortBySell }}">卖出价<span class="ui-table-sort-mark">{{ sortSellMark }}</span></button></div>
+            <div class="ui-table-cell ui-table-num"><button class="ui-table-sort-btn" onClick="{{ sortByProfit }}">盈亏<span class="ui-table-sort-mark">{{ sortProfitMark }}</span></button></div>
+            <div class="ui-table-cell"><button class="ui-table-sort-btn" onClick="{{ sortByChannel }}">平台<span class="ui-table-sort-mark">{{ sortChannelMark }}</span></button></div>
+            <div class="ui-table-cell"><button class="ui-table-sort-btn" onClick="{{ sortByDate }}">日期<span class="ui-table-sort-mark">{{ sortDateMark }}</span></button></div>
             <div class="ui-table-cell ui-table-center">操作</div>
           </div>
           <sc-for list="{{ displayRows }}" as="row" hint-placeholder-count="5">
@@ -1200,7 +1203,7 @@ class Component extends DCLogic {
   FIELD_DEFAULTS = { character: '角色', type: '种类', series: '厂商', channel: '平台', status: '状态', form: '形态', acquire: '来源' };
   CHAR_IMG = { '诺克斯': 'assets/c_nox.webp', 'NOX': 'assets/c_nox.webp', 'MIDNIGHT SHADOW': 'assets/r_nox_midnight.webp', 'NOX KNIGHT': 'assets/r_lady.webp', 'ZEZTZ': 'assets/r_red.webp', '西格': 'assets/c_zeke.webp', 'DAWN': 'assets/r_zeztz.webp', '宁梦': 'assets/c_nemu.webp', '南云成华': 'assets/c_nagumo.webp', 'ZERO': 'assets/c_zero.webp', '万津莫': 'assets/c_matsu.webp', 'ねむ': 'assets/c_nemu.webp', '万津美浪': 'assets/c_minami.webp', '富士見鉄也': 'assets/c_fujimi.webp', '南雲なすか': 'assets/c_nagumo.webp', 'ノクス／诺克斯': 'assets/c_nox.webp', 'ザ・レディ': 'assets/c_lady.webp', 'ジーク': 'assets/c_zeke.webp', 'ゼロ／零': 'assets/c_zero.webp', '仮面ライダーゼッツ': 'assets/r_red.webp', '仮面ライダーノクス': 'assets/r_blue.webp', '仮面ライダードォーン': 'assets/r_zeztz.webp', 'ノクスナイト': 'assets/r_lady.webp', '仮面ライダーノクス ミッドナイトシャドウ': 'assets/r_nox_midnight.webp', 'CODE': 'assets/c_code.webp' };
   imgUrls = {};
-  state = { items: [], view: null, monthlyBudget: '', nameStyleMode: 'default', displayMode: 'standard', dashboardCards: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, trendOpen: false, trendItemId: null, trendRows: [], trendResult: null, ocrRawText: '', ocrBulkText: '', modalOpen: false, editing: null, draft: null, savedAt: 0 };
+  state = { items: [], view: null, monthlyBudget: '', tableSortKey: '', tableSortDir: 'desc', nameStyleMode: 'default', displayMode: 'standard', dashboardCards: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, trendOpen: false, trendItemId: null, trendRows: [], trendResult: null, ocrRawText: '', ocrBulkText: '', modalOpen: false, editing: null, draft: null, savedAt: 0 };
 
   setRoot = (el) => { this.rootEl = el; if (el) { const a = this.state.accent || this.props.accent || '#ff3355'; el.style.setProperty('--accent', a); try { document.documentElement.style.setProperty('--accent', a); } catch (e) {} this.applyBg(); } };
   setImportRef = (el) => { this.importRef = el; };
@@ -2130,6 +2133,7 @@ class Component extends DCLogic {
   // ---- view setters ----
   setTable = () => this.setState({ view: 'table' });
   setLedger = () => this.setState({ view: 'ledger' });
+  toggleTableSort = (key) => this.setState(s => ({ tableSortKey: key, tableSortDir: s.tableSortKey === key && s.tableSortDir === 'desc' ? 'asc' : 'desc', view: 'table' }));
   onBudgetChange = (e) => { const monthlyBudget = e.target.value; try { localStorage.setItem('zzz_monthly_budget', monthlyBudget); } catch (er) {} this.setState({ monthlyBudget }); };
   onBudgetQuickEdit = () => { const current = this.state.monthlyBudget || ''; const v = window.prompt('请输入本月预算', current); if (v === null) return; const clean = String(v || '').trim(); if (clean && (isNaN(Number(clean)) || Number(clean) < 0)) { window.alert('预算请输入大于等于 0 的数字'); return; } try { localStorage.setItem('zzz_monthly_budget', clean); } catch (er) {} this.setState({ monthlyBudget: clean }); };
   setGallery = () => this.setState({ view: 'gallery' });
@@ -2420,7 +2424,21 @@ class Component extends DCLogic {
     const matchChannel = it => !fieldVisible('channel') || channelSel.length === 0 || channelSel.includes(it.channel || '');
     const matchCustomFilters = it => Object.entries(this.state.customFilterSel || {}).every(([k, arr]) => !arr || !arr.length || arr.includes((it.custom && it.custom[k]) || ''));
     const filteredBase = baseList.filter(it => (!fieldVisible('character') || charSel.length === 0 || charSel.includes(it.character)) && (!fieldVisible('type') || typeSel.length === 0 || typeSel.includes(it.type)) && (!fieldVisible('series') || seriesFilter === '全部' || (it.series || '') === seriesFilter) && matchForm(it) && matchStatus(it) && matchAcquire(it) && matchChannel(it) && matchCustomFilters(it) && matchSearch(it));
-    const filtered = [...filteredBase].sort((a, b) => { const ra = this.reminderInfo(a), rb = this.reminderInfo(b); if (!!ra.active !== !!rb.active) return ra.active ? -1 : 1; if (ra.active && rb.active) return ra.days - rb.days; return 0; });
+    const sortKey = this.state.tableSortKey || '';
+    const sortDir = this.state.tableSortDir === 'asc' ? 1 : -1;
+    const sortText = v => String(v || '').trim();
+    const sortNum = v => { const n = Number(v); return Number.isFinite(n) ? n : 0; };
+    const sortDateNum = v => { const t = v ? new Date(v + 'T00:00:00').getTime() : 0; return Number.isFinite(t) ? t : 0; };
+    const sortValue = (it, key) => { const e = this.enrich(it); const typeFull = (it.type || '') + (it.subtype ? ' · ' + it.subtype : ''); const ship = e.sd + e.si; const map = { name: sortText(it.name), character: sortText(it.character), type: sortText(typeFull), group: sortText(this.groupOf(it)), status: sortText(it.status), qty: sortNum(e.qty), original: sortNum(it.originalPrice), buy: sortNum(e.buy), ship: sortNum(ship), sell: sortNum(e.sell), profit: sortNum(e.profit), channel: sortText(it.channel), date: sortDateNum(it.buyDate) }; return map[key]; };
+    const filtered = [...filteredBase].sort((a, b) => {
+      if (view === 'table' && sortKey) {
+        const av = sortValue(a, sortKey), bv = sortValue(b, sortKey);
+        if (typeof av === 'string' || typeof bv === 'string') return sortText(av).localeCompare(sortText(bv), 'zh-Hans') * sortDir;
+        return (av - bv) * sortDir;
+      }
+      const ra = this.reminderInfo(a), rb = this.reminderInfo(b); if (!!ra.active !== !!rb.active) return ra.active ? -1 : 1; if (ra.active && rb.active) return ra.days - rb.days; return 0;
+    });
+    const sortMark = k => this.state.tableSortKey === k ? (this.state.tableSortDir === 'asc' ? '↑' : '↓') : '↕';
     let fQty = 0, fCost = 0, fSell = 0, fProfit = 0, fSold = false;
     filtered.forEach(it => { const e = this.enrich(it); fQty += e.qty; fCost += e.cost; if (e.sold) { fSell += e.revenue; fProfit += e.profit; fSold = true; } });
     const fCountText = filtered.length + ' 项 · ' + fQty + ' 件';
@@ -2743,6 +2761,19 @@ class Component extends DCLogic {
       statCol: colCount, statSale: saleCount,
       groupTabs,
       setTable: this.setTable, setGallery: this.setGallery, setCircle: this.setCircle, setLedger: this.setLedger,
+      sortByName: () => this.toggleTableSort('name'), sortNameMark: sortMark('name'),
+      sortByCharacter: () => this.toggleTableSort('character'), sortCharacterMark: sortMark('character'),
+      sortByType: () => this.toggleTableSort('type'), sortTypeMark: sortMark('type'),
+      sortByGroup: () => this.toggleTableSort('group'), sortGroupMark: sortMark('group'),
+      sortByStatus: () => this.toggleTableSort('status'), sortStatusMark: sortMark('status'),
+      sortByQty: () => this.toggleTableSort('qty'), sortQtyMark: sortMark('qty'),
+      sortByOriginal: () => this.toggleTableSort('original'), sortOriginalMark: sortMark('original'),
+      sortByBuy: () => this.toggleTableSort('buy'), sortBuyMark: sortMark('buy'),
+      sortByShip: () => this.toggleTableSort('ship'), sortShipMark: sortMark('ship'),
+      sortBySell: () => this.toggleTableSort('sell'), sortSellMark: sortMark('sell'),
+      sortByProfit: () => this.toggleTableSort('profit'), sortProfitMark: sortMark('profit'),
+      sortByChannel: () => this.toggleTableSort('channel'), sortChannelMark: sortMark('channel'),
+      sortByDate: () => this.toggleTableSort('date'), sortDateMark: sortMark('date'),
       tableBtnStyle: this.segStyle(view === 'table'), galleryBtnStyle: this.segStyle(view === 'gallery'), circleBtnStyle: this.segStyle(view === 'circle'), ledgerBtnStyle: this.segStyle(view === 'ledger'),
       openAdd: this.openAdd,
       search, onSearch: this.onSearch, charChips, addCharacter: this.addCharacter, typeChips, seriesChips, showSeriesFilter, formChips, statusChips, showStatusFilter, acquireChips, channelChips, showChannelFilter, customFilterRows, groupByChips, hasRows: filtered.length > 0, fCountText, fCostText, fSellText, fNetText, fProfitText, fProfitStyle,
