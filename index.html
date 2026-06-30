@@ -635,7 +635,7 @@
 
   <!-- ===== MODAL ===== -->
   <sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
-    <div onMouseDown="{{ stop }}" onMouseUp="{{ stop }}" onClick="{{ stop }}" style="position:fixed;inset:0;z-index:60;background:rgba(70,58,110,.32);backdrop-filter:blur(6px);display:flex;align-items:flex-start;justify-content:center;padding:28px 14px;overflow-y:auto;animation:fadein .18s ease">
+    <div style="position:fixed;inset:0;z-index:60;background:rgba(70,58,110,.32);backdrop-filter:blur(6px);display:flex;align-items:flex-start;justify-content:center;padding:28px 14px;overflow-y:auto;animation:fadein .18s ease">
       <div class="ui-modal-card ui-item-modal" onClick="{{ stop }}" style="width:100%;max-width:720px;max-height:96vh;display:flex;flex-direction:column;background:linear-gradient(160deg,#ffffff,#f4f1fb);border:1px solid #d6cfe9;border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.5);animation:modalpop .22s cubic-bezier(.2,.8,.3,1);overflow:hidden">
         <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid #e1dbf0">
           <div style="font-family:'Orbitron';font-weight:700;font-size:17px">{{ modalTitle }}</div>
@@ -919,7 +919,7 @@
 
   <!-- ===== SETTINGS MODAL ===== -->
   <sc-if value="{{ settingsOpen }}" hint-placeholder-val="false">
-    <div onMouseDown="{{ stop }}" onMouseUp="{{ stop }}" onClick="{{ stop }}" style="position:fixed;inset:0;z-index:70;background:rgba(70,58,110,.32);backdrop-filter:blur(4px);display:flex;align-items:flex-start;justify-content:center;padding:30px 14px;overflow-y:auto">
+    <div style="position:fixed;inset:0;z-index:70;background:rgba(70,58,110,.32);backdrop-filter:blur(4px);display:flex;align-items:flex-start;justify-content:center;padding:30px 14px;overflow-y:auto">
       <div class="ui-modal-card ui-settings-modal" onClick="{{ stop }}" style="width:100%;max-width:680px;max-height:92vh;display:flex;flex-direction:column;background:linear-gradient(160deg,#ffffff,#f4f1fb);border:1px solid #d6cfe9;border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.4);overflow:hidden">
         <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid #e1dbf0;flex-shrink:0">
           <div style="font-weight:800;font-size:17px;color:#251d49">项目设置</div>
@@ -1101,7 +1101,7 @@
 
   <!-- ===== TREND MODAL ===== -->
   <sc-if value="{{ trendOpen }}" hint-placeholder-val="{{ false }}">
-    <div onMouseDown="{{ stop }}" onMouseUp="{{ stop }}" onClick="{{ stop }}" style="position:fixed;inset:0;z-index:70;background:rgba(70,58,110,.32);backdrop-filter:blur(4px);display:flex;align-items:flex-start;justify-content:center;padding:28px 14px;overflow-y:auto">
+    <div style="position:fixed;inset:0;z-index:70;background:rgba(70,58,110,.32);backdrop-filter:blur(4px);display:flex;align-items:flex-start;justify-content:center;padding:28px 14px;overflow-y:auto">
       <div class="ui-modal-card ui-trend-modal" onClick="{{ stop }}" style="width:100%;max-width:880px;max-height:96vh;display:flex;flex-direction:column;background:linear-gradient(160deg,#ffffff,#f4f1fb);border:1px solid #d6cfe9;border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.4);overflow:hidden">
         <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid #e1dbf0">
           <div style="font-weight:800;font-size:16px;color:#251d49">{{ trendTitle }}</div>
