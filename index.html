@@ -59,6 +59,12 @@
   .ui-modal-card .ui-btn-primary{font-family:inherit !important;font-size:14px !important;font-weight:700 !important;color:#fff !important;background:var(--accent,#ff3355) !important;border:none !important;padding:10px 24px !important;border-radius:11px !important;cursor:pointer !important;box-shadow:0 6px 18px rgba(50,38,90,.2) !important;min-height:42px !important;}
   .ui-modal-card .ui-btn-danger{font-family:inherit !important;font-size:14px !important;color:#e23b5d !important;background:rgba(255,51,85,.08) !important;border:1px solid rgba(255,51,85,.25) !important;padding:10px 14px !important;border-radius:11px !important;cursor:pointer !important;min-height:42px !important;}
   .ui-modal-card .ui-btn-soft{font-family:inherit !important;font-size:14px !important;color:#544f7e !important;background:rgba(50,38,90,.05) !important;border:1px solid #ded7ee !important;padding:10px 14px !important;border-radius:11px !important;cursor:pointer !important;min-height:42px !important;}
+
+    .ui-ledger-page{display:flex;flex-direction:column;gap:16px}
+    .ui-ledger-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:13px}
+    .ui-ledger-card{background:#fff;border:1px solid #e1dbf0;border-radius:16px;padding:16px 18px}
+    .ui-ledger-title{font-weight:800;font-size:15px;margin-bottom:12px;color:#251d49}
+    .ui-reminder-strip{display:none}
   @media (max-width:640px){
     .ui-modal-card .ui-form-grid{grid-template-columns:1fr !important;}
     .ui-modal-card{max-height:94vh !important;}
@@ -91,6 +97,7 @@
   /* ===== 手机清爽模式：同一个 index.html，手机自动更轻，完整模式可切回 ===== */
   .ui-mobile-mode-button,.ui-mobile-filter-toggle{display:none !important;}
   .ui-mobile-card-main{display:flex;gap:6px;flex-wrap:wrap}
+  .ui-reminder-strip,.ui-mobile-ledger-mini{display:none;}
   @media (max-width:640px){
     .ui-app{padding:12px 10px 86px !important;}
     .ui-page-inner{max-width:none !important;}
@@ -119,8 +126,14 @@
     .ui-mobile-auto .ui-circle-item,.ui-mobile-simple .ui-circle-item{width:76px !important;}
     .ui-mobile-auto .ui-circle-img,.ui-mobile-simple .ui-circle-img{width:70px !important;height:70px !important;}
     .ui-mobile-auto .ui-page-footer,.ui-mobile-simple .ui-page-footer{display:none !important;}
+
+    .ui-mobile-auto .ui-ledger-page,.ui-mobile-simple .ui-ledger-page{display:none !important;}
+    .ui-mobile-auto .ui-reminder-strip,.ui-mobile-simple .ui-reminder-strip{display:block !important;margin-bottom:12px !important;}
+    .ui-mobile-auto .ui-mobile-ledger-mini,.ui-mobile-simple .ui-mobile-ledger-mini{display:block !important;margin-bottom:12px !important;}
+    .ui-mobile-auto .ui-reminder-full-text,.ui-mobile-simple .ui-reminder-full-text{display:none !important;}
   }
 
+  @media (max-width:900px){ .ui-ledger-page > div[style*="1.55fr"]{grid-template-columns:1fr !important;} }
 </style>
 </helmet>
 <div ref="{{ setRoot }}" class="{{ appClass }}" style="min-height:100vh;background:radial-gradient(circle at 15% -5%, #ddd2f2 0%, transparent 50%), radial-gradient(circle at 92% 4%, #f3d8e6 0%, transparent 45%), linear-gradient(165deg,#e7e1f4,#ece8f6 70%);color:#251d49;font-family:'Noto Sans SC',sans-serif;padding:clamp(14px,3vw,34px) clamp(12px,3vw,34px) 60px;-webkit-font-smoothing:antialiased">
@@ -228,9 +241,40 @@
           <button onClick="{{ setGallery }}" style="{{ galleryBtnStyle }}">🖼 图鉴</button>
           <button onClick="{{ setCircle }}" style="{{ circleBtnStyle }}">◎ 圆图</button>
           <button class="ui-table-mode-btn" onClick="{{ setTable }}" style="{{ tableBtnStyle }}">▤ 表格</button>
+          <button class="ui-table-mode-btn" onClick="{{ setLedger }}" style="{{ ledgerBtnStyle }}">￥ 账本</button>
         </div>
         <button class="ui-main-add" onClick="{{ openAdd }}" style="font-family:inherit;font-size:14px;font-weight:700;color:#fff;background:var(--accent,#ff3355);border:none;padding:10px 18px;border-radius:11px;cursor:pointer;box-shadow:0 6px 18px rgba(50,38,90,.2)">＋ 新增谷子</button>
       </div>
+    </div>
+
+    <sc-if value="{{ hasUpcomingReminders }}" hint-placeholder-val="{{ false }}">
+      <div class="ui-reminder-strip" style="background:rgba(226,59,93,.07);border:1px solid rgba(226,59,93,.24);border-left:4px solid #e23b5d;border-radius:13px;padding:10px 12px;color:#e23b5d;font-size:13px;font-weight:800">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:7px">
+          <span>📌 今日待办</span><span style="font-size:11.5px;color:#837da4;font-weight:700">{{ mobileReminderText }}</span>
+        </div>
+        <sc-for list="{{ mobileTodoRows }}" as="todo" hint-placeholder-count="2">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;background:#fff;border:1px solid rgba(226,59,93,.16);border-radius:10px;padding:7px 9px;margin-top:6px;color:#251d49;font-weight:700">
+            <div style="min-width:0">
+              <div style="font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ todo.name }}</div>
+              <div style="font-size:11px;color:#837da4;margin-top:2px">{{ todo.text }}</div>
+            </div>
+            <span style="flex-shrink:0;font-size:11px;color:#e23b5d;background:rgba(226,59,93,.1);border:1px solid rgba(226,59,93,.2);border-radius:999px;padding:3px 7px">{{ todo.tag }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <div class="ui-mobile-ledger-mini" style="background:linear-gradient(135deg,#ffffff,#f7f3ff);border:1px solid #ded7ee;border-radius:13px;padding:11px 12px">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px">
+        <div style="font-weight:900;font-size:13px;color:#251d49">💰 本月账单</div>
+        <div style="font-size:11px;color:#837da4">{{ budgetPctText }}</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center">
+        <div><div style="font-size:10.5px;color:#837da4;margin-bottom:3px">预算</div><div style="font-family:'Orbitron';font-weight:800;font-size:13px;color:#251d49">{{ mobileBudgetText }}</div></div>
+        <div><div style="font-size:10.5px;color:#837da4;margin-bottom:3px">已花</div><div style="font-family:'Orbitron';font-weight:800;font-size:13px;color:#251d49">{{ monthSpentText }}</div></div>
+        <div><div style="font-size:10.5px;color:#837da4;margin-bottom:3px">剩余</div><div style="font-family:'Orbitron';font-weight:800;font-size:13px"><span style="{{ budgetRemainStyle }}">{{ budgetRemainText }}</span></div></div>
+      </div>
+      <div style="height:6px;background:#eee9f8;border-radius:999px;margin-top:10px;overflow:hidden"><div style="{{ budgetBarStyle }}"></div></div>
     </div>
 
     <!-- ===== FILTERS ===== -->
@@ -368,7 +412,7 @@
             </div>
           </sc-if>
           <sc-if value="{{ row.isItem }}" hint-placeholder-val="{{ true }}">
-          <div class="ui-gallery-card" draggable="{{ row.draggable }}" onDragStart="{{ row.onDragStart }}" onDragOver="{{ row.onDragOver }}" onDrop="{{ row.onDrop }}" onDragEnd="{{ row.onDragEnd }}" style="background:#ffffff;border:1px solid #ded7ee;border-radius:16px;overflow:hidden;display:flex;flex-direction:column">
+          <div class="ui-gallery-card" draggable="{{ row.draggable }}" onDragStart="{{ row.onDragStart }}" onDragOver="{{ row.onDragOver }}" onDrop="{{ row.onDrop }}" onDragEnd="{{ row.onDragEnd }}" style="{{ row.cardStyle }}">
             <div style="position:relative;aspect-ratio:1/1;background:linear-gradient(145deg,#eae5f4,#e1dcf0);display:flex;align-items:stretch;justify-content:center;overflow:hidden">
               <sc-for list="{{ row.galleryImgs }}" as="g" hint-placeholder-count="1">
                 <div style="{{ g.style }}"></div>
@@ -409,6 +453,7 @@
               </div>
               <sc-if value="{{ row.hasChannel }}" hint-placeholder-val="{{ false }}"><div class="ui-mobile-card-extra" style="font-size:11.5px;color:#837da4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">平台 · {{ row.channelText }}</div></sc-if>
               <sc-if value="{{ row.hasHeld }}" hint-placeholder-val="{{ false }}"><div class="ui-mobile-card-extra" style="font-size:11.5px;color:#837da4">⏳ {{ row.heldText }}</div></sc-if>
+              <sc-if value="{{ row.hasReminderAlert }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;font-weight:800;color:#e23b5d;background:rgba(226,59,93,.08);border:1px solid rgba(226,59,93,.25);border-radius:9px;padding:7px 9px">⚠ {{ row.reminderBadgeText }}</div></sc-if>
               <div style="display:flex;gap:7px;margin-top:3px">
                 <button onClick="{{ row.onEdit }}" style="flex:1;font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:7px;border-radius:9px;cursor:pointer">编辑</button>
                 <button class="ui-mobile-card-extra" onClick="{{ row.onTrend }}" title="价格趋势" style="font-family:inherit;font-size:13px;color:#2f6fdb;background:rgba(47,111,219,.08);border:1px solid rgba(47,111,219,.25);padding:7px 13px;border-radius:9px;cursor:pointer">趋势</button>
@@ -500,7 +545,7 @@
           </sc-if>
           <sc-if value="{{ row.isItem }}" hint-placeholder-val="{{ true }}">
             <button class="ui-circle-item" onClick="{{ row.onEdit }}" draggable="{{ row.draggable }}" onDragStart="{{ row.onDragStart }}" onDragOver="{{ row.onDragOver }}" onDrop="{{ row.onDrop }}" onDragEnd="{{ row.onDragEnd }}" title="{{ row.name }}" style="position:relative;width:92px;display:flex;flex-direction:column;align-items:center;gap:6px;background:none;border:none;cursor:pointer;padding:0;font-family:inherit">
-              <div class="ui-circle-img" style="position:relative;width:84px;height:84px;border-radius:50%;overflow:hidden;background:linear-gradient(145deg,#eae5f4,#e1dcf0);border:2px solid #ffffff;box-shadow:0 3px 10px rgba(50,38,90,.14)">
+              <div class="ui-circle-img" style="{{ row.circleImgStyle }}">
                 <div style="{{ row.thumbBg }}"></div>
                 <sc-if value="{{ row.noImg }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Orbitron';font-weight:900;font-size:26px;color:#b9b3d2">{{ row.ph }}</div></sc-if>
                 <sc-if value="{{ row.hasHeat }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;bottom:3px;right:6px;color:#ff7a1a;font-size:11px;text-shadow:0 1px 2px rgba(255,255,255,.9)">{{ row.starsText }}</span></sc-if>
@@ -510,6 +555,71 @@
             </button>
           </sc-if>
         </sc-for>
+      </div>
+    </sc-if>
+
+    <!-- ===== LEDGER VIEW ===== -->
+    <sc-if value="{{ isLedger }}" hint-placeholder-val="{{ false }}">
+      <div class="ui-ledger-page">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:linear-gradient(120deg,#ffffff,#f3f0fb);border:1px solid #ded7ee;border-radius:16px;padding:15px 18px">
+          <div>
+            <div style="font-weight:900;font-size:18px;color:#251d49">💰 账本模式</div>
+            <div style="font-size:12.5px;color:#837da4;margin-top:4px">账本会跟随当前筛选结果变化；网页端显示完整预算、消费排行和提醒中心，手机清爽模式只保留临近提醒。</div>
+          </div>
+          <div style="font-size:12px;color:#837da4;text-align:right">按购买日期统计 · {{ ledgerScopeText }}</div>
+        </div>
+
+        <div class="ui-ledger-grid">
+          <div class="ui-ledger-card" style="background:linear-gradient(150deg,#ffffff,#f8f5ff)">
+            <div style="font-size:12px;color:#544f7e;margin-bottom:8px">本月吃谷钱包</div>
+            <input value="{{ budgetInput }}" onChange="{{ onBudgetChange }}" placeholder="输入储值" type="number" min="0" style="width:100%;font-family:'Orbitron';font-weight:700;font-size:22px;color:#251d49;border:1px solid #ded7ee;border-radius:10px;padding:8px 10px;background:#fff;outline:none">
+            <div style="height:7px;background:#eee9f8;border-radius:999px;margin-top:12px;overflow:hidden"><div style="{{ budgetBarStyle }}"></div></div>
+          </div>
+          <div class="ui-ledger-card"><div style="font-size:12px;color:#544f7e;margin-bottom:8px">本月吃土</div><div style="font-family:'Orbitron';font-weight:700;font-size:24px;color:#251d49">{{ monthSpentText }}</div></div>
+          <div class="ui-ledger-card"><div style="font-size:12px;color:#544f7e;margin-bottom:8px">还能氪金</div><div style="font-family:'Orbitron';font-weight:700;font-size:24px"><span style="{{ budgetRemainStyle }}">{{ budgetRemainText }}</span></div></div>
+          <div class="ui-ledger-card"><div style="font-size:12px;color:#544f7e;margin-bottom:8px">钱包使用率</div><div style="font-family:'Orbitron';font-weight:700;font-size:24px"><span style="{{ budgetPctStyle }}">{{ budgetPctText }}</span></div><div style="font-size:11.5px;color:#837da4;margin-top:5px">{{ budgetStatusText }}</div></div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1.55fr .95fr;gap:16px;align-items:start">
+          <div style="background:linear-gradient(160deg,#ffffff,#f3f0fb);border:1px solid #ded7ee;border-radius:16px;padding:16px 18px;min-width:0">
+            <div class="ui-ledger-title">近六个月消费表</div>
+            <div style="display:grid;grid-template-columns:repeat(6,minmax(96px,1fr));gap:10px;overflow-x:auto">
+              <sc-for list="{{ ledgerMonths }}" as="m" hint-placeholder-count="6">
+                <div style="min-width:96px;background:#fff;border:1px solid #e1dbf0;border-radius:12px;padding:11px 12px">
+                  <div style="font-size:12px;color:#837da4;margin-bottom:8px">{{ m.label }}</div>
+                  <div style="font-family:'Orbitron';font-weight:700;font-size:18px;color:#251d49">{{ m.amount }}</div>
+                  <div style="height:6px;background:#eee9f8;border-radius:999px;margin-top:9px;overflow:hidden"><div style="{{ m.barStyle }}"></div></div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="background:rgba(226,59,93,.06);border:1px solid rgba(226,59,93,.22);border-radius:16px;padding:16px 18px;min-width:0">
+            <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:10px"><div style="font-weight:800;font-size:15px;color:#e23b5d">提醒中心</div><div style="font-size:12px;color:#837da4">{{ reminderCountText }}</div></div>
+            <sc-if value="{{ hasLedgerReminders }}" hint-placeholder-val="{{ false }}">
+              <sc-for list="{{ ledgerReminderRows }}" as="r" hint-placeholder-count="5"><div style="display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:8px 0;border-top:1px solid rgba(226,59,93,.12)"><div style="min-width:0"><div style="font-size:13px;color:#544f7e;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</div><div style="font-size:11.5px;color:#938db0">{{ r.date }}</div></div><span style="{{ r.badgeStyle }}">{{ r.text }}</span></div></sc-for>
+            </sc-if>
+            <sc-if value="{{ noLedgerReminders }}" hint-placeholder-val="{{ true }}"><div style="font-size:13px;color:#938db0;padding:12px 0;border-top:1px solid rgba(226,59,93,.12)">暂无待处理补款 / 尾款 / 排发。</div></sc-if>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px">
+          <div class="ui-ledger-card">
+            <div class="ui-ledger-title">{{ ledgerRankTitle1 }}</div>
+            <sc-for list="{{ topCostRows }}" as="r" hint-placeholder-count="3"><div style="display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid rgba(50,38,90,.06)"><span style="font-size:13px;color:#544f7e;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</span><span style="font-family:'Orbitron';font-weight:700;color:#251d49;flex-shrink:0">{{ r.value }}</span></div></sc-for>
+          </div>
+          <div class="ui-ledger-card">
+            <div class="ui-ledger-title">{{ ledgerRankTitle2 }}</div>
+            <sc-for list="{{ topQtyRows }}" as="r" hint-placeholder-count="3"><div style="display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid rgba(50,38,90,.06)"><span style="font-size:13px;color:#544f7e;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</span><span style="font-family:'Orbitron';font-weight:700;color:#251d49;flex-shrink:0">{{ r.value }}</span></div></sc-for>
+          </div>
+          <div class="ui-ledger-card">
+            <div class="ui-ledger-title">{{ ledgerRankTitle3 }}</div>
+            <sc-for list="{{ topCharacterRows }}" as="r" hint-placeholder-count="3"><div style="display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid rgba(50,38,90,.06)"><span style="font-size:13px;color:#544f7e;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</span><span style="font-family:'Orbitron';font-weight:700;color:#251d49;flex-shrink:0">{{ r.value }}</span></div></sc-for>
+          </div>
+          <div class="ui-ledger-card">
+            <div class="ui-ledger-title">{{ ledgerRankTitle4 }}</div>
+            <sc-for list="{{ topPlatformRows }}" as="r" hint-placeholder-count="3"><div style="display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid rgba(50,38,90,.06)"><span style="font-size:13px;color:#544f7e;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</span><span style="font-family:'Orbitron';font-weight:700;color:#251d49;flex-shrink:0">{{ r.value }}</span></div></sc-for>
+          </div>
+        </div>
       </div>
     </sc-if>
 
@@ -753,6 +863,19 @@
             <div>
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">购买日期</div>
               <input name="buyDate" type="date" value="{{ draft.buyDate }}" onChange="{{ onDraftChange }}" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+            </div>
+
+            <div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">提醒类型</div>
+              <select name="reminderType" value="{{ draft.reminderType }}" onChange="{{ onDraftChange }}" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+                <option value="">不提醒</option>
+                <sc-for list="{{ reminderTypeOptions }}" as="rt" hint-placeholder-count="5"><option value="{{ rt }}">{{ rt }}</option></sc-for>
+              </select>
+            </div>
+            <div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">提醒日期</div>
+              <input name="reminderDate" type="date" value="{{ draft.reminderDate }}" onChange="{{ onDraftChange }}" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              <div style="font-size:11px;color:#938db0;margin-top:6px">临近 3 天内会红框置顶；状态改成已补款/已付尾款/已排发后自动恢复。</div>
             </div>
 
             <sc-if value="{{ hasCustomFields }}" hint-placeholder-val="{{ false }}">
@@ -1033,9 +1156,10 @@
 class Component extends DCLogic {
   CHARACTERS = ['万津莫','ねむ','万津美浪','富士見鉄也','南雲なすか','ノクス／诺克斯','ザ・レディ','ジーク','ゼロ／零','仮面ライダーゼッツ','仮面ライダーノクス','仮面ライダードォーン','ノクスナイト','仮面ライダーノクス ミッドナイトシャドウ','CODE','其他'];
   TYPES = ['吧唧','亚克力','毛绒','色纸/卡片','文件夹','挂绳/吊饰','布制品','包袋/收纳','影像碟片','其他'];
-  STATUSES = ['已到货','在途/运输中','已下单未发货','想要/计划购买','出售中','已出/已卖出'];
+  STATUSES = ['已到货','在途/运输中','已下单未发货','等待补款','已补款','等待尾款','已付尾款','等待排发','已排发','想要/计划购买','出售中','已出/已卖出'];
   STATUS_COLOR = {'已到货':'#12a85f','在途/运输中':'#c8860d','已下单未发货':'#2f6fdb','想要/计划购买':'#7c5cd6','出售中':'#d9701f','已出/已卖出':'#6f6996'};
   FORMS = ['通用','人脸','皮套'];
+  REMINDER_TYPES = ['补款','尾款','排发','到货','集运'];
   CHANNELS = ['万代官店','一番くじ','駿河屋','メルカリ','代购','闲鱼','淘宝','官方商店','其他'];
   MAIN_WORK = 'w_main';
   DEFAULT_GROUP = '假面骑士系列';
@@ -1044,7 +1168,7 @@ class Component extends DCLogic {
   FIELD_DEFAULTS = { character: '角色', type: '种类', series: '厂商', channel: '平台', status: '状态', form: '形态', acquire: '来源' };
   CHAR_IMG = { '万津莫': 'assets/c_matsu.webp', 'ねむ': 'assets/c_nemu.webp', '万津美浪': 'assets/c_minami.webp', '富士見鉄也': 'assets/c_fujimi.webp', '南雲なすか': 'assets/c_nagumo.webp', 'ノクス／诺克斯': 'assets/c_nox.webp', 'ザ・レディ': 'assets/c_lady.webp', 'ジーク': 'assets/c_zeke.webp', 'ゼロ／零': 'assets/c_zero.webp', '仮面ライダーゼッツ': 'assets/r_red.webp', '仮面ライダーノクス': 'assets/r_blue.webp', '仮面ライダードォーン': 'assets/r_zeztz.webp', 'ノクスナイト': 'assets/r_lady.webp', '仮面ライダーノクス ミッドナイトシャドウ': 'assets/r_nox_midnight.webp', 'CODE': 'assets/c_code.webp' };
   imgUrls = {};
-  state = { items: [], view: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, hiddenTypes: [], hiddenChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, trendOpen: false, trendItemId: null, trendRows: [], trendResult: null, ocrRawText: '', ocrBulkText: '', modalOpen: false, editing: null, draft: null, savedAt: 0 };
+  state = { items: [], view: null, monthlyBudget: '', group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, trendOpen: false, trendItemId: null, trendRows: [], trendResult: null, ocrRawText: '', ocrBulkText: '', modalOpen: false, editing: null, draft: null, savedAt: 0 };
 
   setRoot = (el) => { this.rootEl = el; if (el) { const a = this.state.accent || this.props.accent || '#ff3355'; el.style.setProperty('--accent', a); try { document.documentElement.style.setProperty('--accent', a); } catch (e) {} this.applyBg(); } };
   setImportRef = (el) => { this.importRef = el; };
@@ -1066,7 +1190,7 @@ class Component extends DCLogic {
       try { localStorage.setItem('zzz_migrated_v2', '1'); } catch (e) {}
     }
     // 仅补全缺失的新字段默认值（不覆盖任何已有值）
-    items = items.map(it => ({ form: '通用', series: '', heat: 0, rate: '', acquire: '直购', swapped: '未置换', swapTo: '', swapCharacter: '', swapImageId: null, imageId2: null, group: '收藏', workId: 'w_main', ...it }));
+    items = items.map(it => ({ form: '通用', series: '', heat: 0, rate: '', acquire: '直购', swapped: '未置换', swapTo: '', swapCharacter: '', swapImageId: null, imageId2: null, group: '收藏', workId: 'w_main', reminderType: '', reminderDate: '', ...it }));
     items.forEach(it => { if (!it.workId) it.workId = 'w_main'; });
     try { localStorage.setItem('zzz_goods_v1', JSON.stringify(items)); } catch (e) {}
     // 作品 / 系列IP
@@ -1090,6 +1214,7 @@ class Component extends DCLogic {
       title = localStorage.getItem('zzz_title') || title; subtitle = localStorage.getItem('zzz_subtitle') || subtitle; footer = localStorage.getItem('zzz_footer') || footer;
       collectorName = localStorage.getItem('zzz_cn') || ''; currency = localStorage.getItem('zzz_currency') || ''; accent = localStorage.getItem('zzz_accent') || '';
     } catch (e) {}
+    let monthlyBudget = ''; try { monthlyBudget = localStorage.getItem('zzz_monthly_budget') || ''; } catch (e) {}
     let mobileMode = 'auto'; try { mobileMode = localStorage.getItem('zzz_mobile_mode') || 'auto'; } catch(e) {}
     if (!['auto', 'full', 'simple'].includes(mobileMode)) mobileMode = 'auto';
     const isPhone = (() => { try { return !!(window.matchMedia && window.matchMedia('(max-width:640px)').matches); } catch(e) { return false; } })();
@@ -1098,7 +1223,7 @@ class Component extends DCLogic {
     this.charOrder = lists.charOrder;
     let cloudSyncId = '', cloudSyncCode = '';
     try { cloudSyncId = localStorage.getItem('zzz_cloud_id') || ''; cloudSyncCode = localStorage.getItem('zzz_cloud_code') || ''; } catch (e) {}
-    this.setState({ items, works, currentWorkId, workGroupLabel, title, subtitle, footer, collectorName, currency, accent, fieldLabels, filterOn, statsOn, deletedFields, customFields, customFilterOrder, cloudSyncId, cloudSyncCode, cloudCodeInput: cloudSyncCode || '', mobileMode, filtersOpen: false, view: startView, ...lists });
+    this.setState({ items, works, currentWorkId, workGroupLabel, title, subtitle, footer, collectorName, currency, accent, monthlyBudget, fieldLabels, filterOn, statsOn, deletedFields, customFields, customFilterOrder, cloudSyncId, cloudSyncCode, cloudCodeInput: cloudSyncCode || '', mobileMode, filtersOpen: false, view: startView, ...lists });
     this.loadImages(items);
     this.loadCharAvatars();
     this.loadLogo();
@@ -1121,10 +1246,12 @@ class Component extends DCLogic {
     let channels = rd('zzz_channels', () => [...new Set(items.map(i => i.channel).filter(Boolean))]);
     let formOrder = rd('zzz_form_order', () => [...this.FORMS]); this.FORMS.forEach(f => { if (!formOrder.includes(f)) formOrder.push(f); });
     let acquireOrder = rd('zzz_acquire_order', () => ['直购', '单领', '盲盒']);
+    let reminderTypes = rd('zzz_reminder_types', () => [...this.REMINDER_TYPES]); this.REMINDER_TYPES.forEach(r => { if (!reminderTypes.includes(r)) reminderTypes.push(r); });
+    items.forEach(it => { if (it.reminderType && !reminderTypes.includes(it.reminderType)) reminderTypes.push(it.reminderType); });
     let hiddenTypes = rd('zzz_hidden_types', () => []);
     let hiddenChannels = rd('zzz_hidden_channels', () => []);
     let statusList = rd('zzz_status', () => [...this.STATUSES]);
-    return { charOrder, typesList, seriesList, channels, formOrder, acquireOrder, hiddenTypes, hiddenChannels, statusList };
+    return { charOrder, typesList, seriesList, channels, formOrder, acquireOrder, reminderTypes, hiddenTypes, hiddenChannels, statusList };
   }
   switchWork = (id) => {
     if (!id || id === this.state.currentWorkId) return;
@@ -1152,7 +1279,7 @@ class Component extends DCLogic {
     this.saveWorks(works); this.commit(items);
     if (this.state.currentWorkId === w.id) {
       if (works.length) this.switchWork(works[0].id);
-      else { try { localStorage.setItem('zzz_current_work', ''); } catch (e) {} this.setState({ currentWorkId: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], charOrder: [], typesList: [], seriesList: [], channels: [], statusList: [], formOrder: [...this.FORMS], acquireOrder: ['直购', '单领', '盲盒'] }); }
+      else { try { localStorage.setItem('zzz_current_work', ''); } catch (e) {} this.setState({ currentWorkId: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], charOrder: [], typesList: [], seriesList: [], channels: [], statusList: [], formOrder: [...this.FORMS], acquireOrder: ['直购', '单领', '盲盒'], reminderTypes: [...this.REMINDER_TYPES] }); }
     }
   };
   addCustomField = () => { const base = this.state.settingsDraft ? (this.state.settingsDraft.customFields || []) : (this.state.customFields || []); const cf = [...base, { key: 'cf_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5), label: '新字段' }]; if (this.state.settingsDraft) this.updateSettingsDraft({ customFields: cf }); else { try { localStorage.setItem('zzz_custom_fields', JSON.stringify(cf)); } catch (e) {} this.setState({ customFields: cf }); } };
@@ -1323,6 +1450,7 @@ class Component extends DCLogic {
     const works = [{ id: this.MAIN_WORK, group: this.DEFAULT_GROUP, name: '默认作品' }];
     const filterOn = { character: true, type: true, series: true, form: true, acquire: true, channel: true, status: false };
     const acquireOrder = ['直购', '单领', '盲盒'];
+    const reminderTypes = [...this.REMINDER_TYPES];
     try {
       localStorage.setItem('zzz_goods_v1', JSON.stringify([]));
       localStorage.setItem('zzz_works', JSON.stringify(works));
@@ -1331,6 +1459,7 @@ class Component extends DCLogic {
       localStorage.setItem('zzz_filter_on', JSON.stringify(filterOn));
       localStorage.setItem('zzz_form_order', JSON.stringify(this.FORMS));
       localStorage.setItem('zzz_acquire_order', JSON.stringify(acquireOrder));
+      localStorage.setItem('zzz_reminder_types', JSON.stringify(reminderTypes));
       localStorage.setItem('zzz_status', JSON.stringify(this.STATUSES));
     } catch (e) {}
     this.imgUrls = {};
@@ -1348,7 +1477,7 @@ class Component extends DCLogic {
     this.setState({
       items: [], works, currentWorkId: this.MAIN_WORK, group: 'all', groupBy: 'none', search: '',
       charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], customFilterSel: {}, customFilterOrder: {},
-      workGroupLabel: '系列IP', workMenuOpen: false, fieldLabels: { ...this.FIELD_DEFAULTS }, filterOn, statsOn: null, deletedFields: [], customFields: [], optBuf: {},
+      workGroupLabel: '系列IP', workMenuOpen: false, fieldLabels: { ...this.FIELD_DEFAULTS }, filterOn, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, reminderTypes,
       settingsOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '本机资料已清空。', cloudBusy: false,
       modalOpen: false, editing: null, draft: null, trendOpen: false, trendItemId: null, trendRows: [], trendResult: null,
       title: '谷子收纳', subtitle: '梦 境 特 工 档 案', footer: '梦境特工档案 · コードナンバー：収集家',
@@ -1669,7 +1798,7 @@ class Component extends DCLogic {
   chipDrag(name, kind) { return { draggable: name !== '全部', onDragStart: (ev) => { if (name === '全部') return; this.cdKind = kind; this.cdName = name; if (ev.dataTransfer) { ev.dataTransfer.effectAllowed = 'move'; try { ev.dataTransfer.setData('text/plain', JSON.stringify({ kind, name })); } catch(e) {} } }, onDragOver: (ev) => { if (name !== '全部') { ev.preventDefault(); if (ev.dataTransfer) ev.dataTransfer.dropEffect = 'move'; } }, onDrop: (ev) => { ev.preventDefault(); let src = this.cdName, k = this.cdKind; try { const raw = ev.dataTransfer && ev.dataTransfer.getData('text/plain'); if (raw) { const obj = JSON.parse(raw); src = obj.name || src; k = obj.kind || k; } } catch(e) {} if (k === kind) this.reorderChip(kind, src, name); this.cdName = null; this.cdKind = null; } }; }
   reorderChip(kind, src, dst) {
     if (!src || src === dst || src === '全部' || dst === '全部') return;
-    const cfg = { type: ['typesList', 'zzz_types'], series: ['seriesList', 'zzz_series'], channel: ['channels', 'zzz_channels'], form: ['formOrder', 'zzz_form_order'], acquire: ['acquireOrder', 'zzz_acquire_order'], status: ['statusList', 'zzz_status'] }[kind];
+    const cfg = { type: ['typesList', 'zzz_types'], series: ['seriesList', 'zzz_series'], channel: ['channels', 'zzz_channels'], form: ['formOrder', 'zzz_form_order'], acquire: ['acquireOrder', 'zzz_acquire_order'], reminderType: ['reminderTypes', 'zzz_reminder_types'], status: ['statusList', 'zzz_status'] }[kind];
     if (kind === 'char') return this.reorderChar(src, dst);
     if (!cfg) return;
     const field = { type: 'type', series: 'series', channel: 'channel', form: 'form', acquire: 'acquire', status: 'status' }[kind];
@@ -1748,7 +1877,7 @@ class Component extends DCLogic {
     try { localStorage.setItem('zzz_custom_filter_order', JSON.stringify(orderMap)); } catch(e) {}
     this.setState({ customFilterOrder: orderMap, customFilterSel }, () => this.commit(items));
   };
-  emptyDraft() { return { id: null, custom: {}, name: '', character: this.CHARACTERS[0], type: this.TYPES[0], subtype: '', series: '', form: '通用', heat: 0, rate: '', acquire: '直购', swapped: '未置换', swapTo: '', swapCharacter: '', swapImageId: null, group: '收藏', status: '已到货', qty: '1', originalPrice: '', buyPrice: '', shipDom: '', shipIntl: '', sellPrice: '', channel: '', buyDate: '', note: '', imageId: null, imageId2: null }; }
+  emptyDraft() { return { id: null, custom: {}, name: '', character: this.CHARACTERS[0], type: this.TYPES[0], subtype: '', series: '', form: '通用', heat: 0, rate: '', acquire: '直购', swapped: '未置换', swapTo: '', swapCharacter: '', swapImageId: null, group: '收藏', status: '已到货', qty: '1', originalPrice: '', buyPrice: '', shipDom: '', shipIntl: '', sellPrice: '', channel: '', buyDate: '', reminderType: '', reminderDate: '', note: '', imageId: null, imageId2: null }; }
 
   // ---- modal / crud ----
   beginItemDrag = (id, ev) => {
@@ -1873,8 +2002,8 @@ class Component extends DCLogic {
     const charAvatars = {};
     for (const name in this.charImgIds) { try { const b = await this.idbGet(this.charImgIds[name]); if (b) charAvatars[name] = await this.blobToDataURL(b); } catch (e) {} }
     const lsDump = {}; const allWorks = this.state.works || [];
-    ['zzz_char_order', 'zzz_types', 'zzz_series', 'zzz_channels', 'zzz_form_order', 'zzz_acquire_order', 'zzz_hidden_types', 'zzz_hidden_channels'].forEach(base => { allWorks.forEach(w => { const k = w.id === this.MAIN_WORK ? base : base + '__' + w.id; const v = localStorage.getItem(k); if (v != null) lsDump[k] = v; }); });
-    const meta = { charOrder: this.state.charOrder, typesList: this.state.typesList, seriesList: this.state.seriesList, channels: this.state.channels, formOrder: this.state.formOrder, acquireOrder: this.state.acquireOrder, hiddenTypes: this.state.hiddenTypes, hiddenChannels: this.state.hiddenChannels, charAssetMap: this.charAssetMap, title: this.state.title, subtitle: this.state.subtitle, footer: this.state.footer, works: allWorks, currentWorkId: this.state.currentWorkId, workGroupLabel: this.state.workGroupLabel, collectorName: this.state.collectorName, currency: this.state.currency, accent: this.state.accent, lsDump };
+    ['zzz_char_order', 'zzz_types', 'zzz_series', 'zzz_channels', 'zzz_form_order', 'zzz_acquire_order', 'zzz_reminder_types', 'zzz_hidden_types', 'zzz_hidden_channels'].forEach(base => { allWorks.forEach(w => { const k = w.id === this.MAIN_WORK ? base : base + '__' + w.id; const v = localStorage.getItem(k); if (v != null) lsDump[k] = v; }); });
+    const meta = { charOrder: this.state.charOrder, typesList: this.state.typesList, seriesList: this.state.seriesList, channels: this.state.channels, formOrder: this.state.formOrder, acquireOrder: this.state.acquireOrder, reminderTypes: this.state.reminderTypes, hiddenTypes: this.state.hiddenTypes, hiddenChannels: this.state.hiddenChannels, charAssetMap: this.charAssetMap, title: this.state.title, subtitle: this.state.subtitle, footer: this.state.footer, works: allWorks, currentWorkId: this.state.currentWorkId, workGroupLabel: this.state.workGroupLabel, collectorName: this.state.collectorName, currency: this.state.currency, accent: this.state.accent, lsDump };
     let logo = null; try { const lb = await this.idbGet('zzz_logo'); if (lb) logo = await this.blobToDataURL(lb); } catch (e) {}
     const payload = { v: 2, exportedAt: new Date().toISOString(), items: this.state.items, images, meta, charAvatars, logo };
     const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
@@ -1892,13 +2021,13 @@ class Component extends DCLogic {
       const ns = {};
       const m = data.meta || {};
       const put = (k, v) => { if (v !== undefined && v !== null) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} } };
-      put('zzz_char_order', m.charOrder); put('zzz_types', m.typesList); put('zzz_series', m.seriesList); put('zzz_channels', m.channels); put('zzz_form_order', m.formOrder); put('zzz_acquire_order', m.acquireOrder); put('zzz_hidden_types', m.hiddenTypes); put('zzz_hidden_channels', m.hiddenChannels);
+      put('zzz_char_order', m.charOrder); put('zzz_types', m.typesList); put('zzz_series', m.seriesList); put('zzz_channels', m.channels); put('zzz_form_order', m.formOrder); put('zzz_acquire_order', m.acquireOrder); put('zzz_reminder_types', m.reminderTypes); put('zzz_hidden_types', m.hiddenTypes); put('zzz_hidden_channels', m.hiddenChannels);
       this.ensureCharImg();
       if (m.charAssetMap) { this.charAssetMap = m.charAssetMap; }
       if (data.charAvatars) { this.charImgIds = this.charImgIds || {}; for (const name in data.charAvatars) { try { const blob = this.dataURLToBlob(data.charAvatars[name]); const id = 'img_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6); await this.idbPut(id, blob); this.charImgIds[name] = id; this.charImgMap[name] = URL.createObjectURL(blob); } catch (e) {} } }
       this.charImgMap = { ...this.CHAR_IMG, ...this.charAssetMap, ...this.charImgMap };
       this.persistCharMaps();
-      if (m.charOrder) ns.charOrder = m.charOrder; if (m.typesList) ns.typesList = m.typesList; if (m.seriesList) ns.seriesList = m.seriesList; if (m.channels) ns.channels = m.channels; if (m.formOrder) ns.formOrder = m.formOrder; if (m.acquireOrder) ns.acquireOrder = m.acquireOrder; if (m.hiddenTypes) ns.hiddenTypes = m.hiddenTypes; if (m.hiddenChannels) ns.hiddenChannels = m.hiddenChannels;
+      if (m.charOrder) ns.charOrder = m.charOrder; if (m.typesList) ns.typesList = m.typesList; if (m.seriesList) ns.seriesList = m.seriesList; if (m.channels) ns.channels = m.channels; if (m.formOrder) ns.formOrder = m.formOrder; if (m.acquireOrder) ns.acquireOrder = m.acquireOrder; if (m.reminderTypes) ns.reminderTypes = m.reminderTypes; if (m.hiddenTypes) ns.hiddenTypes = m.hiddenTypes; if (m.hiddenChannels) ns.hiddenChannels = m.hiddenChannels;
       if (m.title) { put('zzz_title', m.title); ns.title = m.title; } if (m.subtitle !== undefined) { put('zzz_subtitle', m.subtitle); ns.subtitle = m.subtitle; } if (m.footer !== undefined) { put('zzz_footer', m.footer); ns.footer = m.footer; }
       if (data.logo) { try { const lb = this.dataURLToBlob(data.logo); await this.idbPut('zzz_logo', lb); this.logoUrl = URL.createObjectURL(lb); } catch (e) {} }
       // 作品 / 系列IP + 每作品的列表 + 设置
@@ -1919,6 +2048,8 @@ class Component extends DCLogic {
 
   // ---- view setters ----
   setTable = () => this.setState({ view: 'table' });
+  setLedger = () => this.setState({ view: 'ledger' });
+  onBudgetChange = (e) => { const monthlyBudget = e.target.value; try { localStorage.setItem('zzz_monthly_budget', monthlyBudget); } catch (er) {} this.setState({ monthlyBudget }); };
   setGallery = () => this.setState({ view: 'gallery' });
   setCircle = () => this.setState({ view: 'circle' });
   setHeat = (n) => this.setState(s => ({ draft: { ...s.draft, heat: ((s.draft.heat || 0) === n ? n - 1 : n) } }));
@@ -1946,7 +2077,7 @@ class Component extends DCLogic {
     if (!val || val === '全部') return;
     const nv = (window.prompt('重命名' + label + '「' + val + '」为（会同步修改所有使用该选项的谷子）：', val) || '').trim();
     if (!nv || nv === val) return;
-    const fallbackMap = { formOrder: this.FORMS, statusList: this.STATUSES, acquireOrder: ['直购', '单领', '盲盒'] };
+    const fallbackMap = { formOrder: this.FORMS, statusList: this.STATUSES, acquireOrder: ['直购', '单领', '盲盒'], reminderTypes: this.REMINDER_TYPES };
     const base = (this.state[which] && this.state[which].length) ? this.state[which] : (fallbackMap[which] || []);
     const next = base.map(x => x === val ? nv : x);
     try { localStorage.setItem(this.wkey(lsKey), JSON.stringify(next)); } catch (e) {}
@@ -1986,6 +2117,31 @@ class Component extends DCLogic {
     const sold = it.status === '已出/已卖出';
     return { qty, buy, sd, si, sell, cost, revenue, sold, profit: revenue - cost };
   }
+  reminderInfo(it) {
+    const type = (it && it.reminderType) || '';
+    const dateStr = (it && it.reminderDate) || '';
+    if (!type || !dateStr) return { active: false };
+    const doneWords = ['已补款','已付尾款','已排发','已完成','已到货','已出/已卖出'];
+    if (doneWords.some(w => String(it.status || '').includes(w))) return { active: false };
+    const d = new Date(dateStr + 'T00:00:00');
+    if (isNaN(d.getTime())) return { active: false };
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const days = Math.ceil((d - today) / 86400000);
+    const urgent = days <= 3;
+    let text = type + ' ';
+    if (days < 0) text += '已逾期 ' + Math.abs(days) + ' 天';
+    else if (days === 0) text += '今天截止';
+    else text += '还有 ' + days + ' 天';
+    let badgeText = type + ' ';
+    if (days < 0) badgeText += '逾期' + Math.abs(days) + '天';
+    else if (days === 0) badgeText += '今天';
+    else badgeText += days + '天';
+    return { active: urgent, pending: true, days, text, badgeText, type, date: dateStr, overdue: days < 0 };
+  }
+  monthKey(d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0'); }
+  monthLabel(d) { return (d.getMonth() + 1) + '月'; }
+  topSpendRows(map, cur, suffix) { const rows = Object.entries(map || {}).sort((a,b) => b[1] - a[1]).slice(0,3).map(([name, v]) => ({ name: name || '未分类', value: suffix ? (v + suffix) : (cur + this.fmt(v)) })); while (rows.length < 3) rows.push({ name: '暂无数据', value: '—' }); return rows; }
 
   chipStyle(active) { return { display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '5px 12px', borderRadius: '999px', fontSize: '13px', cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit', border: '1px solid ' + (active ? 'var(--accent,#ff3355)' : '#ded7ee'), background: active ? 'var(--accent,#ff3355)' : 'rgba(50,38,90,.03)', color: active ? '#fff' : '#595287', transition: '.15s', flexShrink: 0 }; }
   tabStyle(active) { return { padding: '8px 15px', borderRadius: '9px', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: '14px', whiteSpace: 'nowrap', fontWeight: active ? 700 : 500, background: active ? 'var(--accent,#ff3355)' : 'transparent', color: active ? '#fff' : '#6f6996', transition: '.15s' }; }
@@ -2093,7 +2249,8 @@ class Component extends DCLogic {
     const matchAcquire = it => !fieldVisible('acquire') || acquireSel.length === 0 || acquireSel.includes(it.acquire || '直购');
     const matchChannel = it => !fieldVisible('channel') || channelSel.length === 0 || channelSel.includes(it.channel || '');
     const matchCustomFilters = it => Object.entries(this.state.customFilterSel || {}).every(([k, arr]) => !arr || !arr.length || arr.includes((it.custom && it.custom[k]) || ''));
-    const filtered = baseList.filter(it => (!fieldVisible('character') || charSel.length === 0 || charSel.includes(it.character)) && (!fieldVisible('type') || typeSel.length === 0 || typeSel.includes(it.type)) && (!fieldVisible('series') || seriesFilter === '全部' || (it.series || '') === seriesFilter) && matchForm(it) && matchStatus(it) && matchAcquire(it) && matchChannel(it) && matchCustomFilters(it) && matchSearch(it));
+    const filteredBase = baseList.filter(it => (!fieldVisible('character') || charSel.length === 0 || charSel.includes(it.character)) && (!fieldVisible('type') || typeSel.length === 0 || typeSel.includes(it.type)) && (!fieldVisible('series') || seriesFilter === '全部' || (it.series || '') === seriesFilter) && matchForm(it) && matchStatus(it) && matchAcquire(it) && matchChannel(it) && matchCustomFilters(it) && matchSearch(it));
+    const filtered = [...filteredBase].sort((a, b) => { const ra = this.reminderInfo(a), rb = this.reminderInfo(b); if (!!ra.active !== !!rb.active) return ra.active ? -1 : 1; if (ra.active && rb.active) return ra.days - rb.days; return 0; });
     let fQty = 0, fCost = 0, fSell = 0, fProfit = 0, fSold = false;
     filtered.forEach(it => { const e = this.enrich(it); fQty += e.qty; fCost += e.cost; if (e.sold) { fSell += e.revenue; fProfit += e.profit; fSold = true; } });
     const fCountText = filtered.length + ' 项 · ' + fQty + ' 件';
@@ -2103,9 +2260,57 @@ class Component extends DCLogic {
     const fProfitText = fSold ? (fProfit >= 0 ? '+' : '') + cur + this.fmt(fProfit) : '—';
     const fProfitStyle = { color: fSold ? (fProfit >= 0 ? '#12a85f' : '#e23b5d') : '#8b85ab' };
 
+    const ledgerItems = filtered;
+    const ledgerScopeText = (charSel.length || typeSel.length || formSel.length || statusSel.length || acquireSel.length || channelSel.length || seriesFilter !== '全部' || search || Object.values(this.state.customFilterSel || {}).some(arr => arr && arr.length)) ? ('当前筛选 ' + filtered.length + ' 项 · ' + fQty + ' 件') : ('全部 ' + filtered.length + ' 项 · ' + fQty + ' 件');
+    const nowForLedger = new Date();
+    const monthsRaw = [];
+    for (let i = 5; i >= 0; i--) monthsRaw.push(new Date(nowForLedger.getFullYear(), nowForLedger.getMonth() - i, 1));
+    const monthSums = Object.fromEntries(monthsRaw.map(d => [this.monthKey(d), 0]));
+    ledgerItems.forEach(it => { const d0 = it.buyDate ? new Date(it.buyDate + 'T00:00:00') : null; if (!d0 || isNaN(d0.getTime())) return; const k = this.monthKey(d0); if (Object.prototype.hasOwnProperty.call(monthSums, k)) monthSums[k] += this.enrich(it).cost; });
+    const maxMonth = Math.max(1, ...Object.values(monthSums));
+    const ledgerMonths = monthsRaw.map(d0 => { const v = monthSums[this.monthKey(d0)] || 0; return { label: this.monthLabel(d0), amount: cur + this.fmt(v), barStyle: { width: Math.max(4, Math.round(v / maxMonth * 100)) + '%', height: '100%', borderRadius: '999px', background: 'var(--accent,#ff3355)' } }; });
+    const thisMonthKey = this.monthKey(nowForLedger);
+    const monthSpent = monthSums[thisMonthKey] || 0;
+    const budget = this.num(this.state.monthlyBudget);
+    const budgetRemain = budget - monthSpent;
+    const budgetPct = budget > 0 ? (monthSpent / budget * 100) : 0;
+    const budgetColor = budget <= 0 ? '#8b85ab' : budgetPct >= 100 ? '#e23b5d' : budgetPct >= 80 ? '#d9701f' : '#12a85f';
+    const saleLedgerMode = group === 'sale';
+    let topCostRows, topQtyRows, topCharacterRows, topPlatformRows;
+    let ledgerRankTitle1 = '氪金 TOP3', ledgerRankTitle2 = '囤货 TOP3', ledgerRankTitle3 = '最爱 TOP3', ledgerRankTitle4 = '最近爆买 TOP3';
+    const fillRows = (rows, minN = 3) => { while (rows.length < minN) rows.push({ name: '暂无数据', value: '—' }); return rows; };
+    if (saleLedgerMode) {
+      ledgerRankTitle1 = '高价 TOP3';
+      ledgerRankTitle2 = '回血 TOP3';
+      ledgerRankTitle3 = '出物 TOP3';
+      ledgerRankTitle4 = '海景 TOP3';
+      const saleItems = ledgerItems.filter(it => this.num(it.sellPrice) > 0 || this.groupOf(it) === '出物');
+      topCostRows = fillRows([...saleItems].map(it => { const e = this.enrich(it); return { name: it.name || this.genName(it) || '未命名', valueNum: e.sell, qty: e.qty }; }).filter(r => r.valueNum > 0).sort((a,b) => b.valueNum - a.valueNum).slice(0,3).map(r => ({ name: r.qty > 1 ? (r.name + ' ×' + r.qty) : r.name, value: cur + this.fmt(r.valueNum) + '/个' })));
+      topQtyRows = fillRows([...saleItems].map(it => { const e = this.enrich(it); return { name: it.name || this.genName(it) || '未命名', valueNum: e.revenue, qty: e.qty }; }).filter(r => r.valueNum > 0).sort((a,b) => b.valueNum - a.valueNum).slice(0,3).map(r => ({ name: r.qty > 1 ? (r.name + ' ×' + r.qty) : r.name, value: cur + this.fmt(r.valueNum) })));
+      topCharacterRows = fillRows([...saleItems].map(it => { const e = this.enrich(it); return { name: it.name || this.genName(it) || '未命名', valueNum: e.qty, amount: e.revenue }; }).filter(r => r.valueNum > 0).sort((a,b) => b.valueNum - a.valueNum || b.amount - a.amount).slice(0,5).map(r => ({ name: r.name, value: r.valueNum + ' 个' })));
+      topPlatformRows = fillRows([...saleItems].map(it => { const e = this.enrich(it); return { name: it.name || this.genName(it) || '未命名', valueNum: e.profit, revenue: e.revenue }; }).filter(r => r.revenue > 0).sort((a,b) => b.valueNum - a.valueNum).slice(0,3).map(r => ({ name: r.name, value: (r.valueNum >= 0 ? '+' : '-') + cur + this.fmt(Math.abs(r.valueNum)) })));
+    } else {
+      topCostRows = fillRows([...ledgerItems].map(it => ({ name: it.name || this.genName(it) || '未命名', valueNum: this.enrich(it).cost })).filter(r => r.valueNum > 0).sort((a,b) => b.valueNum - a.valueNum).slice(0,3).map(r => ({ name: r.name, value: cur + this.fmt(r.valueNum) })));
+      const charSpend = {}, platformSpend = {};
+      ledgerItems.forEach(it => { const e = this.enrich(it); const ck = it.character || '未分类'; charSpend[ck] = (charSpend[ck] || 0) + e.cost; const pk = it.channel || '未填写平台'; platformSpend[pk] = (platformSpend[pk] || 0) + e.cost; });
+      topQtyRows = fillRows([...ledgerItems].map(it => ({ name: it.name || this.genName(it) || '未命名', qty: this.enrich(it).qty, type: it.type || '' })).filter(r => r.qty > 0).sort((a,b) => b.qty - a.qty || a.name.localeCompare(b.name, 'zh-Hans-CN')).slice(0,5).map(r => ({ name: r.type ? (r.name + ' · ' + r.type) : r.name, value: r.qty + ' 个' })));
+      topCharacterRows = this.topSpendRows(charSpend, cur);
+      topPlatformRows = this.topSpendRows(platformSpend, cur);
+    }
+    const reminderItemsRaw = ledgerItems.map(it => ({ it, rem: this.reminderInfo(it) })).filter(x => x.rem.pending).sort((a,b) => a.rem.days - b.rem.days);
+    const seenReminderKeys = new Set();
+    const reminderItems = reminderItemsRaw.filter(x => { const key = [x.it.id || (x.it.name || this.genName(x.it) || '未命名'), x.rem.type || '', x.rem.date || ''].join('|'); if (seenReminderKeys.has(key)) return false; seenReminderKeys.add(key); return true; });
+    const upcomingReminders = reminderItems.filter(x => x.rem.active).slice(0,5).map(x => ({ name: x.it.name || this.genName(x.it) || '未命名', text: x.rem.text, tag: x.rem.type || '提醒', days: x.rem.days }));
+    const ledgerReminderRows = reminderItems.slice(0,12).map(x => ({ name: x.it.name || this.genName(x.it) || '未命名', date: x.rem.date || '', text: x.rem.text, badgeStyle: this.badge(x.rem.days <= 3 ? '#e23b5d' : '#d9701f', x.rem.days <= 3 ? 'rgba(226,59,93,.1)' : 'rgba(217,112,31,.1)', x.rem.days <= 3 ? 'rgba(226,59,93,.26)' : 'rgba(217,112,31,.26)') }));
+    const mobileReminderText = upcomingReminders.length ? (upcomingReminders.length + ' 件') : '';
+    const mobileTodoRows = upcomingReminders.slice(0,3);
+    const mobileReminderDetail = upcomingReminders.slice(0,2).map(r => r.text).join(' / ');
+    const reminderCountText = reminderItems.length ? ('待处理 ' + reminderItems.length + ' 件') : '暂无待处理';
+
     const itemRows = filtered.map(it => {
       const e = this.enrich(it);
       const g = this.groupOf(it);
+      const rem = this.reminderInfo(it);
       const imgUrl = it.imageId ? this.imgUrls[it.imageId] : null;
       const imgUrl2 = it.imageId2 ? this.imgUrls[it.imageId2] : null;
       const swapImgUrl = it.swapImageId ? this.imgUrls[it.swapImageId] : null;
@@ -2133,6 +2338,10 @@ class Component extends DCLogic {
       const fbg = it.form === '人脸' ? 'rgba(255,193,75,.13)' : it.form === '皮套' ? 'rgba(91,157,255,.13)' : 'rgba(124,92,214,.14)';
       return {
         isHeader: false, isItem: true,
+        cardStyle: { background: '#ffffff', border: rem.active ? '2px solid #e23b5d' : '1px solid #ded7ee', borderRadius: '16px', overflow: 'hidden', display: 'flex', flexDirection: 'column', boxShadow: rem.active ? '0 0 0 3px rgba(226,59,93,.08), 0 12px 28px rgba(226,59,93,.16)' : 'none' },
+        circleImgStyle: { position: 'relative', width: '84px', height: '84px', borderRadius: '50%', overflow: 'hidden', background: 'linear-gradient(145deg,#eae5f4,#e1dcf0)', border: rem.active ? '3px solid #e23b5d' : '2px solid #ffffff', boxShadow: rem.active ? '0 0 0 3px rgba(226,59,93,.12), 0 8px 18px rgba(226,59,93,.28)' : '0 3px 10px rgba(50,38,90,.14)' },
+        circleReminderStyle: { position: 'absolute', top: '2px', right: '2px', minWidth: '20px', height: '20px', padding: '0 5px', borderRadius: '999px', background: '#e23b5d', color: '#fff', fontSize: '10px', fontWeight: 900, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid #fff', boxShadow: '0 3px 9px rgba(226,59,93,.35)' },
+        hasReminderAlert: !!rem.active, reminderText: rem.text || '', reminderBadgeText: rem.badgeText || rem.text || '', reminderShort: rem.type || '!',
         id: it.id, name: displayName, hasOrig: !!(isSwapped && it.swapTo && it.name && it.name !== it.swapTo), origText: '原抽：' + (it.name || ''), character: dispChar,
         hasAvatar: !!this.charImg(dispChar), avatarStyle: { width: '16px', height: '16px', borderRadius: '50%', backgroundImage: `url(${this.charImg(dispChar)})`, backgroundSize: 'cover', backgroundPosition: 'center', margin: '0 4px 0 -2px', flexShrink: 0 },
         charStyle: { display: 'inline-flex', alignItems: 'center', padding: '3px 9px', borderRadius: '999px', fontSize: '12px', fontWeight: 500, whiteSpace: 'nowrap', background: `hsla(${hue},60%,55%,.16)`, color: `hsl(${hue},72%,40%)`, border: `1px solid hsla(${hue},60%,60%,.32)` },
@@ -2287,8 +2496,9 @@ class Component extends DCLogic {
       { key: 'channel', label: L('channel'), text: ob.channels != null ? ob.channels : (this.state.channels || []).join('\n'), onChange: this.setOptionsText('channels', 'zzz_channels') },
       { key: 'status', label: L('status'), text: ob.statusList != null ? ob.statusList : (this.state.statusList || []).join('\n'), onChange: this.setOptionsText('statusList', 'zzz_status') },
       { key: 'form', label: L('form'), text: ob.formOrder != null ? ob.formOrder : (this.state.formOrder || []).join('\n'), onChange: this.setOptionsText('formOrder', 'zzz_form_order') },
-      { key: 'acquire', label: L('acquire'), text: ob.acquireOrder != null ? ob.acquireOrder : (this.state.acquireOrder || []).join('\n'), onChange: this.setOptionsText('acquireOrder', 'zzz_acquire_order') }
-    ].filter(o => fieldVisible(o.key));
+      { key: 'acquire', label: L('acquire'), text: ob.acquireOrder != null ? ob.acquireOrder : (this.state.acquireOrder || []).join('\n'), onChange: this.setOptionsText('acquireOrder', 'zzz_acquire_order') },
+      { key: 'reminderType', label: '提醒类型', text: ob.reminderTypes != null ? ob.reminderTypes : (this.state.reminderTypes || this.REMINDER_TYPES).join('\n'), onChange: this.setOptionsText('reminderTypes', 'zzz_reminder_types') }
+    ].filter(o => o.key === 'reminderType' || fieldVisible(o.key));
     // 自定义字段
     const customFieldRows = draftCustomFields.map(f => { const sOn = (draftStatsOn || {})[f.key] !== false; const fOn = !!draftFilterOn[f.key]; return { key: f.key, labelVal: f.label, onLabel: updateDraftCustomFieldLabel(f.key), onDel: () => this.delCustomField(f.key), onToggle: toggleDraftFilterOn(f.key), onStatsToggle: toggleDraftStatsOn(f.key),
       filterStyle: { display: 'inline-flex', alignItems: 'center', gap: '5px', cursor: 'pointer', fontSize: '12.5px', color: fOn ? '#251d49' : '#938db0' },
@@ -2331,18 +2541,19 @@ class Component extends DCLogic {
       statNet: cur + this.fmt(totalIn - totalSell),
       statCol: colCount, statSale: saleCount,
       groupTabs,
-      setTable: this.setTable, setGallery: this.setGallery, setCircle: this.setCircle,
-      tableBtnStyle: this.segStyle(view === 'table'), galleryBtnStyle: this.segStyle(view === 'gallery'), circleBtnStyle: this.segStyle(view === 'circle'),
+      setTable: this.setTable, setGallery: this.setGallery, setCircle: this.setCircle, setLedger: this.setLedger,
+      tableBtnStyle: this.segStyle(view === 'table'), galleryBtnStyle: this.segStyle(view === 'gallery'), circleBtnStyle: this.segStyle(view === 'circle'), ledgerBtnStyle: this.segStyle(view === 'ledger'),
       openAdd: this.openAdd,
       search, onSearch: this.onSearch, charChips, addCharacter: this.addCharacter, typeChips, seriesChips, showSeriesFilter, formChips, statusChips, showStatusFilter, acquireChips, channelChips, showChannelFilter, customFilterRows, groupByChips, hasRows: filtered.length > 0, fCountText, fCostText, fSellText, fNetText, fProfitText, fProfitStyle,
       labelChar: labels.character, labelType: labels.type, labelSeries: labels.series, labelChannel: labels.channel, labelForm: labels.form, labelStatus: labels.status, labelAcquire: labels.acquire,
       showCharF: fieldVisible('character') && this.state.filterOn.character !== false, showTypeF: fieldVisible('type') && this.state.filterOn.type !== false, showFormF: fieldVisible('form') && this.state.filterOn.form !== false, showStatusF: showStatusFilter, showAcquireF: fieldVisible('acquire') && this.state.filterOn.acquire !== false,
       showSeriesF: showSeriesFilter && this.state.filterOn.series !== false, showChannelF: showChannelFilter && this.state.filterOn.channel !== false,
-      displayRows, isEmpty: itemRows.length === 0, isTable: view === 'table', isGallery: view === 'gallery', isCircle: view === 'circle',
+      displayRows, isEmpty: itemRows.length === 0, isTable: view === 'table', isGallery: view === 'gallery', isCircle: view === 'circle', isLedger: view === 'ledger',
+      budgetInput: this.state.monthlyBudget || '', onBudgetChange: this.onBudgetChange, ledgerScopeText, monthSpentText: cur + this.fmt(monthSpent), budgetRemainText: budget > 0 ? ((budgetRemain >= 0 ? '' : '-') + cur + this.fmt(Math.abs(budgetRemain))) : '—', budgetRemainStyle: { color: budget > 0 ? (budgetRemain >= 0 ? '#12a85f' : '#e23b5d') : '#8b85ab' }, budgetPctText: budget > 0 ? Math.round(budgetPct) + '%' : '—', budgetPctStyle: { color: budgetColor }, budgetBarStyle: { width: Math.min(100, Math.max(0, Math.round(budgetPct))) + '%', height: '100%', borderRadius: '999px', background: budgetColor }, budgetStatusText: budget <= 0 ? '设置储值后可查看使用率' : (budgetPct >= 100 ? '再买要吃土了' : budgetPct >= 80 ? '再买要吃泡面了' : '还能吃好的'), ledgerMonths, topCostRows, topQtyRows, topCharacterRows, topPlatformRows, ledgerRankTitle1, ledgerRankTitle2, ledgerRankTitle3, ledgerRankTitle4, upcomingReminders, ledgerReminderRows, hasLedgerReminders: ledgerReminderRows.length > 0, noLedgerReminders: ledgerReminderRows.length === 0, hasUpcomingReminders: upcomingReminders.length > 0, mobileReminderText, mobileReminderDetail, mobileTodoRows, mobileBudgetText: budget > 0 ? (cur + this.fmt(budget)) : '未设', reminderCountText,
       qtyBadgeStyle: { position: 'absolute', top: '1px', right: '5px', minWidth: '22px', height: '22px', padding: '0 6px', borderRadius: '999px', background: `radial-gradient(circle at 32% 28%, ${this.accentLight(0.5)}, ${this.accentColor()} 82%)`, color: '#fff', fontSize: '12px', fontWeight: 800, lineHeight: 1, fontFamily: "'Orbitron',sans-serif", display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: `0 3px 9px ${this.accentAlpha(0.5)}`, border: '2.5px solid #fff' },
       modalOpen: this.state.modalOpen, modalTitle: this.state.editing ? '编辑谷子' : '新增谷子', isEditing: !!this.state.editing, duplicateCurrent: this.duplicateCurrent, deleteCurrent: this.deleteCurrent,
       draft: d || this.emptyDraft(),
-      CHARACTERS: this.orderedChars(), TYPES: this.TYPES, STATUSES: this.state.statusList || this.STATUSES, FORMS: this.FORMS,
+      CHARACTERS: this.orderedChars(), TYPES: this.TYPES, reminderTypeOptions: (this.state.reminderTypes && this.state.reminderTypes.length ? this.state.reminderTypes : this.REMINDER_TYPES), STATUSES: this.state.statusList || this.STATUSES, FORMS: this.FORMS,
       closeModal: this.closeModal, saveItem: this.saveItem, onDraftChange: this.onDraftChange, charMenuItems, charDisplay, charMenuOpen: this.state.charMenuOpen, toggleCharMenu: this.toggleCharMenu, onTypeChange: this.onTypeChange, onSeriesChange: this.onSeriesChange, fillName: this.fillName, draftStars, typeMenuItems, typeDisplay, hasTypeMenuItems, typeMenuOpen: this.state.typeMenuOpen, toggleTypeMenu: this.toggleTypeMenu, addType: this.addType, seriesMenuItems, seriesDisplay, hasSeriesMenuItems, seriesMenuOpen: this.state.seriesMenuOpen, toggleSeriesMenu: this.toggleSeriesMenu, addSeries: this.addSeries, clearSeries: this.clearSeries, channelMenuItems, channelMenuOpen: this.state.channelMenuOpen, toggleChannelMenu: this.toggleChannelMenu, addChannel: this.addChannel, channelDisplay: (this.state.draft && this.state.draft.channel) ? this.state.draft.channel : '选择平台 / 点右边添加', hasChannelMenuItems: (this.state.channels || []).length > 0, fillBuyFromRate: this.fillBuyFromRate, draftHasConv, draftConvText, draftIsGacha, draftSwapped,
       onImagePick: this.onImagePick, onImagePick2: this.onImagePick2, onImagePickSwap: this.onImagePickSwap, removeDraftImg: this.removeDraftImg, removeDraftImg2: this.removeDraftImg2, removeDraftSwapImg: this.removeDraftSwapImg,
       draftCostText, draftHasSell, draftProfitText, draftProfitStyle, draftThumbBg, draftHasImg, draftNoImg, draftThumbBg2, draftHasImg2, draftNoImg2, draftSwapThumbBg, draftSwapHasImg, draftSwapNoImg
