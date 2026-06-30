@@ -107,6 +107,9 @@
     .ui-mobile-auto .ui-mobile-mode-button,.ui-mobile-simple .ui-mobile-mode-button,.ui-mobile-full .ui-mobile-mode-button{display:inline-flex !important;align-items:center;justify-content:center;}
     .ui-mobile-auto .ui-stats-grid,.ui-mobile-simple .ui-stats-grid{display:none !important;}
     .ui-mobile-auto .ui-toolbar,.ui-mobile-simple .ui-toolbar{position:sticky !important;top:0 !important;z-index:12 !important;margin-left:-4px !important;margin-right:-4px !important;border-radius:12px !important;box-shadow:0 8px 24px rgba(50,38,90,.08) !important;}
+    .ui-mobile-auto .ui-work-switch,.ui-mobile-simple .ui-work-switch{position:relative !important;z-index:40 !important;margin-bottom:10px !important;}
+    .ui-mobile-auto .ui-work-switch > div:last-child,.ui-mobile-simple .ui-work-switch > div:last-child{z-index:80 !important;}
+    .ui-mobile-auto .ui-toolbar,.ui-mobile-simple .ui-toolbar{top:8px !important;z-index:20 !important;}
     .ui-mobile-auto .ui-toolbar > div,.ui-mobile-simple .ui-toolbar > div{width:100%;justify-content:space-between !important;overflow-x:auto;}
     .ui-mobile-auto .ui-table-mode-btn,.ui-mobile-simple .ui-table-mode-btn{display:none !important;}
     .ui-mobile-auto .ui-main-add,.ui-mobile-simple .ui-main-add{position:fixed !important;right:16px !important;bottom:18px !important;z-index:50 !important;border-radius:999px !important;min-width:52px !important;min-height:52px !important;padding:0 17px !important;box-shadow:0 12px 30px rgba(50,38,90,.24) !important;}
@@ -177,7 +180,7 @@
     </sc-if>
 
     <!-- ===== WORK SWITCH ===== -->
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;background:linear-gradient(120deg,#ffffff,#f3f0fb);border:1px solid #e3def1;border-radius:14px;padding:11px 15px;margin-bottom:16px">
+    <div class="ui-work-switch" style="display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;background:linear-gradient(120deg,#ffffff,#f3f0fb);border:1px solid #e3def1;border-radius:14px;padding:11px 15px;margin-bottom:16px">
       <div style="display:flex;align-items:baseline;gap:10px;min-width:0">
         <span style="font-size:11.5px;color:#837da4;background:rgba(50,38,90,.06);padding:3px 9px;border-radius:999px;white-space:nowrap">{{ workGroupName }}</span>
         <span style="font-weight:800;font-size:16px;color:#251d49;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ workName }}</span>
@@ -185,7 +188,7 @@
       <div style="position:relative;flex-shrink:0">
         <button onClick="{{ toggleWorkMenu }}" style="display:flex;align-items:center;gap:8px;padding:8px 13px;border-radius:10px;border:1px solid #ded7ee;background:#ffffff;color:#4c4580;font-size:13px;font-family:inherit;cursor:pointer">切换{{ workGroupLabel }} / 作品 <span style="color:#938db0;font-size:11px">▾</span></button>
         <sc-if value="{{ workMenuOpen }}" hint-placeholder-val="{{ false }}">
-          <div style="position:absolute;right:0;top:100%;margin-top:6px;z-index:8;min-width:260px;background:#ffffff;border:1px solid #ded7ee;border-radius:12px;box-shadow:0 16px 40px rgba(0,0,0,.18);padding:8px;max-height:340px;overflow-y:auto">
+          <div style="position:absolute;right:0;top:100%;margin-top:6px;z-index:80;min-width:260px;background:#ffffff;border:1px solid #ded7ee;border-radius:12px;box-shadow:0 16px 40px rgba(0,0,0,.18);padding:8px;max-height:340px;overflow-y:auto">
             <sc-for list="{{ workGroups }}" as="g" hint-placeholder-count="1">
               <div style="font-size:11px;color:#938db0;padding:6px 8px 3px;font-weight:600">{{ g.group }}</div>
               <sc-for list="{{ g.works }}" as="w" hint-placeholder-count="2">
@@ -632,7 +635,7 @@
 
   <!-- ===== MODAL ===== -->
   <sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
-    <div onClick="{{ stop }}" style="position:fixed;inset:0;z-index:60;background:rgba(70,58,110,.32);backdrop-filter:blur(6px);display:flex;align-items:flex-start;justify-content:center;padding:28px 14px;overflow-y:auto;animation:fadein .18s ease">
+    <div onMouseDown="{{ stop }}" onMouseUp="{{ stop }}" onClick="{{ stop }}" style="position:fixed;inset:0;z-index:60;background:rgba(70,58,110,.32);backdrop-filter:blur(6px);display:flex;align-items:flex-start;justify-content:center;padding:28px 14px;overflow-y:auto;animation:fadein .18s ease">
       <div class="ui-modal-card ui-item-modal" onClick="{{ stop }}" style="width:100%;max-width:720px;max-height:96vh;display:flex;flex-direction:column;background:linear-gradient(160deg,#ffffff,#f4f1fb);border:1px solid #d6cfe9;border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.5);animation:modalpop .22s cubic-bezier(.2,.8,.3,1);overflow:hidden">
         <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid #e1dbf0">
           <div style="font-family:'Orbitron';font-weight:700;font-size:17px">{{ modalTitle }}</div>
@@ -916,7 +919,7 @@
 
   <!-- ===== SETTINGS MODAL ===== -->
   <sc-if value="{{ settingsOpen }}" hint-placeholder-val="false">
-    <div onClick="{{ stop }}" style="position:fixed;inset:0;z-index:70;background:rgba(70,58,110,.32);backdrop-filter:blur(4px);display:flex;align-items:flex-start;justify-content:center;padding:30px 14px;overflow-y:auto">
+    <div onMouseDown="{{ stop }}" onMouseUp="{{ stop }}" onClick="{{ stop }}" style="position:fixed;inset:0;z-index:70;background:rgba(70,58,110,.32);backdrop-filter:blur(4px);display:flex;align-items:flex-start;justify-content:center;padding:30px 14px;overflow-y:auto">
       <div class="ui-modal-card ui-settings-modal" onClick="{{ stop }}" style="width:100%;max-width:680px;max-height:92vh;display:flex;flex-direction:column;background:linear-gradient(160deg,#ffffff,#f4f1fb);border:1px solid #d6cfe9;border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.4);overflow:hidden">
         <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid #e1dbf0;flex-shrink:0">
           <div style="font-weight:800;font-size:17px;color:#251d49">项目设置</div>
@@ -1098,7 +1101,7 @@
 
   <!-- ===== TREND MODAL ===== -->
   <sc-if value="{{ trendOpen }}" hint-placeholder-val="{{ false }}">
-    <div onClick="{{ stop }}" style="position:fixed;inset:0;z-index:70;background:rgba(70,58,110,.32);backdrop-filter:blur(4px);display:flex;align-items:flex-start;justify-content:center;padding:28px 14px;overflow-y:auto">
+    <div onMouseDown="{{ stop }}" onMouseUp="{{ stop }}" onClick="{{ stop }}" style="position:fixed;inset:0;z-index:70;background:rgba(70,58,110,.32);backdrop-filter:blur(4px);display:flex;align-items:flex-start;justify-content:center;padding:28px 14px;overflow-y:auto">
       <div class="ui-modal-card ui-trend-modal" onClick="{{ stop }}" style="width:100%;max-width:880px;max-height:96vh;display:flex;flex-direction:column;background:linear-gradient(160deg,#ffffff,#f4f1fb);border:1px solid #d6cfe9;border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.4);overflow:hidden">
         <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid #e1dbf0">
           <div style="font-weight:800;font-size:16px;color:#251d49">{{ trendTitle }}</div>
@@ -1186,7 +1189,7 @@ class Component extends DCLogic {
 
   setRoot = (el) => { this.rootEl = el; if (el) { const a = this.state.accent || this.props.accent || '#ff3355'; el.style.setProperty('--accent', a); try { document.documentElement.style.setProperty('--accent', a); } catch (e) {} this.applyBg(); } };
   setImportRef = (el) => { this.importRef = el; };
-  stop = (e) => { e.stopPropagation(); };
+  stop = (e) => { if (e && e.stopPropagation) e.stopPropagation(); };
 
   componentDidMount() {
     let items = [], hasStoredItems = false;
