@@ -7,6 +7,7 @@
 </head>
 <body>
 <x-dc>
+<!-- 谷子收纳 V2.1 Stable 完整版：手机简洁 / 网页完整 / 作品独立角色 / 防误关弹窗 -->
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -243,7 +244,7 @@
           <button class="ui-table-mode-btn" onClick="{{ setTable }}" style="{{ tableBtnStyle }}">▤ 表格</button>
           <button class="ui-table-mode-btn" onClick="{{ setLedger }}" style="{{ ledgerBtnStyle }}">￥ 账本</button>
         </div>
-        <button class="ui-main-add" onClick="{{ openAdd }}" style="font-family:inherit;font-size:14px;font-weight:700;color:#fff;background:var(--accent,#ff3355);border:none;padding:10px 18px;border-radius:11px;cursor:pointer;box-shadow:0 6px 18px rgba(50,38,90,.2)">＋ 新增谷子</button>
+        <button class="ui-main-add" onClick="{{ openAdd }}" style="font-family:inherit;font-size:14px;font-weight:700;color:#fff;background:var(--accent,#ff3355);border:none;padding:10px 18px;border-radius:11px;cursor:pointer;box-shadow:0 6px 18px rgba(50,38,90,.2)">{{ addItemText }}</button>
       </div>
     </div>
 
@@ -270,9 +271,9 @@
         <div style="font-size:11px;color:#837da4">{{ budgetPctText }}</div>
       </div>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center">
-        <div><div style="font-size:10.5px;color:#837da4;margin-bottom:3px">预算</div><div style="font-family:'Orbitron';font-weight:800;font-size:13px;color:#251d49">{{ mobileBudgetText }}</div></div>
-        <div><div style="font-size:10.5px;color:#837da4;margin-bottom:3px">已花</div><div style="font-family:'Orbitron';font-weight:800;font-size:13px;color:#251d49">{{ monthSpentText }}</div></div>
-        <div><div style="font-size:10.5px;color:#837da4;margin-bottom:3px">剩余</div><div style="font-family:'Orbitron';font-weight:800;font-size:13px"><span style="{{ budgetRemainStyle }}">{{ budgetRemainText }}</span></div></div>
+        <div><div style="font-size:10.5px;color:#837da4;margin-bottom:3px">{{ miniBudgetLabel }}</div><div style="font-family:'Orbitron';font-weight:800;font-size:13px;color:#251d49">{{ mobileBudgetText }}</div></div>
+        <div><div style="font-size:10.5px;color:#837da4;margin-bottom:3px">{{ miniSpentLabel }}</div><div style="font-family:'Orbitron';font-weight:800;font-size:13px;color:#251d49">{{ monthSpentText }}</div></div>
+        <div><div style="font-size:10.5px;color:#837da4;margin-bottom:3px">{{ miniRemainLabel }}</div><div style="font-family:'Orbitron';font-weight:800;font-size:13px"><span style="{{ budgetRemainStyle }}">{{ budgetRemainText }}</span></div></div>
       </div>
       <div style="height:6px;background:#eee9f8;border-radius:999px;margin-top:10px;overflow:hidden"><div style="{{ budgetBarStyle }}"></div></div>
     </div>
@@ -563,26 +564,26 @@
       <div class="ui-ledger-page">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:linear-gradient(120deg,#ffffff,#f3f0fb);border:1px solid #ded7ee;border-radius:16px;padding:15px 18px">
           <div>
-            <div style="font-weight:900;font-size:18px;color:#251d49">💰 账本模式</div>
-            <div style="font-size:12.5px;color:#837da4;margin-top:4px">账本会跟随当前筛选结果变化；网页端显示完整预算、消费排行和提醒中心，手机清爽模式只保留临近提醒。</div>
+            <div style="font-weight:900;font-size:18px;color:#251d49">{{ ledgerTitle }}</div>
+            <div style="font-size:12.5px;color:#837da4;margin-top:4px">{{ ledgerHelpText }}</div>
           </div>
           <div style="font-size:12px;color:#837da4;text-align:right">按购买日期统计 · {{ ledgerScopeText }}</div>
         </div>
 
         <div class="ui-ledger-grid">
           <div class="ui-ledger-card" style="background:linear-gradient(150deg,#ffffff,#f8f5ff)">
-            <div style="font-size:12px;color:#544f7e;margin-bottom:8px">本月吃谷钱包</div>
-            <input value="{{ budgetInput }}" onChange="{{ onBudgetChange }}" placeholder="输入储值" type="number" min="0" style="width:100%;font-family:'Orbitron';font-weight:700;font-size:22px;color:#251d49;border:1px solid #ded7ee;border-radius:10px;padding:8px 10px;background:#fff;outline:none">
+            <div style="font-size:12px;color:#544f7e;margin-bottom:8px">{{ budgetLabel }}</div>
+            <input value="{{ budgetInput }}" onChange="{{ onBudgetChange }}" placeholder="输入预算" type="number" min="0" style="width:100%;font-family:'Orbitron';font-weight:700;font-size:22px;color:#251d49;border:1px solid #ded7ee;border-radius:10px;padding:8px 10px;background:#fff;outline:none">
             <div style="height:7px;background:#eee9f8;border-radius:999px;margin-top:12px;overflow:hidden"><div style="{{ budgetBarStyle }}"></div></div>
           </div>
-          <div class="ui-ledger-card"><div style="font-size:12px;color:#544f7e;margin-bottom:8px">本月吃土</div><div style="font-family:'Orbitron';font-weight:700;font-size:24px;color:#251d49">{{ monthSpentText }}</div></div>
-          <div class="ui-ledger-card"><div style="font-size:12px;color:#544f7e;margin-bottom:8px">还能氪金</div><div style="font-family:'Orbitron';font-weight:700;font-size:24px"><span style="{{ budgetRemainStyle }}">{{ budgetRemainText }}</span></div></div>
-          <div class="ui-ledger-card"><div style="font-size:12px;color:#544f7e;margin-bottom:8px">钱包使用率</div><div style="font-family:'Orbitron';font-weight:700;font-size:24px"><span style="{{ budgetPctStyle }}">{{ budgetPctText }}</span></div><div style="font-size:11.5px;color:#837da4;margin-top:5px">{{ budgetStatusText }}</div></div>
+          <div class="ui-ledger-card"><div style="font-size:12px;color:#544f7e;margin-bottom:8px">{{ spentLabel }}</div><div style="font-family:'Orbitron';font-weight:700;font-size:24px;color:#251d49">{{ monthSpentText }}</div></div>
+          <div class="ui-ledger-card"><div style="font-size:12px;color:#544f7e;margin-bottom:8px">{{ remainLabel }}</div><div style="font-family:'Orbitron';font-weight:700;font-size:24px"><span style="{{ budgetRemainStyle }}">{{ budgetRemainText }}</span></div></div>
+          <div class="ui-ledger-card"><div style="font-size:12px;color:#544f7e;margin-bottom:8px">{{ progressLabel }}</div><div style="font-family:'Orbitron';font-weight:700;font-size:24px"><span style="{{ budgetPctStyle }}">{{ budgetPctText }}</span></div><div style="font-size:11.5px;color:#837da4;margin-top:5px">{{ budgetStatusText }}</div></div>
         </div>
 
         <div style="display:grid;grid-template-columns:1.55fr .95fr;gap:16px;align-items:start">
           <div style="background:linear-gradient(160deg,#ffffff,#f3f0fb);border:1px solid #ded7ee;border-radius:16px;padding:16px 18px;min-width:0">
-            <div class="ui-ledger-title">近六个月消费表</div>
+            <div class="ui-ledger-title">{{ monthsTitle }}</div>
             <div style="display:grid;grid-template-columns:repeat(6,minmax(96px,1fr));gap:10px;overflow-x:auto">
               <sc-for list="{{ ledgerMonths }}" as="m" hint-placeholder-count="6">
                 <div style="min-width:96px;background:#fff;border:1px solid #e1dbf0;border-radius:12px;padding:11px 12px">
@@ -594,11 +595,11 @@
             </div>
           </div>
           <div style="background:rgba(226,59,93,.06);border:1px solid rgba(226,59,93,.22);border-radius:16px;padding:16px 18px;min-width:0">
-            <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:10px"><div style="font-weight:800;font-size:15px;color:#e23b5d">提醒中心</div><div style="font-size:12px;color:#837da4">{{ reminderCountText }}</div></div>
+            <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:10px"><div style="font-weight:800;font-size:15px;color:#e23b5d">{{ reminderCenterTitle }}</div><div style="font-size:12px;color:#837da4">{{ reminderCountText }}</div></div>
             <sc-if value="{{ hasLedgerReminders }}" hint-placeholder-val="{{ false }}">
               <sc-for list="{{ ledgerReminderRows }}" as="r" hint-placeholder-count="5"><div style="display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:8px 0;border-top:1px solid rgba(226,59,93,.12)"><div style="min-width:0"><div style="font-size:13px;color:#544f7e;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</div><div style="font-size:11.5px;color:#938db0">{{ r.date }}</div></div><span style="{{ r.badgeStyle }}">{{ r.text }}</span></div></sc-for>
             </sc-if>
-            <sc-if value="{{ noLedgerReminders }}" hint-placeholder-val="{{ true }}"><div style="font-size:13px;color:#938db0;padding:12px 0;border-top:1px solid rgba(226,59,93,.12)">暂无待处理补款 / 尾款 / 排发。</div></sc-if>
+            <sc-if value="{{ noLedgerReminders }}" hint-placeholder-val="{{ true }}"><div style="font-size:13px;color:#938db0;padding:12px 0;border-top:1px solid rgba(226,59,93,.12)">{{ noReminderText }}</div></sc-if>
           </div>
         </div>
 
@@ -631,7 +632,7 @@
 
   <!-- ===== MODAL ===== -->
   <sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
-    <div onClick="{{ closeModal }}" style="position:fixed;inset:0;z-index:60;background:rgba(70,58,110,.32);backdrop-filter:blur(6px);display:flex;align-items:flex-start;justify-content:center;padding:28px 14px;overflow-y:auto;animation:fadein .18s ease">
+    <div onClick="{{ stop }}" style="position:fixed;inset:0;z-index:60;background:rgba(70,58,110,.32);backdrop-filter:blur(6px);display:flex;align-items:flex-start;justify-content:center;padding:28px 14px;overflow-y:auto;animation:fadein .18s ease">
       <div class="ui-modal-card ui-item-modal" onClick="{{ stop }}" style="width:100%;max-width:720px;max-height:96vh;display:flex;flex-direction:column;background:linear-gradient(160deg,#ffffff,#f4f1fb);border:1px solid #d6cfe9;border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.5);animation:modalpop .22s cubic-bezier(.2,.8,.3,1);overflow:hidden">
         <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid #e1dbf0">
           <div style="font-family:'Orbitron';font-weight:700;font-size:17px">{{ modalTitle }}</div>
@@ -915,7 +916,7 @@
 
   <!-- ===== SETTINGS MODAL ===== -->
   <sc-if value="{{ settingsOpen }}" hint-placeholder-val="false">
-    <div onClick="{{ closeSettings }}" style="position:fixed;inset:0;z-index:70;background:rgba(70,58,110,.32);backdrop-filter:blur(4px);display:flex;align-items:flex-start;justify-content:center;padding:30px 14px;overflow-y:auto">
+    <div onClick="{{ stop }}" style="position:fixed;inset:0;z-index:70;background:rgba(70,58,110,.32);backdrop-filter:blur(4px);display:flex;align-items:flex-start;justify-content:center;padding:30px 14px;overflow-y:auto">
       <div class="ui-modal-card ui-settings-modal" onClick="{{ stop }}" style="width:100%;max-width:680px;max-height:92vh;display:flex;flex-direction:column;background:linear-gradient(160deg,#ffffff,#f4f1fb);border:1px solid #d6cfe9;border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.4);overflow:hidden">
         <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid #e1dbf0;flex-shrink:0">
           <div style="font-weight:800;font-size:17px;color:#251d49">项目设置</div>
@@ -969,6 +970,19 @@
                 <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">主题色</div>
                 <input type="color" value="{{ accentVal }}" onChange="{{ onAccent }}" style="width:100%;height:42px;padding:3px;border-radius:9px;border:1px solid #ded7ee;background:#fff;cursor:pointer;box-sizing:border-box">
               </div>
+              <div>
+                <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">名称风格</div>
+                <select value="{{ nameStyleVal }}" onChange="{{ onNameStyle }}" style="width:100%;min-height:42px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:14px;font-family:inherit;outline:none;box-sizing:border-box">
+                  <option value="default">默认（推荐）</option><option value="guquan">谷圈</option><option value="business">商务</option>
+                </select>
+              </div>
+              <div>
+                <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">显示模式</div>
+                <select value="{{ displayModeVal }}" onChange="{{ onDisplayMode }}" style="width:100%;min-height:42px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:14px;font-family:inherit;outline:none;box-sizing:border-box">
+                  <option value="newbie">新手（显示说明）</option><option value="standard">标准</option><option value="simple">极简</option>
+                </select>
+              </div>
+              <div style="grid-column:1/-1;background:rgba(50,38,90,.035);border:1px solid #e1dbf0;border-radius:12px;padding:10px 12px;font-size:11.5px;color:#837da4;line-height:1.65">预览：{{ stylePreviewText }}</div>
             </div>
             <div style="font-size:11.5px;color:#938db0;line-height:1.6;margin-top:10px">标题、副标题、底部文字、Logo 也可以直接在首页点上去改。</div>
           </div>
@@ -1084,7 +1098,7 @@
 
   <!-- ===== TREND MODAL ===== -->
   <sc-if value="{{ trendOpen }}" hint-placeholder-val="{{ false }}">
-    <div onClick="{{ closeTrend }}" style="position:fixed;inset:0;z-index:70;background:rgba(70,58,110,.32);backdrop-filter:blur(4px);display:flex;align-items:flex-start;justify-content:center;padding:28px 14px;overflow-y:auto">
+    <div onClick="{{ stop }}" style="position:fixed;inset:0;z-index:70;background:rgba(70,58,110,.32);backdrop-filter:blur(4px);display:flex;align-items:flex-start;justify-content:center;padding:28px 14px;overflow-y:auto">
       <div class="ui-modal-card ui-trend-modal" onClick="{{ stop }}" style="width:100%;max-width:880px;max-height:96vh;display:flex;flex-direction:column;background:linear-gradient(160deg,#ffffff,#f4f1fb);border:1px solid #d6cfe9;border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.4);overflow:hidden">
         <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid #e1dbf0">
           <div style="font-weight:800;font-size:16px;color:#251d49">{{ trendTitle }}</div>
@@ -1154,7 +1168,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:&quot;100%&quot;},&quot;currency&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;¥&quot;,&quot;$&quot;,&quot;S$&quot;,&quot;NT$&quot;,&quot;HK$&quot;,&quot;€&quot;],&quot;default&quot;:&quot;¥&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#ff3355&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;startView&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;gallery&quot;,&quot;table&quot;],&quot;default&quot;:&quot;gallery&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
 class Component extends DCLogic {
-  CHARACTERS = ['万津莫','ねむ','万津美浪','富士見鉄也','南雲なすか','ノクス／诺克斯','ザ・レディ','ジーク','ゼロ／零','仮面ライダーゼッツ','仮面ライダーノクス','仮面ライダードォーン','ノクスナイト','仮面ライダーノクス ミッドナイトシャドウ','CODE','其他'];
+  CHARACTERS = ['诺克斯','NOX','MIDNIGHT SHADOW','NOX KNIGHT','万津莫','ZEZTZ','西格','DAWN','宁梦','万津美浪','富士見鉄也','南云成华','ザ・レディ','ZERO','CODE','其他'];
   TYPES = ['吧唧','亚克力','毛绒','色纸/卡片','文件夹','挂绳/吊饰','布制品','包袋/收纳','影像碟片','其他'];
   STATUSES = ['已到货','在途/运输中','已下单未发货','等待补款','已补款','等待尾款','已付尾款','等待排发','已排发','想要/计划购买','出售中','已出/已卖出'];
   STATUS_COLOR = {'已到货':'#12a85f','在途/运输中':'#c8860d','已下单未发货':'#2f6fdb','想要/计划购买':'#7c5cd6','出售中':'#d9701f','已出/已卖出':'#6f6996'};
@@ -1166,9 +1180,9 @@ class Component extends DCLogic {
   SUPA_URL = 'https://kgifcpdajnyhxxmenazz.supabase.co';
   SUPA_KEY = 'sb_publishable_Bvg4r_n3JiokW3cY3NDo3A_9M2CNfaU';
   FIELD_DEFAULTS = { character: '角色', type: '种类', series: '厂商', channel: '平台', status: '状态', form: '形态', acquire: '来源' };
-  CHAR_IMG = { '万津莫': 'assets/c_matsu.webp', 'ねむ': 'assets/c_nemu.webp', '万津美浪': 'assets/c_minami.webp', '富士見鉄也': 'assets/c_fujimi.webp', '南雲なすか': 'assets/c_nagumo.webp', 'ノクス／诺克斯': 'assets/c_nox.webp', 'ザ・レディ': 'assets/c_lady.webp', 'ジーク': 'assets/c_zeke.webp', 'ゼロ／零': 'assets/c_zero.webp', '仮面ライダーゼッツ': 'assets/r_red.webp', '仮面ライダーノクス': 'assets/r_blue.webp', '仮面ライダードォーン': 'assets/r_zeztz.webp', 'ノクスナイト': 'assets/r_lady.webp', '仮面ライダーノクス ミッドナイトシャドウ': 'assets/r_nox_midnight.webp', 'CODE': 'assets/c_code.webp' };
+  CHAR_IMG = { '诺克斯': 'assets/c_nox.webp', 'NOX': 'assets/c_nox.webp', 'MIDNIGHT SHADOW': 'assets/r_nox_midnight.webp', 'NOX KNIGHT': 'assets/r_lady.webp', 'ZEZTZ': 'assets/r_red.webp', '西格': 'assets/c_zeke.webp', 'DAWN': 'assets/r_zeztz.webp', '宁梦': 'assets/c_nemu.webp', '南云成华': 'assets/c_nagumo.webp', 'ZERO': 'assets/c_zero.webp', '万津莫': 'assets/c_matsu.webp', 'ねむ': 'assets/c_nemu.webp', '万津美浪': 'assets/c_minami.webp', '富士見鉄也': 'assets/c_fujimi.webp', '南雲なすか': 'assets/c_nagumo.webp', 'ノクス／诺克斯': 'assets/c_nox.webp', 'ザ・レディ': 'assets/c_lady.webp', 'ジーク': 'assets/c_zeke.webp', 'ゼロ／零': 'assets/c_zero.webp', '仮面ライダーゼッツ': 'assets/r_red.webp', '仮面ライダーノクス': 'assets/r_blue.webp', '仮面ライダードォーン': 'assets/r_zeztz.webp', 'ノクスナイト': 'assets/r_lady.webp', '仮面ライダーノクス ミッドナイトシャドウ': 'assets/r_nox_midnight.webp', 'CODE': 'assets/c_code.webp' };
   imgUrls = {};
-  state = { items: [], view: null, monthlyBudget: '', group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, trendOpen: false, trendItemId: null, trendRows: [], trendResult: null, ocrRawText: '', ocrBulkText: '', modalOpen: false, editing: null, draft: null, savedAt: 0 };
+  state = { items: [], view: null, monthlyBudget: '', nameStyleMode: 'default', displayMode: 'standard', group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, trendOpen: false, trendItemId: null, trendRows: [], trendResult: null, ocrRawText: '', ocrBulkText: '', modalOpen: false, editing: null, draft: null, savedAt: 0 };
 
   setRoot = (el) => { this.rootEl = el; if (el) { const a = this.state.accent || this.props.accent || '#ff3355'; el.style.setProperty('--accent', a); try { document.documentElement.style.setProperty('--accent', a); } catch (e) {} this.applyBg(); } };
   setImportRef = (el) => { this.importRef = el; };
@@ -1181,11 +1195,11 @@ class Component extends DCLogic {
     if (!hasStoredItems && !items.length) { items = this.samples(); }
     else if (!localStorage.getItem('zzz_migrated_v2')) {
       // 一次性迁移：仅在升级时跑一次，之后永不改动用户数据
-      const cmap = { '万津莫 / ZZZ': '万津莫／ゼッツ', '宁梦': 'ねむ', '万津美浪': '万津美波', '诺克斯 / Nox': 'ノクス', 'ZERO 零': 'ゼロ／零', '南云成华': '南雲なすか', '富士见铁也': '富士見鉄也', 'THE LADY': 'ザ・レディ', '梦魇': 'ナイトメア' };
+      const cmap = { '万津莫 / ZZZ': '万津莫', '宁梦': '宁梦', '万津美浪': '万津美浪', '诺克斯 / Nox': 'ノクス', 'ZERO 零': 'ZERO', '南云成华': '南云成华', '富士见铁也': '富士見鉄也', 'THE LADY': 'ザ・レディ', '梦魇': 'ナイトメア' };
       const nmap = { '诺克斯 吧唧（重复出物）': 'ノクス 吧唧（重复出物）' };
       items = items.map(it => ({ ...it, character: cmap[it.character] || it.character, name: nmap[it.name] || it.name }));
       const tmap = { '立牌': '亚克力立牌', '挂件/钥匙扣': '亚克力挂件', '徽章盒/收纳': '包袋/收纳' };
-      const chrmap = { '万津莫／ゼッツ': '万津莫', '万津美波': '万津美浪', 'ジーク／ドォーン': 'ジーク', '仮面ライダーゼロ': 'ノクスナイト', 'ナイトメア': '其他', 'ノクス': 'ノクス／诺克斯' };
+      const chrmap = { '万津莫／ゼッツ': '万津莫', '万津美波': '万津美浪', 'ねむ': '宁梦', '南雲なすか': '南云成华', 'ジーク／ドォーン': '西格', '仮面ライダーゼロ': 'NOX KNIGHT', 'ナイトメア': '其他', 'ノクス': '诺克斯' };
       items = items.map(it => { const x = { ...it }; if (chrmap[x.character]) x.character = chrmap[x.character]; if (chrmap[x.swapCharacter]) x.swapCharacter = chrmap[x.swapCharacter]; if (tmap[x.type]) x.type = tmap[x.type]; if (x.type === '盲盒') { x.acquire = '盲盒'; x.type = '其他'; } if (x.type === '单领') { x.acquire = '单领'; x.type = '其他'; } return x; });
       try { localStorage.setItem('zzz_migrated_v2', '1'); } catch (e) {}
     }
@@ -1216,6 +1230,8 @@ class Component extends DCLogic {
     } catch (e) {}
     let monthlyBudget = ''; try { monthlyBudget = localStorage.getItem('zzz_monthly_budget') || ''; } catch (e) {}
     let mobileMode = 'auto'; try { mobileMode = localStorage.getItem('zzz_mobile_mode') || 'auto'; } catch(e) {}
+    let nameStyleMode = 'default'; try { nameStyleMode = localStorage.getItem('zzz_name_style') || 'default'; } catch(e) {}
+    let displayMode = 'standard'; try { displayMode = localStorage.getItem('zzz_display_mode') || 'standard'; } catch(e) {}
     if (!['auto', 'full', 'simple'].includes(mobileMode)) mobileMode = 'auto';
     const isPhone = (() => { try { return !!(window.matchMedia && window.matchMedia('(max-width:640px)').matches); } catch(e) { return false; } })();
     const startView = this.props.startView || ((isPhone && mobileMode !== 'full') ? 'circle' : 'gallery');
@@ -1223,7 +1239,7 @@ class Component extends DCLogic {
     this.charOrder = lists.charOrder;
     let cloudSyncId = '', cloudSyncCode = '';
     try { cloudSyncId = localStorage.getItem('zzz_cloud_id') || ''; cloudSyncCode = localStorage.getItem('zzz_cloud_code') || ''; } catch (e) {}
-    this.setState({ items, works, currentWorkId, workGroupLabel, title, subtitle, footer, collectorName, currency, accent, monthlyBudget, fieldLabels, filterOn, statsOn, deletedFields, customFields, customFilterOrder, cloudSyncId, cloudSyncCode, cloudCodeInput: cloudSyncCode || '', mobileMode, filtersOpen: false, view: startView, ...lists });
+    this.setState({ items, works, currentWorkId, workGroupLabel, title, subtitle, footer, collectorName, currency, accent, monthlyBudget, nameStyleMode, displayMode, fieldLabels, filterOn, statsOn, deletedFields, customFields, customFilterOrder, cloudSyncId, cloudSyncCode, cloudCodeInput: cloudSyncCode || '', mobileMode, filtersOpen: false, view: startView, ...lists });
     this.loadImages(items);
     this.loadCharAvatars();
     this.loadLogo();
@@ -1239,7 +1255,7 @@ class Component extends DCLogic {
     const isMain = workId === this.MAIN_WORK;
     const rd = (base, fallback) => { let v = null; try { v = JSON.parse(localStorage.getItem(this.wkey(base, workId)) || 'null'); } catch (e) {} return Array.isArray(v) ? v : fallback(); };
     let charOrder = rd('zzz_char_order', () => isMain ? [...this.CHARACTERS] : []);
-    if (isMain) this.CHARACTERS.forEach(c => { if (!charOrder.includes(c)) charOrder.push(c); });
+    if (isMain) charOrder = [...this.CHARACTERS];
     items.forEach(it => { [it.character, it.swapCharacter].forEach(c => { if (c && !charOrder.includes(c)) charOrder.push(c); }); });
     let typesList = rd('zzz_types', () => [...new Set([...this.TYPES, ...items.map(i => i.type).filter(Boolean)])]);
     let seriesList = rd('zzz_series', () => [...new Set(items.map(i => i.series).filter(Boolean))]);
@@ -1461,6 +1477,8 @@ class Component extends DCLogic {
       localStorage.setItem('zzz_acquire_order', JSON.stringify(acquireOrder));
       localStorage.setItem('zzz_reminder_types', JSON.stringify(reminderTypes));
       localStorage.setItem('zzz_status', JSON.stringify(this.STATUSES));
+      localStorage.setItem('zzz_name_style', 'default');
+      localStorage.setItem('zzz_display_mode', 'standard');
     } catch (e) {}
     this.imgUrls = {};
     this.logoUrl = null;
@@ -1477,8 +1495,8 @@ class Component extends DCLogic {
     this.setState({
       items: [], works, currentWorkId: this.MAIN_WORK, group: 'all', groupBy: 'none', search: '',
       charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], customFilterSel: {}, customFilterOrder: {},
-      workGroupLabel: '系列IP', workMenuOpen: false, fieldLabels: { ...this.FIELD_DEFAULTS }, filterOn, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, reminderTypes,
-      settingsOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '本机资料已清空。', cloudBusy: false,
+      workGroupLabel: '系列IP', workMenuOpen: false, fieldLabels: { ...this.FIELD_DEFAULTS }, filterOn, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, reminderTypes, nameStyleMode: 'default', displayMode: 'standard',
+      settingsOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', nameStyleMode: 'default', displayMode: 'standard', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '本机资料已清空。', cloudBusy: false,
       modalOpen: false, editing: null, draft: null, trendOpen: false, trendItemId: null, trendRows: [], trendResult: null,
       title: '谷子收纳', subtitle: '梦 境 特 工 档 案', footer: '梦境特工档案 · コードナンバー：収集家',
       ...lists, savedAt: Date.now()
@@ -1491,10 +1509,13 @@ class Component extends DCLogic {
       collectorName: this.state.collectorName || '',
       currency: this.state.currency || '',
       accent: this.state.accent || this.props.accent || '#ff3355',
+      nameStyleMode: this.state.nameStyleMode || 'default',
+      displayMode: this.state.displayMode || 'standard',
       title: this.state.title || '',
       subtitle: this.state.subtitle || '',
       footer: this.state.footer || '',
       works: (this.state.works || []).map(w => ({ ...w })),
+      currentWorkId: this.state.currentWorkId || this.MAIN_WORK,
       fieldLabels: { ...(this.state.fieldLabels || {}) },
       filterOn: { ...(this.state.filterOn || {}) },
       statsOn: { ...(this.state.statsOn || {}) },
@@ -1512,6 +1533,8 @@ class Component extends DCLogic {
       localStorage.setItem('zzz_cn', d.collectorName || '');
       localStorage.setItem('zzz_currency', d.currency || '');
       localStorage.setItem('zzz_accent', d.accent || '');
+      localStorage.setItem('zzz_name_style', d.nameStyleMode || 'default');
+      localStorage.setItem('zzz_display_mode', d.displayMode || 'standard');
       localStorage.setItem('zzz_title', d.title || '');
       localStorage.setItem('zzz_subtitle', d.subtitle || '');
       localStorage.setItem('zzz_footer', d.footer || '');
@@ -1521,16 +1544,22 @@ class Component extends DCLogic {
       localStorage.setItem('zzz_stats_on', JSON.stringify(d.statsOn || {}));
       localStorage.setItem('zzz_custom_fields', JSON.stringify(d.customFields || []));
     } catch (e) {}
-    const works = d.works || [];
-    let currentWorkId = this.state.currentWorkId;
-    if (works.length && !works.some(w => w.id === currentWorkId)) currentWorkId = works[0].id;
+    let works = Array.isArray(d.works) ? d.works.map(w => ({ id: w.id || ('w_' + Date.now().toString(36)), group: (w.group || this.DEFAULT_GROUP).trim ? (w.group || this.DEFAULT_GROUP).trim() : (w.group || this.DEFAULT_GROUP), name: (w.name || '未命名作品').trim ? (w.name || '未命名作品').trim() : (w.name || '未命名作品') })) : [];
+    works = works.filter(w => w.id && w.name);
+    if (!works.length) works = [{ id: this.MAIN_WORK, group: this.DEFAULT_GROUP, name: '默认作品' }];
+    let currentWorkId = d.currentWorkId || this.state.currentWorkId;
+    if (!works.some(w => w.id === currentWorkId)) currentWorkId = works[0].id;
+    try { localStorage.setItem('zzz_current_work', currentWorkId); localStorage.setItem('zzz_works', JSON.stringify(works)); } catch (e) {}
+    const validWorkIds = new Set(works.map(w => w.id));
+    const safeItems = (this.state.items || []).filter(it => validWorkIds.has(it.workId || this.MAIN_WORK));
     if (this.rootEl) this.rootEl.style.setProperty('--accent', d.accent || this.props.accent || '#ff3355');
     this.setState({
       settingsOpen: false,
       settingsDraft: null,
+      items: safeItems,
       collectorName: d.collectorName || '',
       currency: d.currency || '',
-      accent: d.accent || '',
+      accent: d.accent || '', nameStyleMode: d.nameStyleMode || 'default', displayMode: d.displayMode || 'standard',
       title: d.title || '',
       subtitle: d.subtitle || '',
       footer: d.footer || '',
@@ -1739,8 +1768,23 @@ class Component extends DCLogic {
     this.setState({ statsOn });
   };
   setOptionsText = (which, lsKey) => (e) => { const raw = e.target.value; const arr = [...new Set(raw.split(/\n+/).map(x => x.trim()).filter(Boolean))]; try { localStorage.setItem(this.wkey(lsKey), JSON.stringify(arr)); } catch (er) {} this.setState(s => ({ [which]: arr, optBuf: { ...s.optBuf, [which]: raw } })); if (which === 'charOrder') this.charOrder = arr; };
-  addSeriesAlone = (group) => { const name = (window.prompt('新增作品名称（' + group + '）：') || '').trim(); if (!name) return; const id = 'w_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5); this.saveWorks([...this.state.works, { id, group, name }]); };
-  addGroupAlone = () => { const group = (window.prompt('新增系列IP名称：') || '').trim(); if (!group) return; const name = (window.prompt('该系列下第一个作品名称：') || '').trim() || (group + ' 作品1'); const id = 'w_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5); this.saveWorks([...this.state.works, { id, group, name }]); this.switchWork(id); };
+  addSeriesAlone = (group) => {
+    const name = (window.prompt('新增作品名称（' + group + '）：') || '').trim(); if (!name) return;
+    const id = 'w_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+    if (this.state.settingsDraft) {
+      const works = [ ...(this.state.settingsDraft.works || []), { id, group: group || this.DEFAULT_GROUP, name } ];
+      this.updateSettingsDraft({ works, currentWorkId: id });
+    } else { this.saveWorks([...this.state.works, { id, group, name }]); }
+  };
+  addGroupAlone = () => {
+    const group = (window.prompt('新增系列IP名称：') || '').trim(); if (!group) return;
+    const name = (window.prompt('该系列下第一个作品名称：') || '').trim() || (group + ' 作品1');
+    const id = 'w_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+    if (this.state.settingsDraft) {
+      const works = [ ...(this.state.settingsDraft.works || []), { id, group, name } ];
+      this.updateSettingsDraft({ works, currentWorkId: id });
+    } else { this.saveWorks([...this.state.works, { id, group, name }]); this.switchWork(id); }
+  };
   uploadLogo = () => { const inp = document.createElement('input'); inp.type = 'file'; inp.accept = 'image/*'; inp.onchange = async () => { const f = inp.files && inp.files[0]; if (!f) return; try { await this.idbPut('zzz_logo', f); this.logoUrl = URL.createObjectURL(f); this.forceUpdate(); } catch (e) { alert('Logo 保存失败：' + e); } }; inp.click(); };
   onTitleBlur = (e) => { const v = (e.target.textContent || '').trim() || '谷子收纳'; try { localStorage.setItem('zzz_title', v); } catch (er) {} this.setState({ title: v }); };
   onSubtitleBlur = (e) => { const v = (e.target.textContent || '').trim(); try { localStorage.setItem('zzz_subtitle', v); } catch (er) {} this.setState({ subtitle: v }); };
@@ -1762,7 +1806,7 @@ class Component extends DCLogic {
   samples() {
     const t = Date.now();
     return [
-      { id: 'it_s1', name: 'ノクス 吧唧（重复出物）', character: 'ノクス', type: '吧唧', subtype: '', group: '出物', status: '出售中', qty: '3', originalPrice: '15', buyPrice: '12', shipDom: '6', shipIntl: '0', sellPrice: '20', channel: '闲鱼', buyDate: '2025-09-15', note: '原价出，包国内邮', imageId: null }
+      { id: 'it_s1', name: '诺克斯 吧唧（重复出物）', character: '诺克斯', type: '吧唧', subtype: '', group: '出物', status: '出售中', qty: '3', originalPrice: '15', buyPrice: '12', shipDom: '6', shipIntl: '0', sellPrice: '20', channel: '闲鱼', buyDate: '2025-09-15', note: '原价出，包国内邮', imageId: null }
     ];
   }
 
@@ -1877,7 +1921,7 @@ class Component extends DCLogic {
     try { localStorage.setItem('zzz_custom_filter_order', JSON.stringify(orderMap)); } catch(e) {}
     this.setState({ customFilterOrder: orderMap, customFilterSel }, () => this.commit(items));
   };
-  emptyDraft() { return { id: null, custom: {}, name: '', character: this.CHARACTERS[0], type: this.TYPES[0], subtype: '', series: '', form: '通用', heat: 0, rate: '', acquire: '直购', swapped: '未置换', swapTo: '', swapCharacter: '', swapImageId: null, group: '收藏', status: '已到货', qty: '1', originalPrice: '', buyPrice: '', shipDom: '', shipIntl: '', sellPrice: '', channel: '', buyDate: '', reminderType: '', reminderDate: '', note: '', imageId: null, imageId2: null }; }
+  emptyDraft() { return { id: null, custom: {}, name: '', character: (this.orderedChars()[0] || this.CHARACTERS[0] || ''), type: this.TYPES[0], subtype: '', series: '', form: '通用', heat: 0, rate: '', acquire: '直购', swapped: '未置换', swapTo: '', swapCharacter: '', swapImageId: null, group: '收藏', status: '已到货', qty: '1', originalPrice: '', buyPrice: '', shipDom: '', shipIntl: '', sellPrice: '', channel: '', buyDate: '', reminderType: '', reminderDate: '', note: '', imageId: null, imageId2: null }; }
 
   // ---- modal / crud ----
   beginItemDrag = (id, ev) => {
@@ -2003,7 +2047,7 @@ class Component extends DCLogic {
     for (const name in this.charImgIds) { try { const b = await this.idbGet(this.charImgIds[name]); if (b) charAvatars[name] = await this.blobToDataURL(b); } catch (e) {} }
     const lsDump = {}; const allWorks = this.state.works || [];
     ['zzz_char_order', 'zzz_types', 'zzz_series', 'zzz_channels', 'zzz_form_order', 'zzz_acquire_order', 'zzz_reminder_types', 'zzz_hidden_types', 'zzz_hidden_channels'].forEach(base => { allWorks.forEach(w => { const k = w.id === this.MAIN_WORK ? base : base + '__' + w.id; const v = localStorage.getItem(k); if (v != null) lsDump[k] = v; }); });
-    const meta = { charOrder: this.state.charOrder, typesList: this.state.typesList, seriesList: this.state.seriesList, channels: this.state.channels, formOrder: this.state.formOrder, acquireOrder: this.state.acquireOrder, reminderTypes: this.state.reminderTypes, hiddenTypes: this.state.hiddenTypes, hiddenChannels: this.state.hiddenChannels, charAssetMap: this.charAssetMap, title: this.state.title, subtitle: this.state.subtitle, footer: this.state.footer, works: allWorks, currentWorkId: this.state.currentWorkId, workGroupLabel: this.state.workGroupLabel, collectorName: this.state.collectorName, currency: this.state.currency, accent: this.state.accent, lsDump };
+    const meta = { charOrder: this.state.charOrder, typesList: this.state.typesList, seriesList: this.state.seriesList, channels: this.state.channels, formOrder: this.state.formOrder, acquireOrder: this.state.acquireOrder, reminderTypes: this.state.reminderTypes, hiddenTypes: this.state.hiddenTypes, hiddenChannels: this.state.hiddenChannels, charAssetMap: this.charAssetMap, title: this.state.title, subtitle: this.state.subtitle, footer: this.state.footer, works: allWorks, currentWorkId: this.state.currentWorkId, workGroupLabel: this.state.workGroupLabel, collectorName: this.state.collectorName, currency: this.state.currency, accent: this.state.accent, nameStyleMode: this.state.nameStyleMode, displayMode: this.state.displayMode, lsDump };
     let logo = null; try { const lb = await this.idbGet('zzz_logo'); if (lb) logo = await this.blobToDataURL(lb); } catch (e) {}
     const payload = { v: 2, exportedAt: new Date().toISOString(), items: this.state.items, images, meta, charAvatars, logo };
     const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
@@ -2036,7 +2080,7 @@ class Component extends DCLogic {
       if (m.currentWorkId) { try { localStorage.setItem('zzz_current_work', m.currentWorkId); } catch (e) {} ns.currentWorkId = m.currentWorkId; }
       if (m.workGroupLabel) { try { localStorage.setItem('zzz_work_group_label', m.workGroupLabel); } catch (e) {} ns.workGroupLabel = m.workGroupLabel; }
       if (m.collectorName !== undefined) { try { localStorage.setItem('zzz_cn', m.collectorName || ''); } catch (e) {} ns.collectorName = m.collectorName || ''; }
-      if (m.currency !== undefined) { try { localStorage.setItem('zzz_currency', m.currency || ''); } catch (e) {} ns.currency = m.currency || ''; }
+      if (m.currency !== undefined) { try { localStorage.setItem('zzz_currency', m.currency || ''); } catch (e) {} ns.currency = m.currency || ''; } if (m.nameStyleMode !== undefined) { try { localStorage.setItem('zzz_name_style', m.nameStyleMode || 'default'); } catch(e) {} ns.nameStyleMode = m.nameStyleMode || 'default'; } if (m.displayMode !== undefined) { try { localStorage.setItem('zzz_display_mode', m.displayMode || 'standard'); } catch(e) {} ns.displayMode = m.displayMode || 'standard'; }
       if (m.accent !== undefined) { try { localStorage.setItem('zzz_accent', m.accent || ''); } catch (e) {} ns.accent = m.accent || ''; }
       const wid = m.currentWorkId || this.state.currentWorkId;
       const freshLists = this.loadWorkLists(wid, data.items || []); Object.assign(ns, freshLists); this.charOrder = freshLists.charOrder;
@@ -2148,6 +2192,39 @@ class Component extends DCLogic {
   segStyle(active) { return { padding: '7px 13px', borderRadius: '8px', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: '13px', whiteSpace: 'nowrap', fontWeight: active ? 700 : 500, background: active ? 'var(--accent,#ff3355)' : 'transparent', color: active ? '#fff' : '#6f6996', transition: '.15s' }; }
   badge(color, bg, bd) { return { display: 'inline-flex', alignItems: 'center', padding: '3px 9px', borderRadius: '999px', fontSize: '11.5px', fontWeight: 600, whiteSpace: 'nowrap', color, background: bg, border: '1px solid ' + bd }; }
 
+
+  previewStyleText(mode) {
+    if (mode === 'guquan') return '氪金TOP3 / 囤货TOP3 / 回血IP TOP3 / 海景TOP3 / 钱包进度';
+    if (mode === 'business') return '消费排行 / 收藏排行 / 收入IP排行 / 利润排行 / 预算执行率';
+    return '花费TOP3 / 数量TOP3 / 收益IP TOP3 / 利润TOP3 / 预算进度';
+  }
+  nameStyleLabels() {
+    return {
+      default: {
+        ledgerTitle: '账本模式', ledgerHelp: '当前账本会跟随作品范围、收藏/出物模式和筛选条件一起变化。',
+        budget: '本月预算', spent: '本月已花', remain: '剩余额度', progress: '预算进度', noBudget: '设置预算后可查看进度', overBudget: '已超出预算', nearBudget: '快到预算上限', okBudget: '预算正常',
+        months: '近六个月消费表', reminderCenter: '提醒中心', noReminder: '暂无待处理事项。', reminderCount: '待处理',
+        collectRanks: ['花费TOP3','具体谷子数量最多','最爱TOP3','IP TOP3'], saleRanks: ['卖价TOP3','卖出TOP3','收益IP TOP3','利润TOP3'],
+        addItem: '＋ 新增谷子', walletMini: '钱包', miniBudget: '预算', miniSpent: '已花', miniRemain: '剩余'
+      },
+      guquan: {
+        ledgerTitle: '钱包', ledgerHelp: '当前筛选下的钱包、吃土记录和待办会一起变化。',
+        budget: '本月预算', spent: '本月吃土', remain: '还能氪', progress: '钱包进度', noBudget: '设置预算后可查看钱包进度', overBudget: '泡面预警', nearBudget: '悠着点', okBudget: '钱包健康',
+        months: '半年吃土记录', reminderCenter: '待办中心', noReminder: '暂无待处理事项。', reminderCount: '待处理',
+        collectRanks: ['氪金TOP3','囤货TOP3','真爱TOP3','本命TOP3'], saleRanks: ['成交TOP3','出货TOP3','回血IP TOP3','海景TOP3'],
+        addItem: '＋ 收谷', walletMini: '钱包', miniBudget: '预算', miniSpent: '已吃土', miniRemain: '还能氪'
+      },
+      business: {
+        ledgerTitle: '预算管理', ledgerHelp: '当前页面按照筛选条件统计预算执行、支出排行与待处理事项。',
+        budget: '本月预算', spent: '本月支出', remain: '剩余预算', progress: '预算执行率', noBudget: '设置预算后可查看执行率', overBudget: '已超出预算', nearBudget: '接近预算上限', okBudget: '预算正常',
+        months: '近六个月支出', reminderCenter: '待处理事项', noReminder: '暂无待处理事项。', reminderCount: '待处理',
+        collectRanks: ['消费排行','收藏排行','角色排行','系列IP排行'], saleRanks: ['成交排行','销售排行','收入IP排行','利润排行'],
+        addItem: '＋ 新增收藏', walletMini: '预算管理', miniBudget: '预算', miniSpent: '支出', miniRemain: '剩余'
+      }
+    }[this.state.nameStyleMode || 'default'] || this.nameStyleLabels().default;
+  }
+  setNameStyle = (e) => this.updateSettingsDraft({ nameStyleMode: e.target.value });
+  setDisplayMode = (e) => this.updateSettingsDraft({ displayMode: e.target.value });
   renderVals() {
     const cur = this.cur();
     const fieldVisible = (k) => this.isFieldVisible(k);
@@ -2243,7 +2320,7 @@ class Component extends DCLogic {
     const channelMenuItems = (this.state.channels || []).map(c => ({ name: c, active: dChannel === c, onPick: () => this.pickChannel(c), onRename: (ev) => this.renameChannelItem(c, ev), onDel: (ev) => this.delChannelItem(c, ev), rowStyle: { display: 'flex', alignItems: 'center', gap: '6px', padding: '7px 9px', borderRadius: '8px', background: dChannel === c ? 'color-mix(in srgb, var(--accent,#ff3355) 11%, transparent)' : 'transparent' } }));
     // rows
     const s = (search || '').toLowerCase();
-    const matchSearch = it => !s || [it.name, it.note, it.channel, it.subtype, it.character, it.type, it.series].some(x => (x || '').toLowerCase().includes(s));
+    const matchSearch = it => !s || [it.name, it.note, it.channel, it.subtype, it.character, it.type, it.series, (workOfItem(it).group || ''), (workOfItem(it).name || '')].some(x => (x || '').toLowerCase().includes(s));
     const matchForm = it => !fieldVisible('form') || formSel.length === 0 || formSel.includes(it.form || '通用');
     const matchStatus = it => !fieldVisible('status') || statusSel.length === 0 || statusSel.includes(it.status || '已收藏');
     const matchAcquire = it => !fieldVisible('acquire') || acquireSel.length === 0 || acquireSel.includes(it.acquire || '直购');
@@ -2261,7 +2338,11 @@ class Component extends DCLogic {
     const fProfitStyle = { color: fSold ? (fProfit >= 0 ? '#12a85f' : '#e23b5d') : '#8b85ab' };
 
     const ledgerItems = filtered;
-    const ledgerScopeText = (charSel.length || typeSel.length || formSel.length || statusSel.length || acquireSel.length || channelSel.length || seriesFilter !== '全部' || search || Object.values(this.state.customFilterSel || {}).some(arr => arr && arr.length)) ? ('当前筛选 ' + filtered.length + ' 项 · ' + fQty + ' 件') : ('全部 ' + filtered.length + ' 项 · ' + fQty + ' 件');
+    const currentWorkGroupName = curWorkForFilter.group || this.DEFAULT_GROUP;
+    const currentWorkNameText = curWorkForFilter.name || '当前作品';
+    const ledgerWorkScope = groupBy === 'workGroup' ? '全部系列IP' : groupBy === 'work' ? ('当前系列IP：' + currentWorkGroupName) : ('当前作品：' + currentWorkNameText);
+    const hasActiveFilter = !!(charSel.length || typeSel.length || formSel.length || statusSel.length || acquireSel.length || channelSel.length || seriesFilter !== '全部' || search || Object.values(this.state.customFilterSel || {}).some(arr => arr && arr.length));
+    const ledgerScopeText = ledgerWorkScope + ' · ' + (hasActiveFilter ? '当前筛选 ' : '当前范围 ') + filtered.length + ' 项 · ' + fQty + ' 件';
     const nowForLedger = new Date();
     const monthsRaw = [];
     for (let i = 5; i >= 0; i--) monthsRaw.push(new Date(nowForLedger.getFullYear(), nowForLedger.getMonth() - i, 1));
@@ -2276,26 +2357,28 @@ class Component extends DCLogic {
     const budgetPct = budget > 0 ? (monthSpent / budget * 100) : 0;
     const budgetColor = budget <= 0 ? '#8b85ab' : budgetPct >= 100 ? '#e23b5d' : budgetPct >= 80 ? '#d9701f' : '#12a85f';
     const saleLedgerMode = group === 'sale';
+    const TXT = this.nameStyleLabels();
+    const isNewbie = (this.state.displayMode || 'standard') === 'newbie';
+    const isSimple = (this.state.displayMode || 'standard') === 'simple';
     let topCostRows, topQtyRows, topCharacterRows, topPlatformRows;
-    let ledgerRankTitle1 = '氪金 TOP3', ledgerRankTitle2 = '囤货 TOP3', ledgerRankTitle3 = '最爱 TOP3', ledgerRankTitle4 = '最近爆买 TOP3';
+    let [ledgerRankTitle1, ledgerRankTitle2, ledgerRankTitle3, ledgerRankTitle4] = TXT.collectRanks;
     const fillRows = (rows, minN = 3) => { while (rows.length < minN) rows.push({ name: '暂无数据', value: '—' }); return rows; };
     if (saleLedgerMode) {
-      ledgerRankTitle1 = '高价 TOP3';
-      ledgerRankTitle2 = '回血 TOP3';
-      ledgerRankTitle3 = '出物 TOP3';
-      ledgerRankTitle4 = '海景 TOP3';
+      [ledgerRankTitle1, ledgerRankTitle2, ledgerRankTitle3, ledgerRankTitle4] = TXT.saleRanks;
       const saleItems = ledgerItems.filter(it => this.num(it.sellPrice) > 0 || this.groupOf(it) === '出物');
       topCostRows = fillRows([...saleItems].map(it => { const e = this.enrich(it); return { name: it.name || this.genName(it) || '未命名', valueNum: e.sell, qty: e.qty }; }).filter(r => r.valueNum > 0).sort((a,b) => b.valueNum - a.valueNum).slice(0,3).map(r => ({ name: r.qty > 1 ? (r.name + ' ×' + r.qty) : r.name, value: cur + this.fmt(r.valueNum) + '/个' })));
-      topQtyRows = fillRows([...saleItems].map(it => { const e = this.enrich(it); return { name: it.name || this.genName(it) || '未命名', valueNum: e.revenue, qty: e.qty }; }).filter(r => r.valueNum > 0).sort((a,b) => b.valueNum - a.valueNum).slice(0,3).map(r => ({ name: r.qty > 1 ? (r.name + ' ×' + r.qty) : r.name, value: cur + this.fmt(r.valueNum) })));
-      topCharacterRows = fillRows([...saleItems].map(it => { const e = this.enrich(it); return { name: it.name || this.genName(it) || '未命名', valueNum: e.qty, amount: e.revenue }; }).filter(r => r.valueNum > 0).sort((a,b) => b.valueNum - a.valueNum || b.amount - a.amount).slice(0,5).map(r => ({ name: r.name, value: r.valueNum + ' 个' })));
+      topQtyRows = fillRows([...saleItems].map(it => { const e = this.enrich(it); return { name: it.name || this.genName(it) || '未命名', valueNum: e.qty, revenue: e.revenue }; }).filter(r => r.valueNum > 0).sort((a,b) => b.valueNum - a.valueNum || b.revenue - a.revenue).slice(0,5).map(r => ({ name: r.name, value: r.valueNum + ' 个' })));
+      const ipRevenue = {};
+      saleItems.forEach(it => { const e = this.enrich(it); const wk = workOfItem(it); const ip = wk.group || '未分类'; ipRevenue[ip] = (ipRevenue[ip] || 0) + e.revenue; });
+      topCharacterRows = this.topSpendRows(ipRevenue, cur);
       topPlatformRows = fillRows([...saleItems].map(it => { const e = this.enrich(it); return { name: it.name || this.genName(it) || '未命名', valueNum: e.profit, revenue: e.revenue }; }).filter(r => r.revenue > 0).sort((a,b) => b.valueNum - a.valueNum).slice(0,3).map(r => ({ name: r.name, value: (r.valueNum >= 0 ? '+' : '-') + cur + this.fmt(Math.abs(r.valueNum)) })));
     } else {
       topCostRows = fillRows([...ledgerItems].map(it => ({ name: it.name || this.genName(it) || '未命名', valueNum: this.enrich(it).cost })).filter(r => r.valueNum > 0).sort((a,b) => b.valueNum - a.valueNum).slice(0,3).map(r => ({ name: r.name, value: cur + this.fmt(r.valueNum) })));
-      const charSpend = {}, platformSpend = {};
-      ledgerItems.forEach(it => { const e = this.enrich(it); const ck = it.character || '未分类'; charSpend[ck] = (charSpend[ck] || 0) + e.cost; const pk = it.channel || '未填写平台'; platformSpend[pk] = (platformSpend[pk] || 0) + e.cost; });
+      const charSpend = {}, ipSpend = {};
+      ledgerItems.forEach(it => { const e = this.enrich(it); const ck = it.character || '未分类'; charSpend[ck] = (charSpend[ck] || 0) + e.cost; const wk = workOfItem(it); const ip = wk.group || '未分类'; ipSpend[ip] = (ipSpend[ip] || 0) + e.cost; });
       topQtyRows = fillRows([...ledgerItems].map(it => ({ name: it.name || this.genName(it) || '未命名', qty: this.enrich(it).qty, type: it.type || '' })).filter(r => r.qty > 0).sort((a,b) => b.qty - a.qty || a.name.localeCompare(b.name, 'zh-Hans-CN')).slice(0,5).map(r => ({ name: r.type ? (r.name + ' · ' + r.type) : r.name, value: r.qty + ' 个' })));
       topCharacterRows = this.topSpendRows(charSpend, cur);
-      topPlatformRows = this.topSpendRows(platformSpend, cur);
+      topPlatformRows = this.topSpendRows(ipSpend, cur);
     }
     const reminderItemsRaw = ledgerItems.map(it => ({ it, rem: this.reminderInfo(it) })).filter(x => x.rem.pending).sort((a,b) => a.rem.days - b.rem.days);
     const seenReminderKeys = new Set();
@@ -2305,7 +2388,7 @@ class Component extends DCLogic {
     const mobileReminderText = upcomingReminders.length ? (upcomingReminders.length + ' 件') : '';
     const mobileTodoRows = upcomingReminders.slice(0,3);
     const mobileReminderDetail = upcomingReminders.slice(0,2).map(r => r.text).join(' / ');
-    const reminderCountText = reminderItems.length ? ('待处理 ' + reminderItems.length + ' 件') : '暂无待处理';
+    const reminderCountText = reminderItems.length ? (TXT.reminderCount + ' ' + reminderItems.length + ' 件') : '暂无待处理';
 
     const itemRows = filtered.map(it => {
       const e = this.enrich(it);
@@ -2509,12 +2592,29 @@ class Component extends DCLogic {
       statKnob: { position: 'absolute', top: '2px', left: sOn ? '16px' : '2px', width: '16px', height: '16px', borderRadius: '50%', background: '#fff', transition: '.15s' } }; });
     const draftCustomInputs = (this.state.customFields || []).map(f => ({ key: f.key, label: f.label, value: (this.state.draft && this.state.draft.custom && this.state.draft.custom[f.key]) || '', onChange: this.onCustomDraft(f.key) }));
     // 按系列IP分组的作品管理
-    const wgMap = {}; draftWorks.forEach(w => { const gkey = (w.group ?? ''); (wgMap[gkey] = wgMap[gkey] || []).push(w); });
+    const draftCurrentWorkId = sd.currentWorkId || this.state.currentWorkId;
+    const wgMap = {}; draftWorks.forEach(w => { const gkey = (w.group || this.DEFAULT_GROUP); (wgMap[gkey] = wgMap[gkey] || []).push(w); });
     const workSettingGroups = Object.keys(wgMap).map(g => ({
       group: g,
-      onGroupName: (e) => this.updateSettingsDraft({ works: draftWorks.map(x => (x.group ?? '') === g ? { ...x, group: e.target.value } : x) }),
+      onGroupName: (e) => {
+        const nextGroup = e.target.value;
+        this.updateSettingsDraft({ works: draftWorks.map(x => (x.group || this.DEFAULT_GROUP) === g ? { ...x, group: nextGroup } : x) });
+      },
       onAddWork: () => this.addSeriesAlone(g),
-      works: wgMap[g].map(w => ({ id: w.id, nameVal: w.name, isCurrent: w.id === this.state.currentWorkId, onName: (e) => this.updateSettingsDraft({ works: draftWorks.map(x => x.id === w.id ? { ...x, name: e.target.value } : x) }), onLogo: () => this.uploadWorkLogo(w.id), onDel: () => this.delWork(w), onPick: () => this.switchWork(w.id), useStyle: { flexShrink: 0, fontFamily: 'inherit', fontSize: '12px', fontWeight: 700, cursor: 'pointer', padding: '6px 10px', borderRadius: '7px', border: '1px solid ' + (w.id === this.state.currentWorkId ? '#2f6fdb' : '#ded7ee'), background: w.id === this.state.currentWorkId ? 'rgba(47,111,219,.1)' : 'transparent', color: w.id === this.state.currentWorkId ? '#2f6fdb' : '#b9b3d2' }, useText: w.id === this.state.currentWorkId ? '用' : '否', logoStyle: this.workLogo(w.id) ? { width: '32px', height: '32px', borderRadius: '8px', backgroundImage: `url(${this.workLogo(w.id)})`, backgroundSize: 'cover', backgroundPosition: 'center', flexShrink: 0, cursor: 'pointer', border: '1px solid #ded7ee' } : { width: '32px', height: '32px', borderRadius: '8px', background: 'rgba(50,38,90,.06)', flexShrink: 0, cursor: 'pointer', border: '1px dashed #ccc4e6', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '9px', color: '#938db0' } }))
+      works: wgMap[g].map(w => ({ id: w.id, nameVal: w.name, isCurrent: w.id === draftCurrentWorkId,
+        onName: (e) => this.updateSettingsDraft({ works: draftWorks.map(x => x.id === w.id ? { ...x, name: e.target.value } : x) }),
+        onLogo: () => this.uploadWorkLogo(w.id),
+        onDel: () => {
+          if ((draftWorks || []).length <= 1) { window.alert('至少保留一个作品。'); return; }
+          if (!window.confirm('删除作品「' + (w.name || '未命名作品') + '」？保存后会同时移除它下面的谷子。')) return;
+          const nextWorks = draftWorks.filter(x => x.id !== w.id);
+          const nextCurrent = w.id === draftCurrentWorkId ? (nextWorks[0] && nextWorks[0].id) : draftCurrentWorkId;
+          this.updateSettingsDraft({ works: nextWorks, currentWorkId: nextCurrent });
+        },
+        onPick: () => this.updateSettingsDraft({ currentWorkId: w.id }),
+        useStyle: { flexShrink: 0, fontFamily: 'inherit', fontSize: '12px', fontWeight: 700, cursor: 'pointer', padding: '6px 10px', borderRadius: '7px', border: '1px solid ' + (w.id === draftCurrentWorkId ? '#2f6fdb' : '#ded7ee'), background: w.id === draftCurrentWorkId ? 'rgba(47,111,219,.1)' : 'transparent', color: w.id === draftCurrentWorkId ? '#2f6fdb' : '#b9b3d2' },
+        useText: w.id === draftCurrentWorkId ? '用' : '否',
+        logoStyle: this.workLogo(w.id) ? { width: '32px', height: '32px', borderRadius: '8px', backgroundImage: `url(${this.workLogo(w.id)})`, backgroundSize: 'cover', backgroundPosition: 'center', flexShrink: 0, cursor: 'pointer', border: '1px solid #ded7ee' } : { width: '32px', height: '32px', borderRadius: '8px', background: 'rgba(50,38,90,.06)', flexShrink: 0, cursor: 'pointer', border: '1px dashed #ccc4e6', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '9px', color: '#938db0' } }))
     }));
     const headerLogoUrl = this.workLogo(this.state.currentWorkId) || this.logoUrl || 'assets/logo.png';
     const cnPrefix = (this.state.collectorName || '').trim();
@@ -2523,8 +2623,8 @@ class Component extends DCLogic {
       setRoot: this.setRoot, setImportRef: this.setImportRef, stop: this.stop,
       workGroupLabel: this.state.workGroupLabel, workGroupName: curWork.group || this.DEFAULT_GROUP, workName: curWork.name || '', workTabs, workGroups, workMenuOpen: this.state.workMenuOpen, toggleWorkMenu: this.toggleWorkMenu, addWork: this.addWork,
       openSettings: this.openSettings, closeSettings: this.cancelSettings, cancelSettings: this.cancelSettings, saveSettings: this.saveSettings, clearAllData: this.clearAllData, settingsOpen: this.state.settingsOpen,
-      cnVal: sd.collectorName || '', curVal: sd.currency || this.cur(), accentVal: sd.accent || this.props.accent || '#ff3355', titleVal: sd.title || '', subtitleVal: sd.subtitle || '', footerVal: sd.footer || '',
-      onCn: this.onDraftSettingField('collectorName'), onCurrency: this.onDraftSettingField('currency'), onAccent: this.onDraftSettingField('accent'), onTitleSet: this.onDraftSettingField('title'), onSubtitleSet: this.onDraftSettingField('subtitle'), onFooterSet: this.onDraftSettingField('footer'),
+      cnVal: sd.collectorName || '', curVal: sd.currency || this.cur(), accentVal: sd.accent || this.props.accent || '#ff3355', nameStyleVal: sd.nameStyleMode || this.state.nameStyleMode || 'default', displayModeVal: sd.displayMode || this.state.displayMode || 'standard', stylePreviewText: this.previewStyleText(sd.nameStyleMode || this.state.nameStyleMode || 'default'), titleVal: sd.title || '', subtitleVal: sd.subtitle || '', footerVal: sd.footer || '',
+      onCn: this.onDraftSettingField('collectorName'), onCurrency: this.onDraftSettingField('currency'), onAccent: this.onDraftSettingField('accent'), onNameStyle: this.setNameStyle, onDisplayMode: this.setDisplayMode, onTitleSet: this.onDraftSettingField('title'), onSubtitleSet: this.onDraftSettingField('subtitle'), onFooterSet: this.onDraftSettingField('footer'),
       showWelcomeCard: !cnPrefix, cloudSyncCode: this.state.cloudSyncCode || '', hasCloudCode: !!this.state.cloudSyncCode, noCloudCode: !this.state.cloudSyncCode, hasCloudStatus: !!this.state.cloudStatus, cloudStatus: this.state.cloudStatus || '', copyCloudCode: this.copyCloudCode, cloudCodeInput: this.state.cloudCodeInput || '', onCloudCodeInput: this.onCloudCodeInput, createCloudCollection: this.createCloudCollection, connectCloudCollection: this.connectCloudCollection, pushCloud: this.pushCloud, pullCloud: this.pullCloud, disconnectCloud: this.disconnectCloud, hasCloudSync: !!this.state.cloudSyncId, cloudSyncText: this.state.cloudSyncCode ? ('当前同步代码：' + this.state.cloudSyncCode + '。' + (this.state.cloudStatus || '')) : (this.state.cloudStatus || '未连接云同步。'),
       trendOpen: this.state.trendOpen, closeTrend: this.closeTrend, saveTrend: this.saveTrend, addTrendRow: this.addTrendRow, trendRowsView, trendMetrics, trendTitle: (trendIt.name || '未命名') + ' · 价格趋势', setChartCanvas: this.setChartCanvas, trendHasData: !tr.empty, onOcr: this.handleOcr, ocrStatus: this.state.ocrStatus || '', hasOcrText: !!(this.state.ocrRawText || this.state.ocrBulkText), ocrRawText: this.state.ocrRawText || '', ocrBulkText: this.state.ocrBulkText || '', onOcrRawChange: this.onOcrRawChange, onOcrBulkChange: this.onOcrBulkChange, reparseOcrRaw: this.reparseOcrRaw, fillOcrBulk: this.fillOcrBulk,
       labels, workManageRows, fieldRows, optionGroups, customFieldRows, draftCustomInputs, hasCustomFields: draftCustomFields.length > 0, addCustomField: this.addCustomField, restoreBaseFields: this.restoreBaseFields, workSettingGroups, addGroupAlone: this.addGroupAlone, uploadBg: this.uploadBg, clearBg: this.clearBg, hasBg: !!this.bgUrl, addWorkInline: this.addWork,
@@ -2549,7 +2649,7 @@ class Component extends DCLogic {
       showCharF: fieldVisible('character') && this.state.filterOn.character !== false, showTypeF: fieldVisible('type') && this.state.filterOn.type !== false, showFormF: fieldVisible('form') && this.state.filterOn.form !== false, showStatusF: showStatusFilter, showAcquireF: fieldVisible('acquire') && this.state.filterOn.acquire !== false,
       showSeriesF: showSeriesFilter && this.state.filterOn.series !== false, showChannelF: showChannelFilter && this.state.filterOn.channel !== false,
       displayRows, isEmpty: itemRows.length === 0, isTable: view === 'table', isGallery: view === 'gallery', isCircle: view === 'circle', isLedger: view === 'ledger',
-      budgetInput: this.state.monthlyBudget || '', onBudgetChange: this.onBudgetChange, ledgerScopeText, monthSpentText: cur + this.fmt(monthSpent), budgetRemainText: budget > 0 ? ((budgetRemain >= 0 ? '' : '-') + cur + this.fmt(Math.abs(budgetRemain))) : '—', budgetRemainStyle: { color: budget > 0 ? (budgetRemain >= 0 ? '#12a85f' : '#e23b5d') : '#8b85ab' }, budgetPctText: budget > 0 ? Math.round(budgetPct) + '%' : '—', budgetPctStyle: { color: budgetColor }, budgetBarStyle: { width: Math.min(100, Math.max(0, Math.round(budgetPct))) + '%', height: '100%', borderRadius: '999px', background: budgetColor }, budgetStatusText: budget <= 0 ? '设置储值后可查看使用率' : (budgetPct >= 100 ? '再买要吃土了' : budgetPct >= 80 ? '再买要吃泡面了' : '还能吃好的'), ledgerMonths, topCostRows, topQtyRows, topCharacterRows, topPlatformRows, ledgerRankTitle1, ledgerRankTitle2, ledgerRankTitle3, ledgerRankTitle4, upcomingReminders, ledgerReminderRows, hasLedgerReminders: ledgerReminderRows.length > 0, noLedgerReminders: ledgerReminderRows.length === 0, hasUpcomingReminders: upcomingReminders.length > 0, mobileReminderText, mobileReminderDetail, mobileTodoRows, mobileBudgetText: budget > 0 ? (cur + this.fmt(budget)) : '未设', reminderCountText,
+      budgetInput: this.state.monthlyBudget || '', onBudgetChange: this.onBudgetChange, ledgerScopeText, monthSpentText: cur + this.fmt(monthSpent), budgetRemainText: budget > 0 ? ((budgetRemain >= 0 ? '' : '-') + cur + this.fmt(Math.abs(budgetRemain))) : '—', budgetRemainStyle: { color: budget > 0 ? (budgetRemain >= 0 ? '#12a85f' : '#e23b5d') : '#8b85ab' }, budgetPctText: budget > 0 ? Math.round(budgetPct) + '%' : '—', budgetPctStyle: { color: budgetColor }, budgetBarStyle: { width: Math.min(100, Math.max(0, Math.round(budgetPct))) + '%', height: '100%', borderRadius: '999px', background: budgetColor }, budgetStatusText: budget <= 0 ? TXT.noBudget : (budgetPct >= 100 ? TXT.overBudget : budgetPct >= 80 ? TXT.nearBudget : TXT.okBudget), ledgerTitle: TXT.ledgerTitle, ledgerHelpText: isNewbie ? TXT.ledgerHelp : '', budgetLabel: TXT.budget, spentLabel: TXT.spent, remainLabel: TXT.remain, progressLabel: TXT.progress, monthsTitle: TXT.months, reminderCenterTitle: TXT.reminderCenter, noReminderText: TXT.noReminder, mobileWalletTitle: TXT.walletMini, miniBudgetLabel: TXT.miniBudget, miniSpentLabel: TXT.miniSpent, miniRemainLabel: TXT.miniRemain, addItemText: TXT.addItem, ledgerMonths, topCostRows, topQtyRows, topCharacterRows, topPlatformRows, ledgerRankTitle1, ledgerRankTitle2, ledgerRankTitle3, ledgerRankTitle4, upcomingReminders, ledgerReminderRows, hasLedgerReminders: ledgerReminderRows.length > 0, noLedgerReminders: ledgerReminderRows.length === 0, hasUpcomingReminders: upcomingReminders.length > 0, mobileReminderText, mobileReminderDetail, mobileTodoRows, mobileBudgetText: budget > 0 ? (cur + this.fmt(budget)) : '未设', reminderCountText,
       qtyBadgeStyle: { position: 'absolute', top: '1px', right: '5px', minWidth: '22px', height: '22px', padding: '0 6px', borderRadius: '999px', background: `radial-gradient(circle at 32% 28%, ${this.accentLight(0.5)}, ${this.accentColor()} 82%)`, color: '#fff', fontSize: '12px', fontWeight: 800, lineHeight: 1, fontFamily: "'Orbitron',sans-serif", display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: `0 3px 9px ${this.accentAlpha(0.5)}`, border: '2.5px solid #fff' },
       modalOpen: this.state.modalOpen, modalTitle: this.state.editing ? '编辑谷子' : '新增谷子', isEditing: !!this.state.editing, duplicateCurrent: this.duplicateCurrent, deleteCurrent: this.deleteCurrent,
       draft: d || this.emptyDraft(),
