@@ -88,10 +88,43 @@
   .ui-table-num{text-align:right;font-family:'Orbitron';}
   .ui-table-center{text-align:center;}
 
+  /* ===== 手机清爽模式：同一个 index.html，手机自动更轻，完整模式可切回 ===== */
+  .ui-mobile-mode-button,.ui-mobile-filter-toggle{display:none !important;}
+  .ui-mobile-card-main{display:flex;gap:6px;flex-wrap:wrap}
+  @media (max-width:640px){
+    .ui-app{padding:12px 10px 86px !important;}
+    .ui-page-inner{max-width:none !important;}
+    .ui-mobile-auto .ui-header-actions,.ui-mobile-simple .ui-header-actions{width:100%;justify-content:space-between !important;gap:8px !important;}
+    .ui-mobile-auto .ui-mobile-secondary-action,.ui-mobile-simple .ui-mobile-secondary-action{display:none !important;}
+    .ui-mobile-auto .ui-mobile-mode-button,.ui-mobile-simple .ui-mobile-mode-button,.ui-mobile-full .ui-mobile-mode-button{display:inline-flex !important;align-items:center;justify-content:center;}
+    .ui-mobile-auto .ui-stats-grid,.ui-mobile-simple .ui-stats-grid{display:none !important;}
+    .ui-mobile-auto .ui-toolbar,.ui-mobile-simple .ui-toolbar{position:sticky !important;top:0 !important;z-index:12 !important;margin-left:-4px !important;margin-right:-4px !important;border-radius:12px !important;box-shadow:0 8px 24px rgba(50,38,90,.08) !important;}
+    .ui-mobile-auto .ui-toolbar > div,.ui-mobile-simple .ui-toolbar > div{width:100%;justify-content:space-between !important;overflow-x:auto;}
+    .ui-mobile-auto .ui-table-mode-btn,.ui-mobile-simple .ui-table-mode-btn{display:none !important;}
+    .ui-mobile-auto .ui-main-add,.ui-mobile-simple .ui-main-add{position:fixed !important;right:16px !important;bottom:18px !important;z-index:50 !important;border-radius:999px !important;min-width:52px !important;min-height:52px !important;padding:0 17px !important;box-shadow:0 12px 30px rgba(50,38,90,.24) !important;}
+    .ui-mobile-auto .ui-filters-panel,.ui-mobile-simple .ui-filters-panel{padding:10px !important;gap:9px !important;}
+    .ui-mobile-auto .ui-mobile-filter-toggle,.ui-mobile-simple .ui-mobile-filter-toggle{display:flex !important;align-items:center;justify-content:space-between;gap:8px;width:100%;font-family:inherit;font-size:13px;font-weight:700;color:#4c4580;background:#fff;border:1px solid #ded7ee;padding:9px 11px;border-radius:10px;cursor:pointer;}
+    .ui-mobile-auto .ui-filter-extra,.ui-mobile-simple .ui-filter-extra{display:none !important;}
+    .ui-mobile-auto.ui-filters-open .ui-filter-extra,.ui-mobile-simple.ui-filters-open .ui-filter-extra{display:flex !important;}
+    .ui-mobile-auto .ui-filter-help,.ui-mobile-simple .ui-filter-help{display:none !important;}
+    .ui-mobile-auto .ui-filter-summary,.ui-mobile-simple .ui-filter-summary{padding:9px 11px !important;margin-bottom:12px !important;gap:8px 12px !important;}
+    .ui-mobile-auto .ui-filter-summary span:nth-child(n+4),.ui-mobile-simple .ui-filter-summary span:nth-child(n+4){display:none !important;}
+    .ui-mobile-auto .ui-gallery-grid,.ui-mobile-simple .ui-gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:10px !important;}
+    .ui-mobile-auto .ui-gallery-card,.ui-mobile-simple .ui-gallery-card{border-radius:12px !important;}
+    .ui-mobile-auto .ui-gallery-card-body,.ui-mobile-simple .ui-gallery-card-body{padding:9px 9px 10px !important;gap:7px !important;}
+    .ui-mobile-auto .ui-gallery-name,.ui-mobile-simple .ui-gallery-name{font-size:13px !important;line-height:1.3 !important;-webkit-line-clamp:2 !important;}
+    .ui-mobile-auto .ui-mobile-card-extra,.ui-mobile-simple .ui-mobile-card-extra{display:none !important;}
+    .ui-mobile-auto .ui-mobile-card-main span:nth-child(n+3),.ui-mobile-simple .ui-mobile-card-main span:nth-child(n+3){display:none !important;}
+    .ui-mobile-auto .ui-circle-wrap,.ui-mobile-simple .ui-circle-wrap{gap:13px 10px !important;justify-content:flex-start !important;}
+    .ui-mobile-auto .ui-circle-item,.ui-mobile-simple .ui-circle-item{width:76px !important;}
+    .ui-mobile-auto .ui-circle-img,.ui-mobile-simple .ui-circle-img{width:70px !important;height:70px !important;}
+    .ui-mobile-auto .ui-page-footer,.ui-mobile-simple .ui-page-footer{display:none !important;}
+  }
+
 </style>
 </helmet>
-<div ref="{{ setRoot }}" style="min-height:100vh;background:radial-gradient(circle at 15% -5%, #ddd2f2 0%, transparent 50%), radial-gradient(circle at 92% 4%, #f3d8e6 0%, transparent 45%), linear-gradient(165deg,#e7e1f4,#ece8f6 70%);color:#251d49;font-family:'Noto Sans SC',sans-serif;padding:clamp(14px,3vw,34px) clamp(12px,3vw,34px) 60px;-webkit-font-smoothing:antialiased">
-  <div style="max-width:1280px;margin:0 auto">
+<div ref="{{ setRoot }}" class="{{ appClass }}" style="min-height:100vh;background:radial-gradient(circle at 15% -5%, #ddd2f2 0%, transparent 50%), radial-gradient(circle at 92% 4%, #f3d8e6 0%, transparent 45%), linear-gradient(165deg,#e7e1f4,#ece8f6 70%);color:#251d49;font-family:'Noto Sans SC',sans-serif;padding:clamp(14px,3vw,34px) clamp(12px,3vw,34px) 60px;-webkit-font-smoothing:antialiased">
+  <div class="ui-page-inner" style="max-width:1280px;margin:0 auto">
 
     <!-- ===== HEADER ===== -->
     <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px">
@@ -105,13 +138,14 @@
           <div contentEditable="true" suppressContentEditableWarning="{{ true }}" onBlur="{{ onSubtitleBlur }}" title="点击编辑" style="font-size:11px;color:#544f7e;letter-spacing:.2em;margin-top:3px;outline:none;cursor:text">{{ subtitle }}</div>
         </div>
       </div>
-      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      <div class="ui-header-actions" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
         <span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#0f8f50;background:rgba(61,220,151,.1);border:1px solid rgba(61,220,151,.22);padding:6px 11px;border-radius:999px">
           <span style="width:6px;height:6px;border-radius:50%;background:#12a85f;box-shadow:0 0 8px #12a85f"></span>{{ savedText }}
         </span>
         <button onClick="{{ openSettings }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.045);border:1px solid #ded7ee;padding:8px 13px;border-radius:9px;cursor:pointer">设置</button>
-        <button onClick="{{ doExport }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.045);border:1px solid #ded7ee;padding:8px 13px;border-radius:9px;cursor:pointer">导出备份</button>
-        <button onClick="{{ triggerImport }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.045);border:1px solid #ded7ee;padding:8px 13px;border-radius:9px;cursor:pointer">导入</button>
+        <button class="ui-mobile-mode-button" onClick="{{ toggleMobileMode }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.045);border:1px solid #ded7ee;padding:8px 13px;border-radius:9px;cursor:pointer">{{ mobileModeText }}</button>
+        <button class="ui-mobile-secondary-action" onClick="{{ doExport }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.045);border:1px solid #ded7ee;padding:8px 13px;border-radius:9px;cursor:pointer">导出备份</button>
+        <button class="ui-mobile-secondary-action" onClick="{{ triggerImport }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.045);border:1px solid #ded7ee;padding:8px 13px;border-radius:9px;cursor:pointer">导入</button>
         <input ref="{{ setImportRef }}" type="file" accept="application/json" onChange="{{ onImportFile }}" style="display:none">
       </div>
     </div>
@@ -155,7 +189,7 @@
     </div>
 
     <!-- ===== STATS ===== -->
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:13px;margin-bottom:20px">
+    <div class="ui-stats-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:13px;margin-bottom:20px">
       <div style="background:linear-gradient(150deg,#ffffff,#ffffff);border:1px solid #e1dbf0;border-radius:16px;padding:16px 18px">
         <div style="font-size:12px;color:#544f7e;margin-bottom:8px">总消费金额</div>
         <div style="font-family:'Orbitron';font-weight:700;font-size:24px;color:#251d49">{{ statIn }}</div>
@@ -183,7 +217,7 @@
     </div>
 
     <!-- ===== TOOLBAR ===== -->
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;background:rgba(255,255,255,.72);border:1px solid #e3def1;border-radius:14px;padding:9px 10px;margin-bottom:14px">
+    <div class="ui-toolbar" style="display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;background:rgba(255,255,255,.72);border:1px solid #e3def1;border-radius:14px;padding:9px 10px;margin-bottom:14px">
       <div style="display:flex;gap:4px;background:rgba(50,38,90,.06);padding:4px;border-radius:11px">
         <sc-for list="{{ groupTabs }}" as="tab" hint-placeholder-count="3">
           <button onClick="{{ tab.onClick }}" style="{{ tab.style }}">{{ tab.label }} <span style="opacity:.7;font-size:12px;margin-left:3px">{{ tab.n }}</span></button>
@@ -193,17 +227,18 @@
         <div style="display:flex;gap:4px;background:rgba(50,38,90,.06);padding:4px;border-radius:11px">
           <button onClick="{{ setGallery }}" style="{{ galleryBtnStyle }}">🖼 图鉴</button>
           <button onClick="{{ setCircle }}" style="{{ circleBtnStyle }}">◎ 圆图</button>
-          <button onClick="{{ setTable }}" style="{{ tableBtnStyle }}">▤ 表格</button>
+          <button class="ui-table-mode-btn" onClick="{{ setTable }}" style="{{ tableBtnStyle }}">▤ 表格</button>
         </div>
-        <button onClick="{{ openAdd }}" style="font-family:inherit;font-size:14px;font-weight:700;color:#fff;background:var(--accent,#ff3355);border:none;padding:10px 18px;border-radius:11px;cursor:pointer;box-shadow:0 6px 18px rgba(50,38,90,.2)">＋ 新增谷子</button>
+        <button class="ui-main-add" onClick="{{ openAdd }}" style="font-family:inherit;font-size:14px;font-weight:700;color:#fff;background:var(--accent,#ff3355);border:none;padding:10px 18px;border-radius:11px;cursor:pointer;box-shadow:0 6px 18px rgba(50,38,90,.2)">＋ 新增谷子</button>
       </div>
     </div>
 
     <!-- ===== FILTERS ===== -->
-    <div style="background:rgba(255,255,255,.6);border:1px solid #e3def1;border-radius:14px;padding:14px 16px;margin-bottom:18px;display:flex;flex-direction:column;gap:12px">
+    <div class="ui-filters-panel" style="background:rgba(255,255,255,.6);border:1px solid #e3def1;border-radius:14px;padding:14px 16px;margin-bottom:18px;display:flex;flex-direction:column;gap:12px">
       <input value="{{ search }}" onChange="{{ onSearch }}" placeholder="🔍 搜索名称 / 角色 / 种类 / 备注…" style="width:100%;padding:10px 13px;border-radius:10px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+      <button class="ui-mobile-filter-toggle" onClick="{{ toggleFiltersOpen }}"><span>{{ filterToggleText }}</span><span>{{ filterSummaryText }}</span></button>
       <sc-if value="{{ showCharF }}" hint-placeholder-val="{{ true }}">
-      <div style="display:flex;align-items:center;gap:9px">
+      <div class="ui-filter-extra" style="display:flex;align-items:center;gap:9px">
         <span style="font-size:12px;color:#837da4;flex-shrink:0;width:34px">{{ labelChar }}</span>
         <div style="display:flex;gap:7px;overflow-x:auto;padding-bottom:3px">
           <sc-for list="{{ charChips }}" as="chip" hint-placeholder-count="5">
@@ -213,7 +248,7 @@
       </div>
       </sc-if>
       <sc-if value="{{ showTypeF }}" hint-placeholder-val="{{ true }}">
-      <div style="display:flex;align-items:center;gap:9px">
+      <div class="ui-filter-extra" style="display:flex;align-items:center;gap:9px">
         <span style="font-size:12px;color:#837da4;flex-shrink:0;width:34px">{{ labelType }}</span>
         <div style="display:flex;gap:7px;overflow-x:auto;padding-bottom:3px">
           <sc-for list="{{ typeChips }}" as="chip" hint-placeholder-count="5">
@@ -223,7 +258,7 @@
       </div>
       </sc-if>
       <sc-if value="{{ showSeriesF }}" hint-placeholder-val="{{ false }}">
-      <div style="display:flex;align-items:center;gap:9px">
+      <div class="ui-filter-extra" style="display:flex;align-items:center;gap:9px">
         <span style="font-size:12px;color:#837da4;flex-shrink:0;width:34px">{{ labelSeries }}</span>
         <div style="display:flex;gap:7px;overflow-x:auto;padding-bottom:3px">
           <sc-for list="{{ seriesChips }}" as="chip" hint-placeholder-count="3">
@@ -233,7 +268,7 @@
       </div>
       </sc-if>
       <sc-if value="{{ showFormF }}" hint-placeholder-val="{{ true }}">
-      <div style="display:flex;align-items:center;gap:9px">
+      <div class="ui-filter-extra" style="display:flex;align-items:center;gap:9px">
         <span style="font-size:12px;color:#837da4;flex-shrink:0;width:34px">{{ labelForm }}</span>
         <div style="display:flex;gap:7px;overflow-x:auto;padding-bottom:3px">
           <sc-for list="{{ formChips }}" as="chip" hint-placeholder-count="5">
@@ -243,7 +278,7 @@
       </div>
       </sc-if>
       <sc-if value="{{ showStatusF }}" hint-placeholder-val="false">
-      <div style="display:flex;align-items:center;gap:9px">
+      <div class="ui-filter-extra" style="display:flex;align-items:center;gap:9px">
         <span style="font-size:12px;color:#837da4;flex-shrink:0;width:34px">{{ labelStatus }}</span>
         <div style="display:flex;gap:7px;overflow-x:auto;padding-bottom:3px">
           <sc-for list="{{ statusChips }}" as="chip" hint-placeholder-count="5">
@@ -253,7 +288,7 @@
       </div>
       </sc-if>
       <sc-if value="{{ showAcquireF }}" hint-placeholder-val="{{ true }}">
-      <div style="display:flex;align-items:center;gap:9px">
+      <div class="ui-filter-extra" style="display:flex;align-items:center;gap:9px">
         <span style="font-size:12px;color:#837da4;flex-shrink:0;width:34px">{{ labelAcquire }}</span>
         <div style="display:flex;gap:7px;overflow-x:auto;padding-bottom:3px">
           <sc-for list="{{ acquireChips }}" as="chip" hint-placeholder-count="4">
@@ -263,7 +298,7 @@
       </div>
       </sc-if>
       <sc-if value="{{ showChannelF }}" hint-placeholder-val="{{ false }}">
-      <div style="display:flex;align-items:center;gap:9px">
+      <div class="ui-filter-extra" style="display:flex;align-items:center;gap:9px">
         <span style="font-size:12px;color:#837da4;flex-shrink:0;width:34px">{{ labelChannel }}</span>
         <div style="display:flex;gap:7px;overflow-x:auto;padding-bottom:3px">
           <sc-for list="{{ channelChips }}" as="chip" hint-placeholder-count="4">
@@ -273,7 +308,7 @@
       </div>
       </sc-if>
       <sc-for list="{{ customFilterRows }}" as="cf" hint-placeholder-count="0">
-      <div style="display:flex;align-items:center;gap:9px">
+      <div class="ui-filter-extra" style="display:flex;align-items:center;gap:9px">
         <span style="font-size:12px;color:#837da4;flex-shrink:0;width:34px">{{ cf.label }}</span>
         <div style="display:flex;gap:7px;overflow-x:auto;padding-bottom:3px">
           <sc-for list="{{ cf.chips }}" as="chip" hint-placeholder-count="3">
@@ -282,7 +317,7 @@
         </div>
       </div>
       </sc-for>
-      <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+      <div class="ui-filter-extra" style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
         <span style="font-size:12px;color:#837da4;flex-shrink:0;width:34px">分组</span>
         <div style="display:flex;gap:7px;flex-wrap:wrap">
           <sc-for list="{{ groupByChips }}" as="chip" hint-placeholder-count="3">
@@ -290,11 +325,11 @@
           </sc-for>
         </div>
       </div>
-      <div style="font-size:11.5px;color:#938db0">角色 / 种类 / 形态 / 状态 / 来源 / 平台 可多选；拖动标签可换顺序；双击标签可改名；拖动收藏卡片可换顺序</div>
+      <div class="ui-filter-help" style="font-size:11.5px;color:#938db0">角色 / 种类 / 形态 / 状态 / 来源 / 平台 可多选；拖动标签可换顺序；双击标签可改名；拖动收藏卡片可换顺序</div>
     </div>
 
     <sc-if value="{{ hasRows }}" hint-placeholder-val="{{ false }}">
-      <div style="display:flex;align-items:center;gap:10px 22px;flex-wrap:wrap;background:linear-gradient(120deg,#ffffff,#f3f0fb);border:1px solid #e1dbf0;border-left:3px solid var(--accent,#ff3355);border-radius:12px;padding:12px 16px;margin-bottom:16px">
+      <div class="ui-filter-summary" style="display:flex;align-items:center;gap:10px 22px;flex-wrap:wrap;background:linear-gradient(120deg,#ffffff,#f3f0fb);border:1px solid #e1dbf0;border-left:3px solid var(--accent,#ff3355);border-radius:12px;padding:12px 16px;margin-bottom:16px">
         <span style="font-size:13px;font-weight:700;color:#251d49">当前筛选</span>
         <span style="font-size:12.5px;color:#544f7e">{{ fCountText }}</span>
         <span style="font-size:12.5px;color:#544f7e">氪金 <span style="font-family:'Orbitron';color:#251d49">{{ fCostText }}</span></span>
@@ -316,7 +351,7 @@
 
     <!-- ===== GALLERY VIEW ===== -->
     <sc-if value="{{ isGallery }}" hint-placeholder-val="{{ true }}">
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:15px">
+      <div class="ui-gallery-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:15px">
         <sc-for list="{{ displayRows }}" as="row" hint-placeholder-count="4">
           <sc-if value="{{ row.isHeader }}" hint-placeholder-val="{{ false }}">
             <div style="grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:6px;padding:11px 15px;background:linear-gradient(120deg,#eee9f8,#f5f2fc);border:1px solid #ded7ee;border-left:3px solid var(--accent,#ff3355);border-radius:11px">
@@ -333,7 +368,7 @@
             </div>
           </sc-if>
           <sc-if value="{{ row.isItem }}" hint-placeholder-val="{{ true }}">
-          <div draggable="{{ row.draggable }}" onDragStart="{{ row.onDragStart }}" onDragOver="{{ row.onDragOver }}" onDrop="{{ row.onDrop }}" onDragEnd="{{ row.onDragEnd }}" style="background:#ffffff;border:1px solid #ded7ee;border-radius:16px;overflow:hidden;display:flex;flex-direction:column">
+          <div class="ui-gallery-card" draggable="{{ row.draggable }}" onDragStart="{{ row.onDragStart }}" onDragOver="{{ row.onDragOver }}" onDrop="{{ row.onDrop }}" onDragEnd="{{ row.onDragEnd }}" style="background:#ffffff;border:1px solid #ded7ee;border-radius:16px;overflow:hidden;display:flex;flex-direction:column">
             <div style="position:relative;aspect-ratio:1/1;background:linear-gradient(145deg,#eae5f4,#e1dcf0);display:flex;align-items:stretch;justify-content:center;overflow:hidden">
               <sc-for list="{{ row.galleryImgs }}" as="g" hint-placeholder-count="1">
                 <div style="{{ g.style }}"></div>
@@ -345,12 +380,12 @@
               <span style="{{ row.statusBadgeStyle }}">{{ row.status }}</span>
               <sc-if value="{{ row.hasImg2 }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;bottom:8px;right:8px;background:rgba(255,255,255,.88);color:#544f7e;font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:999px;border:1px solid #ded7ee">多图</span></sc-if>
             </div>
-            <div style="padding:12px 13px 13px;display:flex;flex-direction:column;gap:9px;flex:1">
+            <div class="ui-gallery-card-body" style="padding:12px 13px 13px;display:flex;flex-direction:column;gap:9px;flex:1">
               <div>
-                <div style="font-weight:700;font-size:14.5px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">{{ row.name }}</div>
-                <sc-if value="{{ row.hasOrig }}" hint-placeholder-val="{{ false }}"><div style="font-size:11px;color:#938db0;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ row.origText }}</div></sc-if>
+                <div class="ui-gallery-name" style="font-weight:700;font-size:14.5px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">{{ row.name }}</div>
+                <sc-if value="{{ row.hasOrig }}" hint-placeholder-val="{{ false }}"><div class="ui-mobile-card-extra" style="font-size:11px;color:#938db0;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ row.origText }}</div></sc-if>
               </div>
-              <div style="display:flex;gap:6px;flex-wrap:wrap">
+              <div class="ui-mobile-card-main" style="display:flex;gap:6px;flex-wrap:wrap">
                 <span style="{{ row.charStyle }}"><sc-if value="{{ row.hasAvatar }}" hint-placeholder-val="{{ false }}"><div style="{{ row.avatarStyle }}"></div></sc-if>{{ row.character }}</span>
                 <span style="display:inline-flex;align-items:center;padding:3px 9px;border-radius:999px;font-size:12px;background:rgba(50,38,90,.05);color:#595287;border:1px solid #ded7ee">{{ row.typeText }}</span>
                 <sc-if value="{{ row.showForm }}" hint-placeholder-val="{{ false }}"><span style="{{ row.formStyle }}">{{ row.formText }}</span></sc-if>
@@ -358,10 +393,10 @@
                 <sc-if value="{{ row.showAcquire }}" hint-placeholder-val="{{ false }}"><span style="{{ row.acquireStyle }}">{{ row.acquireText }}</span></sc-if>
                 <sc-if value="{{ row.hasSwap }}" hint-placeholder-val="{{ false }}"><span style="{{ row.swapStyle }}">{{ row.swapText }}</span></sc-if>
               </div>
-              <div style="display:flex;align-items:center;gap:1px" title="点星星设烫度">
+              <div class="ui-mobile-card-extra" style="display:flex;align-items:center;gap:1px" title="点星星设烫度">
                 <sc-for list="{{ row.cardStars }}" as="st" hint-placeholder-count="5"><button onClick="{{ st.onClick }}" style="{{ st.style }}">★</button></sc-for>
               </div>
-              <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:8px;margin-top:2px;padding-top:9px;border-top:1px solid rgba(50,38,90,.05)">
+              <div class="ui-mobile-card-extra" style="display:flex;align-items:flex-end;justify-content:space-between;gap:8px;margin-top:2px;padding-top:9px;border-top:1px solid rgba(50,38,90,.05)">
                 <div>
                   <div style="font-size:11px;color:#837da4">总价 · 数量{{ row.qtyText }}</div>
                   <div style="font-family:'Orbitron';font-weight:700;font-size:18px;color:#251d49">{{ row.totalText }}</div>
@@ -372,11 +407,11 @@
                   <div style="text-align:right"><div style="font-size:11px;color:#837da4">盈亏</div><div style="font-family:'Orbitron';font-size:15px"><span style="{{ row.profitStyle }}">{{ row.profitText }}</span></div></div>
                 </sc-if>
               </div>
-              <sc-if value="{{ row.hasChannel }}" hint-placeholder-val="{{ false }}"><div style="font-size:11.5px;color:#837da4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">平台 · {{ row.channelText }}</div></sc-if>
-              <sc-if value="{{ row.hasHeld }}" hint-placeholder-val="{{ false }}"><div style="font-size:11.5px;color:#837da4">⏳ {{ row.heldText }}</div></sc-if>
+              <sc-if value="{{ row.hasChannel }}" hint-placeholder-val="{{ false }}"><div class="ui-mobile-card-extra" style="font-size:11.5px;color:#837da4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">平台 · {{ row.channelText }}</div></sc-if>
+              <sc-if value="{{ row.hasHeld }}" hint-placeholder-val="{{ false }}"><div class="ui-mobile-card-extra" style="font-size:11.5px;color:#837da4">⏳ {{ row.heldText }}</div></sc-if>
               <div style="display:flex;gap:7px;margin-top:3px">
                 <button onClick="{{ row.onEdit }}" style="flex:1;font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:7px;border-radius:9px;cursor:pointer">编辑</button>
-                <button onClick="{{ row.onTrend }}" title="价格趋势" style="font-family:inherit;font-size:13px;color:#2f6fdb;background:rgba(47,111,219,.08);border:1px solid rgba(47,111,219,.25);padding:7px 13px;border-radius:9px;cursor:pointer">趋势</button>
+                <button class="ui-mobile-card-extra" onClick="{{ row.onTrend }}" title="价格趋势" style="font-family:inherit;font-size:13px;color:#2f6fdb;background:rgba(47,111,219,.08);border:1px solid rgba(47,111,219,.25);padding:7px 13px;border-radius:9px;cursor:pointer">趋势</button>
               </div>
             </div>
           </div>
@@ -453,7 +488,7 @@
 
     <!-- ===== CIRCLE (DENSE) VIEW ===== -->
     <sc-if value="{{ isCircle }}" hint-placeholder-val="{{ false }}">
-      <div style="display:flex;flex-wrap:wrap;gap:16px 14px;align-items:flex-start">
+      <div class="ui-circle-wrap" style="display:flex;flex-wrap:wrap;gap:16px 14px;align-items:flex-start">
         <sc-for list="{{ displayRows }}" as="row" hint-placeholder-count="12">
           <sc-if value="{{ row.isHeader }}" hint-placeholder-val="{{ false }}">
             <div style="width:100%;display:flex;align-items:center;gap:10px;margin-top:4px">
@@ -464,8 +499,8 @@
             </div>
           </sc-if>
           <sc-if value="{{ row.isItem }}" hint-placeholder-val="{{ true }}">
-            <button onClick="{{ row.onEdit }}" draggable="{{ row.draggable }}" onDragStart="{{ row.onDragStart }}" onDragOver="{{ row.onDragOver }}" onDrop="{{ row.onDrop }}" onDragEnd="{{ row.onDragEnd }}" title="{{ row.name }}" style="position:relative;width:92px;display:flex;flex-direction:column;align-items:center;gap:6px;background:none;border:none;cursor:pointer;padding:0;font-family:inherit">
-              <div style="position:relative;width:84px;height:84px;border-radius:50%;overflow:hidden;background:linear-gradient(145deg,#eae5f4,#e1dcf0);border:2px solid #ffffff;box-shadow:0 3px 10px rgba(50,38,90,.14)">
+            <button class="ui-circle-item" onClick="{{ row.onEdit }}" draggable="{{ row.draggable }}" onDragStart="{{ row.onDragStart }}" onDragOver="{{ row.onDragOver }}" onDrop="{{ row.onDrop }}" onDragEnd="{{ row.onDragEnd }}" title="{{ row.name }}" style="position:relative;width:92px;display:flex;flex-direction:column;align-items:center;gap:6px;background:none;border:none;cursor:pointer;padding:0;font-family:inherit">
+              <div class="ui-circle-img" style="position:relative;width:84px;height:84px;border-radius:50%;overflow:hidden;background:linear-gradient(145deg,#eae5f4,#e1dcf0);border:2px solid #ffffff;box-shadow:0 3px 10px rgba(50,38,90,.14)">
                 <div style="{{ row.thumbBg }}"></div>
                 <sc-if value="{{ row.noImg }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Orbitron';font-weight:900;font-size:26px;color:#b9b3d2">{{ row.ph }}</div></sc-if>
                 <sc-if value="{{ row.hasHeat }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;bottom:3px;right:6px;color:#ff7a1a;font-size:11px;text-shadow:0 1px 2px rgba(255,255,255,.9)">{{ row.starsText }}</span></sc-if>
@@ -478,7 +513,7 @@
       </div>
     </sc-if>
 
-    <div style="text-align:center;font-size:12px;color:#8b85ab;margin-top:26px;line-height:1.7">
+    <div class="ui-page-footer" style="text-align:center;font-size:12px;color:#8b85ab;margin-top:26px;line-height:1.7">
       数据自动保存在本浏览器（含图片）。换设备或清理浏览器前，记得点「导出备份」哦。<br><span contentEditable="true" suppressContentEditableWarning="{{ true }}" onBlur="{{ onFooterBlur }}" title="点击编辑" style="outline:none;cursor:text">{{ footer }}</span>
     </div>
     </div>
@@ -1009,7 +1044,7 @@ class Component extends DCLogic {
   FIELD_DEFAULTS = { character: '角色', type: '种类', series: '厂商', channel: '平台', status: '状态', form: '形态', acquire: '来源' };
   CHAR_IMG = { '万津莫': 'assets/c_matsu.webp', 'ねむ': 'assets/c_nemu.webp', '万津美浪': 'assets/c_minami.webp', '富士見鉄也': 'assets/c_fujimi.webp', '南雲なすか': 'assets/c_nagumo.webp', 'ノクス／诺克斯': 'assets/c_nox.webp', 'ザ・レディ': 'assets/c_lady.webp', 'ジーク': 'assets/c_zeke.webp', 'ゼロ／零': 'assets/c_zero.webp', '仮面ライダーゼッツ': 'assets/r_red.webp', '仮面ライダーノクス': 'assets/r_blue.webp', '仮面ライダードォーン': 'assets/r_zeztz.webp', 'ノクスナイト': 'assets/r_lady.webp', '仮面ライダーノクス ミッドナイトシャドウ': 'assets/r_nox_midnight.webp', 'CODE': 'assets/c_code.webp' };
   imgUrls = {};
-  state = { items: [], view: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, hiddenTypes: [], hiddenChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, trendOpen: false, trendItemId: null, trendRows: [], trendResult: null, ocrRawText: '', ocrBulkText: '', modalOpen: false, editing: null, draft: null, savedAt: 0 };
+  state = { items: [], view: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, hiddenTypes: [], hiddenChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, trendOpen: false, trendItemId: null, trendRows: [], trendResult: null, ocrRawText: '', ocrBulkText: '', modalOpen: false, editing: null, draft: null, savedAt: 0 };
 
   setRoot = (el) => { this.rootEl = el; if (el) { const a = this.state.accent || this.props.accent || '#ff3355'; el.style.setProperty('--accent', a); try { document.documentElement.style.setProperty('--accent', a); } catch (e) {} this.applyBg(); } };
   setImportRef = (el) => { this.importRef = el; };
@@ -1055,11 +1090,15 @@ class Component extends DCLogic {
       title = localStorage.getItem('zzz_title') || title; subtitle = localStorage.getItem('zzz_subtitle') || subtitle; footer = localStorage.getItem('zzz_footer') || footer;
       collectorName = localStorage.getItem('zzz_cn') || ''; currency = localStorage.getItem('zzz_currency') || ''; accent = localStorage.getItem('zzz_accent') || '';
     } catch (e) {}
+    let mobileMode = 'auto'; try { mobileMode = localStorage.getItem('zzz_mobile_mode') || 'auto'; } catch(e) {}
+    if (!['auto', 'full', 'simple'].includes(mobileMode)) mobileMode = 'auto';
+    const isPhone = (() => { try { return !!(window.matchMedia && window.matchMedia('(max-width:640px)').matches); } catch(e) { return false; } })();
+    const startView = this.props.startView || ((isPhone && mobileMode !== 'full') ? 'circle' : 'gallery');
     const lists = this.loadWorkLists(currentWorkId, items);
     this.charOrder = lists.charOrder;
     let cloudSyncId = '', cloudSyncCode = '';
     try { cloudSyncId = localStorage.getItem('zzz_cloud_id') || ''; cloudSyncCode = localStorage.getItem('zzz_cloud_code') || ''; } catch (e) {}
-    this.setState({ items, works, currentWorkId, workGroupLabel, title, subtitle, footer, collectorName, currency, accent, fieldLabels, filterOn, statsOn, deletedFields, customFields, customFilterOrder, cloudSyncId, cloudSyncCode, cloudCodeInput: cloudSyncCode || '', view: this.props.startView || 'gallery', ...lists });
+    this.setState({ items, works, currentWorkId, workGroupLabel, title, subtitle, footer, collectorName, currency, accent, fieldLabels, filterOn, statsOn, deletedFields, customFields, customFilterOrder, cloudSyncId, cloudSyncCode, cloudCodeInput: cloudSyncCode || '', mobileMode, filtersOpen: false, view: startView, ...lists });
     this.loadImages(items);
     this.loadCharAvatars();
     this.loadLogo();
@@ -1140,6 +1179,12 @@ class Component extends DCLogic {
   onCustomDraft = (key) => (e) => { const v = e.target.value; this.setState(s => ({ draft: { ...s.draft, custom: { ...(s.draft.custom || {}), [key]: v } } })); };
   addOptionTo = (which, lsKey, promptText) => () => { const v = (window.prompt(promptText) || '').trim(); if (!v) return; const cur = this.state[which] || []; if (cur.includes(v)) return; const arr = [...cur, v]; try { localStorage.setItem(this.wkey(lsKey), JSON.stringify(arr)); } catch (e) {} this.setState({ [which]: arr }); };
   toggleWorkMenu = () => this.setState(s => ({ workMenuOpen: !s.workMenuOpen }));
+  toggleMobileMode = () => {
+    const next = (this.state.mobileMode || 'auto') === 'full' ? 'auto' : 'full';
+    try { localStorage.setItem('zzz_mobile_mode', next); } catch(e) {}
+    this.setState({ mobileMode: next });
+  };
+  toggleFiltersOpen = () => this.setState(s => ({ filtersOpen: !s.filtersOpen }));
 
   // ===== Supabase（匿名只写，用于收集行情/快照/事件）=====
   initSupabase() {
@@ -2179,6 +2224,13 @@ class Component extends DCLogic {
     const draftSwapped = !!(d && d.acquire === '盲盒' && d.swapped === '已置换');
 
     const savedText = this.state.savedAt ? '已自动保存 ' + new Date(this.state.savedAt).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' }) : '自动保存已开启';
+    const mobileMode = this.state.mobileMode || 'auto';
+    const appClass = 'ui-app ui-mobile-' + mobileMode + (this.state.filtersOpen ? ' ui-filters-open' : '');
+    const mobileModeText = mobileMode === 'full' ? '清爽模式' : '完整模式';
+    const activeCustomFilterCount = Object.values(this.state.customFilterSel || {}).reduce((n, arr) => n + (Array.isArray(arr) && arr.length ? 1 : 0), 0);
+    const activeFilterCount = (charSel.length ? 1 : 0) + (typeSel.length ? 1 : 0) + (seriesFilter !== '全部' ? 1 : 0) + (formSel.length ? 1 : 0) + (statusSel.length ? 1 : 0) + (acquireSel.length ? 1 : 0) + (channelSel.length ? 1 : 0) + activeCustomFilterCount + (groupBySafe !== 'none' ? 1 : 0);
+    const filterSummaryText = activeFilterCount ? (activeFilterCount + ' 个条件') : '全部';
+    const filterToggleText = this.state.filtersOpen ? '收起筛选' : '展开筛选';
 
     // 作品 / 系列IP 切换
     const works = this.state.works || [];
@@ -2270,6 +2322,7 @@ class Component extends DCLogic {
       lblCharacter: labels.character, lblType: labels.type, lblChannel: labels.channel, lblStatus: labels.status, lblForm: labels.form, lblAcquire: labels.acquire,
       cnPrefix, hasCn: !!cnPrefix,
       rootBgStyle: this.bgUrl ? { backgroundImage: `linear-gradient(rgba(236,232,246,.82),rgba(236,232,246,.92)), url(${this.bgUrl})`, backgroundSize: 'cover', backgroundAttachment: 'fixed', backgroundPosition: 'center' } : {},
+      appClass, mobileModeText, toggleMobileMode: this.toggleMobileMode, filterSummaryText, filterToggleText, toggleFiltersOpen: this.toggleFiltersOpen,
       savedText, doExport: this.doExport, triggerImport: this.triggerImport, onImportFile: this.onImportFile,
       logoStyle: { height: '54px', width: '160px', backgroundImage: `url(${headerLogoUrl})`, backgroundSize: 'contain', backgroundPosition: 'left center', backgroundRepeat: 'no-repeat', filter: 'drop-shadow(0 4px 14px rgba(0,0,0,.5))', cursor: 'pointer', flexShrink: 0 }, title: this.state.title || '谷子收纳', subtitle: this.state.subtitle || '', footer: this.state.footer || '', uploadLogo: this.uploadLogo, onTitleBlur: this.onTitleBlur, onSubtitleBlur: this.onSubtitleBlur, onFooterBlur: this.onFooterBlur,
       statIn: cur + this.fmt(totalIn), statSell: cur + this.fmt(totalSell),
