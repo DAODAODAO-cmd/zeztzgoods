@@ -107,8 +107,11 @@
     .ui-mobile-auto .ui-mobile-mode-button,.ui-mobile-simple .ui-mobile-mode-button,.ui-mobile-full .ui-mobile-mode-button{display:inline-flex !important;align-items:center;justify-content:center;}
     .ui-mobile-auto .ui-stats-grid,.ui-mobile-simple .ui-stats-grid{display:none !important;}
     .ui-mobile-auto .ui-toolbar,.ui-mobile-simple .ui-toolbar{position:sticky !important;top:0 !important;z-index:12 !important;margin-left:-4px !important;margin-right:-4px !important;border-radius:12px !important;box-shadow:0 8px 24px rgba(50,38,90,.08) !important;}
-    .ui-mobile-auto .ui-work-switch,.ui-mobile-simple .ui-work-switch{position:relative !important;z-index:40 !important;margin-bottom:10px !important;}
-    .ui-mobile-auto .ui-work-switch > div:last-child,.ui-mobile-simple .ui-work-switch > div:last-child{z-index:80 !important;}
+    .ui-mobile-auto .ui-work-switch,.ui-mobile-simple .ui-work-switch{position:relative !important;z-index:90 !important;margin-bottom:10px !important;}
+    .ui-mobile-auto .ui-work-switch > div:first-child,.ui-mobile-simple .ui-work-switch > div:first-child{width:100% !important;}
+    .ui-mobile-auto .ui-work-switch > div:last-child,.ui-mobile-simple .ui-work-switch > div:last-child{width:100% !important;z-index:120 !important;}
+    .ui-mobile-auto .ui-work-switch > div:last-child > button,.ui-mobile-simple .ui-work-switch > div:last-child > button{width:100% !important;justify-content:center !important;}
+    .ui-mobile-auto .ui-work-menu,.ui-mobile-simple .ui-work-menu{left:0 !important;right:0 !important;width:100% !important;min-width:0 !important;max-width:100% !important;box-sizing:border-box !important;z-index:160 !important;}
     .ui-mobile-auto .ui-toolbar,.ui-mobile-simple .ui-toolbar{top:8px !important;z-index:20 !important;}
     .ui-mobile-auto .ui-toolbar > div,.ui-mobile-simple .ui-toolbar > div{width:100%;justify-content:space-between !important;overflow-x:auto;}
     .ui-mobile-auto .ui-table-mode-btn,.ui-mobile-simple .ui-table-mode-btn{display:none !important;}
@@ -188,7 +191,7 @@
       <div style="position:relative;flex-shrink:0">
         <button onClick="{{ toggleWorkMenu }}" style="display:flex;align-items:center;gap:8px;padding:8px 13px;border-radius:10px;border:1px solid #ded7ee;background:#ffffff;color:#4c4580;font-size:13px;font-family:inherit;cursor:pointer">切换{{ workGroupLabel }} / 作品 <span style="color:#938db0;font-size:11px">▾</span></button>
         <sc-if value="{{ workMenuOpen }}" hint-placeholder-val="{{ false }}">
-          <div style="position:absolute;right:0;top:100%;margin-top:6px;z-index:80;min-width:260px;background:#ffffff;border:1px solid #ded7ee;border-radius:12px;box-shadow:0 16px 40px rgba(0,0,0,.18);padding:8px;max-height:340px;overflow-y:auto">
+          <div class="ui-work-menu" style="position:absolute;right:0;top:100%;margin-top:6px;z-index:80;min-width:260px;background:#ffffff;border:1px solid #ded7ee;border-radius:12px;box-shadow:0 16px 40px rgba(0,0,0,.18);padding:8px;max-height:340px;overflow-y:auto">
             <sc-for list="{{ workGroups }}" as="g" hint-placeholder-count="1">
               <div style="font-size:11px;color:#938db0;padding:6px 8px 3px;font-weight:600">{{ g.group }}</div>
               <sc-for list="{{ g.works }}" as="w" hint-placeholder-count="2">
@@ -271,7 +274,10 @@
     <div class="ui-mobile-ledger-mini" style="background:linear-gradient(135deg,#ffffff,#f7f3ff);border:1px solid #ded7ee;border-radius:13px;padding:11px 12px">
       <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px">
         <div style="font-weight:900;font-size:13px;color:#251d49">💰 本月账单</div>
-        <div style="font-size:11px;color:#837da4">{{ budgetPctText }}</div>
+        <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+          <span style="font-size:11px;color:#837da4">{{ budgetPctText }}</span>
+          <button onClick="{{ onBudgetQuickEdit }}" style="font-family:inherit;font-size:11.5px;font-weight:700;color:#4c4580;background:#fff;border:1px solid #ded7ee;border-radius:999px;padding:4px 8px;cursor:pointer">改预算</button>
+        </div>
       </div>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center">
         <div><div style="font-size:10.5px;color:#837da4;margin-bottom:3px">{{ miniBudgetLabel }}</div><div style="font-family:'Orbitron';font-weight:800;font-size:13px;color:#251d49">{{ mobileBudgetText }}</div></div>
@@ -607,22 +613,12 @@
         </div>
 
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px">
-          <div class="ui-ledger-card">
-            <div class="ui-ledger-title">{{ ledgerRankTitle1 }}</div>
-            <sc-for list="{{ topCostRows }}" as="r" hint-placeholder-count="3"><div style="display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid rgba(50,38,90,.06)"><span style="font-size:13px;color:#544f7e;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</span><span style="font-family:'Orbitron';font-weight:700;color:#251d49;flex-shrink:0">{{ r.value }}</span></div></sc-for>
-          </div>
-          <div class="ui-ledger-card">
-            <div class="ui-ledger-title">{{ ledgerRankTitle2 }}</div>
-            <sc-for list="{{ topQtyRows }}" as="r" hint-placeholder-count="3"><div style="display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid rgba(50,38,90,.06)"><span style="font-size:13px;color:#544f7e;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</span><span style="font-family:'Orbitron';font-weight:700;color:#251d49;flex-shrink:0">{{ r.value }}</span></div></sc-for>
-          </div>
-          <div class="ui-ledger-card">
-            <div class="ui-ledger-title">{{ ledgerRankTitle3 }}</div>
-            <sc-for list="{{ topCharacterRows }}" as="r" hint-placeholder-count="3"><div style="display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid rgba(50,38,90,.06)"><span style="font-size:13px;color:#544f7e;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</span><span style="font-family:'Orbitron';font-weight:700;color:#251d49;flex-shrink:0">{{ r.value }}</span></div></sc-for>
-          </div>
-          <div class="ui-ledger-card">
-            <div class="ui-ledger-title">{{ ledgerRankTitle4 }}</div>
-            <sc-for list="{{ topPlatformRows }}" as="r" hint-placeholder-count="3"><div style="display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid rgba(50,38,90,.06)"><span style="font-size:13px;color:#544f7e;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</span><span style="font-family:'Orbitron';font-weight:700;color:#251d49;flex-shrink:0">{{ r.value }}</span></div></sc-for>
-          </div>
+          <sc-for list="{{ ledgerRankCards }}" as="card" hint-placeholder-count="4">
+            <div class="ui-ledger-card">
+              <div class="ui-ledger-title">{{ card.title }}</div>
+              <sc-for list="{{ card.rows }}" as="r" hint-placeholder-count="3"><div style="display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid rgba(50,38,90,.06)"><span style="font-size:13px;color:#544f7e;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</span><span style="font-family:'Orbitron';font-weight:700;color:#251d49;flex-shrink:0">{{ r.value }}</span></div></sc-for>
+            </div>
+          </sc-for>
         </div>
       </div>
     </sc-if>
@@ -1064,6 +1060,25 @@
           </div>
 
           <div style="border-top:1px solid #e1dbf0;padding-top:16px">
+            <div style="font-weight:700;font-size:14px;color:#251d49;margin-bottom:4px">账本卡片设置</div>
+            <div style="font-size:11.5px;color:#938db0;margin-bottom:10px;line-height:1.6">选择账本下面四张 TOP 卡片展示什么；名称会跟随默认 / 谷圈 / 商务用词变化。</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+              <div>
+                <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:700">收藏模式</div>
+                <sc-for list="{{ dashboardCollectionRows }}" as="dc" hint-placeholder-count="4">
+                  <div style="display:grid;grid-template-columns:42px 1fr;gap:8px;align-items:center;margin-bottom:8px"><span style="font-size:12px;color:#837da4">{{ dc.no }}</span><select value="{{ dc.value }}" onChange="{{ dc.onChange }}" style="width:100%;min-height:38px;padding:7px 9px;border-radius:8px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:13px;font-family:inherit;outline:none"><sc-for list="{{ dc.options }}" as="op" hint-placeholder-count="4"><option value="{{ op.value }}">{{ op.label }}</option></sc-for></select></div>
+                </sc-for>
+              </div>
+              <div>
+                <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:700">出物模式</div>
+                <sc-for list="{{ dashboardSaleRows }}" as="dc" hint-placeholder-count="4">
+                  <div style="display:grid;grid-template-columns:42px 1fr;gap:8px;align-items:center;margin-bottom:8px"><span style="font-size:12px;color:#837da4">{{ dc.no }}</span><select value="{{ dc.value }}" onChange="{{ dc.onChange }}" style="width:100%;min-height:38px;padding:7px 9px;border-radius:8px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:13px;font-family:inherit;outline:none"><sc-for list="{{ dc.options }}" as="op" hint-placeholder-count="4"><option value="{{ op.value }}">{{ op.label }}</option></sc-for></select></div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+
+          <div style="border-top:1px solid #e1dbf0;padding-top:16px">
             <div style="font-weight:700;font-size:14px;color:#251d49;margin-bottom:4px">选项管理</div>
             <div style="font-size:11.5px;color:#938db0;margin-bottom:10px">每个带下拉的字段都可在这里改选项，一行一个。改完首页筛选、编辑页会一起同步。</div>
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px">
@@ -1185,7 +1200,7 @@ class Component extends DCLogic {
   FIELD_DEFAULTS = { character: '角色', type: '种类', series: '厂商', channel: '平台', status: '状态', form: '形态', acquire: '来源' };
   CHAR_IMG = { '诺克斯': 'assets/c_nox.webp', 'NOX': 'assets/c_nox.webp', 'MIDNIGHT SHADOW': 'assets/r_nox_midnight.webp', 'NOX KNIGHT': 'assets/r_lady.webp', 'ZEZTZ': 'assets/r_red.webp', '西格': 'assets/c_zeke.webp', 'DAWN': 'assets/r_zeztz.webp', '宁梦': 'assets/c_nemu.webp', '南云成华': 'assets/c_nagumo.webp', 'ZERO': 'assets/c_zero.webp', '万津莫': 'assets/c_matsu.webp', 'ねむ': 'assets/c_nemu.webp', '万津美浪': 'assets/c_minami.webp', '富士見鉄也': 'assets/c_fujimi.webp', '南雲なすか': 'assets/c_nagumo.webp', 'ノクス／诺克斯': 'assets/c_nox.webp', 'ザ・レディ': 'assets/c_lady.webp', 'ジーク': 'assets/c_zeke.webp', 'ゼロ／零': 'assets/c_zero.webp', '仮面ライダーゼッツ': 'assets/r_red.webp', '仮面ライダーノクス': 'assets/r_blue.webp', '仮面ライダードォーン': 'assets/r_zeztz.webp', 'ノクスナイト': 'assets/r_lady.webp', '仮面ライダーノクス ミッドナイトシャドウ': 'assets/r_nox_midnight.webp', 'CODE': 'assets/c_code.webp' };
   imgUrls = {};
-  state = { items: [], view: null, monthlyBudget: '', nameStyleMode: 'default', displayMode: 'standard', group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, trendOpen: false, trendItemId: null, trendRows: [], trendResult: null, ocrRawText: '', ocrBulkText: '', modalOpen: false, editing: null, draft: null, savedAt: 0 };
+  state = { items: [], view: null, monthlyBudget: '', nameStyleMode: 'default', displayMode: 'standard', dashboardCards: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, trendOpen: false, trendItemId: null, trendRows: [], trendResult: null, ocrRawText: '', ocrBulkText: '', modalOpen: false, editing: null, draft: null, savedAt: 0 };
 
   setRoot = (el) => { this.rootEl = el; if (el) { const a = this.state.accent || this.props.accent || '#ff3355'; el.style.setProperty('--accent', a); try { document.documentElement.style.setProperty('--accent', a); } catch (e) {} this.applyBg(); } };
   setImportRef = (el) => { this.importRef = el; };
@@ -1235,6 +1250,8 @@ class Component extends DCLogic {
     let mobileMode = 'auto'; try { mobileMode = localStorage.getItem('zzz_mobile_mode') || 'auto'; } catch(e) {}
     let nameStyleMode = 'default'; try { nameStyleMode = localStorage.getItem('zzz_name_style') || 'default'; } catch(e) {}
     let displayMode = 'standard'; try { displayMode = localStorage.getItem('zzz_display_mode') || 'standard'; } catch(e) {}
+    let dashboardCards = null; try { dashboardCards = JSON.parse(localStorage.getItem('zzz_dashboard_cards') || 'null'); } catch(e) { dashboardCards = null; }
+    if (!dashboardCards || typeof dashboardCards !== 'object') dashboardCards = this.defaultDashboardCards();
     if (!['auto', 'full', 'simple'].includes(mobileMode)) mobileMode = 'auto';
     const isPhone = (() => { try { return !!(window.matchMedia && window.matchMedia('(max-width:640px)').matches); } catch(e) { return false; } })();
     const startView = this.props.startView || ((isPhone && mobileMode !== 'full') ? 'circle' : 'gallery');
@@ -1242,7 +1259,7 @@ class Component extends DCLogic {
     this.charOrder = lists.charOrder;
     let cloudSyncId = '', cloudSyncCode = '';
     try { cloudSyncId = localStorage.getItem('zzz_cloud_id') || ''; cloudSyncCode = localStorage.getItem('zzz_cloud_code') || ''; } catch (e) {}
-    this.setState({ items, works, currentWorkId, workGroupLabel, title, subtitle, footer, collectorName, currency, accent, monthlyBudget, nameStyleMode, displayMode, fieldLabels, filterOn, statsOn, deletedFields, customFields, customFilterOrder, cloudSyncId, cloudSyncCode, cloudCodeInput: cloudSyncCode || '', mobileMode, filtersOpen: false, view: startView, ...lists });
+    this.setState({ items, works, currentWorkId, workGroupLabel, title, subtitle, footer, collectorName, currency, accent, monthlyBudget, nameStyleMode, displayMode, dashboardCards, fieldLabels, filterOn, statsOn, deletedFields, customFields, customFilterOrder, cloudSyncId, cloudSyncCode, cloudCodeInput: cloudSyncCode || '', mobileMode, filtersOpen: false, view: startView, ...lists });
     this.loadImages(items);
     this.loadCharAvatars();
     this.loadLogo();
@@ -1272,12 +1289,19 @@ class Component extends DCLogic {
     let statusList = rd('zzz_status', () => [...this.STATUSES]);
     return { charOrder, typesList, seriesList, channels, formOrder, acquireOrder, reminderTypes, hiddenTypes, hiddenChannels, statusList };
   }
+  resetScopedFilters(extra) {
+    return {
+      charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [],
+      customFilterSel: {},
+      ...(extra || {})
+    };
+  }
   switchWork = (id) => {
     if (!id || id === this.state.currentWorkId) return;
     try { localStorage.setItem('zzz_current_work', id); } catch (e) {}
     const lists = this.loadWorkLists(id);
     this.charOrder = lists.charOrder;
-    this.setState({ currentWorkId: id, workMenuOpen: false, charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], ...lists });
+    this.setState(this.resetScopedFilters({ currentWorkId: id, workMenuOpen: false, ...lists }));
   };
   saveWorks = (works) => { try { localStorage.setItem('zzz_works', JSON.stringify(works)); } catch (e) {} this.setState({ works }); };
   addWork = () => {
@@ -1298,7 +1322,7 @@ class Component extends DCLogic {
     this.saveWorks(works); this.commit(items);
     if (this.state.currentWorkId === w.id) {
       if (works.length) this.switchWork(works[0].id);
-      else { try { localStorage.setItem('zzz_current_work', ''); } catch (e) {} this.setState({ currentWorkId: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], charOrder: [], typesList: [], seriesList: [], channels: [], statusList: [], formOrder: [...this.FORMS], acquireOrder: ['直购', '单领', '盲盒'], reminderTypes: [...this.REMINDER_TYPES] }); }
+      else { try { localStorage.setItem('zzz_current_work', ''); } catch (e) {} this.setState(this.resetScopedFilters({ currentWorkId: '', charOrder: [], typesList: [], seriesList: [], channels: [], statusList: [], formOrder: [...this.FORMS], acquireOrder: ['直购', '单领', '盲盒'], reminderTypes: [...this.REMINDER_TYPES] })); }
     }
   };
   addCustomField = () => { const base = this.state.settingsDraft ? (this.state.settingsDraft.customFields || []) : (this.state.customFields || []); const cf = [...base, { key: 'cf_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5), label: '新字段' }]; if (this.state.settingsDraft) this.updateSettingsDraft({ customFields: cf }); else { try { localStorage.setItem('zzz_custom_fields', JSON.stringify(cf)); } catch (e) {} this.setState({ customFields: cf }); } };
@@ -1482,6 +1506,7 @@ class Component extends DCLogic {
       localStorage.setItem('zzz_status', JSON.stringify(this.STATUSES));
       localStorage.setItem('zzz_name_style', 'default');
       localStorage.setItem('zzz_display_mode', 'standard');
+      localStorage.setItem('zzz_dashboard_cards', JSON.stringify(this.defaultDashboardCards()));
     } catch (e) {}
     this.imgUrls = {};
     this.logoUrl = null;
@@ -1498,7 +1523,7 @@ class Component extends DCLogic {
     this.setState({
       items: [], works, currentWorkId: this.MAIN_WORK, group: 'all', groupBy: 'none', search: '',
       charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], customFilterSel: {}, customFilterOrder: {},
-      workGroupLabel: '系列IP', workMenuOpen: false, fieldLabels: { ...this.FIELD_DEFAULTS }, filterOn, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, reminderTypes, nameStyleMode: 'default', displayMode: 'standard',
+      workGroupLabel: '系列IP', workMenuOpen: false, fieldLabels: { ...this.FIELD_DEFAULTS }, filterOn, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, reminderTypes, nameStyleMode: 'default', displayMode: 'standard', dashboardCards: this.defaultDashboardCards(),
       settingsOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', nameStyleMode: 'default', displayMode: 'standard', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '本机资料已清空。', cloudBusy: false,
       modalOpen: false, editing: null, draft: null, trendOpen: false, trendItemId: null, trendRows: [], trendResult: null,
       title: '谷子收纳', subtitle: '梦 境 特 工 档 案', footer: '梦境特工档案 · コードナンバー：収集家',
@@ -1514,6 +1539,7 @@ class Component extends DCLogic {
       accent: this.state.accent || this.props.accent || '#ff3355',
       nameStyleMode: this.state.nameStyleMode || 'default',
       displayMode: this.state.displayMode || 'standard',
+      dashboardCards: this.normalizeDashboardCards(this.state.dashboardCards),
       title: this.state.title || '',
       subtitle: this.state.subtitle || '',
       footer: this.state.footer || '',
@@ -1538,6 +1564,7 @@ class Component extends DCLogic {
       localStorage.setItem('zzz_accent', d.accent || '');
       localStorage.setItem('zzz_name_style', d.nameStyleMode || 'default');
       localStorage.setItem('zzz_display_mode', d.displayMode || 'standard');
+      localStorage.setItem('zzz_dashboard_cards', JSON.stringify(this.normalizeDashboardCards(d.dashboardCards))); 
       localStorage.setItem('zzz_title', d.title || '');
       localStorage.setItem('zzz_subtitle', d.subtitle || '');
       localStorage.setItem('zzz_footer', d.footer || '');
@@ -1556,13 +1583,14 @@ class Component extends DCLogic {
     const validWorkIds = new Set(works.map(w => w.id));
     const safeItems = (this.state.items || []).filter(it => validWorkIds.has(it.workId || this.MAIN_WORK));
     if (this.rootEl) this.rootEl.style.setProperty('--accent', d.accent || this.props.accent || '#ff3355');
-    this.setState({
+    const workLists = this.loadWorkLists(currentWorkId, safeItems);
+    this.setState(this.resetScopedFilters({
       settingsOpen: false,
       settingsDraft: null,
       items: safeItems,
       collectorName: d.collectorName || '',
       currency: d.currency || '',
-      accent: d.accent || '', nameStyleMode: d.nameStyleMode || 'default', displayMode: d.displayMode || 'standard',
+      accent: d.accent || '', nameStyleMode: d.nameStyleMode || 'default', displayMode: d.displayMode || 'standard', dashboardCards: this.normalizeDashboardCards(d.dashboardCards),
       title: d.title || '',
       subtitle: d.subtitle || '',
       footer: d.footer || '',
@@ -1571,8 +1599,9 @@ class Component extends DCLogic {
       fieldLabels: d.fieldLabels || {},
       filterOn: d.filterOn || {},
       statsOn: d.statsOn || {},
-      customFields: d.customFields || []
-    }, () => { if (this.state.cloudSyncId) this.pushCloud(); });
+      customFields: d.customFields || [],
+      ...workLists
+    }), () => { if (this.state.cloudSyncId) this.pushCloud(); });
   };
   onSettingField = (key, lsKey) => (e) => { const v = e.target.value; try { localStorage.setItem(lsKey, v); } catch (er) {} this.setState({ [key]: v }); if (key === 'accent' && this.rootEl) this.rootEl.style.setProperty('--accent', v || this.props.accent || '#ff3355'); };
 
@@ -1841,7 +1870,12 @@ class Component extends DCLogic {
   async loadCharAvatars() { this.ensureCharImg(); let changed = false; for (const name in this.charImgIds) { try { const b = await this.idbGet(this.charImgIds[name]); if (b) { this.charImgMap[name] = URL.createObjectURL(b); changed = true; } } catch (e) {} } if (changed) this.forceUpdate(); }
   uploadCharAvatar = (name) => { if (!name || name === '全部') return; const inp = document.createElement('input'); inp.type = 'file'; inp.accept = 'image/*'; inp.onchange = async () => { const f = inp.files && inp.files[0]; if (!f) return; const id = 'img_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6); try { await this.idbPut(id, f); this.ensureCharImg(); this.charImgIds[name] = id; try { localStorage.setItem('zzz_char_img_ids', JSON.stringify(this.charImgIds)); } catch (e) {} this.charImgMap[name] = URL.createObjectURL(f); this.forceUpdate(); } catch (e) { alert('头像保存失败：' + e); } }; inp.click(); };
   persistCharMaps() { this.ensureCharImg(); try { localStorage.setItem('zzz_char_img', JSON.stringify(this.charAssetMap)); } catch (e) {} try { localStorage.setItem('zzz_char_img_ids', JSON.stringify(this.charImgIds)); } catch (e) {} }
-  orderedChars() { const o = (this.state.charOrder && this.state.charOrder.length) ? this.state.charOrder : this.CHARACTERS; return o; }
+  orderedChars() {
+    // 每个作品独立角色库：只有主作品使用默认 Zezt 角色；其它作品为空或使用自己的角色列表
+    const o = Array.isArray(this.state.charOrder) ? this.state.charOrder : [];
+    if (o.length) return o;
+    return (this.state.currentWorkId || this.MAIN_WORK) === this.MAIN_WORK ? this.CHARACTERS : [];
+  }
   chipDrag(name, kind) { return { draggable: name !== '全部', onDragStart: (ev) => { if (name === '全部') return; this.cdKind = kind; this.cdName = name; if (ev.dataTransfer) { ev.dataTransfer.effectAllowed = 'move'; try { ev.dataTransfer.setData('text/plain', JSON.stringify({ kind, name })); } catch(e) {} } }, onDragOver: (ev) => { if (name !== '全部') { ev.preventDefault(); if (ev.dataTransfer) ev.dataTransfer.dropEffect = 'move'; } }, onDrop: (ev) => { ev.preventDefault(); let src = this.cdName, k = this.cdKind; try { const raw = ev.dataTransfer && ev.dataTransfer.getData('text/plain'); if (raw) { const obj = JSON.parse(raw); src = obj.name || src; k = obj.kind || k; } } catch(e) {} if (k === kind) this.reorderChip(kind, src, name); this.cdName = null; this.cdKind = null; } }; }
   reorderChip(kind, src, dst) {
     if (!src || src === dst || src === '全部' || dst === '全部') return;
@@ -1924,7 +1958,7 @@ class Component extends DCLogic {
     try { localStorage.setItem('zzz_custom_filter_order', JSON.stringify(orderMap)); } catch(e) {}
     this.setState({ customFilterOrder: orderMap, customFilterSel }, () => this.commit(items));
   };
-  emptyDraft() { return { id: null, custom: {}, name: '', character: (this.orderedChars()[0] || this.CHARACTERS[0] || ''), type: this.TYPES[0], subtype: '', series: '', form: '通用', heat: 0, rate: '', acquire: '直购', swapped: '未置换', swapTo: '', swapCharacter: '', swapImageId: null, group: '收藏', status: '已到货', qty: '1', originalPrice: '', buyPrice: '', shipDom: '', shipIntl: '', sellPrice: '', channel: '', buyDate: '', reminderType: '', reminderDate: '', note: '', imageId: null, imageId2: null }; }
+  emptyDraft() { const chars = this.orderedChars(); return { id: null, custom: {}, name: '', character: (chars[0] || ''), type: this.TYPES[0], subtype: '', series: '', form: '通用', heat: 0, rate: '', acquire: '直购', swapped: '未置换', swapTo: '', swapCharacter: '', swapImageId: null, group: '收藏', status: '已到货', qty: '1', originalPrice: '', buyPrice: '', shipDom: '', shipIntl: '', sellPrice: '', channel: '', buyDate: '', reminderType: '', reminderDate: '', note: '', imageId: null, imageId2: null }; }
 
   // ---- modal / crud ----
   beginItemDrag = (id, ev) => {
@@ -2097,6 +2131,7 @@ class Component extends DCLogic {
   setTable = () => this.setState({ view: 'table' });
   setLedger = () => this.setState({ view: 'ledger' });
   onBudgetChange = (e) => { const monthlyBudget = e.target.value; try { localStorage.setItem('zzz_monthly_budget', monthlyBudget); } catch (er) {} this.setState({ monthlyBudget }); };
+  onBudgetQuickEdit = () => { const current = this.state.monthlyBudget || ''; const v = window.prompt('请输入本月预算', current); if (v === null) return; const clean = String(v || '').trim(); if (clean && (isNaN(Number(clean)) || Number(clean) < 0)) { window.alert('预算请输入大于等于 0 的数字'); return; } try { localStorage.setItem('zzz_monthly_budget', clean); } catch (er) {} this.setState({ monthlyBudget: clean }); };
   setGallery = () => this.setState({ view: 'gallery' });
   setCircle = () => this.setState({ view: 'circle' });
   setHeat = (n) => this.setState(s => ({ draft: { ...s.draft, heat: ((s.draft.heat || 0) === n ? n - 1 : n) } }));
@@ -2194,6 +2229,61 @@ class Component extends DCLogic {
   tabStyle(active) { return { padding: '8px 15px', borderRadius: '9px', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: '14px', whiteSpace: 'nowrap', fontWeight: active ? 700 : 500, background: active ? 'var(--accent,#ff3355)' : 'transparent', color: active ? '#fff' : '#6f6996', transition: '.15s' }; }
   segStyle(active) { return { padding: '7px 13px', borderRadius: '8px', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: '13px', whiteSpace: 'nowrap', fontWeight: active ? 700 : 500, background: active ? 'var(--accent,#ff3355)' : 'transparent', color: active ? '#fff' : '#6f6996', transition: '.15s' }; }
   badge(color, bg, bd) { return { display: 'inline-flex', alignItems: 'center', padding: '3px 9px', borderRadius: '999px', fontSize: '11.5px', fontWeight: 600, whiteSpace: 'nowrap', color, background: bg, border: '1px solid ' + bd }; }
+
+
+  defaultDashboardCards() {
+    return { collection: ['costItems','qtyItems','character','workGroup'], sale: ['salePrice','saleQty','saleRevenueIp','saleProfit'] };
+  }
+  normalizeDashboardCards(cards) {
+    const d = this.defaultDashboardCards();
+    const clean = (arr, fb) => { arr = Array.isArray(arr) ? arr.filter(Boolean).slice(0,4) : []; while (arr.length < 4) arr.push(fb[arr.length] || fb[0]); return arr; };
+    return { collection: clean(cards && cards.collection, d.collection), sale: clean(cards && cards.sale, d.sale) };
+  }
+  dashboardMetricLabels(styleMode) {
+    const s = styleMode || this.state.nameStyleMode || 'default';
+    const base = {
+      default: {
+        costItems:'花费TOP3', qtyItems:'数量TOP3', character:'最爱TOP3', workGroup:'IP TOP3', maker:'厂商TOP3', type:'种类TOP3', reminder:'近期待办',
+        salePrice:'卖价TOP3', saleQty:'卖出TOP3', saleRevenueIp:'收益IP TOP3', saleProfit:'利润TOP3'
+      },
+      guquan: {
+        costItems:'氪金TOP3', qtyItems:'囤货TOP3', character:'真爱TOP3', workGroup:'本命TOP3', maker:'厂商TOP3', type:'种类TOP3', reminder:'待办中心',
+        salePrice:'成交TOP3', saleQty:'出货TOP3', saleRevenueIp:'回血IP TOP3', saleProfit:'海景TOP3'
+      },
+      business: {
+        costItems:'消费排行', qtyItems:'收藏排行', character:'角色排行', workGroup:'系列IP排行', maker:'厂商排行', type:'品类排行', reminder:'待处理事项',
+        salePrice:'成交排行', saleQty:'销售排行', saleRevenueIp:'收入IP排行', saleProfit:'利润排行'
+      }
+    };
+    return base[s] || base.default;
+  }
+  dashboardMetricOptions(styleMode) {
+    const L = this.dashboardMetricLabels(styleMode);
+    return {
+      collection: ['costItems','qtyItems','character','workGroup','maker','type','reminder'].map(k => ({ value:k, label:L[k] })),
+      sale: ['salePrice','saleQty','saleRevenueIp','saleProfit','character','workGroup','maker','type','reminder'].map(k => ({ value:k, label:L[k] }))
+    };
+  }
+  makeRankRows(metric, ledgerItems, saleItems, cur, workOfItem, fillRows) {
+    const topMoney = (map) => this.topSpendRows(map, cur);
+    const items = metric && metric.indexOf('sale') === 0 ? saleItems : ledgerItems;
+    if (metric === 'costItems') return fillRows([...ledgerItems].map(it => ({ name: it.name || this.genName(it) || '未命名', valueNum: this.enrich(it).cost })).filter(r => r.valueNum > 0).sort((a,b) => b.valueNum - a.valueNum).slice(0,3).map(r => ({ name:r.name, value:cur + this.fmt(r.valueNum) })));
+    if (metric === 'qtyItems') return fillRows([...ledgerItems].map(it => ({ name: it.name || this.genName(it) || '未命名', qty: this.enrich(it).qty, type: it.type || '' })).filter(r => r.qty > 0).sort((a,b) => b.qty - a.qty || a.name.localeCompare(b.name,'zh-Hans-CN')).slice(0,3).map(r => ({ name: r.type ? r.name + ' · ' + r.type : r.name, value: r.qty + ' 个' })));
+    if (metric === 'character' || metric === 'workGroup' || metric === 'maker' || metric === 'type') {
+      const map = {};
+      items.forEach(it => { const e = this.enrich(it); let k = '未分类'; if (metric === 'character') k = it.character || '未分类'; else if (metric === 'workGroup') k = (workOfItem(it).group || '未分类'); else if (metric === 'maker') k = it.series || '未分类'; else if (metric === 'type') k = it.type || '未分类'; map[k] = (map[k] || 0) + e.cost; });
+      return topMoney(map);
+    }
+    if (metric === 'reminder') {
+      const rows = ledgerItems.map(it => ({ it, rem:this.reminderInfo(it) })).filter(x => x.rem.pending).sort((a,b) => a.rem.days - b.rem.days).slice(0,3).map(x => ({ name:x.it.name || this.genName(x.it) || '未命名', value:x.rem.badgeText || x.rem.text }));
+      return fillRows(rows);
+    }
+    if (metric === 'salePrice') return fillRows([...saleItems].map(it => { const e=this.enrich(it); return { name: it.name || this.genName(it) || '未命名', valueNum:e.sell, qty:e.qty }; }).filter(r=>r.valueNum>0).sort((a,b)=>b.valueNum-a.valueNum).slice(0,3).map(r=>({ name:r.qty>1? r.name+' ×'+r.qty : r.name, value:cur+this.fmt(r.valueNum)+'/个' })));
+    if (metric === 'saleQty') return fillRows([...saleItems].map(it => { const e=this.enrich(it); return { name:it.name || this.genName(it) || '未命名', valueNum:e.qty, revenue:e.revenue }; }).filter(r=>r.valueNum>0).sort((a,b)=>b.valueNum-a.valueNum || b.revenue-a.revenue).slice(0,3).map(r=>({ name:r.name, value:r.valueNum+' 个' })));
+    if (metric === 'saleRevenueIp') { const m={}; saleItems.forEach(it=>{ const e=this.enrich(it); const ip=workOfItem(it).group || '未分类'; m[ip]=(m[ip]||0)+e.revenue; }); return topMoney(m); }
+    if (metric === 'saleProfit') return fillRows([...saleItems].map(it => { const e=this.enrich(it); return { name:it.name || this.genName(it) || '未命名', valueNum:e.profit, revenue:e.revenue }; }).filter(r=>r.revenue>0).sort((a,b)=>b.valueNum-a.valueNum).slice(0,3).map(r=>({ name:r.name, value:(r.valueNum>=0?'+':'-')+cur+this.fmt(Math.abs(r.valueNum)) })));
+    return fillRows([]);
+  }
 
 
   previewStyleText(mode) {
@@ -2363,26 +2453,24 @@ class Component extends DCLogic {
     const TXT = this.nameStyleLabels();
     const isNewbie = (this.state.displayMode || 'standard') === 'newbie';
     const isSimple = (this.state.displayMode || 'standard') === 'simple';
-    let topCostRows, topQtyRows, topCharacterRows, topPlatformRows;
-    let [ledgerRankTitle1, ledgerRankTitle2, ledgerRankTitle3, ledgerRankTitle4] = TXT.collectRanks;
     const fillRows = (rows, minN = 3) => { while (rows.length < minN) rows.push({ name: '暂无数据', value: '—' }); return rows; };
-    if (saleLedgerMode) {
-      [ledgerRankTitle1, ledgerRankTitle2, ledgerRankTitle3, ledgerRankTitle4] = TXT.saleRanks;
-      const saleItems = ledgerItems.filter(it => this.num(it.sellPrice) > 0 || this.groupOf(it) === '出物');
-      topCostRows = fillRows([...saleItems].map(it => { const e = this.enrich(it); return { name: it.name || this.genName(it) || '未命名', valueNum: e.sell, qty: e.qty }; }).filter(r => r.valueNum > 0).sort((a,b) => b.valueNum - a.valueNum).slice(0,3).map(r => ({ name: r.qty > 1 ? (r.name + ' ×' + r.qty) : r.name, value: cur + this.fmt(r.valueNum) + '/个' })));
-      topQtyRows = fillRows([...saleItems].map(it => { const e = this.enrich(it); return { name: it.name || this.genName(it) || '未命名', valueNum: e.qty, revenue: e.revenue }; }).filter(r => r.valueNum > 0).sort((a,b) => b.valueNum - a.valueNum || b.revenue - a.revenue).slice(0,5).map(r => ({ name: r.name, value: r.valueNum + ' 个' })));
-      const ipRevenue = {};
-      saleItems.forEach(it => { const e = this.enrich(it); const wk = workOfItem(it); const ip = wk.group || '未分类'; ipRevenue[ip] = (ipRevenue[ip] || 0) + e.revenue; });
-      topCharacterRows = this.topSpendRows(ipRevenue, cur);
-      topPlatformRows = fillRows([...saleItems].map(it => { const e = this.enrich(it); return { name: it.name || this.genName(it) || '未命名', valueNum: e.profit, revenue: e.revenue }; }).filter(r => r.revenue > 0).sort((a,b) => b.valueNum - a.valueNum).slice(0,3).map(r => ({ name: r.name, value: (r.valueNum >= 0 ? '+' : '-') + cur + this.fmt(Math.abs(r.valueNum)) })));
-    } else {
-      topCostRows = fillRows([...ledgerItems].map(it => ({ name: it.name || this.genName(it) || '未命名', valueNum: this.enrich(it).cost })).filter(r => r.valueNum > 0).sort((a,b) => b.valueNum - a.valueNum).slice(0,3).map(r => ({ name: r.name, value: cur + this.fmt(r.valueNum) })));
-      const charSpend = {}, ipSpend = {};
-      ledgerItems.forEach(it => { const e = this.enrich(it); const ck = it.character || '未分类'; charSpend[ck] = (charSpend[ck] || 0) + e.cost; const wk = workOfItem(it); const ip = wk.group || '未分类'; ipSpend[ip] = (ipSpend[ip] || 0) + e.cost; });
-      topQtyRows = fillRows([...ledgerItems].map(it => ({ name: it.name || this.genName(it) || '未命名', qty: this.enrich(it).qty, type: it.type || '' })).filter(r => r.qty > 0).sort((a,b) => b.qty - a.qty || a.name.localeCompare(b.name, 'zh-Hans-CN')).slice(0,5).map(r => ({ name: r.type ? (r.name + ' · ' + r.type) : r.name, value: r.qty + ' 个' })));
-      topCharacterRows = this.topSpendRows(charSpend, cur);
-      topPlatformRows = this.topSpendRows(ipSpend, cur);
-    }
+    const saleItemsForRank = ledgerItems.filter(it => this.num(it.sellPrice) > 0 || this.groupOf(it) === '出物');
+    const dashLabels = this.dashboardMetricLabels(this.state.nameStyleMode || 'default');
+    const dashCards = this.normalizeDashboardCards(this.state.dashboardCards);
+    const selectedMetrics = saleLedgerMode ? dashCards.sale : dashCards.collection;
+    const ledgerRankCards = selectedMetrics.map(metric => ({
+      key: metric,
+      title: dashLabels[metric] || metric,
+      rows: this.makeRankRows(metric, ledgerItems, saleItemsForRank, cur, workOfItem, fillRows)
+    }));
+    const topCostRows = ledgerRankCards[0] ? ledgerRankCards[0].rows : fillRows([]);
+    const topQtyRows = ledgerRankCards[1] ? ledgerRankCards[1].rows : fillRows([]);
+    const topCharacterRows = ledgerRankCards[2] ? ledgerRankCards[2].rows : fillRows([]);
+    const topPlatformRows = ledgerRankCards[3] ? ledgerRankCards[3].rows : fillRows([]);
+    const ledgerRankTitle1 = ledgerRankCards[0] ? ledgerRankCards[0].title : '';
+    const ledgerRankTitle2 = ledgerRankCards[1] ? ledgerRankCards[1].title : '';
+    const ledgerRankTitle3 = ledgerRankCards[2] ? ledgerRankCards[2].title : '';
+    const ledgerRankTitle4 = ledgerRankCards[3] ? ledgerRankCards[3].title : '';
     const reminderItemsRaw = ledgerItems.map(it => ({ it, rem: this.reminderInfo(it) })).filter(x => x.rem.pending).sort((a,b) => a.rem.days - b.rem.days);
     const seenReminderKeys = new Set();
     const reminderItems = reminderItemsRaw.filter(x => { const key = [x.it.id || (x.it.name || this.genName(x.it) || '未命名'), x.rem.type || '', x.rem.date || ''].join('|'); if (seenReminderKeys.has(key)) return false; seenReminderKeys.add(key); return true; });
@@ -2563,6 +2651,16 @@ class Component extends DCLogic {
       onLogo: () => this.uploadWorkLogo(w.id), onDel: () => this.delWork(w), onPick: () => this.switchWork(w.id),
       logoStyle: this.workLogo(w.id) ? { width: '34px', height: '34px', borderRadius: '8px', backgroundImage: `url(${this.workLogo(w.id)})`, backgroundSize: 'cover', backgroundPosition: 'center', flexShrink: 0, cursor: 'pointer', border: '1px solid #ded7ee' } : { width: '34px', height: '34px', borderRadius: '8px', background: 'rgba(50,38,90,.06)', flexShrink: 0, cursor: 'pointer', border: '1px dashed #ccc4e6', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', color: '#938db0' }
     }));
+    const dashCfg = this.normalizeDashboardCards(sd.dashboardCards || this.state.dashboardCards);
+    const dashOps = this.dashboardMetricOptions(sd.nameStyleMode || this.state.nameStyleMode || 'default');
+    const setDashCard = (mode, idx) => (e) => {
+      const cfg = this.normalizeDashboardCards((this.state.settingsDraft && this.state.settingsDraft.dashboardCards) || dashCfg);
+      cfg[mode] = [...cfg[mode]];
+      cfg[mode][idx] = e.target.value;
+      this.updateSettingsDraft({ dashboardCards: cfg });
+    };
+    const dashboardCollectionRows = dashCfg.collection.map((v, i) => ({ no: '卡片' + (i + 1), value: v, options: dashOps.collection, onChange: setDashCard('collection', i) }));
+    const dashboardSaleRows = dashCfg.sale.map((v, i) => ({ no: '卡片' + (i + 1), value: v, options: dashOps.sale, onChange: setDashCard('sale', i) }));
     const fieldRows = ['character', 'type', 'series', 'channel', 'status', 'form', 'acquire'].filter(k => fieldVisible(k)).map(k => {
       const sOn = (draftStatsOn || {})[k] !== false;
       const fOn = !!draftFilterOn[k];
@@ -2630,7 +2728,7 @@ class Component extends DCLogic {
       onCn: this.onDraftSettingField('collectorName'), onCurrency: this.onDraftSettingField('currency'), onAccent: this.onDraftSettingField('accent'), onNameStyle: this.setNameStyle, onDisplayMode: this.setDisplayMode, onTitleSet: this.onDraftSettingField('title'), onSubtitleSet: this.onDraftSettingField('subtitle'), onFooterSet: this.onDraftSettingField('footer'),
       showWelcomeCard: !cnPrefix, cloudSyncCode: this.state.cloudSyncCode || '', hasCloudCode: !!this.state.cloudSyncCode, noCloudCode: !this.state.cloudSyncCode, hasCloudStatus: !!this.state.cloudStatus, cloudStatus: this.state.cloudStatus || '', copyCloudCode: this.copyCloudCode, cloudCodeInput: this.state.cloudCodeInput || '', onCloudCodeInput: this.onCloudCodeInput, createCloudCollection: this.createCloudCollection, connectCloudCollection: this.connectCloudCollection, pushCloud: this.pushCloud, pullCloud: this.pullCloud, disconnectCloud: this.disconnectCloud, hasCloudSync: !!this.state.cloudSyncId, cloudSyncText: this.state.cloudSyncCode ? ('当前同步代码：' + this.state.cloudSyncCode + '。' + (this.state.cloudStatus || '')) : (this.state.cloudStatus || '未连接云同步。'),
       trendOpen: this.state.trendOpen, closeTrend: this.closeTrend, saveTrend: this.saveTrend, addTrendRow: this.addTrendRow, trendRowsView, trendMetrics, trendTitle: (trendIt.name || '未命名') + ' · 价格趋势', setChartCanvas: this.setChartCanvas, trendHasData: !tr.empty, onOcr: this.handleOcr, ocrStatus: this.state.ocrStatus || '', hasOcrText: !!(this.state.ocrRawText || this.state.ocrBulkText), ocrRawText: this.state.ocrRawText || '', ocrBulkText: this.state.ocrBulkText || '', onOcrRawChange: this.onOcrRawChange, onOcrBulkChange: this.onOcrBulkChange, reparseOcrRaw: this.reparseOcrRaw, fillOcrBulk: this.fillOcrBulk,
-      labels, workManageRows, fieldRows, optionGroups, customFieldRows, draftCustomInputs, hasCustomFields: draftCustomFields.length > 0, addCustomField: this.addCustomField, restoreBaseFields: this.restoreBaseFields, workSettingGroups, addGroupAlone: this.addGroupAlone, uploadBg: this.uploadBg, clearBg: this.clearBg, hasBg: !!this.bgUrl, addWorkInline: this.addWork,
+      labels, workManageRows, fieldRows, optionGroups, customFieldRows, draftCustomInputs, hasCustomFields: draftCustomFields.length > 0, addCustomField: this.addCustomField, restoreBaseFields: this.restoreBaseFields, workSettingGroups, dashboardCollectionRows, dashboardSaleRows, addGroupAlone: this.addGroupAlone, uploadBg: this.uploadBg, clearBg: this.clearBg, hasBg: !!this.bgUrl, addWorkInline: this.addWork,
       addFormOpt: this.addOptionTo('formOrder', 'zzz_form_order', '输入新的形态'), addStatusOpt: this.addOptionTo('statusList', 'zzz_status', '输入新的状态'), addAcquireOpt: this.addOptionTo('acquireOrder', 'zzz_acquire_order', '输入新的来源方式'), formMenuItems, formDisplay, formMenuOpen: this.state.formMenuOpen, toggleFormMenu: this.toggleFormMenu, statusMenuItems, statusDisplay, statusMenuOpen: this.state.statusMenuOpen, toggleStatusMenu: this.toggleStatusMenu, acquireMenuItems, acquireDisplay, acquireMenuOpen: this.state.acquireMenuOpen, toggleAcquireMenu: this.toggleAcquireMenu,
       lblCharacter: labels.character, lblType: labels.type, lblChannel: labels.channel, lblStatus: labels.status, lblForm: labels.form, lblAcquire: labels.acquire,
       cnPrefix, hasCn: !!cnPrefix,
@@ -2652,7 +2750,7 @@ class Component extends DCLogic {
       showCharF: fieldVisible('character') && this.state.filterOn.character !== false, showTypeF: fieldVisible('type') && this.state.filterOn.type !== false, showFormF: fieldVisible('form') && this.state.filterOn.form !== false, showStatusF: showStatusFilter, showAcquireF: fieldVisible('acquire') && this.state.filterOn.acquire !== false,
       showSeriesF: showSeriesFilter && this.state.filterOn.series !== false, showChannelF: showChannelFilter && this.state.filterOn.channel !== false,
       displayRows, isEmpty: itemRows.length === 0, isTable: view === 'table', isGallery: view === 'gallery', isCircle: view === 'circle', isLedger: view === 'ledger',
-      budgetInput: this.state.monthlyBudget || '', onBudgetChange: this.onBudgetChange, ledgerScopeText, monthSpentText: cur + this.fmt(monthSpent), budgetRemainText: budget > 0 ? ((budgetRemain >= 0 ? '' : '-') + cur + this.fmt(Math.abs(budgetRemain))) : '—', budgetRemainStyle: { color: budget > 0 ? (budgetRemain >= 0 ? '#12a85f' : '#e23b5d') : '#8b85ab' }, budgetPctText: budget > 0 ? Math.round(budgetPct) + '%' : '—', budgetPctStyle: { color: budgetColor }, budgetBarStyle: { width: Math.min(100, Math.max(0, Math.round(budgetPct))) + '%', height: '100%', borderRadius: '999px', background: budgetColor }, budgetStatusText: budget <= 0 ? TXT.noBudget : (budgetPct >= 100 ? TXT.overBudget : budgetPct >= 80 ? TXT.nearBudget : TXT.okBudget), ledgerTitle: TXT.ledgerTitle, ledgerHelpText: isNewbie ? TXT.ledgerHelp : '', budgetLabel: TXT.budget, spentLabel: TXT.spent, remainLabel: TXT.remain, progressLabel: TXT.progress, monthsTitle: TXT.months, reminderCenterTitle: TXT.reminderCenter, noReminderText: TXT.noReminder, mobileWalletTitle: TXT.walletMini, miniBudgetLabel: TXT.miniBudget, miniSpentLabel: TXT.miniSpent, miniRemainLabel: TXT.miniRemain, addItemText: TXT.addItem, ledgerMonths, topCostRows, topQtyRows, topCharacterRows, topPlatformRows, ledgerRankTitle1, ledgerRankTitle2, ledgerRankTitle3, ledgerRankTitle4, upcomingReminders, ledgerReminderRows, hasLedgerReminders: ledgerReminderRows.length > 0, noLedgerReminders: ledgerReminderRows.length === 0, hasUpcomingReminders: upcomingReminders.length > 0, mobileReminderText, mobileReminderDetail, mobileTodoRows, mobileBudgetText: budget > 0 ? (cur + this.fmt(budget)) : '未设', reminderCountText,
+      budgetInput: this.state.monthlyBudget || '', onBudgetChange: this.onBudgetChange, onBudgetQuickEdit: this.onBudgetQuickEdit, ledgerScopeText, monthSpentText: cur + this.fmt(monthSpent), budgetRemainText: budget > 0 ? ((budgetRemain >= 0 ? '' : '-') + cur + this.fmt(Math.abs(budgetRemain))) : '—', budgetRemainStyle: { color: budget > 0 ? (budgetRemain >= 0 ? '#12a85f' : '#e23b5d') : '#8b85ab' }, budgetPctText: budget > 0 ? Math.round(budgetPct) + '%' : '—', budgetPctStyle: { color: budgetColor }, budgetBarStyle: { width: Math.min(100, Math.max(0, Math.round(budgetPct))) + '%', height: '100%', borderRadius: '999px', background: budgetColor }, budgetStatusText: budget <= 0 ? TXT.noBudget : (budgetPct >= 100 ? TXT.overBudget : budgetPct >= 80 ? TXT.nearBudget : TXT.okBudget), ledgerTitle: TXT.ledgerTitle, ledgerHelpText: isNewbie ? TXT.ledgerHelp : '', budgetLabel: TXT.budget, spentLabel: TXT.spent, remainLabel: TXT.remain, progressLabel: TXT.progress, monthsTitle: TXT.months, reminderCenterTitle: TXT.reminderCenter, noReminderText: TXT.noReminder, mobileWalletTitle: TXT.walletMini, miniBudgetLabel: TXT.miniBudget, miniSpentLabel: TXT.miniSpent, miniRemainLabel: TXT.miniRemain, addItemText: TXT.addItem, ledgerMonths, topCostRows, topQtyRows, topCharacterRows, topPlatformRows, ledgerRankCards, ledgerRankTitle1, ledgerRankTitle2, ledgerRankTitle3, ledgerRankTitle4, upcomingReminders, ledgerReminderRows, hasLedgerReminders: ledgerReminderRows.length > 0, noLedgerReminders: ledgerReminderRows.length === 0, hasUpcomingReminders: upcomingReminders.length > 0, mobileReminderText, mobileReminderDetail, mobileTodoRows, mobileBudgetText: budget > 0 ? (cur + this.fmt(budget)) : '未设', reminderCountText,
       qtyBadgeStyle: { position: 'absolute', top: '1px', right: '5px', minWidth: '22px', height: '22px', padding: '0 6px', borderRadius: '999px', background: `radial-gradient(circle at 32% 28%, ${this.accentLight(0.5)}, ${this.accentColor()} 82%)`, color: '#fff', fontSize: '12px', fontWeight: 800, lineHeight: 1, fontFamily: "'Orbitron',sans-serif", display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: `0 3px 9px ${this.accentAlpha(0.5)}`, border: '2.5px solid #fff' },
       modalOpen: this.state.modalOpen, modalTitle: this.state.editing ? '编辑谷子' : '新增谷子', isEditing: !!this.state.editing, duplicateCurrent: this.duplicateCurrent, deleteCurrent: this.deleteCurrent,
       draft: d || this.emptyDraft(),
