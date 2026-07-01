@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <script src="./support.js"></script>
 </head>
 <body>
@@ -248,6 +248,7 @@
   .ui-batch-option-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-top:10px}
   .ui-batch-option-grid button{font-family:inherit;font-size:13px;color:#251d49;background:#fff;border:1px solid #ded7ee;border-radius:10px;padding:10px 11px;cursor:pointer;text-align:left}
   @media (max-width:900px){.ui-wallet-main-grid{grid-template-columns:1fr}.ui-wallet-side{grid-template-rows:auto auto}.ui-wallet-reminder-card{max-height:220px}.ui-batch-edit-modal-grid{grid-template-columns:1fr}.ui-consume-controls{justify-content:flex-start}}
+  @media (max-width:640px){ .ui-app input, .ui-app select, .ui-app textarea, .ui-modal-card input, .ui-modal-card select, .ui-modal-card textarea { font-size:16px !important; } }
 
 </style>
 </helmet>
@@ -996,6 +997,7 @@
               <button onClick="{{ toggleChannelMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ channelDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
               <sc-if value="{{ channelMenuOpen }}" hint-placeholder-val="{{ false }}">
                 <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:5;background:#ffffff;border:1px solid #ded7ee;border-radius:11px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:240px;overflow-y:auto">
+                  <button onClick="{{ clearChannel }}" style="width:100%;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#938db0;padding:7px 9px;border-radius:8px">（未分类）</button>
                   <sc-if value="{{ hasChannelMenuItems }}" hint-placeholder-val="{{ false }}">
                     <sc-for list="{{ channelMenuItems }}" as="ch" hint-placeholder-count="4">
                       <div style="{{ ch.rowStyle }}">
@@ -1004,7 +1006,7 @@
                       </div>
                     </sc-for>
                   </sc-if>
-                  <button onClick="{{ addChannel }}" style="width:100%;margin-top:3px;background:rgba(50,38,90,.04);border:1px dashed #ded7ee;cursor:pointer;text-align:center;font-family:inherit;font-size:13px;font-weight:700;color:#544f7e;padding:8px 9px;border-radius:9px">新建平台 / 店铺</button>
+                  <button onClick="{{ addChannel }}" style="display:none"></button>
                 </div>
               </sc-if>
             </div>
@@ -1023,9 +1025,18 @@
             <sc-if value="{{ draftIsGacha }}" hint-placeholder-val="{{ false }}">
             <div>
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">置换状态</div>
-              <select name="swapped" value="{{ draft.swapped }}" onChange="{{ onDraftChange }}" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
-                <option value="未置换">未置换（保留盲抽）</option><option value="已置换">已置换</option>
-              </select>
+              <div style="position:relative">
+                <button onClick="{{ toggleSwapMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ swappedDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
+                <sc-if value="{{ swapMenuOpen }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:7;background:#ffffff;border:1px solid #ded7ee;border-radius:11px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:200px;overflow-y:auto">
+                    <sc-for list="{{ swapMenuItems }}" as="ch" hint-placeholder-count="2">
+                      <div style="{{ ch.rowStyle }}">
+                        <button onClick="{{ ch.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ch.name }}</button>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
             </div>
             </sc-if>
             <sc-if value="{{ draftSwapped }}" hint-placeholder-val="{{ false }}">
@@ -1033,10 +1044,19 @@
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">置换为（盲抽换成的谷子）</div>
               <input name="swapTo" value="{{ draft.swapTo }}" onChange="{{ onDraftChange }}" placeholder="例：换成 诺克斯 趴趴毛绒" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
               <div style="font-size:12px;color:#4a4570;margin:12px 0 6px;font-weight:500">置换后人物</div>
-              <select name="swapCharacter" value="{{ draft.swapCharacter }}" onChange="{{ onDraftChange }}" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
-                <option value="">（同原抽人物）</option>
-                <sc-for list="{{ CHARACTERS }}" as="c" hint-placeholder-count="6"><option value="{{ c }}">{{ c }}</option></sc-for>
-              </select>
+              <div style="position:relative">
+                <button onClick="{{ toggleSwapCharMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span style="display:flex;align-items:center;gap:8px;min-width:0"><sc-if value="{{ swapCharHasAvatar }}" hint-placeholder-val="{{ false }}"><div style="{{ swapCharAvatarStyle }}"></div></sc-if>{{ swapCharDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
+                <sc-if value="{{ swapCharMenuOpen }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:6;background:#ffffff;border:1px solid #ded7ee;border-radius:11px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:260px;overflow-y:auto">
+                    <button onClick="{{ clearSwapCharacter }}" style="width:100%;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#938db0;padding:7px 9px;border-radius:8px">（同原抽人物）</button>
+                    <sc-for list="{{ swapCharMenuItems }}" as="ch" hint-placeholder-count="6">
+                      <div style="{{ ch.rowStyle }}">
+                        <button onClick="{{ ch.onPick }}" style="flex:1;min-width:0;display:flex;align-items:center;gap:8px;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><sc-if value="{{ ch.hasImg }}" hint-placeholder-val="{{ false }}"><div style="{{ ch.imgStyle }}"></div></sc-if>{{ ch.name }}</button>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
               <div style="display:flex;gap:12px;align-items:center;margin-top:12px">
                 <div style="position:relative;width:82px;height:82px;border-radius:13px;flex-shrink:0;background:linear-gradient(145deg,#eae5f4,#e1dcf0);border:1px solid #ded7ee;display:flex;align-items:center;justify-content:center;overflow:hidden;color:#9089ad;font-size:12px">
                   <div style="{{ draftSwapThumbBg }}"></div>
@@ -1079,11 +1099,21 @@
             </div>
 
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">提醒事件</div>
-              <select name="reminderType" value="{{ draft.reminderType }}" onChange="{{ onDraftChange }}" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
-                <option value="">不提醒</option>
-                <sc-for list="{{ reminderTypeOptions }}" as="rt" hint-placeholder-count="5"><option value="{{ rt }}">{{ rt }}</option></sc-for>
-              </select>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>提醒事件</span><button onClick="{{ addReminderType }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer">添加</button></div>
+              <div style="position:relative">
+                <button onClick="{{ toggleReminderMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ reminderDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
+                <sc-if value="{{ reminderMenuOpen }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:7;background:#ffffff;border:1px solid #ded7ee;border-radius:11px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:220px;overflow-y:auto">
+                    <button onClick="{{ clearReminderType }}" style="width:100%;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#938db0;padding:7px 9px;border-radius:8px">不提醒</button>
+                    <sc-for list="{{ reminderMenuItems }}" as="ch" hint-placeholder-count="5">
+                      <div style="{{ ch.rowStyle }}">
+                        <button onClick="{{ ch.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ch.name }}</button>
+                        <button onClick="{{ ch.onDel }}" style="flex-shrink:0;width:22px;height:22px;border-radius:6px;border:none;background:rgba(226,59,93,.1);color:#e23b5d;cursor:pointer;font-size:14px;line-height:1">×</button>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
             </div>
             <div>
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">提醒日期</div>
@@ -1461,7 +1491,7 @@ class Component extends DCLogic {
   FIELD_DEFAULTS = { character: '角色', type: '种类', series: '厂商', channel: '平台', status: '状态', form: '形态', acquire: '来源' };
   CHAR_IMG = { '诺克斯': 'assets/c_nox.webp', 'NOX': 'assets/r_blue.webp', 'MIDNIGHT SHADOW': 'assets/r_nox_midnight.webp', 'NOX KNIGHT': 'assets/r_lady.webp', 'ZEZTZ': 'assets/r_red.webp', '西格': 'assets/c_zeke.webp', 'DAWN': 'assets/r_zeztz.webp', '宁梦': 'assets/c_nemu.webp', '南云成华': 'assets/c_nagumo.webp', 'ZERO': 'assets/c_zero.webp', '万津莫': 'assets/c_matsu.webp', '万津美浪': 'assets/c_minami.webp', '富士见铁也': 'assets/c_fujimi.webp', 'THE LADY': 'assets/c_lady.webp', 'CODE': 'assets/c_code.webp' };
   imgUrls = {};
-  state = { items: [], view: null, monthlyBudget: '', budgets: {}, ledgerDetailKey: '', ledgerDetailType: 'day', ledgerDetailLabel: '', tableSortKey: '', tableSortDir: 'desc', nameStyleMode: 'default', displayMode: 'standard', dashboardCards: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, dataManageOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, trendOpen: false, trendItemId: null, trendRows: [], trendResult: null, ocrRawText: '', ocrBulkText: '', modalOpen: false, editing: null, draft: null, savedAt: 0, batchMode: false, selectedIds: [], bulkEditIds: [], bulkEditIndex: 0, ledgerRange: 'month', ledgerMode: 'month', ledgerYear: String(new Date().getFullYear()), ledgerMonth: String(new Date().getMonth()+1), ledgerWeek: '', ledgerPieBy: 'character', ledgerPieActive: 0, batchEditOpen: false, batchEditField: '' };
+  state = { items: [], view: null, reminderMenuOpen: false, monthlyBudget: '', budgets: {}, ledgerDetailKey: '', ledgerDetailType: 'day', ledgerDetailLabel: '', tableSortKey: '', tableSortDir: 'desc', nameStyleMode: 'default', displayMode: 'standard', dashboardCards: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, dataManageOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, trendOpen: false, trendItemId: null, trendRows: [], trendResult: null, ocrRawText: '', ocrBulkText: '', modalOpen: false, editing: null, draft: null, savedAt: 0, batchMode: false, selectedIds: [], bulkEditIds: [], bulkEditIndex: 0, ledgerRange: 'month', ledgerMode: 'month', ledgerYear: String(new Date().getFullYear()), ledgerMonth: String(new Date().getMonth()+1), ledgerWeek: '', ledgerPieBy: 'character', ledgerPieActive: 0, batchEditOpen: false, batchEditField: '' };
 
   setRoot = (el) => { this.rootEl = el; if (el) { const a = this.state.accent || this.props.accent || '#ff3355'; el.style.setProperty('--accent', a); try { document.documentElement.style.setProperty('--accent', a); } catch (e) {} this.applyBg(); } };
   setImportRef = (el) => { this.importRef = el; };
@@ -2997,6 +3027,15 @@ class Component extends DCLogic {
   pickForm = (v) => this.setState(s => ({ draft: { ...s.draft, form: v }, formMenuOpen: false }));
   pickStatus = (v) => this.setState(s => ({ draft: { ...s.draft, status: v }, statusMenuOpen: false }));
   pickAcquire = (v) => this.setState(s => ({ draft: { ...s.draft, acquire: v }, acquireMenuOpen: false }));
+  toggleSwapMenu = () => this.setState(s => ({ swapMenuOpen: !s.swapMenuOpen }));
+  pickSwapped = (v) => this.setState(s => ({ draft: { ...s.draft, swapped: v }, swapMenuOpen: false }));
+  toggleSwapCharMenu = () => this.setState(s => ({ swapCharMenuOpen: !s.swapCharMenuOpen }));
+  pickSwapCharacter = (v) => this.setState(s => ({ draft: { ...s.draft, swapCharacter: v }, swapCharMenuOpen: false }));
+  clearSwapCharacter = () => this.pickSwapCharacter('');
+  toggleReminderMenu = () => this.setState(s => ({ reminderMenuOpen: !s.reminderMenuOpen }));
+  pickReminder = (v) => this.setState(s => ({ draft: { ...s.draft, reminderType: v }, reminderMenuOpen: false }));
+  addReminderType = () => { const v = (window.prompt('输入新的提醒事件') || '').trim(); if (!v) return; if (!(this.state.reminderTypes || []).includes(v)) this.saveList('reminderTypes', 'zzz_reminder_types', [...(this.state.reminderTypes || []), v]); this.pickReminder(v); };
+  delReminderItem = (c, ev) => { if (ev) ev.stopPropagation(); this.saveList('reminderTypes', 'zzz_reminder_types', (this.state.reminderTypes || []).filter(x => x !== c)); };
   delListOption = (which, lsKey, field, val, ev) => {
     if (ev) ev.stopPropagation();
     if (!val) return;
@@ -3033,9 +3072,14 @@ class Component extends DCLogic {
   delSeriesItem = (c, ev) => { ev.stopPropagation(); this.saveList('seriesList', 'zzz_series', this.state.seriesList.filter(x => x !== c)); };
   toggleChannelMenu = () => this.setState(s => ({ channelMenuOpen: !s.channelMenuOpen }));
   pickChannel = (c) => this.setState(s => ({ draft: { ...s.draft, channel: c }, channelMenuOpen: false }));
+  clearChannel = () => this.pickChannel('');
   addChannel = () => { const v = (window.prompt('新的平台或店铺名称') || '').trim(); if (!v) return; if (!this.state.channels.includes(v)) this.saveChannels([...this.state.channels, v]); this.setState(s => ({ draft: { ...s.draft, channel: v }, channelMenuOpen: false })); };
   renameChannelItem = (c, ev) => { ev.stopPropagation(); const nv = (window.prompt('重命名平台「' + c + '」为（会同步修改所有该平台的谷子）：', c) || '').trim(); if (!nv || nv === c) return; this.saveChannels(this.state.channels.map(x => x === c ? nv : x)); const items = this.state.items.map(x => (x.channel || '') === c ? { ...x, channel: nv } : x); this.commit(items); this.setState(s => ({ channelSel: (s.channelSel || []).map(x => x === c ? nv : x), draft: s.draft ? { ...s.draft, channel: s.draft.channel === c ? nv : s.draft.channel } : s.draft })); };
   delChannelItem = (c, ev) => { ev.stopPropagation(); this.saveChannels(this.state.channels.filter(x => x !== c)); };
+  toggleReminderMenu = () => this.setState(s => ({ reminderMenuOpen: !s.reminderMenuOpen }));
+  pickReminderType = (c) => this.setState(s => ({ draft: { ...s.draft, reminderType: c }, reminderMenuOpen: false }));
+  addReminderType = () => { const v = (window.prompt('新的提醒事件名称') || '').trim(); if (!v) return; const cur = this.state.reminderTypes || []; if (!cur.includes(v)) this.saveList('reminderTypes', 'zzz_reminder_types', [...cur, v]); this.setState(s => ({ draft: { ...s.draft, reminderType: v }, reminderMenuOpen: false })); };
+  delReminderItem = (c, ev) => { ev.stopPropagation(); this.saveList('reminderTypes', 'zzz_reminder_types', (this.state.reminderTypes || []).filter(x => x !== c)); };
   toggleSel = (key, value) => { this.setState(s => { if (value === '__all__') return { [key]: [] }; const cur = s[key] || []; return { [key]: cur.includes(value) ? cur.filter(x => x !== value) : [...cur, value] }; }); };
   toggleCustomFilter = (key, value) => { this.setState(s => { const all = { ...(s.customFilterSel || {}) }; if (value === '__all__') { all[key] = []; return { customFilterSel: all }; } const cur = all[key] || []; all[key] = cur.includes(value) ? cur.filter(x => x !== value) : [...cur, value]; return { customFilterSel: all }; }); };
 
@@ -3408,12 +3452,23 @@ class Component extends DCLogic {
     const dAcquire = this.state.draft ? (this.state.draft.acquire || '') : '';
     const acquireMenuItems = ((this.state.acquireOrder && this.state.acquireOrder.length) ? this.state.acquireOrder : ['直购', '单领', '盲盒']).map(c => ({ name: c, onPick: () => this.pickAcquire(c), onRename: (ev) => this.renameListOption('acquireOrder', 'zzz_acquire_order', 'acquire', c, '来源方式', ev), onDel: (ev) => this.delListOption('acquireOrder', 'zzz_acquire_order', 'acquire', c, ev), rowStyle: this.menuRow(dAcquire === c) }));
     const acquireDisplay = dAcquire || '选择来源方式';
+    const dSwapped = this.state.draft ? (this.state.draft.swapped || '未置换') : '未置换';
+    const swapMenuItems = [{ name: '未置换（保留盲抽）', val: '未置换' }, { name: '已置换', val: '已置换' }].map(o => ({ name: o.name, onPick: () => this.pickSwapped(o.val), rowStyle: this.menuRow(dSwapped === o.val) }));
+    const swappedDisplay = dSwapped === '已置换' ? '已置换' : '未置换（保留盲抽）';
+    const dSwapChar = this.state.draft ? (this.state.draft.swapCharacter || '') : '';
+    const swapCharMenuItems = this.orderedChars().map(c => { const ci = this.charImg(c); return { name: c, hasImg: !!ci, imgStyle: { width: '18px', height: '18px', borderRadius: '50%', backgroundImage: `url(${ci})`, backgroundSize: 'cover', backgroundPosition: 'center', flexShrink: 0 }, onPick: () => this.pickSwapCharacter(c), rowStyle: this.menuRow(dSwapChar === c) }; });
+    const swapCharDisplay = dSwapChar || '（同原抽人物）';
+    const swapCharHasAvatar = !!(dSwapChar && this.charImg(dSwapChar));
+    const swapCharAvatarStyle = { width: '18px', height: '18px', borderRadius: '50%', backgroundImage: `url(${this.charImg(dSwapChar)})`, backgroundSize: 'cover', backgroundPosition: 'center', flexShrink: 0 };
     const dSeries = this.state.draft ? (this.state.draft.series || '') : '';
     const seriesMenuItems = (this.state.seriesList || []).map(c => ({ name: c, onPick: () => this.pickSeries(c), onRename: (ev) => this.renameSeriesItem(c, ev), onDel: (ev) => this.delSeriesItem(c, ev), rowStyle: this.menuRow(dSeries === c) }));
     const seriesDisplay = dSeries || '（未分类）';
     const hasSeriesMenuItems = (this.state.seriesList || []).length > 0;
 
     const dChannel = this.state.draft ? (this.state.draft.channel || '') : '';
+    const dReminder = this.state.draft ? (this.state.draft.reminderType || '') : '';
+    const reminderMenuItems = ((this.state.reminderTypes && this.state.reminderTypes.length ? this.state.reminderTypes : this.REMINDER_TYPES) || []).map(c => ({ name: c, onPick: () => this.pickReminderType(c), onDel: (ev) => this.delReminderItem(c, ev), rowStyle: this.menuRow(dReminder === c) }));
+    const reminderDisplay = dReminder || '不提醒';
     const hiddenChannels = this.state.hiddenChannels || [];
     const channelMenuItems = (this.state.channels || []).map(c => ({ name: c, active: dChannel === c, onPick: () => this.pickChannel(c), onRename: (ev) => this.renameChannelItem(c, ev), onDel: (ev) => this.delChannelItem(c, ev), rowStyle: { display: 'flex', alignItems: 'center', gap: '6px', padding: '7px 9px', borderRadius: '8px', background: dChannel === c ? 'color-mix(in srgb, var(--accent,#ff3355) 11%, transparent)' : 'transparent' } }));
     // rows
@@ -3915,9 +3970,9 @@ class Component extends DCLogic {
       qtyBadgeStyle: { position: 'absolute', top: '1px', right: '5px', minWidth: '22px', height: '22px', padding: '0 6px', borderRadius: '999px', background: `radial-gradient(circle at 32% 28%, ${this.accentLight(0.5)}, ${this.accentColor()} 82%)`, color: '#fff', fontSize: '12px', fontWeight: 800, lineHeight: 1, fontFamily: "'Orbitron',sans-serif", display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: `0 3px 9px ${this.accentAlpha(0.5)}`, border: '2.5px solid #fff' },
       modalOpen: this.state.modalOpen, modalTitle: this.state.editing ? '编辑谷子' : '新增谷子', isEditing: !!this.state.editing, duplicateCurrent: this.duplicateCurrent, deleteCurrent: this.deleteCurrent,
       draft: d || this.emptyDraft(),
-      CHARACTERS: this.orderedChars(), TYPES: this.TYPES, reminderTypeOptions: (this.state.reminderTypes && this.state.reminderTypes.length ? this.state.reminderTypes : this.REMINDER_TYPES), STATUSES: this.state.statusList || this.STATUSES, FORMS: this.FORMS,
-      closeModal: this.closeModal, saveItem: this.saveItem, onDraftChange: this.onDraftChange, charMenuItems, charDisplay, charMenuOpen: this.state.charMenuOpen, toggleCharMenu: this.toggleCharMenu, onTypeChange: this.onTypeChange, onSeriesChange: this.onSeriesChange, fillName: this.fillName, draftStars, typeMenuItems, typeDisplay, hasTypeMenuItems, typeMenuOpen: this.state.typeMenuOpen, toggleTypeMenu: this.toggleTypeMenu, addType: this.addType, seriesMenuItems, seriesDisplay, hasSeriesMenuItems, seriesMenuOpen: this.state.seriesMenuOpen, toggleSeriesMenu: this.toggleSeriesMenu, addSeries: this.addSeries, clearSeries: this.clearSeries, channelMenuItems, channelMenuOpen: this.state.channelMenuOpen, toggleChannelMenu: this.toggleChannelMenu, addChannel: this.addChannel, channelDisplay: (this.state.draft && this.state.draft.channel) ? this.state.draft.channel : '（未分类）', hasChannelMenuItems: (this.state.channels || []).length > 0, fillBuyFromRate: this.fillBuyFromRate, draftHasConv, draftConvText, draftIsGacha, draftSwapped,
-      onImagePick: this.onImagePick, onImagePick2: this.onImagePick2, onImagePick3: this.onImagePick3, onImagePickSwap: this.onImagePickSwap, removeDraftImg: this.removeDraftImg, removeDraftImg2: this.removeDraftImg2, removeDraftImg3: this.removeDraftImg3, removeDraftImg4: this.removeDraftImg4, removeDraftSwapImg: this.removeDraftSwapImg,
+      CHARACTERS: this.orderedChars(), TYPES: this.TYPES, reminderTypeOptions: (this.state.reminderTypes && this.state.reminderTypes.length ? this.state.reminderTypes : this.REMINDER_TYPES), reminderMenuItems, reminderDisplay, reminderMenuOpen: this.state.reminderMenuOpen, toggleReminderMenu: this.toggleReminderMenu, addReminderType: this.addReminderType, clearReminderType: () => this.pickReminderType(''), STATUSES: this.state.statusList || this.STATUSES, FORMS: this.FORMS,
+      closeModal: this.closeModal, saveItem: this.saveItem, onDraftChange: this.onDraftChange, charMenuItems, charDisplay, charMenuOpen: this.state.charMenuOpen, toggleCharMenu: this.toggleCharMenu, onTypeChange: this.onTypeChange, onSeriesChange: this.onSeriesChange, fillName: this.fillName, draftStars, typeMenuItems, typeDisplay, hasTypeMenuItems, typeMenuOpen: this.state.typeMenuOpen, toggleTypeMenu: this.toggleTypeMenu, addType: this.addType, seriesMenuItems, seriesDisplay, hasSeriesMenuItems, seriesMenuOpen: this.state.seriesMenuOpen, toggleSeriesMenu: this.toggleSeriesMenu, addSeries: this.addSeries, clearSeries: this.clearSeries, channelMenuItems, channelMenuOpen: this.state.channelMenuOpen, toggleChannelMenu: this.toggleChannelMenu, addChannel: this.addChannel, clearChannel: this.clearChannel, channelDisplay: (this.state.draft && this.state.draft.channel) ? this.state.draft.channel : '（未分类）', hasChannelMenuItems: (this.state.channels || []).length > 0, fillBuyFromRate: this.fillBuyFromRate, draftHasConv, draftConvText, draftIsGacha, draftSwapped,
+      onImagePick: this.onImagePick, onImagePick2: this.onImagePick2, onImagePick3: this.onImagePick3, onImagePickSwap: this.onImagePickSwap, swapMenuItems, swappedDisplay, swapMenuOpen: this.state.swapMenuOpen, toggleSwapMenu: this.toggleSwapMenu, swapCharMenuItems, swapCharDisplay, swapCharMenuOpen: this.state.swapCharMenuOpen, toggleSwapCharMenu: this.toggleSwapCharMenu, clearSwapCharacter: this.clearSwapCharacter, swapCharHasAvatar, swapCharAvatarStyle, removeDraftImg: this.removeDraftImg, removeDraftImg2: this.removeDraftImg2, removeDraftImg3: this.removeDraftImg3, removeDraftImg4: this.removeDraftImg4, removeDraftSwapImg: this.removeDraftSwapImg,
       draftTimelineRows, draftCostText, draftHasSell, draftProfitText, draftProfitStyle, draftThumbBg, draftHasImg, draftNoImg, draftThumbBg2, draftHasImg2, draftNoImg2, draftThumbBg3, draftHasImg3, draftNoImg3, draftImageTiles, draftNoImages, draftImageCountText, draftImageHelp, draftSwapThumbBg, draftSwapHasImg, draftSwapNoImg
     };
   }
