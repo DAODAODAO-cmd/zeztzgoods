@@ -1242,13 +1242,11 @@
             </div>
             </sc-if>
 
-            <sc-if value="{{ isAdvanced }}" hint-placeholder-val="{{ false }}">
             <div style="grid-column:1/-1">
               <button onClick="{{ toggleFee }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 12px;border-radius:9px;border:1px dashed #d4cee7;background:rgba(50,38,90,.03);color:#544f7e;font-family:inherit;font-size:13px;cursor:pointer">
-                <span>💴 更多费用（可选）</span><span style="color:#938db0;font-size:11px">{{ feeCaret }}</span>
+                <span>💴 更多费用（运费 / 其他 · 可选）</span><span style="color:#938db0;font-size:11px">{{ feeCaret }}</span>
               </button>
             </div>
-            </sc-if>
 
             <sc-if value="{{ feeShow }}" hint-placeholder-val="{{ false }}">
             <div>
@@ -1702,7 +1700,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:&quot;100%&quot;},&quot;currency&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;¥&quot;,&quot;$&quot;,&quot;S$&quot;,&quot;NT$&quot;,&quot;HK$&quot;,&quot;€&quot;],&quot;default&quot;:&quot;¥&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#ff3355&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;startView&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;gallery&quot;,&quot;table&quot;],&quot;default&quot;:&quot;gallery&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
 class Component extends DCLogic {
-  CHARACTERS = ['诺克斯','NOX','MIDNIGHT SHADOW','NOX KNIGHT','万津莫','ZEZTZ','西格','DAWN','宁梦','万津美浪','富士见铁也','南云成华','THE LADY','ZERO','CODE','其他'];
+  CHARACTERS = [];
   TYPES = ['吧唧','色纸','立牌','拍立得','麻将','镭射票','海报','透卡','亚克力挂件','娃','团子','毛绒挂件','实用周边','其他'];
   STATUSES = ['待补款','已补款','待尾款','已尾款','排发中','已发货','已归家','已出物'];
   STATUS_COLOR = {'已归家':'#12a85f','已到货':'#12a85f','已发货':'#2f6fdb','在途/运输中':'#c8860d','待补款':'#d9701f','已补款':'#2f6fdb','待尾款':'#d9701f','已尾款':'#2f6fdb','排发中':'#7c5cd6','已下单未发货':'#2f6fdb','想要/计划购买':'#7c5cd6','出售中':'#d9701f','已出物':'#6f6996','已出/已卖出':'#6f6996'};
@@ -1744,7 +1742,7 @@ class Component extends DCLogic {
     try { localStorage.setItem('zzz_goods_v1', JSON.stringify(items)); } catch (e) {}
     // 作品 / 系列IP
     let works = null; try { works = JSON.parse(localStorage.getItem('zzz_works') || 'null'); } catch (e) {}
-    if (!Array.isArray(works) || !works.length) works = [{ id: 'w_main', group: this.DEFAULT_GROUP, name: '仮面ライダーゼッツ' }];
+    if (!Array.isArray(works) || !works.length) works = [{ id: 'w_main', group: this.DEFAULT_GROUP, name: '默认作品' }];
     let currentWorkId = localStorage.getItem('zzz_current_work') || works[0].id;
     if (currentWorkId !== this.ALL_WORKS && !works.some(w => w.id === currentWorkId)) currentWorkId = works[0].id;
     let recentWorks = []; try { recentWorks = JSON.parse(localStorage.getItem('zzz_recent_works') || '[]') || []; } catch (e) {}
@@ -1756,7 +1754,7 @@ class Component extends DCLogic {
     let fieldLabels = {}; try { fieldLabels = JSON.parse(localStorage.getItem('zzz_field_labels') || '{}') || {}; } catch (e) {}
     fieldLabels = { ...this.FIELD_DEFAULTS, ...fieldLabels };
     let filterOn = {}; try { filterOn = JSON.parse(localStorage.getItem('zzz_filter_on') || 'null') || null; } catch (e) {}
-    if (!filterOn) filterOn = { character: true, type: true, series: true, form: true, acquire: true, channel: true, status: false };
+    if (!filterOn) filterOn = { character: true, type: true, series: false, form: false, acquire: true, channel: true, status: false };
     let statsOn = null; try { statsOn = JSON.parse(localStorage.getItem('zzz_stats_on') || 'null') || null; } catch (e) {}
     let deletedFields = []; try { deletedFields = JSON.parse(localStorage.getItem('zzz_deleted_fields') || '[]') || []; } catch (e) {}
     let customFields = []; try { customFields = JSON.parse(localStorage.getItem('zzz_custom_fields') || '[]') || []; } catch (e) {}
@@ -2026,7 +2024,7 @@ class Component extends DCLogic {
     try { Object.keys(localStorage).filter(k => k.indexOf('zzz_') === 0).forEach(k => localStorage.removeItem(k)); } catch (e) {}
     try { await this.idbClear(); } catch (e) {}
     const works = [{ id: this.MAIN_WORK, group: this.DEFAULT_GROUP, name: '默认作品' }];
-    const filterOn = { character: true, type: true, series: true, form: true, acquire: true, channel: true, status: false };
+    const filterOn = { character: true, type: true, series: false, form: false, acquire: true, channel: true, status: false };
     const acquireOrder = ['官谷','同人谷','通贩','场贩','代购','拼团','单买','抱盒','盲抽','二手','煤炉','日拍','骏河屋','闲鱼','淘宝','其他'];
     const reminderTypes = [...this.REMINDER_TYPES];
     try {
@@ -2383,9 +2381,7 @@ class Component extends DCLogic {
 
   samples() {
     const t = Date.now();
-    return [
-      { id: 'it_s1', name: '诺克斯 吧唧（重复出物）', character: '诺克斯', type: '吧唧', subtype: '', group: '出物', status: '出售中', qty: '3', originalPrice: '15', buyPrice: '12', shipDom: '6', shipIntl: '0', sellPrice: '20', channel: '闲鱼', buyDate: '2025-09-15', note: '原价出，包国内邮', imageId: null }
-    ];
+    return [];
   }
 
   // ---- IndexedDB ----
@@ -4337,7 +4333,7 @@ class Component extends DCLogic {
       CHARACTERS: this.orderedChars(), TYPES: this.TYPES, reminderTypeOptions: (this.state.reminderTypes && this.state.reminderTypes.length ? this.state.reminderTypes : this.REMINDER_TYPES), reminderMenuItems, reminderDisplay, reminderMenuOpen: this.state.reminderMenuOpen, toggleReminderMenu: this.toggleReminderMenu, addReminderType: this.addReminderType, clearReminderType: () => this.pickReminderType(''), STATUSES: this.state.statusList || this.STATUSES, FORMS: this.FORMS,
       closeModal: this.closeModal, saveItem: this.saveItem, onDraftChange: this.onDraftChange, charMenuItems, charDisplay, charMenuOpen: this.state.charMenuOpen, toggleCharMenu: this.toggleCharMenu, onTypeChange: this.onTypeChange, onSeriesChange: this.onSeriesChange, fillName: this.fillName, draftStars, typeMenuItems, typeDisplay, hasTypeMenuItems, typeMenuOpen: this.state.typeMenuOpen, toggleTypeMenu: this.toggleTypeMenu, addType: this.addType, seriesMenuItems, seriesDisplay, hasSeriesMenuItems, seriesMenuOpen: this.state.seriesMenuOpen, toggleSeriesMenu: this.toggleSeriesMenu, addSeries: this.addSeries, clearSeries: this.clearSeries, channelMenuItems, channelMenuOpen: this.state.channelMenuOpen, toggleChannelMenu: this.toggleChannelMenu, addChannel: this.addChannel, clearChannel: this.clearChannel, channelDisplay: (this.state.draft && this.state.draft.channel) ? this.state.draft.channel : '（未分类）', hasChannelMenuItems: (this.state.channels || []).length > 0, fillBuyFromRate: this.fillBuyFromRate, draftHasConv, draftConvText, draftIsGacha, draftSwapped,
       onImagePick: this.onImagePick, onImagePick2: this.onImagePick2, onImagePick3: this.onImagePick3, onImagePickSwap: this.onImagePickSwap, swapMenuItems, swappedDisplay, swapMenuOpen: this.state.swapMenuOpen, toggleSwapMenu: this.toggleSwapMenu, swapCharMenuItems, swapCharDisplay, swapCharMenuOpen: this.state.swapCharMenuOpen, toggleSwapCharMenu: this.toggleSwapCharMenu, clearSwapCharacter: this.clearSwapCharacter, swapCharHasAvatar, swapCharAvatarStyle, removeDraftImg: this.removeDraftImg, removeDraftImg2: this.removeDraftImg2, removeDraftImg3: this.removeDraftImg3, removeDraftImg4: this.removeDraftImg4, removeDraftSwapImg: this.removeDraftSwapImg,
-      draftTimelineRows, isAdvanced: !!this.state.advancedMode, feeShow: !!this.state.advancedMode && this.state.feeOpen, colInfoShow: !!this.state.advancedMode && this.state.colInfoOpen, setInfoShow: !!this.state.advancedMode && this.state.setInfoOpen, feeOpen: this.state.feeOpen, feeCaret: this.state.feeOpen ? '▲ 收起' : '▼ 展开', toggleFee: this.toggleFee, colInfoOpen: this.state.colInfoOpen, colInfoCaret: this.state.colInfoOpen ? '▲ 收起' : '▼ 展开', toggleColInfo: this.toggleColInfo, setInfoOpen: this.state.setInfoOpen, setInfoCaret: this.state.setInfoOpen ? '▲ 收起' : '▼ 展开', toggleSetInfo: this.toggleSetInfo,
+      draftTimelineRows, isAdvanced: !!this.state.advancedMode, feeShow: !!this.state.feeOpen, colInfoShow: !!this.state.advancedMode && this.state.colInfoOpen, setInfoShow: !!this.state.advancedMode && this.state.setInfoOpen, feeOpen: this.state.feeOpen, feeCaret: this.state.feeOpen ? '▲ 收起' : '▼ 展开', toggleFee: this.toggleFee, colInfoOpen: this.state.colInfoOpen, colInfoCaret: this.state.colInfoOpen ? '▲ 收起' : '▼ 展开', toggleColInfo: this.toggleColInfo, setInfoOpen: this.state.setInfoOpen, setInfoCaret: this.state.setInfoOpen ? '▲ 收起' : '▼ 展开', toggleSetInfo: this.toggleSetInfo,
       draftTradeTags: (this.state.tradeTags || this.TRADE_TAGS).map(t => { const on = ((d && d.tags) || []).includes(t); return { label: t, on, style: { padding: '5px 11px', borderRadius: '999px', fontSize: '12.5px', cursor: 'pointer', fontFamily: 'inherit', border: '1px solid ' + (on ? 'var(--accent,#ff3355)' : '#ded7ee'), background: on ? 'var(--accent,#ff3355)' : 'rgba(50,38,90,.03)', color: on ? '#fff' : '#595287' }, onClick: () => this.toggleDraftTag('tags', t), onDel: (ev) => { ev.stopPropagation(); this.delTagOption('tradeTags', 'zzz_trade_tags', t); } }; }),
       draftRarityTags: (this.state.rarityTags || this.RARITY_TAGS).map(t => { const on = ((d && d.rarity) || []).includes(t); return { label: t, on, style: { padding: '5px 11px', borderRadius: '999px', fontSize: '12.5px', cursor: 'pointer', fontFamily: 'inherit', border: '1px solid ' + (on ? '#c8860d' : '#ded7ee'), background: on ? '#c8860d' : 'rgba(50,38,90,.03)', color: on ? '#fff' : '#595287' }, onClick: () => this.toggleDraftTag('rarity', t), onDel: (ev) => { ev.stopPropagation(); this.delTagOption('rarityTags', 'zzz_rarity_tags', t); } }; }),
       addTradeTag: () => this.addTagOption('tradeTags', 'zzz_trade_tags'), addRarityTag: () => this.addTagOption('rarityTags', 'zzz_rarity_tags'), tagEditMode: !!this.state.tagEditMode, toggleTagEdit: this.toggleTagEdit, tagEditText: this.state.tagEditMode ? '完成' : '编辑',
