@@ -153,9 +153,16 @@
   .ui-draft-image-upload{position:absolute;right:8px;bottom:8px;z-index:5;width:38px;height:38px;border-radius:12px;background:var(--accent,#ff3355);color:#fff;border:2px solid rgba(255,255,255,.92);box-shadow:0 8px 20px rgba(50,38,90,.22);display:flex;align-items:center;justify-content:center;font-family:'Orbitron';font-size:24px;font-weight:900;line-height:1;cursor:pointer}
   .ui-draft-image-upload svg{width:20px;height:20px;display:block}
   .ui-draft-image-remove{position:absolute;right:5px;top:5px;width:22px;height:22px;border-radius:999px;border:1px solid rgba(255,255,255,.86);background:rgba(37,29,73,.58);color:#fff;font-size:15px;line-height:18px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+  .ui-logo-fallback{width:100%;height:100%;display:flex;align-items:center;justify-content:center;pointer-events:none;color:var(--accent,#ff3355);}
+  .ui-logo-fallback-header span{font-size:25px;line-height:1;filter:drop-shadow(0 4px 10px rgba(255,51,85,.18));}
+  .ui-logo-fallback-sidebar{position:absolute;inset:0;flex-direction:column;gap:5px;text-align:center;background:linear-gradient(145deg,rgba(255,255,255,.58),rgba(248,244,255,.84));}
+  .ui-logo-fallback-sidebar span{font-size:30px;line-height:1;filter:drop-shadow(0 5px 12px rgba(255,51,85,.18));}
+  .ui-logo-fallback-sidebar strong{max-width:82%;font-size:15px;line-height:1.2;color:#251d49;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .ui-logo-fallback-sidebar em{max-width:82%;font-style:normal;font-size:10.5px;color:#8b85ab;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 
   /* ===== 手机清爽模式：同一个 index.html，手机自动更轻，完整模式可切回 ===== */
   .ui-mobile-mode-button,.ui-mobile-filter-toggle{display:none !important;}
+  .ui-mobile-batch-action{display:inline-flex;align-items:center;justify-content:center;}
   .ui-mobile-card-main{display:flex;gap:6px;flex-wrap:wrap}
   .ui-reminder-strip,.ui-mobile-ledger-mini{display:none;}
   @media (max-width:640px){
@@ -164,6 +171,7 @@
     .ui-mobile-auto .ui-header-actions,.ui-mobile-simple .ui-header-actions{width:100%;justify-content:space-between !important;gap:8px !important;}
     .ui-mobile-auto .ui-mobile-secondary-action,.ui-mobile-simple .ui-mobile-secondary-action{display:none !important;}
     .ui-mobile-auto .ui-mobile-mode-button,.ui-mobile-simple .ui-mobile-mode-button,.ui-mobile-full .ui-mobile-mode-button{display:inline-flex !important;align-items:center;justify-content:center;}
+    .ui-mobile-auto .ui-mobile-batch-action,.ui-mobile-simple .ui-mobile-batch-action{position:fixed !important;left:16px !important;bottom:18px !important;z-index:50 !important;border-radius:999px !important;min-width:48px !important;min-height:46px !important;padding:0 15px !important;background:#fff !important;color:#4c4580 !important;border:1px solid #ded7ee !important;box-shadow:0 12px 26px rgba(50,38,90,.18) !important;}
     .ui-mobile-auto .ui-stats-grid,.ui-mobile-simple .ui-stats-grid{display:none !important;}
     .ui-mobile-auto .ui-toolbar,.ui-mobile-simple .ui-toolbar{position:sticky !important;top:0 !important;z-index:12 !important;margin-left:-4px !important;margin-right:-4px !important;border-radius:12px !important;box-shadow:0 8px 24px rgba(50,38,90,.08) !important;}
     .ui-mobile-auto .ui-work-switch,.ui-mobile-simple .ui-work-switch,.ui-mobile-full .ui-work-switch{position:relative !important;z-index:45 !important;margin-bottom:10px !important;}
@@ -250,21 +258,135 @@
   @media (max-width:900px){.ui-wallet-main-grid{grid-template-columns:1fr}.ui-wallet-side{grid-template-rows:auto auto}.ui-wallet-reminder-card{max-height:220px}.ui-batch-edit-modal-grid{grid-template-columns:1fr}.ui-consume-controls{justify-content:flex-start}}
   @media (max-width:640px){ .ui-app input, .ui-app select, .ui-app textarea, .ui-modal-card input, .ui-modal-card select, .ui-modal-card textarea { font-size:16px !important; } }
 
+  /* ===== Desktop app-shell: left sidebar ===== */
+  .ui-sidebar{display:none;}
+  .ui-sidebar-brand{display:flex;flex-direction:column;align-items:stretch;gap:10px;padding:2px 6px 14px;}
+  .ui-sidebar-work{position:relative;margin-bottom:12px;}
+  .ui-sidebar-work-btn{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;padding:9px 11px;border-radius:11px;border:1px solid #e3def1;background:#fff;cursor:pointer;font-family:inherit;}
+  .ui-sidebar-work-menu{position:absolute;left:0;right:0;top:100%;margin-top:6px;z-index:50;background:#fff;border:1px solid #ded7ee;border-radius:12px;box-shadow:0 16px 40px rgba(0,0,0,.18);padding:8px;max-height:320px;overflow-y:auto;}
+  .ui-sidebar-add{width:100%;font-family:inherit;font-size:14px;font-weight:700;color:#fff;background:var(--accent,#ff3355);border:none;padding:11px;border-radius:12px;cursor:pointer;box-shadow:0 6px 18px rgba(95,68,140,.18);margin-bottom:14px;}
+  .ui-sidebar-scroll{overflow-y:auto;min-height:158px;display:flex;flex-direction:column;gap:2px;}
+  .ui-sidebar-fixed{display:flex;flex-direction:column;gap:3px;flex-shrink:0;}
+  .ui-sidebar-lib-head{flex-shrink:0;font-size:11px;font-weight:700;letter-spacing:.14em;color:#a99fc4;padding:2px 12px 6px;}
+  @media (min-width:901px){ .ui-sidebar-scroll{flex:0 1 auto;max-height:46vh;} }
+  .ui-sidebar-label{font-size:11px;font-weight:700;letter-spacing:.14em;color:#a99fc4;padding:0 12px 5px;}
+  .ui-sidebar-ip-label{font-size:11px;font-weight:700;color:#8b82ab;padding:11px 12px 4px;display:flex;align-items:center;gap:6px;}
+  .ui-sidebar-footer{padding-top:12px;border-top:1px solid #ece7f6;margin-top:10px;}
+  .ui-sidebar-foot-btn{flex:1;font-family:inherit;font-size:12px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:8px 4px;border-radius:9px;cursor:pointer;white-space:nowrap;}
+  .ui-editable-text{outline:none;cursor:text;border-radius:7px;transition:background .15s,box-shadow .15s,color .15s;}
+  .ui-editable-text:hover,.ui-editable-text:focus{background:rgba(255,255,255,.72);box-shadow:0 0 0 3px rgba(124,92,214,.08);}
+  .ui-sidebar-brand{background:linear-gradient(150deg,#fff,#f8f5ff);border:1px solid #ebe5f6;border-radius:16px;padding:11px;box-shadow:0 10px 24px rgba(95,68,140,.06);margin-bottom:14px;}
+  .ui-sidebar-logo{position:relative;width:100% !important;height:112px !important;border-radius:15px !important;overflow:hidden;}
+  .ui-sidebar-logo::after{content:'更换';position:absolute;right:8px;bottom:8px;font-size:10px;font-weight:800;color:#625987;background:rgba(255,255,255,.84);border:1px solid rgba(222,215,238,.9);border-radius:999px;padding:3px 7px;opacity:0;transition:opacity .15s;}
+  .ui-sidebar-logo:hover::after{opacity:1;}
+  .ui-sidebar-brand-text{min-width:0;width:100%;padding:1px 2px 0;}
+  .ui-sidebar-cn{font-size:14px;font-weight:900;color:var(--accent,#ff3355);line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px;letter-spacing:.02em;}
+  .ui-sidebar-cn-empty{color:#938db0;font-weight:800;}
+  .ui-sidebar-title{font-weight:900;font-size:16px;color:#251d49;line-height:1.18;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .ui-sidebar-subtitle{font-size:11px;color:#8b85ab;letter-spacing:.1em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px;}
+  .ui-batch-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:linear-gradient(120deg,#fff,#f7f3ff);border:1px solid #ded7ee;border-left:4px solid var(--accent,#ff3355);border-radius:14px;padding:10px 13px;margin-bottom:14px;position:sticky;top:8px;z-index:20;box-shadow:0 10px 28px rgba(50,38,90,.1);}
+  .ui-gallery-card{transition:transform .16s,box-shadow .16s,border-color .16s;}
+  .ui-gallery-card:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(50,38,90,.12) !important;}
+  .ui-table-row:not(.ui-table-head){transition:background .15s,box-shadow .15s;}
+  .ui-table-selectable{cursor:pointer;}
+  .ui-table-selectable:hover{background:rgba(124,92,214,.055);}
+  .ui-table-selected{background:linear-gradient(90deg,rgba(255,51,85,.11),rgba(124,92,214,.06));box-shadow:inset 3px 0 0 var(--accent,#ff3355);}
+  .ui-circle-item{transition:transform .15s;}
+  .ui-circle-item:hover{transform:translateY(-2px);}
+  @media (min-width:901px){
+    .ui-app{padding-left:266px !important;}
+    .ui-sidebar{display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;width:238px;z-index:40;background:rgba(255,255,255,.9);backdrop-filter:blur(12px);border-right:1px solid #e3def1;padding:18px 14px;box-shadow:0 0 44px rgba(95,68,140,.07);overflow-y:auto;}
+    .ui-sidebar-footer{margin-top:auto;}
+    .ui-header,.ui-work-switch,.ui-toolbar{display:none !important;}
+    .ui-page-inner{max-width:1180px !important;}
+  }
+
+  /* ===== V4 视觉打磨层 ===== */
+  .ui-stats-grid > div{box-shadow:0 2px 10px rgba(95,68,140,.06);transition:transform .16s,box-shadow .16s;}
+  .ui-stats-grid > div:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(95,68,140,.12);}
+  .ui-gallery-card{box-shadow:0 2px 10px rgba(95,68,140,.05);}
+  .ui-ledger-card{box-shadow:0 2px 10px rgba(95,68,140,.05);}
+  .ui-sidebar-add{transition:transform .14s,box-shadow .14s;}
+  .ui-sidebar-add:hover{transform:translateY(-1px);box-shadow:0 10px 22px rgba(95,68,140,.28);}
+  .ui-sidebar-add:active{transform:translateY(0);}
+  .ui-sidebar-scroll button:hover,.ui-sidebar-fixed button:hover{filter:brightness(.98);}
+  .ui-sidebar-foot-btn{transition:background .14s,color .14s;}
+  .ui-sidebar-foot-btn:hover{background:var(--accent,#ff3355)!important;color:#fff!important;border-color:var(--accent,#ff3355)!important;}
+  .ui-editable-text{border-radius:6px;transition:background .14s;}
+  .ui-editable-text:hover{background:rgba(95,68,140,.06);}
+  .ui-stats-grid > div{background:linear-gradient(158deg,#ffffff,#faf8ff)!important;border-color:#ece7f6!important;}
+  .ui-ledger-card{border-color:#ece7f6!important;}
+  .ui-sidebar-lib-head::before{content:"🗂 ";}
+  .ui-sidebar-ip-label{opacity:.92;}
+
 </style>
 </helmet>
 <div ref="{{ setRoot }}" class="{{ appClass }}" style="min-height:100vh;background:radial-gradient(circle at 15% -5%, #ddd2f2 0%, transparent 50%), radial-gradient(circle at 92% 4%, #f3d8e6 0%, transparent 45%), linear-gradient(165deg,#e7e1f4,#ece8f6 70%);color:#251d49;font-family:'Noto Sans SC',sans-serif;padding:clamp(14px,3vw,34px) clamp(12px,3vw,34px) 60px;-webkit-font-smoothing:antialiased">
+  <aside class="ui-sidebar">
+    <div class="ui-sidebar-brand">
+      <div class="ui-sidebar-logo" onClick="{{ uploadLogo }}" title="点击更换 Logo" style="{{ sidebarLogoStyle }}"><sc-if value="{{ logoFallback }}" hint-placeholder-val="{{ true }}"><div class="ui-logo-fallback ui-logo-fallback-sidebar"><span>✿</span><strong>{{ title }}</strong><em>{{ workName }}</em></div></sc-if></div>
+      <div class="ui-sidebar-brand-text">
+        <div class="{{ cnSidebarClass }}" contentEditable="true" suppressContentEditableWarning="{{ true }}" onFocus="{{ onCnFocus }}" onBlur="{{ onCnBlur }}" title="点击编辑 CN / 昵称">{{ cnDisplay }}</div>
+        <div class="ui-sidebar-title ui-editable-text" contentEditable="true" suppressContentEditableWarning="{{ true }}" onBlur="{{ onTitleBlur }}" title="点击编辑标题">{{ title }}</div>
+        <div class="ui-sidebar-subtitle ui-editable-text" contentEditable="true" suppressContentEditableWarning="{{ true }}" onBlur="{{ onSubtitleBlur }}" title="点击编辑副标题">{{ subtitle }}</div>
+      </div>
+    </div>
+
+    <button class="ui-sidebar-add" onClick="{{ openAdd }}">＋ 新增谷子</button>
+
+    <div class="ui-sidebar-lib-head" style="border-top:none;margin-top:0;padding-top:2px">收藏库</div>
+    <div class="ui-sidebar-scroll">
+      <button onClick="{{ switchAll }}" style="{{ libAllStyle }}"><span style="width:20px;text-align:center;font-size:14px;flex-shrink:0">🗂</span>全部作品<span style="margin-left:auto;font-size:11px;font-family:'Orbitron',sans-serif;opacity:.8">{{ libAllCount }}</span></button>
+
+      <sc-if value="{{ hasRecent }}" hint-placeholder-val="{{ false }}">
+        <div class="ui-sidebar-ip-label">最近</div>
+        <sc-for list="{{ recentRows }}" as="w" hint-placeholder-count="2">
+          <button onClick="{{ w.onClick }}" style="{{ w.rowStyle }}"><span style="{{ w.logoStyle }}"></span><span style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ w.name }}</span><span style="{{ w.countStyle }}">{{ w.count }}</span></button>
+        </sc-for>
+      </sc-if>
+
+      <sc-for list="{{ libraryTree }}" as="g" hint-placeholder-count="1">
+        <div class="ui-sidebar-ip-label">{{ g.group }}</div>
+        <sc-for list="{{ g.works }}" as="w" hint-placeholder-count="2">
+          <button onClick="{{ w.onClick }}" style="{{ w.rowStyle }}"><span style="{{ w.logoStyle }}"></span><span style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ w.name }}</span><span style="{{ w.countStyle }}">{{ w.count }}</span></button>
+        </sc-for>
+      </sc-for>
+    </div>
+
+    <div class="ui-sidebar-fixed">
+      <div class="ui-sidebar-label" style="margin-top:4px">分组</div>
+      <sc-for list="{{ navGroupItems }}" as="n" hint-placeholder-count="3">
+        <button onClick="{{ n.onClick }}" style="{{ n.style }}"><span style="{{ n.iconStyle }}">{{ n.icon }}</span>{{ n.label }}<span style="{{ n.countStyle }}">{{ n.n }}</span></button>
+      </sc-for>
+      <div class="ui-sidebar-label" style="margin-top:13px">视图</div>
+      <sc-for list="{{ navViewItems }}" as="n" hint-placeholder-count="4">
+        <button onClick="{{ n.onClick }}" style="{{ n.style }}"><span style="{{ n.iconStyle }}">{{ n.icon }}</span>{{ n.label }}</button>
+      </sc-for>
+    </div>
+
+    <div class="ui-sidebar-footer">
+      <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:#0f8f50;margin-bottom:9px">
+        <span style="width:6px;height:6px;border-radius:50%;background:#12a85f;box-shadow:0 0 8px #12a85f;flex-shrink:0"></span><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ savedText }}</span>
+      </div>
+      <div style="display:flex;gap:8px">
+        <sc-if value="{{ showBatchControl }}" hint-placeholder-val="{{ true }}"><button onClick="{{ toggleBatchMode }}" class="ui-sidebar-foot-btn">{{ batchButtonText }}</button></sc-if>
+        <button onClick="{{ openSettings }}" class="ui-sidebar-foot-btn">设置</button>
+        <button onClick="{{ openDataManage }}" class="ui-sidebar-foot-btn">数据</button>
+      </div>
+    </div>
+  </aside>
   <div class="ui-page-inner" style="max-width:1280px;margin:0 auto">
 
     <!-- ===== HEADER ===== -->
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px">
+    <div class="ui-header" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px">
       <div style="display:flex;align-items:center;gap:14px">
-        <div onClick="{{ uploadLogo }}" title="点击更换 Logo" style="{{ logoStyle }}"></div>
+        <div onClick="{{ uploadLogo }}" title="点击更换 Logo" style="{{ logoStyle }}"><sc-if value="{{ logoFallback }}" hint-placeholder-val="{{ true }}"><div class="ui-logo-fallback ui-logo-fallback-header"><span>✿</span></div></sc-if></div>
         <div style="border-left:1px solid #d4cee7;padding-left:14px">
           <div style="display:flex;align-items:baseline;gap:7px;flex-wrap:wrap">
             <sc-if value="{{ hasCn }}" hint-placeholder-val="{{ false }}"><span style="font-weight:800;font-size:clamp(15px,2vw,19px);color:var(--accent,#ff3355)">{{ cnPrefix }} ·</span></sc-if>
-            <div contentEditable="true" suppressContentEditableWarning="{{ true }}" onBlur="{{ onTitleBlur }}" title="点击编辑" style="font-weight:800;font-size:clamp(15px,2vw,19px);letter-spacing:.05em;line-height:1.15;outline:none;cursor:text">{{ title }}</div>
+            <div class="ui-editable-text" contentEditable="true" suppressContentEditableWarning="{{ true }}" onBlur="{{ onTitleBlur }}" title="点击编辑标题" style="font-weight:800;font-size:clamp(15px,2vw,19px);letter-spacing:.05em;line-height:1.15;padding:1px 4px;margin-left:-4px">{{ title }}</div>
           </div>
-          <div contentEditable="true" suppressContentEditableWarning="{{ true }}" onBlur="{{ onSubtitleBlur }}" title="点击编辑" style="font-size:11px;color:#544f7e;letter-spacing:.2em;margin-top:3px;outline:none;cursor:text">{{ subtitle }}</div>
+          <div class="ui-editable-text" contentEditable="true" suppressContentEditableWarning="{{ true }}" onBlur="{{ onSubtitleBlur }}" title="点击编辑副标题" style="font-size:11px;color:#544f7e;letter-spacing:.2em;margin-top:3px;padding:1px 4px;margin-left:-4px">{{ subtitle }}</div>
         </div>
       </div>
       <div class="ui-header-actions" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
@@ -300,16 +422,18 @@
       <div style="position:relative;flex-shrink:0">
         <button onClick="{{ toggleWorkMenu }}" style="display:flex;align-items:center;gap:8px;padding:8px 13px;border-radius:10px;border:1px solid #ded7ee;background:#ffffff;color:#4c4580;font-size:13px;font-family:inherit;cursor:pointer">切换{{ workGroupLabel }} / 作品 <span style="color:#938db0;font-size:11px">▾</span></button>
         <sc-if value="{{ workMenuOpen }}" hint-placeholder-val="{{ false }}">
-          <div class="ui-work-menu" style="position:absolute;right:0;top:100%;margin-top:6px;z-index:65;min-width:260px;background:#ffffff;border:1px solid #ded7ee;border-radius:12px;box-shadow:0 16px 40px rgba(0,0,0,.18);padding:8px;max-height:340px;overflow-y:auto">
-            <sc-for list="{{ workGroups }}" as="g" hint-placeholder-count="1">
-              <div style="font-size:11px;color:#938db0;padding:6px 8px 3px;font-weight:600">{{ g.group }}</div>
+          <div class="ui-work-menu" style="position:absolute;right:0;top:100%;margin-top:6px;z-index:65;min-width:250px;background:#ffffff;border:1px solid #ded7ee;border-radius:12px;box-shadow:0 16px 40px rgba(0,0,0,.18);padding:8px;max-height:70vh;overflow-y:auto">
+            <button onClick="{{ switchAll }}" style="{{ libAllStyle }}"><span style="width:20px;text-align:center;font-size:14px;flex-shrink:0">🗂</span>全部作品<span style="margin-left:auto;font-size:11px;font-family:'Orbitron',sans-serif;opacity:.8">{{ libAllCount }}</span></button>
+            <sc-if value="{{ hasRecent }}" hint-placeholder-val="{{ false }}">
+              <div class="ui-sidebar-ip-label">最近</div>
+              <sc-for list="{{ recentRows }}" as="w" hint-placeholder-count="2">
+                <button onClick="{{ w.onClick }}" style="{{ w.rowStyle }}"><span style="{{ w.logoStyle }}"></span><span style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ w.name }}</span><span style="{{ w.countStyle }}">{{ w.count }}</span></button>
+              </sc-for>
+            </sc-if>
+            <sc-for list="{{ libraryTree }}" as="g" hint-placeholder-count="1">
+              <div class="ui-sidebar-ip-label">{{ g.group }}</div>
               <sc-for list="{{ g.works }}" as="w" hint-placeholder-count="2">
-                <div style="{{ w.rowStyle }}">
-                  <button onClick="{{ w.onClick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ w.name }}</button>
-                  <button onClick="{{ w.onRename }}" title="改作品名" style="flex-shrink:0;background:none;border:none;cursor:pointer;font-size:12px;color:#938db0;padding:2px 5px">名</button>
-                  <button onClick="{{ w.onRenameGroup }}" title="改系列IP" style="flex-shrink:0;background:none;border:none;cursor:pointer;font-size:12px;color:#938db0;padding:2px 5px">系</button>
-                  <button onClick="{{ w.onDel }}" style="flex-shrink:0;width:22px;height:22px;border-radius:6px;border:none;background:rgba(226,59,93,.1);color:#e23b5d;cursor:pointer;font-size:14px;line-height:1">×</button>
-                </div>
+                <button onClick="{{ w.onClick }}" style="{{ w.rowStyle }}"><span style="{{ w.logoStyle }}"></span><span style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ w.name }}</span><span style="{{ w.countStyle }}">{{ w.count }}</span></button>
               </sc-for>
             </sc-for>
           </div>
@@ -354,13 +478,13 @@
       </div>
       <div style="display:flex;align-items:center;gap:10px">
         <div style="display:flex;gap:4px;background:rgba(50,38,90,.06);padding:4px;border-radius:11px">
-          <button onClick="{{ setGallery }}" style="{{ galleryBtnStyle }}">🖼 图鉴</button>
+          <button onClick="{{ setGallery }}" style="{{ galleryBtnStyle }}">▧ 图鉴</button>
           <button onClick="{{ setCircle }}" style="{{ circleBtnStyle }}">◎ 圆图</button>
           <button class="ui-table-mode-btn" onClick="{{ setTable }}" style="{{ tableBtnStyle }}">▤ 表格</button>
           <button class="ui-table-mode-btn" onClick="{{ setLedger }}" style="{{ ledgerBtnStyle }}">￥ 账本</button>
         </div>
         <button class="ui-main-add" onClick="{{ openAdd }}" style="font-family:inherit;font-size:14px;font-weight:700;color:#fff;background:var(--accent,#ff3355);border:none;padding:10px 18px;border-radius:11px;cursor:pointer;box-shadow:0 6px 18px rgba(50,38,90,.2)">{{ addItemText }}</button>
-          <button class="ui-mobile-secondary-action" onClick="{{ toggleBatchMode }}" style="font-family:inherit;font-size:14px;font-weight:700;color:#4c4580;background:rgba(50,38,90,.045);border:1px solid #ded7ee;padding:10px 14px;border-radius:11px;cursor:pointer">{{ batchButtonText }}</button>
+          <sc-if value="{{ showBatchControl }}" hint-placeholder-val="{{ true }}"><button class="ui-mobile-batch-action" onClick="{{ toggleBatchMode }}" title="{{ batchButtonText }}" style="font-family:inherit;font-size:14px;font-weight:700;color:#4c4580;background:rgba(50,38,90,.045);border:1px solid #ded7ee;padding:10px 14px;border-radius:11px;cursor:pointer">{{ mobileBatchText }}</button></sc-if>
       </div>
     </div>
 
@@ -504,8 +628,8 @@
     </sc-if>
 
 
-    <sc-if value="{{ batchMode }}" hint-placeholder-val="false">
-      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:linear-gradient(120deg,#fff,#f3f0fb);border:1px solid #ded7ee;border-left:3px solid var(--accent,#ff3355);border-radius:14px;padding:10px 13px;margin-bottom:14px;position:sticky;top:8px;z-index:20;box-shadow:0 8px 24px rgba(50,38,90,.08)">
+    <sc-if value="{{ showBatchBar }}" hint-placeholder-val="false">
+      <div class="ui-batch-bar">
         <span style="font-weight:900;color:#251d49">批量模式</span>
         <span style="font-size:12.5px;color:#544f7e">已选择 {{ batchSelectedText }}</span>
         <button onClick="{{ batchSelectVisible }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:#fff;border:1px solid #ded7ee;padding:7px 11px;border-radius:9px;cursor:pointer">全选当前页</button>
@@ -536,6 +660,7 @@
               <div style="display:flex;align-items:center;gap:10px;min-width:0">
                 <sc-if value="{{ row.headerHasImg }}" hint-placeholder-val="{{ false }}"><div style="{{ row.headerImgG }}"></div></sc-if>
                 <sc-if value="{{ row.headerNoImg }}" hint-placeholder-val="{{ true }}"><span style="{{ row.dotStyle }}"></span></sc-if>
+                <span onClick="{{ row.onToggleCollapse }}" style="cursor:pointer;color:#8b85ab;font-size:12px;user-select:none;flex-shrink:0">{{ row.caret }}</span>
                 <span style="font-weight:700;font-size:14.5px">{{ row.label }}</span>
                 <span style="font-size:12px;color:#837da4">{{ row.countText }}</span>
               </div>
@@ -554,7 +679,6 @@
               <sc-if value="{{ row.noImg }}" hint-placeholder-val="{{ true }}">
                 <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;color:#b9b3d2"><div><div style="font-family:'Orbitron';font-size:42px;font-weight:900">{{ row.ph }}</div><div style="font-size:11px;margin-top:2px">无图</div></div></div>
               </sc-if>
-              <sc-if value="{{ row.showBatch }}" hint-placeholder-val="false"><span class="ui-batch-check {{ row.batchCheckClass }}">✓</span></sc-if>
               <span style="{{ row.groupBadgeStyle }}">{{ row.groupText }}</span>
               <span style="{{ row.statusBadgeStyle }}">{{ row.status }}</span>
               <sc-if value="{{ row.hasImg2 }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;bottom:8px;right:8px;background:rgba(255,255,255,.88);color:#544f7e;font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:999px;border:1px solid #ded7ee">{{ row.imageCountText }}</span></sc-if>
@@ -626,6 +750,7 @@
               <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:11px 12px;background:linear-gradient(120deg,#eee9f8,#f5f2fc);border-top:1px solid #ded7ee;border-left:3px solid var(--accent,#ff3355)">
                 <sc-if value="{{ row.headerHasImg }}" hint-placeholder-val="{{ false }}"><div style="{{ row.headerImgT }}"></div></sc-if>
                 <sc-if value="{{ row.headerNoImg }}" hint-placeholder-val="{{ true }}"><span style="{{ row.dotStyle }}"></span></sc-if>
+                <span onClick="{{ row.onToggleCollapse }}" style="cursor:pointer;color:#8b85ab;font-size:12px;user-select:none;flex-shrink:0">{{ row.caret }}</span>
                 <span style="font-weight:700;font-size:14px">{{ row.label }}</span>
                 <span style="font-size:12px;color:#837da4">{{ row.countText }}</span>
                 <span style="font-family:'Orbitron';font-size:12.5px;color:#4c4580;margin-left:auto">{{ row.costText }}</span>
@@ -633,9 +758,8 @@
               </div>
             </sc-if>
             <sc-if value="{{ row.isItem }}" hint-placeholder-val="{{ true }}">
-              <div class="ui-table-row">
+              <div class="{{ row.tableRowClass }}" onClick="{{ row.onTableRowClick }}" style="{{ row.tableRowStyle }}">
                 <div class="ui-table-cell">
-                  <sc-if value="{{ row.showBatch }}" hint-placeholder-val="false"><input type="checkbox" checked="{{ row.batchChecked }}" onChange="{{ row.onBatchToggle }}" style="margin-right:6px;vertical-align:middle"></sc-if>
                   <div class="ui-image-mosaic" style="position:relative;width:42px;height:42px;border-radius:9px;background:linear-gradient(145deg,#eae5f4,#e1dcf0);font-family:'Orbitron';font-weight:900;color:#b9b3d2;font-size:16px;overflow:hidden">
                     <sc-for list="{{ row.galleryImgs }}" as="g" hint-placeholder-count="1">
                       <div style="{{ g.style }}"></div>
@@ -677,6 +801,7 @@
             <div style="width:100%;display:flex;align-items:center;gap:10px;margin-top:4px">
               <sc-if value="{{ row.headerHasImg }}" hint-placeholder-val="{{ false }}"><div style="{{ row.headerImgT }}"></div></sc-if>
               <sc-if value="{{ row.headerNoImg }}" hint-placeholder-val="{{ true }}"><span style="{{ row.dotStyle }}"></span></sc-if>
+              <span onClick="{{ row.onToggleCollapse }}" style="cursor:pointer;color:#8b85ab;font-size:12px;user-select:none;flex-shrink:0">{{ row.caret }}</span>
               <span style="font-weight:700;font-size:14px;color:#251d49">{{ row.label }}</span>
               <span style="font-size:12px;color:#837da4">{{ row.countText }}</span>
             </div>
@@ -842,7 +967,7 @@
     </sc-if>
 
     <div class="ui-page-footer" style="text-align:center;font-size:12px;color:#8b85ab;margin-top:26px;line-height:1.7">
-      数据自动保存在本浏览器（含图片）。换设备或清理浏览器前，记得点「导出备份」哦。<br><span contentEditable="true" suppressContentEditableWarning="{{ true }}" onBlur="{{ onFooterBlur }}" title="点击编辑" style="outline:none;cursor:text">{{ footer }}</span>
+      数据自动保存在本浏览器（含图片）。换设备或清理浏览器前，记得点「导出备份」哦。<br><span class="ui-editable-text" contentEditable="true" suppressContentEditableWarning="{{ true }}" onBlur="{{ onFooterBlur }}" title="点击编辑底部文字" style="display:inline-block;padding:1px 7px">{{ footer }}</span>
     </div>
     </div>
   </div>
@@ -1485,13 +1610,14 @@ class Component extends DCLogic {
   REMINDER_TYPES = ['补款','尾款','排发','到货','集运'];
   CHANNELS = ['万代官店','一番くじ','駿河屋','メルカリ','代购','闲鱼','淘宝','官方商店','其他'];
   MAIN_WORK = 'w_main';
+  ALL_WORKS = '__all__';
   DEFAULT_GROUP = '假面骑士系列';
   SUPA_URL = 'https://kgifcpdajnyhxxmenazz.supabase.co';
   SUPA_KEY = 'sb_publishable_Bvg4r_n3JiokW3cY3NDo3A_9M2CNfaU';
   FIELD_DEFAULTS = { character: '角色', type: '种类', series: '厂商', channel: '平台', status: '状态', form: '形态', acquire: '来源' };
   CHAR_IMG = { '诺克斯': 'assets/c_nox.webp', 'NOX': 'assets/r_blue.webp', 'MIDNIGHT SHADOW': 'assets/r_nox_midnight.webp', 'NOX KNIGHT': 'assets/r_lady.webp', 'ZEZTZ': 'assets/r_red.webp', '西格': 'assets/c_zeke.webp', 'DAWN': 'assets/r_zeztz.webp', '宁梦': 'assets/c_nemu.webp', '南云成华': 'assets/c_nagumo.webp', 'ZERO': 'assets/c_zero.webp', '万津莫': 'assets/c_matsu.webp', '万津美浪': 'assets/c_minami.webp', '富士见铁也': 'assets/c_fujimi.webp', 'THE LADY': 'assets/c_lady.webp', 'CODE': 'assets/c_code.webp' };
   imgUrls = {};
-  state = { items: [], view: null, reminderMenuOpen: false, monthlyBudget: '', budgets: {}, ledgerDetailKey: '', ledgerDetailType: 'day', ledgerDetailLabel: '', tableSortKey: '', tableSortDir: 'desc', nameStyleMode: 'default', displayMode: 'standard', dashboardCards: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, dataManageOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, trendOpen: false, trendItemId: null, trendRows: [], trendResult: null, ocrRawText: '', ocrBulkText: '', modalOpen: false, editing: null, draft: null, savedAt: 0, batchMode: false, selectedIds: [], bulkEditIds: [], bulkEditIndex: 0, ledgerRange: 'month', ledgerMode: 'month', ledgerYear: String(new Date().getFullYear()), ledgerMonth: String(new Date().getMonth()+1), ledgerWeek: '', ledgerPieBy: 'character', ledgerPieActive: 0, batchEditOpen: false, batchEditField: '' };
+  state = { items: [], view: null, recentWorks: [], collapsedGroups: {}, reminderMenuOpen: false, monthlyBudget: '', budgets: {}, ledgerDetailKey: '', ledgerDetailType: 'day', ledgerDetailLabel: '', tableSortKey: '', tableSortDir: 'desc', nameStyleMode: 'default', displayMode: 'standard', dashboardCards: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, dataManageOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, trendOpen: false, trendItemId: null, trendRows: [], trendResult: null, ocrRawText: '', ocrBulkText: '', modalOpen: false, editing: null, draft: null, savedAt: 0, batchMode: false, selectedIds: [], bulkEditIds: [], bulkEditIndex: 0, ledgerRange: 'month', ledgerMode: 'month', ledgerYear: String(new Date().getFullYear()), ledgerMonth: String(new Date().getMonth()+1), ledgerWeek: '', ledgerPieBy: 'character', ledgerPieActive: 0, batchEditOpen: false, batchEditField: '' };
 
   setRoot = (el) => { this.rootEl = el; if (el) { const a = this.state.accent || this.props.accent || '#ff3355'; el.style.setProperty('--accent', a); try { document.documentElement.style.setProperty('--accent', a); } catch (e) {} this.applyBg(); } };
   setImportRef = (el) => { this.importRef = el; };
@@ -1517,7 +1643,9 @@ class Component extends DCLogic {
     let works = null; try { works = JSON.parse(localStorage.getItem('zzz_works') || 'null'); } catch (e) {}
     if (!Array.isArray(works) || !works.length) works = [{ id: 'w_main', group: this.DEFAULT_GROUP, name: '仮面ライダーゼッツ' }];
     let currentWorkId = localStorage.getItem('zzz_current_work') || works[0].id;
-    if (!works.some(w => w.id === currentWorkId)) currentWorkId = works[0].id;
+    if (currentWorkId !== this.ALL_WORKS && !works.some(w => w.id === currentWorkId)) currentWorkId = works[0].id;
+    let recentWorks = []; try { recentWorks = JSON.parse(localStorage.getItem('zzz_recent_works') || '[]') || []; } catch (e) {}
+    recentWorks = recentWorks.filter(id => works.some(w => w.id === id));
     let workGroupLabel = localStorage.getItem('zzz_work_group_label') || '系列IP';
     // 设置
     let title = '谷子收纳', subtitle = '梦 境 特 工 档 案', footer = '梦境特工档案 · コードナンバー：収集家';
@@ -1549,7 +1677,7 @@ class Component extends DCLogic {
     this.charOrder = lists.charOrder;
     let cloudSyncId = '', cloudSyncCode = '';
     try { cloudSyncId = localStorage.getItem('zzz_cloud_id') || ''; cloudSyncCode = localStorage.getItem('zzz_cloud_code') || ''; } catch (e) {}
-    this.setState({ items, works, currentWorkId, workGroupLabel, title, subtitle, footer, collectorName, currency, accent, monthlyBudget, budgets, nameStyleMode, displayMode, dashboardCards, fieldLabels, filterOn, statsOn, deletedFields, customFields, customFilterOrder, cloudSyncId, cloudSyncCode, cloudCodeInput: cloudSyncCode || '', mobileMode, filtersOpen: false, view: startView, ...lists });
+    this.setState({ items, works, currentWorkId, recentWorks, workGroupLabel, title, subtitle, footer, collectorName, currency, accent, monthlyBudget, budgets, nameStyleMode, displayMode, dashboardCards, fieldLabels, filterOn, statsOn, deletedFields, customFields, customFilterOrder, cloudSyncId, cloudSyncCode, cloudCodeInput: cloudSyncCode || '', mobileMode, filtersOpen: false, view: startView, ...lists });
     this.loadImages(items);
     this.loadCharAvatars();
     this.loadLogo();
@@ -1589,10 +1717,20 @@ class Component extends DCLogic {
   switchWork = (id) => {
     if (!id || id === this.state.currentWorkId) return;
     try { localStorage.setItem('zzz_current_work', id); } catch (e) {}
+    this.pushRecentWork(id);
+    if (id === this.ALL_WORKS) { this.setState(this.resetScopedFilters({ currentWorkId: id, workMenuOpen: false, groupBy: 'work' })); return; }
     const lists = this.loadWorkLists(id);
     this.charOrder = lists.charOrder;
-    this.setState(this.resetScopedFilters({ currentWorkId: id, workMenuOpen: false, ...lists }));
+    this.setState(this.resetScopedFilters({ currentWorkId: id, workMenuOpen: false, groupBy: 'none', ...lists }));
   };
+  pushRecentWork(id) {
+    if (!id || id === this.ALL_WORKS) return;
+    let r = [];
+    try { r = JSON.parse(localStorage.getItem('zzz_recent_works') || '[]') || []; } catch (e) {}
+    r = [id, ...r.filter(x => x !== id)].slice(0, 4);
+    try { localStorage.setItem('zzz_recent_works', JSON.stringify(r)); } catch (e) {}
+    this.setState({ recentWorks: r });
+  }
   saveWorks = (works) => { try { localStorage.setItem('zzz_works', JSON.stringify(works)); } catch (e) {} this.setState({ works }); };
   addWork = () => {
     const group = (window.prompt('系列IP（大类，如：假面骑士系列 / 偶像系列）：', this.DEFAULT_GROUP) || '').trim(); if (!group) return;
@@ -2118,6 +2256,8 @@ class Component extends DCLogic {
   onTitleBlur = (e) => { const v = (e.target.textContent || '').trim() || '谷子收纳'; try { localStorage.setItem('zzz_title', v); } catch (er) {} this.setState({ title: v }); };
   onSubtitleBlur = (e) => { const v = (e.target.textContent || '').trim(); try { localStorage.setItem('zzz_subtitle', v); } catch (er) {} this.setState({ subtitle: v }); };
   onFooterBlur = (e) => { const v = (e.target.textContent || '').trim(); try { localStorage.setItem('zzz_footer', v); } catch (er) {} this.setState({ footer: v }); };
+  onCnFocus = (e) => { if (((e.target.textContent || '').trim()) === 'CN / 昵称') e.target.textContent = ''; };
+  onCnBlur = (e) => { const raw = (e.target.textContent || '').trim(); const v = raw === 'CN / 昵称' ? '' : raw; try { localStorage.setItem('zzz_cn', v); } catch (er) {} this.setState({ collectorName: v }); };
   componentDidUpdate(prev) { const a = this.state.accent || this.props.accent || '#ff3355'; if (this.rootEl) this.rootEl.style.setProperty('--accent', a); try { document.documentElement.style.setProperty('--accent', a); } catch (e) {} }
 
   async loadImages(items) {
@@ -2288,7 +2428,7 @@ class Component extends DCLogic {
     try { localStorage.setItem('zzz_custom_filter_order', JSON.stringify(orderMap)); } catch(e) {}
     this.setState({ customFilterOrder: orderMap, customFilterSel }, () => this.commit(items));
   };
-  emptyDraft() { const chars = this.orderedChars(); return { id: null, custom: {}, name: '', character: (chars[0] || ''), type: this.TYPES[0], subtype: '', series: '', form: '通用', heat: 0, rate: '', acquire: '直购', swapped: '未置换', swapTo: '', swapCharacter: '', swapImageId: null, group: '收藏', status: '已到货', qty: '1', originalPrice: '', buyPrice: '', shipDom: '', shipIntl: '', sellPrice: '', channel: '', buyDate: '', reminderType: '', reminderDate: '', note: '', imageId: null, imageId2: null, imageId3: null, imageId4: null, specialType: '', specialDate: '', setName: '', setTotal: '', setVariant: '', timeline: [] }; }
+  emptyDraft() { const chars = this.orderedChars(); return { id: null, custom: {}, name: '', character: (chars[0] || ''), type: this.TYPES[0], subtype: '', series: '', form: '通用', heat: 0, rate: '', acquire: '直购', swapped: '未置换', swapTo: '', swapCharacter: '', swapImageId: null, group: '收藏', status: '已到货', qty: '1', originalPrice: '', buyPrice: '', shipDom: '', shipIntl: '', sellPrice: '', channel: '', buyDate: this.todayStr(), reminderType: '', reminderDate: '', note: '', imageId: null, imageId2: null, imageId3: null, imageId4: null, specialType: '', specialDate: '', setName: '', setTotal: '', setVariant: '', timeline: [] }; }
   imageSlotKeys() { return ['imageId', 'imageId2', 'imageId3', 'imageId4']; }
   imageIdsOf(it) { return this.imageSlotKeys().map(k => it && it[k]).filter(Boolean); }
   imageUrlsOf(it) { return this.imageIdsOf(it).map(id => this.imgUrls[id]).filter(Boolean); }
@@ -2833,7 +2973,11 @@ class Component extends DCLogic {
 
 
   // ---- batch edit helpers ----
-  toggleBatchMode = () => this.setState(s => ({ batchMode: !s.batchMode, selectedIds: s.batchMode ? [] : (s.selectedIds || []) }));
+  toggleBatchMode = () => {
+    const view = this.state.view || this.props.startView || 'gallery';
+    if (view === 'ledger') return;
+    this.setState(s => ({ batchMode: !s.batchMode, selectedIds: s.batchMode ? [] : (s.selectedIds || []) }));
+  };
   toggleBatchId = (id, checked) => this.setState(s => {
     const set = new Set(s.selectedIds || []);
     if (checked) set.add(id); else set.delete(id);
@@ -3004,8 +3148,9 @@ class Component extends DCLogic {
       tip: top.length ? top.slice(0,5).map(([n,v]) => n + ' · ' + cur + this.fmt(v) + ' · ' + (total ? Math.round(v/total*100) : 0) + '%').join('\n') : '暂无数据'
     };
   }
-  setLedger = () => this.setState({ view: 'ledger' });
+  setLedger = () => this.setState({ view: 'ledger', batchMode: false, selectedIds: [] });
   toggleTableSort = (key) => this.setState(s => ({ tableSortKey: key, tableSortDir: s.tableSortKey === key && s.tableSortDir === 'desc' ? 'asc' : 'desc', view: 'table' }));
+  toggleGroupCollapse = (label) => this.setState(s => { const c = { ...(s.collapsedGroups || {}) }; if (c[label]) delete c[label]; else c[label] = true; return { collapsedGroups: c }; });
   setBudgetValue(val) { const key = this._budgetKey || this.monthKey(new Date()); const budgets = { ...(this.state.budgets || {}) }; if (val === '' || val == null) delete budgets[key]; else budgets[key] = val; try { localStorage.setItem('zzz_budgets', JSON.stringify(budgets)); } catch (er) {} this.setState({ budgets }); }
   openLedgerDetail = (key, type, label) => { if (!key) return; this.setState({ ledgerDetailKey: key, ledgerDetailType: type || 'day', ledgerDetailLabel: label || '' }); };
   closeLedgerDetail = () => this.setState({ ledgerDetailKey: '' });
@@ -3141,6 +3286,7 @@ class Component extends DCLogic {
     return candidates[0];
   }
   monthKey(d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0'); }
+  todayStr() { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
   monthLabel(d) { return (d.getMonth() + 1) + '月'; }
   topSpendRows(map, cur, suffix) { const rows = Object.entries(map || {}).sort((a,b) => b[1] - a[1]).slice(0,3).map(([name, v]) => ({ name: name || '未分类', value: suffix ? (v + suffix) : (cur + this.fmt(v)) })); while (rows.length < 3) rows.push({ name: '暂无数据', value: '—' }); return rows; }
 
@@ -3278,6 +3424,9 @@ class Component extends DCLogic {
   tabStyle(active) { return { padding: '8px 15px', borderRadius: '9px', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: '14px', whiteSpace: 'nowrap', fontWeight: active ? 700 : 500, background: active ? 'var(--accent,#ff3355)' : 'transparent', color: active ? '#fff' : '#6f6996', transition: '.15s' }; }
   segStyle(active) { return { padding: '7px 13px', borderRadius: '8px', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: '13px', whiteSpace: 'nowrap', fontWeight: active ? 700 : 500, background: active ? 'var(--accent,#ff3355)' : 'transparent', color: active ? '#fff' : '#6f6996', transition: '.15s' }; }
   badge(color, bg, bd) { return { display: 'inline-flex', alignItems: 'center', padding: '3px 9px', borderRadius: '999px', fontSize: '11.5px', fontWeight: 600, whiteSpace: 'nowrap', color, background: bg, border: '1px solid ' + bd }; }
+  navItemStyle(active) { return { display: 'flex', alignItems: 'center', gap: '10px', width: '100%', padding: '8px 11px', borderRadius: '10px', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: '13px', fontWeight: active ? 700 : 500, textAlign: 'left', background: active ? this.accentAlpha(0.12) : 'transparent', color: active ? this.accentColor() : '#4c4580', transition: '.15s' }; }
+  navIconStyle(active) { return { width: '22px', height: '22px', borderRadius: '7px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', fontSize: '13px', flexShrink: 0, background: active ? this.accentAlpha(0.14) : 'rgba(50,38,90,.055)', color: active ? this.accentColor() : '#837da4', filter: 'none' }; }
+  navCountStyle(active) { return { marginLeft: 'auto', fontSize: '12px', fontFamily: "'Orbitron',sans-serif", color: active ? this.accentColor() : '#938db0', background: active ? this.accentAlpha(0.14) : 'rgba(50,38,90,.06)', borderRadius: '999px', padding: '1px 8px', minWidth: '20px', textAlign: 'center' }; }
 
 
   defaultDashboardCards() {
@@ -3376,7 +3525,8 @@ class Component extends DCLogic {
     const workListForFilter = this.state.works || [];
     const curWorkForFilter = workListForFilter.find(w => w.id === this.state.currentWorkId) || workListForFilter[0] || { id: this.MAIN_WORK, group: this.DEFAULT_GROUP, name: '' };
     const workOfItem = (it) => workListForFilter.find(w => w.id === (it.workId || this.MAIN_WORK)) || { id: it.workId || this.MAIN_WORK, group: this.DEFAULT_GROUP, name: '默认作品' };
-    const items = groupBy === 'workGroup' ? allItems : groupBy === 'work' ? allItems.filter(it => (workOfItem(it).group || this.DEFAULT_GROUP) === (curWorkForFilter.group || this.DEFAULT_GROUP)) : allItems.filter(it => (it.workId || this.MAIN_WORK) === this.state.currentWorkId);
+    const items = this.state.currentWorkId === this.ALL_WORKS ? allItems : groupBy === 'workGroup' ? allItems : groupBy === 'work' ? allItems.filter(it => (workOfItem(it).group || this.DEFAULT_GROUP) === (curWorkForFilter.group || this.DEFAULT_GROUP)) : allItems.filter(it => (it.workId || this.MAIN_WORK) === this.state.currentWorkId);
+    const isAllWorks = this.state.currentWorkId === this.ALL_WORKS;
 
     // stats over all
     let totalIn = 0, totalSell = 0, totalProfit = 0, colCount = 0, saleCount = 0;
@@ -3389,6 +3539,11 @@ class Component extends DCLogic {
       { key: 'collection', label: '我的收藏', n: colN },
       { key: 'sale', label: '我的出物', n: saleN }
     ].map(t => ({ ...t, style: this.tabStyle(group === t.key), onClick: () => this.setState({ group: t.key }) }));
+    const navGroupItems = [
+      { key: 'all', label: '全部', icon: '▦', n: items.length },
+      { key: 'collection', label: '我的收藏', icon: '🌸', n: colN },
+      { key: 'sale', label: '我的出物', icon: '🏷️', n: saleN }
+    ].map(t => ({ label: t.label, icon: t.icon, n: t.n, active: group === t.key, style: this.navItemStyle(group === t.key), iconStyle: this.navIconStyle(group === t.key), countStyle: this.navCountStyle(group === t.key), onClick: () => this.setState({ group: t.key }) }));
 
     // base list (group tab filter)
     const matchGroup = it => group === 'all' ? true : group === 'collection' ? this.groupOf(it) !== '出物' : this.groupOf(it) === '出物';
@@ -3564,11 +3719,12 @@ class Component extends DCLogic {
     const isAllScope = lgMode === 'all';
     const yearKey = String(lgYear);
     const yearBudget = Object.keys(bmapAll).reduce((s, k) => (k.indexOf(yearKey + '-') === 0 ? s + this.num(bmapAll[k]) : s), 0);
-    const yearSpent = filtered.reduce((s, it) => (String(it.buyDate || '').slice(0, 4) === yearKey ? s + this.enrich(it).cost : s), 0);
-    const allSpent = filtered.reduce((s, it) => s + this.enrich(it).cost, 0);
-    const monthsWithData = new Set(filtered.map(it => String(it.buyDate || '').slice(0, 7)).filter(Boolean));
+    const globalItems = this.state.items || [];
+    const yearSpent = globalItems.reduce((s, it) => (String(it.buyDate || '').slice(0, 4) === yearKey ? s + this.enrich(it).cost : s), 0);
+    const allSpent = globalItems.reduce((s, it) => s + this.enrich(it).cost, 0);
+    const monthsWithData = new Set(globalItems.map(it => String(it.buyDate || '').slice(0, 7)).filter(Boolean));
     const allAvg = monthsWithData.size ? allSpent / monthsWithData.size : allSpent;
-    const monthSpentMonth = filtered.reduce((sum, it) => (String(it.buyDate || '').slice(0, 7) === budgetMonthKey ? sum + this.enrich(it).cost : sum), 0);
+    const monthSpentMonth = globalItems.reduce((sum, it) => (String(it.buyDate || '').slice(0, 7) === budgetMonthKey ? sum + this.enrich(it).cost : sum), 0);
     const monthSpent = isYearScope ? yearSpent : isAllScope ? allSpent : monthSpentMonth;
     const budget = isYearScope ? yearBudget : isAllScope ? 0 : budgetForCells;
     const budgetRemain = budget - monthSpent;
@@ -3623,6 +3779,8 @@ class Component extends DCLogic {
     const mobileReminderDetail = upcomingReminders.slice(0,2).map(r => r.text).join(' / ');
     const reminderCountText = reminderItems.length ? (TXT.reminderCount + ' ' + reminderItems.length + ' 件') : '暂无待处理';
     const batchMode = !!this.state.batchMode;
+    const showBatchControl = view !== 'ledger';
+    const showBatchBar = batchMode && showBatchControl;
     const selectedSet = new Set(this.state.selectedIds || []);
     const ledgerRangeText = '按购买日期统计 · ' + (ledgerRangeInfo.label || '本月');
     const ledgerMode = this.state.ledgerMode || 'month';
@@ -3677,11 +3835,15 @@ class Component extends DCLogic {
       const groupStyle = g === '出物' ? this.badge('#d14a86', 'rgba(255,107,157,.14)', 'rgba(255,107,157,.3)') : this.badge('#6a4fd0', 'rgba(108,92,231,.16)', 'rgba(108,92,231,.32)');
       const fcol = it.form === '人脸' ? '#c8860d' : it.form === '皮套' ? '#2f7fd0' : '#7c5cd6';
       const fbg = it.form === '人脸' ? 'rgba(255,193,75,.13)' : it.form === '皮套' ? 'rgba(91,157,255,.13)' : 'rgba(124,92,214,.14)';
+      const isSelected = selectedSet.has(it.id);
       return {
         isHeader: false, isItem: true,
-        showBatch: batchMode, batchChecked: selectedSet.has(it.id), batchCheckClass: selectedSet.has(it.id) ? 'on' : '', onBatchToggle: (ev) => this.toggleBatchId(it.id, ev.target.checked), onBatchStop: (ev) => { ev.stopPropagation && ev.stopPropagation(); }, onCardClick: (ev) => { if (this.state.batchMode) { ev.preventDefault && ev.preventDefault(); this.toggleBatchId(it.id, !selectedSet.has(it.id)); } else this.openItemFromRow(it, ev); },
-        cardStyle: { background: selectedSet.has(it.id) ? 'linear-gradient(160deg,#fff,#fff2f6)' : '#ffffff', border: selectedSet.has(it.id) ? '2px solid var(--accent,#ff3355)' : (rem.active ? '2px solid #e23b5d' : '1px solid #ded7ee'), borderRadius: '16px', overflow: 'hidden', display: 'flex', flexDirection: 'column', boxShadow: selectedSet.has(it.id) ? '0 0 0 3px rgba(255,51,85,.10), 0 12px 28px rgba(50,38,90,.12)' : (rem.active ? '0 0 0 3px rgba(226,59,93,.08), 0 12px 28px rgba(226,59,93,.16)' : 'none') },
-        circleImgStyle: { position: 'relative', width: '84px', height: '84px', borderRadius: '50%', overflow: 'hidden', background: 'linear-gradient(145deg,#eae5f4,#e1dcf0)', border: rem.active ? '3px solid #e23b5d' : '2px solid #ffffff', boxShadow: rem.active ? '0 0 0 3px rgba(226,59,93,.12), 0 8px 18px rgba(226,59,93,.28)' : '0 3px 10px rgba(50,38,90,.14)' },
+        showBatch: showBatchBar, batchChecked: isSelected, batchCheckClass: isSelected ? 'on' : '', onBatchToggle: (ev) => { ev && ev.stopPropagation && ev.stopPropagation(); this.toggleBatchId(it.id, ev.target.checked); }, onBatchStop: (ev) => { ev.stopPropagation && ev.stopPropagation(); }, onCardClick: (ev) => { if (showBatchBar) { ev.preventDefault && ev.preventDefault(); this.toggleBatchId(it.id, !isSelected); } else this.openItemFromRow(it, ev); },
+        tableRowClass: 'ui-table-row' + (showBatchBar ? ' ui-table-selectable' : '') + (isSelected ? ' ui-table-selected' : ''),
+        tableRowStyle: { cursor: showBatchBar ? 'pointer' : 'default' },
+        onTableRowClick: (ev) => { if (!showBatchBar) return; ev && ev.preventDefault && ev.preventDefault(); this.toggleBatchId(it.id, !isSelected); },
+        cardStyle: { background: isSelected ? `linear-gradient(160deg,#fff,${this.accentAlpha(0.06)})` : '#ffffff', border: isSelected ? '2px solid var(--accent,#ff3355)' : (rem.active ? '2px solid #e23b5d' : '1px solid #ece7f6'), borderRadius: '16px', overflow: 'hidden', display: 'flex', flexDirection: 'column', boxShadow: isSelected ? `0 0 0 3px ${this.accentAlpha(0.14)}, 0 12px 28px rgba(50,38,90,.14)` : (rem.active ? '0 0 0 3px rgba(226,59,93,.08), 0 12px 28px rgba(226,59,93,.16)' : '0 2px 10px rgba(95,68,140,.05)') },
+        circleImgStyle: { position: 'relative', width: '84px', height: '84px', borderRadius: '50%', overflow: 'hidden', background: 'linear-gradient(145deg,#eae5f4,#e1dcf0)', border: isSelected ? '3px solid var(--accent,#ff3355)' : (rem.active ? '3px solid #e23b5d' : '2px solid #ffffff'), boxShadow: isSelected ? `0 0 0 5px ${this.accentAlpha(0.18)}, 0 10px 24px rgba(50,38,90,.18)` : (rem.active ? '0 0 0 3px rgba(226,59,93,.12), 0 8px 18px rgba(226,59,93,.28)' : '0 3px 10px rgba(50,38,90,.14)') },
         circleReminderStyle: { position: 'absolute', top: '2px', right: '2px', minWidth: '20px', height: '20px', padding: '0 5px', borderRadius: '999px', background: '#e23b5d', color: '#fff', fontSize: '10px', fontWeight: 900, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid #fff', boxShadow: '0 3px 9px rgba(226,59,93,.35)' },
         hasReminderAlert: !!rem.active, reminderText: rem.text || '', reminderBadgeText: rem.badgeText || rem.text || '', reminderShort: rem.type || '!',
         id: it.id, name: displayName, hasOrig: !!(isSwapped && it.swapTo && it.name && it.name !== it.swapTo), origText: '原抽：' + (it.name || ''), character: dispChar,
@@ -3715,7 +3877,7 @@ class Component extends DCLogic {
         thumbBg: primaryUrl ? { position: 'absolute', inset: 0, backgroundImage: `url(${primaryUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' } : { display: 'none' },
         groupBadgeStyle: { ...groupStyle, position: 'absolute', top: '9px', left: '9px', backdropFilter: 'blur(4px)' },
         statusBadgeStyle: { ...this.badge(this.STATUS_COLOR[it.status] || '#6f6996', 'rgba(255,255,255,.85)', (this.STATUS_COLOR[it.status] || '#6f6996') + '55'), position: 'absolute', top: '9px', right: '9px', backdropFilter: 'blur(4px)' },
-        onEdit: (ev) => { if (this.state.batchMode) { ev && ev.stopPropagation && ev.stopPropagation(); this.toggleBatchId(it.id, !selectedSet.has(it.id)); } else this.openItemFromRow(it, ev); }, onDelete: () => this.removeItem(it), onDup: () => this.openDuplicate(it), onTrend: () => this.openTrend(it),
+        onEdit: (ev) => { if (showBatchBar) { ev && ev.stopPropagation && ev.stopPropagation(); this.toggleBatchId(it.id, !isSelected); } else this.openItemFromRow(it, ev); }, onDelete: () => this.removeItem(it), onDup: () => this.openDuplicate(it), onTrend: (ev) => { ev && ev.stopPropagation && ev.stopPropagation(); if (showBatchBar) this.toggleBatchId(it.id, !isSelected); else this.openTrend(it); },
         draggable: true,
         onMouseDown: (ev) => this.startItemPointer(it.id, ev),
         onMouseUp: (ev) => this.finishItemPointer(it.id, ev),
@@ -3740,8 +3902,9 @@ class Component extends DCLogic {
       const groups = Object.values(map).sort((a, b) => b.cost - a.cost);
       displayRows = [];
       groups.forEach(gp => {
+        const collapsed = !!(this.state.collapsedGroups || {})[gp.label];
         displayRows.push({
-          isHeader: true, isItem: false, id: 'hd_' + gp.label,
+          isHeader: true, isItem: false, id: 'hd_' + gp.label, collapsed, onToggleCollapse: () => this.toggleGroupCollapse(gp.label), caret: collapsed ? '▸' : '▾',
           headerHasImg: groupBySafe === 'character' && !!this.charImg(gp.label), headerNoImg: !(groupBySafe === 'character' && !!this.charImg(gp.label)), headerImgG: { width: '30px', height: '30px', borderRadius: '50%', backgroundImage: `url(${this.charImg(gp.label)})`, backgroundSize: 'cover', backgroundPosition: 'center', border: '1px solid #d4cee7', flexShrink: 0 }, headerImgT: { width: '26px', height: '26px', borderRadius: '50%', backgroundImage: `url(${this.charImg(gp.label)})`, backgroundSize: 'cover', backgroundPosition: 'center', border: '1px solid #d4cee7', flexShrink: 0 },
           label: gp.label, countText: gp.count + ' 项 · ' + gp.qty + ' 件',
           costText: '投入 ' + cur + this.fmt(gp.cost),
@@ -3749,7 +3912,7 @@ class Component extends DCLogic {
           profitStyle: { color: gp.sold ? (gp.profit >= 0 ? '#12a85f' : '#e23b5d') : '#8b85ab' },
           dotStyle: { width: '10px', height: '10px', borderRadius: '50%', flexShrink: 0, background: groupBySafe === 'character' ? `hsl(${this.charHue(gp.label)},70%,62%)` : 'var(--accent,#ff3355)' }
         });
-        gp.ids.forEach(id => displayRows.push(rowById[id]));
+        if (!collapsed) gp.ids.forEach(id => displayRows.push(rowById[id]));
       });
     }
 
@@ -3824,6 +3987,20 @@ class Component extends DCLogic {
     const workTabs = works.map(w => ({ id: w.id, name: w.name, group: w.group, active: w.id === this.state.currentWorkId, onClick: () => this.switchWork(w.id), onRename: (ev) => this.renameWork(w, ev), onRenameGroup: (ev) => this.renameGroup(w, ev), onDel: (ev) => this.delWork(w, ev), rowStyle: { display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 10px', borderRadius: '9px', cursor: 'pointer', background: w.id === this.state.currentWorkId ? 'rgba(255,51,85,.1)' : 'transparent' } }));
     const groupsMap = {}; workTabs.forEach(w => { (groupsMap[w.group || this.DEFAULT_GROUP] = groupsMap[w.group || this.DEFAULT_GROUP] || []).push(w); });
     const workGroups = Object.keys(groupsMap).map(g => ({ group: g, works: groupsMap[g] }));
+
+    // ===== 收藏库树（侧栏 & 手机） =====
+    const countByWork = {}; (this.state.items || []).forEach(it => { const wid = it.workId || this.MAIN_WORK; countByWork[wid] = (countByWork[wid] || 0) + 1; });
+    const curId = this.state.currentWorkId;
+    const workLogoNode = (id, size) => { const u = this.workLogo(id); return u ? { width: size + 'px', height: size + 'px', borderRadius: '7px', flexShrink: 0, backgroundImage: `url(${u})`, backgroundSize: 'cover', backgroundPosition: 'center', border: '1px solid #e3def1' } : { width: size + 'px', height: size + 'px', borderRadius: '7px', flexShrink: 0, background: this.accentAlpha(0.14), border: '1px solid ' + this.accentAlpha(0.25), display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: (size * 0.5) + 'px', color: this.accentColor() }; };
+    const libWorkRow = (w) => ({ id: w.id, name: w.name, count: countByWork[w.id] || 0, active: w.id === curId, hasLogo: !!this.workLogo(w.id), logoStyle: workLogoNode(w.id, 18), initial: (w.name || '?').slice(0, 1), rowStyle: { display: 'flex', alignItems: 'center', gap: '8px', width: '100%', padding: '6px 9px 6px 12px', borderRadius: '8px', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: '13px', fontWeight: w.id === curId ? 700 : 500, textAlign: 'left', background: w.id === curId ? this.accentAlpha(0.12) : 'transparent', color: w.id === curId ? this.accentColor() : '#4c4580' }, countStyle: { marginLeft: 'auto', fontSize: '11px', fontFamily: "'Orbitron',sans-serif", color: w.id === curId ? this.accentColor() : '#a99fc4' }, onClick: () => this.switchWork(w.id) });
+    const libraryTree = Object.keys(groupsMap).map(g => ({ group: g, works: groupsMap[g].map(libWorkRow) }));
+    const libAllActive = curId === this.ALL_WORKS;
+    const libAllStyle = { display: 'flex', alignItems: 'center', gap: '10px', width: '100%', padding: '9px 11px', borderRadius: '10px', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: '13.5px', fontWeight: libAllActive ? 700 : 600, textAlign: 'left', background: libAllActive ? this.accentAlpha(0.14) : 'rgba(50,38,90,.04)', color: libAllActive ? this.accentColor() : '#4c4580' };
+    const libAllCount = (this.state.items || []).length;
+    const recentRows = (this.state.recentWorks || []).map(id => works.find(w => w.id === id)).filter(Boolean).slice(0, 3).map(libWorkRow);
+    const hasRecent = recentRows.length > 0;
+    // 手机端切换弹窗用
+    const mobileWorkGroups = libraryTree;
 
     // 趋势
     const tr = this.state.trendResult || { empty: true };
@@ -3920,12 +4097,16 @@ class Component extends DCLogic {
         useText: w.id === draftCurrentWorkId ? '用' : '否',
         logoStyle: this.workLogo(w.id) ? { width: '32px', height: '32px', borderRadius: '8px', backgroundImage: `url(${this.workLogo(w.id)})`, backgroundSize: 'cover', backgroundPosition: 'center', flexShrink: 0, cursor: 'pointer', border: '1px solid #ded7ee' } : { width: '32px', height: '32px', borderRadius: '8px', background: 'rgba(50,38,90,.06)', flexShrink: 0, cursor: 'pointer', border: '1px dashed #ccc4e6', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '9px', color: '#938db0' } }))
     }));
-    const headerLogoUrl = this.workLogo(this.state.currentWorkId) || this.logoUrl || 'assets/logo.png';
+    const customHeaderLogo = this.workLogo(this.state.currentWorkId) || this.logoUrl || '';
+    const headerLogoUrl = customHeaderLogo;
+    const logoFallback = !customHeaderLogo;
     const cnPrefix = (this.state.collectorName || '').trim();
+    const cnDisplay = cnPrefix || 'CN / 昵称';
+    const cnSidebarClass = 'ui-sidebar-cn ui-editable-text' + (cnPrefix ? '' : ' ui-sidebar-cn-empty');
 
     return {
       setRoot: this.setRoot, setImportRef: this.setImportRef, setExcelImportRef: this.setExcelImportRef, stop: this.stop,
-      workGroupLabel: this.state.workGroupLabel, workGroupName: curWork.group || this.DEFAULT_GROUP, workName: curWork.name || '', workTabs, workGroups, workMenuOpen: this.state.workMenuOpen, toggleWorkMenu: this.toggleWorkMenu, addWork: this.addWork,
+      workGroupLabel: this.state.workGroupLabel, workGroupName: curWork.group || this.DEFAULT_GROUP, workName: curWork.name || '', workTabs, workGroups, libraryTree, libAllActive, libAllStyle, libAllCount, recentRows, hasRecent, mobileWorkGroups, isAllWorks, switchAll: () => this.switchWork(this.ALL_WORKS), workMenuOpen: this.state.workMenuOpen, toggleWorkMenu: this.toggleWorkMenu, addWork: this.addWork,
       openSettings: this.openSettings, closeSettings: this.cancelSettings, cancelSettings: this.cancelSettings, saveSettings: this.saveSettings, clearAllData: this.clearAllData, settingsOpen: this.state.settingsOpen, dataManageOpen: this.state.dataManageOpen, openDataManage: this.openDataManage, batchEditOpen: this.state.batchEditOpen, closeBatchEditor: this.closeBatchEditor, openBatchEditor: this.openBatchEditor, batchEditFields, batchEditOptions, batchEditTitle, batchEditChooseMode, batchEditOptionMode, batchEditBack: this.batchEditBack, closeDataManage: this.closeDataManage, confirmExcelExport: this.confirmExcelExport, confirmExcelTemplate: this.confirmExcelTemplate, confirmExcelImport: this.confirmExcelImport, confirmJsonExport: this.confirmJsonExport, confirmJsonImport: this.confirmJsonImport,
       cnVal: sd.collectorName || '', curVal: sd.currency || this.cur(), accentVal: sd.accent || this.props.accent || '#ff3355', nameStyleVal: sd.nameStyleMode || this.state.nameStyleMode || 'default', displayModeVal: sd.displayMode || this.state.displayMode || 'standard', stylePreviewText: this.previewStyleText(sd.nameStyleMode || this.state.nameStyleMode || 'default'), titleVal: sd.title || '', subtitleVal: sd.subtitle || '', footerVal: sd.footer || '',
       onCn: this.onDraftSettingField('collectorName'), onCurrency: this.onDraftSettingField('currency'), onAccent: this.onDraftSettingField('accent'), onNameStyle: this.setNameStyle, onDisplayMode: this.setDisplayMode, onTitleSet: this.onDraftSettingField('title'), onSubtitleSet: this.onDraftSettingField('subtitle'), onFooterSet: this.onDraftSettingField('footer'),
@@ -3934,11 +4115,13 @@ class Component extends DCLogic {
       labels, workManageRows, fieldRows, optionGroups, customFieldRows, draftCustomInputs, hasCustomFields: draftCustomFields.length > 0, addCustomField: this.addCustomField, restoreBaseFields: this.restoreBaseFields, workSettingGroups, dashboardCollectionRows, dashboardSaleRows, addGroupAlone: this.addGroupAlone, uploadBg: this.uploadBg, clearBg: this.clearBg, hasBg: !!this.bgUrl, addWorkInline: this.addWork,
       addFormOpt: this.addOptionTo('formOrder', 'zzz_form_order', '输入新的形态'), addStatusOpt: this.addOptionTo('statusList', 'zzz_status', '输入新的状态'), addAcquireOpt: this.addOptionTo('acquireOrder', 'zzz_acquire_order', '输入新的来源方式'), formMenuItems, formDisplay, formMenuOpen: this.state.formMenuOpen, toggleFormMenu: this.toggleFormMenu, statusMenuItems, statusDisplay, statusMenuOpen: this.state.statusMenuOpen, toggleStatusMenu: this.toggleStatusMenu, acquireMenuItems, acquireDisplay, acquireMenuOpen: this.state.acquireMenuOpen, toggleAcquireMenu: this.toggleAcquireMenu,
       lblCharacter: labels.character, lblType: labels.type, lblChannel: labels.channel, lblStatus: labels.status, lblForm: labels.form, lblAcquire: labels.acquire,
-      cnPrefix, hasCn: !!cnPrefix,
+      cnPrefix, hasCn: !!cnPrefix, cnDisplay, cnSidebarClass,
       rootBgStyle: this.bgUrl ? { backgroundImage: `linear-gradient(rgba(236,232,246,.82),rgba(236,232,246,.92)), url(${this.bgUrl})`, backgroundSize: 'cover', backgroundAttachment: 'fixed', backgroundPosition: 'center' } : {},
       appClass, mobileModeText, toggleMobileMode: this.toggleMobileMode, filterSummaryText, filterToggleText, toggleFiltersOpen: this.toggleFiltersOpen,
       savedText, doExport: this.doExport, doExcelExport: this.doExcelExport, doExcelTemplate: this.doExcelTemplate, triggerExcelImport: this.triggerExcelImport, onExcelImportFile: this.onExcelImportFile, triggerImport: this.triggerImport, onImportFile: this.onImportFile,
-      logoStyle: { height: '54px', width: '160px', backgroundImage: `url(${headerLogoUrl})`, backgroundSize: 'contain', backgroundPosition: 'left center', backgroundRepeat: 'no-repeat', filter: 'drop-shadow(0 4px 14px rgba(0,0,0,.5))', cursor: 'pointer', flexShrink: 0 }, title: this.state.title || '谷子收纳', subtitle: this.state.subtitle || '', footer: this.state.footer || '', uploadLogo: this.uploadLogo, onTitleBlur: this.onTitleBlur, onSubtitleBlur: this.onSubtitleBlur, onFooterBlur: this.onFooterBlur,
+      logoFallback,
+      logoStyle: logoFallback ? { height: '54px', width: '54px', borderRadius: '15px', position: 'relative', overflow: 'hidden', cursor: 'pointer', flexShrink: 0, border: '1px solid #ded7ee', background: 'linear-gradient(145deg,#ffffff,#f8f4ff)', boxShadow: '0 8px 20px rgba(50,38,90,.08)' } : { height: '54px', width: '160px', backgroundImage: `url(${headerLogoUrl})`, backgroundSize: 'contain', backgroundPosition: 'left center', backgroundRepeat: 'no-repeat', filter: 'drop-shadow(0 4px 14px rgba(0,0,0,.5))', cursor: 'pointer', flexShrink: 0 },
+      sidebarLogoStyle: { width: '100%', height: '112px', borderRadius: '15px', position: 'relative', overflow: 'hidden', flexShrink: 0, cursor: 'pointer', border: '1px solid #e3def1', backgroundColor: 'rgba(255,255,255,.86)', boxShadow: 'inset 0 0 0 1px rgba(255,255,255,.7), 0 8px 20px rgba(50,38,90,.08)', backgroundImage: logoFallback ? 'linear-gradient(145deg,#ffffff,#f8f4ff)' : `url(${headerLogoUrl})`, backgroundSize: logoFallback ? 'cover' : 'contain', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }, title: this.state.title || '谷子收纳', subtitle: this.state.subtitle || '梦 境 特 工 档 案', footer: this.state.footer || '梦境特工档案 · コードナンバー：収集家', uploadLogo: this.uploadLogo, onTitleBlur: this.onTitleBlur, onSubtitleBlur: this.onSubtitleBlur, onFooterBlur: this.onFooterBlur, onCnBlur: this.onCnBlur, onCnFocus: this.onCnFocus,
       statIn: cur + this.fmt(totalIn), statSell: cur + this.fmt(totalSell),
       statProfit: (totalProfit >= 0 ? '+' : '') + cur + this.fmt(totalProfit),
       statProfitStyle: { color: totalProfit >= 0 ? '#12a85f' : '#e23b5d' },
@@ -3960,7 +4143,14 @@ class Component extends DCLogic {
       sortByChannel: () => this.toggleTableSort('channel'), sortChannelMark: sortMark('channel'),
       sortByDate: () => this.toggleTableSort('date'), sortDateMark: sortMark('date'),
       tableBtnStyle: this.segStyle(view === 'table'), galleryBtnStyle: this.segStyle(view === 'gallery'), circleBtnStyle: this.segStyle(view === 'circle'), ledgerBtnStyle: this.segStyle(view === 'ledger'),
-      openAdd: this.openAdd, openBulkImageImport: this.openBulkImageImport, toggleBatchMode: this.toggleBatchMode, batchMode: this.state.batchMode, batchButtonText: this.state.batchMode ? '退出批量' : '批量编辑', batchSelectedText: (this.state.selectedIds || []).length + ' 件', batchSelectVisible: this.batchSelectVisible, batchClear: this.batchClear, batchEditStatus: this.batchEditStatus, batchEditReminder: this.batchEditReminder, batchEditField: this.batchEditField, batchQtyPlus: this.batchQtyPlus, batchDelete: this.batchDelete, hasBulkEditNav: (this.state.bulkEditIds || []).length > 1 && this.state.modalOpen, bulkEditProgress: ((this.bulkCurrentIndex ? this.bulkCurrentIndex() : (this.state.bulkEditIndex || 0)) + 1) + '/' + ((this.state.bulkEditIds || []).length || 1), saveBulkPrev: this.saveBulkPrev, saveBulkNext: this.saveBulkNext,
+      navViewItems: [
+        { key: 'gallery', icon: '▧', label: '图鉴', onClick: this.setGallery },
+        { key: 'circle', icon: '◎', label: '圆图', onClick: this.setCircle },
+        { key: 'table', icon: '▤', label: '表格', onClick: this.setTable },
+        { key: 'ledger', icon: '￥', label: '账本', onClick: this.setLedger }
+      ].map(t => ({ label: t.label, icon: t.icon, active: view === t.key, style: this.navItemStyle(view === t.key), iconStyle: this.navIconStyle(view === t.key), onClick: t.onClick })),
+      navGroupItems,
+      openAdd: this.openAdd, openBulkImageImport: this.openBulkImageImport, toggleBatchMode: this.toggleBatchMode, batchMode: this.state.batchMode, showBatchControl, showBatchBar, batchButtonText: this.state.batchMode ? '退出批量' : '批量编辑', mobileBatchText: this.state.batchMode ? '退出' : '批量', batchSelectedText: (this.state.selectedIds || []).length + ' 件', batchSelectVisible: this.batchSelectVisible, batchClear: this.batchClear, batchEditStatus: this.batchEditStatus, batchEditReminder: this.batchEditReminder, batchEditField: this.batchEditField, batchQtyPlus: this.batchQtyPlus, batchDelete: this.batchDelete, hasBulkEditNav: (this.state.bulkEditIds || []).length > 1 && this.state.modalOpen, bulkEditProgress: ((this.bulkCurrentIndex ? this.bulkCurrentIndex() : (this.state.bulkEditIndex || 0)) + 1) + '/' + ((this.state.bulkEditIds || []).length || 1), saveBulkPrev: this.saveBulkPrev, saveBulkNext: this.saveBulkNext,
       search, onSearch: this.onSearch, charChips, addCharacter: this.addCharacter, typeChips, seriesChips, showSeriesFilter, formChips, statusChips, showStatusFilter, acquireChips, channelChips, showChannelFilter, customFilterRows, groupByChips, hasRows: filtered.length > 0, fCountText, fCostText, fSellText, fNetText, fProfitText, fProfitStyle,
       labelChar: labels.character, labelType: labels.type, labelSeries: labels.series, labelChannel: labels.channel, labelForm: labels.form, labelStatus: labels.status, labelAcquire: labels.acquire,
       showCharF: fieldVisible('character') && this.state.filterOn.character !== false, showTypeF: fieldVisible('type') && this.state.filterOn.type !== false, showFormF: fieldVisible('form') && this.state.filterOn.form !== false, showStatusF: showStatusFilter, showAcquireF: fieldVisible('acquire') && this.state.filterOn.acquire !== false,
