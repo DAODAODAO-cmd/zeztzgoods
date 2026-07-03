@@ -121,8 +121,8 @@
     .ui-modal-card .ui-modal-footer .ui-btn-ghost{flex:1 1 0 !important;min-width:0 !important;padding:10px 6px !important;font-size:13px !important;}
     .ui-modal-card .ui-modal-footer .ui-btn-primary{flex:2 1 100% !important;padding:12px 6px !important;order:9 !important;}
     .ui-draft-image-panel{flex-basis:100% !important;align-items:flex-start !important}
-    .ui-draft-image-mosaic{width:132px !important;height:132px !important}
-    .ui-draft-image-upload{width:34px !important;height:34px !important;border-radius:11px !important;font-size:22px !important}
+    .ui-draft-image-mosaic{width:88px !important;height:88px !important}
+    .ui-draft-image-upload{width:28px !important;height:28px !important;border-radius:9px !important;font-size:18px !important}
   }
 
   /* ===== V25 修复：设置底部按钮固定、新增谷子左右对齐、表格视图改为稳定 div 结构 ===== */
@@ -150,11 +150,11 @@
   .ui-table-num .ui-table-sort-btn,.ui-table-center .ui-table-sort-btn{justify-content:flex-end;text-align:right}
   .ui-table-sort-mark{font-size:10px;color:var(--accent,#ff3355);min-width:10px;display:inline-block}
   .ui-image-mosaic{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:1px}
-  .ui-draft-image-panel{display:flex;gap:14px;align-items:center;min-width:0;flex:1 1 360px}
-  .ui-draft-image-mosaic{position:relative;width:156px;height:156px;flex-shrink:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:2px;background:linear-gradient(145deg,#eae5f4,#e1dcf0);border:1px solid #ded7ee;border-radius:15px;overflow:hidden;color:#9089ad}
+  .ui-draft-image-panel{display:flex;gap:12px;align-items:center;min-width:0;flex:1 1 360px}
+  .ui-draft-image-mosaic{position:relative;width:92px;height:92px;flex-shrink:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:2px;background:linear-gradient(145deg,#eae5f4,#e1dcf0);border:1px solid #ded7ee;border-radius:15px;overflow:hidden;color:#9089ad}
   .ui-draft-image-empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:#938db0}
-  .ui-draft-image-upload{position:absolute;right:8px;bottom:8px;z-index:5;width:38px;height:38px;border-radius:12px;background:var(--accent,#ff3355);color:#fff;border:2px solid rgba(255,255,255,.92);box-shadow:0 8px 20px rgba(50,38,90,.22);display:flex;align-items:center;justify-content:center;font-family:'Orbitron';font-size:24px;font-weight:900;line-height:1;cursor:pointer}
-  .ui-draft-image-upload svg{width:20px;height:20px;display:block}
+  .ui-draft-image-upload{position:absolute;right:5px;bottom:5px;z-index:5;width:30px;height:30px;border-radius:10px;background:var(--accent,#ff3355);color:#fff;border:2px solid rgba(255,255,255,.92);box-shadow:0 8px 20px rgba(50,38,90,.22);display:flex;align-items:center;justify-content:center;font-family:'Orbitron';font-size:24px;font-weight:900;line-height:1;cursor:pointer}
+  .ui-draft-image-upload svg{width:16px;height:16px;display:block}
   .ui-draft-image-remove{position:absolute;right:5px;top:5px;width:22px;height:22px;border-radius:999px;border:1px solid rgba(255,255,255,.86);background:rgba(37,29,73,.58);color:#fff;font-size:15px;line-height:18px;display:flex;align-items:center;justify-content:center;cursor:pointer}
   .ui-logo-fallback{width:100%;height:100%;display:flex;align-items:center;justify-content:center;pointer-events:none;color:var(--accent,#ff3355);}
   .ui-logo-fallback-header span{font-size:25px;line-height:1;filter:drop-shadow(0 4px 10px rgba(255,51,85,.18));}
@@ -712,11 +712,12 @@
                 <sc-if value="{{ row.hasOrig }}" hint-placeholder-val="{{ false }}"><div class="ui-mobile-card-extra" style="font-size:11px;color:#938db0;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ row.origText }}</div></sc-if>
               </div>
               <div class="ui-mobile-card-main" style="display:flex;gap:6px;flex-wrap:wrap">
-                <span style="{{ row.charStyle }}"><sc-if value="{{ row.hasAvatar }}" hint-placeholder-val="{{ false }}"><div style="{{ row.avatarStyle }}"></div></sc-if>{{ row.character }}</span>
+                <sc-if value="{{ row.showCharBadge }}" hint-placeholder-val="{{ true }}"><span style="{{ row.charStyle }}"><sc-if value="{{ row.hasAvatar }}" hint-placeholder-val="{{ false }}"><div style="{{ row.avatarStyle }}"></div></sc-if>{{ row.character }}</span></sc-if>
                 <span style="display:inline-flex;align-items:center;padding:3px 9px;border-radius:999px;font-size:12px;background:rgba(50,38,90,.05);color:#595287;border:1px solid #ded7ee">{{ row.typeText }}</span>
                 <sc-if value="{{ row.showForm }}" hint-placeholder-val="{{ false }}"><span style="{{ row.formStyle }}">{{ row.formText }}</span></sc-if>
                 <sc-if value="{{ row.hasSeries }}" hint-placeholder-val="{{ false }}"><span style="{{ row.seriesStyle }}">{{ row.seriesText }}</span></sc-if>
                 <sc-if value="{{ row.showAcquire }}" hint-placeholder-val="{{ false }}"><span style="{{ row.acquireStyle }}">{{ row.acquireText }}</span></sc-if>
+                <sc-if value="{{ row.hasMethod }}" hint-placeholder-val="{{ false }}"><span style="{{ row.methodStyle }}">{{ row.methodText }}</span></sc-if>
                 <sc-if value="{{ row.hasSwap }}" hint-placeholder-val="{{ false }}"><span style="{{ row.swapStyle }}">{{ row.swapText }}</span></sc-if>
                 <sc-if value="{{ row.hasChipTags }}" hint-placeholder-val="{{ false }}"><sc-for list="{{ row.chipTags }}" as="t" hint-placeholder-count="1"><span style="{{ t.style }}">{{ t.label }}</span></sc-for></sc-if>
               </div>
@@ -1029,6 +1030,76 @@
     <div style="position:fixed;left:50%;bottom:34px;transform:translateX(-50%);z-index:400;background:linear-gradient(150deg,#fff,#f8f5ff);border:1px solid #e3def1;box-shadow:0 14px 40px rgba(50,38,90,.24);border-radius:14px;padding:13px 22px;font-size:14.5px;font-weight:700;color:#251d49;white-space:nowrap">{{ toast }}</div>
   </sc-if>
 
+  <sc-if value="{{ workManageOpen }}" hint-placeholder-val="false">
+    <div style="position:fixed;inset:0;z-index:342;background:rgba(70,58,110,.4);backdrop-filter:blur(6px);display:flex;align-items:flex-start;justify-content:center;padding:40px 14px;overflow-y:auto" onClick="{{ closeWorkManage }}">
+      <div class="ui-modal-card" onClick="{{ stop }}" style="width:100%;max-width:400px;background:linear-gradient(160deg,#ffffff,#f4f1fb);border:1px solid #d6cfe9;border-radius:20px;box-shadow:0 30px 70px rgba(40,28,80,.4);display:flex;flex-direction:column;max-height:88vh">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #e1dbf0;flex-shrink:0">
+          <div><div style="font-weight:800;font-size:16px;color:#251d49">管理作品</div><div style="font-size:11.5px;color:#938db0;margin-top:2px">新增 / 改名 / 删除 / 上传 logo / 切换</div></div>
+          <button onClick="{{ closeWorkManage }}" style="width:30px;height:30px;border-radius:9px;border:1px solid #ded7ee;background:rgba(50,38,90,.045);color:#595287;font-size:18px;cursor:pointer;line-height:1">×</button>
+        </div>
+        <div style="padding:12px 20px;flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:14px">
+          <sc-for list="{{ workManageGroups }}" as="g" hint-placeholder-count="1">
+            <div style="background:rgba(50,38,90,.03);border:1px solid #e1dbf0;border-radius:12px;padding:10px 12px">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+                <span style="flex:1;min-width:0;font-size:13px;font-weight:800;color:#251d49;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ g.group }}</span>
+                <button onClick="{{ g.onRenameGroup }}" style="flex-shrink:0;font-family:inherit;font-size:11.5px;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:4px 9px;border-radius:7px;cursor:pointer">改系列名</button>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:7px">
+                <sc-for list="{{ g.works }}" as="w" hint-placeholder-count="1">
+                  <div style="display:flex;gap:8px;align-items:center;background:#fff;border:1px solid #e8e2f2;border-radius:10px;padding:7px 9px">
+                    <div onClick="{{ w.onLogo }}" title="点击上传作品 logo" style="{{ w.logoStyle }}"><sc-if value="{{ w.hasLogo }}" hint-placeholder-val="{{ false }}"><span style="display:none"></span></sc-if><sc-if value="{{ w.noLogoText }}" hint-placeholder-val="{{ true }}">logo</sc-if></div>
+                    <span style="flex:1;min-width:0;font-size:14px;color:#251d49;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ w.name }}</span>
+                    <button onClick="{{ w.onPick }}" style="{{ w.useStyle }}">{{ w.useText }}</button>
+                    <button onClick="{{ w.onRename }}" style="flex-shrink:0;font-family:inherit;font-size:12px;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:5px 9px;border-radius:7px;cursor:pointer">改名</button>
+                    <button onClick="{{ w.onDel }}" style="flex-shrink:0;width:26px;height:26px;border-radius:7px;border:none;background:rgba(226,59,93,.1);color:#e23b5d;cursor:pointer;font-size:15px;line-height:1">×</button>
+                  </div>
+                </sc-for>
+                <button onClick="{{ g.onAddWork }}" style="align-self:flex-start;font-family:inherit;font-size:12px;color:#544f7e;background:none;border:1px dashed #ded7ee;padding:6px 12px;border-radius:8px;cursor:pointer">＋ 新增作品</button>
+              </div>
+            </div>
+          </sc-for>
+          <button onClick="{{ addGroupAlone }}" style="align-self:flex-start;font-family:inherit;font-size:13px;color:#544f7e;background:none;border:1px dashed #ded7ee;padding:8px 14px;border-radius:9px;cursor:pointer">＋ 新增系列</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ manageOpen }}" hint-placeholder-val="false">
+    <div style="position:fixed;inset:0;z-index:340;background:rgba(70,58,110,.4);backdrop-filter:blur(6px);display:flex;align-items:flex-start;justify-content:center;padding:40px 14px;overflow-y:auto;animation:fadein .16s ease">
+      <div class="ui-modal-card" onClick="{{ stop }}" style="width:100%;max-width:340px;background:linear-gradient(160deg,#ffffff,#f4f1fb);border:1px solid #d6cfe9;border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.45);animation:modalpop .2s cubic-bezier(.2,.8,.3,1);overflow:hidden;display:flex;flex-direction:column;max-height:88vh">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #e1dbf0;flex-shrink:0">
+          <div style="display:flex;align-items:center;gap:8px;min-width:0"><div style="min-width:0"><div style="font-weight:800;font-size:16px;color:#251d49">{{ manageTitle }}</div><div style="font-size:11.5px;color:#938db0;margin-top:2px">改动会在新增页、筛选、统计里一起同步</div></div><sc-if value="{{ manageCanRenameLabel }}" hint-placeholder-val="{{ false }}"><button onClick="{{ onManageRenameLabel }}" style="flex-shrink:0;font-family:inherit;font-size:11.5px;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:4px 9px;border-radius:8px;cursor:pointer">改名称</button></sc-if></div>
+          <button onClick="{{ closeManage }}" style="width:30px;height:30px;border-radius:9px;border:1px solid #ded7ee;background:rgba(50,38,90,.045);color:#595287;font-size:18px;cursor:pointer;line-height:1">×</button>
+        </div>
+        <div style="padding:12px 20px;flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:8px">
+          <sc-if value="{{ manageCanToggle }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;gap:8px;padding:8px 10px;background:rgba(50,38,90,.035);border:1px solid #ece7f6;border-radius:11px;align-items:center">
+            <span style="flex:1;min-width:0;font-size:12px;color:#8b84ad">是否在首页显示</span>
+            <button onClick="{{ onManageToggleFilter }}" style="{{ manageFilterStyle }}">{{ manageFilterText }}</button>
+            <button onClick="{{ onManageToggleGroup }}" style="{{ manageGroupStyle }}">{{ manageGroupText }}</button>
+          </div>
+          </sc-if>
+          <sc-for list="{{ manageRows }}" as="r" hint-placeholder-count="4">
+            <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:#fff;border:1px solid #e8e2f2;border-radius:11px">
+              <div style="display:flex;flex-direction:column;gap:2px;flex-shrink:0">
+                <button onClick="{{ r.onUp }}" style="width:24px;height:16px;border:none;background:rgba(50,38,90,.06);border-radius:5px;cursor:pointer;color:#6f6996;font-size:9px;line-height:1;padding:0">▲</button>
+                <button onClick="{{ r.onDown }}" style="width:24px;height:16px;border:none;background:rgba(50,38,90,.06);border-radius:5px;cursor:pointer;color:#6f6996;font-size:9px;line-height:1;padding:0">▼</button>
+              </div>
+              <sc-if value="{{ r.isChar }}" hint-placeholder-val="{{ false }}"><div onClick="{{ r.onAvatar }}" title="点击上传角色头像" style="{{ r.avatarStyle }}"><sc-if value="{{ r.hasAvatar }}" hint-placeholder-val="{{ false }}"><span style="display:none"></span></sc-if><sc-if value="{{ r.noAvatarText }}" hint-placeholder-val="{{ true }}">头像</sc-if></div></sc-if>
+              <span style="flex:1;min-width:0;font-size:14px;color:#251d49;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</span>
+              <button onClick="{{ r.onRename }}" style="flex-shrink:0;font-family:inherit;font-size:12px;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:5px 10px;border-radius:8px;cursor:pointer">改名</button>
+              <button onClick="{{ r.onDel }}" style="flex-shrink:0;font-family:inherit;font-size:12px;color:#e23b5d;background:rgba(226,59,93,.08);border:1px solid rgba(226,59,93,.22);padding:5px 10px;border-radius:8px;cursor:pointer">删除</button>
+            </div>
+          </sc-for>
+        </div>
+        <div style="padding:12px 20px;border-top:1px solid #e1dbf0;background:linear-gradient(0deg,#f4f1fb,#fbfaff);display:flex;gap:8px;flex-shrink:0">
+          <button onClick="{{ onManageAdd }}" style="flex:1;font-family:inherit;font-size:14px;font-weight:700;color:#fff;background:var(--accent,#ff3355);border:none;padding:10px;border-radius:11px;cursor:pointer">{{ manageAddText }}</button>
+          <button onClick="{{ closeManage }}" style="font-family:inherit;font-size:14px;color:#595287;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:10px 18px;border-radius:11px;cursor:pointer">完成</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
   <!-- ===== MODAL ===== -->
   <sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
     <div style="position:fixed;inset:0;z-index:300;background:rgba(70,58,110,.32);backdrop-filter:blur(6px);display:flex;align-items:flex-start;justify-content:center;padding:28px 14px;overflow-y:auto;animation:fadein .18s ease">
@@ -1039,8 +1110,6 @@
         </div>
         <div style="padding:20px 22px;flex:1;min-height:0;overflow-y:auto">
           <div class="ui-form-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-
-            <!-- image upload -->
             <div style="grid-column:1/-1;display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap">
               <div class="ui-draft-image-panel">
                 <div class="ui-draft-image-mosaic">
@@ -1059,39 +1128,34 @@
                 </div>
               </div>
             </div>
-
-            <div style="grid-column:1/-1">
+            <div style="grid-column:1/-1;position:relative">
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>作品</span><span style="display:flex;align-items:center;gap:8px;flex-shrink:0"><span style="font-size:11px;color:#938db0">系列会自动带出</span><button onClick="{{ openWorkManage }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer" title="管理作品（新增/改名/删除/logo）">⚙ 管理</button></span></div>
+              <button onClick="{{ toggleDraftWorkMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span style="display:flex;align-items:center;gap:8px;min-width:0"><span style="font-size:11px;color:#837da4;background:rgba(50,38,90,.06);padding:2px 8px;border-radius:999px;white-space:nowrap;flex-shrink:0">{{ draftWorkGroupName }}</span><span style="font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ draftWorkName }}</span></span><span style="color:#938db0;font-size:11px">▾</span></button>
+              <sc-if value="{{ draftWorkMenuOpen }}" hint-placeholder-val="{{ false }}">
+                <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:9;background:#ffffff;border:1px solid #ded7ee;border-radius:11px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:240px;overflow-y:auto">
+                  <sc-for list="{{ draftWorkMenuGroups }}" as="g" hint-placeholder-count="2">
+                    <div style="font-size:11px;color:#938db0;font-weight:700;padding:8px 9px 3px">{{ g.group }}</div>
+                    <sc-for list="{{ g.works }}" as="w" hint-placeholder-count="2">
+                      <button onClick="{{ w.onPick }}" style="width:100%;display:flex;align-items:center;gap:8px;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:8px 9px;border-radius:8px"><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ w.name }}</span><sc-if value="{{ w.active }}" hint-placeholder-val="{{ false }}"><span style="color:var(--accent,#ff3355);font-size:12px;flex-shrink:0">✓ 当前</span></sc-if></button>
+                    </sc-for>
+                  </sc-for>
+                </div>
+              </sc-if>
+            </div>
+            <div>
               <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px"><div style="font-size:12px;color:#4a4570;font-weight:500">名称</div><button onClick="{{ fillName }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#fff;background:var(--accent,#ff3355);border:none;padding:3px 10px;border-radius:7px;cursor:pointer;flex-shrink:0">自动生成</button></div>
               <input name="name" value="{{ draft.name }}" onChange="{{ onDraftChange }}" placeholder="例：诺克斯 趴趴毛绒挂件" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
-
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>{{ lblStatus }}</span><button onClick="{{ addStatusOpt }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 9px;border-radius:7px;cursor:pointer">添加</button></div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>{{ lblStatus }}</span><span style="display:flex;gap:6px;flex-shrink:0"><button onClick="{{ mgrStatus }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer" title="管理 新增/改名/删除/排序">⚙ 管理</button></span></div>
               <div style="position:relative">
                 <button onClick="{{ toggleStatusMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ statusDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
                 <sc-if value="{{ statusMenuOpen }}" hint-placeholder-val="{{ false }}">
-                  <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:7;background:#ffffff;border:1px solid #ded7ee;border-radius:11px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:220px;overflow-y:auto">
+                  <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:7;background:#ffffff;border:1px solid #ded7ee;border-radius:11px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:240px;overflow-y:auto">
                     <sc-for list="{{ statusMenuItems }}" as="ch" hint-placeholder-count="6">
                       <div style="{{ ch.rowStyle }}">
                         <button onClick="{{ ch.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ch.name }}</button>
-                        <button onClick="{{ ch.onDel }}" style="flex-shrink:0;width:22px;height:22px;border-radius:6px;border:none;background:rgba(226,59,93,.1);color:#e23b5d;cursor:pointer;font-size:14px;line-height:1">×</button>
-                      </div>
-                    </sc-for>
-                  </div>
-                </sc-if>
-              </div>
-            </div>
-
-            <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>{{ lblForm }}</span><button onClick="{{ addFormOpt }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 9px;border-radius:7px;cursor:pointer">添加</button></div>
-              <div style="position:relative">
-                <button onClick="{{ toggleFormMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ formDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
-                <sc-if value="{{ formMenuOpen }}" hint-placeholder-val="{{ false }}">
-                  <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:7;background:#ffffff;border:1px solid #ded7ee;border-radius:11px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:220px;overflow-y:auto">
-                    <sc-for list="{{ formMenuItems }}" as="ch" hint-placeholder-count="3">
-                      <div style="{{ ch.rowStyle }}">
-                        <button onClick="{{ ch.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ch.name }}</button>
-                        <button onClick="{{ ch.onDel }}" style="flex-shrink:0;width:22px;height:22px;border-radius:6px;border:none;background:rgba(226,59,93,.1);color:#e23b5d;cursor:pointer;font-size:14px;line-height:1">×</button>
+                        
                       </div>
                     </sc-for>
                   </div>
@@ -1099,17 +1163,17 @@
               </div>
             </div>
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>角色</span><button onClick="{{ addCharacter }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer">添加</button></div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>{{ lblCharacter }}</span><span style="display:flex;gap:6px;flex-shrink:0"><button onClick="{{ mgrCharacter }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer" title="管理 新增/改名/删除/排序">⚙ 管理</button></span></div>
               <select name="character" value="{{ draft.character }}" onChange="{{ onDraftChange }}" style="display:none"></select>
               <div style="position:relative">
                 <button onClick="{{ toggleCharMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ charDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
                 <sc-if value="{{ charMenuOpen }}" hint-placeholder-val="{{ false }}">
-                  <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:6;background:#ffffff;border:1px solid #ded7ee;border-radius:11px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:260px;overflow-y:auto">
+                  <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:6;background:#ffffff;border:1px solid #ded7ee;border-radius:11px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:240px;overflow-y:auto">
                     <sc-for list="{{ charMenuItems }}" as="ch" hint-placeholder-count="6">
                       <div style="{{ ch.rowStyle }}">
                         <button onClick="{{ ch.onPick }}" style="flex:1;min-width:0;display:flex;align-items:center;gap:8px;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><sc-if value="{{ ch.hasImg }}" hint-placeholder-val="{{ false }}"><div style="{{ ch.imgStyle }}"></div></sc-if>{{ ch.name }}</button>
                         <button onClick="{{ ch.onAvatar }}" style="flex-shrink:0;background:none;border:none;cursor:pointer;font-family:inherit;font-size:12px;color:#938db0;padding:2px 6px">图</button>
-                        <button onClick="{{ ch.onDel }}" style="flex-shrink:0;width:22px;height:22px;border-radius:6px;border:none;background:rgba(226,59,93,.1);color:#e23b5d;cursor:pointer;font-size:14px;line-height:1">×</button>
+                        
                       </div>
                     </sc-for>
                   </div>
@@ -1117,7 +1181,7 @@
               </div>
             </div>
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>种类</span><button onClick="{{ addType }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer">添加</button></div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>{{ lblType }}</span><span style="display:flex;gap:6px;flex-shrink:0"><button onClick="{{ mgrType }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer" title="管理 新增/改名/删除/排序">⚙ 管理</button></span></div>
               <div style="position:relative">
                 <button onClick="{{ toggleTypeMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ typeDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
                 <sc-if value="{{ typeMenuOpen }}" hint-placeholder-val="{{ false }}">
@@ -1125,7 +1189,7 @@
                     <sc-for list="{{ typeMenuItems }}" as="ch" hint-placeholder-count="6">
                       <div style="{{ ch.rowStyle }}">
                         <button onClick="{{ ch.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ch.name }}</button>
-                        <button onClick="{{ ch.onDel }}" style="flex-shrink:0;width:22px;height:22px;border-radius:6px;border:none;background:rgba(226,59,93,.1);color:#e23b5d;cursor:pointer;font-size:14px;line-height:1">×</button>
+                        
                       </div>
                     </sc-for>
                     <button onClick="{{ addType }}" style="display:none"></button>
@@ -1133,137 +1197,48 @@
                 </sc-if>
               </div>
             </div>
-
-            <div style="grid-column:1/-1">
-              <button onClick="{{ toggleColInfo }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 12px;border-radius:9px;border:1px dashed #d4cee7;background:rgba(50,38,90,.03);color:#544f7e;font-family:inherit;font-size:13px;cursor:pointer">
-                <span>🏷 收藏信息 · 形态 / 厂商 / 细分 / 来源 / 平台 / 系列收藏（可选）</span><span style="color:#938db0;font-size:11px">{{ colInfoCaret }}</span>
-              </button>
-            </div>
-            <sc-if value="{{ colInfoShow }}" hint-placeholder-val="{{ false }}">
-            <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>厂商</span><button onClick="{{ addSeries }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer">添加</button></div>
-              <div style="position:relative">
-                <button onClick="{{ toggleSeriesMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ seriesDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
-                <sc-if value="{{ seriesMenuOpen }}" hint-placeholder-val="{{ false }}">
-                  <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:6;background:#ffffff;border:1px solid #ded7ee;border-radius:11px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:240px;overflow-y:auto">
-                    <button onClick="{{ clearSeries }}" style="width:100%;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#938db0;padding:7px 9px;border-radius:8px">（未分类）</button>
-                    <sc-for list="{{ seriesMenuItems }}" as="ch" hint-placeholder-count="3">
-                      <div style="{{ ch.rowStyle }}">
-                        <button onClick="{{ ch.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ch.name }}</button>
-                        <button onClick="{{ ch.onDel }}" style="flex-shrink:0;width:22px;height:22px;border-radius:6px;border:none;background:rgba(226,59,93,.1);color:#e23b5d;cursor:pointer;font-size:14px;line-height:1">×</button>
-                      </div>
-                    </sc-for>
-                    <button onClick="{{ addSeries }}" style="display:none"></button>
-                  </div>
-                </sc-if>
-              </div>
-            </div>
-            <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">细分 / 款式</div>
-              <input name="subtype" value="{{ draft.subtype }}" onChange="{{ onDraftChange }}" placeholder="例：趴趴 / Chibi / 娃娃机" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
-            </div>
-
-            <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>{{ lblAcquire }}</span><button onClick="{{ addAcquireOpt }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 9px;border-radius:7px;cursor:pointer">添加</button></div>
-              <div style="position:relative">
-                <button onClick="{{ toggleAcquireMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ acquireDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
-                <sc-if value="{{ acquireMenuOpen }}" hint-placeholder-val="{{ false }}">
-                  <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:7;background:#ffffff;border:1px solid #ded7ee;border-radius:11px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:220px;overflow-y:auto">
-                    <sc-for list="{{ acquireMenuItems }}" as="ch" hint-placeholder-count="3">
-                      <div style="{{ ch.rowStyle }}">
-                        <button onClick="{{ ch.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ch.name }}</button>
-                        <button onClick="{{ ch.onDel }}" style="flex-shrink:0;width:22px;height:22px;border-radius:6px;border:none;background:rgba(226,59,93,.1);color:#e23b5d;cursor:pointer;font-size:14px;line-height:1">×</button>
-                      </div>
-                    </sc-for>
-                  </div>
-                </sc-if>
-              </div>
-            </div>
-
-            <div style="position:relative">
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>购买平台 / 店铺</span><button onClick="{{ addChannel }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer">添加</button></div>
-              <button onClick="{{ toggleChannelMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ channelDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
-              <sc-if value="{{ channelMenuOpen }}" hint-placeholder-val="{{ false }}">
-                <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:5;background:#ffffff;border:1px solid #ded7ee;border-radius:11px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:240px;overflow-y:auto">
-                  <button onClick="{{ clearChannel }}" style="width:100%;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#938db0;padding:7px 9px;border-radius:8px">（未分类）</button>
-                  <sc-if value="{{ hasChannelMenuItems }}" hint-placeholder-val="{{ false }}">
-                    <sc-for list="{{ channelMenuItems }}" as="ch" hint-placeholder-count="4">
-                      <div style="{{ ch.rowStyle }}">
-                        <button onClick="{{ ch.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ch.name }}</button>
-                        <button onClick="{{ ch.onDel }}" style="flex-shrink:0;width:22px;height:22px;border-radius:6px;border:none;background:rgba(226,59,93,.1);color:#e23b5d;cursor:pointer;font-size:14px;line-height:1">×</button>
-                      </div>
-                    </sc-for>
-                  </sc-if>
-                  <button onClick="{{ addChannel }}" style="display:none"></button>
-                </div>
-              </sc-if>
-            </div>
-            </sc-if>
+            <sc-if value="{{ draftNotSelling }}" hint-placeholder-val="{{ true }}">
             <div>
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">买入价（人民币 · 单价）</div>
               <input name="buyPrice" type="number" min="0" value="{{ draft.buyPrice }}" onChange="{{ onDraftChange }}" placeholder="你花了多少" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
+            </sc-if>
+            <sc-if value="{{ draftIsSelling }}" hint-placeholder-val="{{ false }}">
             <div>
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">卖出价（人民币 · 单价）</div>
               <input name="sellPrice" type="number" min="0" value="{{ draft.sellPrice }}" onChange="{{ onDraftChange }}" placeholder="出物 / 已卖填写" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
-
-            <sc-if value="{{ draftIsGacha }}" hint-placeholder-val="{{ false }}">
+            </sc-if>
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">置换状态</div>
-              <div style="position:relative">
-                <button onClick="{{ toggleSwapMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ swappedDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
-                <sc-if value="{{ swapMenuOpen }}" hint-placeholder-val="{{ false }}">
-                  <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:7;background:#ffffff;border:1px solid #ded7ee;border-radius:11px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:200px;overflow-y:auto">
-                    <sc-for list="{{ swapMenuItems }}" as="ch" hint-placeholder-count="2">
-                      <div style="{{ ch.rowStyle }}">
-                        <button onClick="{{ ch.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ch.name }}</button>
-                      </div>
-                    </sc-for>
-                  </div>
-                </sc-if>
-              </div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">数量</div>
+              <input name="qty" type="number" min="1" value="{{ draft.qty }}" onChange="{{ onDraftChange }}" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
-            </sc-if>
-            <sc-if value="{{ draftSwapped }}" hint-placeholder-val="{{ false }}">
-            <div style="grid-column:1/-1">
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">置换为（盲抽换成的谷子）</div>
-              <input name="swapTo" value="{{ draft.swapTo }}" onChange="{{ onDraftChange }}" placeholder="例：换成 诺克斯 趴趴毛绒" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
-              <div style="font-size:12px;color:#4a4570;margin:12px 0 6px;font-weight:500">置换后人物</div>
-              <div style="position:relative">
-                <button onClick="{{ toggleSwapCharMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span style="display:flex;align-items:center;gap:8px;min-width:0"><sc-if value="{{ swapCharHasAvatar }}" hint-placeholder-val="{{ false }}"><div style="{{ swapCharAvatarStyle }}"></div></sc-if>{{ swapCharDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
-                <sc-if value="{{ swapCharMenuOpen }}" hint-placeholder-val="{{ false }}">
-                  <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:6;background:#ffffff;border:1px solid #ded7ee;border-radius:11px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:260px;overflow-y:auto">
-                    <button onClick="{{ clearSwapCharacter }}" style="width:100%;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#938db0;padding:7px 9px;border-radius:8px">（同原抽人物）</button>
-                    <sc-for list="{{ swapCharMenuItems }}" as="ch" hint-placeholder-count="6">
-                      <div style="{{ ch.rowStyle }}">
-                        <button onClick="{{ ch.onPick }}" style="flex:1;min-width:0;display:flex;align-items:center;gap:8px;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><sc-if value="{{ ch.hasImg }}" hint-placeholder-val="{{ false }}"><div style="{{ ch.imgStyle }}"></div></sc-if>{{ ch.name }}</button>
-                      </div>
-                    </sc-for>
-                  </div>
-                </sc-if>
-              </div>
-              <div style="display:flex;gap:12px;align-items:center;margin-top:12px">
-                <div style="position:relative;width:82px;height:82px;border-radius:13px;flex-shrink:0;background:linear-gradient(145deg,#eae5f4,#e1dcf0);border:1px solid #ded7ee;display:flex;align-items:center;justify-content:center;overflow:hidden;color:#9089ad;font-size:12px">
-                  <div style="{{ draftSwapThumbBg }}"></div>
-                  <sc-if value="{{ draftSwapNoImg }}" hint-placeholder-val="{{ true }}"><span style="position:relative">置换图</span></sc-if>
-                </div>
-                <div style="display:flex;flex-direction:column;gap:7px">
-                  <label style="font-family:inherit;font-size:13px;font-weight:600;color:#fff;background:#d9701f;border:none;padding:8px 14px;border-radius:9px;cursor:pointer;display:inline-block">上传置换后的图<input type="file" accept="image/*" onChange="{{ onImagePickSwap }}" style="display:none"></label>
-                  <sc-if value="{{ draftSwapHasImg }}" hint-placeholder-val="{{ false }}"><button onClick="{{ removeDraftSwapImg }}" style="font-family:inherit;font-size:12px;color:#e23b5d;background:none;border:none;cursor:pointer;text-align:left;padding:0">移除</button></sc-if>
-                  <div style="font-size:11px;color:#938db0">上传后，图鉴封面会显示置换后的图</div>
-                </div>
-              </div>
+            <div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">备注</div>
+              <textarea name="note" value="{{ draft.note }}" onChange="{{ onDraftChange }}" rows="2" placeholder="特典 / 瑕疵 / 让渡信息 等" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none;resize:vertical"></textarea>
             </div>
-            </sc-if>
-
+            <div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;gap:6px"><span>{{ reminderDateLabel }}</span><span style="font-size:10.5px;color:#a49ec4;font-weight:400">· 到期自动提醒</span></div>
+              <input name="reminderDate" type="date" value="{{ draft.reminderDate }}" onChange="{{ onDraftChange }}" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+            </div>
             <div style="grid-column:1/-1">
               <button onClick="{{ toggleFee }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 12px;border-radius:9px;border:1px dashed #d4cee7;background:rgba(50,38,90,.03);color:#544f7e;font-family:inherit;font-size:13px;cursor:pointer">
                 <span>💴 更多费用（运费 / 其他 · 可选）</span><span style="color:#938db0;font-size:11px">{{ feeCaret }}</span>
               </button>
             </div>
-
             <sc-if value="{{ feeShow }}" hint-placeholder-val="{{ false }}">
+            <sc-if value="{{ draftIsSelling }}" hint-placeholder-val="{{ false }}">
+            <div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">买入价（人民币 · 单价）</div>
+              <input name="buyPrice" type="number" min="0" value="{{ draft.buyPrice }}" onChange="{{ onDraftChange }}" placeholder="你花了多少" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+            </div>
+            </sc-if>
+            <sc-if value="{{ draftNotSelling }}" hint-placeholder-val="{{ true }}">
+            <div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">卖出价（人民币 · 单价）</div>
+              <input name="sellPrice" type="number" min="0" value="{{ draft.sellPrice }}" onChange="{{ onDraftChange }}" placeholder="出物 / 已卖填写" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+            </div>
+            </sc-if>
             <div>
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">国内邮费</div>
               <input name="shipDom" type="number" min="0" value="{{ draft.shipDom }}" onChange="{{ onDraftChange }}" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
@@ -1288,30 +1263,22 @@
               </sc-if>
             </div>
             </sc-if>
-
-            <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">数量</div>
-              <input name="qty" type="number" min="1" value="{{ draft.qty }}" onChange="{{ onDraftChange }}" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+            <div style="grid-column:1/-1">
+              <button onClick="{{ toggleColInfo }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 12px;border-radius:9px;border:1px dashed #d4cee7;background:rgba(50,38,90,.03);color:#544f7e;font-family:inherit;font-size:13px;cursor:pointer">
+                <span>🏷 收藏信息 · 形态 / 厂商 / 细分 / 来源 / 平台 / 系列收藏 / 标签（可选）</span><span style="color:#938db0;font-size:11px">{{ colInfoCaret }}</span>
+              </button>
             </div>
+            <sc-if value="{{ colInfoShow }}" hint-placeholder-val="{{ false }}">
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">下单日 / 购买日期</div>
-              <input name="buyDate" type="date" value="{{ draft.buyDate }}" onChange="{{ onDraftChange }}" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
-            </div>
-
-            <div style="grid-column:1/-1;border-top:1px solid #ece7f6;margin-top:4px;padding-top:12px"></div>
-
-            <sc-if value="{{ showReminderFields }}" hint-placeholder-val="{{ false }}">
-            <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>提醒事件</span><button onClick="{{ addReminderType }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer">添加</button></div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>{{ lblForm }}</span><span style="display:flex;gap:6px;flex-shrink:0"><button onClick="{{ mgrForm }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer" title="管理 新增/改名/删除/排序">⚙ 管理</button></span></div>
               <div style="position:relative">
-                <button onClick="{{ toggleReminderMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ reminderDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
-                <sc-if value="{{ reminderMenuOpen }}" hint-placeholder-val="{{ false }}">
-                  <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:7;background:#ffffff;border:1px solid #ded7ee;border-radius:11px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:220px;overflow-y:auto">
-                    <button onClick="{{ clearReminderType }}" style="width:100%;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#938db0;padding:7px 9px;border-radius:8px">不提醒</button>
-                    <sc-for list="{{ reminderMenuItems }}" as="ch" hint-placeholder-count="5">
+                <button onClick="{{ toggleFormMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ formDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
+                <sc-if value="{{ formMenuOpen }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:7;background:#ffffff;border:1px solid #ded7ee;border-radius:11px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:240px;overflow-y:auto">
+                    <sc-for list="{{ formMenuItems }}" as="ch" hint-placeholder-count="3">
                       <div style="{{ ch.rowStyle }}">
                         <button onClick="{{ ch.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ch.name }}</button>
-                        <button onClick="{{ ch.onDel }}" style="flex-shrink:0;width:22px;height:22px;border-radius:6px;border:none;background:rgba(226,59,93,.1);color:#e23b5d;cursor:pointer;font-size:14px;line-height:1">×</button>
+                        
                       </div>
                     </sc-for>
                   </div>
@@ -1319,14 +1286,77 @@
               </div>
             </div>
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">{{ reminderDateLabel }}</div>
-              <input name="reminderDate" type="date" value="{{ draft.reminderDate }}" onChange="{{ onDraftChange }}" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
-              
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>{{ lblSeries }}</span><span style="display:flex;gap:6px;flex-shrink:0"><button onClick="{{ mgrSeries }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer" title="管理 新增/改名/删除/排序">⚙ 管理</button></span></div>
+              <div style="position:relative">
+                <button onClick="{{ toggleSeriesMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ seriesDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
+                <sc-if value="{{ seriesMenuOpen }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:6;background:#ffffff;border:1px solid #ded7ee;border-radius:11px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:240px;overflow-y:auto">
+                    <button onClick="{{ clearSeries }}" style="width:100%;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#938db0;padding:7px 9px;border-radius:8px">（未分类）</button>
+                    <sc-for list="{{ seriesMenuItems }}" as="ch" hint-placeholder-count="3">
+                      <div style="{{ ch.rowStyle }}">
+                        <button onClick="{{ ch.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ch.name }}</button>
+                        
+                      </div>
+                    </sc-for>
+                    <button onClick="{{ addSeries }}" style="display:none"></button>
+                  </div>
+                </sc-if>
+              </div>
             </div>
-            </sc-if>
-
-            <sc-if value="{{ colInfoShow }}" hint-placeholder-val="{{ false }}">
-            <div style="grid-column:1/-1">
+            <div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">细分 / 款式</div>
+              <input name="subtype" value="{{ draft.subtype }}" onChange="{{ onDraftChange }}" placeholder="例：趴趴 / Chibi / 娃娃机" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+            </div>
+            <div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>{{ lblAcquire }}</span><span style="display:flex;gap:6px;flex-shrink:0"><button onClick="{{ mgrAcquire }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer" title="管理 新增/改名/删除/排序">⚙ 管理</button></span></div>
+              <div style="position:relative">
+                <button onClick="{{ toggleAcquireMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ acquireDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
+                <sc-if value="{{ acquireMenuOpen }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:7;background:#ffffff;border:1px solid #ded7ee;border-radius:11px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:240px;overflow-y:auto">
+                    <sc-for list="{{ acquireMenuItems }}" as="ch" hint-placeholder-count="3">
+                      <div style="{{ ch.rowStyle }}">
+                        <button onClick="{{ ch.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ch.name }}</button>
+                        
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
+            </div>
+            <div style="position:relative">
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>购买方式</span><span style="display:flex;gap:6px;flex-shrink:0"><button onClick="{{ mgrMethod }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer" title="管理 新增/改名/删除/排序">⚙ 管理</button></span></div>
+              <button onClick="{{ toggleMethodMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ methodDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
+              <sc-if value="{{ methodMenuOpen }}" hint-placeholder-val="{{ false }}">
+                <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:6;background:#ffffff;border:1px solid #ded7ee;border-radius:11px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:240px;overflow-y:auto">
+                  <button onClick="{{ clearMethod }}" style="width:100%;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#938db0;padding:7px 9px;border-radius:8px">（不填）</button>
+                  <sc-for list="{{ methodMenuItems }}" as="ch" hint-placeholder-count="4">
+                    <div style="{{ ch.rowStyle }}">
+                      <button onClick="{{ ch.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ch.name }}</button>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+            </div>
+            <div style="position:relative">
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>{{ lblChannel }}</span><span style="display:flex;gap:6px;flex-shrink:0"><button onClick="{{ mgrChannel }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer" title="管理 新增/改名/删除/排序">⚙ 管理</button></span></div>
+              <button onClick="{{ toggleChannelMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ channelDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
+              <sc-if value="{{ channelMenuOpen }}" hint-placeholder-val="{{ false }}">
+                <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:5;background:#ffffff;border:1px solid #ded7ee;border-radius:11px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:240px;overflow-y:auto">
+                  <button onClick="{{ clearChannel }}" style="width:100%;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#938db0;padding:7px 9px;border-radius:8px">（未分类）</button>
+                  <sc-if value="{{ hasChannelMenuItems }}" hint-placeholder-val="{{ false }}">
+                    <sc-for list="{{ channelMenuItems }}" as="ch" hint-placeholder-count="4">
+                      <div style="{{ ch.rowStyle }}">
+                        <button onClick="{{ ch.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ch.name }}</button>
+                        
+                      </div>
+                    </sc-for>
+                  </sc-if>
+                  <button onClick="{{ addChannel }}" style="display:none"></button>
+                </div>
+              </sc-if>
+            </div>
+            <div style="grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start">
+            <div style="min-width:0">
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">🧩 系列收藏 / 套装</div>
               <div style="position:relative">
                 <button onClick="{{ toggleSetMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ setDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
@@ -1342,14 +1372,13 @@
               </div>
             </div>
             <sc-if value="{{ hasSet }}" hint-placeholder-val="{{ false }}">
-            <div style="grid-column:1/-1">
+            <div style="min-width:0">
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">款式编号</div>
               <input name="setVariant" value="{{ draft.setVariant }}" onChange="{{ onDraftChange }}" placeholder="例：03 / A款 / 诺克斯款" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
               <sc-if value="{{ hasCollectedCodes }}" hint-placeholder-val="{{ false }}"><div style="font-size:11px;color:#938db0;margin-top:6px">已收：{{ collectedCodesText }}</div></sc-if>
             </div>
             </sc-if>
-            </sc-if>
-
+            </div>
             <sc-if value="{{ hasCustomFields }}" hint-placeholder-val="{{ false }}">
               <sc-for list="{{ draftCustomInputs }}" as="cf" hint-placeholder-count="0">
                 <div>
@@ -1358,33 +1387,79 @@
                 </div>
               </sc-for>
             </sc-if>
-
-            <div style="grid-column:1/-1">
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">备注</div>
-              <textarea name="note" value="{{ draft.note }}" onChange="{{ onDraftChange }}" rows="2" placeholder="特典 / 瑕疵 / 让渡信息 等" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none;resize:vertical"></textarea>
+            <sc-if value="{{ draftIsGacha }}" hint-placeholder-val="{{ false }}">
+            <div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">盲抽获得方式</div>
+              <div style="position:relative">
+                <button onClick="{{ toggleSwapMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ swappedDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
+                <sc-if value="{{ swapMenuOpen }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:7;background:#ffffff;border:1px solid #ded7ee;border-radius:11px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:240px;overflow-y:auto">
+                    <sc-for list="{{ swapMenuItems }}" as="ch" hint-placeholder-count="2">
+                      <div style="{{ ch.rowStyle }}">
+                        <button onClick="{{ ch.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ch.name }}</button>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
             </div>
-            <sc-if value="{{ isAdvanced }}" hint-placeholder-val="{{ false }}">
+            </sc-if>
+            <sc-if value="{{ draftSwapped }}" hint-placeholder-val="{{ false }}">
             <div style="grid-column:1/-1">
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>交易标签</span><span style="display:flex;gap:6px"><sc-if value="{{ tagEditMode }}" hint-placeholder-val="{{ false }}"><button onClick="{{ addTradeTag }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer">添加</button></sc-if><button onClick="{{ toggleTagEdit }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer">{{ tagEditText }}</button></span></div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start">
+              <div style="min-width:0">
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">置换后谷子</div>
+              <input name="swapTo" value="{{ draft.swapTo }}" onChange="{{ onDraftChange }}" placeholder="例：换成 诺克斯 趴趴毛绒" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              </div>
+              <div style="min-width:0">
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">置换后人物</div>
+              <div style="position:relative">
+                <button onClick="{{ toggleSwapCharMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span style="display:flex;align-items:center;gap:8px;min-width:0"><sc-if value="{{ swapCharHasAvatar }}" hint-placeholder-val="{{ false }}"><div style="{{ swapCharAvatarStyle }}"></div></sc-if>{{ swapCharDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
+                <sc-if value="{{ swapCharMenuOpen }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:6;background:#ffffff;border:1px solid #ded7ee;border-radius:11px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:240px;overflow-y:auto">
+                    <button onClick="{{ clearSwapCharacter }}" style="width:100%;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#938db0;padding:7px 9px;border-radius:8px">（同原抽人物）</button>
+                    <sc-for list="{{ swapCharMenuItems }}" as="ch" hint-placeholder-count="6">
+                      <div style="{{ ch.rowStyle }}">
+                        <button onClick="{{ ch.onPick }}" style="flex:1;min-width:0;display:flex;align-items:center;gap:8px;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><sc-if value="{{ ch.hasImg }}" hint-placeholder-val="{{ false }}"><div style="{{ ch.imgStyle }}"></div></sc-if>{{ ch.name }}</button>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
+              </div>
+              </div>
+              <div style="display:flex;gap:12px;align-items:center;margin-top:12px">
+                <div style="position:relative;width:82px;height:82px;border-radius:13px;flex-shrink:0;background:linear-gradient(145deg,#eae5f4,#e1dcf0);border:1px solid #ded7ee;display:flex;align-items:center;justify-content:center;overflow:hidden;color:#9089ad;font-size:12px">
+                  <div style="{{ draftSwapThumbBg }}"></div>
+                  <sc-if value="{{ draftSwapNoImg }}" hint-placeholder-val="{{ true }}"><span style="position:relative">置换图</span></sc-if>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:7px">
+                  <label style="font-family:inherit;font-size:13px;font-weight:600;color:#fff;background:#d9701f;border:none;padding:8px 14px;border-radius:9px;cursor:pointer;display:inline-block">上传置换后的图<input type="file" accept="image/*" onChange="{{ onImagePickSwap }}" style="display:none"></label>
+                  <sc-if value="{{ draftSwapHasImg }}" hint-placeholder-val="{{ false }}"><button onClick="{{ removeDraftSwapImg }}" style="font-family:inherit;font-size:12px;color:#e23b5d;background:none;border:none;cursor:pointer;text-align:left;padding:0">移除</button></sc-if>
+                  <div style="font-size:11px;color:#938db0">上传后，图鉴封面会显示置换后的图</div>
+                </div>
+              </div>
+            </div>
+            </sc-if>
+            <div style="grid-column:1/-1">
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>交易标签</span><span style="display:flex;gap:6px"><button onClick="{{ mgrTradeTags }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer" title="管理 新增/改名/删除/排序">⚙ 管理</button></span></div>
               <div style="display:flex;gap:7px;flex-wrap:wrap">
                 <sc-for list="{{ draftTradeTags }}" as="t" hint-placeholder-count="6"><span style="display:inline-flex;align-items:center;gap:4px"><button onClick="{{ t.onClick }}" style="{{ t.style }}">{{ t.label }}</button><sc-if value="{{ tagEditMode }}" hint-placeholder-val="{{ false }}"><button onClick="{{ t.onDel }}" title="删除标签" style="width:17px;height:17px;border-radius:50%;border:none;background:rgba(226,59,93,.12);color:#e23b5d;font-size:11px;line-height:1;cursor:pointer">×</button></sc-if></span></sc-for>
               </div>
             </div>
             <div style="grid-column:1/-1">
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>稀有度 / 心动标签</span><span style="display:flex;gap:6px"><sc-if value="{{ tagEditMode }}" hint-placeholder-val="{{ false }}"><button onClick="{{ addRarityTag }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer">添加</button></sc-if><button onClick="{{ toggleTagEdit }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer">{{ tagEditText }}</button></span></div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>稀有度 / 心动标签</span><span style="display:flex;gap:6px"><button onClick="{{ mgrRarityTags }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer" title="管理 新增/改名/删除/排序">⚙ 管理</button></span></div>
               <div style="display:flex;gap:7px;flex-wrap:wrap">
                 <sc-for list="{{ draftRarityTags }}" as="t" hint-placeholder-count="6"><span style="display:inline-flex;align-items:center;gap:4px"><button onClick="{{ t.onClick }}" style="{{ t.style }}">{{ t.label }}</button><sc-if value="{{ tagEditMode }}" hint-placeholder-val="{{ false }}"><button onClick="{{ t.onDel }}" title="删除标签" style="width:17px;height:17px;border-radius:50%;border:none;background:rgba(226,59,93,.12);color:#e23b5d;font-size:11px;line-height:1;cursor:pointer">×</button></sc-if></span></sc-for>
               </div>
             </div>
             </sc-if>
-
             <div style="grid-column:1/-1;display:flex;justify-content:space-between;gap:14px;background:rgba(50,38,90,.035);border:1px solid #e1dbf0;border-radius:11px;padding:12px 15px">
               <div><div style="font-size:11px;color:#837da4">总成本（自动计算）</div><div style="font-family:'Orbitron';font-weight:700;font-size:18px;margin-top:3px">{{ draftCostText }}</div></div>
               <sc-if value="{{ draftHasSell }}" hint-placeholder-val="{{ false }}">
                 <div style="text-align:right"><div style="font-size:11px;color:#837da4">预计盈亏</div><div style="font-family:'Orbitron';font-weight:700;font-size:18px;margin-top:3px"><span style="{{ draftProfitStyle }}">{{ draftProfitText }}</span></div></div>
               </sc-if>
             </div>
-
             <div style="grid-column:1/-1;background:rgba(50,38,90,.025);border:1px solid #e8e2f2;border-radius:11px;padding:12px 15px">
               <div style="font-size:12px;color:#4a4570;font-weight:700;margin-bottom:8px">收藏历程</div>
               <sc-for list="{{ draftTimelineRows }}" as="tl" hint-placeholder-count="3">
@@ -1485,10 +1560,6 @@
               <div>
                 <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">主题色</div>
                 <input type="color" value="{{ accentVal }}" onChange="{{ onAccent }}" style="width:100%;height:42px;padding:3px;border-radius:9px;border:1px solid #ded7ee;background:#fff;cursor:pointer;box-sizing:border-box">
-              </div>
-              <div style="grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#fff;border:1px solid #e1dbf0;border-radius:12px;padding:12px 14px">
-                <div style="min-width:0"><div style="font-size:13.5px;font-weight:700;color:#251d49">显示高级功能</div><div style="font-size:11.5px;color:#938db0;line-height:1.55;margin-top:3px">开启后新增谷子里才出现：更多费用、收藏信息、系列收藏、交易 / 稀有度标签。已填数据不会丢失。</div></div>
-                <button onClick="{{ toggleAdvanced }}" style="{{ advToggleStyle }}"><span style="{{ advToggleKnob }}"></span></button>
               </div>
             </div>
             <div style="font-size:11.5px;color:#938db0;line-height:1.6;margin-top:10px">标题、副标题、底部文字、Logo 也可以直接在首页点上去改。</div>
@@ -1713,6 +1784,17 @@ class Component extends DCLogic {
   RARITY_TAGS = ['梦情','湖景','海景','普谷','绝版','再贩','受注','在库','头铁产物','赌博产物'];
   REMINDER_TYPES = ['补款','尾款','排发','到货','集运'];
   CHANNELS = ['官谷','同人谷','通贩','场贩','代购','拼团','单买','抱盒','盲抽','二手','煤炉','日拍','骏河屋','闲鱼','淘宝','其他'];
+  SOURCES = ['日谷','国谷','同人'];
+  SOURCE_METHODS = {
+    '日谷': ['通贩','场贩','代购','拼团','抱盒','单买','盲抽','二手'],
+    '国谷': ['通贩','场贩','拼团','单买','抱盒','盲抽','二手'],
+    '同人': ['通贩','场贩','拼团','单买','代购','二手']
+  };
+  SOURCE_PLATFORMS = {
+    '日谷': ['东映','PB官店','A店','AmiAmi','Movic官店','骏河屋','煤炉','日拍','曼达拉','甜瓜','虎穴','乐天','日亚','K书','指南针','其他'],
+    '国谷': ['淘宝','天猫','京东','拼多多','抖音','微信','QQ群','微博','小红书','哔哩哔哩','漫展','线下店','其他'],
+    '同人': ['微博','小红书','QQ群','微信','淘宝','闲鱼','CP展','Comicup','CWT','Booth','Pixiv Factory','其他']
+  };
   MAIN_WORK = 'w_main';
   ALL_WORKS = '__all__';
   DEFAULT_GROUP = '假面骑士系列';
@@ -1746,8 +1828,8 @@ class Component extends DCLogic {
     // 作品 / 系列IP
     let works = null; try { works = JSON.parse(localStorage.getItem('zzz_works') || 'null'); } catch (e) {}
     if (!Array.isArray(works) || !works.length) works = [{ id: 'w_main', group: this.DEFAULT_GROUP, name: '默认作品' }];
-    let currentWorkId = localStorage.getItem('zzz_current_work') || works[0].id;
-    if (currentWorkId !== this.ALL_WORKS && !works.some(w => w.id === currentWorkId)) currentWorkId = works[0].id;
+    let currentWorkId = localStorage.getItem('zzz_current_work') || this.ALL_WORKS;
+    if (currentWorkId !== this.ALL_WORKS && !works.some(w => w.id === currentWorkId)) currentWorkId = this.ALL_WORKS;
     let recentWorks = []; try { recentWorks = JSON.parse(localStorage.getItem('zzz_recent_works') || '[]') || []; } catch (e) {}
     recentWorks = recentWorks.filter(id => works.some(w => w.id === id));
     // 套装表 + 一次性迁移
@@ -1786,11 +1868,12 @@ class Component extends DCLogic {
     if (!['auto', 'full', 'simple'].includes(mobileMode)) mobileMode = 'auto';
     const isPhone = (() => { try { return !!(window.matchMedia && window.matchMedia('(max-width:640px)').matches); } catch(e) { return false; } })();
     const startView = this.props.startView || ((isPhone && mobileMode !== 'full') ? 'circle' : 'gallery');
+    const startGroupBy = currentWorkId === this.ALL_WORKS ? 'work' : 'none';
     const lists = this.loadWorkLists(currentWorkId, items);
     this.charOrder = lists.charOrder;
     let cloudSyncId = '', cloudSyncCode = '';
     try { cloudSyncId = localStorage.getItem('zzz_cloud_id') || ''; cloudSyncCode = localStorage.getItem('zzz_cloud_code') || ''; } catch (e) {}
-    this.setState({ items, works, currentWorkId, recentWorks, sets, lastSetId, workGroupLabel, title, subtitle, footer, collectorName, currency, accent, monthlyBudget, budgets, nameStyleMode, advancedMode, displayMode, dashboardCards, fieldLabels, filterOn, statsOn, deletedFields, customFields, customFilterOrder, cloudSyncId, cloudSyncCode, cloudCodeInput: cloudSyncCode || '', mobileMode, filtersOpen: false, view: startView, ...lists });
+    this.setState({ items, works, currentWorkId, recentWorks, sets, lastSetId, workGroupLabel, title, subtitle, footer, collectorName, currency, accent, monthlyBudget, budgets, nameStyleMode, advancedMode, displayMode, dashboardCards, fieldLabels, filterOn, statsOn, deletedFields, customFields, customFilterOrder, cloudSyncId, cloudSyncCode, cloudCodeInput: cloudSyncCode || '', mobileMode, filtersOpen: false, groupBy: startGroupBy, view: startView, ...lists });
     this.loadImages(items);
     this.loadCharAvatars();
     this.loadLogo();
@@ -1802,6 +1885,7 @@ class Component extends DCLogic {
   // 每个作品独立的选项列表；主作品沿用旧的无后缀 key 以兼容历史数据
   wkey(base, id) { id = id || this.state.currentWorkId; return id === this.MAIN_WORK ? base : base + '__' + id; }
   loadWorkLists(workId, itemsArg) {
+    if (workId === this.ALL_WORKS) return this.aggregatedLists(itemsArg);
     const items = (itemsArg || this.state.items || []).filter(it => (it.workId || this.MAIN_WORK) === workId);
     const isMain = workId === this.MAIN_WORK;
     const rd = (base, fallback) => { let v = null; try { v = JSON.parse(localStorage.getItem(this.wkey(base, workId)) || 'null'); } catch (e) {} return Array.isArray(v) ? v : fallback(); };
@@ -1812,7 +1896,8 @@ class Component extends DCLogic {
     let seriesList = rd('zzz_series', () => [...new Set(items.map(i => i.series).filter(Boolean))]);
     let channels = rd('zzz_channels', () => [...new Set(items.map(i => i.channel).filter(Boolean))]);
     let formOrder = rd('zzz_form_order', () => [...this.FORMS]); this.FORMS.forEach(f => { if (!formOrder.includes(f)) formOrder.push(f); });
-    let acquireOrder = rd('zzz_acquire_order', () => ['官谷','同人谷','通贩','场贩','代购','拼团','单买','抱盒','盲抽','二手','煤炉','日拍','骏河屋','闲鱼','淘宝','其他']);
+    let acquireOrder = rd('zzz_acquire_order', () => [...this.SOURCES]);
+    let methodList = rd('zzz_method', () => [...new Set([].concat(...Object.values(this.SOURCE_METHODS)))]);
     let reminderTypes = rd('zzz_reminder_types', () => [...this.REMINDER_TYPES]); this.REMINDER_TYPES.forEach(r => { if (!reminderTypes.includes(r)) reminderTypes.push(r); });
     items.forEach(it => { if (it.reminderType && !reminderTypes.includes(it.reminderType)) reminderTypes.push(it.reminderType); });
     let hiddenTypes = rd('zzz_hidden_types', () => []);
@@ -1821,8 +1906,43 @@ class Component extends DCLogic {
     let tradeTags = rd('zzz_trade_tags', () => [...this.TRADE_TAGS]);
     let rarityTags = rd('zzz_rarity_tags', () => [...this.RARITY_TAGS]);
     items.forEach(it => { (it.tags || []).forEach(t => { if (!tradeTags.includes(t)) tradeTags.push(t); }); (it.rarity || []).forEach(t => { if (!rarityTags.includes(t)) rarityTags.push(t); }); });
-    return { charOrder, typesList, seriesList, channels, formOrder, acquireOrder, reminderTypes, hiddenTypes, hiddenChannels, statusList, tradeTags, rarityTags };
+    return { charOrder, typesList, seriesList, channels, formOrder, acquireOrder, methodList, reminderTypes, hiddenTypes, hiddenChannels, statusList, tradeTags, rarityTags };
   }
+  aggregatedLists(itemsArg) {
+    const works = this.state.works || [];
+    const merge = (a, b) => { (b || []).forEach(x => { if (x && !a.includes(x)) a.push(x); }); return a; };
+    const out = { charOrder: [], typesList: [], seriesList: [], channels: [], formOrder: [], acquireOrder: [], methodList: [], reminderTypes: [], hiddenTypes: [], hiddenChannels: [], statusList: [], tradeTags: [], rarityTags: [] };
+    const wl = works.length ? works : [{ id: this.MAIN_WORK }];
+    wl.forEach(w => { const l = this.loadWorkLists(w.id, itemsArg); Object.keys(out).forEach(k => merge(out[k], l[k])); });
+    if (!out.charOrder.length) out.charOrder = [...this.CHARACTERS];
+    if (!out.typesList.length) out.typesList = [...this.TYPES];
+    if (!out.formOrder.length) out.formOrder = [...this.FORMS];
+    if (!out.statusList.length) out.statusList = [...this.STATUSES];
+    if (!out.reminderTypes.length) out.reminderTypes = [...this.REMINDER_TYPES];
+    if (!out.tradeTags.length) out.tradeTags = [...this.TRADE_TAGS];
+    if (!out.rarityTags.length) out.rarityTags = [...this.RARITY_TAGS];
+    return out;
+  }
+  defaultDraftWorkId() {
+    const cw = this.state.currentWorkId; const works = this.state.works || [];
+    if (cw && cw !== this.ALL_WORKS && works.some(w => w.id === cw)) return cw;
+    const r = (this.state.recentWorks || []).find(id => works.some(w => w.id === id)); if (r) return r;
+    return (works[0] && works[0].id) || this.MAIN_WORK;
+  }
+  draftWorkId(d) {
+    const w = d && d.workId; const works = this.state.works || [];
+    if (w && w !== this.ALL_WORKS && works.some(x => x.id === w)) return w;
+    return this.defaultDraftWorkId();
+  }
+  toggleDraftWorkMenu = () => this.setState(s => ({ draftWorkMenuOpen: !s.draftWorkMenuOpen }));
+  pickDraftWork = (id) => this.setState(s => ({ draft: { ...s.draft, workId: id }, draftWorkMenuOpen: false }));
+  addWorkInline = () => {
+    const group = (window.prompt('系列IP（如：假面骑士系列 / 偶像系列）：', this.DEFAULT_GROUP) || '').trim(); if (!group) return;
+    const name = (window.prompt('作品名称：') || '').trim(); if (!name) return;
+    const id = 'w_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 5);
+    this.saveWorks([ ...(this.state.works || []), { id, group, name } ]);
+    this.setState(s => ({ draft: { ...s.draft, workId: id }, draftWorkMenuOpen: false }));
+  };
   resetScopedFilters(extra) {
     return {
       charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [],
@@ -1891,7 +2011,7 @@ class Component extends DCLogic {
     this.commit(items);
   };
   onCustomDraft = (key) => (e) => { const v = e.target.value; this.setState(s => ({ draft: { ...s.draft, custom: { ...(s.draft.custom || {}), [key]: v } } })); };
-  addOptionTo = (which, lsKey, promptText) => () => { const v = (window.prompt(promptText) || '').trim(); if (!v) return; const cur = this.state[which] || []; if (cur.includes(v)) return; const arr = [...cur, v]; try { localStorage.setItem(this.wkey(lsKey), JSON.stringify(arr)); } catch (e) {} this.setState({ [which]: arr }); };
+  addOptionTo = (which, lsKey, promptText) => () => { const v = (window.prompt(promptText) || '').trim(); if (!v) return; const cur = this.state[which] || []; if (cur.includes(v)) return; const arr = [...cur, v]; const wid = this.state.currentWorkId === this.ALL_WORKS ? this.MAIN_WORK : this.state.currentWorkId; try { localStorage.setItem(this.wkey(lsKey, wid), JSON.stringify(arr)); } catch (e) {} this.setState({ [which]: arr }); };
   toggleWorkMenu = () => this.setState(s => ({ workMenuOpen: !s.workMenuOpen }));
   toggleMobileMode = () => {
     const next = (this.state.mobileMode || 'auto') === 'full' ? 'auto' : 'full';
@@ -2036,7 +2156,7 @@ class Component extends DCLogic {
     try { await this.idbClear(); } catch (e) {}
     const works = [{ id: this.MAIN_WORK, group: this.DEFAULT_GROUP, name: '默认作品' }];
     const filterOn = { character: true, type: true, series: false, form: false, acquire: true, channel: true, status: false };
-    const acquireOrder = ['官谷','同人谷','通贩','场贩','代购','拼团','单买','抱盒','盲抽','二手','煤炉','日拍','骏河屋','闲鱼','淘宝','其他'];
+    const acquireOrder = [...this.SOURCES];
     const reminderTypes = [...this.REMINDER_TYPES];
     try {
       localStorage.setItem('zzz_goods_v1', JSON.stringify([]));
@@ -2097,6 +2217,8 @@ class Component extends DCLogic {
     };
   }
   openDataManage = () => this.setState({ dataManageOpen: true });
+  openWorkManage = () => this.setState({ workManageOpen: true });
+  closeWorkManage = () => this.setState({ workManageOpen: false });
   closeDataManage = () => this.setState({ dataManageOpen: false });
   confirmExcelExport = () => { if (confirm('确认导出 Excel 文件？')) this.doExcelExport(); };
   confirmExcelTemplate = () => { if (confirm('确认下载 Excel 导入模板？')) this.doExcelTemplate(); };
@@ -2480,7 +2602,7 @@ class Component extends DCLogic {
   addCharacter = () => {
     const v = (window.prompt('输入新角色名称') || '').trim(); if (!v) return;
     const arr = [...this.orderedChars()]; if (!arr.includes(v)) arr.push(v);
-    try { localStorage.setItem(this.wkey('zzz_char_order'), JSON.stringify(arr)); } catch (e) {}
+    try { localStorage.setItem(this.wkey('zzz_char_order', this.optScopeId()), JSON.stringify(arr)); } catch (e) {}
     this.setState(s => ({ charOrder: arr, draft: s.draft ? { ...s.draft, character: v } : s.draft }));
     if (window.confirm('要为「' + v + '」上传头像吗？')) this.uploadCharAvatar(v);
   };
@@ -2493,7 +2615,7 @@ class Component extends DCLogic {
     const base = [...this.orderedChars()];
     const present = [...new Set((this.state.items || []).flatMap(x => [x.character, x.swapCharacter]).filter(Boolean))];
     const arr = [...base, ...present.filter(x => !base.includes(x))].map(c => c === oldName ? nv : c);
-    try { localStorage.setItem(this.wkey('zzz_char_order'), JSON.stringify(arr)); } catch (e) {}
+    try { localStorage.setItem(this.wkey('zzz_char_order', this.optScopeId()), JSON.stringify(arr)); } catch (e) {}
     this.ensureCharImg();
     if (this.charImgIds[oldName] !== undefined) { this.charImgIds[nv] = this.charImgIds[oldName]; delete this.charImgIds[oldName]; }
     if (this.charAssetMap[oldName] !== undefined) { this.charAssetMap[nv] = this.charAssetMap[oldName]; delete this.charAssetMap[oldName]; }
@@ -2509,7 +2631,7 @@ class Component extends DCLogic {
     const arr = [...base, ...present.filter(x => !base.includes(x))];
     const si = arr.indexOf(srcName); if (si < 0) return; arr.splice(si, 1);
     const di = arr.indexOf(dstName); if (di < 0) return; arr.splice(di, 0, srcName);
-    try { localStorage.setItem(this.wkey('zzz_char_order'), JSON.stringify(arr)); } catch (e) {}
+    try { localStorage.setItem(this.wkey('zzz_char_order', this.optScopeId()), JSON.stringify(arr)); } catch (e) {}
     this.setState({ charOrder: arr }, () => { if (this.state.cloudSyncId) this.pushCloud(); });
   };
   customChipDrag(fieldKey, name) { return { draggable: name !== '全部', onMouseDown: (ev) => this.startChipPointer(name, 'custom:' + fieldKey, ev), onMouseUp: (ev) => { const drag = this.pointerChipDrag; this.finishChipPointer(name, 'custom:' + fieldKey, ev); if (drag && drag.kind === 'custom:' + fieldKey && drag.name !== name && name !== '全部') this.reorderCustomChip(fieldKey, drag.name, name); }, onTouchStart: (ev) => this.startChipPointer(name, 'custom:' + fieldKey, ev), onTouchEnd: (ev) => { const drag = this.pointerChipDrag; this.finishChipPointer(name, 'custom:' + fieldKey, ev); if (drag && drag.kind === 'custom:' + fieldKey && drag.name !== name && name !== '全部') this.reorderCustomChip(fieldKey, drag.name, name); }, onTouchCancel: () => { this.pointerChipDrag = null; }, onDragStart: (ev) => { if (name === '全部') return; this.cdKind = 'custom:' + fieldKey; this.cdName = name; if (ev.dataTransfer) { ev.dataTransfer.effectAllowed = 'move'; try { ev.dataTransfer.setData('text/plain', JSON.stringify({ kind: 'custom:' + fieldKey, name })); } catch(e) {} } }, onDragOver: (ev) => { if (name !== '全部') { ev.preventDefault(); if (ev.dataTransfer) ev.dataTransfer.dropEffect = 'move'; } }, onDrop: (ev) => { ev.preventDefault(); let src = this.cdName, k = this.cdKind; try { const raw = ev.dataTransfer && ev.dataTransfer.getData('text/plain'); if (raw) { const obj = JSON.parse(raw); src = obj.name || src; k = obj.kind || k; } } catch(e) {} if (k === 'custom:' + fieldKey) this.reorderCustomChip(fieldKey, src, name); this.cdName = null; this.cdKind = null; this.pointerChipDrag = null; } }; }
@@ -2544,7 +2666,7 @@ class Component extends DCLogic {
     try { localStorage.setItem('zzz_custom_filter_order', JSON.stringify(orderMap)); } catch(e) {}
     this.setState({ customFilterOrder: orderMap, customFilterSel }, () => this.commit(items));
   };
-  emptyDraft() { const chars = this.orderedChars(); return { id: null, custom: {}, name: '', character: (chars[0] || ''), type: this.TYPES[0], subtype: '', series: '', form: '通用', heat: 0, rate: '', otherFee: '', acquire: '', swapped: '未置换', swapTo: '', swapCharacter: '', swapImageId: null, group: '收藏', status: '已归家', qty: '1', originalPrice: '', buyPrice: '', shipDom: '', shipIntl: '', sellPrice: '', channel: '', buyDate: this.todayStr(), reminderType: '', reminderDate: '', note: '', imageId: null, imageId2: null, imageId3: null, imageId4: null, specialType: '', specialDate: '', setId: this.state.lastSetId || '', setName: '', setTotal: '', setVariant: '', timeline: [], tags: [], rarity: [] }; }
+  emptyDraft() { const chars = this.orderedChars(); return { id: null, workId: this.defaultDraftWorkId(), custom: {}, name: '', character: (chars[0] || ''), type: this.TYPES[0], subtype: '', series: '', form: '通用', heat: 0, rate: '', otherFee: '', acquire: '', swapped: '未置换', swapTo: '', swapCharacter: '', swapImageId: null, group: '收藏', status: '已归家', qty: '1', originalPrice: '', buyPrice: '', shipDom: '', shipIntl: '', sellPrice: '', channel: '', buyDate: this.todayStr(), reminderType: '', reminderDate: '', note: '', imageId: null, imageId2: null, imageId3: null, imageId4: null, specialType: '', specialDate: '', setId: this.state.lastSetId || '', setName: '', setTotal: '', setVariant: '', timeline: [], tags: [], rarity: [] }; }
   imageSlotKeys() { return ['imageId', 'imageId2', 'imageId3', 'imageId4']; }
   imageIdsOf(it) { return this.imageSlotKeys().map(k => it && it[k]).filter(Boolean); }
   imageUrlsOf(it) { return this.imageIdsOf(it).map(id => this.imgUrls[id]).filter(Boolean); }
@@ -2788,7 +2910,7 @@ class Component extends DCLogic {
     let d = this.state.draft; if (!d) return null;
     if (!d.name || !d.name.trim()) d = { ...d, name: this.genName(d) || '未命名' };
     const id = this.state.editing || d.id || ('it_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6));
-    const savedItem = { ...d, id, workId: d.workId || this.state.currentWorkId };
+    const savedItem = { ...d, id, workId: this.draftWorkId(d) };
     const exists = (this.state.items || []).some(x => x.id === id);
     const items = exists ? this.state.items.map(x => x.id === id ? savedItem : x) : [savedItem, ...this.state.items];
     this.commit(items);
@@ -2827,9 +2949,18 @@ class Component extends DCLogic {
     if (setObj) d = { ...d, setName: setObj.name, setTotal: setObj.total ? String(setObj.total) : '' };
     else if (d.setId === '') d = { ...d, setName: '', setTotal: '' };
     const nowArrived = this.arrivedOf(d) && !(prev && this.arrivedOf(prev));
+    // 收藏生命周期：状态变化时，把「状态 + 当前日期」追加进时间轴（只追加，不覆盖历史）
+    const prevStatus = prev ? (prev.status || '') : '';
+    const curStatus = d.status || '';
+    let statusLog = Array.isArray(d.statusLog) ? [...d.statusLog] : (prev && Array.isArray(prev.statusLog) ? [...prev.statusLog] : []);
+    if (curStatus && curStatus !== prevStatus) {
+      const stDate = d.reminderDate || d.buyDate || new Date().toISOString().slice(0, 10);
+      statusLog.push({ status: curStatus, date: stDate, ts: Date.now() });
+    }
+    d = { ...d, statusLog };
     let items, savedItem;
-    if (this.state.editing) { savedItem = { ...d, id: this.state.editing, workId: d.workId || this.state.currentWorkId }; items = this.state.items.map(x => x.id === this.state.editing ? savedItem : x); }
-    else { savedItem = { ...d, id: 'it_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6), workId: this.state.currentWorkId }; items = [savedItem, ...this.state.items]; }
+    if (this.state.editing) { savedItem = { ...d, id: this.state.editing, workId: this.draftWorkId(d) }; items = this.state.items.map(x => x.id === this.state.editing ? savedItem : x); }
+    else { savedItem = { ...d, id: 'it_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6), workId: this.draftWorkId(d) }; items = [savedItem, ...this.state.items]; }
     if (d.channel && !this.state.channels.includes(d.channel)) this.saveChannels([...this.state.channels, d.channel]);
     if (d.type && !this.state.typesList.includes(d.type)) this.saveList('typesList', 'zzz_types', [...this.state.typesList, d.type]);
     if (d.series && !this.state.seriesList.includes(d.series)) this.saveList('seriesList', 'zzz_series', [...this.state.seriesList, d.series]);
@@ -3314,18 +3445,59 @@ class Component extends DCLogic {
   setHeat = (n) => this.setState(s => ({ draft: { ...s.draft, heat: ((s.draft.heat || 0) === n ? n - 1 : n) } }));
   setItemHeat = (id, n) => { const items = this.state.items.map(x => x.id === id ? { ...x, heat: ((x.heat || 0) === n ? n - 1 : n) } : x); this.commit(items); };
   onSearch = (e) => this.setState({ search: e.target.value });
-  saveChannels = (channels) => { try { localStorage.setItem(this.wkey('zzz_channels'), JSON.stringify(channels)); } catch (e) {} this.setState({ channels }); };
-  saveList = (key, lsKey, list) => { try { localStorage.setItem(this.wkey(lsKey), JSON.stringify(list)); } catch (e) {} this.setState({ [key]: list }); };
+  saveChannels = (channels) => { try { localStorage.setItem(this.wkey('zzz_channels', this.optScopeId()), JSON.stringify(channels)); } catch (e) {} this.setState({ channels }); };
+  optScopeId() { const c = this.state.currentWorkId; if (c && c !== this.ALL_WORKS && (this.state.works||[]).some(w=>w.id===c)) return c; return this.draftWorkId(this.state.draft||{}); }
+  saveList = (key, lsKey, list) => { try { localStorage.setItem(this.wkey(lsKey, this.optScopeId()), JSON.stringify(list)); } catch (e) {} this.setState({ [key]: list }); };
+  manageConfig() { return {
+    status:    { stateKey:'statusList',    ls:'zzz_status',          field:'status',       label:'状态' },
+    character: { stateKey:'charOrder',     ls:'zzz_char_order',      field:'character',    label:'角色', char:true },
+    type:      { stateKey:'typesList',     ls:'zzz_types',           field:'type',         label:'种类' },
+    series:    { stateKey:'seriesList',    ls:'zzz_series',          field:'series',       label:'厂商' },
+    channel:   { stateKey:'channels',      ls:'zzz_channels',        field:'channel',      label:'平台' },
+    form:      { stateKey:'formOrder',     ls:'zzz_form_order',      field:'form',         label:'形态' },
+    acquire:   { stateKey:'acquireOrder',  ls:'zzz_acquire_order',   field:'acquire',      label:'来源' },
+    method:    { stateKey:'methodList',     ls:'zzz_method',          field:'method',       label:'购买方式' },
+    reminder:  { stateKey:'reminderTypes', ls:'zzz_reminder_types',  field:'reminderType', label:'提醒事件' },
+    tradeTags: { stateKey:'tradeTags',     ls:'zzz_trade_tags',      field:'tags',         label:'交易标签', arr:true },
+    rarityTags:{ stateKey:'rarityTags',    ls:'zzz_rarity_tags',     field:'rarity',       label:'稀有度标签', arr:true }
+  }; }
+  openManage = (kind) => this.setState({ manageOpen: true, manageKind: kind, charMenuOpen:false, typeMenuOpen:false, seriesMenuOpen:false, channelMenuOpen:false, formMenuOpen:false, acquireMenuOpen:false, statusMenuOpen:false, reminderMenuOpen:false });
+  closeManage = () => this.setState({ manageOpen: false });
+  manageListOf(kind) { const c=this.manageConfig()[kind]; if(!c) return []; if(kind==='character') return this.orderedChars(); return (this.state[c.stateKey]||[]).slice(); }
+  manageSaveList(kind, list) { const c=this.manageConfig()[kind]; if(!c) return; this.saveList(c.stateKey, c.ls, list); if(kind==='character') this.charOrder=list; }
+  manageUsedCount(kind, val) { const c=this.manageConfig()[kind]; const f=c.field; return (this.state.items||[]).filter(it => c.arr ? (it[f]||[]).includes(val) : (it[f]===val || (kind==='character'&&it.swapCharacter===val))).length; }
+  manageMigrate(kind, oldV, nv) { const c=this.manageConfig()[kind]; const f=c.field; const items=(this.state.items||[]).map(it=>{ let x=it; if(c.arr){ const a=it[f]||[]; if(a.includes(oldV)) x={...x,[f]:a.map(v=>v===oldV?nv:v)}; } else { if(it[f]===oldV) x={...x,[f]:nv}; if(kind==='character'&&it.swapCharacter===oldV) x={...x,swapCharacter:nv}; } return x; }); this.commit(items); }
+  manageAddItem = (kind) => { const c=this.manageConfig()[kind]; if(!c) return; const v=(window.prompt('新增'+c.label)||'').trim(); if(!v) return; const l=this.manageListOf(kind); if(l.includes(v)){ alert('已存在'); return; } this.manageSaveList(kind, [...l, v]); };
+  manageRenameItem = (kind, oldName) => { const nv=(window.prompt('把「'+oldName+'」改成（使用它的谷子会一起改）：', oldName)||'').trim(); if(!nv||nv===oldName) return; const l=this.manageListOf(kind).map(x=>x===oldName?nv:x); this.manageSaveList(kind, l); this.manageMigrate(kind, oldName, nv); };
+  manageDeleteItem = (kind, name) => { const used=this.manageUsedCount(kind, name); if(!window.confirm('删除「'+name+'」？'+(used?('（有 '+used+' 件谷子在用，删后它们仍保留原文字）'):''))) return; this.manageSaveList(kind, this.manageListOf(kind).filter(x=>x!==name)); };
+  manageMoveItem = (kind, name, dir) => { const l=this.manageListOf(kind); const i=l.indexOf(name); if(i<0) return; const j=i+dir; if(j<0||j>=l.length) return; const t=l[i]; l[i]=l[j]; l[j]=t; this.manageSaveList(kind, l); };
+  manageRenameLabel = (kind) => { const key=({character:'character',type:'type',series:'series',channel:'channel',status:'status',form:'form',acquire:'acquire'})[kind]; if(!key) return; const cur=(this.state.fieldLabels||{})[key]||this.FIELD_DEFAULTS[key]||''; const nv=(window.prompt('把字段名「'+cur+'」改成：',cur)||'').trim(); if(!nv||nv===cur) return; const fl={...(this.state.fieldLabels||{}),[key]:nv}; try{localStorage.setItem('zzz_field_labels',JSON.stringify(fl));}catch(e){} this.setState({fieldLabels:fl}); };
   menuRow(active) { return { display: 'flex', alignItems: 'center', gap: '6px', padding: '7px 9px', borderRadius: '8px', background: active ? 'color-mix(in srgb, var(--accent,#ff3355) 11%, transparent)' : 'transparent' }; }
   toggleTypeMenu = () => this.setState(s => ({ typeMenuOpen: !s.typeMenuOpen }));
   toggleFormMenu = () => this.setState(s => ({ formMenuOpen: !s.formMenuOpen }));
   toggleStatusMenu = () => this.setState(s => ({ statusMenuOpen: !s.statusMenuOpen }));
   toggleAcquireMenu = () => this.setState(s => ({ acquireMenuOpen: !s.acquireMenuOpen }));
   pickForm = (v) => this.setState(s => ({ draft: { ...s.draft, form: v }, formMenuOpen: false }));
-  pickStatus = (v) => this.setState(s => ({ draft: { ...s.draft, status: v }, statusMenuOpen: false }));
+  statusDateLabel(v) { return v === '已下单' ? '下单日期' : v === '待补款' ? '补款截止日' : v === '已补款' ? '补款日期' : v === '待尾款' ? '尾款截止日' : v === '已尾款' ? '尾款日期' : v === '排发中' ? '预计排发日' : v === '已发货' ? '预计到货日' : (v === '已归家' || v === '已到货') ? '归家日期' : (v === '已出物' || v === '已出/已卖出') ? '出物日期' : '提醒日期'; }
+  pickStatus = (v) => {
+    this.setState(s => {
+      const draft = { ...s.draft, status: v };
+      const prevStatus = (s.draft && s.draft.status) || '';
+      if (v && v !== prevStatus) {
+        const today = new Date().toISOString().slice(0, 10);
+        const label = this.statusDateLabel(v);
+        if (window.confirm('记录「' + label + '」？\n\n' + today + '\n\n确定＝用今天，取消＝保留原日期，稍后可改')) draft.reminderDate = today;
+      }
+      return { draft, statusMenuOpen: false };
+    });
+  };
   pickAcquire = (v) => this.setState(s => ({ draft: { ...s.draft, acquire: v }, acquireMenuOpen: false }));
+  toggleMethodMenu = () => this.setState(s => ({ methodMenuOpen: !s.methodMenuOpen }));
+  pickMethod = (v) => this.setState(s => ({ draft: { ...s.draft, method: v }, methodMenuOpen: false }));
+  clearMethod = () => this.setState(s => ({ draft: { ...s.draft, method: '' }, methodMenuOpen: false }));
   toggleSwapMenu = () => this.setState(s => ({ swapMenuOpen: !s.swapMenuOpen }));
   pickSwapped = (v) => this.setState(s => ({ draft: { ...s.draft, swapped: v }, swapMenuOpen: false }));
+  pickGachaResult = (v) => this.setState(s => ({ draft: { ...s.draft, gachaResult: v, swapped: (v === '置换' || v === '收现') ? '已置换' : '未置换' }, swapMenuOpen: false }));
   toggleSwapCharMenu = () => this.setState(s => ({ swapCharMenuOpen: !s.swapCharMenuOpen }));
   pickSwapCharacter = (v) => this.setState(s => ({ draft: { ...s.draft, swapCharacter: v }, swapCharMenuOpen: false }));
   clearSwapCharacter = () => this.pickSwapCharacter('');
@@ -3360,7 +3532,7 @@ class Component extends DCLogic {
   delTypeItem = (c, ev) => { ev.stopPropagation(); this.saveList('typesList', 'zzz_types', this.state.typesList.filter(x => x !== c)); };
   toggleCharMenu = () => this.setState(s => ({ charMenuOpen: !s.charMenuOpen }));
   pickCharacter = (c) => this.setState(s => ({ draft: { ...s.draft, character: c }, charMenuOpen: false }));
-  delCharacter = (c, ev) => { ev.stopPropagation(); const used = this.state.items.filter(x => x.character === c || x.swapCharacter === c).length; if (used > 0) { alert('还有 ' + used + ' 件谷子在用「' + c + '」，无法删除。可先把它们改成别的角色。'); return; } const arr = this.orderedChars().filter(x => x !== c); try { localStorage.setItem(this.wkey('zzz_char_order'), JSON.stringify(arr)); } catch (e) {} this.ensureCharImg(); delete this.charImgIds[c]; delete this.charAssetMap[c]; delete this.charImgMap[c]; this.persistCharMaps(); this.setState(s => ({ charOrder: arr, draft: (s.draft && s.draft.character === c) ? { ...s.draft, character: (arr[0] || '') } : s.draft })); };
+  delCharacter = (c, ev) => { ev.stopPropagation(); const used = this.state.items.filter(x => x.character === c || x.swapCharacter === c).length; if (used > 0) { alert('还有 ' + used + ' 件谷子在用「' + c + '」，无法删除。可先把它们改成别的角色。'); return; } const arr = this.orderedChars().filter(x => x !== c); try { localStorage.setItem(this.wkey('zzz_char_order', this.optScopeId()), JSON.stringify(arr)); } catch (e) {} this.ensureCharImg(); delete this.charImgIds[c]; delete this.charAssetMap[c]; delete this.charImgMap[c]; this.persistCharMaps(); this.setState(s => ({ charOrder: arr, draft: (s.draft && s.draft.character === c) ? { ...s.draft, character: (arr[0] || '') } : s.draft })); };
   toggleSeriesMenu = () => this.setState(s => ({ seriesMenuOpen: !s.seriesMenuOpen }));
   pickSeries = (c) => this.setState(s => ({ draft: { ...s.draft, series: c }, seriesMenuOpen: false }));
   clearSeries = () => this.pickSeries('');
@@ -3567,11 +3739,17 @@ class Component extends DCLogic {
     const rows = [];
     const add = (date, title, note) => { if (date) rows.push({ date, title, note: note || '' }); };
     add(it.buyDate, '创建 / 下单', it.buyPrice ? ('买入 ' + (this.state.currency || '￥') + it.buyPrice) : '');
-    if (it.reminderType && it.reminderDate) add(it.reminderDate, it.reminderType, '提醒日期');
-    if (String(it.status || '').includes('已补款')) add(it.reminderDate || it.buyDate, '补款完成', '由状态自动记录');
-    if (String(it.status || '').includes('已排发')) add(it.reminderDate || it.buyDate, '已排发', '由状态自动记录');
-    if (String(it.status || '').includes('已到货')) add(it.reminderDate || it.buyDate, '到货', '由状态自动记录');
-    if (String(it.status || '').includes('已出')) add(it.buyDate || it.reminderDate, '出物', it.sellPrice ? ('回血 ' + (this.state.currency || '￥') + it.sellPrice) : '');
+    // 生命周期时间轴：来自每次状态变更的自动记录
+    if (Array.isArray(it.statusLog)) {
+      it.statusLog.forEach(s => { if (s && s.status) add(s.date, s.status, '状态变更 · 自动记录'); });
+    }
+    if (it.reminderType && it.reminderDate && !(Array.isArray(it.statusLog) && it.statusLog.length)) add(it.reminderDate, it.reminderType, '提醒日期');
+    if (!(Array.isArray(it.statusLog) && it.statusLog.length)) {
+      if (String(it.status || '').includes('已补款')) add(it.reminderDate || it.buyDate, '补款完成', '由状态自动记录');
+      if (String(it.status || '').includes('已排发')) add(it.reminderDate || it.buyDate, '已排发', '由状态自动记录');
+      if (String(it.status || '').includes('已到货')) add(it.reminderDate || it.buyDate, '到货', '由状态自动记录');
+      if (String(it.status || '').includes('已出')) add(it.buyDate || it.reminderDate, '出物', it.sellPrice ? ('回血 ' + (this.state.currency || '￥') + it.sellPrice) : '');
+    }
     return rows.sort((a,b) => (a.date || '').localeCompare(b.date || ''));
   }
 
@@ -3736,7 +3914,7 @@ class Component extends DCLogic {
     const statusBase = (this.state.statusList && this.state.statusList.length) ? this.state.statusList : this.STATUSES;
     const statusChips = ['全部', ...statusBase].map(x => ({ label: x, ...this.chipDrag(x, 'status'), onDblClick: x === '全部' ? null : (ev) => this.renameListOption('statusList', 'zzz_status', 'status', x, '状态', ev), style: this.chipStyle(x === '全部' ? statusSel.length === 0 : statusSel.includes(x)), onClick: this.chipClick(() => this.toggleSel('statusSel', x === '全部' ? '__all__' : x)) }));
     const showStatusFilter = fieldVisible('status') && !!this.state.filterOn.status;
-    const acquireBase = (this.state.acquireOrder && this.state.acquireOrder.length) ? this.state.acquireOrder : ['官谷','同人谷','通贩','场贩','代购','拼团','单买','抱盒','盲抽','二手','煤炉','日拍','骏河屋','闲鱼','淘宝','其他'];
+    const acquireBase = (this.state.acquireOrder && this.state.acquireOrder.length) ? this.state.acquireOrder : [...this.SOURCES];
     const acquireChips = ['全部', ...acquireBase].map(x => ({ label: x, ...this.chipDrag(x, 'acquire'), onDblClick: x === '全部' ? null : (ev) => this.renameListOption('acquireOrder', 'zzz_acquire_order', 'acquire', x, '来源方式', ev), style: this.chipStyle(x === '全部' ? acquireSel.length === 0 : acquireSel.includes(x)), onClick: this.chipClick(() => this.toggleSel('acquireSel', x === '全部' ? '__all__' : x)) }));
     const presentChannels = [...new Set(items.map(i => i.channel).filter(Boolean))];
     const chBase = (this.state.channels && this.state.channels.length) ? this.state.channels : presentChannels;
@@ -3749,8 +3927,8 @@ class Component extends DCLogic {
     const rarityOrdered = [...this.RARITY_TAGS.filter(t => rarityPresent.includes(t)), ...rarityPresent.filter(t => !this.RARITY_TAGS.includes(t))];
     const tagChips = ['全部', ...tagOrdered].map(x => ({ label: x, style: this.chipStyle(x === '全部' ? (this.state.tagSel || []).length === 0 : (this.state.tagSel || []).includes(x)), onClick: this.chipClick(() => this.toggleSel('tagSel', x === '全部' ? '__all__' : x)) }));
     const rarityChips = ['全部', ...rarityOrdered].map(x => ({ label: x, style: this.chipStyle(x === '全部' ? (this.state.raritySel || []).length === 0 : (this.state.raritySel || []).includes(x)), onClick: this.chipClick(() => this.toggleSel('raritySel', x === '全部' ? '__all__' : x)) }));
-    const showTagFilter = this.state.advancedMode && tagOrdered.length > 0;
-    const showRarityFilter = this.state.advancedMode && rarityOrdered.length > 0;
+    const showTagFilter = tagOrdered.length > 0;
+    const showRarityFilter = rarityOrdered.length > 0;
     const customFilterRows = (this.state.customFields || []).filter(f => this.state.filterOn[f.key]).map(f => {
       const present = [...new Set(items.map(i => i.custom && i.custom[f.key]).filter(Boolean))];
       const orderMap = this.state.customFilterOrder || {};
@@ -3763,6 +3941,35 @@ class Component extends DCLogic {
     const dChar = this.state.draft ? this.state.draft.character : '';
     const charMenuItems = this.orderedChars().map(c => { const ci = this.charImg(c); return { name: c, hasImg: !!ci, imgStyle: { width: '18px', height: '18px', borderRadius: '50%', backgroundImage: `url(${ci})`, backgroundSize: 'cover', backgroundPosition: 'center', flexShrink: 0 }, onPick: () => this.pickCharacter(c), onAvatar: (ev) => { ev.stopPropagation(); this.uploadCharAvatar(c); }, onDel: (ev) => this.delCharacter(c, ev), rowStyle: this.menuRow(dChar === c) }; });
     const charDisplay = dChar || '选择角色';
+    const _dWorks = this.state.works || [];
+    const _dWorkId = this.draftWorkId(this.state.draft || {});
+    const _dWork = _dWorks.find(w => w.id === _dWorkId) || {};
+    const draftWorkName = _dWork.name || '选择作品';
+    const draftWorkGroupName = _dWork.group || this.DEFAULT_GROUP;
+    const _dwG = {}; _dWorks.forEach(w => { const g = w.group || this.DEFAULT_GROUP; (_dwG[g] = _dwG[g] || []).push(w); });
+    const draftWorkMenuGroups = Object.keys(_dwG).map(g => ({ group: g, works: _dwG[g].map(w => ({ name: w.name || '未命名作品', active: w.id === _dWorkId, onPick: () => this.pickDraftWork(w.id) })) }));
+    const _dSellStatus = (this.state.draft && this.state.draft.status) || '';
+    const draftIsSelling = /出物|出售|卖出|已出/.test(_dSellStatus);
+    const draftNotSelling = !draftIsSelling;
+    const _mk = this.state.manageKind || '';
+    const _mc = this.manageConfig()[_mk];
+    const _lblKey = ({character:'character',type:'type',series:'series',channel:'channel',status:'status',form:'form',acquire:'acquire'})[_mk];
+    const _mLabel = _lblKey ? ((this.state.fieldLabels||{})[_lblKey] || this.FIELD_DEFAULTS[_lblKey] || (_mc&&_mc.label)) : (_mc?_mc.label:'');
+    const manageTitle = _mc ? ('管理 · ' + _mLabel) : '资料管理';
+    const manageCanRenameLabel = !!_lblKey;
+    const onManageRenameLabel = () => this.manageRenameLabel(_mk);
+    const _mFilterKey = _lblKey || (_mc && _mc.field) || '';
+    const manageCanToggle = !!_lblKey;
+    const manageFilterOn = _lblKey ? (this.state.filterOn || {})[_lblKey] !== false && !!(this.state.filterOn || {})[_lblKey] : false;
+    const manageGroupOn = _lblKey ? (this.state.statsOn || {})[_lblKey] !== false : false;
+    const onManageToggleFilter = _lblKey ? this.toggleFilterOn(_lblKey) : (() => {});
+    const onManageToggleGroup = _lblKey ? this.toggleStatsOn(_lblKey) : (() => {});
+    const manageFilterStyle = { padding: '4px 12px', borderRadius: '999px', fontFamily: 'inherit', fontSize: '12px', fontWeight: 700, cursor: 'pointer', border: '1px solid', borderColor: manageFilterOn ? 'transparent' : '#ded7ee', background: manageFilterOn ? this.accentColor() : '#fff', color: manageFilterOn ? '#fff' : '#8b84ad' };
+    const manageGroupStyle = { padding: '4px 12px', borderRadius: '999px', fontFamily: 'inherit', fontSize: '12px', fontWeight: 700, cursor: 'pointer', border: '1px solid', borderColor: manageGroupOn ? 'transparent' : '#ded7ee', background: manageGroupOn ? this.accentColor() : '#fff', color: manageGroupOn ? '#fff' : '#8b84ad' };
+    const _mlist = _mc ? this.manageListOf(_mk) : [];
+    const manageRows = _mlist.map((nm, i) => { const _av = _mk === 'character' ? this.charImg(nm) : ''; return { name: nm, canUp: i>0, canDown: i<_mlist.length-1, onUp: () => this.manageMoveItem(_mk, nm, -1), onDown: () => this.manageMoveItem(_mk, nm, 1), onRename: () => this.manageRenameItem(_mk, nm), onDel: () => this.manageDeleteItem(_mk, nm), isChar: _mk === 'character', hasAvatar: !!_av, noAvatarText: _mk === 'character' && !_av, avatarStyle: _av ? { width: '30px', height: '30px', borderRadius: '50%', backgroundImage: `url(${_av})`, backgroundSize: 'cover', backgroundPosition: 'center', flexShrink: 0, cursor: 'pointer' } : { width: '30px', height: '30px', borderRadius: '50%', background: 'rgba(50,38,90,.06)', border: '1px dashed #d4cee7', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#a49ec4', fontSize: '9px', flexShrink: 0, cursor: 'pointer' }, onAvatar: () => this.uploadCharAvatar(nm) }; });
+    const manageAddText = _mc ? ('＋ 新增' + _mc.label) : '＋ 新增';
+    const onManageAdd = () => this.manageAddItem(_mk);
     const typeMenuItems = (this.state.typesList || []).map(c => ({ name: c, onPick: () => this.pickType(c), onRename: (ev) => this.renameTypeItem(c, ev), onDel: (ev) => this.delTypeItem(c, ev), rowStyle: this.menuRow(dType === c) }));
     const typeDisplay = dType || '选择种类';
     const hasTypeMenuItems = (this.state.typesList || []).length > 0;
@@ -3775,13 +3982,23 @@ class Component extends DCLogic {
     const arrivedState = dStatus === '已归家' || dStatus === '已到货';
     const soldState = dStatus === '已出物' || dStatus === '出售中' || dStatus === '已出/已卖出';
     const showReminderFields = !!dStatus && !arrivedState && !soldState;
-    const reminderDateLabel = dStatus === '待补款' ? '补款截止日' : dStatus === '待尾款' ? '尾款截止日' : dStatus === '排发中' ? '预计排发日' : dStatus === '已发货' ? '预计到货日' : '提醒日期';
+    const reminderDateLabel = dStatus === '已下单' ? '下单日期' : dStatus === '待补款' ? '补款截止日' : dStatus === '已补款' ? '补款日期' : dStatus === '待尾款' ? '尾款截止日' : dStatus === '已尾款' ? '尾款日期' : dStatus === '排发中' ? '预计排发日' : dStatus === '已发货' ? '预计到货日' : dStatus === '已归家' || dStatus === '已到货' ? '归家日期' : dStatus === '已出物' || dStatus === '已出/已卖出' ? '出物日期' : '提醒日期';
     const dAcquire = this.state.draft ? (this.state.draft.acquire || '') : '';
-    const acquireMenuItems = ((this.state.acquireOrder && this.state.acquireOrder.length) ? this.state.acquireOrder : ['官谷','同人谷','通贩','场贩','代购','拼团','单买','抱盒','盲抽','二手','煤炉','日拍','骏河屋','闲鱼','淘宝','其他']).map(c => ({ name: c, onPick: () => this.pickAcquire(c), onRename: (ev) => this.renameListOption('acquireOrder', 'zzz_acquire_order', 'acquire', c, '来源方式', ev), onDel: (ev) => this.delListOption('acquireOrder', 'zzz_acquire_order', 'acquire', c, ev), rowStyle: this.menuRow(dAcquire === c) }));
+    const acquireMenuItems = ((this.state.acquireOrder && this.state.acquireOrder.length) ? this.state.acquireOrder : [...this.SOURCES]).map(c => ({ name: c, onPick: () => this.pickAcquire(c), onRename: (ev) => this.renameListOption('acquireOrder', 'zzz_acquire_order', 'acquire', c, '来源方式', ev), onDel: (ev) => this.delListOption('acquireOrder', 'zzz_acquire_order', 'acquire', c, ev), rowStyle: this.menuRow(dAcquire === c) }));
     const acquireDisplay = dAcquire || '选择来源方式';
-    const dSwapped = this.state.draft ? (this.state.draft.swapped || '未置换') : '未置换';
-    const swapMenuItems = [{ name: '未置换（保留盲抽）', val: '未置换' }, { name: '已置换', val: '已置换' }].map(o => ({ name: o.name, onPick: () => this.pickSwapped(o.val), rowStyle: this.menuRow(dSwapped === o.val) }));
-    const swappedDisplay = dSwapped === '已置换' ? '已置换' : '未置换（保留盲抽）';
+    // 来源驱动：购买方式候选（不清空已选，只调整候选顺序）
+    const dSource = dAcquire;
+    const dMethod = this.state.draft ? (this.state.draft.method || '') : '';
+    const _methodPreset = this.SOURCE_METHODS[dSource] || [];
+    const _methodStored = this.state.methodList || [];
+    const _methodAll = [...new Set([...(_methodPreset.length ? _methodPreset : []), ..._methodStored])];
+    if (!_methodAll.length) ['通贩','场贩','代购','拼团','抱盒','单买','盲抽','二手'].forEach(x => _methodAll.push(x));
+    if (dMethod && !_methodAll.includes(dMethod)) _methodAll.push(dMethod);
+    const methodMenuItems = _methodAll.map(c => ({ name: c, onPick: () => this.pickMethod(c), rowStyle: this.menuRow(dMethod === c) }));
+    const methodDisplay = dMethod || '选择购买方式';
+    const dSwapped = this.state.draft ? (this.state.draft.gachaResult || '自抽') : '自抽';
+    const swapMenuItems = [{ name: '🎲 自抽（不置换）', val: '自抽' }, { name: '🤝 置换', val: '置换' }, { name: '💰 收现', val: '收现' }].map(o => ({ name: o.name, onPick: () => this.pickGachaResult(o.val), rowStyle: this.menuRow(dSwapped === o.val) }));
+    const swappedDisplay = dSwapped === '置换' ? '🤝 置换' : dSwapped === '收现' ? '💰 收现' : '🎲 自抽（不置换）';
     const dSwapChar = this.state.draft ? (this.state.draft.swapCharacter || '') : '';
     const swapCharMenuItems = this.orderedChars().map(c => { const ci = this.charImg(c); return { name: c, hasImg: !!ci, imgStyle: { width: '18px', height: '18px', borderRadius: '50%', backgroundImage: `url(${ci})`, backgroundSize: 'cover', backgroundPosition: 'center', flexShrink: 0 }, onPick: () => this.pickSwapCharacter(c), rowStyle: this.menuRow(dSwapChar === c) }; });
     const swapCharDisplay = dSwapChar || '（同原抽人物）';
@@ -3797,7 +4014,10 @@ class Component extends DCLogic {
     const reminderMenuItems = ((this.state.reminderTypes && this.state.reminderTypes.length ? this.state.reminderTypes : this.REMINDER_TYPES) || []).map(c => ({ name: c, onPick: () => this.pickReminderType(c), onDel: (ev) => this.delReminderItem(c, ev), rowStyle: this.menuRow(dReminder === c) }));
     const reminderDisplay = dReminder || '不提醒';
     const hiddenChannels = this.state.hiddenChannels || [];
-    const channelMenuItems = (this.state.channels || []).map(c => ({ name: c, active: dChannel === c, onPick: () => this.pickChannel(c), onRename: (ev) => this.renameChannelItem(c, ev), onDel: (ev) => this.delChannelItem(c, ev), rowStyle: { display: 'flex', alignItems: 'center', gap: '6px', padding: '7px 9px', borderRadius: '8px', background: dChannel === c ? 'color-mix(in srgb, var(--accent,#ff3355) 11%, transparent)' : 'transparent' } }));
+    const _platPreset = (this.SOURCE_PLATFORMS[dSource] || []).filter(x => !hiddenChannels.includes(x));
+    const _storedCh = (this.state.channels || []).filter(x => !hiddenChannels.includes(x));
+    const _chOrder = [...new Set([..._platPreset, ..._storedCh])];
+    const channelMenuItems = _chOrder.map(c => ({ name: c, active: dChannel === c, onPick: () => this.pickChannel(c), onRename: (ev) => this.renameChannelItem(c, ev), onDel: (ev) => this.delChannelItem(c, ev), rowStyle: { display: 'flex', alignItems: 'center', gap: '6px', padding: '7px 9px', borderRadius: '8px', background: dChannel === c ? 'color-mix(in srgb, var(--accent,#ff3355) 11%, transparent)' : 'transparent' } }));
     // rows
     const s = (search || '').toLowerCase();
     const matchSearch = it => !s || [it.name, it.note, it.channel, it.subtype, it.character, it.type, it.series, (workOfItem(it).group || ''), (workOfItem(it).name || '')].some(x => (x || '').toLowerCase().includes(s));
@@ -4017,7 +4237,7 @@ class Component extends DCLogic {
       const rem = this.reminderInfo(it);
       const imgUrl = it.imageId ? this.imgUrls[it.imageId] : null;
       const swapImgUrl = it.swapImageId ? this.imgUrls[it.swapImageId] : null;
-      const isSwapped = it.acquire === '盲盒' && it.swapped === '已置换';
+      const isSwapped = it.method === '盲抽' && (it.gachaResult === '置换' || it.gachaResult === '收现') && it.swapped === '已置换';
       const dispChar = (isSwapped && it.swapCharacter) ? it.swapCharacter : (it.character || '其他');
       const regularUrls = this.imageUrlsOf(it);
       let galleryUrls = isSwapped ? (swapImgUrl ? [swapImgUrl] : regularUrls) : regularUrls;
@@ -4044,14 +4264,15 @@ class Component extends DCLogic {
         circleImgStyle: { position: 'relative', width: '84px', height: '84px', borderRadius: '50%', overflow: 'hidden', background: 'linear-gradient(145deg,#eae5f4,#e1dcf0)', border: isSelected ? '3px solid var(--accent,#ff3355)' : (rem.active ? '3px solid #e23b5d' : '2px solid #ffffff'), boxShadow: isSelected ? `0 0 0 5px ${this.accentAlpha(0.18)}, 0 10px 24px rgba(50,38,90,.18)` : (rem.active ? '0 0 0 3px rgba(226,59,93,.12), 0 8px 18px rgba(226,59,93,.28)' : '0 3px 10px rgba(50,38,90,.14)') },
         circleReminderStyle: { position: 'absolute', top: '2px', right: '2px', minWidth: '20px', height: '20px', padding: '0 5px', borderRadius: '999px', background: '#e23b5d', color: '#fff', fontSize: '10px', fontWeight: 900, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid #fff', boxShadow: '0 3px 9px rgba(226,59,93,.35)' },
         hasReminderAlert: !!rem.active, reminderText: rem.text || '', reminderBadgeText: rem.badgeText || rem.text || '', reminderShort: rem.type || '!',
-        id: it.id, name: displayName, hasOrig: !!(isSwapped && it.swapTo && it.name && it.name !== it.swapTo), origText: '原抽：' + (it.name || ''), character: dispChar,
+        id: it.id, name: displayName, hasOrig: !!(isSwapped && it.swapTo && it.name && it.name !== it.swapTo), origText: '原抽：' + (it.name || ''), character: dispChar, showCharBadge: !(charSel && charSel.length === 1),
         hasAvatar: !!this.charImg(dispChar), avatarStyle: { width: '16px', height: '16px', borderRadius: '50%', backgroundImage: `url(${this.charImg(dispChar)})`, backgroundSize: 'cover', backgroundPosition: 'center', margin: '0 4px 0 -2px', flexShrink: 0 },
         charStyle: { display: 'inline-flex', alignItems: 'center', padding: '3px 9px', borderRadius: '999px', fontSize: '12px', fontWeight: 500, whiteSpace: 'nowrap', background: `hsla(${hue},60%,55%,.16)`, color: `hsl(${hue},72%,40%)`, border: `1px solid hsla(${hue},60%,60%,.32)` },
         typeText: it.type + (it.subtype ? ' · ' + it.subtype : ''),
         hasSeries: fieldVisible('series') && !!it.series, seriesText: it.series, seriesStyle: this.badge('#3a6ea5', 'rgba(47,111,219,.1)', 'rgba(47,111,219,.28)'),
         showAcquire: fieldVisible('acquire') && !!(it.acquire && it.acquire !== '直购'), acquireText: it.acquire,
-        acquireStyle: this.badge(it.acquire === '盲盒' ? '#c0398a' : '#1f9e8f', it.acquire === '盲盒' ? 'rgba(192,57,138,.12)' : 'rgba(31,158,143,.12)', (it.acquire === '盲盒' ? '#c0398a' : '#1f9e8f') + '44'),
-        hasSwap: it.acquire === '盲盒' && it.swapped === '已置换', swapText: '已置换' + (it.swapTo ? '→' + it.swapTo : ''), swapStyle: this.badge('#d9701f', 'rgba(217,112,31,.13)', '#d9701f44'),
+        hasMethod: !!(it.method), methodText: it.method || '', methodStyle: this.badge('#5a7fae', 'rgba(90,127,174,.12)', 'rgba(90,127,174,.3)'),
+        acquireStyle: this.badge((it.acquire === '盲盒' || it.acquire === '盲抽') ? '#c0398a' : '#1f9e8f', (it.acquire === '盲盒' || it.acquire === '盲抽') ? 'rgba(192,57,138,.12)' : 'rgba(31,158,143,.12)', ((it.acquire === '盲盒' || it.acquire === '盲抽') ? '#c0398a' : '#1f9e8f') + '44'),
+        hasSwap: isSwapped, swapText: (it.gachaResult === '收现' ? '收现' : '已置换') + (it.swapTo ? '→' + it.swapTo : ''), swapStyle: this.badge('#d9701f', 'rgba(217,112,31,.13)', '#d9701f44'),
         chipTags: [...((it.rarity) || []).map(t => ({ label: t, style: this.badge('#c8860d', 'rgba(200,134,13,.12)', 'rgba(200,134,13,.3)') })), ...((it.tags) || []).map(t => ({ label: t, style: this.badge('#7c5cd6', 'rgba(124,92,214,.12)', 'rgba(124,92,214,.3)') }))], hasChipTags: !!(((it.tags) || []).length || ((it.rarity) || []).length),
         showForm: fieldVisible('form') && !!(it.form && it.form !== '通用'), formText: it.form,
         formStyle: this.badge(fcol, fbg, fcol + '44'),
@@ -4153,8 +4374,8 @@ class Component extends DCLogic {
     const dRate = d ? this.num(d.rate) : 0, dOrig = d ? this.num(d.originalPrice) : 0;
     const draftHasConv = !!(d && dRate > 0 && dOrig > 0);
     const draftConvText = cur + this.fmt(dOrig * dRate);
-    const draftIsGacha = !!(d && d.acquire === '盲盒');
-    const draftSwapped = !!(d && d.acquire === '盲盒' && d.swapped === '已置换');
+    const draftIsGacha = !!(d && d.method === '盲抽');
+    const draftSwapped = !!(d && d.method === '盲抽' && (d.gachaResult === '置换' || d.gachaResult === '收现'));
 
     const batchEditFields = [
       { label:'状态', onClick: () => this.chooseBatchField('status') }, { label:'角色', onClick: () => this.chooseBatchField('character') }, { label:'种类', onClick: () => this.chooseBatchField('type') }, { label:'厂商', onClick: () => this.chooseBatchField('series') }, { label:'平台', onClick: () => this.chooseBatchField('channel') }, { label:'分组', onClick: () => this.chooseBatchField('group') }, { label:'提醒类型', onClick: () => this.chooseBatchField('reminderType') }, { label:'提醒日期', onClick: () => this.chooseBatchField('reminderDate') }, { label:'买入价', onClick: () => this.chooseBatchField('buyPrice') }, { label:'原价', onClick: () => this.chooseBatchField('originalPrice') }, { label:'国内邮费', onClick: () => this.chooseBatchField('shipDom') }, { label:'国际邮费', onClick: () => this.chooseBatchField('shipIntl') }, { label:'备注', onClick: () => this.chooseBatchField('note') }
@@ -4299,6 +4520,21 @@ class Component extends DCLogic {
     const customHeaderLogo = this.workLogo(this.state.currentWorkId) || this.logoUrl || '';
     const headerLogoUrl = customHeaderLogo;
     const logoFallback = !customHeaderLogo;
+    // 作品管理弹窗（直接编辑实时数据）
+    const _wmMap = {}; (this.state.works || []).forEach(w => { const g = w.group || this.DEFAULT_GROUP; (_wmMap[g] = _wmMap[g] || []).push(w); });
+    const workManageGroups = Object.keys(_wmMap).map(g => ({
+      group: g,
+      onRenameGroup: () => this.renameGroup(_wmMap[g][0]),
+      onAddWork: () => this.addSeriesAlone(g),
+      works: _wmMap[g].map(w => ({
+        id: w.id, name: w.name || '未命名作品', isCurrent: w.id === this.state.currentWorkId,
+        hasLogo: !!this.workLogo(w.id), noLogoText: !this.workLogo(w.id),
+        logoStyle: this.workLogo(w.id) ? { width: '34px', height: '34px', borderRadius: '8px', backgroundImage: `url(${this.workLogo(w.id)})`, backgroundSize: 'cover', backgroundPosition: 'center', flexShrink: 0, cursor: 'pointer' } : { width: '34px', height: '34px', borderRadius: '8px', background: 'rgba(50,38,90,.06)', border: '1px dashed #d4cee7', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#a49ec4', fontSize: '10px', flexShrink: 0, cursor: 'pointer' },
+        onLogo: () => this.uploadWorkLogo(w.id), onRename: () => this.renameWork(w), onDel: () => this.delWork(w), onPick: () => { this.switchWork(w.id); this.closeWorkManage(); },
+        useStyle: { flexShrink: 0, fontFamily: 'inherit', fontSize: '12px', fontWeight: 700, cursor: 'pointer', padding: '6px 10px', borderRadius: '7px', border: '1px solid ' + (w.id === this.state.currentWorkId ? 'transparent' : '#ded7ee'), background: w.id === this.state.currentWorkId ? this.accentColor() : '#fff', color: w.id === this.state.currentWorkId ? '#fff' : '#8b84ad' },
+        useText: w.id === this.state.currentWorkId ? '当前' : '切到'
+      }))
+    }));
     const cnPrefix = (this.state.collectorName || '').trim();
     const cnDisplay = cnPrefix || 'CN / 昵称';
     const cnSidebarClass = 'ui-sidebar-cn ui-editable-text' + (cnPrefix ? '' : ' ui-sidebar-cn-empty');
@@ -4312,8 +4548,8 @@ class Component extends DCLogic {
       showWelcomeCard: !cnPrefix, cloudSyncCode: this.state.cloudSyncCode || '', hasCloudCode: !!this.state.cloudSyncCode, noCloudCode: !this.state.cloudSyncCode, hasCloudStatus: !!this.state.cloudStatus, cloudStatus: this.state.cloudStatus || '', copyCloudCode: this.copyCloudCode, cloudCodeInput: this.state.cloudCodeInput || '', onCloudCodeInput: this.onCloudCodeInput, createCloudCollection: this.createCloudCollection, connectCloudCollection: this.connectCloudCollection, pushCloud: this.pushCloud, pullCloud: this.pullCloud, disconnectCloud: this.disconnectCloud, hasCloudSync: !!this.state.cloudSyncId, cloudSyncText: this.state.cloudSyncCode ? ('当前同步代码：' + this.state.cloudSyncCode + '。' + (this.state.cloudStatus || '')) : (this.state.cloudStatus || '未连接云同步。'),
       trendOpen: this.state.trendOpen, closeTrend: this.closeTrend, saveTrend: this.saveTrend, addTrendRow: this.addTrendRow, trendRowsView, trendMetrics, trendTitle: (trendIt.name || '未命名') + ' · 价格趋势', setChartCanvas: this.setChartCanvas, trendHasData: !tr.empty, onOcr: this.handleOcr, ocrStatus: this.state.ocrStatus || '', hasOcrText: !!(this.state.ocrRawText || this.state.ocrBulkText), ocrRawText: this.state.ocrRawText || '', ocrBulkText: this.state.ocrBulkText || '', onOcrRawChange: this.onOcrRawChange, onOcrBulkChange: this.onOcrBulkChange, reparseOcrRaw: this.reparseOcrRaw, fillOcrBulk: this.fillOcrBulk,
       labels, workManageRows, fieldRows, optionGroups, customFieldRows, draftCustomInputs, hasCustomFields: draftCustomFields.length > 0, addCustomField: this.addCustomField, restoreBaseFields: this.restoreBaseFields, workSettingGroups, dashboardCollectionRows, dashboardSaleRows, addGroupAlone: this.addGroupAlone, uploadBg: this.uploadBg, clearBg: this.clearBg, hasBg: !!this.bgUrl, addWorkInline: this.addWork,
-      addFormOpt: this.addOptionTo('formOrder', 'zzz_form_order', '输入新的形态'), addStatusOpt: this.addOptionTo('statusList', 'zzz_status', '输入新的状态'), addAcquireOpt: this.addOptionTo('acquireOrder', 'zzz_acquire_order', '输入新的来源方式'), formMenuItems, formDisplay, formMenuOpen: this.state.formMenuOpen, toggleFormMenu: this.toggleFormMenu, statusMenuItems, statusDisplay, statusMenuOpen: this.state.statusMenuOpen, toggleStatusMenu: this.toggleStatusMenu, acquireMenuItems, acquireDisplay, acquireMenuOpen: this.state.acquireMenuOpen, toggleAcquireMenu: this.toggleAcquireMenu,
-      lblCharacter: labels.character, lblType: labels.type, lblChannel: labels.channel, lblStatus: labels.status, lblForm: labels.form, lblAcquire: labels.acquire, showReminderFields, reminderDateLabel,
+      addFormOpt: this.addOptionTo('formOrder', 'zzz_form_order', '输入新的形态'), addStatusOpt: this.addOptionTo('statusList', 'zzz_status', '输入新的状态'), addAcquireOpt: this.addOptionTo('acquireOrder', 'zzz_acquire_order', '输入新的来源方式'), formMenuItems, formDisplay, formMenuOpen: this.state.formMenuOpen, toggleFormMenu: this.toggleFormMenu, statusMenuItems, statusDisplay, statusMenuOpen: this.state.statusMenuOpen, toggleStatusMenu: this.toggleStatusMenu, acquireMenuItems, acquireDisplay, acquireMenuOpen: this.state.acquireMenuOpen, toggleAcquireMenu: this.toggleAcquireMenu, methodMenuItems, methodDisplay, methodMenuOpen: this.state.methodMenuOpen, toggleMethodMenu: this.toggleMethodMenu, clearMethod: this.clearMethod, hasMethodItems: methodMenuItems.length > 0,
+      lblCharacter: labels.character, lblType: labels.type, lblChannel: labels.channel, lblSeries: labels.series, lblStatus: labels.status, lblForm: labels.form, lblAcquire: labels.acquire, showReminderFields, reminderDateLabel,
       cnPrefix, hasCn: !!cnPrefix, cnDisplay, cnSidebarClass,
       rootBgStyle: this.bgUrl ? { backgroundImage: `linear-gradient(rgba(236,232,246,.82),rgba(236,232,246,.92)), url(${this.bgUrl})`, backgroundSize: 'cover', backgroundAttachment: 'fixed', backgroundPosition: 'center' } : {},
       appClass, mobileModeText, toggleMobileMode: this.toggleMobileMode, filterSummaryText, filterToggleText, toggleFiltersOpen: this.toggleFiltersOpen,
@@ -4350,7 +4586,7 @@ class Component extends DCLogic {
       ].map(t => ({ label: t.label, icon: t.icon, active: view === t.key, style: this.navItemStyle(view === t.key), iconStyle: this.navIconStyle(view === t.key), onClick: t.onClick })),
       navGroupItems,
       openAdd: this.openAdd, openBulkImageImport: this.openBulkImageImport, toggleBatchMode: this.toggleBatchMode, batchMode: this.state.batchMode, showBatchControl, showBatchBar, batchButtonText: this.state.batchMode ? '退出批量' : '批量编辑', mobileBatchText: this.state.batchMode ? '退出' : '批量', batchSelectedText: (this.state.selectedIds || []).length + ' 件', batchSelectVisible: this.batchSelectVisible, batchClear: this.batchClear, batchEditStatus: this.batchEditStatus, batchEditReminder: this.batchEditReminder, batchEditField: this.batchEditField, batchQtyPlus: this.batchQtyPlus, batchDelete: this.batchDelete, hasBulkEditNav: (this.state.bulkEditIds || []).length > 1 && this.state.modalOpen, bulkEditProgress: ((this.bulkCurrentIndex ? this.bulkCurrentIndex() : (this.state.bulkEditIndex || 0)) + 1) + '/' + ((this.state.bulkEditIds || []).length || 1), saveBulkPrev: this.saveBulkPrev, saveBulkNext: this.saveBulkNext,
-      search, onSearch: this.onSearch, charChips, addCharacter: this.addCharacter, typeChips, seriesChips, showSeriesFilter, formChips, statusChips, showStatusFilter, acquireChips, channelChips, showChannelFilter, customFilterRows, groupByChips, hasRows: filtered.length > 0, fCountText, fCostText, fSellText, fNetText, fProfitText, fProfitStyle,
+      search, onSearch: this.onSearch, charChips, addCharacter: this.addCharacter, addTypeF: this.addType, addSeriesF: this.addSeries, addChannelF: this.addChannel, typeChips, seriesChips, showSeriesFilter, formChips, statusChips, showStatusFilter, acquireChips, channelChips, showChannelFilter, customFilterRows, groupByChips, hasRows: filtered.length > 0, fCountText, fCostText, fSellText, fNetText, fProfitText, fProfitStyle,
       labelChar: labels.character, labelType: labels.type, labelSeries: labels.series, labelChannel: labels.channel, labelForm: labels.form, labelStatus: labels.status, labelAcquire: labels.acquire,
       showCharF: fieldVisible('character') && this.state.filterOn.character !== false, showTypeF: fieldVisible('type') && this.state.filterOn.type !== false, showFormF: fieldVisible('form') && this.state.filterOn.form !== false, showStatusF: showStatusFilter, showAcquireF: fieldVisible('acquire') && this.state.filterOn.acquire !== false,
       showSeriesF: showSeriesFilter && this.state.filterOn.series !== false, showChannelF: showChannelFilter && this.state.filterOn.channel !== false,
@@ -4364,7 +4600,9 @@ class Component extends DCLogic {
       CHARACTERS: this.orderedChars(), TYPES: this.TYPES, reminderTypeOptions: (this.state.reminderTypes && this.state.reminderTypes.length ? this.state.reminderTypes : this.REMINDER_TYPES), reminderMenuItems, reminderDisplay, reminderMenuOpen: this.state.reminderMenuOpen, toggleReminderMenu: this.toggleReminderMenu, addReminderType: this.addReminderType, clearReminderType: () => this.pickReminderType(''), STATUSES: this.state.statusList || this.STATUSES, FORMS: this.FORMS,
       closeModal: this.closeModal, saveItem: this.saveItem, onDraftChange: this.onDraftChange, charMenuItems, charDisplay, charMenuOpen: this.state.charMenuOpen, toggleCharMenu: this.toggleCharMenu, onTypeChange: this.onTypeChange, onSeriesChange: this.onSeriesChange, fillName: this.fillName, draftStars, typeMenuItems, typeDisplay, hasTypeMenuItems, typeMenuOpen: this.state.typeMenuOpen, toggleTypeMenu: this.toggleTypeMenu, addType: this.addType, seriesMenuItems, seriesDisplay, hasSeriesMenuItems, seriesMenuOpen: this.state.seriesMenuOpen, toggleSeriesMenu: this.toggleSeriesMenu, addSeries: this.addSeries, clearSeries: this.clearSeries, channelMenuItems, channelMenuOpen: this.state.channelMenuOpen, toggleChannelMenu: this.toggleChannelMenu, addChannel: this.addChannel, clearChannel: this.clearChannel, channelDisplay: (this.state.draft && this.state.draft.channel) ? this.state.draft.channel : '（未分类）', hasChannelMenuItems: (this.state.channels || []).length > 0, fillBuyFromRate: this.fillBuyFromRate, draftHasConv, draftConvText, draftIsGacha, draftSwapped,
       onImagePick: this.onImagePick, onImagePick2: this.onImagePick2, onImagePick3: this.onImagePick3, onImagePickSwap: this.onImagePickSwap, swapMenuItems, swappedDisplay, swapMenuOpen: this.state.swapMenuOpen, toggleSwapMenu: this.toggleSwapMenu, swapCharMenuItems, swapCharDisplay, swapCharMenuOpen: this.state.swapCharMenuOpen, toggleSwapCharMenu: this.toggleSwapCharMenu, clearSwapCharacter: this.clearSwapCharacter, swapCharHasAvatar, swapCharAvatarStyle, removeDraftImg: this.removeDraftImg, removeDraftImg2: this.removeDraftImg2, removeDraftImg3: this.removeDraftImg3, removeDraftImg4: this.removeDraftImg4, removeDraftSwapImg: this.removeDraftSwapImg,
-      draftTimelineRows, isAdvanced: !!this.state.advancedMode,
+      draftTimelineRows, isAdvanced: true, draftWorkName, draftWorkGroupName, draftWorkMenuGroups, draftWorkMenuOpen: this.state.draftWorkMenuOpen, toggleDraftWorkMenu: this.toggleDraftWorkMenu, addWorkInline: this.addWorkInline, draftIsSelling, draftNotSelling,
+      manageOpen: this.state.manageOpen, closeManage: this.closeManage, manageTitle, manageRows, manageAddText, onManageAdd, manageCanRenameLabel, onManageRenameLabel, manageCanToggle, manageFilterOn, workManageOpen: this.state.workManageOpen, openWorkManage: this.openWorkManage, closeWorkManage: this.closeWorkManage, workManageGroups, addGroupAlone: this.addGroupAlone, manageGroupOn, onManageToggleFilter, onManageToggleGroup, manageFilterStyle, manageGroupStyle, manageFilterText: manageFilterOn ? '进入筛选 ✓' : '进入筛选', manageGroupText: manageGroupOn ? '进入分组 ✓' : '进入分组',
+      mgrStatus: () => this.openManage('status'), mgrMethod: () => this.openManage('method'), mgrTradeTags: () => this.openManage('tradeTags'), mgrRarityTags: () => this.openManage('rarityTags'), mgrCharacter: () => this.openManage('character'), mgrType: () => this.openManage('type'), mgrForm: () => this.openManage('form'), mgrSeries: () => this.openManage('series'), mgrAcquire: () => this.openManage('acquire'), mgrChannel: () => this.openManage('channel'), mgrReminder: () => this.openManage('reminder'), mgrTrade: () => this.openManage('tradeTags'), mgrRarity: () => this.openManage('rarityTags'),
       setMenuOpen: this.state.setMenuOpen, toggleSetMenu: this.toggleSetMenu, addSet: this.addSet, clearSet: () => this.pickSet(''),
       setDisplay: (() => { const s = this.setById(d && d.setId); if (!s) return '（选择或新建套装）'; const got = this.setCollectedCodes(s.id, d && d.id).length; return s.name + (s.total ? '（' + got + '/' + s.total + '）' : ''); })(),
       hasSet: !!(d && d.setId && this.setById(d.setId)),
