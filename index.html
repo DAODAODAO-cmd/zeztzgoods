@@ -484,7 +484,7 @@
           <button onClick="{{ setGallery }}" style="{{ galleryBtnStyle }}">▧ 图鉴</button>
           <button onClick="{{ setCircle }}" style="{{ circleBtnStyle }}">◎ 圆图</button>
           <button class="ui-table-mode-btn" onClick="{{ setTable }}" style="{{ tableBtnStyle }}">▤ 表格</button>
-          <button class="ui-table-mode-btn" onClick="{{ setLedger }}" style="{{ ledgerBtnStyle }}">￥ 账本</button>
+          <button class="ui-table-mode-btn" onClick="{{ setLedger }}" style="{{ ledgerBtnStyle }}">￥ 钱包</button>
         </div>
         <button class="ui-main-add" onClick="{{ openAdd }}" style="font-family:inherit;font-size:14px;font-weight:700;color:#fff;background:var(--accent,#ff3355);border:none;padding:10px 18px;border-radius:11px;cursor:pointer;box-shadow:0 6px 18px rgba(50,38,90,.2)">{{ addItemText }}</button>
           <sc-if value="{{ showBatchControl }}" hint-placeholder-val="{{ true }}"><button class="ui-mobile-batch-action" onClick="{{ toggleBatchMode }}" title="{{ batchButtonText }}" style="font-family:inherit;font-size:14px;font-weight:700;color:#4c4580;background:rgba(50,38,90,.045);border:1px solid #ded7ee;padding:10px 14px;border-radius:11px;cursor:pointer">{{ mobileBatchText }}</button></sc-if>
@@ -1066,6 +1066,23 @@
             </div>
 
             <div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>{{ lblStatus }}</span><button onClick="{{ addStatusOpt }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 9px;border-radius:7px;cursor:pointer">添加</button></div>
+              <div style="position:relative">
+                <button onClick="{{ toggleStatusMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ statusDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
+                <sc-if value="{{ statusMenuOpen }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:7;background:#ffffff;border:1px solid #ded7ee;border-radius:11px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:220px;overflow-y:auto">
+                    <sc-for list="{{ statusMenuItems }}" as="ch" hint-placeholder-count="6">
+                      <div style="{{ ch.rowStyle }}">
+                        <button onClick="{{ ch.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ch.name }}</button>
+                        <button onClick="{{ ch.onDel }}" style="flex-shrink:0;width:22px;height:22px;border-radius:6px;border:none;background:rgba(226,59,93,.1);color:#e23b5d;cursor:pointer;font-size:14px;line-height:1">×</button>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
+            </div>
+
+            <div>
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>{{ lblForm }}</span><button onClick="{{ addFormOpt }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 9px;border-radius:7px;cursor:pointer">添加</button></div>
               <div style="position:relative">
                 <button onClick="{{ toggleFormMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ formDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
@@ -1117,13 +1134,11 @@
               </div>
             </div>
 
-            <sc-if value="{{ isAdvanced }}" hint-placeholder-val="{{ false }}">
             <div style="grid-column:1/-1">
               <button onClick="{{ toggleColInfo }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 12px;border-radius:9px;border:1px dashed #d4cee7;background:rgba(50,38,90,.03);color:#544f7e;font-family:inherit;font-size:13px;cursor:pointer">
-                <span>🏷 收藏信息 · 厂商 / 细分 / 来源 / 平台（可选）</span><span style="color:#938db0;font-size:11px">{{ colInfoCaret }}</span>
+                <span>🏷 收藏信息 · 形态 / 厂商 / 细分 / 来源 / 平台 / 系列收藏（可选）</span><span style="color:#938db0;font-size:11px">{{ colInfoCaret }}</span>
               </button>
             </div>
-            </sc-if>
             <sc-if value="{{ colInfoShow }}" hint-placeholder-val="{{ false }}">
             <div>
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>厂商</span><button onClick="{{ addSeries }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer">添加</button></div>
@@ -1279,28 +1294,13 @@
               <input name="qty" type="number" min="1" value="{{ draft.qty }}" onChange="{{ onDraftChange }}" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">购买日期</div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">下单日 / 购买日期</div>
               <input name="buyDate" type="date" value="{{ draft.buyDate }}" onChange="{{ onDraftChange }}" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
 
             <div style="grid-column:1/-1;border-top:1px solid #ece7f6;margin-top:4px;padding-top:12px"></div>
-            <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>{{ lblStatus }}</span><button onClick="{{ addStatusOpt }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 9px;border-radius:7px;cursor:pointer">添加</button></div>
-              <div style="position:relative">
-                <button onClick="{{ toggleStatusMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ statusDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
-                <sc-if value="{{ statusMenuOpen }}" hint-placeholder-val="{{ false }}">
-                  <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:7;background:#ffffff;border:1px solid #ded7ee;border-radius:11px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:220px;overflow-y:auto">
-                    <sc-for list="{{ statusMenuItems }}" as="ch" hint-placeholder-count="6">
-                      <div style="{{ ch.rowStyle }}">
-                        <button onClick="{{ ch.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ch.name }}</button>
-                        <button onClick="{{ ch.onDel }}" style="flex-shrink:0;width:22px;height:22px;border-radius:6px;border:none;background:rgba(226,59,93,.1);color:#e23b5d;cursor:pointer;font-size:14px;line-height:1">×</button>
-                      </div>
-                    </sc-for>
-                  </div>
-                </sc-if>
-              </div>
-            </div>
 
+            <sc-if value="{{ showReminderFields }}" hint-placeholder-val="{{ false }}">
             <div>
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>提醒事件</span><button onClick="{{ addReminderType }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer">添加</button></div>
               <div style="position:relative">
@@ -1319,32 +1319,35 @@
               </div>
             </div>
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">提醒日期</div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">{{ reminderDateLabel }}</div>
               <input name="reminderDate" type="date" value="{{ draft.reminderDate }}" onChange="{{ onDraftChange }}" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
               
             </div>
+            </sc-if>
 
-            <sc-if value="{{ isAdvanced }}" hint-placeholder-val="{{ false }}">
+            <sc-if value="{{ colInfoShow }}" hint-placeholder-val="{{ false }}">
             <div style="grid-column:1/-1">
-              <button onClick="{{ toggleSetInfo }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 12px;border-radius:9px;border:1px dashed #d4cee7;background:rgba(50,38,90,.03);color:#544f7e;font-family:inherit;font-size:13px;cursor:pointer">
-                <span>🧩 系列收藏 · 套装 / 款式 / 集齐进度（可选）</span><span style="color:#938db0;font-size:11px">{{ setInfoCaret }}</span>
-              </button>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">🧩 系列收藏 / 套装</div>
+              <div style="position:relative">
+                <button onClick="{{ toggleSetMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ setDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
+                <sc-if value="{{ setMenuOpen }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:7;background:#ffffff;border:1px solid #ded7ee;border-radius:11px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:240px;overflow-y:auto">
+                    <button onClick="{{ clearSet }}" style="width:100%;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#938db0;padding:7px 9px;border-radius:8px">（不属于套装）</button>
+                    <sc-for list="{{ setMenuItems }}" as="s" hint-placeholder-count="2">
+                      <button onClick="{{ s.onPick }}" style="{{ s.rowStyle }}"><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ s.name }}</span><span style="font-size:11px;font-family:'Orbitron',sans-serif;color:#938db0">{{ s.progress }}</span></button>
+                    </sc-for>
+                    <button onClick="{{ addSet }}" style="width:100%;margin-top:3px;background:rgba(50,38,90,.04);border:1px dashed #ded7ee;cursor:pointer;text-align:center;font-family:inherit;font-size:13px;font-weight:700;color:#544f7e;padding:8px 9px;border-radius:9px">＋ 新建套装</button>
+                  </div>
+                </sc-if>
+              </div>
+            </div>
+            <sc-if value="{{ hasSet }}" hint-placeholder-val="{{ false }}">
+            <div style="grid-column:1/-1">
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">款式编号</div>
+              <input name="setVariant" value="{{ draft.setVariant }}" onChange="{{ onDraftChange }}" placeholder="例：03 / A款 / 诺克斯款" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              <sc-if value="{{ hasCollectedCodes }}" hint-placeholder-val="{{ false }}"><div style="font-size:11px;color:#938db0;margin-top:6px">已收：{{ collectedCodesText }}</div></sc-if>
             </div>
             </sc-if>
-            <sc-if value="{{ setInfoShow }}" hint-placeholder-val="{{ false }}">
-            <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">所属套装 / 收集目标</div>
-              <input name="setName" value="{{ draft.setName }}" onChange="{{ onDraftChange }}" placeholder="例：NOX POP徽章 / 一番赏A赏套组" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
-            </div>
-            <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">套装总数</div>
-              <input name="setTotal" type="number" min="0" value="{{ draft.setTotal }}" onChange="{{ onDraftChange }}" placeholder="例：8" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
-              <div style="font-size:11px;color:#938db0;margin-top:6px"></div>
-            </div>
-            <div style="grid-column:1/-1">
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">款式名 / 款式编号</div>
-              <input name="setVariant" value="{{ draft.setVariant }}" onChange="{{ onDraftChange }}" placeholder="例：A款 / B款 / 盲抽01 / 诺克斯款" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
-            </div>
             </sc-if>
 
             <sc-if value="{{ hasCustomFields }}" hint-placeholder-val="{{ false }}">
@@ -1565,8 +1568,8 @@
           </div>
 
           <div style="border-top:1px solid #e1dbf0;padding-top:16px">
-            <div style="font-weight:700;font-size:14px;color:#251d49;margin-bottom:4px">账本卡片设置</div>
-            <div style="font-size:11.5px;color:#938db0;margin-bottom:10px;line-height:1.6">选择账本下面四张 TOP 卡片展示什么；名称会跟随默认 / 谷圈用词变化。</div>
+            <div style="font-weight:700;font-size:14px;color:#251d49;margin-bottom:4px">钱包卡片设置</div>
+            <div style="font-size:11.5px;color:#938db0;margin-bottom:10px;line-height:1.6">选择钱包下面四张 TOP 卡片展示什么；名称会跟随默认 / 谷圈用词变化。</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
               <div>
                 <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:700">收藏模式</div>
@@ -1718,7 +1721,7 @@ class Component extends DCLogic {
   FIELD_DEFAULTS = { character: '角色', type: '种类', series: '厂商', channel: '平台', status: '状态', form: '形态', acquire: '来源' };
   CHAR_IMG = { '诺克斯': 'assets/c_nox.webp', 'NOX': 'assets/r_blue.webp', 'MIDNIGHT SHADOW': 'assets/r_nox_midnight.webp', 'NOX KNIGHT': 'assets/r_lady.webp', 'ZEZTZ': 'assets/r_red.webp', '西格': 'assets/c_zeke.webp', 'DAWN': 'assets/r_zeztz.webp', '宁梦': 'assets/c_nemu.webp', '南云成华': 'assets/c_nagumo.webp', 'ZERO': 'assets/c_zero.webp', '万津莫': 'assets/c_matsu.webp', '万津美浪': 'assets/c_minami.webp', '富士见铁也': 'assets/c_fujimi.webp', 'THE LADY': 'assets/c_lady.webp', 'CODE': 'assets/c_code.webp' };
   imgUrls = {};
-  state = { items: [], view: null, feeOpen: false, colInfoOpen: false, setInfoOpen: false, recentWorks: [], collapsedGroups: {}, reminderMenuOpen: false, monthlyBudget: '', budgets: {}, ledgerDetailKey: '', ledgerDetailType: 'day', ledgerDetailLabel: '', tableSortKey: '', tableSortDir: 'desc', nameStyleMode: 'default', displayMode: 'standard', dashboardCards: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, dataManageOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, trendOpen: false, trendItemId: null, trendRows: [], trendResult: null, ocrRawText: '', ocrBulkText: '', modalOpen: false, editing: null, draft: null, savedAt: 0, batchMode: false, selectedIds: [], bulkEditIds: [], bulkEditIndex: 0, ledgerRange: 'month', ledgerMode: 'month', ledgerYear: String(new Date().getFullYear()), ledgerMonth: String(new Date().getMonth()+1), ledgerWeek: '', ledgerPieBy: 'character', ledgerPieActive: 0, batchEditOpen: false, batchEditField: '' };
+  state = { items: [], view: null, sets: [], lastSetId: '', setMenuOpen: false, feeOpen: false, colInfoOpen: false, setInfoOpen: false, recentWorks: [], collapsedGroups: {}, reminderMenuOpen: false, monthlyBudget: '', budgets: {}, ledgerDetailKey: '', ledgerDetailType: 'day', ledgerDetailLabel: '', tableSortKey: '', tableSortDir: 'desc', nameStyleMode: 'default', displayMode: 'standard', dashboardCards: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, dataManageOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, trendOpen: false, trendItemId: null, trendRows: [], trendResult: null, ocrRawText: '', ocrBulkText: '', modalOpen: false, editing: null, draft: null, savedAt: 0, batchMode: false, selectedIds: [], bulkEditIds: [], bulkEditIndex: 0, ledgerRange: 'month', ledgerMode: 'month', ledgerYear: String(new Date().getFullYear()), ledgerMonth: String(new Date().getMonth()+1), ledgerWeek: '', ledgerPieBy: 'character', ledgerPieActive: 0, batchEditOpen: false, batchEditField: '' };
 
   setRoot = (el) => { this.rootEl = el; if (el) { const a = this.state.accent || this.props.accent || '#ff3355'; el.style.setProperty('--accent', a); try { document.documentElement.style.setProperty('--accent', a); } catch (e) {} this.applyBg(); } };
   setImportRef = (el) => { this.importRef = el; };
@@ -1747,6 +1750,14 @@ class Component extends DCLogic {
     if (currentWorkId !== this.ALL_WORKS && !works.some(w => w.id === currentWorkId)) currentWorkId = works[0].id;
     let recentWorks = []; try { recentWorks = JSON.parse(localStorage.getItem('zzz_recent_works') || '[]') || []; } catch (e) {}
     recentWorks = recentWorks.filter(id => works.some(w => w.id === id));
+    // 套装表 + 一次性迁移
+    let sets = []; try { sets = JSON.parse(localStorage.getItem('zzz_sets') || '[]') || []; } catch (e) {}
+    if (!localStorage.getItem('zzz_sets_migrated')) {
+      const byKey = {}; sets.forEach(s => { byKey[(s.workId || this.MAIN_WORK) + '::' + s.name] = s; });
+      items.forEach(it => { const nm = (it.setName || '').trim(); if (!nm) return; const wid = it.workId || this.MAIN_WORK; const k = wid + '::' + nm; if (!byKey[k]) { const s = { id: 'set_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5), name: nm, total: Math.max(0, parseInt(it.setTotal) || 0), workId: wid }; byKey[k] = s; sets.push(s); } else if (!byKey[k].total && parseInt(it.setTotal)) { byKey[k].total = parseInt(it.setTotal); } it.setId = byKey[k].id; });
+      try { localStorage.setItem('zzz_sets', JSON.stringify(sets)); localStorage.setItem('zzz_goods_v1', JSON.stringify(items)); localStorage.setItem('zzz_sets_migrated', '1'); } catch (e) {}
+    }
+    let lastSetId = localStorage.getItem('zzz_last_set') || '';
     let workGroupLabel = localStorage.getItem('zzz_work_group_label') || '系列IP';
     // 设置
     let title = '谷子收纳', subtitle = '梦 境 特 工 档 案', footer = '梦境特工档案 · コードナンバー：収集家';
@@ -1779,7 +1790,7 @@ class Component extends DCLogic {
     this.charOrder = lists.charOrder;
     let cloudSyncId = '', cloudSyncCode = '';
     try { cloudSyncId = localStorage.getItem('zzz_cloud_id') || ''; cloudSyncCode = localStorage.getItem('zzz_cloud_code') || ''; } catch (e) {}
-    this.setState({ items, works, currentWorkId, recentWorks, workGroupLabel, title, subtitle, footer, collectorName, currency, accent, monthlyBudget, budgets, nameStyleMode, advancedMode, displayMode, dashboardCards, fieldLabels, filterOn, statsOn, deletedFields, customFields, customFilterOrder, cloudSyncId, cloudSyncCode, cloudCodeInput: cloudSyncCode || '', mobileMode, filtersOpen: false, view: startView, ...lists });
+    this.setState({ items, works, currentWorkId, recentWorks, sets, lastSetId, workGroupLabel, title, subtitle, footer, collectorName, currency, accent, monthlyBudget, budgets, nameStyleMode, advancedMode, displayMode, dashboardCards, fieldLabels, filterOn, statsOn, deletedFields, customFields, customFilterOrder, cloudSyncId, cloudSyncCode, cloudCodeInput: cloudSyncCode || '', mobileMode, filtersOpen: false, view: startView, ...lists });
     this.loadImages(items);
     this.loadCharAvatars();
     this.loadLogo();
@@ -2533,7 +2544,7 @@ class Component extends DCLogic {
     try { localStorage.setItem('zzz_custom_filter_order', JSON.stringify(orderMap)); } catch(e) {}
     this.setState({ customFilterOrder: orderMap, customFilterSel }, () => this.commit(items));
   };
-  emptyDraft() { const chars = this.orderedChars(); return { id: null, custom: {}, name: '', character: (chars[0] || ''), type: this.TYPES[0], subtype: '', series: '', form: '通用', heat: 0, rate: '', otherFee: '', acquire: '', swapped: '未置换', swapTo: '', swapCharacter: '', swapImageId: null, group: '收藏', status: '已归家', qty: '1', originalPrice: '', buyPrice: '', shipDom: '', shipIntl: '', sellPrice: '', channel: '', buyDate: this.todayStr(), reminderType: '', reminderDate: '', note: '', imageId: null, imageId2: null, imageId3: null, imageId4: null, specialType: '', specialDate: '', setName: '', setTotal: '', setVariant: '', timeline: [], tags: [], rarity: [] }; }
+  emptyDraft() { const chars = this.orderedChars(); return { id: null, custom: {}, name: '', character: (chars[0] || ''), type: this.TYPES[0], subtype: '', series: '', form: '通用', heat: 0, rate: '', otherFee: '', acquire: '', swapped: '未置换', swapTo: '', swapCharacter: '', swapImageId: null, group: '收藏', status: '已归家', qty: '1', originalPrice: '', buyPrice: '', shipDom: '', shipIntl: '', sellPrice: '', channel: '', buyDate: this.todayStr(), reminderType: '', reminderDate: '', note: '', imageId: null, imageId2: null, imageId3: null, imageId4: null, specialType: '', specialDate: '', setId: this.state.lastSetId || '', setName: '', setTotal: '', setVariant: '', timeline: [], tags: [], rarity: [] }; }
   imageSlotKeys() { return ['imageId', 'imageId2', 'imageId3', 'imageId4']; }
   imageIdsOf(it) { return this.imageSlotKeys().map(k => it && it[k]).filter(Boolean); }
   imageUrlsOf(it) { return this.imageIdsOf(it).map(id => this.imgUrls[id]).filter(Boolean); }
@@ -2592,11 +2603,24 @@ class Component extends DCLogic {
   };
   feeHas(d) { return !!(this.num(d.originalPrice) || this.num(d.rate) || this.num(d.shipDom) || this.num(d.shipIntl) || this.num(d.otherFee)); }
   colInfoHas(d) { return !!((d.series && String(d.series).trim()) || (d.subtype && String(d.subtype).trim()) || (d.acquire && String(d.acquire).trim()) || (d.channel && String(d.channel).trim())); }
-  setInfoHas(d) { return !!((d.setName && String(d.setName).trim()) || this.num(d.setTotal) || (d.setVariant && String(d.setVariant).trim())); }
+  setInfoHas(d) { return !!(d.setId || (d.setName && String(d.setName).trim()) || this.num(d.setTotal) || (d.setVariant && String(d.setVariant).trim())); }
   openAdd = () => this.setState({ modalOpen: true, editing: null, draft: this.emptyDraft(), feeOpen: false, colInfoOpen: false, setInfoOpen: false });
   openEdit = (it) => { const d = { ...this.emptyDraft(), ...it }; this.setState({ modalOpen: true, editing: it.id, draft: d, feeOpen: this.feeHas(d), colInfoOpen: this.colInfoHas(d), setInfoOpen: this.setInfoHas(d) }); };
   openDuplicate = (it) => { const d = { ...this.emptyDraft(), ...it, id: null }; this.setState({ modalOpen: true, editing: null, draft: d, feeOpen: this.feeHas(d), colInfoOpen: this.colInfoHas(d), setInfoOpen: this.setInfoHas(d) }); };
   toggleFee = () => this.setState(s => ({ feeOpen: !s.feeOpen }));
+  toggleSetMenu = () => this.setState(s => ({ setMenuOpen: !s.setMenuOpen }));
+  pickSet = (id) => { try { if (id) localStorage.setItem('zzz_last_set', id); } catch (e) {} this.setState(s => ({ draft: { ...s.draft, setId: id }, setMenuOpen: false, lastSetId: id || s.lastSetId })); };
+  addSet = () => {
+    const name = (window.prompt('套装名称，例：VV 第一弹') || '').trim(); if (!name) return;
+    const total = Math.max(0, parseInt(window.prompt('总款数（可留空）', '') || '0') || 0);
+    const id = 'set_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+    const wid = (this.state.draft && this.state.draft.workId) || this.state.currentWorkId || this.MAIN_WORK;
+    const sets = [...(this.state.sets || []), { id, name, total, workId: wid }];
+    try { localStorage.setItem('zzz_sets', JSON.stringify(sets)); localStorage.setItem('zzz_last_set', id); } catch (e) {}
+    this.setState(s => ({ sets, lastSetId: id, draft: { ...s.draft, setId: id }, setMenuOpen: false }));
+  };
+  setById(id) { return (this.state.sets || []).find(s => s.id === id) || null; }
+  setCollectedCodes(setId, exceptId) { return [...new Set((this.state.items || []).filter(it => it.setId === setId && it.id !== exceptId).map(it => (it.setVariant || '').trim()).filter(Boolean))]; }
   toggleColInfo = () => this.setState(s => ({ colInfoOpen: !s.colInfoOpen }));
   toggleSetInfo = () => this.setState(s => ({ setInfoOpen: !s.setInfoOpen }));
   toggleDraftTag = (kind, tag) => this.setState(s => { const arr = [...((s.draft && s.draft[kind]) || [])]; const i = arr.indexOf(tag); if (i >= 0) arr.splice(i, 1); else arr.push(tag); return { draft: { ...s.draft, [kind]: arr } }; });
@@ -2799,6 +2823,9 @@ class Component extends DCLogic {
     if (!d.name || !d.name.trim()) { const g = this.genName(d); if (!g) { alert('请先填写名称（或选择角色 / 填细分后点自动生成）'); return; } d = { ...d, name: g }; }
     if (!this.state.editing && this.handleDuplicateBeforeSave(d)) return;
     const prev = this.state.editing ? this.state.items.find(x => x.id === this.state.editing) : null;
+    const setObj = this.setById(d.setId);
+    if (setObj) d = { ...d, setName: setObj.name, setTotal: setObj.total ? String(setObj.total) : '' };
+    else if (d.setId === '') d = { ...d, setName: '', setTotal: '' };
     const nowArrived = this.arrivedOf(d) && !(prev && this.arrivedOf(prev));
     let items, savedItem;
     if (this.state.editing) { savedItem = { ...d, id: this.state.editing, workId: d.workId || this.state.currentWorkId }; items = this.state.items.map(x => x.id === this.state.editing ? savedItem : x); }
@@ -2941,7 +2968,7 @@ class Component extends DCLogic {
       const cn = (this.state.collectorName || '').trim();
       const wb = await this.makeExcelWorkbook();
       const buf = await wb.xlsx.writeBuffer();
-      this.downloadBlob(new Blob([buf], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }), (cn ? cn + '谷子账本' : '谷子账本') + '_' + new Date().toISOString().slice(0,10) + '.xlsx');
+      this.downloadBlob(new Blob([buf], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }), (cn ? cn + '谷子钱包' : '谷子钱包') + '_' + new Date().toISOString().slice(0,10) + '.xlsx');
     } catch (err) { alert('导出 Excel 失败：' + (err && err.message ? err.message : err)); }
   };
   doExcelTemplate = async () => {
@@ -3620,7 +3647,7 @@ class Component extends DCLogic {
   nameStyleLabels() {
     return {
       default: {
-        ledgerTitle: '账本模式', ledgerHelp: '当前账本会跟随作品范围、收藏/出物模式和筛选条件一起变化。', consumeTitle: '消费表',
+        ledgerTitle: '钱包', ledgerHelp: '当前钱包会跟随作品范围、收藏/出物模式和筛选条件一起变化。', consumeTitle: '消费表',
         budget: '本月预算', spent: '本月已花', remain: '剩余额度', progress: '预算进度', noBudget: '设置预算后可查看进度', overBudget: '已超出预算', nearBudget: '快到预算上限', okBudget: '预算正常',
         months: '近六个月消费表', reminderCenter: '提醒中心', noReminder: '暂无待处理事项。', reminderCount: '待处理',
         collectRanks: ['花费TOP3','具体谷子数量最多','最爱TOP3','IP TOP3'], saleRanks: ['卖价TOP3','卖出TOP3','收益IP TOP3','利润TOP3'],
@@ -3745,6 +3772,10 @@ class Component extends DCLogic {
     const dStatus = this.state.draft ? (this.state.draft.status || '') : '';
     const statusMenuItems = ((this.state.statusList && this.state.statusList.length) ? this.state.statusList : this.STATUSES).map(c => ({ name: c, onPick: () => this.pickStatus(c), onRename: (ev) => this.renameListOption('statusList', 'zzz_status', 'status', c, '状态', ev), onDel: (ev) => this.delListOption('statusList', 'zzz_status', 'status', c, ev), rowStyle: this.menuRow(dStatus === c) }));
     const statusDisplay = dStatus || '选择状态';
+    const arrivedState = dStatus === '已归家' || dStatus === '已到货';
+    const soldState = dStatus === '已出物' || dStatus === '出售中' || dStatus === '已出/已卖出';
+    const showReminderFields = !!dStatus && !arrivedState && !soldState;
+    const reminderDateLabel = dStatus === '待补款' ? '补款截止日' : dStatus === '待尾款' ? '尾款截止日' : dStatus === '排发中' ? '预计排发日' : dStatus === '已发货' ? '预计到货日' : '提醒日期';
     const dAcquire = this.state.draft ? (this.state.draft.acquire || '') : '';
     const acquireMenuItems = ((this.state.acquireOrder && this.state.acquireOrder.length) ? this.state.acquireOrder : ['官谷','同人谷','通贩','场贩','代购','拼团','单买','抱盒','盲抽','二手','煤炉','日拍','骏河屋','闲鱼','淘宝','其他']).map(c => ({ name: c, onPick: () => this.pickAcquire(c), onRename: (ev) => this.renameListOption('acquireOrder', 'zzz_acquire_order', 'acquire', c, '来源方式', ev), onDel: (ev) => this.delListOption('acquireOrder', 'zzz_acquire_order', 'acquire', c, ev), rowStyle: this.menuRow(dAcquire === c) }));
     const acquireDisplay = dAcquire || '选择来源方式';
@@ -4282,7 +4313,7 @@ class Component extends DCLogic {
       trendOpen: this.state.trendOpen, closeTrend: this.closeTrend, saveTrend: this.saveTrend, addTrendRow: this.addTrendRow, trendRowsView, trendMetrics, trendTitle: (trendIt.name || '未命名') + ' · 价格趋势', setChartCanvas: this.setChartCanvas, trendHasData: !tr.empty, onOcr: this.handleOcr, ocrStatus: this.state.ocrStatus || '', hasOcrText: !!(this.state.ocrRawText || this.state.ocrBulkText), ocrRawText: this.state.ocrRawText || '', ocrBulkText: this.state.ocrBulkText || '', onOcrRawChange: this.onOcrRawChange, onOcrBulkChange: this.onOcrBulkChange, reparseOcrRaw: this.reparseOcrRaw, fillOcrBulk: this.fillOcrBulk,
       labels, workManageRows, fieldRows, optionGroups, customFieldRows, draftCustomInputs, hasCustomFields: draftCustomFields.length > 0, addCustomField: this.addCustomField, restoreBaseFields: this.restoreBaseFields, workSettingGroups, dashboardCollectionRows, dashboardSaleRows, addGroupAlone: this.addGroupAlone, uploadBg: this.uploadBg, clearBg: this.clearBg, hasBg: !!this.bgUrl, addWorkInline: this.addWork,
       addFormOpt: this.addOptionTo('formOrder', 'zzz_form_order', '输入新的形态'), addStatusOpt: this.addOptionTo('statusList', 'zzz_status', '输入新的状态'), addAcquireOpt: this.addOptionTo('acquireOrder', 'zzz_acquire_order', '输入新的来源方式'), formMenuItems, formDisplay, formMenuOpen: this.state.formMenuOpen, toggleFormMenu: this.toggleFormMenu, statusMenuItems, statusDisplay, statusMenuOpen: this.state.statusMenuOpen, toggleStatusMenu: this.toggleStatusMenu, acquireMenuItems, acquireDisplay, acquireMenuOpen: this.state.acquireMenuOpen, toggleAcquireMenu: this.toggleAcquireMenu,
-      lblCharacter: labels.character, lblType: labels.type, lblChannel: labels.channel, lblStatus: labels.status, lblForm: labels.form, lblAcquire: labels.acquire,
+      lblCharacter: labels.character, lblType: labels.type, lblChannel: labels.channel, lblStatus: labels.status, lblForm: labels.form, lblAcquire: labels.acquire, showReminderFields, reminderDateLabel,
       cnPrefix, hasCn: !!cnPrefix, cnDisplay, cnSidebarClass,
       rootBgStyle: this.bgUrl ? { backgroundImage: `linear-gradient(rgba(236,232,246,.82),rgba(236,232,246,.92)), url(${this.bgUrl})`, backgroundSize: 'cover', backgroundAttachment: 'fixed', backgroundPosition: 'center' } : {},
       appClass, mobileModeText, toggleMobileMode: this.toggleMobileMode, filterSummaryText, filterToggleText, toggleFiltersOpen: this.toggleFiltersOpen,
@@ -4315,7 +4346,7 @@ class Component extends DCLogic {
         { key: 'gallery', icon: '▧', label: '图鉴', onClick: this.setGallery },
         { key: 'circle', icon: '◎', label: '圆图', onClick: this.setCircle },
         { key: 'table', icon: '▤', label: '表格', onClick: this.setTable },
-        { key: 'ledger', icon: '￥', label: '账本', onClick: this.setLedger }
+        { key: 'ledger', icon: '￥', label: '钱包', onClick: this.setLedger }
       ].map(t => ({ label: t.label, icon: t.icon, active: view === t.key, style: this.navItemStyle(view === t.key), iconStyle: this.navIconStyle(view === t.key), onClick: t.onClick })),
       navGroupItems,
       openAdd: this.openAdd, openBulkImageImport: this.openBulkImageImport, toggleBatchMode: this.toggleBatchMode, batchMode: this.state.batchMode, showBatchControl, showBatchBar, batchButtonText: this.state.batchMode ? '退出批量' : '批量编辑', mobileBatchText: this.state.batchMode ? '退出' : '批量', batchSelectedText: (this.state.selectedIds || []).length + ' 件', batchSelectVisible: this.batchSelectVisible, batchClear: this.batchClear, batchEditStatus: this.batchEditStatus, batchEditReminder: this.batchEditReminder, batchEditField: this.batchEditField, batchQtyPlus: this.batchQtyPlus, batchDelete: this.batchDelete, hasBulkEditNav: (this.state.bulkEditIds || []).length > 1 && this.state.modalOpen, bulkEditProgress: ((this.bulkCurrentIndex ? this.bulkCurrentIndex() : (this.state.bulkEditIndex || 0)) + 1) + '/' + ((this.state.bulkEditIds || []).length || 1), saveBulkPrev: this.saveBulkPrev, saveBulkNext: this.saveBulkNext,
@@ -4333,7 +4364,12 @@ class Component extends DCLogic {
       CHARACTERS: this.orderedChars(), TYPES: this.TYPES, reminderTypeOptions: (this.state.reminderTypes && this.state.reminderTypes.length ? this.state.reminderTypes : this.REMINDER_TYPES), reminderMenuItems, reminderDisplay, reminderMenuOpen: this.state.reminderMenuOpen, toggleReminderMenu: this.toggleReminderMenu, addReminderType: this.addReminderType, clearReminderType: () => this.pickReminderType(''), STATUSES: this.state.statusList || this.STATUSES, FORMS: this.FORMS,
       closeModal: this.closeModal, saveItem: this.saveItem, onDraftChange: this.onDraftChange, charMenuItems, charDisplay, charMenuOpen: this.state.charMenuOpen, toggleCharMenu: this.toggleCharMenu, onTypeChange: this.onTypeChange, onSeriesChange: this.onSeriesChange, fillName: this.fillName, draftStars, typeMenuItems, typeDisplay, hasTypeMenuItems, typeMenuOpen: this.state.typeMenuOpen, toggleTypeMenu: this.toggleTypeMenu, addType: this.addType, seriesMenuItems, seriesDisplay, hasSeriesMenuItems, seriesMenuOpen: this.state.seriesMenuOpen, toggleSeriesMenu: this.toggleSeriesMenu, addSeries: this.addSeries, clearSeries: this.clearSeries, channelMenuItems, channelMenuOpen: this.state.channelMenuOpen, toggleChannelMenu: this.toggleChannelMenu, addChannel: this.addChannel, clearChannel: this.clearChannel, channelDisplay: (this.state.draft && this.state.draft.channel) ? this.state.draft.channel : '（未分类）', hasChannelMenuItems: (this.state.channels || []).length > 0, fillBuyFromRate: this.fillBuyFromRate, draftHasConv, draftConvText, draftIsGacha, draftSwapped,
       onImagePick: this.onImagePick, onImagePick2: this.onImagePick2, onImagePick3: this.onImagePick3, onImagePickSwap: this.onImagePickSwap, swapMenuItems, swappedDisplay, swapMenuOpen: this.state.swapMenuOpen, toggleSwapMenu: this.toggleSwapMenu, swapCharMenuItems, swapCharDisplay, swapCharMenuOpen: this.state.swapCharMenuOpen, toggleSwapCharMenu: this.toggleSwapCharMenu, clearSwapCharacter: this.clearSwapCharacter, swapCharHasAvatar, swapCharAvatarStyle, removeDraftImg: this.removeDraftImg, removeDraftImg2: this.removeDraftImg2, removeDraftImg3: this.removeDraftImg3, removeDraftImg4: this.removeDraftImg4, removeDraftSwapImg: this.removeDraftSwapImg,
-      draftTimelineRows, isAdvanced: !!this.state.advancedMode, feeShow: !!this.state.feeOpen, colInfoShow: !!this.state.advancedMode && this.state.colInfoOpen, setInfoShow: !!this.state.advancedMode && this.state.setInfoOpen, feeOpen: this.state.feeOpen, feeCaret: this.state.feeOpen ? '▲ 收起' : '▼ 展开', toggleFee: this.toggleFee, colInfoOpen: this.state.colInfoOpen, colInfoCaret: this.state.colInfoOpen ? '▲ 收起' : '▼ 展开', toggleColInfo: this.toggleColInfo, setInfoOpen: this.state.setInfoOpen, setInfoCaret: this.state.setInfoOpen ? '▲ 收起' : '▼ 展开', toggleSetInfo: this.toggleSetInfo,
+      draftTimelineRows, isAdvanced: !!this.state.advancedMode,
+      setMenuOpen: this.state.setMenuOpen, toggleSetMenu: this.toggleSetMenu, addSet: this.addSet, clearSet: () => this.pickSet(''),
+      setDisplay: (() => { const s = this.setById(d && d.setId); if (!s) return '（选择或新建套装）'; const got = this.setCollectedCodes(s.id, d && d.id).length; return s.name + (s.total ? '（' + got + '/' + s.total + '）' : ''); })(),
+      hasSet: !!(d && d.setId && this.setById(d.setId)),
+      setMenuItems: (this.state.sets || []).filter(s => (s.workId || this.MAIN_WORK) === ((d && d.workId) || this.state.currentWorkId || this.MAIN_WORK)).sort((a, b) => (a.id === this.state.lastSetId ? -1 : b.id === this.state.lastSetId ? 1 : 0)).map(s => { const got = this.setCollectedCodes(s.id, d && d.id).length; return { name: s.name + (s.id === this.state.lastSetId ? ' · 最近' : ''), progress: s.total ? got + '/' + s.total : String(got), onPick: () => this.pickSet(s.id), rowStyle: { display: 'flex', alignItems: 'center', gap: '8px', width: '100%', background: (d && d.setId === s.id) ? this.accentAlpha(0.1) : 'none', border: 'none', cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit', fontSize: '14px', color: '#251d49', padding: '7px 9px', borderRadius: '8px' } }; }),
+      collectedCodesText: (d && d.setId) ? this.setCollectedCodes(d.setId, d.id).join('、') : '', hasCollectedCodes: !!(d && d.setId && this.setCollectedCodes(d.setId, d.id).length), feeShow: !!this.state.feeOpen, colInfoShow: !!this.state.colInfoOpen, setInfoShow: !!this.state.advancedMode && this.state.setInfoOpen, feeOpen: this.state.feeOpen, feeCaret: this.state.feeOpen ? '▲ 收起' : '▼ 展开', toggleFee: this.toggleFee, colInfoOpen: this.state.colInfoOpen, colInfoCaret: this.state.colInfoOpen ? '▲ 收起' : '▼ 展开', toggleColInfo: this.toggleColInfo, setInfoOpen: this.state.setInfoOpen, setInfoCaret: this.state.setInfoOpen ? '▲ 收起' : '▼ 展开', toggleSetInfo: this.toggleSetInfo,
       draftTradeTags: (this.state.tradeTags || this.TRADE_TAGS).map(t => { const on = ((d && d.tags) || []).includes(t); return { label: t, on, style: { padding: '5px 11px', borderRadius: '999px', fontSize: '12.5px', cursor: 'pointer', fontFamily: 'inherit', border: '1px solid ' + (on ? 'var(--accent,#ff3355)' : '#ded7ee'), background: on ? 'var(--accent,#ff3355)' : 'rgba(50,38,90,.03)', color: on ? '#fff' : '#595287' }, onClick: () => this.toggleDraftTag('tags', t), onDel: (ev) => { ev.stopPropagation(); this.delTagOption('tradeTags', 'zzz_trade_tags', t); } }; }),
       draftRarityTags: (this.state.rarityTags || this.RARITY_TAGS).map(t => { const on = ((d && d.rarity) || []).includes(t); return { label: t, on, style: { padding: '5px 11px', borderRadius: '999px', fontSize: '12.5px', cursor: 'pointer', fontFamily: 'inherit', border: '1px solid ' + (on ? '#c8860d' : '#ded7ee'), background: on ? '#c8860d' : 'rgba(50,38,90,.03)', color: on ? '#fff' : '#595287' }, onClick: () => this.toggleDraftTag('rarity', t), onDel: (ev) => { ev.stopPropagation(); this.delTagOption('rarityTags', 'zzz_rarity_tags', t); } }; }),
       addTradeTag: () => this.addTagOption('tradeTags', 'zzz_trade_tags'), addRarityTag: () => this.addTagOption('rarityTags', 'zzz_rarity_tags'), tagEditMode: !!this.state.tagEditMode, toggleTagEdit: this.toggleTagEdit, tagEditText: this.state.tagEditMode ? '完成' : '编辑',
