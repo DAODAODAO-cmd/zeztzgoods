@@ -1194,6 +1194,7 @@
           <button onClick="{{ closeModal }}" style="width:32px;height:32px;border-radius:9px;border:1px solid #ded7ee;background:rgba(50,38,90,.045);color:#595287;font-size:18px;cursor:pointer;line-height:1">×</button>
         </div>
         <div style="padding:20px 22px;flex:1;min-height:0;overflow-y:auto">
+          <sc-if value="{{ anyDraftMenuOpen }}" hint-placeholder-val="{{ false }}"><div onClick="{{ closeAllMenus }}" style="position:fixed;inset:0;z-index:5"></div></sc-if>
           <div class="ui-form-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
             <div style="grid-column:1/-1;display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap">
               <div class="ui-draft-image-panel">
@@ -1905,7 +1906,7 @@ class Component extends DCLogic {
     if (w && w !== this.ALL_WORKS && works.some(x => x.id === w)) return w;
     return this.defaultDraftWorkId();
   }
-  toggleDraftWorkMenu = () => this.setState(s => ({ draftWorkMenuOpen: !s.draftWorkMenuOpen }));
+  toggleDraftWorkMenu = () => this.toggleDraftMenu('draftWorkMenuOpen');
   pickDraftWork = (id) => this.setState(s => ({ draft: { ...s.draft, workId: id }, draftWorkMenuOpen: false }));
   addWorkInline = () => {
     const group = (window.prompt('系列IP（如：假面骑士系列 / 偶像系列）：', this.DEFAULT_GROUP) || '').trim(); if (!group) return;
@@ -2701,7 +2702,7 @@ class Component extends DCLogic {
   openEdit = (it) => { const d = { ...this.emptyDraft(), ...it }; this.setState({ modalOpen: true, editing: it.id, draft: d, feeOpen: this.feeHas(d), colInfoOpen: this.colInfoHas(d), setInfoOpen: this.setInfoHas(d) }); };
   openDuplicate = (it) => { const d = { ...this.emptyDraft(), ...it, id: null }; this.setState({ modalOpen: true, editing: null, draft: d, feeOpen: this.feeHas(d), colInfoOpen: this.colInfoHas(d), setInfoOpen: this.setInfoHas(d) }); };
   toggleFee = () => this.setState(s => ({ feeOpen: !s.feeOpen }));
-  toggleSetMenu = () => this.setState(s => ({ setMenuOpen: !s.setMenuOpen }));
+  toggleSetMenu = () => this.toggleDraftMenu('setMenuOpen');
   pickSet = (id) => { try { if (id) localStorage.setItem('zzz_last_set', id); } catch (e) {} this.setState(s => ({ draft: { ...s.draft, setId: id }, setMenuOpen: false, lastSetId: id || s.lastSetId })); };
   addSet = () => {
     const name = (window.prompt('套装名称，例：VV 第一弹') || '').trim(); if (!name) return;
@@ -2730,7 +2731,7 @@ class Component extends DCLogic {
   setCollectedCodes(setId, exceptId) { return [...new Set((this.state.items || []).filter(it => it.setId === setId && it.id !== exceptId).map(it => (it.setVariant || '').trim()).filter(Boolean))]; }
   toggleColInfo = () => this.setState(s => ({ colInfoOpen: !s.colInfoOpen }));
   toggleSetInfo = () => this.setState(s => ({ setInfoOpen: !s.setInfoOpen }));
-  toggleSetVariantMenu = () => this.setState(s => ({ setVariantMenuOpen: !s.setVariantMenuOpen }));
+  toggleSetVariantMenu = () => this.toggleDraftMenu('setVariantMenuOpen');
   toggleSetMemberEdit = () => this.setState(s => { const on = !s.setMemberEditMode; return { setMemberEditMode: on, setVariantMenuOpen: on ? true : s.setVariantMenuOpen }; });
   persistSets(sets) { try { localStorage.setItem('zzz_sets', JSON.stringify(sets)); } catch (e) {} }
   curSetId() { return this.state.draft && this.state.draft.setId; }
@@ -3503,10 +3504,12 @@ class Component extends DCLogic {
   manageMoveItem = (kind, name, dir) => { const l=this.manageListOf(kind); const i=l.indexOf(name); if(i<0) return; const j=i+dir; if(j<0||j>=l.length) return; const t=l[i]; l[i]=l[j]; l[j]=t; this.manageSaveList(kind, l); };
   manageRenameLabel = (kind) => { const key=({character:'character',type:'type',series:'series',channel:'channel',status:'status',form:'form',acquire:'acquire',method:'method',tradeTags:'tags',rarityTags:'rarity'})[kind]; if(!key) return; const cur=(this.state.fieldLabels||{})[key]||this.FIELD_DEFAULTS[key]||''; const nv=(window.prompt('把字段名「'+cur+'」改成：',cur)||'').trim(); if(!nv||nv===cur) return; const fl={...(this.state.fieldLabels||{}),[key]:nv}; try{localStorage.setItem('zzz_field_labels',JSON.stringify(fl));}catch(e){} this.setState({fieldLabels:fl}); };
   menuRow(active) { return { display: 'flex', alignItems: 'center', gap: '6px', padding: '7px 9px', borderRadius: '8px', background: active ? 'color-mix(in srgb, var(--accent,#ff3355) 11%, transparent)' : 'transparent' }; }
-  toggleTypeMenu = () => this.setState(s => ({ typeMenuOpen: !s.typeMenuOpen }));
-  toggleFormMenu = () => this.setState(s => ({ formMenuOpen: !s.formMenuOpen }));
-  toggleStatusMenu = () => this.setState(s => ({ statusMenuOpen: !s.statusMenuOpen }));
-  toggleAcquireMenu = () => this.setState(s => ({ acquireMenuOpen: !s.acquireMenuOpen }));
+  closedDraftMenus(extra = {}) { return { methodMenuOpen:false, acquireMenuOpen:false, channelMenuOpen:false, seriesMenuOpen:false, typeMenuOpen:false, charMenuOpen:false, statusMenuOpen:false, formMenuOpen:false, reminderMenuOpen:false, setMenuOpen:false, setVariantMenuOpen:false, swapMenuOpen:false, swapCharMenuOpen:false, draftWorkMenuOpen:false, ...extra }; }
+  toggleDraftMenu(key) { this.setState(s => this.closedDraftMenus({ [key]: !s[key] })); }
+  toggleTypeMenu = () => this.toggleDraftMenu('typeMenuOpen');
+  toggleFormMenu = () => this.toggleDraftMenu('formMenuOpen');
+  toggleStatusMenu = () => this.toggleDraftMenu('statusMenuOpen');
+  toggleAcquireMenu = () => this.toggleDraftMenu('acquireMenuOpen');
   pickForm = (v) => this.setState(s => ({ draft: { ...s.draft, form: v }, formMenuOpen: false }));
   statusDateLabel(v) { return v === '已下单' ? '下单日期' : v === '待补款' ? '补款截止日' : v === '已补款' ? '补款日期' : v === '待尾款' ? '尾款截止日' : v === '已尾款' ? '尾款日期' : v === '排发中' ? '预计排发日' : v === '已发货' ? '预计到货日' : (v === '已归家' || v === '已到货') ? '归家日期' : (v === '已出物' || v === '已出/已卖出') ? '出物日期' : '提醒日期'; }
   pickStatus = (v) => {
@@ -3522,17 +3525,18 @@ class Component extends DCLogic {
     });
   };
   pickAcquire = (v) => this.setState(s => ({ draft: { ...s.draft, acquire: v }, acquireMenuOpen: false }));
-  toggleMethodMenu = () => this.setState(s => ({ methodMenuOpen: !s.methodMenuOpen }));
+  toggleMethodMenu = () => this.toggleDraftMenu('methodMenuOpen');
+  closeAllMenus = () => this.setState(this.closedDraftMenus());
   pickMethod = (v) => this.setState(s => ({ draft: { ...s.draft, method: v, gachaResult: v === '盲抽' ? (s.draft.gachaResult || '自抽') : '' }, methodMenuOpen: false }));
-  pickMethodGacha = (kind) => this.setState(s => ({ draft: { ...s.draft, method: '盲抽', gachaResult: kind, swapped: (kind === '置换' || kind === '收现') ? '已置换' : '未置换' }, methodMenuOpen: false }));
+  pickMethodGacha = (kind) => this.setState(s => ({ draft: { ...s.draft, method: '盲抽', gachaResult: kind, swapped: kind === '自抽' ? '未置换' : '已置换' }, methodMenuOpen: false }));
   clearMethod = () => this.setState(s => ({ draft: { ...s.draft, method: '', gachaResult: '' }, methodMenuOpen: false }));
-  toggleSwapMenu = () => this.setState(s => ({ swapMenuOpen: !s.swapMenuOpen }));
+  toggleSwapMenu = () => this.toggleDraftMenu('swapMenuOpen');
   pickSwapped = (v) => this.setState(s => ({ draft: { ...s.draft, swapped: v }, swapMenuOpen: false }));
-  pickGachaResult = (v) => this.setState(s => ({ draft: { ...s.draft, gachaResult: v, swapped: (v === '置换' || v === '收现') ? '已置换' : '未置换' }, swapMenuOpen: false }));
-  toggleSwapCharMenu = () => this.setState(s => ({ swapCharMenuOpen: !s.swapCharMenuOpen }));
+  pickGachaResult = (v) => this.setState(s => ({ draft: { ...s.draft, gachaResult: v, swapped: v === '自抽' ? '未置换' : '已置换' }, swapMenuOpen: false }));
+  toggleSwapCharMenu = () => this.toggleDraftMenu('swapCharMenuOpen');
   pickSwapCharacter = (v) => this.setState(s => ({ draft: { ...s.draft, swapCharacter: v }, swapCharMenuOpen: false }));
   clearSwapCharacter = () => this.pickSwapCharacter('');
-  toggleReminderMenu = () => this.setState(s => ({ reminderMenuOpen: !s.reminderMenuOpen }));
+  toggleReminderMenu = () => this.toggleDraftMenu('reminderMenuOpen');
   pickReminder = (v) => this.setState(s => ({ draft: { ...s.draft, reminderType: v }, reminderMenuOpen: false }));
   addReminderType = () => { const v = (window.prompt('输入新的提醒事件') || '').trim(); if (!v) return; if (!(this.state.reminderTypes || []).includes(v)) this.saveList('reminderTypes', 'zzz_reminder_types', [...(this.state.reminderTypes || []), v]); this.pickReminder(v); };
   delReminderItem = (c, ev) => { if (ev) ev.stopPropagation(); this.saveList('reminderTypes', 'zzz_reminder_types', (this.state.reminderTypes || []).filter(x => x !== c)); };
@@ -3561,22 +3565,22 @@ class Component extends DCLogic {
   addType = () => { const v = (window.prompt('输入新的种类') || '').trim(); if (!v) return; if (!this.state.typesList.includes(v)) this.saveList('typesList', 'zzz_types', [...this.state.typesList, v]); this.setState(s => ({ draft: { ...s.draft, type: v }, typeMenuOpen: false })); };
   renameTypeItem = (c, ev) => { ev.stopPropagation(); const nv = (window.prompt('重命名种类「' + c + '」为（会同步修改所有该种类的谷子）：', c) || '').trim(); if (!nv || nv === c) return; this.saveList('typesList', 'zzz_types', this.state.typesList.map(x => x === c ? nv : x)); const items = this.state.items.map(x => x.type === c ? { ...x, type: nv } : x); this.commit(items); this.setState(s => ({ typeSel: (s.typeSel || []).map(x => x === c ? nv : x), draft: s.draft ? { ...s.draft, type: s.draft.type === c ? nv : s.draft.type } : s.draft })); };
   delTypeItem = (c, ev) => { ev.stopPropagation(); this.saveList('typesList', 'zzz_types', this.state.typesList.filter(x => x !== c)); };
-  toggleCharMenu = () => this.setState(s => ({ charMenuOpen: !s.charMenuOpen }));
+  toggleCharMenu = () => this.toggleDraftMenu('charMenuOpen');
   pickCharacter = (c) => this.setState(s => ({ draft: { ...s.draft, character: c }, charMenuOpen: false }));
   delCharacter = (c, ev) => { ev.stopPropagation(); const used = this.state.items.filter(x => x.character === c || x.swapCharacter === c).length; if (used > 0) { alert('还有 ' + used + ' 件谷子在用「' + c + '」，无法删除。可先把它们改成别的角色。'); return; } const arr = this.orderedChars().filter(x => x !== c); try { localStorage.setItem(this.wkey('zzz_char_order', this.optScopeId()), JSON.stringify(arr)); } catch (e) {} this.ensureCharImg(); delete this.charImgIds[c]; delete this.charAssetMap[c]; delete this.charImgMap[c]; this.persistCharMaps(); this.setState(s => ({ charOrder: arr, draft: (s.draft && s.draft.character === c) ? { ...s.draft, character: (arr[0] || '') } : s.draft })); };
-  toggleSeriesMenu = () => this.setState(s => ({ seriesMenuOpen: !s.seriesMenuOpen }));
+  toggleSeriesMenu = () => this.toggleDraftMenu('seriesMenuOpen');
   pickSeries = (c) => this.setState(s => ({ draft: { ...s.draft, series: c }, seriesMenuOpen: false }));
   clearSeries = () => this.pickSeries('');
   addSeries = () => { const v = (window.prompt('输入新的系列名称（如：TV本编 / 剧场版 / 一番赏）') || '').trim(); if (!v) return; if (!this.state.seriesList.includes(v)) this.saveList('seriesList', 'zzz_series', [...this.state.seriesList, v]); this.setState(s => ({ draft: { ...s.draft, series: v }, seriesMenuOpen: false })); };
   renameSeriesItem = (c, ev) => { ev.stopPropagation(); const nv = (window.prompt('重命名系列「' + c + '」为（会同步修改所有该系列的谷子）：', c) || '').trim(); if (!nv || nv === c) return; this.saveList('seriesList', 'zzz_series', this.state.seriesList.map(x => x === c ? nv : x)); const items = this.state.items.map(x => (x.series || '') === c ? { ...x, series: nv } : x); this.commit(items); this.setState(s => ({ seriesFilter: s.seriesFilter === c ? nv : s.seriesFilter, draft: s.draft ? { ...s.draft, series: s.draft.series === c ? nv : s.draft.series } : s.draft })); };
   delSeriesItem = (c, ev) => { ev.stopPropagation(); this.saveList('seriesList', 'zzz_series', this.state.seriesList.filter(x => x !== c)); };
-  toggleChannelMenu = () => this.setState(s => ({ channelMenuOpen: !s.channelMenuOpen }));
+  toggleChannelMenu = () => this.toggleDraftMenu('channelMenuOpen');
   pickChannel = (c) => this.setState(s => ({ draft: { ...s.draft, channel: c }, channelMenuOpen: false }));
   clearChannel = () => this.pickChannel('');
   addChannel = () => { const v = (window.prompt('新的平台或店铺名称') || '').trim(); if (!v) return; if (!this.state.channels.includes(v)) this.saveChannels([...this.state.channels, v]); this.setState(s => ({ draft: { ...s.draft, channel: v }, channelMenuOpen: false })); };
   renameChannelItem = (c, ev) => { ev.stopPropagation(); const nv = (window.prompt('重命名平台「' + c + '」为（会同步修改所有该平台的谷子）：', c) || '').trim(); if (!nv || nv === c) return; this.saveChannels(this.state.channels.map(x => x === c ? nv : x)); const items = this.state.items.map(x => (x.channel || '') === c ? { ...x, channel: nv } : x); this.commit(items); this.setState(s => ({ channelSel: (s.channelSel || []).map(x => x === c ? nv : x), draft: s.draft ? { ...s.draft, channel: s.draft.channel === c ? nv : s.draft.channel } : s.draft })); };
   delChannelItem = (c, ev) => { ev.stopPropagation(); this.saveChannels(this.state.channels.filter(x => x !== c)); };
-  toggleReminderMenu = () => this.setState(s => ({ reminderMenuOpen: !s.reminderMenuOpen }));
+  toggleReminderMenu = () => this.toggleDraftMenu('reminderMenuOpen');
   pickReminderType = (c) => this.setState(s => ({ draft: { ...s.draft, reminderType: c }, reminderMenuOpen: false }));
   addReminderType = () => { const v = (window.prompt('新的提醒事件名称') || '').trim(); if (!v) return; const cur = this.state.reminderTypes || []; if (!cur.includes(v)) this.saveList('reminderTypes', 'zzz_reminder_types', [...cur, v]); this.setState(s => ({ draft: { ...s.draft, reminderType: v }, reminderMenuOpen: false })); };
   delReminderItem = (c, ev) => { ev.stopPropagation(); this.saveList('reminderTypes', 'zzz_reminder_types', (this.state.reminderTypes || []).filter(x => x !== c)); };
@@ -3785,7 +3789,7 @@ class Component extends DCLogic {
     if (Array.isArray(it.swapLog)) {
       it.swapLog.forEach(s => {
         if (!s) return;
-        const title = s.kind === '收现' ? '💰 收现获得' : '🤝 置换获得';
+        const title = '置换 / 收现获得';
         let note = '';
         if (s.fromChar || s.fromVariant) note = '原抽：' + [s.fromChar, s.fromVariant].filter(Boolean).join(' ') + '　→　最终：' + [s.toChar, s.toName].filter(Boolean).join(' ');
         if (s.note) note = (note ? note + '　' : '') + s.note;
@@ -4033,28 +4037,29 @@ class Component extends DCLogic {
     const dMethod = this.state.draft ? (this.state.draft.method || '') : '';
     const _methodPreset = this.SOURCE_METHODS[dSource] || [];
     const _methodStored = this.state.methodList || [];
-    const _methodAll = [...new Set([...(_methodPreset.length ? _methodPreset : []), ..._methodStored])];
+    const _methodAll = _methodPreset.length ? [...new Set([..._methodPreset, ...(dMethod ? [dMethod] : [])])] : [...new Set([..._methodStored, ...(dMethod ? [dMethod] : [])])];
     if (!_methodAll.length) ['通贩','场贩','代购','拼团','抱盒','单买','盲抽','二手'].forEach(x => _methodAll.push(x));
     if (dMethod && !_methodAll.includes(dMethod)) _methodAll.push(dMethod);
     const _methodFlat = _methodAll.filter(x => x !== '盲抽');
     const menuItems = _methodFlat.map(c => ({ name: c, isDivider: false, notDivider: true, isSub: false, onPick: () => this.pickMethod(c), rowStyle: this.menuRow(dMethod === c) }));
     menuItems.push({ name: '', isDivider: true, notDivider: false, isSub: false, onPick: () => {}, rowStyle: {} });
     const _gr = this.state.draft ? (this.state.draft.gachaResult || '自抽') : '自抽';
-    menuItems.push({ name: '🎲 盲抽', isDivider: false, notDivider: true, isSub: false, onPick: () => this.pickMethod('盲抽'), rowStyle: this.menuRow(dMethod === '盲抽' && !_gr) });
-    [['自抽', '　├ 🎲 自抽'], ['置换', '　├ 🤝 置换'], ['收现', '　└ 💰 收现']].forEach(([val, lbl]) => {
-      menuItems.push({ name: lbl, isDivider: false, notDivider: true, isSub: true, onPick: () => this.pickMethodGacha(val), rowStyle: this.menuRow(dMethod === '盲抽' && _gr === val) });
+    menuItems.push({ name: '盲抽', isDivider: false, notDivider: true, isSub: false, onPick: () => this.pickMethod('盲抽'), rowStyle: this.menuRow(dMethod === '盲抽' && !_gr) });
+    [['自抽', '　├ 自抽'], ['置换/收现', '　└ 置换 / 收现']].forEach(([val, lbl]) => {
+      const active = val === '置换/收现' ? (_gr === '置换' || _gr === '收现' || _gr === '置换/收现') : _gr === val;
+      menuItems.push({ name: lbl, isDivider: false, notDivider: true, isSub: true, onPick: () => this.pickMethodGacha(val), rowStyle: this.menuRow(dMethod === '盲抽' && active) });
     });
     const methodMenuItems = menuItems;
-    const methodDisplay = dMethod === '盲抽' ? ('盲抽（' + (_gr || '自抽') + '）') : (dMethod || '选择购买方式');
+    const methodDisplay = dMethod === '盲抽' ? ('盲抽（' + ((_gr === '置换' || _gr === '收现') ? '置换 / 收现' : (_gr || '自抽')) + '）') : (dMethod || '选择购买方式');
     const dSwapped = this.state.draft ? (this.state.draft.gachaResult || '自抽') : '自抽';
-    const swapMenuItems = [{ name: '🎲 自抽（不置换）', val: '自抽' }, { name: '🤝 置换', val: '置换' }, { name: '💰 收现', val: '收现' }].map(o => ({ name: o.name, onPick: () => this.pickGachaResult(o.val), rowStyle: this.menuRow(dSwapped === o.val) }));
-    const swappedDisplay = dSwapped === '置换' ? '🤝 置换' : dSwapped === '收现' ? '💰 收现' : '🎲 自抽（不置换）';
+    const swapMenuItems = [{ name: '自抽（不置换）', val: '自抽' }, { name: '置换 / 收现', val: '置换/收现' }].map(o => ({ name: o.name, onPick: () => this.pickGachaResult(o.val), rowStyle: this.menuRow(o.val === '置换/收现' ? (dSwapped === '置换' || dSwapped === '收现' || dSwapped === '置换/收现') : dSwapped === o.val) }));
+    const swappedDisplay = (dSwapped === '置换' || dSwapped === '收现' || dSwapped === '置换/收现') ? '置换 / 收现' : '自抽（不置换）';
     const dSwapChar = this.state.draft ? (this.state.draft.swapCharacter || '') : '';
     const swapCharMenuItems = this.orderedChars().map(c => { const ci = this.charImg(c); return { name: c, hasImg: !!ci, imgStyle: { width: '18px', height: '18px', borderRadius: '50%', backgroundImage: `url(${ci})`, backgroundSize: 'cover', backgroundPosition: 'center', flexShrink: 0 }, onPick: () => this.pickSwapCharacter(c), rowStyle: this.menuRow(dSwapChar === c) }; });
     const swapCharDisplay = dSwapChar || '（不填）';
-    const swapHint = dSwapped === '收现' ? '💰 收现获得' : '🤝 置换获得';
-    const swapNoteLabel = dSwapped === '收现' ? '收现说明（可选）' : '置换说明（可选）';
-    const draftIsSwapKind = dSwapped === '置换';
+    const swapHint = '置换 / 收现获得';
+    const swapNoteLabel = '置换 / 收现说明（可选）';
+    const draftIsSwapKind = (dSwapped === '置换' || dSwapped === '收现' || dSwapped === '置换/收现');
     const swapCharHasAvatar = !!(dSwapChar && this.charImg(dSwapChar));
     const swapCharAvatarStyle = { width: '18px', height: '18px', borderRadius: '50%', backgroundImage: `url(${this.charImg(dSwapChar)})`, backgroundSize: 'cover', backgroundPosition: 'center', flexShrink: 0 };
     const dSeries = this.state.draft ? (this.state.draft.series || '') : '';
@@ -4069,7 +4074,8 @@ class Component extends DCLogic {
     const hiddenChannels = this.state.hiddenChannels || [];
     const _platPreset = (this.SOURCE_PLATFORMS[dSource] || []).filter(x => !hiddenChannels.includes(x));
     const _storedCh = (this.state.channels || []).filter(x => !hiddenChannels.includes(x));
-    const _chOrder = [...new Set([..._platPreset, ..._storedCh])];
+    const _dChannelCur = this.state.draft ? (this.state.draft.channel || '') : '';
+    const _chOrder = _platPreset.length ? [...new Set([..._platPreset, ...(_dChannelCur ? [_dChannelCur] : [])])] : [...new Set([..._storedCh, ...(_dChannelCur ? [_dChannelCur] : [])])];
     const channelMenuItems = _chOrder.map(c => ({ name: c, active: dChannel === c, onPick: () => this.pickChannel(c), onRename: (ev) => this.renameChannelItem(c, ev), onDel: (ev) => this.delChannelItem(c, ev), rowStyle: { display: 'flex', alignItems: 'center', gap: '6px', padding: '7px 9px', borderRadius: '8px', background: dChannel === c ? 'color-mix(in srgb, var(--accent,#ff3355) 11%, transparent)' : 'transparent' } }));
     // rows
     const s = (search || '').toLowerCase();
@@ -4292,7 +4298,7 @@ class Component extends DCLogic {
       const g = this.groupOf(it);
       const rem = this.reminderInfo(it);
       const imgUrl = it.imageId ? this.imgUrls[it.imageId] : null;
-      const isSwapped = it.method === '盲抽' && (it.gachaResult === '置换' || it.gachaResult === '收现');
+      const isSwapped = it.method === '盲抽' && (it.gachaResult === '置换' || it.gachaResult === '收现' || it.gachaResult === '置换/收现');
       const dispChar = (it.character || '其他');
       const regularUrls = this.imageUrlsOf(it);
       let galleryUrls = regularUrls;
@@ -4327,7 +4333,7 @@ class Component extends DCLogic {
         showAcquire: fieldVisible('acquire') && !!(it.acquire && it.acquire !== '直购'), acquireText: it.acquire,
         hasMethod: !!(it.method), methodText: it.method || '', methodStyle: this.badge('#5a7fae', 'rgba(90,127,174,.12)', 'rgba(90,127,174,.3)'),
         acquireStyle: this.badge((it.acquire === '盲盒' || it.acquire === '盲抽') ? '#c0398a' : '#1f9e8f', (it.acquire === '盲盒' || it.acquire === '盲抽') ? 'rgba(192,57,138,.12)' : 'rgba(31,158,143,.12)', ((it.acquire === '盲盒' || it.acquire === '盲抽') ? '#c0398a' : '#1f9e8f') + '44'),
-        hasSwap: isSwapped, swapText: (it.gachaResult === '收现' ? '💰 收现' : '🤝 置换'), swapStyle: this.badge('#d9701f', 'rgba(217,112,31,.13)', '#d9701f44'),
+        hasSwap: isSwapped, swapText: '置换 / 收现', swapStyle: this.badge('#d9701f', 'rgba(217,112,31,.13)', '#d9701f44'),
         chipTags: [...((it.rarity) || []).map(t => ({ label: t, style: this.badge('#c8860d', 'rgba(200,134,13,.12)', 'rgba(200,134,13,.3)') })), ...((it.tags) || []).map(t => ({ label: t, style: this.badge('#7c5cd6', 'rgba(124,92,214,.12)', 'rgba(124,92,214,.3)') }))], hasChipTags: !!(((it.tags) || []).length || ((it.rarity) || []).length),
         showForm: fieldVisible('form') && !!(it.form && it.form !== '通用'), formText: it.form,
         formStyle: this.badge(fcol, fbg, fcol + '44'),
@@ -4430,7 +4436,7 @@ class Component extends DCLogic {
     const draftHasConv = !!(d && dRate > 0 && dOrig > 0);
     const draftConvText = cur + this.fmt(dOrig * dRate);
     const draftIsGacha = !!(d && d.method === '盲抽');
-    const draftSwapped = !!(d && d.method === '盲抽' && (d.gachaResult === '置换' || d.gachaResult === '收现'));
+    const draftSwapped = !!(d && d.method === '盲抽' && (d.gachaResult === '置换' || d.gachaResult === '收现' || d.gachaResult === '置换/收现'));
 
     const batchEditFields = [
       { label:'状态', onClick: () => this.chooseBatchField('status') }, { label:'角色', onClick: () => this.chooseBatchField('character') }, { label:'种类', onClick: () => this.chooseBatchField('type') }, { label:'厂商', onClick: () => this.chooseBatchField('series') }, { label:'平台', onClick: () => this.chooseBatchField('channel') }, { label:'分组', onClick: () => this.chooseBatchField('group') }, { label:'提醒类型', onClick: () => this.chooseBatchField('reminderType') }, { label:'提醒日期', onClick: () => this.chooseBatchField('reminderDate') }, { label:'买入价', onClick: () => this.chooseBatchField('buyPrice') }, { label:'原价', onClick: () => this.chooseBatchField('originalPrice') }, { label:'国内邮费', onClick: () => this.chooseBatchField('shipDom') }, { label:'国际邮费', onClick: () => this.chooseBatchField('shipIntl') }, { label:'备注', onClick: () => this.chooseBatchField('note') }
@@ -4669,7 +4675,7 @@ class Component extends DCLogic {
       modalOpen: this.state.modalOpen, modalTitle: this.state.editing ? '编辑谷子' : '新增谷子', isEditing: !!this.state.editing, duplicateCurrent: this.duplicateCurrent, deleteCurrent: this.deleteCurrent,
       draft: d || this.emptyDraft(),
       CHARACTERS: this.orderedChars(), TYPES: this.TYPES, reminderTypeOptions: (this.state.reminderTypes && this.state.reminderTypes.length ? this.state.reminderTypes : this.REMINDER_TYPES), reminderMenuItems, reminderDisplay, reminderMenuOpen: this.state.reminderMenuOpen, toggleReminderMenu: this.toggleReminderMenu, addReminderType: this.addReminderType, clearReminderType: () => this.pickReminderType(''), STATUSES: this.state.statusList || this.STATUSES, FORMS: this.FORMS,
-      closeModal: this.closeModal, saveItem: this.saveItem, onDraftChange: this.onDraftChange, autoGrowNote: this.autoGrowNote, charMenuItems, charDisplay, charMenuOpen: this.state.charMenuOpen, toggleCharMenu: this.toggleCharMenu, onTypeChange: this.onTypeChange, onSeriesChange: this.onSeriesChange, fillName: this.fillName, draftStars, typeMenuItems, typeDisplay, hasTypeMenuItems, typeMenuOpen: this.state.typeMenuOpen, toggleTypeMenu: this.toggleTypeMenu, addType: this.addType, seriesMenuItems, seriesDisplay, hasSeriesMenuItems, seriesMenuOpen: this.state.seriesMenuOpen, toggleSeriesMenu: this.toggleSeriesMenu, addSeries: this.addSeries, clearSeries: this.clearSeries, channelMenuItems, channelMenuOpen: this.state.channelMenuOpen, toggleChannelMenu: this.toggleChannelMenu, addChannel: this.addChannel, clearChannel: this.clearChannel, channelDisplay: (this.state.draft && this.state.draft.channel) ? this.state.draft.channel : '（未分类）', hasChannelMenuItems: (this.state.channels || []).length > 0, fillBuyFromRate: this.fillBuyFromRate, draftHasConv, draftConvText, draftIsGacha, draftSwapped,
+      closeModal: this.closeModal, saveItem: this.saveItem, onDraftChange: this.onDraftChange, autoGrowNote: this.autoGrowNote, charMenuItems, charDisplay, charMenuOpen: this.state.charMenuOpen, toggleCharMenu: this.toggleCharMenu, onTypeChange: this.onTypeChange, onSeriesChange: this.onSeriesChange, fillName: this.fillName, draftStars, typeMenuItems, typeDisplay, hasTypeMenuItems, typeMenuOpen: this.state.typeMenuOpen, toggleTypeMenu: this.toggleTypeMenu, addType: this.addType, seriesMenuItems, seriesDisplay, hasSeriesMenuItems, seriesMenuOpen: this.state.seriesMenuOpen, toggleSeriesMenu: this.toggleSeriesMenu, addSeries: this.addSeries, clearSeries: this.clearSeries, channelMenuItems, channelMenuOpen: this.state.channelMenuOpen, toggleChannelMenu: this.toggleChannelMenu, addChannel: this.addChannel, clearChannel: this.clearChannel, channelDisplay: (this.state.draft && this.state.draft.channel) ? this.state.draft.channel : '（未分类）', hasChannelMenuItems: channelMenuItems.length > 0, fillBuyFromRate: this.fillBuyFromRate, draftHasConv, draftConvText, draftIsGacha, draftSwapped,
       onImagePick: this.onImagePick, onImagePick2: this.onImagePick2, onImagePick3: this.onImagePick3, onImagePickSwap: this.onImagePickSwap, swapMenuItems, swappedDisplay, swapHint, swapNoteLabel, draftIsSwapKind, swapMenuOpen: this.state.swapMenuOpen, toggleSwapMenu: this.toggleSwapMenu, swapCharMenuItems, swapCharDisplay, swapCharMenuOpen: this.state.swapCharMenuOpen, toggleSwapCharMenu: this.toggleSwapCharMenu, clearSwapCharacter: this.clearSwapCharacter, swapCharHasAvatar, swapCharAvatarStyle, removeDraftImg: this.removeDraftImg, removeDraftImg2: this.removeDraftImg2, removeDraftImg3: this.removeDraftImg3, removeDraftImg4: this.removeDraftImg4, removeDraftSwapImg: this.removeDraftSwapImg,
       draftTimelineRows, isAdvanced: true, showBrandField: !!this.state.advancedMode || !!(d && d.series), draftWorkName, draftWorkGroupName, draftWorkMenuGroups, draftWorkMenuOpen: this.state.draftWorkMenuOpen, toggleDraftWorkMenu: this.toggleDraftWorkMenu, addWorkInline: this.addWorkInline, draftIsSelling, draftNotSelling,
       manageOpen: this.state.manageOpen, closeManage: this.closeManage, manageTitle, manageRows, manageAddText, onManageAdd, manageCanRenameLabel, onManageRenameLabel, manageCanToggle, manageFilterOn, workManageOpen: this.state.workManageOpen, openWorkManage: this.openWorkManage, closeWorkManage: this.closeWorkManage, workManageGroups, addGroupAlone: this.addGroupAlone, setManageOpen: this.state.setManageOpen, openSetManage: this.openSetManage, closeSetManage: this.closeSetManage, setManageList, addSetInManage: this.addSetInManage, hasSetManageList: setManageList.length > 0, setFieldLabel: this.setLabelText(), renameSetLabel: this.renameSetLabel, setFilterStyle, setGroupStyle, setFilterText: setFilterOn ? '进入筛选 ✓' : '进入筛选', setGroupText: setGroupOn ? '进入分组 ✓' : '进入分组', onSetToggleFilter: this.toggleFilterOn('set'), onSetToggleGroup: this.toggleStatsOn('set'), manageGroupOn, onManageToggleFilter, onManageToggleGroup, manageFilterStyle, manageGroupStyle, manageFilterText: manageFilterOn ? '进入筛选 ✓' : '进入筛选', manageGroupText: manageGroupOn ? '进入分组 ✓' : '进入分组',
