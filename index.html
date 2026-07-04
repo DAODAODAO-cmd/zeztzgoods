@@ -121,6 +121,7 @@
     .ui-modal-card .ui-form-grid{grid-template-columns:1fr !important;}
     .ui-item-modal .ui-form-grid [style*="display:grid"]{grid-template-columns:1fr !important;}
     .ui-item-modal .ui-form-grid > div{grid-column:auto !important;}
+    .ui-modal-backdrop{align-items:stretch !important;padding:10px !important;overflow:hidden !important;}
     .ui-modal-card{max-height:92vh !important;height:auto !important;}
     .ui-modal-card .ui-modal-footer{padding:10px 12px !important;gap:8px !important;flex-wrap:nowrap !important;}
     .ui-modal-card .ui-modal-footer .ui-footer-spacer{display:none !important;}
@@ -213,6 +214,14 @@
     .ui-batch-active.ui-mobile-simple .ui-filter-summary,.ui-batch-active.ui-mobile-auto .ui-filter-summary{display:flex !important;}
     .ui-batch-active.ui-mobile-simple .ui-filter-summary span:nth-child(n+4),.ui-batch-active.ui-mobile-auto .ui-filter-summary span:nth-child(n+4){display:inline !important;}
     .ui-mobile-auto .ui-filter-summary span:nth-child(n+4),.ui-mobile-simple .ui-filter-summary span:nth-child(n+4){display:none !important;}
+    .ui-mobile-simple .ui-card-breakdown,.ui-mobile-auto .ui-card-breakdown{display:none !important;}
+    .ui-mobile-simple .ui-mobile-card-main,
+    .ui-mobile-simple .ui-mobile-card-extra{display:none !important;}
+    .ui-mobile-simple .ui-gallery-card-body{padding:9px 10px 10px !important;gap:0 !important;}
+    .ui-mobile-simple .ui-mobile-card-price{border-top:none !important;padding-top:0 !important;margin-top:0 !important;}
+    .ui-group-tabs{display:grid !important;grid-template-columns:repeat(4,minmax(0,1fr)) !important;width:100% !important;gap:3px !important;}
+    .ui-group-tabs > button{padding:8px 2px !important;font-size:11.5px !important;justify-content:center !important;line-height:1.2 !important;}
+    .ui-group-tabs > button > span{font-size:10px !important;margin-left:2px !important;}
     .ui-mobile-auto .ui-gallery-grid,.ui-mobile-simple .ui-gallery-grid{grid-template-columns:repeat(3,minmax(0,1fr)) !important;gap:8px !important;}
     .ui-mobile-auto .ui-gallery-card,.ui-mobile-simple .ui-gallery-card{border-radius:12px !important;}
     .ui-mobile-auto .ui-gallery-card-body,.ui-mobile-simple .ui-gallery-card-body{padding:9px 9px 10px !important;gap:7px !important;}
@@ -495,7 +504,7 @@
 
     <!-- ===== TOOLBAR ===== -->
     <div class="ui-toolbar" style="display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;background:rgba(255,255,255,.72);border:1px solid #e3def1;border-radius:14px;padding:9px 10px;margin-bottom:14px">
-      <div style="display:flex;gap:4px;background:rgba(50,38,90,.06);padding:4px;border-radius:11px">
+      <div class="ui-group-tabs" style="display:flex;gap:4px;background:rgba(50,38,90,.06);padding:4px;border-radius:11px">
         <sc-for list="{{ groupTabs }}" as="tab" hint-placeholder-count="3">
           <button onClick="{{ tab.onClick }}" style="{{ tab.style }}">{{ tab.label }} <span style="opacity:.7;font-size:12px;margin-left:3px">{{ tab.n }}</span></button>
         </sc-for>
@@ -751,8 +760,8 @@
                 <div>
                   <div style="font-size:11px;color:#837da4">总价 · 数量{{ row.qtyText }}</div>
                   <div style="font-family:'Orbitron';font-weight:700;font-size:18px;color:#251d49">{{ row.totalText }}</div>
-                  <sc-if value="{{ row.hasBreakdown }}" hint-placeholder-val="{{ false }}"><div style="font-size:10.5px;color:#938db0;margin-top:1px">{{ row.breakdownText }}</div></sc-if>
-                  <sc-if value="{{ row.hasOriginal }}" hint-placeholder-val="{{ false }}"><div style="font-size:10.5px;color:#938db0">原价 {{ row.originalText }}</div></sc-if>
+                  <sc-if value="{{ row.hasBreakdown }}" hint-placeholder-val="{{ false }}"><div class="ui-card-breakdown" style="font-size:10.5px;color:#938db0;margin-top:1px">{{ row.breakdownText }}</div></sc-if>
+                  <sc-if value="{{ row.hasOriginal }}" hint-placeholder-val="{{ false }}"><div class="ui-card-breakdown" style="font-size:10.5px;color:#938db0">原价 {{ row.originalText }}</div></sc-if>
                 </div>
                 <sc-if value="{{ row.hasProfit }}" hint-placeholder-val="{{ false }}">
                   <div style="text-align:right"><div style="font-size:11px;color:#837da4">盈亏</div><div style="font-family:'Orbitron';font-size:15px"><span style="{{ row.profitStyle }}">{{ row.profitText }}</span></div></div>
@@ -1176,7 +1185,7 @@
 
   <!-- ===== MODAL ===== -->
   <sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
-    <div style="position:fixed;inset:0;z-index:300;background:rgba(70,58,110,.32);backdrop-filter:blur(6px);display:flex;align-items:flex-start;justify-content:center;padding:28px 14px;overflow-y:auto;animation:fadein .18s ease">
+    <div class="ui-modal-backdrop" style="position:fixed;inset:0;z-index:300;background:rgba(70,58,110,.32);backdrop-filter:blur(6px);display:flex;align-items:flex-start;justify-content:center;padding:28px 14px;overflow-y:auto;animation:fadein .18s ease">
       <div class="ui-modal-card ui-item-modal" onClick="{{ stop }}" style="width:100%;max-width:720px;max-height:96vh;display:flex;flex-direction:column;background:linear-gradient(160deg,#ffffff,#f4f1fb);border:1px solid #d6cfe9;border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.5);animation:modalpop .22s cubic-bezier(.2,.8,.3,1);overflow:hidden">
         <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid #e1dbf0;flex-shrink:0">
           <div style="font-family:'Orbitron';font-weight:700;font-size:17px">{{ modalTitle }}</div>
