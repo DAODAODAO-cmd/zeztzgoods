@@ -143,8 +143,11 @@
 
   .ui-settings-modal{position:relative !important;overflow:hidden !important;}
   .ui-settings-modal .ui-settings-footer{width:100% !important;flex-shrink:0 !important;display:flex !important;align-items:center !important;gap:8px !important;padding:14px 18px !important;border-top:1px solid #e1dbf0 !important;background:linear-gradient(0deg,#f4f1fb,#fbfaff) !important;box-shadow:0 -8px 18px rgba(50,38,90,.04) !important;}
-  .ui-settings-modal .ui-settings-footer .ui-footer-spacer{display:none !important;}
-  .ui-settings-modal .ui-settings-footer > button{flex:1 1 0 !important;min-width:0 !important;}
+  .ui-settings-modal .ui-settings-footer .ui-footer-spacer{flex:1 !important;min-width:8px !important;display:block !important;}
+  .ui-settings-modal .ui-settings-footer > button{flex:0 0 auto !important;min-width:auto !important;}
+  .ui-mobile-auto .ui-settings-modal .ui-settings-footer,.ui-mobile-simple .ui-settings-modal .ui-settings-footer,.ui-mobile-full .ui-settings-modal .ui-settings-footer{padding:10px 12px !important;gap:8px !important;flex-wrap:nowrap !important;}
+  .ui-mobile-auto .ui-settings-modal .ui-settings-footer .ui-footer-spacer,.ui-mobile-simple .ui-settings-modal .ui-settings-footer .ui-footer-spacer,.ui-mobile-full .ui-settings-modal .ui-settings-footer .ui-footer-spacer{display:none !important;}
+  .ui-mobile-auto .ui-settings-modal .ui-settings-footer > button,.ui-mobile-simple .ui-settings-modal .ui-settings-footer > button,.ui-mobile-full .ui-settings-modal .ui-settings-footer > button{flex:1 1 0 !important;min-width:0 !important;padding:11px 4px !important;font-size:13px !important;white-space:nowrap !important;}
   .ui-item-modal .ui-form-grid > div{min-width:0 !important;}
   .ui-item-modal .ui-form-grid > div:not([style*="grid-column:1/-1"]) > div:first-child{min-height:30px !important;display:flex !important;align-items:center !important;}
   .ui-item-modal .ui-form-grid input:not([type="file"]):not([type="color"]),
@@ -1642,10 +1645,10 @@
           </div>
 
         </div>
-        <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;width:100%;padding:14px 18px;border-top:1px solid #e1dbf0;background:linear-gradient(0deg,#f4f1fb,#fbfaff);box-shadow:0 -8px 18px rgba(50,38,90,.04);box-sizing:border-box">
-          <div style="flex:1;min-width:8px"></div>
-          <button onClick="{{ cancelSettings }}" style="font-family:inherit;font-size:14px;color:#595287;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:10px 18px;border-radius:11px;cursor:pointer;min-height:42px">取消</button>
-          <button onClick="{{ saveSettings }}" style="font-family:inherit;font-size:14px;font-weight:700;color:#fff;background:var(--accent,#ff3355);border:none;padding:10px 24px;border-radius:11px;cursor:pointer;box-shadow:0 6px 18px rgba(50,38,90,.2);min-height:42px">保存</button>
+        <div class="ui-modal-footer">
+          <div class="ui-footer-spacer"></div>
+          <button class="ui-btn-ghost" onClick="{{ cancelSettings }}">取消</button>
+          <button class="ui-btn-primary" onClick="{{ saveSettings }}">保存</button>
         </div>
       </div>
     </div>
