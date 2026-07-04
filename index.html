@@ -1072,7 +1072,7 @@
   </sc-if>
 
   <sc-if value="{{ setManageOpen }}" hint-placeholder-val="false">
-    <div class="ui-modal-backdrop" style="position:fixed;inset:0;z-index:343;background:rgba(70,58,110,.4);backdrop-filter:blur(6px);display:flex;align-items:flex-start;justify-content:center;padding:40px 14px;overflow-y:auto" onClick="{{ closeSetManage }}">
+    <div class="ui-modal-backdrop" style="position:fixed;inset:0;z-index:343;background:rgba(70,58,110,.4);backdrop-filter:blur(6px);display:flex;align-items:flex-start;justify-content:center;padding:40px 14px;overflow-y:auto">
       <div class="ui-modal-card" onClick="{{ stop }}" style="width:100%;max-width:440px;background:linear-gradient(160deg,#ffffff,#f4f1fb);border:1px solid #d6cfe9;border-radius:20px;box-shadow:0 30px 70px rgba(40,28,80,.4);display:flex;flex-direction:column;max-height:88vh">
         <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #e1dbf0;flex-shrink:0">
           <div style="min-width:0"><div style="font-weight:800;font-size:16px;color:#251d49">管理 · {{ setFieldLabel }}</div><div style="font-size:11.5px;color:#938db0;margin-top:2px">改动会在新增页、筛选、统计里一起同步</div></div>
@@ -1082,10 +1082,11 @@
           </div>
         </div>
         <div style="padding:12px 20px;flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:12px">
-          <div style="display:flex;gap:8px;padding:8px 10px;background:rgba(50,38,90,.035);border:1px solid #ece7f6;border-radius:11px;align-items:center">
-            <span style="flex:1;min-width:0;font-size:12px;color:#8b84ad">是否在首页显示</span>
+          <div style="display:flex;gap:8px;padding:8px 10px;background:rgba(50,38,90,.035);border:1px solid #ece7f6;border-radius:11px;align-items:center;flex-wrap:wrap">
+            <span style="flex:1;min-width:0;font-size:12px;color:#8b84ad">显示位置</span>
             <button onClick="{{ onSetToggleFilter }}" style="{{ setFilterStyle }}">{{ setFilterText }}</button>
             <button onClick="{{ onSetToggleGroup }}" style="{{ setGroupStyle }}">{{ setGroupText }}</button>
+            <button onClick="{{ onSetToggleCard }}" style="{{ setCardStyle }}">{{ setCardText }}</button>
           </div>
           <sc-for list="{{ setManageList }}" as="s" hint-placeholder-count="1">
             <div style="background:rgba(50,38,90,.03);border:1px solid #e1dbf0;border-radius:12px;padding:10px 12px">
@@ -1105,7 +1106,13 @@
                     <button onClick="{{ m.onDel }}" style="flex-shrink:0;width:22px;height:22px;border-radius:6px;border:none;background:rgba(226,59,93,.1);color:#e23b5d;cursor:pointer;font-size:13px;line-height:1">×</button>
                   </div>
                 </sc-for>
-                <button onClick="{{ s.onAddMember }}" style="align-self:flex-start;font-family:inherit;font-size:12px;color:#544f7e;background:none;border:1px dashed #ded7ee;padding:6px 12px;border-radius:8px;cursor:pointer">＋ 新增款式</button>
+                <button onClick="{{ s.onAddMember }}" style="align-self:flex-start;font-family:inherit;font-size:12px;color:#544f7e;background:none;border:1px dashed #ded7ee;padding:6px 12px;border-radius:8px;cursor:pointer">＋ 自定义款式</button>
+                <div style="font-size:11px;color:#a49ec4;margin-top:4px">从已有角色快速添加：</div>
+                <div style="display:flex;flex-wrap:wrap;gap:6px">
+                  <sc-for list="{{ s.charChips }}" as="c" hint-placeholder-count="4">
+                    <button onClick="{{ c.onAdd }}" style="{{ c.chipStyle }}">{{ c.name }}<sc-if value="{{ c.added }}" hint-placeholder-val="{{ false }}"> ✓</sc-if></button>
+                  </sc-for>
+                </div>
               </div>
               </sc-if>
             </div>
@@ -1120,7 +1127,7 @@
   </sc-if>
 
   <sc-if value="{{ workManageOpen }}" hint-placeholder-val="false">
-    <div class="ui-modal-backdrop" style="position:fixed;inset:0;z-index:342;background:rgba(70,58,110,.4);backdrop-filter:blur(6px);display:flex;align-items:flex-start;justify-content:center;padding:40px 14px;overflow-y:auto" onClick="{{ closeWorkManage }}">
+    <div class="ui-modal-backdrop" style="position:fixed;inset:0;z-index:342;background:rgba(70,58,110,.4);backdrop-filter:blur(6px);display:flex;align-items:flex-start;justify-content:center;padding:40px 14px;overflow-y:auto">
       <div class="ui-modal-card" onClick="{{ stop }}" style="width:100%;max-width:400px;background:linear-gradient(160deg,#ffffff,#f4f1fb);border:1px solid #d6cfe9;border-radius:20px;box-shadow:0 30px 70px rgba(40,28,80,.4);display:flex;flex-direction:column;max-height:88vh">
         <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #e1dbf0;flex-shrink:0">
           <div><div style="font-weight:800;font-size:16px;color:#251d49">管理作品</div><div style="font-size:11.5px;color:#938db0;margin-top:2px">新增 / 改名 / 删除 / 上传 logo / 切换</div></div>
@@ -2770,6 +2777,7 @@ class Component extends DCLogic {
     this.persistSets(sets); this.setState({ sets });
   }
   addSetMember = (setId) => { const v = (window.prompt('新增款式名称，例：诺克斯 / A款') || '').trim(); if (!v) return; this.updateSetMembers(setId, m => { m.push({ code: String(m.length + 1).padStart(2, '0'), name: v }); return m; }); };
+  addSetMemberChar = (setId, name) => { this.updateSetMembers(setId, m => { if (m.some(x => x.name === name)) return m; m.push({ code: String(m.length + 1).padStart(2, '0'), name }); return m; }); };
   renameSetMember = (setId, idx) => { const s = this.setById(setId || this.curSetId()); const cur = s && s.members && s.members[idx]; if (!cur) return; const v = (window.prompt('修改款式名称：', cur.name) || '').trim(); if (!v) return; this.updateSetMembers(setId, m => { m[idx] = { ...m[idx], name: v }; return m; }); };
   delSetMember = (setId, idx) => { const s = this.setById(setId || this.curSetId()); const cur = s && s.members && s.members[idx]; if (!cur) return; if (!window.confirm('删除款式「' + cur.code + ' ' + cur.name + '」？')) return; this.updateSetMembers(setId, m => { m.splice(idx, 1); return m.map((x, i) => ({ ...x, code: String(i + 1).padStart(2, '0') })); }); };
   addSetInManage = () => { const name = (window.prompt('新建套装名称，例：VV 第一弹') || '').trim(); if (!name) return; const id = 'set_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5); const wid = (this.state.draft && this.state.draft.workId) || this.state.currentWorkId || this.MAIN_WORK; const sets = [...(this.state.sets || []), { id, name, total: 0, members: [], workId: wid }]; this.persistSets(sets); this.setState({ sets }); };
@@ -4449,7 +4457,7 @@ class Component extends DCLogic {
         circleImgStyle: { position: 'relative', width: '84px', height: '84px', borderRadius: '50%', overflow: 'hidden', background: 'linear-gradient(145deg,#eae5f4,#e1dcf0)', border: isSelected ? '3px solid var(--accent,#ff3355)' : (rem.active ? '3px solid #e23b5d' : '2px solid #ffffff'), boxShadow: isSelected ? `0 0 0 5px ${this.accentAlpha(0.18)}, 0 10px 24px rgba(50,38,90,.18)` : (rem.active ? '0 0 0 3px rgba(226,59,93,.12), 0 8px 18px rgba(226,59,93,.28)' : '0 3px 10px rgba(50,38,90,.14)') },
         circleReminderStyle: { position: 'absolute', top: '2px', right: '2px', minWidth: '20px', height: '20px', padding: '0 5px', borderRadius: '999px', background: '#e23b5d', color: '#fff', fontSize: '10px', fontWeight: 900, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid #fff', boxShadow: '0 3px 9px rgba(226,59,93,.35)' },
         hasReminderAlert: !!rem.active, reminderText: rem.text || '', reminderBadgeText: rem.badgeText || rem.text || '', reminderShort: rem.type || '!',
-        id: it.id, name: displayName, cardMeta: (() => { const co = this.state.cardOn || {}; const parts = []; if (co.character && it.character) parts.push(dispChar); if (co.type && it.type) parts.push(it.type + (it.subtype ? ' · ' + it.subtype : '')); if (co.series && it.series) parts.push(it.series); if (co.form && it.form && it.form !== '通用') parts.push(it.form); if (co.acquire && it.acquire) parts.push(it.acquire); if (co.channel && it.channel) parts.push(it.channel); if (co.status && it.status) parts.push(it.status); (this.state.customFields || []).forEach(f => { if (co[f.key] && it.custom && it.custom[f.key]) parts.push(it.custom[f.key]); }); return parts.join(' · '); })(),
+        id: it.id, name: displayName, cardMeta: (() => { const co = this.state.cardOn || {}; const parts = []; if (co.character && it.character) parts.push(dispChar); if (co.type && it.type) parts.push(it.type + (it.subtype ? ' · ' + it.subtype : '')); if (co.series && it.series) parts.push(it.series); if (co.form && it.form && it.form !== '通用') parts.push(it.form); if (co.acquire && it.acquire) parts.push(it.acquire); if (co.channel && it.channel) parts.push(it.channel); if (co.status && it.status) parts.push(it.status); if (co.set && it.setName) parts.push(it.setName + (it.setVariant ? ' ' + it.setVariant : '')); (this.state.customFields || []).forEach(f => { if (co[f.key] && it.custom && it.custom[f.key]) parts.push(it.custom[f.key]); }); return parts.join(' · '); })(),
         showTextMeta: false, hasOrig: !!(isSwapped && it.swapNote), origText: it.swapNote || '', character: dispChar, showCharBadge: !(charSel && charSel.length === 1),
         hasAvatar: !!this.charImg(dispChar), avatarStyle: { width: '16px', height: '16px', borderRadius: '50%', backgroundImage: `url(${this.charImg(dispChar)})`, backgroundSize: 'cover', backgroundPosition: 'center', margin: '0 4px 0 -2px', flexShrink: 0 },
         charStyle: { display: 'inline-flex', alignItems: 'center', padding: '3px 9px', borderRadius: '999px', fontSize: '12px', fontWeight: 500, whiteSpace: 'nowrap', background: `hsla(${hue},60%,55%,.16)`, color: `hsl(${hue},72%,40%)`, border: `1px solid hsla(${hue},60%,60%,.32)` },
@@ -4720,7 +4728,8 @@ class Component extends DCLogic {
         id: s.id, name: s.name, progress: (s.total ? got + ' / ' + s.total : String(got)) + ' 款',
         collapsed, notCollapsed: !collapsed, caret: collapsed ? '▸' : '▾', onToggle: () => this.toggleSetCollapse(s.id),
         onRename: () => this.renameSet(s.id), onDel: () => this.delSet(s.id), onAddMember: () => this.addSetMember(s.id),
-        members: (s.members || []).map((m, idx) => ({ label: m.code + ' ' + m.name, onRename: () => this.renameSetMember(s.id, idx), onDel: () => this.delSetMember(s.id, idx) }))
+        members: (s.members || []).map((m, idx) => ({ label: m.code + ' ' + m.name, onRename: () => this.renameSetMember(s.id, idx), onDel: () => this.delSetMember(s.id, idx) })),
+        charChips: this.orderedChars().filter(c => c && c !== '全部').map(c => { const on = (s.members || []).some(m => m.name === c); return { name: c, added: on, onAdd: () => this.addSetMemberChar(s.id, c), chipStyle: { padding: '4px 11px', borderRadius: '999px', fontFamily: 'inherit', fontSize: '12px', cursor: on ? 'default' : 'pointer', border: '1px solid ' + (on ? 'transparent' : '#ded7ee'), background: on ? this.accentAlpha(0.12) : '#fff', color: on ? this.accentColor() : '#595287', opacity: on ? 0.65 : 1 } }; })
       };
     });
     const cnPrefix = (this.state.collectorName || '').trim();
@@ -4729,6 +4738,8 @@ class Component extends DCLogic {
     const _tglBase = { padding: '4px 12px', borderRadius: '999px', fontFamily: 'inherit', fontSize: '12px', fontWeight: 700, cursor: 'pointer', border: '1px solid' };
     const setFilterStyle = { ..._tglBase, borderColor: setFilterOn ? 'transparent' : '#ded7ee', background: setFilterOn ? this.accentColor() : '#fff', color: setFilterOn ? '#fff' : '#8b84ad' };
     const setGroupStyle = { ..._tglBase, borderColor: setGroupOn ? 'transparent' : '#ded7ee', background: setGroupOn ? this.accentColor() : '#fff', color: setGroupOn ? '#fff' : '#8b84ad' };
+    const setCardOn = !!(this.state.cardOn || {})['set'];
+    const setCardStyle = { ..._tglBase, borderColor: setCardOn ? 'transparent' : '#ded7ee', background: setCardOn ? this.accentColor() : '#fff', color: setCardOn ? '#fff' : '#8b84ad' };
     const cnDisplay = cnPrefix || 'CN / 昵称';
     const cnSidebarClass = 'ui-sidebar-cn ui-editable-text' + (cnPrefix ? '' : ' ui-sidebar-cn-empty');
 
@@ -4794,7 +4805,7 @@ class Component extends DCLogic {
       closeModal: this.closeModal, saveItem: this.saveItem, onDraftChange: this.onDraftChange, autoGrowNote: this.autoGrowNote, charMenuItems, charDisplay, charMenuOpen: this.state.charMenuOpen, toggleCharMenu: this.toggleCharMenu, onTypeChange: this.onTypeChange, onSeriesChange: this.onSeriesChange, fillName: this.fillName, draftStars, typeMenuItems, typeDisplay, hasTypeMenuItems, typeMenuOpen: this.state.typeMenuOpen, toggleTypeMenu: this.toggleTypeMenu, addType: this.addType, seriesMenuItems, seriesDisplay, hasSeriesMenuItems, seriesMenuOpen: this.state.seriesMenuOpen, toggleSeriesMenu: this.toggleSeriesMenu, addSeries: this.addSeries, clearSeries: this.clearSeries, channelMenuItems, channelMenuOpen: this.state.channelMenuOpen, toggleChannelMenu: this.toggleChannelMenu, addChannel: this.addChannel, clearChannel: this.clearChannel, channelDisplay: (this.state.draft && this.state.draft.channel) ? this.state.draft.channel : '（未分类）', hasChannelMenuItems: channelMenuItems.length > 0, fillBuyFromRate: this.fillBuyFromRate, draftHasConv, draftConvText, draftIsGacha, draftSwapped,
       onImagePick: this.onImagePick, onImagePick2: this.onImagePick2, onImagePick3: this.onImagePick3, onImagePickSwap: this.onImagePickSwap, swapMenuItems, swappedDisplay, swapHint, swapNoteLabel, draftIsSwapKind, swapMenuOpen: this.state.swapMenuOpen, toggleSwapMenu: this.toggleSwapMenu, swapCharMenuItems, swapCharDisplay, swapCharMenuOpen: this.state.swapCharMenuOpen, toggleSwapCharMenu: this.toggleSwapCharMenu, clearSwapCharacter: this.clearSwapCharacter, swapCharHasAvatar, swapCharAvatarStyle, removeDraftImg: this.removeDraftImg, removeDraftImg2: this.removeDraftImg2, removeDraftImg3: this.removeDraftImg3, removeDraftImg4: this.removeDraftImg4, removeDraftSwapImg: this.removeDraftSwapImg,
       draftTimelineRows, isAdvanced: true, showBrandField: !!this.state.advancedMode || !!(d && d.series), draftWorkName, draftWorkGroupName, draftWorkMenuGroups, draftWorkMenuOpen: this.state.draftWorkMenuOpen, toggleDraftWorkMenu: this.toggleDraftWorkMenu, addWorkInline: this.addWorkInline, draftIsSelling, draftNotSelling,
-      manageOpen: this.state.manageOpen, closeManage: this.closeManage, manageTitle, manageRows, manageAddText, onManageAdd, manageCanRenameLabel, onManageRenameLabel, manageCanToggle, manageFilterOn, workManageOpen: this.state.workManageOpen, openWorkManage: this.openWorkManage, closeWorkManage: this.closeWorkManage, workManageGroups, addGroupAlone: this.addGroupAlone, setManageOpen: this.state.setManageOpen, openSetManage: this.openSetManage, closeSetManage: this.closeSetManage, setManageList, addSetInManage: this.addSetInManage, hasSetManageList: setManageList.length > 0, setFieldLabel: this.setLabelText(), renameSetLabel: this.renameSetLabel, setFilterStyle, setGroupStyle, setFilterText: setFilterOn ? '筛选 ✓' : '筛选', setGroupText: setGroupOn ? '分组 ✓' : '分组', onSetToggleFilter: this.toggleFilterOn('set'), onSetToggleGroup: this.toggleStatsOn('set'), manageGroupOn, onManageToggleFilter, onManageToggleGroup, manageFilterStyle, manageGroupStyle, manageCardOn, onManageToggleCard, manageCardStyle, manageCardText: manageCardOn ? '图鉴 ✓' : '图鉴', manageFilterText: manageFilterOn ? '筛选 ✓' : '筛选', manageGroupText: manageGroupOn ? '分组 ✓' : '分组',
+      manageOpen: this.state.manageOpen, closeManage: this.closeManage, manageTitle, manageRows, manageAddText, onManageAdd, manageCanRenameLabel, onManageRenameLabel, manageCanToggle, manageFilterOn, workManageOpen: this.state.workManageOpen, openWorkManage: this.openWorkManage, closeWorkManage: this.closeWorkManage, workManageGroups, addGroupAlone: this.addGroupAlone, setManageOpen: this.state.setManageOpen, openSetManage: this.openSetManage, closeSetManage: this.closeSetManage, setManageList, addSetInManage: this.addSetInManage, hasSetManageList: setManageList.length > 0, setFieldLabel: this.setLabelText(), renameSetLabel: this.renameSetLabel, setFilterStyle, setGroupStyle, setFilterText: setFilterOn ? '筛选 ✓' : '筛选', setGroupText: setGroupOn ? '分组 ✓' : '分组', setCardStyle, setCardText: setCardOn ? '图鉴 ✓' : '图鉴', onSetToggleCard: this.toggleCardOn('set'), onSetToggleFilter: this.toggleFilterOn('set'), onSetToggleGroup: this.toggleStatsOn('set'), manageGroupOn, onManageToggleFilter, onManageToggleGroup, manageFilterStyle, manageGroupStyle, manageCardOn, onManageToggleCard, manageCardStyle, manageCardText: manageCardOn ? '图鉴 ✓' : '图鉴', manageFilterText: manageFilterOn ? '筛选 ✓' : '筛选', manageGroupText: manageGroupOn ? '分组 ✓' : '分组',
       mgrStatus: () => this.openManage('status'), mgrMethod: () => this.openManage('method'), mgrTradeTags: () => this.openManage('tradeTags'), mgrRarityTags: () => this.openManage('rarityTags'),
       lblMethod: (this.state.fieldLabels||{}).method || '购买方式', lblTags: (this.state.fieldLabels||{}).tags || '交易标签', lblRarity: (this.state.fieldLabels||{}).rarity || '稀有度 / 心动标签', mgrCharacter: () => this.openManage('character'), mgrType: () => this.openManage('type'), mgrForm: () => this.openManage('form'), mgrSeries: () => this.openManage('series'), mgrAcquire: () => this.openManage('acquire'), mgrChannel: () => this.openManage('channel'), mgrReminder: () => this.openManage('reminder'), mgrTrade: () => this.openManage('tradeTags'), mgrRarity: () => this.openManage('rarityTags'),
       setMenuOpen: this.state.setMenuOpen, toggleSetMenu: this.toggleSetMenu, addSet: this.addSet, clearSet: () => this.pickSet(''),
