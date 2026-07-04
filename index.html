@@ -292,7 +292,10 @@
   .ui-batch-option-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-top:10px}
   .ui-batch-option-grid button{font-family:inherit;font-size:13px;color:#251d49;background:#fff;border:1px solid #ded7ee;border-radius:10px;padding:10px 11px;cursor:pointer;text-align:left}
   @media (max-width:900px){.ui-wallet-main-grid{grid-template-columns:1fr}.ui-wallet-side{grid-template-rows:auto auto}.ui-wallet-reminder-card{max-height:220px}.ui-batch-edit-modal-grid{grid-template-columns:1fr}.ui-consume-controls{justify-content:flex-start}}
-  @media (max-width:640px){ .ui-app input, .ui-app select, .ui-app textarea, .ui-modal-card input, .ui-modal-card select, .ui-modal-card textarea { font-size:16px !important; } }
+  @media (max-width:640px){ .ui-app input, .ui-app select, .ui-app textarea, .ui-modal-card input, .ui-modal-card select, .ui-modal-card textarea { font-size:16px !important; }
+    .ui-batch-edit-modal-grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important;}
+    .ui-batch-option-grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important;}
+  }
 
   /* ===== Desktop app-shell: left sidebar ===== */
   .ui-sidebar{display:none;}
@@ -1168,8 +1171,8 @@
           </div>
           </sc-if>
           <sc-for list="{{ manageRows }}" as="r" hint-placeholder-count="4">
-            <div draggable="{{ r.draggable }}" onDragStart="{{ r.onDragStart }}" onDragOver="{{ r.onDragOver }}" onDrop="{{ r.onDrop }}" style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:#fff;border:1px solid #e8e2f2;border-radius:11px">
-              <span title="拖拽排序" style="flex-shrink:0;color:#c3bcd8;font-size:14px;cursor:grab;line-height:1">⋮⋮</span>
+            <div data-mgrow="{{ r.idx }}" draggable="{{ r.draggable }}" onDragStart="{{ r.onDragStart }}" onDragOver="{{ r.onDragOver }}" onDrop="{{ r.onDrop }}" style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:#fff;border:1px solid #e8e2f2;border-radius:11px">
+              <span title="拖拽排序" onTouchStart="{{ r.onTouchStart }}" onTouchMove="{{ r.onTouchMove }}" onTouchEnd="{{ r.onTouchEnd }}" style="flex-shrink:0;color:#c3bcd8;font-size:16px;cursor:grab;line-height:1;padding:4px;touch-action:none">⋮⋮</span>
               <sc-if value="{{ r.isChar }}" hint-placeholder-val="{{ false }}"><div onClick="{{ r.onAvatar }}" title="点击上传角色头像" style="{{ r.avatarStyle }}"><sc-if value="{{ r.hasAvatar }}" hint-placeholder-val="{{ false }}"><span style="display:none"></span></sc-if><sc-if value="{{ r.noAvatarText }}" hint-placeholder-val="{{ true }}">头像</sc-if></div></sc-if>
               <span style="flex:1;min-width:0;font-size:14px;color:#251d49;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</span>
               <button onClick="{{ r.onRename }}" style="flex-shrink:0;font-family:inherit;font-size:12px;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:5px 10px;border-radius:8px;cursor:pointer">改</button>
@@ -2744,7 +2747,7 @@ class Component extends DCLogic {
     this.setState(s => ({ sets, lastSetId: id, draft: { ...s.draft, setId: id }, setMenuOpen: false }));
   };
   setById(id) { return (this.state.sets || []).find(s => s.id === id) || null; }
-  setCollectedCodes(setId, exceptId) { return [...new Set((this.state.items || []).filter(it => it.setId === setId && it.id !== exceptId).map(it => (it.setVariant || '').trim()).filter(Boolean))]; }
+  setCollectedCodes(setId, exceptId) { const out = []; (this.state.items || []).filter(it => it.setId === setId && it.id !== exceptId).forEach(it => { (it.setVariant || '').split(/[、,，]/).map(x => x.trim()).filter(Boolean).forEach(v => out.push(v)); }); return [...new Set(out)]; }
   toggleColInfo = () => this.setState(s => ({ colInfoOpen: !s.colInfoOpen }));
   toggleSetInfo = () => this.setState(s => ({ setInfoOpen: !s.setInfoOpen }));
   toggleSetVariantMenu = () => this.toggleDraftMenu('setVariantMenuOpen');
@@ -2769,9 +2772,14 @@ class Component extends DCLogic {
   setLabelText() { return (this.state.fieldLabels || {})['set'] || '系列收藏 / 套装'; }
   renameSetLabel = () => { const cur = this.setLabelText(); const v = (window.prompt('把字段名「' + cur + '」改成：', cur) || '').trim(); if (!v || v === cur) return; const fieldLabels = { ...(this.state.fieldLabels || {}), set: v }; try { localStorage.setItem('zzz_field_labels', JSON.stringify(fieldLabels)); } catch (e) {} this.setState({ fieldLabels }); };
   pickSetMember = (m) => this.setState(s => {
-    const draft = { ...s.draft, subtype: m.code + ' ' + m.name, setVariant: m.code + ' ' + m.name };
-    if (m.name && this.orderedChars().includes(m.name)) draft.character = m.name;
-    return { draft, setVariantMenuOpen: false };
+    const cur = (s.draft && s.draft.subtype) || '';
+    const parts = cur.split(/[、,，]/).map(x => x.trim()).filter(Boolean);
+    const val = m.code + ' ' + m.name;
+    const i = parts.indexOf(val);
+    if (i >= 0) parts.splice(i, 1); else parts.push(val);
+    const draft = { ...s.draft, subtype: parts.join('、'), setVariant: parts.join('、') };
+    if (parts.length === 1 && m.name && this.orderedChars().includes(m.name)) draft.character = m.name;
+    return { draft };
   });
   toggleDraftTag = (kind, tag) => this.setState(s => { const arr = [...((s.draft && s.draft[kind]) || [])]; const i = arr.indexOf(tag); if (i >= 0) arr.splice(i, 1); else arr.push(tag); return { draft: { ...s.draft, [kind]: arr } }; });
   addTagOption = (key, lsKey) => { const v = (window.prompt('输入新的标签') || '').trim(); if (!v) return; const cur = this.state[key] || []; if (cur.includes(v)) return; const arr = [...cur, v]; try { localStorage.setItem(this.wkey(lsKey), JSON.stringify(arr)); } catch (e) {} this.setState({ [key]: arr }); };
@@ -3605,6 +3613,9 @@ class Component extends DCLogic {
   manageDeleteItem = (kind, name) => { const used=this.manageUsedCount(kind, name); if(!window.confirm('删除「'+name+'」？'+(used?('（有 '+used+' 件谷子在用，删后它们仍保留原文字）'):''))) return; this.manageSaveList(kind, this.manageListOf(kind).filter(x=>x!==name)); };
   manageMoveItem = (kind, name, dir) => { const l=this.manageListOf(kind); const i=l.indexOf(name); if(i<0) return; const j=i+dir; if(j<0||j>=l.length) return; const t=l[i]; l[i]=l[j]; l[j]=t; this.manageSaveList(kind, l); };
   manageDragReorder = (kind, from, to) => { if(from===to||from==null||to==null) return; const l=this.manageListOf(kind); if(from<0||from>=l.length||to<0||to>=l.length) return; const [m]=l.splice(from,1); l.splice(to,0,m); this.manageSaveList(kind, l); };
+  mgTouchStart = (kind, i) => (e) => { this._mgKind = kind; this._mgDrag = i; };
+  mgTouchMove = (e) => { if(this._mgDrag==null) return; if(e&&e.cancelable) e.preventDefault(); const t = e.touches && e.touches[0]; if(!t) return; const el = document.elementFromPoint(t.clientX, t.clientY); const row = el && el.closest ? el.closest('[data-mgrow]') : null; if(row){ const to = parseInt(row.getAttribute('data-mgrow')); if(!isNaN(to)) this._mgOver = to; } };
+  mgTouchEnd = () => { if(this._mgDrag!=null && this._mgOver!=null && this._mgKind){ this.manageDragReorder(this._mgKind, this._mgDrag, this._mgOver); } this._mgDrag=null; this._mgOver=null; this._mgKind=null; };
   manageRenameLabel = (kind) => { const key=({character:'character',type:'type',series:'series',channel:'channel',status:'status',form:'form',acquire:'acquire',method:'method',tradeTags:'tags',rarityTags:'rarity'})[kind]; if(!key) return; const cur=(this.state.fieldLabels||{})[key]||this.FIELD_DEFAULTS[key]||''; const nv=(window.prompt('把字段名「'+cur+'」改成：',cur)||'').trim(); if(!nv||nv===cur) return; const fl={...(this.state.fieldLabels||{}),[key]:nv}; try{localStorage.setItem('zzz_field_labels',JSON.stringify(fl));}catch(e){} this.setState({fieldLabels:fl}); };
   menuRow(active) { return { display: 'flex', alignItems: 'center', gap: '6px', padding: '7px 9px', borderRadius: '8px', background: active ? 'color-mix(in srgb, var(--accent,#ff3355) 11%, transparent)' : 'transparent' }; }
   closedDraftMenus(extra = {}) { return { methodMenuOpen:false, acquireMenuOpen:false, channelMenuOpen:false, seriesMenuOpen:false, typeMenuOpen:false, charMenuOpen:false, statusMenuOpen:false, formMenuOpen:false, reminderMenuOpen:false, setMenuOpen:false, setVariantMenuOpen:false, swapMenuOpen:false, swapCharMenuOpen:false, draftWorkMenuOpen:false, ...extra }; }
@@ -4118,7 +4129,7 @@ class Component extends DCLogic {
     const manageFilterStyle = { padding: '4px 12px', borderRadius: '999px', fontFamily: 'inherit', fontSize: '12px', fontWeight: 700, cursor: 'pointer', border: '1px solid', borderColor: manageFilterOn ? 'transparent' : '#ded7ee', background: manageFilterOn ? this.accentColor() : '#fff', color: manageFilterOn ? '#fff' : '#8b84ad' };
     const manageGroupStyle = { padding: '4px 12px', borderRadius: '999px', fontFamily: 'inherit', fontSize: '12px', fontWeight: 700, cursor: 'pointer', border: '1px solid', borderColor: manageGroupOn ? 'transparent' : '#ded7ee', background: manageGroupOn ? this.accentColor() : '#fff', color: manageGroupOn ? '#fff' : '#8b84ad' };
     const _mlist = _mc ? this.manageListOf(_mk) : [];
-    const manageRows = _mlist.map((nm, i) => { const _av = _mk === 'character' ? this.charImg(nm) : ''; return { name: nm, canUp: i>0, canDown: i<_mlist.length-1, onUp: () => this.manageMoveItem(_mk, nm, -1), onDown: () => this.manageMoveItem(_mk, nm, 1), onRename: () => this.manageRenameItem(_mk, nm), onDel: () => this.manageDeleteItem(_mk, nm), isChar: _mk === 'character', hasAvatar: !!_av, noAvatarText: _mk === 'character' && !_av, avatarStyle: _av ? { width: '30px', height: '30px', borderRadius: '50%', backgroundImage: `url(${_av})`, backgroundSize: 'cover', backgroundPosition: 'center', flexShrink: 0, cursor: 'pointer' } : { width: '30px', height: '30px', borderRadius: '50%', background: 'rgba(50,38,90,.06)', border: '1px dashed #d4cee7', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#a49ec4', fontSize: '9px', flexShrink: 0, cursor: 'pointer' }, onAvatar: () => this.uploadCharAvatar(nm), draggable: true, onDragStart: (e) => { this._mgDrag = i; if(e&&e.dataTransfer){e.dataTransfer.effectAllowed='move';} }, onDragOver: (e) => { if(e&&e.preventDefault) e.preventDefault(); }, onDrop: (e) => { if(e&&e.preventDefault) e.preventDefault(); this.manageDragReorder(_mk, this._mgDrag, i); this._mgDrag=null; } }; });
+    const manageRows = _mlist.map((nm, i) => { const _av = _mk === 'character' ? this.charImg(nm) : ''; return { name: nm, canUp: i>0, canDown: i<_mlist.length-1, onUp: () => this.manageMoveItem(_mk, nm, -1), onDown: () => this.manageMoveItem(_mk, nm, 1), onRename: () => this.manageRenameItem(_mk, nm), onDel: () => this.manageDeleteItem(_mk, nm), isChar: _mk === 'character', hasAvatar: !!_av, noAvatarText: _mk === 'character' && !_av, avatarStyle: _av ? { width: '30px', height: '30px', borderRadius: '50%', backgroundImage: `url(${_av})`, backgroundSize: 'cover', backgroundPosition: 'center', flexShrink: 0, cursor: 'pointer' } : { width: '30px', height: '30px', borderRadius: '50%', background: 'rgba(50,38,90,.06)', border: '1px dashed #d4cee7', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#a49ec4', fontSize: '9px', flexShrink: 0, cursor: 'pointer' }, onAvatar: () => this.uploadCharAvatar(nm), draggable: true, onDragStart: (e) => { this._mgDrag = i; if(e&&e.dataTransfer){e.dataTransfer.effectAllowed='move';} }, onDragOver: (e) => { if(e&&e.preventDefault) e.preventDefault(); }, onDrop: (e) => { if(e&&e.preventDefault) e.preventDefault(); this.manageDragReorder(_mk, this._mgDrag, i); this._mgDrag=null; }, idx: i, onTouchStart: this.mgTouchStart(_mk, i), onTouchMove: this.mgTouchMove, onTouchEnd: this.mgTouchEnd }; });
     const manageAddText = _mc ? ('＋ 新增' + _mc.label) : '＋ 新增';
     const onManageAdd = () => this.manageAddItem(_mk);
     const typeMenuItems = (this.state.typesList || []).map(c => ({ name: c, onPick: () => this.pickType(c), onRename: (ev) => this.renameTypeItem(c, ev), onDel: (ev) => this.delTypeItem(c, ev), rowStyle: this.menuRow(dType === c) }));
@@ -4784,7 +4795,7 @@ class Component extends DCLogic {
       noSetMembers: (() => { const s = this.setById(d && d.setId); return !(s && s.members && s.members.length); })(),
       setVariantDisplay: (d && d.setVariant) ? d.setVariant : '（选择款式）',
       toggleSetVariantMenu: this.toggleSetVariantMenu, setVariantMenuOpen: this.state.setVariantMenuOpen,
-      setMemberItems: (() => { const s = this.setById(d && d.setId); if (!s || !s.members) return []; const got = this.setCollectedCodes(s.id, d && d.id); return s.members.map((m, idx) => { const label = m.code + ' ' + m.name; const on = (d && d.setVariant) === label; return { label, got: got.includes(m.code + ' ' + m.name) || got.includes(m.code), onPick: () => this.pickSetMember(m), onRename: () => this.renameSetMember(idx), onDel: () => this.delSetMember(idx), rowStyle: this.menuRow(on) }; }); })(),
+      setMemberItems: (() => { const s = this.setById(d && d.setId); if (!s || !s.members) return []; const got = this.setCollectedCodes(s.id, d && d.id); const picked = ((d && d.subtype) || '').split(/[、,，]/).map(x => x.trim()).filter(Boolean); return s.members.map((m, idx) => { const label = m.code + ' ' + m.name; const on = picked.includes(label); return { label, got: got.includes(m.code + ' ' + m.name) || got.includes(m.code), onPick: () => this.pickSetMember(m), onRename: () => this.renameSetMember(idx), onDel: () => this.delSetMember(idx), rowStyle: this.menuRow(on) }; }); })(),
       setMemberEditMode: !!this.state.setMemberEditMode, setMemberEditText: this.state.setMemberEditMode ? '✓ 完成' : '⚙ 管理', toggleSetMemberEdit: this.toggleSetMemberEdit, addSetMember: this.addSetMember,
       setMenuItems: (this.state.sets || []).filter(s => (s.workId || this.MAIN_WORK) === ((d && d.workId) || this.state.currentWorkId || this.MAIN_WORK)).sort((a, b) => (a.id === this.state.lastSetId ? -1 : b.id === this.state.lastSetId ? 1 : 0)).map(s => { const got = this.setCollectedCodes(s.id, d && d.id).length; return { name: s.name + (s.id === this.state.lastSetId ? ' · 最近' : ''), progress: s.total ? got + '/' + s.total : String(got), onPick: () => this.pickSet(s.id), onRename: () => this.renameSet(s.id), onDel: () => this.delSet(s.id), rowStyle: { display: 'flex', alignItems: 'center', gap: '8px', width: '100%', background: (d && d.setId === s.id) ? this.accentAlpha(0.1) : 'none', border: 'none', cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit', fontSize: '14px', color: '#251d49', padding: '7px 9px', borderRadius: '8px' } }; }), setManageEditMode: !!this.state.setManageEditMode, setManageEditText: this.state.setManageEditMode ? '✓ 完成' : '⚙ 管理', toggleSetManageEdit: this.toggleSetManageEdit,
       collectedCodesText: (d && d.setId) ? this.setCollectedCodes(d.setId, d.id).join('、') : '', hasCollectedCodes: !!(d && d.setId && this.setCollectedCodes(d.setId, d.id).length), feeShow: !!this.state.feeOpen, colInfoShow: !!this.state.colInfoOpen, setInfoShow: !!this.state.advancedMode && this.state.setInfoOpen, feeOpen: this.state.feeOpen, feeCaret: this.state.feeOpen ? '▲ 收起' : '▼ 展开', toggleFee: this.toggleFee, colInfoOpen: this.state.colInfoOpen, colInfoCaret: this.state.colInfoOpen ? '▲ 收起' : '▼ 展开', toggleColInfo: this.toggleColInfo, setInfoOpen: this.state.setInfoOpen, setInfoCaret: this.state.setInfoOpen ? '▲ 收起' : '▼ 展开', toggleSetInfo: this.toggleSetInfo,
