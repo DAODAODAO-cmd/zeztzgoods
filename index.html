@@ -119,16 +119,17 @@
     .ui-reminder-strip{display:none}
   @media (max-width:640px){
     .ui-modal-card .ui-form-grid{grid-template-columns:1fr !important;}
-    .ui-item-modal .ui-form-grid [style*="grid-template-columns:1fr 1fr"],.ui-item-modal .ui-form-grid [style*="grid-template-columns:1fr 1fr"] > div{grid-template-columns:1fr !important;grid-column:auto !important;}
-    .ui-modal-card{max-height:94vh !important;}
-    .ui-modal-card .ui-modal-footer{padding:10px 12px !important;gap:6px !important;flex-wrap:nowrap !important;}
+    .ui-item-modal .ui-form-grid [style*="display:grid"]{grid-template-columns:1fr !important;}
+    .ui-item-modal .ui-form-grid > div{grid-column:auto !important;}
+    .ui-modal-card{max-height:92vh !important;height:auto !important;}
+    .ui-modal-card .ui-modal-footer{padding:10px 12px !important;gap:8px !important;flex-wrap:nowrap !important;}
     .ui-modal-card .ui-modal-footer .ui-footer-spacer{display:none !important;}
-    .ui-modal-card .ui-modal-footer > button{flex:1 1 0 !important;min-width:0 !important;padding:10px 4px !important;font-size:13px !important;white-space:nowrap !important;}
+    .ui-modal-card .ui-modal-footer > button{flex:1 1 0 !important;min-width:0 !important;padding:11px 4px !important;font-size:13px !important;white-space:nowrap !important;order:0 !important;}
     .ui-mobile-auto .ui-mobile-card-price,.ui-mobile-simple .ui-mobile-card-price{display:flex !important;}
     .ui-modal-card .ui-footer-spacer{display:none !important;}
     .ui-modal-card .ui-modal-footer .ui-btn-danger,.ui-modal-card .ui-modal-footer .ui-btn-soft{flex:1 1 0 !important;min-width:0 !important;padding:10px 6px !important;font-size:13px !important;}
     .ui-modal-card .ui-modal-footer .ui-btn-ghost{flex:1 1 0 !important;min-width:0 !important;padding:10px 6px !important;font-size:13px !important;}
-    .ui-modal-card .ui-modal-footer .ui-btn-primary{flex:2 1 100% !important;padding:12px 6px !important;order:9 !important;}
+    .ui-modal-card .ui-modal-footer .ui-btn-primary{flex:1 1 0 !important;padding:11px 4px !important;order:0 !important;}
     .ui-draft-image-panel{flex-basis:100% !important;align-items:flex-start !important}
     .ui-draft-image-mosaic{width:88px !important;height:88px !important}
     .ui-draft-image-upload{width:28px !important;height:28px !important;border-radius:9px !important;font-size:18px !important}
@@ -207,8 +208,12 @@
     .ui-mobile-auto.ui-filters-open .ui-filter-extra,.ui-mobile-simple.ui-filters-open .ui-filter-extra{display:flex !important;}
     .ui-mobile-auto .ui-filter-help,.ui-mobile-simple .ui-filter-help{display:none !important;}
     .ui-mobile-auto .ui-filter-summary,.ui-mobile-simple .ui-filter-summary{padding:9px 11px !important;margin-bottom:12px !important;gap:8px 12px !important;}
+    .ui-batch-active .ui-filter-summary{position:sticky !important;top:6px !important;z-index:31 !important;}
+    .ui-batch-active .ui-batch-bar{position:sticky !important;top:60px !important;z-index:30 !important;}
+    .ui-batch-active.ui-mobile-simple .ui-filter-summary,.ui-batch-active.ui-mobile-auto .ui-filter-summary{display:flex !important;}
+    .ui-batch-active.ui-mobile-simple .ui-filter-summary span:nth-child(n+4),.ui-batch-active.ui-mobile-auto .ui-filter-summary span:nth-child(n+4){display:inline !important;}
     .ui-mobile-auto .ui-filter-summary span:nth-child(n+4),.ui-mobile-simple .ui-filter-summary span:nth-child(n+4){display:none !important;}
-    .ui-mobile-auto .ui-gallery-grid,.ui-mobile-simple .ui-gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:10px !important;}
+    .ui-mobile-auto .ui-gallery-grid,.ui-mobile-simple .ui-gallery-grid{grid-template-columns:repeat(3,minmax(0,1fr)) !important;gap:8px !important;}
     .ui-mobile-auto .ui-gallery-card,.ui-mobile-simple .ui-gallery-card{border-radius:12px !important;}
     .ui-mobile-auto .ui-gallery-card-body,.ui-mobile-simple .ui-gallery-card-body{padding:9px 9px 10px !important;gap:7px !important;}
     .ui-mobile-auto .ui-gallery-name,.ui-mobile-simple .ui-gallery-name{font-size:13px !important;line-height:1.3 !important;-webkit-line-clamp:2 !important;}
