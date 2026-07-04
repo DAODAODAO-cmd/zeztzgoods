@@ -1318,13 +1318,13 @@
             <sc-if value="{{ feeShow }}" hint-placeholder-val="{{ false }}">
             <sc-if value="{{ draftIsSelling }}" hint-placeholder-val="{{ false }}">
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">买入价（人民币 · 单价）</div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">买入价（单价）</div>
               <input name="buyPrice" type="number" min="0" value="{{ draft.buyPrice }}" onChange="{{ onDraftChange }}" placeholder="你花了多少" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             </sc-if>
             <sc-if value="{{ draftNotSelling }}" hint-placeholder-val="{{ true }}">
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">卖出价（人民币 · 单价）</div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">卖出价（单价）</div>
               <input name="sellPrice" type="number" min="0" value="{{ draft.sellPrice }}" onChange="{{ onDraftChange }}" placeholder="出物 / 已卖填写" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             </sc-if>
@@ -1354,7 +1354,7 @@
             </sc-if>
             <div style="grid-column:1/-1">
               <button onClick="{{ toggleColInfo }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 12px;border-radius:9px;border:1px dashed #d4cee7;background:rgba(50,38,90,.03);color:#544f7e;font-family:inherit;font-size:13px;cursor:pointer">
-                <span class="ui-colinfo-label" style="flex:1;min-width:0;text-align:left">🏷 收藏信息 · 形态 / 厂商 / 细分 / 来源 / 平台 / 系列收藏 / 标签（可选）</span><span style="flex-shrink:0;color:#938db0;font-size:11px">{{ colInfoCaret }}</span>
+                <span class="ui-colinfo-label" style="flex:1;min-width:0;text-align:left">🏷 收藏信息 · 来源 / 购买方式 / 平台 / 形态 / 系列收藏 / 款式 / 标签（可选）</span><span style="flex-shrink:0;color:#938db0;font-size:11px">{{ colInfoCaret }}</span>
               </button>
             </div>
             <sc-if value="{{ colInfoShow }}" hint-placeholder-val="{{ false }}">
@@ -1458,7 +1458,6 @@
                         <sc-if value="{{ setManageEditMode }}" hint-placeholder-val="{{ false }}"><button onClick="{{ s.onRename }}" style="flex-shrink:0;font-size:11px;color:#544f7e;background:rgba(50,38,90,.06);border:none;padding:3px 7px;border-radius:6px;cursor:pointer">改</button><button onClick="{{ s.onDel }}" style="flex-shrink:0;width:20px;height:20px;border-radius:6px;border:none;background:rgba(226,59,93,.1);color:#e23b5d;cursor:pointer;font-size:13px;line-height:1">×</button></sc-if>
                       </div>
                     </sc-for>
-                    <button onClick="{{ addSet }}" style="width:100%;margin-top:3px;background:rgba(50,38,90,.04);border:1px dashed #ded7ee;cursor:pointer;text-align:center;font-family:inherit;font-size:13px;font-weight:700;color:#544f7e;padding:8px 9px;border-radius:9px">＋ 新建套装</button>
                   </div>
                 </sc-if>
               </div>
@@ -1771,11 +1770,11 @@ class Component extends DCLogic {
   };
   MAIN_WORK = 'w_main';
   ALL_WORKS = '__all__';
-  DEFAULT_GROUP = '假面骑士系列';
+  DEFAULT_GROUP = '自定义系列';
   SUPA_URL = 'https://kgifcpdajnyhxxmenazz.supabase.co';
   SUPA_KEY = 'sb_publishable_Bvg4r_n3JiokW3cY3NDo3A_9M2CNfaU';
   PLATFORM_BRAND = { 'PB官店': '万代', 'Premium Bandai': '万代', '万代官网': '万代', 'Movic官店': 'Movic', '东映': '东映', '安利美特': 'Animate', 'A店': 'Animate' };
-  FIELD_DEFAULTS = { character: '角色', type: '种类', series: '厂商', channel: '平台', status: '状态', form: '形态', acquire: '来源', method: '购买方式', tags: '交易标签', rarity: '稀有度 / 心动标签', set: '系列收藏 / 套装' };
+  FIELD_DEFAULTS = { character: '角色', type: '种类', series: '系列', channel: '平台', status: '状态', form: '形态', acquire: '来源', method: '购买方式', tags: '交易标签', rarity: '稀有度 / 心动标签', set: '系列收藏 / 套装' };
   CHAR_IMG = { '诺克斯': 'assets/c_nox.webp', 'NOX': 'assets/r_blue.webp', 'MIDNIGHT SHADOW': 'assets/r_nox_midnight.webp', 'NOX KNIGHT': 'assets/r_lady.webp', 'ZEZTZ': 'assets/r_red.webp', '西格': 'assets/c_zeke.webp', 'DAWN': 'assets/r_zeztz.webp', '宁梦': 'assets/c_nemu.webp', '南云成华': 'assets/c_nagumo.webp', 'ZERO': 'assets/c_zero.webp', '万津莫': 'assets/c_matsu.webp', '万津美浪': 'assets/c_minami.webp', '富士见铁也': 'assets/c_fujimi.webp', 'THE LADY': 'assets/c_lady.webp', 'CODE': 'assets/c_code.webp' };
   imgUrls = {};
   state = { items: [], view: null, sets: [], lastSetId: '', setMenuOpen: false, feeOpen: false, colInfoOpen: false, setInfoOpen: false, recentWorks: [], collapsedGroups: {}, reminderMenuOpen: false, monthlyBudget: '', budgets: {}, ledgerDetailKey: '', ledgerDetailType: 'day', ledgerDetailLabel: '', tableSortKey: '', tableSortDir: 'desc', nameStyleMode: 'default', displayMode: 'standard', dashboardCards: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, dataManageOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, trendOpen: false, trendItemId: null, trendRows: [], trendResult: null, ocrRawText: '', ocrBulkText: '', modalOpen: false, editing: null, draft: null, savedAt: 0, batchMode: false, selectedIds: [], bulkEditIds: [], bulkEditIndex: 0, ledgerRange: 'month', ledgerMode: 'month', ledgerYear: String(new Date().getFullYear()), ledgerMonth: String(new Date().getMonth()+1), ledgerWeek: '', ledgerPieBy: 'character', ledgerPieActive: 0, batchEditOpen: false, batchEditField: '' };
@@ -2975,7 +2974,7 @@ class Component extends DCLogic {
     }
     d = { ...d, statusLog };
     // 置换 / 收现 = 收藏历程事件：主表单是最终收藏，这里记录「怎么得到的」
-    // 平台自动推断厂商：仅在厂商为空时带出，不覆盖用户已填（老数据不受影响）
+    // 平台自动推断系列：仅在系列为空时带出，不覆盖用户已填（老数据不受影响）
     if ((!d.series || !String(d.series).trim()) && d.channel && this.PLATFORM_BRAND[d.channel]) {
       d = { ...d, series: this.PLATFORM_BRAND[d.channel] };
     }
@@ -3034,7 +3033,7 @@ class Component extends DCLogic {
       const e = this.enrich(it); const w = workById[it.workId] || {};
       const row = {
         '图片1': includeImages ? await this.imgData(it.imageId) : '', '图片2': includeImages ? await this.imgData(it.imageId2) : '', '图片3': includeImages ? await this.imgData(it.imageId3) : '', '图片4': includeImages ? await this.imgData(it.imageId4) : '',
-        '作品系列IP': w.group || '', '作品': w.name || '', '名称': it.name || '', '角色': it.character || '', '种类': it.type || '', '细分': it.subtype || '', '厂商': it.series || '', '状态': it.status || '', '数量': e.qty, '原价(日元)': it.originalPrice || '', '买入单价': e.buy || '', '国内邮费': e.sd || '', '国际邮费': e.si || '', '总投入': e.cost || '', '卖出单价': e.sell || '', '卖出金额': e.revenue || '', '盈亏': e.sold ? e.profit : '', '平台': it.channel || '', '购买日期': it.buyDate || '', '提醒类型': it.reminderType || '', '提醒日期': it.reminderDate || '', '所属套装': it.setName || '', '套装总数': it.setTotal || '', '款式编号': it.setVariant || '', '备注': it.note || ''
+        '作品系列IP': w.group || '', '作品': w.name || '', '名称': it.name || '', '角色': it.character || '', '种类': it.type || '', '细分': it.subtype || '', '系列': it.series || '', '状态': it.status || '', '数量': e.qty, '原价(日元)': it.originalPrice || '', '买入单价': e.buy || '', '国内邮费': e.sd || '', '国际邮费': e.si || '', '总投入': e.cost || '', '卖出单价': e.sell || '', '卖出金额': e.revenue || '', '盈亏': e.sold ? e.profit : '', '平台': it.channel || '', '购买日期': it.buyDate || '', '提醒类型': it.reminderType || '', '提醒日期': it.reminderDate || '', '所属套装': it.setName || '', '套装总数': it.setTotal || '', '款式编号': it.setVariant || '', '备注': it.note || ''
       };
       itemRows.push(row);
     }
@@ -3141,7 +3140,7 @@ class Component extends DCLogic {
       if (!window.ExcelJS) throw new Error('ExcelJS 未加载，请刷新页面或检查网络后重试');
       const wb = new ExcelJS.Workbook();
       const ws = wb.addWorksheet('收藏');
-      const headers = ['图片1','图片2','图片3','图片4','作品系列IP','作品','名称','角色','种类','细分','厂商','状态','数量','原价(日元)','买入单价','国内邮费','国际邮费','卖出单价','平台','购买日期','提醒类型','提醒日期','所属套装','套装总数','款式编号','备注'];
+      const headers = ['图片1','图片2','图片3','图片4','作品系列IP','作品','名称','角色','种类','细分','系列','状态','数量','原价(日元)','买入单价','国内邮费','国际邮费','卖出单价','平台','购买日期','提醒类型','提醒日期','所属套装','套装总数','款式编号','备注'];
       ws.addRow(headers);
       ws.addRow(['可直接在此单元格插入图片，也可留空','','','','默认','默认作品','NOX 徽章','NOX','徽章','','','已到货','1','','','','','','','2026-07-01','','','','','','']);
       ws.getRow(1).font = { bold: true };
@@ -3309,15 +3308,100 @@ class Component extends DCLogic {
   closeBatchEditor = () => this.setState({ batchEditOpen: false, batchEditField: '' });
   batchEditBack = () => this.setState({ batchEditField: '' });
   chooseBatchField = (field) => this.setState({ batchEditField: field });
+  batchFieldDefs(){
+    // 批量修改只按当前内置字段生成，不再读取历史隐藏/旧字段配置。
+    // 字段名称仍通过 flabel() 读取设置里的改名，保证显示名称同步。
+    return [
+      { key:'status', label:this.flabel('status'), type:'select' },
+      { key:'character', label:this.flabel('character'), type:'select' },
+      { key:'type', label:this.flabel('type'), type:'select' },
+      { key:'subtype', label:'细分 / 款式', type:'text' },
+      { key:'form', label:this.flabel('form'), type:'select' },
+      { key:'series', label:'系列', type:'select' },
+      { key:'acquire', label:this.flabel('acquire'), type:'select' },
+      { key:'method', label:this.flabel('method'), type:'select' },
+      { key:'channel', label:this.flabel('channel'), type:'select' },
+      { key:'setId', label:this.flabel('set'), type:'select' },
+      { key:'setVariant', label:'款式编号', type:'text' },
+      { key:'lifecycle', label:'分组', type:'select' },
+      { key:'qty', label:'数量', type:'number' },
+      { key:'buyPrice', label:'买入价', type:'number' },
+      { key:'sellPrice', label:'卖出价', type:'number' },
+      { key:'originalPrice', label:'原价', type:'number' },
+      { key:'shipDom', label:'国内邮费', type:'number' },
+      { key:'shipIntl', label:'国际邮费', type:'number' },
+      { key:'otherFee', label:'其他费用', type:'number' },
+      { key:'note', label:'备注', type:'text' }
+    ];
+  }
+  batchFieldDef(field){ return this.batchFieldDefs().find(f => f.key === field) || null; }
+  batchFieldLabel(field){ const d = this.batchFieldDef(field); return d ? d.label : field; }
+  batchSelectValues(field){
+    const uniq = (arr) => [...new Set((arr || []).filter(v => v !== undefined && v !== null).map(v => String(v)).filter(v => v !== ''))];
+    const currentWork = this.state.currentWorkId || this.MAIN_WORK;
+    const sourceList = uniq(this.SOURCES || []);
+    const methodList = uniq([].concat(...Object.values(this.SOURCE_METHODS || {})));
+    const platformList = uniq([].concat(...Object.values(this.SOURCE_PLATFORMS || {})));
+    const setIds = (this.state.sets || []).filter(st => currentWork === this.ALL_WORKS || (st.workId || this.MAIN_WORK) === currentWork).map(st => st.id);
+    const m = {
+      status: this.STATUSES,
+      character: this.orderedChars(),
+      type: this.TYPES,
+      form: this.FORMS,
+      series: this.state.seriesList || [],
+      acquire: sourceList,
+      method: methodList,
+      channel: platformList,
+      setId: setIds,
+      lifecycle: ['已归家','空气谷','已出物'],
+    };
+    return m[field] || [];
+  }
+  batchEditOptionsFor(field){
+    const def = this.batchFieldDef(field);
+    if (!def) return [];
+    if (def.type === 'select') {
+      return [''].concat(this.batchSelectValues(field)).map(v => {
+        const st = field === 'setId' ? this.setById(v) : null;
+        return { label: field === 'setId' ? (st ? st.name : '清空') : (v || '清空'), onClick: () => this.applyBatchField(field, v) };
+      });
+    }
+    if (def.type === 'date') {
+      return [{ label:'输入日期', onClick: () => { const v = prompt('输入' + def.label + '（YYYY-MM-DD，留空清除）','') || ''; this.applyBatchField(field, v.trim()); } }, { label:'清空日期', onClick: () => this.applyBatchField(field, '') }];
+    }
+    return [{ label:'输入' + def.label, onClick: () => { const v = prompt('输入新的' + def.label,'') || ''; this.applyBatchField(field, v.trim()); } }, { label:'清空', onClick: () => this.applyBatchField(field, '') }];
+  }
   applyBatchField = (field, value) => {
     const ids = this.batchIdsOrWarn(); if (!ids) return;
-    const map = { status:'status', character:'character', type:'type', series:'series', channel:'channel', group:'group', reminderType:'reminderType', reminderDate:'reminderDate', buyPrice:'buyPrice', originalPrice:'originalPrice', shipDom:'shipDom', shipIntl:'shipIntl', note:'note' };
-    const key = map[field]; if (!key) return;
-    if (!confirm('确认把 ' + ids.length + ' 件谷子的「' + (this.batchFieldLabel(field) || key) + '」改成「' + (value || '空') + '」？')) return;
-    this.batchApply(ids, it => ({ ...it, [key]: value }));
+    const def = this.batchFieldDef(field); if (!def) return;
+    const label = def.label || field;
+    let showValue = value || '空';
+    if (field === 'setId' && value) { const st = this.setById(value); showValue = st ? st.name : value; }
+    if (!confirm('确认把 ' + ids.length + ' 件谷子的「' + label + '」改成「' + showValue + '」？')) return;
+    if (field === 'lifecycle') {
+      const statusMap = { '已归家': '已归家', '空气谷': '已下单', '已出物': '已出物' };
+      this.batchApply(ids, it => ({ ...it, status: value ? (statusMap[value] || value) : '' }));
+    } else if (field === 'setId') {
+      const st = this.setById(value);
+      this.batchApply(ids, it => ({ ...it, setId: value || '', setName: st ? st.name : '', setTotal: st ? (st.total || '') : '', setVariant: '' }));
+    } else if (field === 'acquire') {
+      this.batchApply(ids, it => {
+        const next = { ...it, acquire: value };
+        const okMethods = this.SOURCE_METHODS[value] || [];
+        const okPlatforms = this.SOURCE_PLATFORMS[value] || [];
+        if (next.method && okMethods.length && !okMethods.includes(next.method)) next.method = '';
+        if (next.channel && okPlatforms.length && !okPlatforms.includes(next.channel)) next.channel = '';
+        return next;
+      });
+    } else if (field === 'method') {
+      this.batchApply(ids, it => ({ ...it, method: value, gachaResult: value === '盲抽' ? (it.gachaResult || '自抽') : '' }));
+    } else if (def.customKey) {
+      this.batchApply(ids, it => ({ ...it, custom: { ...(it.custom || {}), [def.customKey]: value } }));
+    } else {
+      this.batchApply(ids, it => ({ ...it, [field]: value }));
+    }
     this.closeBatchEditor();
   };
-  batchFieldLabel(field){ return ({status:'状态',character:'角色',type:'种类',series:'厂商',channel:'平台',group:'分组',reminderType:'提醒类型',reminderDate:'提醒日期',buyPrice:'买入价',originalPrice:'原价',shipDom:'国内邮费',shipIntl:'国际邮费',note:'备注'})[field] || field; }
   batchEditStatus = () => this.chooseBatchField('status');
   batchEditReminder = () => this.chooseBatchField('reminderType');
   batchEditField = () => this.openBatchEditor();
@@ -3486,7 +3570,7 @@ class Component extends DCLogic {
     status:    { stateKey:'statusList',    ls:'zzz_status',          field:'status',       label:'状态' },
     character: { stateKey:'charOrder',     ls:'zzz_char_order',      field:'character',    label:'角色', char:true },
     type:      { stateKey:'typesList',     ls:'zzz_types',           field:'type',         label:'种类' },
-    series:    { stateKey:'seriesList',    ls:'zzz_series',          field:'series',       label:'厂商' },
+    series:    { stateKey:'seriesList',    ls:'zzz_series',          field:'series',       label:'系列' },
     channel:   { stateKey:'channels',      ls:'zzz_channels',        field:'channel',      label:'平台' },
     form:      { stateKey:'formOrder',     ls:'zzz_form_order',      field:'form',         label:'形态' },
     acquire:   { stateKey:'acquireOrder',  ls:'zzz_acquire_order',   field:'acquire',      label:'来源' },
@@ -3823,15 +3907,15 @@ class Component extends DCLogic {
     const s = styleMode || this.state.nameStyleMode || 'default';
     const base = {
       default: {
-        costItems:'花费TOP3', qtyItems:'数量TOP3', character:'最爱TOP3', workGroup:'IP TOP3', maker:'厂商TOP3', type:'种类TOP3', reminder:'近期待办',
+        costItems:'花费TOP3', qtyItems:'数量TOP3', character:'最爱TOP3', workGroup:'IP TOP3', maker:'系列TOP3', type:'种类TOP3', reminder:'近期待办',
         salePrice:'卖价TOP3', saleQty:'卖出TOP3', saleRevenueIp:'收益IP TOP3', saleProfit:'利润TOP3'
       },
       guquan: {
-        costItems:'氪金TOP3', qtyItems:'囤货TOP3', character:'真爱TOP3', workGroup:'本命TOP3', maker:'厂商TOP3', type:'种类TOP3', reminder:'待办中心',
+        costItems:'氪金TOP3', qtyItems:'囤货TOP3', character:'真爱TOP3', workGroup:'本命TOP3', maker:'系列TOP3', type:'种类TOP3', reminder:'待办中心',
         salePrice:'成交TOP3', saleQty:'出货TOP3', saleRevenueIp:'回血IP TOP3', saleProfit:'海景TOP3'
       },
       business: {
-        costItems:'消费排行', qtyItems:'收藏排行', character:'角色排行', workGroup:'系列IP排行', maker:'厂商排行', type:'品类排行', reminder:'待处理事项',
+        costItems:'消费排行', qtyItems:'收藏排行', character:'角色排行', workGroup:'系列IP排行', maker:'系列排行', type:'品类排行', reminder:'待处理事项',
         salePrice:'成交排行', saleQty:'销售排行', saleRevenueIp:'收入IP排行', saleProfit:'利润排行'
       }
     };
@@ -4441,18 +4525,9 @@ class Component extends DCLogic {
     const draftIsGacha = !!(d && d.method === '盲抽');
     const draftSwapped = !!(d && d.method === '盲抽' && (d.gachaResult === '置换' || d.gachaResult === '收现' || d.gachaResult === '置换/收现'));
 
-    const batchEditFields = [
-      { label:'状态', onClick: () => this.chooseBatchField('status') }, { label:'角色', onClick: () => this.chooseBatchField('character') }, { label:'种类', onClick: () => this.chooseBatchField('type') }, { label:'厂商', onClick: () => this.chooseBatchField('series') }, { label:'平台', onClick: () => this.chooseBatchField('channel') }, { label:'分组', onClick: () => this.chooseBatchField('group') }, { label:'提醒类型', onClick: () => this.chooseBatchField('reminderType') }, { label:'提醒日期', onClick: () => this.chooseBatchField('reminderDate') }, { label:'买入价', onClick: () => this.chooseBatchField('buyPrice') }, { label:'原价', onClick: () => this.chooseBatchField('originalPrice') }, { label:'国内邮费', onClick: () => this.chooseBatchField('shipDom') }, { label:'国际邮费', onClick: () => this.chooseBatchField('shipIntl') }, { label:'备注', onClick: () => this.chooseBatchField('note') }
-    ];
+    const batchEditFields = this.batchFieldDefs().map(f => ({ label:f.label, onClick: () => this.chooseBatchField(f.key) }));
     const bf = this.state.batchEditField || '';
-    const getBatchOpts = () => {
-      const arrMap = { status: (this.state.statusList && this.state.statusList.length ? this.state.statusList : this.STATUSES), character: this.orderedChars(), type: this.state.typesList || [], series: [''].concat(this.state.seriesList || []), channel: this.state.channels || [], group: ['收藏','出物'], reminderType: [''].concat(this.state.reminderTypes || this.REMINDER_TYPES || []) };
-      if (arrMap[bf]) return arrMap[bf].map(v => ({ label: v || '清空', onClick: () => this.applyBatchField(bf, v) }));
-      if (['reminderDate'].includes(bf)) return [{ label:'输入日期', onClick: () => { const v = prompt('输入日期（YYYY-MM-DD，留空清除）','') || ''; this.applyBatchField(bf, v.trim()); } }, { label:'清空日期', onClick: () => this.applyBatchField(bf, '') }];
-      if (['buyPrice','originalPrice','shipDom','shipIntl','note'].includes(bf)) return [{ label:'输入' + this.batchFieldLabel(bf), onClick: () => { const v = prompt('输入新的' + this.batchFieldLabel(bf),'') || ''; this.applyBatchField(bf, v.trim()); } }, { label:'清空', onClick: () => this.applyBatchField(bf, '') }];
-      return [];
-    };
-    const batchEditOptions = bf ? getBatchOpts() : [];
+    const batchEditOptions = bf ? this.batchEditOptionsFor(bf) : [];
     const batchEditTitle = bf ? ('修改' + this.batchFieldLabel(bf)) : '';
     const batchEditChooseMode = !bf;
     const batchEditOptionMode = !!bf;
@@ -4685,7 +4760,7 @@ class Component extends DCLogic {
       mgrStatus: () => this.openManage('status'), mgrMethod: () => this.openManage('method'), mgrTradeTags: () => this.openManage('tradeTags'), mgrRarityTags: () => this.openManage('rarityTags'),
       lblMethod: (this.state.fieldLabels||{}).method || '购买方式', lblTags: (this.state.fieldLabels||{}).tags || '交易标签', lblRarity: (this.state.fieldLabels||{}).rarity || '稀有度 / 心动标签', mgrCharacter: () => this.openManage('character'), mgrType: () => this.openManage('type'), mgrForm: () => this.openManage('form'), mgrSeries: () => this.openManage('series'), mgrAcquire: () => this.openManage('acquire'), mgrChannel: () => this.openManage('channel'), mgrReminder: () => this.openManage('reminder'), mgrTrade: () => this.openManage('tradeTags'), mgrRarity: () => this.openManage('rarityTags'),
       setMenuOpen: this.state.setMenuOpen, toggleSetMenu: this.toggleSetMenu, addSet: this.addSet, clearSet: () => this.pickSet(''),
-      setDisplay: (() => { const s = this.setById(d && d.setId); if (!s) return '（选择或新建套装）'; const got = this.setCollectedCodes(s.id, d && d.id).length; return s.name + (s.total ? '（' + got + '/' + s.total + '）' : ''); })(),
+      setDisplay: (() => { const s = this.setById(d && d.setId); if (!s) return '（选择套装）'; const got = this.setCollectedCodes(s.id, d && d.id).length; return s.name + (s.total ? '（' + got + '/' + s.total + '）' : ''); })(),
       hasSet: !!(d && d.setId && this.setById(d.setId)),
       hasSetMembers: (() => { const s = this.setById(d && d.setId); return !!(s && s.members && s.members.length); })(),
       noSetMembers: (() => { const s = this.setById(d && d.setId); return !(s && s.members && s.members.length); })(),
