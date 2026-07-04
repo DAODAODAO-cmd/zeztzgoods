@@ -1068,7 +1068,7 @@
   </sc-if>
 
   <sc-if value="{{ setManageOpen }}" hint-placeholder-val="false">
-    <div style="position:fixed;inset:0;z-index:343;background:rgba(70,58,110,.4);backdrop-filter:blur(6px);display:flex;align-items:flex-start;justify-content:center;padding:40px 14px;overflow-y:auto" onClick="{{ closeSetManage }}">
+    <div class="ui-modal-backdrop" style="position:fixed;inset:0;z-index:343;background:rgba(70,58,110,.4);backdrop-filter:blur(6px);display:flex;align-items:flex-start;justify-content:center;padding:40px 14px;overflow-y:auto" onClick="{{ closeSetManage }}">
       <div class="ui-modal-card" onClick="{{ stop }}" style="width:100%;max-width:440px;background:linear-gradient(160deg,#ffffff,#f4f1fb);border:1px solid #d6cfe9;border-radius:20px;box-shadow:0 30px 70px rgba(40,28,80,.4);display:flex;flex-direction:column;max-height:88vh">
         <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #e1dbf0;flex-shrink:0">
           <div style="min-width:0"><div style="font-weight:800;font-size:16px;color:#251d49">管理 · {{ setFieldLabel }}</div><div style="font-size:11.5px;color:#938db0;margin-top:2px">改动会在新增页、筛选、统计里一起同步</div></div>
@@ -1116,7 +1116,7 @@
   </sc-if>
 
   <sc-if value="{{ workManageOpen }}" hint-placeholder-val="false">
-    <div style="position:fixed;inset:0;z-index:342;background:rgba(70,58,110,.4);backdrop-filter:blur(6px);display:flex;align-items:flex-start;justify-content:center;padding:40px 14px;overflow-y:auto" onClick="{{ closeWorkManage }}">
+    <div class="ui-modal-backdrop" style="position:fixed;inset:0;z-index:342;background:rgba(70,58,110,.4);backdrop-filter:blur(6px);display:flex;align-items:flex-start;justify-content:center;padding:40px 14px;overflow-y:auto" onClick="{{ closeWorkManage }}">
       <div class="ui-modal-card" onClick="{{ stop }}" style="width:100%;max-width:400px;background:linear-gradient(160deg,#ffffff,#f4f1fb);border:1px solid #d6cfe9;border-radius:20px;box-shadow:0 30px 70px rgba(40,28,80,.4);display:flex;flex-direction:column;max-height:88vh">
         <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #e1dbf0;flex-shrink:0">
           <div><div style="font-weight:800;font-size:16px;color:#251d49">管理作品</div><div style="font-size:11.5px;color:#938db0;margin-top:2px">新增 / 改名 / 删除 / 上传 logo / 切换</div></div>
@@ -1150,7 +1150,7 @@
   </sc-if>
 
   <sc-if value="{{ manageOpen }}" hint-placeholder-val="false">
-    <div style="position:fixed;inset:0;z-index:340;background:rgba(70,58,110,.4);backdrop-filter:blur(6px);display:flex;align-items:flex-start;justify-content:center;padding:40px 14px;overflow-y:auto;animation:fadein .16s ease">
+    <div class="ui-modal-backdrop" style="position:fixed;inset:0;z-index:340;background:rgba(70,58,110,.4);backdrop-filter:blur(6px);display:flex;align-items:flex-start;justify-content:center;padding:40px 14px;overflow-y:auto;animation:fadein .16s ease">
       <div class="ui-modal-card" onClick="{{ stop }}" style="width:100%;max-width:340px;background:linear-gradient(160deg,#ffffff,#f4f1fb);border:1px solid #d6cfe9;border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.45);animation:modalpop .2s cubic-bezier(.2,.8,.3,1);overflow:hidden;display:flex;flex-direction:column;max-height:88vh">
         <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #e1dbf0;flex-shrink:0">
           <div style="min-width:0"><div style="font-weight:800;font-size:16px;color:#251d49">{{ manageTitle }}</div><div style="font-size:11.5px;color:#938db0;margin-top:2px">改动会在新增页、筛选、统计里一起同步</div></div>
@@ -1168,11 +1168,8 @@
           </div>
           </sc-if>
           <sc-for list="{{ manageRows }}" as="r" hint-placeholder-count="4">
-            <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:#fff;border:1px solid #e8e2f2;border-radius:11px">
-              <div style="display:flex;flex-direction:column;gap:2px;flex-shrink:0">
-                <button onClick="{{ r.onUp }}" style="width:24px;height:16px;border:none;background:rgba(50,38,90,.06);border-radius:5px;cursor:pointer;color:#6f6996;font-size:9px;line-height:1;padding:0">▲</button>
-                <button onClick="{{ r.onDown }}" style="width:24px;height:16px;border:none;background:rgba(50,38,90,.06);border-radius:5px;cursor:pointer;color:#6f6996;font-size:9px;line-height:1;padding:0">▼</button>
-              </div>
+            <div draggable="{{ r.draggable }}" onDragStart="{{ r.onDragStart }}" onDragOver="{{ r.onDragOver }}" onDrop="{{ r.onDrop }}" style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:#fff;border:1px solid #e8e2f2;border-radius:11px">
+              <span title="拖拽排序" style="flex-shrink:0;color:#c3bcd8;font-size:14px;cursor:grab;line-height:1">⋮⋮</span>
               <sc-if value="{{ r.isChar }}" hint-placeholder-val="{{ false }}"><div onClick="{{ r.onAvatar }}" title="点击上传角色头像" style="{{ r.avatarStyle }}"><sc-if value="{{ r.hasAvatar }}" hint-placeholder-val="{{ false }}"><span style="display:none"></span></sc-if><sc-if value="{{ r.noAvatarText }}" hint-placeholder-val="{{ true }}">头像</sc-if></div></sc-if>
               <span style="flex:1;min-width:0;font-size:14px;color:#251d49;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</span>
               <button onClick="{{ r.onRename }}" style="flex-shrink:0;font-family:inherit;font-size:12px;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:5px 10px;border-radius:8px;cursor:pointer">改</button>
@@ -1481,8 +1478,9 @@
             <sc-if value="{{ hasCustomFields }}" hint-placeholder-val="{{ false }}">
               <sc-for list="{{ draftCustomInputs }}" as="cf" hint-placeholder-count="0">
                 <div>
-                  <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">{{ cf.label }}</div>
-                  <input value="{{ cf.value }}" onChange="{{ cf.onChange }}" placeholder="可自行输入" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+                  <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>{{ cf.label }}</span><button onClick="{{ cf.onManage }}" title="管理 改名/选项/首页显示" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer">⚙ 管理</button></div>
+                  <input value="{{ cf.value }}" onChange="{{ cf.onChange }}" list="{{ cf.key }}" placeholder="可选选项或自行输入" style="width:100%;box-sizing:border-box;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+                  <datalist id="{{ cf.key }}"><sc-for list="{{ cf.optionItems }}" as="o" hint-placeholder-count="0"><option value="{{ o.v }}"></option></sc-for></datalist>
                 </div>
               </sc-for>
             </sc-if>
@@ -1640,6 +1638,21 @@
               <sc-if value="{{ hasBg }}" hint-placeholder-val="false"><button onClick="{{ clearBg }}" style="font-family:inherit;font-size:13px;color:#e23b5d;background:rgba(255,51,85,.08);border:1px solid rgba(255,51,85,.25);padding:9px 16px;border-radius:9px;cursor:pointer">清除背景</button></sc-if>
             </div>
             </div>
+            </div>
+          </div>
+
+          <div style="border-top:1px solid #e1dbf0;padding-top:16px">
+            <div style="font-weight:700;font-size:14px;color:#251d49;margin-bottom:4px">字段管理</div>
+            <div style="font-size:11.5px;color:#938db0;margin-bottom:10px;line-height:1.6">删除用不到的字段（编辑页、顶部筛选、分组会一起隐藏，已填数据保留）；也可新增自定义字段。改动只影响你自己。</div>
+            <div style="display:flex;flex-wrap:wrap;gap:7px">
+              <sc-for list="{{ fieldRows }}" as="f" hint-placeholder-count="7">
+                <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(50,38,90,.04);border:1px solid #e8e2f2;border-radius:999px;padding:5px 6px 5px 12px;font-size:13px;color:#251d49">{{ f.labelVal }}<button onClick="{{ f.onDel }}" title="删除字段" style="flex-shrink:0;width:18px;height:18px;border-radius:50%;border:none;background:rgba(226,59,93,.12);color:#e23b5d;cursor:pointer;font-size:12px;line-height:1">×</button></span>
+              </sc-for>
+              <sc-for list="{{ customFieldRows }}" as="f" hint-placeholder-count="0">
+                <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(50,38,90,.04);border:1px solid #e8e2f2;border-radius:999px;padding:5px 6px 5px 12px;font-size:13px;color:#251d49">{{ f.labelVal }}<button onClick="{{ f.onDel }}" title="删除" style="flex-shrink:0;width:18px;height:18px;border-radius:50%;border:none;background:rgba(226,59,93,.12);color:#e23b5d;cursor:pointer;font-size:12px;line-height:1">×</button></span>
+              </sc-for>
+              <button onClick="{{ addCustomField }}" style="font-family:inherit;font-size:13px;color:#544f7e;background:none;border:1px dashed #ded7ee;padding:5px 13px;border-radius:999px;cursor:pointer">＋ 字段</button>
+              <button onClick="{{ restoreBaseFields }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:5px 13px;border-radius:999px;cursor:pointer">恢复默认</button>
             </div>
           </div>
 
@@ -1965,6 +1978,7 @@ class Component extends DCLogic {
   };
   addCustomField = () => { const base = this.state.settingsDraft ? (this.state.settingsDraft.customFields || []) : (this.state.customFields || []); const cf = [...base, { key: 'cf_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5), label: '新字段' }]; if (this.state.settingsDraft) this.updateSettingsDraft({ customFields: cf }); else { try { localStorage.setItem('zzz_custom_fields', JSON.stringify(cf)); } catch (e) {} this.setState({ customFields: cf }); } };
   setCustomFieldLabel = (key) => (e) => { const cf = (this.state.customFields || []).map(f => f.key === key ? { ...f, label: e.target.value } : f); try { localStorage.setItem('zzz_custom_fields', JSON.stringify(cf)); } catch (er) {} this.setState({ customFields: cf }); };
+  renameCustomFieldLabel = (key) => { const f = (this.state.customFields || []).find(x => x.key === key); if (!f) return; const nv = (window.prompt('把字段名「' + f.label + '」改成：', f.label) || '').trim(); if (!nv || nv === f.label) return; const cf = (this.state.customFields || []).map(x => x.key === key ? { ...x, label: nv } : x); try { localStorage.setItem('zzz_custom_fields', JSON.stringify(cf)); } catch (e) {} this.setState({ customFields: cf }); };
   delCustomField = (key) => {
     if (this.state.settingsDraft) {
       const d = this.state.settingsDraft;
@@ -3581,14 +3595,16 @@ class Component extends DCLogic {
   }; }
   openManage = (kind) => this.setState({ manageOpen: true, manageKind: kind, charMenuOpen:false, typeMenuOpen:false, seriesMenuOpen:false, channelMenuOpen:false, formMenuOpen:false, acquireMenuOpen:false, statusMenuOpen:false, reminderMenuOpen:false });
   closeManage = () => this.setState({ manageOpen: false });
-  manageListOf(kind) { const c=this.manageConfig()[kind]; if(!c) return []; if(kind==='character') return this.orderedChars(); if(kind==='tradeTags') return (this.state.tradeTags||this.TRADE_TAGS).slice(); if(kind==='rarityTags') return (this.state.rarityTags||this.RARITY_TAGS).slice(); return (this.state[c.stateKey]||[]).slice(); }
-  manageSaveList(kind, list) { const c=this.manageConfig()[kind]; if(!c) return; this.saveList(c.stateKey, c.ls, list); if(kind==='character') this.charOrder=list; }
-  manageUsedCount(kind, val) { const c=this.manageConfig()[kind]; const f=c.field; return (this.state.items||[]).filter(it => c.arr ? (it[f]||[]).includes(val) : (it[f]===val || (kind==='character'&&it.swapCharacter===val))).length; }
-  manageMigrate(kind, oldV, nv) { const c=this.manageConfig()[kind]; const f=c.field; const items=(this.state.items||[]).map(it=>{ let x=it; if(c.arr){ const a=it[f]||[]; if(a.includes(oldV)) x={...x,[f]:a.map(v=>v===oldV?nv:v)}; } else { if(it[f]===oldV) x={...x,[f]:nv}; if(kind==='character'&&it.swapCharacter===oldV) x={...x,swapCharacter:nv}; } return x; }); this.commit(items); }
-  manageAddItem = (kind) => { const c=this.manageConfig()[kind]; if(!c) return; const v=(window.prompt('新增'+c.label)||'').trim(); if(!v) return; const l=this.manageListOf(kind); if(l.includes(v)){ alert('已存在'); return; } this.manageSaveList(kind, [...l, v]); };
+  cfKeyOf(kind){ return kind && kind.indexOf('custom:')===0 ? kind.slice(7) : ''; }
+  manageListOf(kind) { if(this.cfKeyOf(kind)){ const k=this.cfKeyOf(kind); const f=(this.state.customFields||[]).find(x=>x.key===k); return ((f&&f.options)||[]).slice(); } const c=this.manageConfig()[kind]; if(!c) return []; if(kind==='character') return this.orderedChars(); if(kind==='tradeTags') return (this.state.tradeTags||this.TRADE_TAGS).slice(); if(kind==='rarityTags') return (this.state.rarityTags||this.RARITY_TAGS).slice(); return (this.state[c.stateKey]||[]).slice(); }
+  manageSaveList(kind, list) { if(this.cfKeyOf(kind)){ const k=this.cfKeyOf(kind); const cf=(this.state.customFields||[]).map(x=>x.key===k?{...x,options:list}:x); try{localStorage.setItem('zzz_custom_fields',JSON.stringify(cf));}catch(e){} this.setState({customFields:cf}); return; } const c=this.manageConfig()[kind]; if(!c) return; this.saveList(c.stateKey, c.ls, list); if(kind==='character') this.charOrder=list; }
+  manageUsedCount(kind, val) { if(this.cfKeyOf(kind)){ const k=this.cfKeyOf(kind); return (this.state.items||[]).filter(it=>it.custom&&it.custom[k]===val).length; } const c=this.manageConfig()[kind]; const f=c.field; return (this.state.items||[]).filter(it => c.arr ? (it[f]||[]).includes(val) : (it[f]===val || (kind==='character'&&it.swapCharacter===val))).length; }
+  manageMigrate(kind, oldV, nv) { if(this.cfKeyOf(kind)){ const k=this.cfKeyOf(kind); const items=(this.state.items||[]).map(it=>(it.custom&&it.custom[k]===oldV)?{...it,custom:{...it.custom,[k]:nv}}:it); this.commit(items); return; } const c=this.manageConfig()[kind]; const f=c.field; const items=(this.state.items||[]).map(it=>{ let x=it; if(c.arr){ const a=it[f]||[]; if(a.includes(oldV)) x={...x,[f]:a.map(v=>v===oldV?nv:v)}; } else { if(it[f]===oldV) x={...x,[f]:nv}; if(kind==='character'&&it.swapCharacter===oldV) x={...x,swapCharacter:nv}; } return x; }); this.commit(items); }
+  manageAddItem = (kind) => { const cfk=this.cfKeyOf(kind); const c= cfk ? {label:((this.state.customFields||[]).find(x=>x.key===cfk)||{}).label||'选项'} : this.manageConfig()[kind]; if(!c) return; const v=(window.prompt('新增'+c.label)||'').trim(); if(!v) return; const l=this.manageListOf(kind); if(l.includes(v)){ alert('已存在'); return; } this.manageSaveList(kind, [...l, v]); };
   manageRenameItem = (kind, oldName) => { const nv=(window.prompt('把「'+oldName+'」改成（使用它的谷子会一起改）：', oldName)||'').trim(); if(!nv||nv===oldName) return; const l=this.manageListOf(kind).map(x=>x===oldName?nv:x); this.manageSaveList(kind, l); this.manageMigrate(kind, oldName, nv); };
   manageDeleteItem = (kind, name) => { const used=this.manageUsedCount(kind, name); if(!window.confirm('删除「'+name+'」？'+(used?('（有 '+used+' 件谷子在用，删后它们仍保留原文字）'):''))) return; this.manageSaveList(kind, this.manageListOf(kind).filter(x=>x!==name)); };
   manageMoveItem = (kind, name, dir) => { const l=this.manageListOf(kind); const i=l.indexOf(name); if(i<0) return; const j=i+dir; if(j<0||j>=l.length) return; const t=l[i]; l[i]=l[j]; l[j]=t; this.manageSaveList(kind, l); };
+  manageDragReorder = (kind, from, to) => { if(from===to||from==null||to==null) return; const l=this.manageListOf(kind); if(from<0||from>=l.length||to<0||to>=l.length) return; const [m]=l.splice(from,1); l.splice(to,0,m); this.manageSaveList(kind, l); };
   manageRenameLabel = (kind) => { const key=({character:'character',type:'type',series:'series',channel:'channel',status:'status',form:'form',acquire:'acquire',method:'method',tradeTags:'tags',rarityTags:'rarity'})[kind]; if(!key) return; const cur=(this.state.fieldLabels||{})[key]||this.FIELD_DEFAULTS[key]||''; const nv=(window.prompt('把字段名「'+cur+'」改成：',cur)||'').trim(); if(!nv||nv===cur) return; const fl={...(this.state.fieldLabels||{}),[key]:nv}; try{localStorage.setItem('zzz_field_labels',JSON.stringify(fl));}catch(e){} this.setState({fieldLabels:fl}); };
   menuRow(active) { return { display: 'flex', alignItems: 'center', gap: '6px', padding: '7px 9px', borderRadius: '8px', background: active ? 'color-mix(in srgb, var(--accent,#ff3355) 11%, transparent)' : 'transparent' }; }
   closedDraftMenus(extra = {}) { return { methodMenuOpen:false, acquireMenuOpen:false, channelMenuOpen:false, seriesMenuOpen:false, typeMenuOpen:false, charMenuOpen:false, statusMenuOpen:false, formMenuOpen:false, reminderMenuOpen:false, setMenuOpen:false, setVariantMenuOpen:false, swapMenuOpen:false, swapCharMenuOpen:false, draftWorkMenuOpen:false, ...extra }; }
@@ -4085,22 +4101,24 @@ class Component extends DCLogic {
     const draftIsSelling = /出物|出售|卖出|已出/.test(_dSellStatus);
     const draftNotSelling = !draftIsSelling;
     const _mk = this.state.manageKind || '';
-    const _mc = this.manageConfig()[_mk];
+    const _mc = this.manageConfig()[_mk] || (this.cfKeyOf(_mk) ? { label: ((this.state.customFields||[]).find(f=>f.key===this.cfKeyOf(_mk))||{}).label || '字段', field: 'custom', custom: true } : null);
+    const _mLabelCustom = this.cfKeyOf(_mk) ? (((this.state.customFields||[]).find(f=>f.key===this.cfKeyOf(_mk))||{}).label || '字段') : '';
     const _lblKey = ({character:'character',type:'type',series:'series',channel:'channel',status:'status',form:'form',acquire:'acquire',method:'method',tradeTags:'tags',rarityTags:'rarity'})[_mk];
     const _mLabel = _lblKey ? ((this.state.fieldLabels||{})[_lblKey] || this.FIELD_DEFAULTS[_lblKey] || (_mc&&_mc.label)) : (_mc?_mc.label:'');
     const manageTitle = _mc ? ('管理 · ' + _mLabel) : '资料管理';
-    const manageCanRenameLabel = !!_lblKey && Object.prototype.hasOwnProperty.call(this.FIELD_DEFAULTS, _lblKey);
-    const onManageRenameLabel = () => this.manageRenameLabel(_mk);
-    const _mFilterKey = _lblKey || (_mc && _mc.field) || '';
-    const manageCanToggle = !!_lblKey;
-    const manageFilterOn = _lblKey ? (this.state.filterOn || {})[_lblKey] !== false && !!(this.state.filterOn || {})[_lblKey] : false;
-    const manageGroupOn = _lblKey ? (this.state.statsOn || {})[_lblKey] !== false : false;
-    const onManageToggleFilter = _lblKey ? this.toggleFilterOn(_lblKey) : (() => {});
-    const onManageToggleGroup = _lblKey ? this.toggleStatsOn(_lblKey) : (() => {});
+    const _cfk = this.cfKeyOf(_mk);
+    const manageCanRenameLabel = (!!_lblKey && Object.prototype.hasOwnProperty.call(this.FIELD_DEFAULTS, _lblKey)) || !!_cfk;
+    const onManageRenameLabel = _cfk ? (() => this.renameCustomFieldLabel(_cfk)) : (() => this.manageRenameLabel(_mk));
+    const _mFilterKey = _lblKey || _cfk || (_mc && _mc.field) || '';
+    const manageCanToggle = !!_lblKey || !!_cfk;
+    const manageFilterOn = _mFilterKey ? !!(this.state.filterOn || {})[_mFilterKey] : false;
+    const manageGroupOn = _mFilterKey ? (this.state.statsOn || {})[_mFilterKey] !== false : false;
+    const onManageToggleFilter = _mFilterKey ? this.toggleFilterOn(_mFilterKey) : (() => {});
+    const onManageToggleGroup = _mFilterKey ? this.toggleStatsOn(_mFilterKey) : (() => {});
     const manageFilterStyle = { padding: '4px 12px', borderRadius: '999px', fontFamily: 'inherit', fontSize: '12px', fontWeight: 700, cursor: 'pointer', border: '1px solid', borderColor: manageFilterOn ? 'transparent' : '#ded7ee', background: manageFilterOn ? this.accentColor() : '#fff', color: manageFilterOn ? '#fff' : '#8b84ad' };
     const manageGroupStyle = { padding: '4px 12px', borderRadius: '999px', fontFamily: 'inherit', fontSize: '12px', fontWeight: 700, cursor: 'pointer', border: '1px solid', borderColor: manageGroupOn ? 'transparent' : '#ded7ee', background: manageGroupOn ? this.accentColor() : '#fff', color: manageGroupOn ? '#fff' : '#8b84ad' };
     const _mlist = _mc ? this.manageListOf(_mk) : [];
-    const manageRows = _mlist.map((nm, i) => { const _av = _mk === 'character' ? this.charImg(nm) : ''; return { name: nm, canUp: i>0, canDown: i<_mlist.length-1, onUp: () => this.manageMoveItem(_mk, nm, -1), onDown: () => this.manageMoveItem(_mk, nm, 1), onRename: () => this.manageRenameItem(_mk, nm), onDel: () => this.manageDeleteItem(_mk, nm), isChar: _mk === 'character', hasAvatar: !!_av, noAvatarText: _mk === 'character' && !_av, avatarStyle: _av ? { width: '30px', height: '30px', borderRadius: '50%', backgroundImage: `url(${_av})`, backgroundSize: 'cover', backgroundPosition: 'center', flexShrink: 0, cursor: 'pointer' } : { width: '30px', height: '30px', borderRadius: '50%', background: 'rgba(50,38,90,.06)', border: '1px dashed #d4cee7', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#a49ec4', fontSize: '9px', flexShrink: 0, cursor: 'pointer' }, onAvatar: () => this.uploadCharAvatar(nm) }; });
+    const manageRows = _mlist.map((nm, i) => { const _av = _mk === 'character' ? this.charImg(nm) : ''; return { name: nm, canUp: i>0, canDown: i<_mlist.length-1, onUp: () => this.manageMoveItem(_mk, nm, -1), onDown: () => this.manageMoveItem(_mk, nm, 1), onRename: () => this.manageRenameItem(_mk, nm), onDel: () => this.manageDeleteItem(_mk, nm), isChar: _mk === 'character', hasAvatar: !!_av, noAvatarText: _mk === 'character' && !_av, avatarStyle: _av ? { width: '30px', height: '30px', borderRadius: '50%', backgroundImage: `url(${_av})`, backgroundSize: 'cover', backgroundPosition: 'center', flexShrink: 0, cursor: 'pointer' } : { width: '30px', height: '30px', borderRadius: '50%', background: 'rgba(50,38,90,.06)', border: '1px dashed #d4cee7', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#a49ec4', fontSize: '9px', flexShrink: 0, cursor: 'pointer' }, onAvatar: () => this.uploadCharAvatar(nm), draggable: true, onDragStart: (e) => { this._mgDrag = i; if(e&&e.dataTransfer){e.dataTransfer.effectAllowed='move';} }, onDragOver: (e) => { if(e&&e.preventDefault) e.preventDefault(); }, onDrop: (e) => { if(e&&e.preventDefault) e.preventDefault(); this.manageDragReorder(_mk, this._mgDrag, i); this._mgDrag=null; } }; });
     const manageAddText = _mc ? ('＋ 新增' + _mc.label) : '＋ 新增';
     const onManageAdd = () => this.manageAddItem(_mk);
     const typeMenuItems = (this.state.typesList || []).map(c => ({ name: c, onPick: () => this.pickType(c), onRename: (ev) => this.renameTypeItem(c, ev), onDel: (ev) => this.delTypeItem(c, ev), rowStyle: this.menuRow(dType === c) }));
@@ -4630,7 +4648,7 @@ class Component extends DCLogic {
       knob: { position: 'absolute', top: '2px', left: fOn ? '16px' : '2px', width: '16px', height: '16px', borderRadius: '50%', background: '#fff', transition: '.15s' },
       statDot: { width: '34px', height: '20px', borderRadius: '999px', position: 'relative', flexShrink: 0, transition: '.15s', background: sOn ? 'var(--accent,#ff3355)' : '#d8d2ea' },
       statKnob: { position: 'absolute', top: '2px', left: sOn ? '16px' : '2px', width: '16px', height: '16px', borderRadius: '50%', background: '#fff', transition: '.15s' } }; });
-    const draftCustomInputs = (this.state.customFields || []).map(f => ({ key: f.key, label: f.label, value: (this.state.draft && this.state.draft.custom && this.state.draft.custom[f.key]) || '', onChange: this.onCustomDraft(f.key) }));
+    const draftCustomInputs = (this.state.customFields || []).map(f => { const val = (this.state.draft && this.state.draft.custom && this.state.draft.custom[f.key]) || ''; const opts = (f.options || []).slice(); if (val && !opts.includes(val)) opts.push(val); return { key: f.key, label: f.label, value: val, onChange: this.onCustomDraft(f.key), optionItems: opts.map(o => ({ v: o })), hasOpts: opts.length > 0, onManage: () => this.openManage('custom:' + f.key), onRenameField: () => this.renameCustomFieldLabel(f.key) }; });
     // 按系列IP分组的作品管理
     const draftCurrentWorkId = sd.currentWorkId || this.state.currentWorkId;
     const wgMap = {}; draftWorks.forEach(w => { const gkey = (w.group || this.DEFAULT_GROUP); (wgMap[gkey] = wgMap[gkey] || []).push(w); });
