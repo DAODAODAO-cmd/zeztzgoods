@@ -895,6 +895,7 @@
                 <sc-if value="{{ row.hasHeat }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;bottom:3px;right:6px;color:#ff7a1a;font-size:11px;text-shadow:0 1px 2px rgba(255,255,255,.9)">{{ row.starsText }}</span></sc-if>
               </div>
               <sc-if value="{{ row.showQty }}" hint-placeholder-val="{{ false }}"><span style="{{ qtyBadgeStyle }}">{{ row.qty }}</span></sc-if>
+              <sc-if value="{{ row.hasGalleryCharAvatar }}" hint-placeholder-val="{{ false }}"><div style="{{ row.galleryCharAvatarStyle }}"></div></sc-if>
               <span style="font-size:11px;color:#544f7e;line-height:1.25;text-align:center;max-width:92px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">{{ row.name }}</span>
             </button>
           </sc-if>
@@ -1190,6 +1191,7 @@
             <button onClick="{{ onManageToggleFilter }}" style="{{ manageFilterStyle }}">{{ manageFilterText }}</button>
             <button onClick="{{ onManageToggleGroup }}" style="{{ manageGroupStyle }}">{{ manageGroupText }}</button>
             <button onClick="{{ onManageToggleCard }}" style="{{ manageCardStyle }}">{{ manageCardText }}</button>
+            <button onClick="{{ onManageToggleBatch }}" style="{{ manageBatchStyle }}">{{ manageBatchText }}</button>
           </div>
           </sc-if>
           <sc-for list="{{ manageRows }}" as="r" hint-placeholder-count="4">
@@ -1695,13 +1697,13 @@
 
           <div style="border-top:1px solid #e1dbf0;padding-top:16px">
             <div style="font-weight:700;font-size:14px;color:#251d49;margin-bottom:4px">字段管理</div>
-            <div style="font-size:11.5px;color:#938db0;margin-bottom:10px;line-height:1.6">删除用不到的字段（编辑页、顶部筛选、分组会一起隐藏，已填数据保留）；也可新增自定义字段。点"批"可以切换该字段是否出现在批量编辑里。改动只影响你自己。</div>
+            <div style="font-size:11.5px;color:#938db0;margin-bottom:10px;line-height:1.6">删除用不到的字段（编辑页、顶部筛选、分组会一起隐藏，已填数据保留）；也可新增自定义字段。改动只影响你自己。</div>
             <div style="display:flex;flex-wrap:wrap;gap:7px">
               <sc-for list="{{ fieldRows }}" as="f" hint-placeholder-count="7">
-                <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(50,38,90,.04);border:1px solid #e8e2f2;border-radius:999px;padding:5px 6px 5px 12px;font-size:13px;color:#251d49">{{ f.labelVal }}<button onClick="{{ f.onBatchToggle }}" title="是否在批量编辑中显示" style="{{ f.batchBtnStyle }}">批</button><button onClick="{{ f.onDel }}" title="删除字段" style="flex-shrink:0;width:18px;height:18px;border-radius:50%;border:none;background:rgba(226,59,93,.12);color:#e23b5d;cursor:pointer;font-size:12px;line-height:1">×</button></span>
+                <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(50,38,90,.04);border:1px solid #e8e2f2;border-radius:999px;padding:5px 6px 5px 12px;font-size:13px;color:#251d49">{{ f.labelVal }}<button onClick="{{ f.onDel }}" title="删除字段" style="flex-shrink:0;width:18px;height:18px;border-radius:50%;border:none;background:rgba(226,59,93,.12);color:#e23b5d;cursor:pointer;font-size:12px;line-height:1">×</button></span>
               </sc-for>
               <sc-for list="{{ customFieldRows }}" as="f" hint-placeholder-count="0">
-                <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(50,38,90,.04);border:1px solid #e8e2f2;border-radius:999px;padding:5px 6px 5px 12px;font-size:13px;color:#251d49">{{ f.labelVal }}<button onClick="{{ f.onBatchToggle }}" title="是否在批量编辑中显示" style="{{ f.batchBtnStyle }}">批</button><button onClick="{{ f.onDel }}" title="删除" style="flex-shrink:0;width:18px;height:18px;border-radius:50%;border:none;background:rgba(226,59,93,.12);color:#e23b5d;cursor:pointer;font-size:12px;line-height:1">×</button></span>
+                <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(50,38,90,.04);border:1px solid #e8e2f2;border-radius:999px;padding:5px 6px 5px 12px;font-size:13px;color:#251d49">{{ f.labelVal }}<button onClick="{{ f.onDel }}" title="删除" style="flex-shrink:0;width:18px;height:18px;border-radius:50%;border:none;background:rgba(226,59,93,.12);color:#e23b5d;cursor:pointer;font-size:12px;line-height:1">×</button></span>
               </sc-for>
               <button onClick="{{ addCustomField }}" style="font-family:inherit;font-size:13px;color:#544f7e;background:none;border:1px dashed #ded7ee;padding:5px 13px;border-radius:999px;cursor:pointer">＋ 字段</button>
               <button onClick="{{ restoreBaseFields }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:5px 13px;border-radius:999px;cursor:pointer">恢复默认</button>
@@ -1898,7 +1900,7 @@ class Component extends DCLogic {
     let mobileMode = 'auto'; try { mobileMode = localStorage.getItem('zzz_mobile_mode') || 'auto'; } catch(e) {}
     let nameStyleMode = 'default'; try { nameStyleMode = localStorage.getItem('zzz_name_style') || 'default'; } catch(e) {}
     let displayMode = 'standard'; try { displayMode = localStorage.getItem('zzz_display_mode') || 'standard'; } catch(e) {}
-    let advancedMode = false; try { advancedMode = localStorage.getItem('zzz_advanced') === '1'; } catch(e) {}
+    
     let dashboardCards = null; try { dashboardCards = JSON.parse(localStorage.getItem('zzz_dashboard_cards') || 'null'); } catch(e) { dashboardCards = null; }
     if (!dashboardCards || typeof dashboardCards !== 'object') dashboardCards = this.defaultDashboardCards();
     if (!['auto', 'full', 'simple'].includes(mobileMode)) mobileMode = 'auto';
@@ -1909,7 +1911,7 @@ class Component extends DCLogic {
     this.charOrder = lists.charOrder;
     let cloudSyncId = '', cloudSyncCode = '';
     try { cloudSyncId = localStorage.getItem('zzz_cloud_id') || ''; cloudSyncCode = localStorage.getItem('zzz_cloud_code') || ''; } catch (e) {}
-    this.setState({ items, works, currentWorkId, recentWorks, sets, lastSetId, workGroupLabel, title, subtitle, footer, collectorName, currency, accent, monthlyBudget, budgets, nameStyleMode, advancedMode, displayMode, dashboardCards, fieldLabels, filterOn, statsOn, batchOn, deletedFields, customFields, customFilterOrder, cloudSyncId, cloudSyncCode, cloudCodeInput: cloudSyncCode || '', mobileMode, filtersOpen: false, groupBy: startGroupBy, view: startView, ...lists });
+    this.setState({ items, works, currentWorkId, recentWorks, sets, lastSetId, workGroupLabel, title, subtitle, footer, collectorName, currency, accent, monthlyBudget, budgets, nameStyleMode, displayMode, dashboardCards, fieldLabels, filterOn, statsOn, batchOn, deletedFields, customFields, customFilterOrder, cloudSyncId, cloudSyncCode, cloudCodeInput: cloudSyncCode || '', mobileMode, filtersOpen: false, groupBy: startGroupBy, view: startView, ...lists });
     this.loadImages(items);
     this.loadCharAvatars();
     this.loadLogo();
@@ -1944,6 +1946,7 @@ class Component extends DCLogic {
     let hiddenChannels = rd('zzz_hidden_channels', () => []);
     let hiddenPurchaseChannels = rd('zzz_hidden_purchase_channels', () => []);
     let statusList = rd('zzz_status', () => [...this.STATUSES]);
+    items.forEach(it => { if (it.status && !statusList.includes(it.status)) statusList.push(it.status); });
     let tradeTags = rd('zzz_trade_tags', () => [...this.TRADE_TAGS]);
     let rarityTags = rd('zzz_rarity_tags', () => [...this.RARITY_TAGS]);
     items.forEach(it => { (it.tags || []).forEach(t => { if (!tradeTags.includes(t)) tradeTags.push(t); }); (it.rarity || []).forEach(t => { if (!rarityTags.includes(t)) rarityTags.push(t); }); });
@@ -2036,22 +2039,21 @@ class Component extends DCLogic {
   setCustomFieldLabel = (key) => (e) => { const cf = (this.state.customFields || []).map(f => f.key === key ? { ...f, label: e.target.value } : f); try { localStorage.setItem('zzz_custom_fields', JSON.stringify(cf)); } catch (er) {} this.setState({ customFields: cf }); };
   renameCustomFieldLabel = (key) => { const f = (this.state.customFields || []).find(x => x.key === key); if (!f) return; const nv = (window.prompt('把字段名「' + f.label + '」改成：', f.label) || '').trim(); if (!nv || nv === f.label) return; const cf = (this.state.customFields || []).map(x => x.key === key ? { ...x, label: nv } : x); try { localStorage.setItem('zzz_custom_fields', JSON.stringify(cf)); } catch (e) {} this.setState({ customFields: cf }); };
   delCustomField = (key) => {
-    if (this.state.settingsDraft) {
-      const d = this.state.settingsDraft;
-      const cf = (d.customFields || []).filter(f => f.key !== key);
-      const filterOn = { ...(d.filterOn || {}) }; const statsOn = { ...(d.statsOn || {}) };
-      delete filterOn[key]; delete statsOn[key];
-      this.updateSettingsDraft({ customFields: cf, filterOn, statsOn });
-      return;
-    }
     const cf = (this.state.customFields || []).filter(f => f.key !== key);
     const filterOn = { ...(this.state.filterOn || {}) };
     const statsOn = { ...(this.state.statsOn || {}) };
+    const batchOn = { ...(this.state.batchOn || {}) };
     const customFilterSel = { ...(this.state.customFilterSel || {}) };
-    delete filterOn[key]; delete statsOn[key]; delete customFilterSel[key];
+    delete filterOn[key]; delete statsOn[key]; delete batchOn[key]; delete customFilterSel[key];
     const items = (this.state.items || []).map(it => it.custom ? { ...it, custom: Object.fromEntries(Object.entries(it.custom).filter(([k]) => k !== key)) } : it);
-    try { localStorage.setItem('zzz_custom_fields', JSON.stringify(cf)); localStorage.setItem('zzz_filter_on', JSON.stringify(filterOn)); localStorage.setItem('zzz_stats_on', JSON.stringify(statsOn)); } catch (e) {}
-    this.setState({ customFields: cf, filterOn, statsOn, customFilterSel, items });
+    try { localStorage.setItem('zzz_custom_fields', JSON.stringify(cf)); localStorage.setItem('zzz_filter_on', JSON.stringify(filterOn)); localStorage.setItem('zzz_stats_on', JSON.stringify(statsOn)); localStorage.setItem('zzz_batch_on', JSON.stringify(batchOn)); } catch (e) {}
+    let settingsDraft = this.state.settingsDraft;
+    if (settingsDraft) {
+      const dFilterOn = { ...(settingsDraft.filterOn || {}) }; const dStatsOn = { ...(settingsDraft.statsOn || {}) };
+      delete dFilterOn[key]; delete dStatsOn[key];
+      settingsDraft = { ...settingsDraft, customFields: cf, filterOn: dFilterOn, statsOn: dStatsOn };
+    }
+    this.setState({ customFields: cf, filterOn, statsOn, batchOn, customFilterSel, items, settingsDraft });
     this.commit(items);
   };
   onCustomDraft = (key) => (e) => { const v = e.target.value; this.setState(s => ({ draft: { ...s.draft, custom: { ...(s.draft.custom || {}), [key]: v } } })); };
@@ -2252,7 +2254,6 @@ class Component extends DCLogic {
       currency: this.state.currency || '',
       accent: this.state.accent || this.props.accent || '#ff3355',
       nameStyleMode: this.state.nameStyleMode || 'default',
-      advancedMode: !!this.state.advancedMode,
       displayMode: this.state.displayMode || 'standard',
       dashboardCards: this.normalizeDashboardCards(this.state.dashboardCards),
       title: this.state.title || '',
@@ -2288,7 +2289,6 @@ class Component extends DCLogic {
       localStorage.setItem('zzz_accent', d.accent || '');
       localStorage.setItem('zzz_name_style', d.nameStyleMode || 'default');
       localStorage.setItem('zzz_display_mode', d.displayMode || 'standard');
-      localStorage.setItem('zzz_advanced', d.advancedMode ? '1' : '0');
       localStorage.setItem('zzz_dashboard_cards', JSON.stringify(this.normalizeDashboardCards(d.dashboardCards))); 
       localStorage.setItem('zzz_title', d.title || '');
       localStorage.setItem('zzz_subtitle', d.subtitle || '');
@@ -2315,7 +2315,7 @@ class Component extends DCLogic {
       items: safeItems,
       collectorName: d.collectorName || '',
       currency: d.currency || '',
-      accent: d.accent || '', nameStyleMode: d.nameStyleMode || 'default', advancedMode: !!d.advancedMode, displayMode: (d.displayMode === 'simple' ? 'standard' : (d.displayMode || 'standard')), dashboardCards: this.normalizeDashboardCards(d.dashboardCards),
+      accent: d.accent || '', nameStyleMode: d.nameStyleMode || 'default', displayMode: (d.displayMode === 'simple' ? 'standard' : (d.displayMode || 'standard')), dashboardCards: this.normalizeDashboardCards(d.dashboardCards),
       title: d.title || '',
       subtitle: d.subtitle || '',
       footer: d.footer || '',
@@ -3477,7 +3477,7 @@ class Component extends DCLogic {
     const platformList = uniq([].concat(...Object.values(this.SOURCE_PLATFORMS || {}), this.state.channels || []));
     const setIds = (this.state.sets || []).filter(st => currentWork === this.ALL_WORKS || (st.workId || this.MAIN_WORK) === currentWork).map(st => st.id);
     const m = {
-      status: this.STATUSES,
+      status: (this.state.statusList && this.state.statusList.length) ? this.state.statusList : this.STATUSES,
       character: this.orderedChars(),
       type: this.TYPES,
       form: this.FORMS,
@@ -4095,7 +4095,6 @@ class Component extends DCLogic {
   }
   setNameStyle = (e) => this.updateSettingsDraft({ nameStyleMode: e.target.value });
   setDisplayMode = (e) => this.updateSettingsDraft({ displayMode: e.target.value });
-  toggleAdvanced = () => this.updateSettingsDraft({ advancedMode: !((this.state.settingsDraft || this.makeSettingsDraft()).advancedMode) });
   renderVals() {
     const cur = this.cur();
     const fieldVisible = (k) => this.isFieldVisible(k);
@@ -4217,13 +4216,16 @@ class Component extends DCLogic {
     const manageCanToggle = !!_lblKey || !!_cfk;
     const manageFilterOn = _mFilterKey ? !!(this.state.filterOn || {})[_mFilterKey] : false;
     const manageGroupOn = _mFilterKey ? (this.state.statsOn || {})[_mFilterKey] !== false : false;
+    const manageBatchOn = _mFilterKey ? (this.state.batchOn || {})[_mFilterKey] !== false : false;
     const onManageToggleFilter = _mFilterKey ? this.toggleFilterOn(_mFilterKey) : (() => {});
+    const onManageToggleBatch = _mFilterKey ? this.toggleBatchOn(_mFilterKey) : (() => {});
     const onManageToggleGroup = _mFilterKey ? this.toggleStatsOn(_mFilterKey) : (() => {});
     const manageCardOn = _mFilterKey ? !!(this.state.cardOn || {})[_mFilterKey] : false;
     const onManageToggleCard = _mFilterKey ? this.toggleCardOn(_mFilterKey) : (() => {});
     const manageCardStyle = { padding: '4px 12px', borderRadius: '999px', fontFamily: 'inherit', fontSize: '12px', fontWeight: 700, cursor: 'pointer', border: '1px solid', borderColor: manageCardOn ? 'transparent' : '#ded7ee', background: manageCardOn ? this.accentColor() : '#fff', color: manageCardOn ? '#fff' : '#8b84ad' };
     const manageFilterStyle = { padding: '4px 12px', borderRadius: '999px', fontFamily: 'inherit', fontSize: '12px', fontWeight: 700, cursor: 'pointer', border: '1px solid', borderColor: manageFilterOn ? 'transparent' : '#ded7ee', background: manageFilterOn ? this.accentColor() : '#fff', color: manageFilterOn ? '#fff' : '#8b84ad' };
     const manageGroupStyle = { padding: '4px 12px', borderRadius: '999px', fontFamily: 'inherit', fontSize: '12px', fontWeight: 700, cursor: 'pointer', border: '1px solid', borderColor: manageGroupOn ? 'transparent' : '#ded7ee', background: manageGroupOn ? this.accentColor() : '#fff', color: manageGroupOn ? '#fff' : '#8b84ad' };
+    const manageBatchStyle = { padding: '4px 12px', borderRadius: '999px', fontFamily: 'inherit', fontSize: '12px', fontWeight: 700, cursor: 'pointer', border: '1px solid', borderColor: manageBatchOn ? 'transparent' : '#ded7ee', background: manageBatchOn ? this.accentColor() : '#fff', color: manageBatchOn ? '#fff' : '#8b84ad' };
     const _mlist = _mc ? this.manageListOf(_mk) : [];
     const manageRows = _mlist.map((nm, i) => { const _av = _mk === 'character' ? this.charImg(nm) : ''; return { name: nm, canUp: i>0, canDown: i<_mlist.length-1, onUp: () => this.manageMoveItem(_mk, nm, -1), onDown: () => this.manageMoveItem(_mk, nm, 1), onRename: () => this.manageRenameItem(_mk, nm), onDel: () => this.manageDeleteItem(_mk, nm), isChar: _mk === 'character', hasAvatar: !!_av, noAvatarText: _mk === 'character' && !_av, avatarStyle: _av ? { width: '30px', height: '30px', borderRadius: '50%', backgroundImage: `url(${_av})`, backgroundSize: 'cover', backgroundPosition: 'center', flexShrink: 0, cursor: 'pointer' } : { width: '30px', height: '30px', borderRadius: '50%', background: 'rgba(50,38,90,.06)', border: '1px dashed #d4cee7', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#a49ec4', fontSize: '9px', flexShrink: 0, cursor: 'pointer' }, onAvatar: () => this.uploadCharAvatar(nm), draggable: true, onDragStart: (e) => { this._mgDrag = i; if(e&&e.dataTransfer){e.dataTransfer.effectAllowed='move';} }, onDragOver: (e) => { if(e&&e.preventDefault) e.preventDefault(); }, onDrop: (e) => { if(e&&e.preventDefault) e.preventDefault(); this.manageDragReorder(_mk, this._mgDrag, i); this._mgDrag=null; }, idx: i, onTouchStart: this.mgTouchStart(_mk, i), onTouchMove: this.mgTouchMove, onTouchEnd: this.mgTouchEnd }; });
     const manageAddText = _mc ? ('＋ 新增' + _mc.label) : '＋ 新增';
@@ -4552,6 +4554,7 @@ class Component extends DCLogic {
         cardStyle: { background: isSelected ? `linear-gradient(160deg,#fff,${this.accentAlpha(0.06)})` : '#ffffff', border: isSelected ? '2px solid var(--accent,#ff3355)' : (rem.active ? '2px solid #e23b5d' : '1px solid #ece7f6'), borderRadius: '16px', overflow: 'hidden', display: 'flex', flexDirection: 'column', boxShadow: isSelected ? `0 0 0 3px ${this.accentAlpha(0.14)}, 0 12px 28px rgba(50,38,90,.14)` : (rem.active ? '0 0 0 3px rgba(226,59,93,.08), 0 12px 28px rgba(226,59,93,.16)' : '0 2px 10px rgba(95,68,140,.05)') },
         circleImgStyle: { position: 'relative', width: '84px', height: '84px', borderRadius: '50%', overflow: 'hidden', background: 'linear-gradient(145deg,#eae5f4,#e1dcf0)', border: isSelected ? '3px solid var(--accent,#ff3355)' : (rem.active ? '3px solid #e23b5d' : '2px solid #ffffff'), boxShadow: isSelected ? `0 0 0 5px ${this.accentAlpha(0.18)}, 0 10px 24px rgba(50,38,90,.18)` : (rem.active ? '0 0 0 3px rgba(226,59,93,.12), 0 8px 18px rgba(226,59,93,.28)' : '0 3px 10px rgba(50,38,90,.14)') },
         circleReminderStyle: { position: 'absolute', top: '2px', right: '2px', minWidth: '20px', height: '20px', padding: '0 5px', borderRadius: '999px', background: '#e23b5d', color: '#fff', fontSize: '10px', fontWeight: 900, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid #fff', boxShadow: '0 3px 9px rgba(226,59,93,.35)' },
+        hasGalleryCharAvatar: !!this.charImg(dispChar), galleryCharAvatarStyle: { position: 'absolute', bottom: '1px', left: '5px', width: '24px', height: '24px', borderRadius: '50%', backgroundImage: `url(${this.charImg(dispChar)})`, backgroundSize: 'cover', backgroundPosition: 'center', border: '2px solid #fff', boxShadow: '0 3px 8px rgba(50,38,90,.3)' },
         hasReminderAlert: !!rem.active, reminderText: rem.text || '', reminderBadgeText: rem.badgeText || rem.text || '', reminderShort: rem.type || '!',
         id: it.id, name: displayName, cardMeta: (() => { const co = this.state.cardOn || {}; const parts = []; if (co.character && it.character) parts.push(dispChar); if (co.type && it.type) parts.push(it.type + (it.subtype ? ' · ' + it.subtype : '')); if (co.series && it.series) parts.push(it.series); if (co.form && it.form && it.form !== '通用') parts.push(it.form); if (co.acquire && it.acquire) parts.push(it.acquire); if (co.channel && it.channel) parts.push(it.channel); if (co.purchaseChannel && it.purchaseChannel) parts.push(it.purchaseChannel); if (co.status && it.status) parts.push(it.status); if (co.set && it.setName) parts.push(it.setName + (it.setVariant ? ' ' + it.setVariant : '')); (this.state.customFields || []).forEach(f => { if (co[f.key] && it.custom && it.custom[f.key]) parts.push(it.custom[f.key]); }); return parts.join(' · '); })(),
         showTextMeta: false, hasOrig: !!(isSwapped && it.swapNote), origText: it.swapNote || '', character: dispChar, showCharBadge: !(charSel && charSel.length === 1),
@@ -4745,10 +4748,7 @@ class Component extends DCLogic {
     const fieldRows = ['character', 'type', 'series', 'channel', 'purchaseChannel', 'status', 'form', 'acquire'].filter(k => fieldVisible(k)).map(k => {
       const sOn = (draftStatsOn || {})[k] !== false;
       const fOn = !!draftFilterOn[k];
-      const bOn = (this.state.batchOn || {})[k] !== false;
       return { key: k, labelVal: L(k), onLabel: updateDraftFieldLabel(k), onDel: this.deleteBaseField(k), filterOn: fOn, onToggle: toggleDraftFilterOn(k), onStatsToggle: toggleDraftStatsOn(k),
-        batchOn: bOn, onBatchToggle: this.toggleBatchOn(k),
-        batchBtnStyle: { flexShrink: 0, fontSize: '11px', fontWeight: 700, padding: '2px 8px', borderRadius: '999px', border: '1px solid', cursor: 'pointer', fontFamily: 'inherit', borderColor: bOn ? 'transparent' : '#ded7ee', background: bOn ? this.accentColor() : '#fff', color: bOn ? '#fff' : '#8b84ad' },
         filterStyle: { display: 'inline-flex', alignItems: 'center', gap: '5px', cursor: 'pointer', fontSize: '12.5px', color: fOn ? '#251d49' : '#938db0' },
         statStyle: { display: 'inline-flex', alignItems: 'center', gap: '5px', cursor: 'pointer', fontSize: '12.5px', color: sOn ? '#251d49' : '#938db0' },
         dot: { width: '34px', height: '20px', borderRadius: '999px', position: 'relative', flexShrink: 0, transition: '.15s', background: fOn ? 'var(--accent,#ff3355)' : '#d8d2ea' },
@@ -4769,9 +4769,7 @@ class Component extends DCLogic {
       { key: 'reminderType', label: '提醒类型', text: ob.reminderTypes != null ? ob.reminderTypes : (this.state.reminderTypes || this.REMINDER_TYPES).join('\n'), onChange: this.setOptionsText('reminderTypes', 'zzz_reminder_types') }
     ].filter(o => o.key === 'reminderType' || fieldVisible(o.key));
     // 自定义字段
-    const customFieldRows = draftCustomFields.map(f => { const sOn = (draftStatsOn || {})[f.key] !== false; const fOn = !!draftFilterOn[f.key]; const bOn = (this.state.batchOn || {})[f.key] !== false; return { key: f.key, labelVal: f.label, onLabel: updateDraftCustomFieldLabel(f.key), onDel: () => this.delCustomField(f.key), onToggle: toggleDraftFilterOn(f.key), onStatsToggle: toggleDraftStatsOn(f.key),
-      batchOn: bOn, onBatchToggle: this.toggleBatchOn(f.key),
-      batchBtnStyle: { flexShrink: 0, fontSize: '11px', fontWeight: 700, padding: '2px 8px', borderRadius: '999px', border: '1px solid', cursor: 'pointer', fontFamily: 'inherit', borderColor: bOn ? 'transparent' : '#ded7ee', background: bOn ? this.accentColor() : '#fff', color: bOn ? '#fff' : '#8b84ad' },
+    const customFieldRows = draftCustomFields.map(f => { const sOn = (draftStatsOn || {})[f.key] !== false; const fOn = !!draftFilterOn[f.key]; return { key: f.key, labelVal: f.label, onLabel: updateDraftCustomFieldLabel(f.key), onDel: () => this.delCustomField(f.key), onToggle: toggleDraftFilterOn(f.key), onStatsToggle: toggleDraftStatsOn(f.key),
       filterStyle: { display: 'inline-flex', alignItems: 'center', gap: '5px', cursor: 'pointer', fontSize: '12.5px', color: fOn ? '#251d49' : '#938db0' },
       statStyle: { display: 'inline-flex', alignItems: 'center', gap: '5px', cursor: 'pointer', fontSize: '12.5px', color: sOn ? '#251d49' : '#938db0' },
       dot: { width: '34px', height: '20px', borderRadius: '999px', position: 'relative', flexShrink: 0, transition: '.15s', background: fOn ? 'var(--accent,#ff3355)' : '#d8d2ea' },
@@ -4850,7 +4848,7 @@ class Component extends DCLogic {
       workGroupLabel: this.state.workGroupLabel, workGroupName: curWork.group || this.DEFAULT_GROUP, workName: curWork.name || '', workTabs, workGroups, libraryTree, libAllActive, libAllStyle, libAllCount, recentRows, hasRecent, mobileWorkGroups, isAllWorks, switchAll: () => this.switchWork(this.ALL_WORKS), workMenuOpen: this.state.workMenuOpen, toggleWorkMenu: this.toggleWorkMenu, addWork: this.addWork,
       openSettings: this.openSettings, closeSettings: this.cancelSettings, cancelSettings: this.cancelSettings, saveSettings: this.saveSettings, clearAllData: this.clearAllData, settingsOpen: this.state.settingsOpen, dataManageOpen: this.state.dataManageOpen, openDataManage: this.openDataManage, batchEditOpen: this.state.batchEditOpen, closeBatchEditor: this.closeBatchEditor, openBatchEditor: this.openBatchEditor, batchEditFields, batchEditOptions, batchEditTitle, batchEditChooseMode, batchEditOptionMode, batchEditBack: this.batchEditBack, closeDataManage: this.closeDataManage, confirmExcelExport: this.confirmExcelExport, confirmExcelTemplate: this.confirmExcelTemplate, confirmExcelImport: this.confirmExcelImport, confirmJsonExport: this.confirmJsonExport, confirmJsonImport: this.confirmJsonImport,
       cnVal: sd.collectorName || '', curVal: sd.currency || this.cur(), accentVal: sd.accent || this.props.accent || '#ff3355', nameStyleVal: sd.nameStyleMode || this.state.nameStyleMode || 'default', displayModeVal: sd.displayMode || this.state.displayMode || 'standard', stylePreviewText: this.previewStyleText(sd.nameStyleMode || this.state.nameStyleMode || 'default'), titleVal: sd.title || '', subtitleVal: sd.subtitle || '', footerVal: sd.footer || '',
-      onCn: this.onDraftSettingField('collectorName'), onCurrency: this.onDraftSettingField('currency'), onAccent: this.onDraftSettingField('accent'), onNameStyle: this.setNameStyle, toggleAdvanced: this.toggleAdvanced, advToggleStyle: { flexShrink: 0, width: '46px', height: '27px', borderRadius: '999px', border: 'none', cursor: 'pointer', position: 'relative', transition: '.16s', background: (sd.advancedMode ? this.accentColor() : '#d8d2ea') }, advToggleKnob: { position: 'absolute', top: '3px', left: sd.advancedMode ? '22px' : '3px', width: '21px', height: '21px', borderRadius: '50%', background: '#fff', transition: '.16s', boxShadow: '0 1px 3px rgba(0,0,0,.2)' }, onDisplayMode: this.setDisplayMode, onTitleSet: this.onDraftSettingField('title'), onSubtitleSet: this.onDraftSettingField('subtitle'), onFooterSet: this.onDraftSettingField('footer'),
+      onCn: this.onDraftSettingField('collectorName'), onCurrency: this.onDraftSettingField('currency'), onAccent: this.onDraftSettingField('accent'), onNameStyle: this.setNameStyle, onDisplayMode: this.setDisplayMode, onTitleSet: this.onDraftSettingField('title'), onSubtitleSet: this.onDraftSettingField('subtitle'), onFooterSet: this.onDraftSettingField('footer'),
       showWelcomeCard: !cnPrefix, cloudSyncCode: this.state.cloudSyncCode || '', hasCloudCode: !!this.state.cloudSyncCode, noCloudCode: !this.state.cloudSyncCode, hasCloudStatus: !!this.state.cloudStatus, cloudStatus: this.state.cloudStatus || '', copyCloudCode: this.copyCloudCode, cloudCodeInput: this.state.cloudCodeInput || '', onCloudCodeInput: this.onCloudCodeInput, createCloudCollection: this.createCloudCollection, connectCloudCollection: this.connectCloudCollection, pushCloud: this.pushCloud, pullCloud: this.pullCloud, disconnectCloud: this.disconnectCloud, hasCloudSync: !!this.state.cloudSyncId, cloudSyncText: this.state.cloudSyncCode ? ('当前同步代码：' + this.state.cloudSyncCode + '。' + (this.state.cloudStatus || '')) : (this.state.cloudStatus || '未连接云同步。'),
       trendOpen: this.state.trendOpen, closeTrend: this.closeTrend, saveTrend: this.saveTrend, addTrendRow: this.addTrendRow, trendRowsView, trendMetrics, trendTitle: (trendIt.name || '未命名') + ' · 价格趋势', setChartCanvas: this.setChartCanvas, trendHasData: !tr.empty, onOcr: this.handleOcr, ocrStatus: this.state.ocrStatus || '', hasOcrText: !!(this.state.ocrRawText || this.state.ocrBulkText), ocrRawText: this.state.ocrRawText || '', ocrBulkText: this.state.ocrBulkText || '', onOcrRawChange: this.onOcrRawChange, onOcrBulkChange: this.onOcrBulkChange, reparseOcrRaw: this.reparseOcrRaw, fillOcrBulk: this.fillOcrBulk,
       labels, workManageRows, fieldRows, optionGroups, customFieldRows, draftCustomInputs, hasCustomFields: draftCustomFields.length > 0, addCustomField: this.addCustomField, restoreBaseFields: this.restoreBaseFields, migrateSeriesToSet: this.migrateSeriesToSet, migrateSeriesToCustom: this.migrateSeriesToCustom, workSettingGroups, dashboardCollectionRows, dashboardSaleRows, addGroupAlone: this.addGroupAlone, uploadBg: this.uploadBg, clearBg: this.clearBg, hasBg: !!this.bgUrl, addWorkInline: this.addWork,
@@ -4907,8 +4905,8 @@ class Component extends DCLogic {
       CHARACTERS: this.orderedChars(), TYPES: this.TYPES, reminderTypeOptions: (this.state.reminderTypes && this.state.reminderTypes.length ? this.state.reminderTypes : this.REMINDER_TYPES), reminderMenuItems, reminderDisplay, reminderMenuOpen: this.state.reminderMenuOpen, toggleReminderMenu: this.toggleReminderMenu, addReminderType: this.addReminderType, clearReminderType: () => this.pickReminderType(''), STATUSES: this.state.statusList || this.STATUSES, FORMS: this.FORMS,
       closeModal: this.closeModal, saveItem: this.saveItem, onDraftChange: this.onDraftChange, autoGrowNote: this.autoGrowNote, charMenuItems, charDisplay, charMenuOpen: this.state.charMenuOpen, toggleCharMenu: this.toggleCharMenu, onTypeChange: this.onTypeChange, onSeriesChange: this.onSeriesChange, fillName: this.fillName, draftStars, typeMenuItems, typeDisplay, hasTypeMenuItems, typeMenuOpen: this.state.typeMenuOpen, toggleTypeMenu: this.toggleTypeMenu, addType: this.addType, seriesMenuItems, seriesDisplay, hasSeriesMenuItems, seriesMenuOpen: this.state.seriesMenuOpen, toggleSeriesMenu: this.toggleSeriesMenu, addSeries: this.addSeries, clearSeries: this.clearSeries, channelMenuItems, channelMenuOpen: this.state.channelMenuOpen, toggleChannelMenu: this.toggleChannelMenu, addChannel: this.addChannel, clearChannel: this.clearChannel, channelDisplay: (this.state.draft && this.state.draft.channel) ? this.state.draft.channel : '（未分类）', hasChannelMenuItems: channelMenuItems.length > 0, purchaseChannelMenuItems, purchaseChannelMenuOpen: this.state.purchaseChannelMenuOpen, togglePurchaseChannelMenu: this.togglePurchaseChannelMenu, addPurchaseChannel: this.addPurchaseChannel, clearPurchaseChannel: this.clearPurchaseChannel, purchaseChannelDisplay: (this.state.draft && this.state.draft.purchaseChannel) ? this.state.draft.purchaseChannel : '（未分类）', hasPurchaseChannelMenuItems: purchaseChannelMenuItems.length > 0, fillBuyFromRate: this.fillBuyFromRate, draftHasConv, draftConvText, draftIsGacha, draftSwapped,
       onImagePick: this.onImagePick, onImagePick2: this.onImagePick2, onImagePick3: this.onImagePick3, onImagePickSwap: this.onImagePickSwap, swapMenuItems, swappedDisplay, swapHint, swapNoteLabel, draftIsSwapKind, swapMenuOpen: this.state.swapMenuOpen, toggleSwapMenu: this.toggleSwapMenu, swapCharMenuItems, swapCharDisplay, swapCharMenuOpen: this.state.swapCharMenuOpen, toggleSwapCharMenu: this.toggleSwapCharMenu, clearSwapCharacter: this.clearSwapCharacter, swapCharHasAvatar, swapCharAvatarStyle, removeDraftImg: this.removeDraftImg, removeDraftImg2: this.removeDraftImg2, removeDraftImg3: this.removeDraftImg3, removeDraftImg4: this.removeDraftImg4, removeDraftSwapImg: this.removeDraftSwapImg,
-      draftTimelineRows, isAdvanced: true, showBrandField: !!this.state.advancedMode || !!(d && d.series), draftWorkName, draftWorkGroupName, draftWorkMenuGroups, draftWorkMenuOpen: this.state.draftWorkMenuOpen, toggleDraftWorkMenu: this.toggleDraftWorkMenu, addWorkInline: this.addWorkInline, draftIsSelling, draftNotSelling,
-      manageOpen: this.state.manageOpen, closeManage: this.closeManage, manageTitle, manageRows, manageAddText, onManageAdd, manageCanRenameLabel, onManageRenameLabel, manageCanToggle, manageFilterOn, workManageOpen: this.state.workManageOpen, openWorkManage: this.openWorkManage, closeWorkManage: this.closeWorkManage, workManageGroups, addGroupAlone: this.addGroupAlone, setManageOpen: this.state.setManageOpen, openSetManage: this.openSetManage, closeSetManage: this.closeSetManage, setManageList, addSetInManage: this.addSetInManage, hasSetManageList: setManageList.length > 0, setFieldLabel: this.setLabelText(), renameSetLabel: this.renameSetLabel, setFilterStyle, setGroupStyle, setFilterText: setFilterOn ? '筛选 ✓' : '筛选', setGroupText: setGroupOn ? '分组 ✓' : '分组', setCardStyle, setCardText: setCardOn ? '图鉴 ✓' : '图鉴', onSetToggleCard: this.toggleCardOn('set'), onSetToggleFilter: this.toggleFilterOn('set'), onSetToggleGroup: this.toggleStatsOn('set'), manageGroupOn, onManageToggleFilter, onManageToggleGroup, manageFilterStyle, manageGroupStyle, manageCardOn, onManageToggleCard, manageCardStyle, manageCardText: manageCardOn ? '图鉴 ✓' : '图鉴', manageFilterText: manageFilterOn ? '筛选 ✓' : '筛选', manageGroupText: manageGroupOn ? '分组 ✓' : '分组',
+      draftTimelineRows, showBrandField: fieldVisible('series') && !!(d && d.series), draftWorkName, draftWorkGroupName, draftWorkMenuGroups, draftWorkMenuOpen: this.state.draftWorkMenuOpen, toggleDraftWorkMenu: this.toggleDraftWorkMenu, addWorkInline: this.addWorkInline, draftIsSelling, draftNotSelling,
+      manageOpen: this.state.manageOpen, closeManage: this.closeManage, manageTitle, manageRows, manageAddText, onManageAdd, manageCanRenameLabel, onManageRenameLabel, manageCanToggle, manageFilterOn, workManageOpen: this.state.workManageOpen, openWorkManage: this.openWorkManage, closeWorkManage: this.closeWorkManage, workManageGroups, addGroupAlone: this.addGroupAlone, setManageOpen: this.state.setManageOpen, openSetManage: this.openSetManage, closeSetManage: this.closeSetManage, setManageList, addSetInManage: this.addSetInManage, hasSetManageList: setManageList.length > 0, setFieldLabel: this.setLabelText(), renameSetLabel: this.renameSetLabel, setFilterStyle, setGroupStyle, setFilterText: setFilterOn ? '筛选 ✓' : '筛选', setGroupText: setGroupOn ? '分组 ✓' : '分组', setCardStyle, setCardText: setCardOn ? '图鉴 ✓' : '图鉴', onSetToggleCard: this.toggleCardOn('set'), onSetToggleFilter: this.toggleFilterOn('set'), onSetToggleGroup: this.toggleStatsOn('set'), manageGroupOn, onManageToggleFilter, onManageToggleGroup, manageFilterStyle, manageGroupStyle, manageCardOn, onManageToggleCard, manageCardStyle, manageCardText: manageCardOn ? '图鉴 ✓' : '图鉴', manageFilterText: manageFilterOn ? '筛选 ✓' : '筛选', manageGroupText: manageGroupOn ? '分组 ✓' : '分组', manageBatchOn, onManageToggleBatch, manageBatchStyle, manageBatchText: manageBatchOn ? '批量 ✓' : '批量',
       mgrStatus: () => this.openManage('status'), mgrMethod: () => this.openManage('method'), mgrTradeTags: () => this.openManage('tradeTags'), mgrRarityTags: () => this.openManage('rarityTags'),
       lblMethod: (this.state.fieldLabels||{}).method || '购买方式', lblTags: (this.state.fieldLabels||{}).tags || '交易标签', lblRarity: (this.state.fieldLabels||{}).rarity || '稀有度 / 心动标签', mgrCharacter: () => this.openManage('character'), mgrType: () => this.openManage('type'), mgrForm: () => this.openManage('form'), mgrSeries: () => this.openManage('series'), mgrAcquire: () => this.openManage('acquire'), mgrChannel: () => this.openManage('channel'), mgrPurchaseChannel: () => this.openManage('purchaseChannel'), mgrReminder: () => this.openManage('reminder'), mgrTrade: () => this.openManage('tradeTags'), mgrRarity: () => this.openManage('rarityTags'),
       setMenuOpen: this.state.setMenuOpen, toggleSetMenu: this.toggleSetMenu, addSet: this.addSet, clearSet: () => this.pickSet(''),
@@ -4921,7 +4919,7 @@ class Component extends DCLogic {
       setMemberItems: (() => { const s = this.setById(d && d.setId); if (!s || !s.members) return []; const got = this.setCollectedCodes(s.id, d && d.id); return s.members.map((m, idx) => { const label = m.code + ' ' + m.name; const on = (d && d.setVariant) === label; return { label, got: got.includes(m.code + ' ' + m.name) || got.includes(m.code), onPick: () => this.pickSetMember(m), onRename: () => this.renameSetMember(idx), onDel: () => this.delSetMember(idx), rowStyle: this.menuRow(on) }; }); })(),
       setMemberEditMode: !!this.state.setMemberEditMode, setMemberEditText: this.state.setMemberEditMode ? '✓ 完成' : '⚙ 管理', toggleSetMemberEdit: this.toggleSetMemberEdit, addSetMember: this.addSetMember,
       setMenuItems: (this.state.sets || []).filter(s => (s.workId || this.MAIN_WORK) === ((d && d.workId) || this.state.currentWorkId || this.MAIN_WORK)).sort((a, b) => (a.id === this.state.lastSetId ? -1 : b.id === this.state.lastSetId ? 1 : 0)).map(s => { const got = this.setCollectedCodes(s.id, d && d.id).length; return { name: s.name + (s.id === this.state.lastSetId ? ' · 最近' : ''), progress: s.total ? got + '/' + s.total : String(got), onPick: () => this.pickSet(s.id), onRename: () => this.renameSet(s.id), onDel: () => this.delSet(s.id), rowStyle: { display: 'flex', alignItems: 'center', gap: '8px', width: '100%', background: (d && d.setId === s.id) ? this.accentAlpha(0.1) : 'none', border: 'none', cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit', fontSize: '14px', color: '#251d49', padding: '7px 9px', borderRadius: '8px' } }; }), setManageEditMode: !!this.state.setManageEditMode, setManageEditText: this.state.setManageEditMode ? '✓ 完成' : '⚙ 管理', toggleSetManageEdit: this.toggleSetManageEdit,
-      collectedCodesText: (d && d.setId) ? this.setCollectedCodes(d.setId, d.id).join('、') : '', hasCollectedCodes: !!(d && d.setId && this.setCollectedCodes(d.setId, d.id).length), feeShow: !!this.state.feeOpen, colInfoShow: !!this.state.colInfoOpen, setInfoShow: !!this.state.advancedMode && this.state.setInfoOpen, feeOpen: this.state.feeOpen, feeCaret: this.state.feeOpen ? '▲ 收起' : '▼ 展开', toggleFee: this.toggleFee, colInfoOpen: this.state.colInfoOpen, colInfoCaret: this.state.colInfoOpen ? '▲ 收起' : '▼ 展开', toggleColInfo: this.toggleColInfo, setInfoOpen: this.state.setInfoOpen, setInfoCaret: this.state.setInfoOpen ? '▲ 收起' : '▼ 展开', toggleSetInfo: this.toggleSetInfo,
+      collectedCodesText: (d && d.setId) ? this.setCollectedCodes(d.setId, d.id).join('、') : '', hasCollectedCodes: !!(d && d.setId && this.setCollectedCodes(d.setId, d.id).length), feeShow: !!this.state.feeOpen, colInfoShow: !!this.state.colInfoOpen, setInfoShow: !!this.state.setInfoOpen, feeOpen: this.state.feeOpen, feeCaret: this.state.feeOpen ? '▲ 收起' : '▼ 展开', toggleFee: this.toggleFee, colInfoOpen: this.state.colInfoOpen, colInfoCaret: this.state.colInfoOpen ? '▲ 收起' : '▼ 展开', toggleColInfo: this.toggleColInfo, setInfoOpen: this.state.setInfoOpen, setInfoCaret: this.state.setInfoOpen ? '▲ 收起' : '▼ 展开', toggleSetInfo: this.toggleSetInfo,
       draftTradeTags: (this.state.tradeTags || this.TRADE_TAGS).map(t => { const on = ((d && d.tags) || []).includes(t); return { label: t, on, hasTip: !!this.GLOSSARY[t], onTip: () => this.showTip(t), style: { padding: '5px 11px', borderRadius: '999px', fontSize: '12.5px', cursor: 'pointer', fontFamily: 'inherit', border: '1px solid ' + (on ? 'var(--accent,#ff3355)' : '#ded7ee'), background: on ? 'var(--accent,#ff3355)' : 'rgba(50,38,90,.03)', color: on ? '#fff' : '#595287' }, onClick: () => this.toggleDraftTag('tags', t), onDel: (ev) => { ev.stopPropagation(); this.delTagOption('tradeTags', 'zzz_trade_tags', t); } }; }),
       draftRarityTags: (this.state.rarityTags || this.RARITY_TAGS).map(t => { const on = ((d && d.rarity) || []).includes(t); return { label: t, on, hasTip: !!this.GLOSSARY[t], onTip: () => this.showTip(t), style: { padding: '5px 11px', borderRadius: '999px', fontSize: '12.5px', cursor: 'pointer', fontFamily: 'inherit', border: '1px solid ' + (on ? '#c8860d' : '#ded7ee'), background: on ? '#c8860d' : 'rgba(50,38,90,.03)', color: on ? '#fff' : '#595287' }, onClick: () => this.toggleDraftTag('rarity', t), onDel: (ev) => { ev.stopPropagation(); this.delTagOption('rarityTags', 'zzz_rarity_tags', t); } }; }),
       addTradeTag: () => this.addTagOption('tradeTags', 'zzz_trade_tags'), addRarityTag: () => this.addTagOption('rarityTags', 'zzz_rarity_tags'), tagEditMode: !!this.state.tagEditMode, toggleTagEdit: this.toggleTagEdit, tagEditText: this.state.tagEditMode ? '完成' : '编辑',
