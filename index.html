@@ -155,8 +155,8 @@
   .ui-item-modal .ui-form-grid textarea,
   .ui-item-modal .ui-form-grid button[style*="width:100%"]{width:100% !important;}
   .ui-table-wrap{overflow-x:auto;background:linear-gradient(160deg,#ffffff,#f3f0fb);border:1px solid #ded7ee;border-radius:16px;}
-  .ui-table-grid{min-width:1080px;font-size:13.5px;}
-  .ui-table-row{display:grid;grid-template-columns:64px 220px 150px 220px 90px 90px 64px 100px 100px 118px 100px 100px 130px 120px 110px;align-items:center;border-top:1px solid rgba(50,38,90,.05);}
+  .ui-table-grid{min-width:1200px;font-size:13.5px;}
+  .ui-table-row{display:grid;grid-template-columns:64px 220px 150px 220px 90px 90px 64px 100px 100px 118px 100px 100px 130px 120px 120px 110px;align-items:center;border-top:1px solid rgba(50,38,90,.05);}
   .ui-table-head{background:rgba(50,38,90,.05);color:#544f7e;font-size:12px;font-weight:600;border-top:0;}
   .ui-table-cell{padding:9px 10px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .ui-table-num{text-align:right;font-family:'Orbitron';}
@@ -636,6 +636,16 @@
         </div>
       </div>
       </sc-if>
+      <sc-if value="{{ showPurchaseChannelF }}" hint-placeholder-val="{{ false }}">
+      <div class="ui-filter-extra" style="display:flex;align-items:center;gap:9px">
+        <span style="font-size:12px;color:#837da4;flex-shrink:0;width:34px">{{ labelPurchaseChannel }}</span>
+        <div style="display:flex;gap:7px;overflow-x:auto;padding-bottom:3px">
+          <sc-for list="{{ purchaseChannelChips }}" as="chip" hint-placeholder-count="4">
+            <button draggable="{{ chip.draggable }}" onMouseDown="{{ chip.onMouseDown }}" onMouseUp="{{ chip.onMouseUp }}" onTouchStart="{{ chip.onTouchStart }}" onTouchEnd="{{ chip.onTouchEnd }}" onTouchCancel="{{ chip.onTouchCancel }}" onDragStart="{{ chip.onDragStart }}" onDragOver="{{ chip.onDragOver }}" onDrop="{{ chip.onDrop }}" onDoubleClick="{{ chip.onDblClick }}" onClick="{{ chip.onClick }}" style="{{ chip.style }}">{{ chip.label }}</button>
+          </sc-for>
+        </div>
+      </div>
+      </sc-if>
       <sc-if value="{{ showTagFilter }}" hint-placeholder-val="{{ false }}">
       <div class="ui-filter-extra" style="display:flex;align-items:center;gap:9px">
         <span style="font-size:12px;color:#837da4;flex-shrink:0;width:34px">交易</span>
@@ -777,6 +787,7 @@
                 </sc-if>
               </div>
               <sc-if value="{{ row.hasChannel }}" hint-placeholder-val="{{ false }}"><div class="ui-mobile-card-extra" style="font-size:11.5px;color:#837da4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">平台 · {{ row.channelText }}</div></sc-if>
+              <sc-if value="{{ row.hasPurchaseChannel }}" hint-placeholder-val="{{ false }}"><div class="ui-mobile-card-extra" style="font-size:11.5px;color:#837da4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">渠道 · {{ row.purchaseChannelText }}</div></sc-if>
               <sc-if value="{{ row.hasHeld }}" hint-placeholder-val="{{ false }}"><div class="ui-mobile-card-extra" style="font-size:11.5px;color:#837da4">⏳ {{ row.heldText }}</div></sc-if>
               <sc-if value="{{ row.hasReminderAlert }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;font-weight:800;color:#e23b5d;background:rgba(226,59,93,.08);border:1px solid rgba(226,59,93,.25);border-radius:9px;padding:7px 9px">⚠ {{ row.reminderBadgeText }}</div></sc-if>
               <div style="display:flex;gap:7px;margin-top:3px">
@@ -808,6 +819,7 @@
             <div class="ui-table-cell ui-table-num"><button class="ui-table-sort-btn" onClick="{{ sortBySell }}">卖出价<span class="ui-table-sort-mark">{{ sortSellMark }}</span></button></div>
             <div class="ui-table-cell ui-table-num"><button class="ui-table-sort-btn" onClick="{{ sortByProfit }}">盈亏<span class="ui-table-sort-mark">{{ sortProfitMark }}</span></button></div>
             <div class="ui-table-cell"><button class="ui-table-sort-btn" onClick="{{ sortByChannel }}">平台<span class="ui-table-sort-mark">{{ sortChannelMark }}</span></button></div>
+            <div class="ui-table-cell"><button class="ui-table-sort-btn" onClick="{{ sortByPurchaseChannel }}">渠道<span class="ui-table-sort-mark">{{ sortPurchaseChannelMark }}</span></button></div>
             <div class="ui-table-cell"><button class="ui-table-sort-btn" onClick="{{ sortByDate }}">日期<span class="ui-table-sort-mark">{{ sortDateMark }}</span></button></div>
             <div class="ui-table-cell ui-table-center">操作</div>
           </div>
@@ -845,6 +857,7 @@
                 <div class="ui-table-cell ui-table-num" style="color:#c8860d">{{ row.sellText }}</div>
                 <div class="ui-table-cell ui-table-num"><span style="{{ row.profitCellStyle }}">{{ row.profitTableText }}</span></div>
                 <div class="ui-table-cell" style="color:#595287">{{ row.channel }}</div>
+                <div class="ui-table-cell" style="color:#595287">{{ row.purchaseChannel }}</div>
                 <div class="ui-table-cell" style="color:#544f7e">{{ row.dateText }}</div>
                 <div class="ui-table-cell ui-table-center">
                   <div style="display:inline-flex;gap:6px">
@@ -1363,7 +1376,7 @@
             </sc-if>
             <div style="grid-column:1/-1">
               <button onClick="{{ toggleColInfo }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 12px;border-radius:9px;border:1px dashed #d4cee7;background:rgba(50,38,90,.03);color:#544f7e;font-family:inherit;font-size:13px;cursor:pointer">
-                <span class="ui-colinfo-label" style="flex:1;min-width:0;text-align:left">🏷 收藏信息 · 来源 / 购买方式 / 平台 / 形态 / 系列收藏 / 款式 / 标签（可选）</span><span style="flex-shrink:0;color:#938db0;font-size:11px">{{ colInfoCaret }}</span>
+                <span class="ui-colinfo-label" style="flex:1;min-width:0;text-align:left">🏷 收藏信息 · 来源 / 购买方式 / 平台 / 渠道 / 形态 / 系列收藏 / 款式 / 标签（可选）</span><span style="flex-shrink:0;color:#938db0;font-size:11px">{{ colInfoCaret }}</span>
               </button>
             </div>
             <sc-if value="{{ colInfoShow }}" hint-placeholder-val="{{ false }}">
@@ -1408,13 +1421,33 @@
                   <button onClick="{{ clearChannel }}" style="width:100%;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#938db0;padding:7px 9px;border-radius:8px">（未分类）</button>
                   <sc-if value="{{ hasChannelMenuItems }}" hint-placeholder-val="{{ false }}">
                     <sc-for list="{{ channelMenuItems }}" as="ch" hint-placeholder-count="4">
+                      <sc-if value="{{ ch.isDivider }}" hint-placeholder-val="{{ false }}"><div style="height:1px;background:#ece7f6;margin:5px 4px"></div></sc-if>
+                      <sc-if value="{{ ch.notDivider }}" hint-placeholder-val="{{ true }}">
                       <div style="{{ ch.rowStyle }}">
                         <button onClick="{{ ch.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ch.name }}</button>
                         
                       </div>
+                      </sc-if>
                     </sc-for>
                   </sc-if>
                   <button onClick="{{ addChannel }}" style="display:none"></button>
+                </div>
+              </sc-if>
+            </div>
+            <div style="position:relative">
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>{{ lblPurchaseChannel }}</span><span style="display:flex;gap:6px;flex-shrink:0"><button onClick="{{ mgrPurchaseChannel }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer" title="管理 新增/改名/删除/排序">⚙ 管理</button></span></div>
+              <button onClick="{{ togglePurchaseChannelMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ purchaseChannelDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
+              <sc-if value="{{ purchaseChannelMenuOpen }}" hint-placeholder-val="{{ false }}">
+                <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:5;background:#ffffff;border:1px solid #ded7ee;border-radius:11px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:240px;overflow-y:auto">
+                  <button onClick="{{ clearPurchaseChannel }}" style="width:100%;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#938db0;padding:7px 9px;border-radius:8px">（未分类）</button>
+                  <sc-if value="{{ hasPurchaseChannelMenuItems }}" hint-placeholder-val="{{ false }}">
+                    <sc-for list="{{ purchaseChannelMenuItems }}" as="ch" hint-placeholder-count="4">
+                      <div style="{{ ch.rowStyle }}">
+                        <button onClick="{{ ch.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ch.name }}</button>
+                      </div>
+                    </sc-for>
+                  </sc-if>
+                  <button onClick="{{ addPurchaseChannel }}" style="display:none"></button>
                 </div>
               </sc-if>
             </div>
@@ -1489,10 +1522,17 @@
             </div>
             <sc-if value="{{ hasCustomFields }}" hint-placeholder-val="{{ false }}">
               <sc-for list="{{ draftCustomInputs }}" as="cf" hint-placeholder-count="0">
-                <div>
+                <div style="position:relative">
                   <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>{{ cf.label }}</span><button onClick="{{ cf.onManage }}" title="管理 改名/选项/首页显示" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer">⚙ 管理</button></div>
-                  <input value="{{ cf.value }}" onChange="{{ cf.onChange }}" list="{{ cf.key }}" placeholder="可选选项或自行输入" style="width:100%;box-sizing:border-box;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
-                  <datalist id="{{ cf.key }}"><sc-for list="{{ cf.optionItems }}" as="o" hint-placeholder-count="0"><option value="{{ o.v }}"></option></sc-for></datalist>
+                  <button onClick="{{ cf.onToggleMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ cf.display }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
+                  <sc-if value="{{ cf.menuOpen }}" hint-placeholder-val="{{ false }}">
+                    <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:6;background:#ffffff;border:1px solid #ded7ee;border-radius:11px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:240px;overflow-y:auto">
+                      <button onClick="{{ cf.onClear }}" style="width:100%;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#938db0;padding:7px 9px;border-radius:8px">（未选择）</button>
+                      <sc-for list="{{ cf.optionItems }}" as="o" hint-placeholder-count="0">
+                        <div style="{{ o.rowStyle }}"><button onClick="{{ o.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ o.v }}</button></div>
+                      </sc-for>
+                    </div>
+                  </sc-if>
                 </div>
               </sc-for>
             </sc-if>
@@ -1781,7 +1821,7 @@ class Component extends DCLogic {
   GLOSSARY = { '空气谷':'已购买但尚未收到的谷子（在途 / 待补款 / 待尾款 / 排发中都算）。','已归家':'已经收到、真正摆进柜子里的谷子。','已出物':'已卖出或正在出售的谷子。','海景':'高溢价、很贵才能拿下的谷子。','湖景':'溢价没海景那么夸张，中等价位。','梦情':'非常想要、情有独钟的本命谷。','普谷':'原价或平价就能买到的普通谷子。','绝版':'已停产、官方不再补货。','再贩':'官方重新贩售的批次。','受注':'接受预订后再生产（受注生产）。','在库':'现货、有库存可直接买。','头铁产物':'明知贵/风险大还是冲了。','赌博产物':'盲抽/一番赏这类靠运气抽到的。','回血':'卖出后赚回成本，甚至盈利。','置换':'盲抽到的谷子换成自己想要的款。','收现':'盲抽后不留货，直接折现给别人。','自抽':'自己抽到的，不置换不收现。','抱盒':'整盒一次性购入。','单领':'只领取其中单个，不整套买。','hold':'先占着 / 保留，暂不确认。','转单':'把订单转让给别人。','提确':'提醒确认（催付款 / 催发货）。','可刀':'可以还价。','不刀':'一口价，不还价。' };
   RARITY_TAGS = ['梦情','湖景','海景','普谷','绝版','再贩','受注','在库','头铁产物','赌博产物'];
   REMINDER_TYPES = ['补款','尾款','排发','到货','集运'];
-  CHANNELS = ['官谷','同人谷','通贩','场贩','代购','拼团','单买','抱盒','盲抽','二手','煤炉','日拍','骏河屋','闲鱼','淘宝','其他'];
+  CHANNELS = ['团名','群名','其他'];
   SOURCES = ['日谷','国谷','同人'];
   SOURCE_METHODS = {
     '日谷': ['通贩','场贩','代购','拼团','抱盒','单买','盲抽','二手'],
@@ -1799,10 +1839,10 @@ class Component extends DCLogic {
   SUPA_URL = 'https://kgifcpdajnyhxxmenazz.supabase.co';
   SUPA_KEY = 'sb_publishable_Bvg4r_n3JiokW3cY3NDo3A_9M2CNfaU';
   PLATFORM_BRAND = { 'PB官店': '万代', 'Premium Bandai': '万代', '万代官网': '万代', 'Movic官店': 'Movic', '东映': '东映', '安利美特': 'Animate', 'A店': 'Animate' };
-  FIELD_DEFAULTS = { character: '角色', type: '种类', series: '系列', channel: '平台', status: '状态', form: '形态', acquire: '来源', method: '购买方式', tags: '交易标签', rarity: '稀有度 / 心动标签', set: '系列收藏 / 套装' };
+  FIELD_DEFAULTS = { character: '角色', type: '种类', series: '系列', channel: '平台', purchaseChannel: '渠道', status: '状态', form: '形态', acquire: '来源', method: '购买方式', tags: '交易标签', rarity: '稀有度 / 心动标签', set: '系列收藏 / 套装' };
   CHAR_IMG = { '诺克斯': 'assets/c_nox.webp', 'NOX': 'assets/r_blue.webp', 'MIDNIGHT SHADOW': 'assets/r_nox_midnight.webp', 'NOX KNIGHT': 'assets/r_lady.webp', 'ZEZTZ': 'assets/r_red.webp', '西格': 'assets/c_zeke.webp', 'DAWN': 'assets/r_zeztz.webp', '宁梦': 'assets/c_nemu.webp', '南云成华': 'assets/c_nagumo.webp', 'ZERO': 'assets/c_zero.webp', '万津莫': 'assets/c_matsu.webp', '万津美浪': 'assets/c_minami.webp', '富士见铁也': 'assets/c_fujimi.webp', 'THE LADY': 'assets/c_lady.webp', 'CODE': 'assets/c_code.webp' };
   imgUrls = {};
-  state = { items: [], view: null, sets: [], lastSetId: '', setMenuOpen: false, feeOpen: false, colInfoOpen: false, setInfoOpen: false, recentWorks: [], collapsedGroups: {}, reminderMenuOpen: false, monthlyBudget: '', budgets: {}, ledgerDetailKey: '', ledgerDetailType: 'day', ledgerDetailLabel: '', tableSortKey: '', tableSortDir: 'desc', nameStyleMode: 'default', displayMode: 'standard', dashboardCards: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, dataManageOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, trendOpen: false, trendItemId: null, trendRows: [], trendResult: null, ocrRawText: '', ocrBulkText: '', modalOpen: false, editing: null, draft: null, savedAt: 0, batchMode: false, selectedIds: [], bulkEditIds: [], bulkEditIndex: 0, ledgerRange: 'month', ledgerMode: 'month', ledgerYear: String(new Date().getFullYear()), ledgerMonth: String(new Date().getMonth()+1), ledgerWeek: '', ledgerPieBy: 'character', ledgerPieActive: 0, batchEditOpen: false, batchEditField: '' };
+  state = { items: [], view: null, sets: [], lastSetId: '', setMenuOpen: false, feeOpen: false, colInfoOpen: false, setInfoOpen: false, recentWorks: [], collapsedGroups: {}, reminderMenuOpen: false, monthlyBudget: '', budgets: {}, ledgerDetailKey: '', ledgerDetailType: 'day', ledgerDetailLabel: '', tableSortKey: '', tableSortDir: 'desc', nameStyleMode: 'default', displayMode: 'standard', dashboardCards: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], purchaseChannelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, purchaseChannels: [], purchaseChannelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], hiddenPurchaseChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, purchaseChannel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, dataManageOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, trendOpen: false, trendItemId: null, trendRows: [], trendResult: null, ocrRawText: '', ocrBulkText: '', modalOpen: false, editing: null, draft: null, savedAt: 0, batchMode: false, selectedIds: [], bulkEditIds: [], bulkEditIndex: 0, ledgerRange: 'month', ledgerMode: 'month', ledgerYear: String(new Date().getFullYear()), ledgerMonth: String(new Date().getMonth()+1), ledgerWeek: '', ledgerPieBy: 'character', ledgerPieActive: 0, batchEditOpen: false, batchEditField: '' };
 
   setRoot = (el) => { this.rootEl = el; if (el) { const a = this.state.accent || this.props.accent || '#ff3355'; el.style.setProperty('--accent', a); try { document.documentElement.style.setProperty('--accent', a); } catch (e) {} this.applyBg(); } };
   setImportRef = (el) => { this.importRef = el; };
@@ -1814,14 +1854,8 @@ class Component extends DCLogic {
     try { const raw = localStorage.getItem('zzz_goods_v1'); if (raw != null) { hasStoredItems = true; items = JSON.parse(raw) || []; } } catch (e) { items = []; }
     if (!Array.isArray(items)) items = [];
     if (!hasStoredItems && !items.length) { items = this.samples(); }
-    else if (!localStorage.getItem('zzz_migrated_v2')) {
-      // 一次性迁移：仅在升级时跑一次，之后永不改动用户数据
-      items = items.map(it => ({ ...it, character: cmap[it.character] || it.character, name: nmap[it.name] || it.name }));
-      items = items.map(it => { const x = { ...it }; if (chrmap[x.character]) x.character = chrmap[x.character]; if (chrmap[x.swapCharacter]) x.swapCharacter = chrmap[x.swapCharacter]; if (tmap[x.type]) x.type = tmap[x.type]; if (x.type === '盲盒') { x.acquire = '盲盒'; x.type = '其他'; } if (x.type === '单领') { x.acquire = '单领'; x.type = '其他'; } return x; });
-      try { localStorage.setItem('zzz_migrated_v2', '1'); } catch (e) {}
-    }
     // 仅补全缺失的新字段默认值（不覆盖任何已有值）
-    items = items.map(it => ({ form: '通用', series: '', heat: 0, rate: '', otherFee: '', acquire: '', swapped: '未置换', swapTo: '', swapCharacter: '', swapImageId: null, imageId2: null, imageId3: null, imageId4: null, group: '收藏', workId: 'w_main', reminderType: '', reminderDate: '', specialType: '', specialDate: '', setName: '', setTotal: '', setVariant: '', timeline: [], tags: [], rarity: [], ...it }));
+    items = items.map(it => ({ form: '通用', series: '', heat: 0, rate: '', otherFee: '', acquire: '', method: '', purchaseChannel: '', swapped: '未置换', swapTo: '', swapCharacter: '', swapImageId: null, imageId2: null, imageId3: null, imageId4: null, group: '收藏', workId: 'w_main', reminderType: '', reminderDate: '', specialType: '', specialDate: '', setName: '', setTotal: '', setVariant: '', timeline: [], tags: [], rarity: [], ...it }));
     items.forEach(it => { if (!it.workId) it.workId = 'w_main'; });
     try { localStorage.setItem('zzz_goods_v1', JSON.stringify(items)); } catch (e) {}
     // 作品 / 系列IP
@@ -1846,7 +1880,8 @@ class Component extends DCLogic {
     let fieldLabels = {}; try { fieldLabels = JSON.parse(localStorage.getItem('zzz_field_labels') || '{}') || {}; } catch (e) {}
     fieldLabels = { ...this.FIELD_DEFAULTS, ...fieldLabels };
     let filterOn = {}; try { filterOn = JSON.parse(localStorage.getItem('zzz_filter_on') || 'null') || null; } catch (e) {}
-    if (!filterOn) filterOn = { character: true, type: true, series: false, form: false, acquire: true, channel: true, status: false };
+    if (!filterOn) filterOn = { character: true, type: true, series: false, form: false, acquire: true, channel: true, purchaseChannel: true, status: false };
+    else filterOn = { purchaseChannel: true, ...filterOn };
     let statsOn = null; try { statsOn = JSON.parse(localStorage.getItem('zzz_stats_on') || 'null') || null; } catch (e) {}
     let cardOn = {}; try { cardOn = JSON.parse(localStorage.getItem('zzz_card_on') || '{}') || {}; } catch (e) {}
     let deletedFields = []; try { deletedFields = JSON.parse(localStorage.getItem('zzz_deleted_fields') || '[]') || []; } catch (e) {}
@@ -1895,27 +1930,33 @@ class Component extends DCLogic {
     let typesList = rd('zzz_types', () => [...new Set([...this.TYPES, ...items.map(i => i.type).filter(Boolean)])]);
     let seriesList = rd('zzz_series', () => [...new Set(items.map(i => i.series).filter(Boolean))]);
     let channels = rd('zzz_channels', () => [...new Set(items.map(i => i.channel).filter(Boolean))]);
+    items.map(i => i.series).filter(Boolean).forEach(v => { if (!channels.includes(v)) channels.push(v); });
+    items.map(i => i.channel).filter(Boolean).forEach(v => { if (!channels.includes(v)) channels.push(v); });
+    let purchaseChannels = rd('zzz_purchase_channels', () => [...new Set([...this.CHANNELS, ...items.map(i => i.purchaseChannel).filter(Boolean)])]);
+    items.map(i => i.purchaseChannel).filter(Boolean).forEach(v => { if (!purchaseChannels.includes(v)) purchaseChannels.push(v); });
     let formOrder = rd('zzz_form_order', () => [...this.FORMS]); this.FORMS.forEach(f => { if (!formOrder.includes(f)) formOrder.push(f); });
-    let acquireOrder = rd('zzz_acquire_order', () => [...this.SOURCES]);
+    let acquireOrder = rd('zzz_acquire_order', () => ['日谷','国谷','同人']);
     let methodList = rd('zzz_method', () => [...new Set([].concat(...Object.values(this.SOURCE_METHODS)))]);
     let reminderTypes = rd('zzz_reminder_types', () => [...this.REMINDER_TYPES]); this.REMINDER_TYPES.forEach(r => { if (!reminderTypes.includes(r)) reminderTypes.push(r); });
     items.forEach(it => { if (it.reminderType && !reminderTypes.includes(it.reminderType)) reminderTypes.push(it.reminderType); });
     let hiddenTypes = rd('zzz_hidden_types', () => []);
     let hiddenChannels = rd('zzz_hidden_channels', () => []);
+    let hiddenPurchaseChannels = rd('zzz_hidden_purchase_channels', () => []);
     let statusList = rd('zzz_status', () => [...this.STATUSES]);
     let tradeTags = rd('zzz_trade_tags', () => [...this.TRADE_TAGS]);
     let rarityTags = rd('zzz_rarity_tags', () => [...this.RARITY_TAGS]);
     items.forEach(it => { (it.tags || []).forEach(t => { if (!tradeTags.includes(t)) tradeTags.push(t); }); (it.rarity || []).forEach(t => { if (!rarityTags.includes(t)) rarityTags.push(t); }); });
-    return { charOrder, typesList, seriesList, channels, formOrder, acquireOrder, methodList, reminderTypes, hiddenTypes, hiddenChannels, statusList, tradeTags, rarityTags };
+    return { charOrder, typesList, seriesList, channels, purchaseChannels, formOrder, acquireOrder, methodList, reminderTypes, hiddenTypes, hiddenChannels, hiddenPurchaseChannels, statusList, tradeTags, rarityTags };
   }
   aggregatedLists(itemsArg) {
     const works = this.state.works || [];
     const merge = (a, b) => { (b || []).forEach(x => { if (x && !a.includes(x)) a.push(x); }); return a; };
-    const out = { charOrder: [], typesList: [], seriesList: [], channels: [], formOrder: [], acquireOrder: [], methodList: [], reminderTypes: [], hiddenTypes: [], hiddenChannels: [], statusList: [], tradeTags: [], rarityTags: [] };
+    const out = { charOrder: [], typesList: [], seriesList: [], channels: [], purchaseChannels: [], formOrder: [], acquireOrder: [], methodList: [], reminderTypes: [], hiddenTypes: [], hiddenChannels: [], hiddenPurchaseChannels: [], statusList: [], tradeTags: [], rarityTags: [] };
     const wl = works.length ? works : [{ id: this.MAIN_WORK }];
     wl.forEach(w => { const l = this.loadWorkLists(w.id, itemsArg); Object.keys(out).forEach(k => merge(out[k], l[k])); });
     if (!out.charOrder.length) out.charOrder = [...this.CHARACTERS];
     if (!out.typesList.length) out.typesList = [...this.TYPES];
+    if (!out.purchaseChannels.length) out.purchaseChannels = [...this.CHANNELS];
     if (!out.formOrder.length) out.formOrder = [...this.FORMS];
     if (!out.statusList.length) out.statusList = [...this.STATUSES];
     if (!out.reminderTypes.length) out.reminderTypes = [...this.REMINDER_TYPES];
@@ -1945,7 +1986,7 @@ class Component extends DCLogic {
   };
   resetScopedFilters(extra) {
     return {
-      charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [],
+      charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], purchaseChannelSel: [],
       customFilterSel: {},
       ...(extra || {})
     };
@@ -1986,7 +2027,7 @@ class Component extends DCLogic {
     this.saveWorks(works); this.commit(items);
     if (this.state.currentWorkId === w.id) {
       if (works.length) this.switchWork(works[0].id);
-      else { try { localStorage.setItem('zzz_current_work', ''); } catch (e) {} this.setState(this.resetScopedFilters({ currentWorkId: '', charOrder: [], typesList: [], seriesList: [], channels: [], statusList: [], formOrder: [...this.FORMS], acquireOrder: ['官谷','同人谷','通贩','场贩','代购','拼团','单买','抱盒','盲抽','二手','煤炉','日拍','骏河屋','闲鱼','淘宝','其他'], reminderTypes: [...this.REMINDER_TYPES] })); }
+      else { try { localStorage.setItem('zzz_current_work', ''); } catch (e) {} this.setState(this.resetScopedFilters({ currentWorkId: '', charOrder: [], typesList: [], seriesList: [], channels: [], purchaseChannels: [...this.CHANNELS], statusList: [], formOrder: [...this.FORMS], acquireOrder: ['日谷','国谷','同人'], reminderTypes: [...this.REMINDER_TYPES] })); }
     }
   };
   addCustomField = () => { const base = this.state.settingsDraft ? (this.state.settingsDraft.customFields || []) : (this.state.customFields || []); const cf = [...base, { key: 'cf_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5), label: '新字段' }]; if (this.state.settingsDraft) this.updateSettingsDraft({ customFields: cf }); else { try { localStorage.setItem('zzz_custom_fields', JSON.stringify(cf)); } catch (e) {} this.setState({ customFields: cf }); } };
@@ -2012,6 +2053,8 @@ class Component extends DCLogic {
     this.commit(items);
   };
   onCustomDraft = (key) => (e) => { const v = e.target.value; this.setState(s => ({ draft: { ...s.draft, custom: { ...(s.draft.custom || {}), [key]: v } } })); };
+  toggleCustomMenu = (key) => () => this.setState(s => ({ customMenuOpen: { ...(s.customMenuOpen || {}), [key]: !(s.customMenuOpen || {})[key] } }));
+  pickCustom = (key, v) => this.setState(s => ({ draft: { ...s.draft, custom: { ...(s.draft.custom || {}), [key]: v } }, customMenuOpen: { ...(s.customMenuOpen || {}), [key]: false } }));
   addOptionTo = (which, lsKey, promptText) => () => { const v = (window.prompt(promptText) || '').trim(); if (!v) return; const cur = this.state[which] || []; if (cur.includes(v)) return; const arr = [...cur, v]; const wid = this.state.currentWorkId === this.ALL_WORKS ? this.MAIN_WORK : this.state.currentWorkId; try { localStorage.setItem(this.wkey(lsKey, wid), JSON.stringify(arr)); } catch (e) {} this.setState({ [which]: arr }); };
   toggleWorkMenu = () => this.setState(s => ({ workMenuOpen: !s.workMenuOpen }));
   toggleMobileMode = () => {
@@ -2057,7 +2100,7 @@ class Component extends DCLogic {
   cloudSnapshot() {
     const keys = ['zzz_cn','zzz_currency','zzz_accent','zzz_title','zzz_subtitle','zzz_footer','zzz_works','zzz_current_work','zzz_work_group_label','zzz_field_labels','zzz_filter_on','zzz_stats_on','zzz_custom_fields','zzz_deleted_fields','zzz_custom_filter_order'];
     const allWorks = this.state.works || [];
-    ['zzz_char_order','zzz_types','zzz_series','zzz_channels','zzz_form_order','zzz_acquire_order','zzz_status','zzz_hidden_types','zzz_hidden_channels'].forEach(base => {
+    ['zzz_char_order','zzz_types','zzz_series','zzz_channels','zzz_purchase_channels','zzz_form_order','zzz_acquire_order','zzz_status','zzz_hidden_types','zzz_hidden_channels','zzz_hidden_purchase_channels'].forEach(base => {
       allWorks.forEach(w => keys.push(w.id === this.MAIN_WORK ? base : base + '__' + w.id));
     });
     const local = {};
@@ -2078,6 +2121,7 @@ class Component extends DCLogic {
     if (!works.some(w => w.id === currentWorkId)) currentWorkId = works[0].id;
     let fieldLabels = {}; try { fieldLabels = JSON.parse(localStorage.getItem('zzz_field_labels') || '{}') || {}; } catch(e) {}
     let filterOn = {}; try { filterOn = JSON.parse(localStorage.getItem('zzz_filter_on') || 'null') || {}; } catch(e) {}
+    filterOn = { purchaseChannel: true, ...filterOn };
     let statsOn = null; try { statsOn = JSON.parse(localStorage.getItem('zzz_stats_on') || 'null') || null; } catch(e) {}
     let cardOn = {}; try { cardOn = JSON.parse(localStorage.getItem('zzz_card_on') || '{}') || {}; } catch(e) {}
     let deletedFields = []; try { deletedFields = JSON.parse(localStorage.getItem('zzz_deleted_fields') || '[]') || []; } catch(e) {}
@@ -2157,8 +2201,8 @@ class Component extends DCLogic {
     try { Object.keys(localStorage).filter(k => k.indexOf('zzz_') === 0).forEach(k => localStorage.removeItem(k)); } catch (e) {}
     try { await this.idbClear(); } catch (e) {}
     const works = [{ id: this.MAIN_WORK, group: this.DEFAULT_GROUP, name: '默认作品' }];
-    const filterOn = { character: true, type: true, series: false, form: false, acquire: true, channel: true, status: false };
-    const acquireOrder = [...this.SOURCES];
+    const filterOn = { character: true, type: true, series: false, form: false, acquire: true, channel: true, purchaseChannel: true, status: false };
+    const acquireOrder = ['日谷','国谷','同人'];
     const reminderTypes = [...this.REMINDER_TYPES];
     try {
       localStorage.setItem('zzz_goods_v1', JSON.stringify([]));
@@ -2166,6 +2210,7 @@ class Component extends DCLogic {
       localStorage.setItem('zzz_current_work', this.MAIN_WORK);
       localStorage.setItem('zzz_field_labels', JSON.stringify(this.FIELD_DEFAULTS));
       localStorage.setItem('zzz_filter_on', JSON.stringify(filterOn));
+      localStorage.setItem('zzz_purchase_channels', JSON.stringify(this.CHANNELS));
       localStorage.setItem('zzz_form_order', JSON.stringify(this.FORMS));
       localStorage.setItem('zzz_acquire_order', JSON.stringify(acquireOrder));
       localStorage.setItem('zzz_reminder_types', JSON.stringify(reminderTypes));
@@ -2188,8 +2233,8 @@ class Component extends DCLogic {
     if (this.rootEl) this.rootEl.style.setProperty('--accent', this.props.accent || '#ff3355');
     this.setState({
       items: [], works, currentWorkId: this.MAIN_WORK, group: 'all', groupBy: 'none', search: '',
-      charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], customFilterSel: {}, customFilterOrder: {},
-      workGroupLabel: '系列IP', workMenuOpen: false, fieldLabels: { ...this.FIELD_DEFAULTS }, filterOn, statsOn: null, cardOn: {}, deletedFields: [], customFields: [], optBuf: {}, reminderTypes, nameStyleMode: 'default', displayMode: 'standard', dashboardCards: this.defaultDashboardCards(),
+      charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], purchaseChannelSel: [], customFilterSel: {}, customFilterOrder: {},
+      workGroupLabel: '系列IP', workMenuOpen: false, fieldLabels: { ...this.FIELD_DEFAULTS }, filterOn, statsOn: null, cardOn: {}, deletedFields: [], customFields: [], optBuf: {}, purchaseChannels: [...this.CHANNELS], hiddenPurchaseChannels: [], reminderTypes, nameStyleMode: 'default', displayMode: 'standard', dashboardCards: this.defaultDashboardCards(),
       settingsOpen: false, dataManageOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', nameStyleMode: 'default', displayMode: 'standard', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '本机资料已清空。', cloudBusy: false,
       modalOpen: false, editing: null, draft: null, trendOpen: false, trendItemId: null, trendRows: [], trendResult: null,
       title: '谷子收纳', subtitle: '梦 境 特 工 档 案', footer: '梦境特工档案 · コードナンバー：収集家',
@@ -2441,6 +2486,7 @@ class Component extends DCLogic {
     else if (key === 'status') patch.statusSel = [];
     else if (key === 'acquire') patch.acquireSel = [];
     else if (key === 'channel') patch.channelSel = [];
+    else if (key === 'purchaseChannel') patch.purchaseChannelSel = [];
     if (this.state.groupBy === key) patch.groupBy = 'none';
     try { localStorage.setItem('zzz_deleted_fields', JSON.stringify(deletedFields)); localStorage.setItem('zzz_filter_on', JSON.stringify(filterOn)); localStorage.setItem('zzz_stats_on', JSON.stringify(statsOn)); } catch (e) {}
     this.setState(patch);
@@ -2465,6 +2511,7 @@ class Component extends DCLogic {
       else if (key === 'status') patch.statusSel = [];
       else if (key === 'acquire') patch.acquireSel = [];
       else if (key === 'channel') patch.channelSel = [];
+      else if (key === 'purchaseChannel') patch.purchaseChannelSel = [];
       else patch.customFilterSel = { ...(this.state.customFilterSel || {}), [key]: [] };
     }
     try { localStorage.setItem('zzz_filter_on', JSON.stringify(filterOn)); } catch (e) {}
@@ -2594,11 +2641,11 @@ class Component extends DCLogic {
   chipDrag(name, kind) { return { draggable: name !== '全部', onMouseDown: (ev) => this.startChipPointer(name, kind, ev), onMouseUp: (ev) => this.finishChipPointer(name, kind, ev), onTouchStart: (ev) => this.startChipPointer(name, kind, ev), onTouchEnd: (ev) => this.finishChipPointer(name, kind, ev), onTouchCancel: () => { this.pointerChipDrag = null; }, onDragStart: (ev) => { if (name === '全部') return; this.cdKind = kind; this.cdName = name; if (ev.dataTransfer) { ev.dataTransfer.effectAllowed = 'move'; try { ev.dataTransfer.setData('text/plain', JSON.stringify({ kind, name })); } catch(e) {} } }, onDragOver: (ev) => { if (name !== '全部') { ev.preventDefault(); if (ev.dataTransfer) ev.dataTransfer.dropEffect = 'move'; } }, onDrop: (ev) => { ev.preventDefault(); let src = this.cdName, k = this.cdKind; try { const raw = ev.dataTransfer && ev.dataTransfer.getData('text/plain'); if (raw) { const obj = JSON.parse(raw); src = obj.name || src; k = obj.kind || k; } } catch(e) {} if (k === kind) this.reorderChip(kind, src, name); this.cdName = null; this.cdKind = null; this.pointerChipDrag = null; } }; }
   reorderChip(kind, src, dst) {
     if (!src || src === dst || src === '全部' || dst === '全部') return;
-    const cfg = { type: ['typesList', 'zzz_types'], series: ['seriesList', 'zzz_series'], channel: ['channels', 'zzz_channels'], form: ['formOrder', 'zzz_form_order'], acquire: ['acquireOrder', 'zzz_acquire_order'], reminderType: ['reminderTypes', 'zzz_reminder_types'], status: ['statusList', 'zzz_status'] }[kind];
+    const cfg = { type: ['typesList', 'zzz_types'], series: ['seriesList', 'zzz_series'], channel: ['channels', 'zzz_channels'], purchaseChannel: ['purchaseChannels', 'zzz_purchase_channels'], form: ['formOrder', 'zzz_form_order'], acquire: ['acquireOrder', 'zzz_acquire_order'], reminderType: ['reminderTypes', 'zzz_reminder_types'], status: ['statusList', 'zzz_status'] }[kind];
     if (kind === 'char') return this.reorderChar(src, dst);
     if (!cfg) return;
-    const field = { type: 'type', series: 'series', channel: 'channel', form: 'form', acquire: 'acquire', status: 'status' }[kind];
-    const defaults = { typesList: this.TYPES, formOrder: this.FORMS, acquireOrder: ['官谷','同人谷','通贩','场贩','代购','拼团','单买','抱盒','盲抽','二手','煤炉','日拍','骏河屋','闲鱼','淘宝','其他'], statusList: this.STATUSES, reminderTypes: this.REMINDER_TYPES };
+    const field = { type: 'type', series: 'series', channel: 'channel', purchaseChannel: 'purchaseChannel', form: 'form', acquire: 'acquire', status: 'status' }[kind];
+    const defaults = { typesList: this.TYPES, purchaseChannels: this.CHANNELS, formOrder: this.FORMS, acquireOrder: ['日谷','国谷','同人'], statusList: this.STATUSES, reminderTypes: this.REMINDER_TYPES };
     const base = [...((this.state[cfg[0]] && this.state[cfg[0]].length) ? this.state[cfg[0]] : (defaults[cfg[0]] || []))].filter(Boolean);
     const present = field ? [...new Set((this.state.items || []).map(i => i[field]).filter(Boolean))] : [];
     const arr = [...base, ...present.filter(x => !base.includes(x))];
@@ -2674,7 +2721,7 @@ class Component extends DCLogic {
     try { localStorage.setItem('zzz_custom_filter_order', JSON.stringify(orderMap)); } catch(e) {}
     this.setState({ customFilterOrder: orderMap, customFilterSel }, () => this.commit(items));
   };
-  emptyDraft() { const chars = this.orderedChars(); return { id: null, workId: this.defaultDraftWorkId(), custom: {}, name: '', character: (chars[0] || ''), type: this.TYPES[0], subtype: '', series: '', form: '通用', heat: 0, rate: '', otherFee: '', acquire: '', swapped: '未置换', swapTo: '', swapCharacter: '', swapImageId: null, group: '收藏', status: '已归家', qty: '1', originalPrice: '', buyPrice: '', shipDom: '', shipIntl: '', sellPrice: '', channel: '', buyDate: this.todayStr(), reminderType: '', reminderDate: '', note: '', imageId: null, imageId2: null, imageId3: null, imageId4: null, specialType: '', specialDate: '', setId: '', setName: '', setTotal: '', setVariant: '', timeline: [], tags: [], rarity: [] }; }
+  emptyDraft() { const chars = this.orderedChars(); return { id: null, workId: this.defaultDraftWorkId(), custom: {}, name: '', character: (chars[0] || ''), type: this.TYPES[0], subtype: '', series: '', form: '通用', heat: 0, rate: '', otherFee: '', acquire: '', method: '', purchaseChannel: '', swapped: '未置换', swapTo: '', swapCharacter: '', swapImageId: null, group: '收藏', status: '已归家', qty: '1', originalPrice: '', buyPrice: '', shipDom: '', shipIntl: '', sellPrice: '', channel: '', buyDate: this.todayStr(), reminderType: '', reminderDate: '', note: '', imageId: null, imageId2: null, imageId3: null, imageId4: null, specialType: '', specialDate: '', setId: '', setName: '', setTotal: '', setVariant: '', timeline: [], tags: [], rarity: [] }; }
   imageSlotKeys() { return ['imageId', 'imageId2', 'imageId3', 'imageId4']; }
   imageIdsOf(it) { return this.imageSlotKeys().map(k => it && it[k]).filter(Boolean); }
   imageUrlsOf(it) { return this.imageIdsOf(it).map(id => this.imgUrls[id]).filter(Boolean); }
@@ -2732,7 +2779,7 @@ class Component extends DCLogic {
     this.openEdit(it);
   };
   feeHas(d) { return !!(this.num(d.originalPrice) || this.num(d.rate) || this.num(d.shipDom) || this.num(d.shipIntl) || this.num(d.otherFee)); }
-  colInfoHas(d) { return !!((d.series && String(d.series).trim()) || (d.subtype && String(d.subtype).trim()) || (d.acquire && String(d.acquire).trim()) || (d.channel && String(d.channel).trim())); }
+  colInfoHas(d) { return !!((d.series && String(d.series).trim()) || (d.subtype && String(d.subtype).trim()) || (d.acquire && String(d.acquire).trim()) || (d.channel && String(d.channel).trim()) || (d.purchaseChannel && String(d.purchaseChannel).trim())); }
   setInfoHas(d) { return !!(d.setId || (d.setName && String(d.setName).trim()) || this.num(d.setTotal) || (d.setVariant && String(d.setVariant).trim())); }
   openAdd = () => this.setState({ modalOpen: true, editing: null, draft: this.emptyDraft(), feeOpen: false, colInfoOpen: false, setInfoOpen: false });
   openEdit = (it) => { const d = { ...this.emptyDraft(), ...it }; this.setState({ modalOpen: true, editing: it.id, draft: d, feeOpen: this.feeHas(d), colInfoOpen: this.colInfoHas(d), setInfoOpen: this.setInfoHas(d) }); };
@@ -2770,6 +2817,45 @@ class Component extends DCLogic {
   toggleSetVariantMenu = () => this.toggleDraftMenu('setVariantMenuOpen');
   toggleSetMemberEdit = () => this.setState(s => { const on = !s.setMemberEditMode; return { setMemberEditMode: on, setVariantMenuOpen: on ? true : s.setVariantMenuOpen }; });
   persistSets(sets) { try { localStorage.setItem('zzz_sets', JSON.stringify(sets)); } catch (e) {} }
+  migrateSeriesToCustom = () => {
+    const scope = (this.state.items || []);
+    const has = scope.some(it => (it.series || '').trim());
+    if (!has) { alert('没有旧「厂商 / 系列」数据需要转换。'); return; }
+    if (!window.confirm('把旧「厂商 / 系列」整列转成一个自定义字段保留吗？\n\n· 会新建一个自定义字段（默认名「厂商」）\n· 每件谷子的旧厂商值搬进这个自定义字段\n· 内置「厂商」字段会被隐藏，不再和新结构冲突\n建议先导出备份。')) return;
+    const label = (window.prompt('给这个自定义字段起个名字：', '厂商') || '厂商').trim() || '厂商';
+    const key = 'cf_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+    const opts = [...new Set(scope.map(it => (it.series || '').trim()).filter(Boolean))];
+    const customFields = [...(this.state.customFields || []), { key, label, options: opts }];
+    const items = scope.map(it => { const v = (it.series || '').trim(); if (!v) return it; return { ...it, custom: { ...(it.custom || {}), [key]: v }, series: '' }; });
+    const deletedFields = [...new Set([...(this.state.deletedFields || []), 'series'])];
+    try { localStorage.setItem('zzz_custom_fields', JSON.stringify(customFields)); localStorage.setItem('zzz_deleted_fields', JSON.stringify(deletedFields)); } catch (e) {}
+    this.setState({ customFields, deletedFields });
+    this.commit(items);
+    alert('已把旧「厂商」转成自定义字段「' + label + '」并隐藏内置厂商。');
+  };
+  migrateSeriesToSet = () => {
+    const wid = this.state.currentWorkId && this.state.currentWorkId !== this.ALL_WORKS ? this.state.currentWorkId : this.MAIN_WORK;
+    const scope = (this.state.items || []).filter(it => (it.workId || this.MAIN_WORK) === wid);
+    const vals = [...new Set(scope.map(it => (it.series || '').trim()).filter(Boolean))];
+    if (!vals.length) { alert('当前作品没有可迁移的旧「系列/厂商」数据。'); return; }
+    if (!window.confirm('把当前作品里 ' + vals.length + ' 个旧「系列/厂商」值（' + vals.join('、') + '）迁移为「系列收藏 / 套装」吗？\n\n· 会为每个值建立一个套装，并把对应谷子归入\n· 原「厂商」字段会清空\n建议先导出备份。')) return;
+    let sets = [...(this.state.sets || [])];
+    const idByName = {};
+    vals.forEach(v => {
+      let ex = sets.find(s => (s.workId || this.MAIN_WORK) === wid && s.name === v);
+      if (!ex) { const id = 'set_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5) + sets.length; ex = { id, name: v, total: 0, members: [], workId: wid }; sets.push(ex); }
+      idByName[v] = ex.id;
+    });
+    const items = (this.state.items || []).map(it => {
+      if ((it.workId || this.MAIN_WORK) !== wid) return it;
+      const v = (it.series || '').trim();
+      if (!v || it.setId) return it.series ? { ...it, series: '' } : it;
+      return { ...it, setId: idByName[v], setName: v, series: '' };
+    });
+    this.persistSets(sets); this.setState({ sets });
+    this.commit(items);
+    alert('迁移完成：已建立 ' + vals.length + ' 个套装并归入对应谷子。');
+  };
   curSetId() { return this.state.draft && this.state.draft.setId; }
   updateSetMembers(setId, mut) {
     const id = setId || this.curSetId(); if (!id) return;
@@ -3009,10 +3095,7 @@ class Component extends DCLogic {
     }
     d = { ...d, statusLog };
     // 置换 / 收现 = 收藏历程事件：主表单是最终收藏，这里记录「怎么得到的」
-    // 平台自动推断系列：仅在系列为空时带出，不覆盖用户已填（老数据不受影响）
-    if ((!d.series || !String(d.series).trim()) && d.channel && this.PLATFORM_BRAND[d.channel]) {
-      d = { ...d, series: this.PLATFORM_BRAND[d.channel] };
-    }
+    // 厂商已并入平台，不再由平台自动回填到系列。
     const isSwapNow = d.method === '盲抽' && (d.gachaResult === '置换' || d.gachaResult === '收现');
     if (isSwapNow) {
       const newSig = [d.gachaResult, d.swapNote || ''].join('|');
@@ -3030,6 +3113,7 @@ class Component extends DCLogic {
     if (this.state.editing) { savedItem = { ...d, id: this.state.editing, workId: this.draftWorkId(d) }; items = this.state.items.map(x => x.id === this.state.editing ? savedItem : x); }
     else { savedItem = { ...d, id: 'it_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6), workId: this.draftWorkId(d) }; items = [savedItem, ...this.state.items]; }
     if (d.channel && !this.state.channels.includes(d.channel)) this.saveChannels([...this.state.channels, d.channel]);
+    if (d.purchaseChannel && !(this.state.purchaseChannels || []).includes(d.purchaseChannel)) this.saveList('purchaseChannels', 'zzz_purchase_channels', [...(this.state.purchaseChannels || []), d.purchaseChannel]);
     if (d.type && !this.state.typesList.includes(d.type)) this.saveList('typesList', 'zzz_types', [...this.state.typesList, d.type]);
     if (d.series && !this.state.seriesList.includes(d.series)) this.saveList('seriesList', 'zzz_series', [...this.state.seriesList, d.series]);
     this.commit(items); if ((this.state.bulkEditIds || []).includes(savedItem.id)) { this.bulkSavedIds = this.bulkSavedIds || new Set(); this.bulkSavedIds.add(savedItem.id); } this.closeModal();
@@ -3068,7 +3152,7 @@ class Component extends DCLogic {
       const e = this.enrich(it); const w = workById[it.workId] || {};
       const row = {
         '图片1': includeImages ? await this.imgData(it.imageId) : '', '图片2': includeImages ? await this.imgData(it.imageId2) : '', '图片3': includeImages ? await this.imgData(it.imageId3) : '', '图片4': includeImages ? await this.imgData(it.imageId4) : '',
-        '作品系列IP': w.group || '', '作品': w.name || '', '名称': it.name || '', '角色': it.character || '', '种类': it.type || '', '细分': it.subtype || '', '系列': it.series || '', '状态': it.status || '', '数量': e.qty, '原价(日元)': it.originalPrice || '', '买入单价': e.buy || '', '国内邮费': e.sd || '', '国际邮费': e.si || '', '总投入': e.cost || '', '卖出单价': e.sell || '', '卖出金额': e.revenue || '', '盈亏': e.sold ? e.profit : '', '平台': it.channel || '', '购买日期': it.buyDate || '', '提醒类型': it.reminderType || '', '提醒日期': it.reminderDate || '', '所属套装': it.setName || '', '套装总数': it.setTotal || '', '款式编号': it.setVariant || '', '备注': it.note || ''
+        '作品系列IP': w.group || '', '作品': w.name || '', '名称': it.name || '', '角色': it.character || '', '种类': it.type || '', '细分': it.subtype || '', '系列': it.series || '', '状态': it.status || '', '数量': e.qty, '原价(日元)': it.originalPrice || '', '买入单价': e.buy || '', '国内邮费': e.sd || '', '国际邮费': e.si || '', '总投入': e.cost || '', '卖出单价': e.sell || '', '卖出金额': e.revenue || '', '盈亏': e.sold ? e.profit : '', '平台': it.channel || '', '渠道': it.purchaseChannel || '', '购买日期': it.buyDate || '', '提醒类型': it.reminderType || '', '提醒日期': it.reminderDate || '', '所属套装': it.setName || '', '套装总数': it.setTotal || '', '款式编号': it.setVariant || '', '备注': it.note || ''
       };
       itemRows.push(row);
     }
@@ -3175,9 +3259,9 @@ class Component extends DCLogic {
       if (!window.ExcelJS) throw new Error('ExcelJS 未加载，请刷新页面或检查网络后重试');
       const wb = new ExcelJS.Workbook();
       const ws = wb.addWorksheet('收藏');
-      const headers = ['图片1','图片2','图片3','图片4','作品系列IP','作品','名称','角色','种类','细分','系列','状态','数量','原价(日元)','买入单价','国内邮费','国际邮费','卖出单价','平台','购买日期','提醒类型','提醒日期','所属套装','套装总数','款式编号','备注'];
+      const headers = ['图片1','图片2','图片3','图片4','作品系列IP','作品','名称','角色','种类','细分','系列','状态','数量','原价(日元)','买入单价','国内邮费','国际邮费','卖出单价','平台','渠道','购买日期','提醒类型','提醒日期','所属套装','套装总数','款式编号','备注'];
       ws.addRow(headers);
-      ws.addRow(['可直接在此单元格插入图片，也可留空','','','','默认','默认作品','NOX 徽章','NOX','徽章','','','已到货','1','','','','','','','2026-07-01','','','','','','']);
+      ws.addRow(['可直接在此单元格插入图片，也可留空','','','','默认','默认作品','NOX 吧唧','NOX','吧唧','初版','TV动画','已归家','1','800','150','10','30','','淘宝','代购','2026-07-01','','','','','','示例数据，可直接删除此行']);
       ws.getRow(1).font = { bold: true };
       ws.getRow(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFEFEAF8' } };
       ws.getRow(2).height = 58;
@@ -3261,7 +3345,7 @@ class Component extends DCLogic {
         const img3 = await this.saveImageDataURL(this.excelVal(r, ['图片3']));
         const img4 = await this.saveImageDataURL(this.excelVal(r, ['图片4']));
         newItems.push({ ...this.emptyDraft(), id:'it_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6), workId, name, imageId: img1, imageId2: img2, imageId3: img3, imageId4: img4,
-          character:String(this.excelVal(r,['角色'])||''), type:String(this.excelVal(r,['种类','类型'])||''), subtype:String(this.excelVal(r,['细分','款式'])||''), series:String(this.excelVal(r,['厂商','系列'])||''), status:String(this.excelVal(r,['状态'])||'已到货'), qty:String(this.excelVal(r,['数量'])||'1'), originalPrice:String(this.excelVal(r,['原价(日元)','原价'])||''), buyPrice:String(this.excelVal(r,['买入单价','买入价'])||''), shipDom:String(this.excelVal(r,['国内邮费'])||''), shipIntl:String(this.excelVal(r,['国际邮费'])||''), sellPrice:String(this.excelVal(r,['卖出单价','卖出价'])||''), channel:String(this.excelVal(r,['平台','购买平台'])||''), buyDate:String(this.excelVal(r,['购买日期','日期'])||''), reminderType:String(this.excelVal(r,['提醒类型'])||''), reminderDate:String(this.excelVal(r,['提醒日期'])||''), setName:String(this.excelVal(r,['所属套装','套装'])||''), setTotal:String(this.excelVal(r,['套装总数'])||''), setVariant:String(this.excelVal(r,['款式编号','款式'])||''), note:String(this.excelVal(r,['备注'])||'') });
+          character:String(this.excelVal(r,['角色'])||''), type:String(this.excelVal(r,['种类','类型'])||''), subtype:String(this.excelVal(r,['细分','款式'])||''), series:String(this.excelVal(r,['系列'])||''), status:String(this.excelVal(r,['状态'])||'已归家'), qty:String(this.excelVal(r,['数量'])||'1'), originalPrice:String(this.excelVal(r,['原价(日元)','原价'])||''), buyPrice:String(this.excelVal(r,['买入单价','买入价'])||''), shipDom:String(this.excelVal(r,['国内邮费'])||''), shipIntl:String(this.excelVal(r,['国际邮费'])||''), sellPrice:String(this.excelVal(r,['卖出单价','卖出价'])||''), channel:String(this.excelVal(r,['平台','购买平台','厂商'])||''), purchaseChannel:String(this.excelVal(r,['渠道','购买渠道'])||''), buyDate:String(this.excelVal(r,['购买日期','日期'])||''), reminderType:String(this.excelVal(r,['提醒类型'])||''), reminderDate:String(this.excelVal(r,['提醒日期'])||''), setName:String(this.excelVal(r,['所属套装','套装'])||''), setTotal:String(this.excelVal(r,['套装总数'])||''), setVariant:String(this.excelVal(r,['款式编号','款式'])||''), note:String(this.excelVal(r,['备注'])||'') });
       }
       if (!newItems.length) { alert('没有找到可导入的收藏行'); e.target.value=''; return; }
       this.commit([...newItems, ...(this.state.items || [])]);
@@ -3278,8 +3362,8 @@ class Component extends DCLogic {
     const charAvatars = {};
     for (const name in this.charImgIds) { try { const b = await this.idbGet(this.charImgIds[name]); if (b) charAvatars[name] = await this.blobToDataURL(b); } catch (e) {} }
     const lsDump = {}; const allWorks = this.state.works || [];
-    ['zzz_char_order', 'zzz_types', 'zzz_series', 'zzz_channels', 'zzz_form_order', 'zzz_acquire_order', 'zzz_reminder_types', 'zzz_hidden_types', 'zzz_hidden_channels'].forEach(base => { allWorks.forEach(w => { const k = w.id === this.MAIN_WORK ? base : base + '__' + w.id; const v = localStorage.getItem(k); if (v != null) lsDump[k] = v; }); });
-    const meta = { charOrder: this.state.charOrder, typesList: this.state.typesList, seriesList: this.state.seriesList, channels: this.state.channels, formOrder: this.state.formOrder, acquireOrder: this.state.acquireOrder, reminderTypes: this.state.reminderTypes, hiddenTypes: this.state.hiddenTypes, hiddenChannels: this.state.hiddenChannels, charAssetMap: this.charAssetMap, title: this.state.title, subtitle: this.state.subtitle, footer: this.state.footer, works: allWorks, currentWorkId: this.state.currentWorkId, workGroupLabel: this.state.workGroupLabel, collectorName: this.state.collectorName, currency: this.state.currency, accent: this.state.accent, nameStyleMode: this.state.nameStyleMode, displayMode: this.state.displayMode, lsDump };
+    ['zzz_char_order', 'zzz_types', 'zzz_series', 'zzz_channels', 'zzz_purchase_channels', 'zzz_form_order', 'zzz_acquire_order', 'zzz_reminder_types', 'zzz_hidden_types', 'zzz_hidden_channels', 'zzz_hidden_purchase_channels'].forEach(base => { allWorks.forEach(w => { const k = w.id === this.MAIN_WORK ? base : base + '__' + w.id; const v = localStorage.getItem(k); if (v != null) lsDump[k] = v; }); });
+    const meta = { charOrder: this.state.charOrder, typesList: this.state.typesList, seriesList: this.state.seriesList, channels: this.state.channels, purchaseChannels: this.state.purchaseChannels, formOrder: this.state.formOrder, acquireOrder: this.state.acquireOrder, reminderTypes: this.state.reminderTypes, hiddenTypes: this.state.hiddenTypes, hiddenChannels: this.state.hiddenChannels, hiddenPurchaseChannels: this.state.hiddenPurchaseChannels, charAssetMap: this.charAssetMap, title: this.state.title, subtitle: this.state.subtitle, footer: this.state.footer, works: allWorks, currentWorkId: this.state.currentWorkId, workGroupLabel: this.state.workGroupLabel, collectorName: this.state.collectorName, currency: this.state.currency, accent: this.state.accent, nameStyleMode: this.state.nameStyleMode, displayMode: this.state.displayMode, lsDump };
     let logo = null; try { const lb = await this.idbGet('zzz_logo'); if (lb) logo = await this.blobToDataURL(lb); } catch (e) {}
     const payload = { v: 2, exportedAt: new Date().toISOString(), items: this.state.items, images, meta, charAvatars, logo };
     const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
@@ -3297,13 +3381,13 @@ class Component extends DCLogic {
       const ns = {};
       const m = data.meta || {};
       const put = (k, v) => { if (v !== undefined && v !== null) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} } };
-      put('zzz_char_order', m.charOrder); put('zzz_types', m.typesList); put('zzz_series', m.seriesList); put('zzz_channels', m.channels); put('zzz_form_order', m.formOrder); put('zzz_acquire_order', m.acquireOrder); put('zzz_reminder_types', m.reminderTypes); put('zzz_hidden_types', m.hiddenTypes); put('zzz_hidden_channels', m.hiddenChannels);
+      put('zzz_char_order', m.charOrder); put('zzz_types', m.typesList); put('zzz_series', m.seriesList); put('zzz_channels', m.channels); put('zzz_purchase_channels', m.purchaseChannels); put('zzz_form_order', m.formOrder); put('zzz_acquire_order', m.acquireOrder); put('zzz_reminder_types', m.reminderTypes); put('zzz_hidden_types', m.hiddenTypes); put('zzz_hidden_channels', m.hiddenChannels); put('zzz_hidden_purchase_channels', m.hiddenPurchaseChannels);
       this.ensureCharImg();
       if (m.charAssetMap) { this.charAssetMap = m.charAssetMap; }
       if (data.charAvatars) { this.charImgIds = this.charImgIds || {}; for (const name in data.charAvatars) { try { const blob = this.dataURLToBlob(data.charAvatars[name]); const id = 'img_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6); await this.idbPut(id, blob); this.charImgIds[name] = id; this.charImgMap[name] = URL.createObjectURL(blob); } catch (e) {} } }
       this.charImgMap = { ...this.CHAR_IMG, ...this.charAssetMap, ...this.charImgMap };
       this.persistCharMaps();
-      if (m.charOrder) ns.charOrder = m.charOrder; if (m.typesList) ns.typesList = m.typesList; if (m.seriesList) ns.seriesList = m.seriesList; if (m.channels) ns.channels = m.channels; if (m.formOrder) ns.formOrder = m.formOrder; if (m.acquireOrder) ns.acquireOrder = m.acquireOrder; if (m.reminderTypes) ns.reminderTypes = m.reminderTypes; if (m.hiddenTypes) ns.hiddenTypes = m.hiddenTypes; if (m.hiddenChannels) ns.hiddenChannels = m.hiddenChannels;
+      if (m.charOrder) ns.charOrder = m.charOrder; if (m.typesList) ns.typesList = m.typesList; if (m.seriesList) ns.seriesList = m.seriesList; if (m.channels) ns.channels = m.channels; if (m.purchaseChannels) ns.purchaseChannels = m.purchaseChannels; if (m.formOrder) ns.formOrder = m.formOrder; if (m.acquireOrder) ns.acquireOrder = m.acquireOrder; if (m.reminderTypes) ns.reminderTypes = m.reminderTypes; if (m.hiddenTypes) ns.hiddenTypes = m.hiddenTypes; if (m.hiddenChannels) ns.hiddenChannels = m.hiddenChannels; if (m.hiddenPurchaseChannels) ns.hiddenPurchaseChannels = m.hiddenPurchaseChannels;
       if (m.title) { put('zzz_title', m.title); ns.title = m.title; } if (m.subtitle !== undefined) { put('zzz_subtitle', m.subtitle); ns.subtitle = m.subtitle; } if (m.footer !== undefined) { put('zzz_footer', m.footer); ns.footer = m.footer; }
       if (data.logo) { try { const lb = this.dataURLToBlob(data.logo); await this.idbPut('zzz_logo', lb); this.logoUrl = URL.createObjectURL(lb); } catch (e) {} }
       // 作品 / 系列IP + 每作品的列表 + 设置
@@ -3315,9 +3399,10 @@ class Component extends DCLogic {
       if (m.currency !== undefined) { try { localStorage.setItem('zzz_currency', m.currency || ''); } catch (e) {} ns.currency = m.currency || ''; } if (m.nameStyleMode !== undefined) { try { localStorage.setItem('zzz_name_style', m.nameStyleMode || 'default'); } catch(e) {} ns.nameStyleMode = m.nameStyleMode || 'default'; } if (m.displayMode !== undefined) { try { localStorage.setItem('zzz_display_mode', m.displayMode || 'standard'); } catch(e) {} ns.displayMode = m.displayMode || 'standard'; }
       if (m.accent !== undefined) { try { localStorage.setItem('zzz_accent', m.accent || ''); } catch (e) {} ns.accent = m.accent || ''; }
       const wid = m.currentWorkId || this.state.currentWorkId;
-      const freshLists = this.loadWorkLists(wid, data.items || []); Object.assign(ns, freshLists); this.charOrder = freshLists.charOrder;
+      const importItems = data.items || [];
+      const freshLists = this.loadWorkLists(wid, importItems); Object.assign(ns, freshLists); this.charOrder = freshLists.charOrder;
       this.setState(ns);
-      this.commit(data.items || []);
+      this.commit(importItems);
     } catch (err) { alert('导入失败：文件格式不正确'); }
     e.target.value = '';
   };
@@ -3348,25 +3433,19 @@ class Component extends DCLogic {
     // 字段名称仍通过 flabel() 读取设置里的改名，保证显示名称同步。
     return [
       { key:'status', label:this.flabel('status'), type:'select' },
+      { key:'buyDate', label:'购买日期', type:'date' },
       { key:'character', label:this.flabel('character'), type:'select' },
       { key:'type', label:this.flabel('type'), type:'select' },
-      { key:'subtype', label:'细分 / 款式', type:'text' },
-      { key:'form', label:this.flabel('form'), type:'select' },
-      { key:'series', label:'系列', type:'select' },
+      { key:'buyPrice', label:'买入价', type:'number' },
       { key:'acquire', label:this.flabel('acquire'), type:'select' },
       { key:'method', label:this.flabel('method'), type:'select' },
       { key:'channel', label:this.flabel('channel'), type:'select' },
+      { key:'purchaseChannel', label:this.flabel('purchaseChannel'), type:'select' },
+      { key:'form', label:this.flabel('form'), type:'select' },
       { key:'setId', label:this.flabel('set'), type:'select' },
-      { key:'setVariant', label:'款式编号', type:'text' },
-      { key:'lifecycle', label:'分组', type:'select' },
-      { key:'qty', label:'数量', type:'number' },
-      { key:'buyPrice', label:'买入价', type:'number' },
-      { key:'sellPrice', label:'卖出价', type:'number' },
-      { key:'originalPrice', label:'原价', type:'number' },
       { key:'shipDom', label:'国内邮费', type:'number' },
       { key:'shipIntl', label:'国际邮费', type:'number' },
-      { key:'otherFee', label:'其他费用', type:'number' },
-      { key:'note', label:'备注', type:'text' }
+      ...((this.state.customFields || []).map(f => ({ key:'custom:'+f.key, label:f.label, type:'text', customKey:f.key })))
     ];
   }
   batchFieldDef(field){ return this.batchFieldDefs().find(f => f.key === field) || null; }
@@ -3374,9 +3453,9 @@ class Component extends DCLogic {
   batchSelectValues(field){
     const uniq = (arr) => [...new Set((arr || []).filter(v => v !== undefined && v !== null).map(v => String(v)).filter(v => v !== ''))];
     const currentWork = this.state.currentWorkId || this.MAIN_WORK;
-    const sourceList = uniq(this.SOURCES || []);
-    const methodList = uniq([].concat(...Object.values(this.SOURCE_METHODS || {})));
-    const platformList = uniq([].concat(...Object.values(this.SOURCE_PLATFORMS || {})));
+    const sourceList = uniq((this.state.acquireOrder && this.state.acquireOrder.length) ? this.state.acquireOrder : ['日谷','国谷','同人']);
+    const methodList = uniq([...(this.state.methodList || []), ...[].concat(...Object.values(this.SOURCE_METHODS || {}))]);
+    const platformList = uniq([].concat(...Object.values(this.SOURCE_PLATFORMS || {}), this.state.channels || []));
     const setIds = (this.state.sets || []).filter(st => currentWork === this.ALL_WORKS || (st.workId || this.MAIN_WORK) === currentWork).map(st => st.id);
     const m = {
       status: this.STATUSES,
@@ -3387,6 +3466,7 @@ class Component extends DCLogic {
       acquire: sourceList,
       method: methodList,
       channel: platformList,
+      purchaseChannel: this.state.purchaseChannels || this.CHANNELS,
       setId: setIds,
       lifecycle: ['已归家','空气谷','已出物'],
     };
@@ -3607,6 +3687,7 @@ class Component extends DCLogic {
     type:      { stateKey:'typesList',     ls:'zzz_types',           field:'type',         label:'种类' },
     series:    { stateKey:'seriesList',    ls:'zzz_series',          field:'series',       label:'系列' },
     channel:   { stateKey:'channels',      ls:'zzz_channels',        field:'channel',      label:'平台' },
+    purchaseChannel:{ stateKey:'purchaseChannels', ls:'zzz_purchase_channels', field:'purchaseChannel', label:'渠道' },
     form:      { stateKey:'formOrder',     ls:'zzz_form_order',      field:'form',         label:'形态' },
     acquire:   { stateKey:'acquireOrder',  ls:'zzz_acquire_order',   field:'acquire',      label:'来源' },
     method:    { stateKey:'methodList',     ls:'zzz_method',          field:'method',       label:'购买方式' },
@@ -3614,7 +3695,7 @@ class Component extends DCLogic {
     tradeTags: { stateKey:'tradeTags',     ls:'zzz_trade_tags',      field:'tags',         label:'交易标签', arr:true },
     rarityTags:{ stateKey:'rarityTags',    ls:'zzz_rarity_tags',     field:'rarity',       label:'稀有度标签', arr:true }
   }; }
-  openManage = (kind) => this.setState({ manageOpen: true, manageKind: kind, charMenuOpen:false, typeMenuOpen:false, seriesMenuOpen:false, channelMenuOpen:false, formMenuOpen:false, acquireMenuOpen:false, statusMenuOpen:false, reminderMenuOpen:false });
+  openManage = (kind) => this.setState({ manageOpen: true, manageKind: kind, charMenuOpen:false, typeMenuOpen:false, seriesMenuOpen:false, channelMenuOpen:false, purchaseChannelMenuOpen:false, formMenuOpen:false, acquireMenuOpen:false, statusMenuOpen:false, reminderMenuOpen:false });
   closeManage = () => this.setState({ manageOpen: false });
   cfKeyOf(kind){ return kind && kind.indexOf('custom:')===0 ? kind.slice(7) : ''; }
   manageListOf(kind) { if(this.cfKeyOf(kind)){ const k=this.cfKeyOf(kind); const f=(this.state.customFields||[]).find(x=>x.key===k); return ((f&&f.options)||[]).slice(); } const c=this.manageConfig()[kind]; if(!c) return []; if(kind==='character') return this.orderedChars(); if(kind==='tradeTags') return (this.state.tradeTags||this.TRADE_TAGS).slice(); if(kind==='rarityTags') return (this.state.rarityTags||this.RARITY_TAGS).slice(); return (this.state[c.stateKey]||[]).slice(); }
@@ -3629,16 +3710,16 @@ class Component extends DCLogic {
   mgTouchStart = (kind, i) => (e) => { this._mgKind = kind; this._mgDrag = i; };
   mgTouchMove = (e) => { if(this._mgDrag==null) return; if(e&&e.cancelable) e.preventDefault(); const t = e.touches && e.touches[0]; if(!t) return; const el = document.elementFromPoint(t.clientX, t.clientY); const row = el && el.closest ? el.closest('[data-mgrow]') : null; if(row){ const to = parseInt(row.getAttribute('data-mgrow')); if(!isNaN(to)) this._mgOver = to; } };
   mgTouchEnd = () => { if(this._mgDrag!=null && this._mgOver!=null && this._mgKind){ this.manageDragReorder(this._mgKind, this._mgDrag, this._mgOver); } this._mgDrag=null; this._mgOver=null; this._mgKind=null; };
-  manageRenameLabel = (kind) => { const key=({character:'character',type:'type',series:'series',channel:'channel',status:'status',form:'form',acquire:'acquire',method:'method',tradeTags:'tags',rarityTags:'rarity'})[kind]; if(!key) return; const cur=(this.state.fieldLabels||{})[key]||this.FIELD_DEFAULTS[key]||''; const nv=(window.prompt('把字段名「'+cur+'」改成：',cur)||'').trim(); if(!nv||nv===cur) return; const fl={...(this.state.fieldLabels||{}),[key]:nv}; try{localStorage.setItem('zzz_field_labels',JSON.stringify(fl));}catch(e){} this.setState({fieldLabels:fl}); };
+  manageRenameLabel = (kind) => { const key=({character:'character',type:'type',series:'series',channel:'channel',purchaseChannel:'purchaseChannel',status:'status',form:'form',acquire:'acquire',method:'method',tradeTags:'tags',rarityTags:'rarity'})[kind]; if(!key) return; const cur=(this.state.fieldLabels||{})[key]||this.FIELD_DEFAULTS[key]||''; const nv=(window.prompt('把字段名「'+cur+'」改成：',cur)||'').trim(); if(!nv||nv===cur) return; const fl={...(this.state.fieldLabels||{}),[key]:nv}; try{localStorage.setItem('zzz_field_labels',JSON.stringify(fl));}catch(e){} this.setState({fieldLabels:fl}); };
   menuRow(active) { return { display: 'flex', alignItems: 'center', gap: '6px', padding: '7px 9px', borderRadius: '8px', background: active ? 'color-mix(in srgb, var(--accent,#ff3355) 11%, transparent)' : 'transparent' }; }
-  closedDraftMenus(extra = {}) { return { methodMenuOpen:false, acquireMenuOpen:false, channelMenuOpen:false, seriesMenuOpen:false, typeMenuOpen:false, charMenuOpen:false, statusMenuOpen:false, formMenuOpen:false, reminderMenuOpen:false, setMenuOpen:false, setVariantMenuOpen:false, swapMenuOpen:false, swapCharMenuOpen:false, draftWorkMenuOpen:false, ...extra }; }
+  closedDraftMenus(extra = {}) { return { methodMenuOpen:false, acquireMenuOpen:false, channelMenuOpen:false, purchaseChannelMenuOpen:false, seriesMenuOpen:false, typeMenuOpen:false, charMenuOpen:false, statusMenuOpen:false, formMenuOpen:false, reminderMenuOpen:false, setMenuOpen:false, setVariantMenuOpen:false, swapMenuOpen:false, swapCharMenuOpen:false, draftWorkMenuOpen:false, ...extra }; }
   toggleDraftMenu(key) { this.setState(s => this.closedDraftMenus({ [key]: !s[key] })); }
   toggleTypeMenu = () => this.toggleDraftMenu('typeMenuOpen');
   toggleFormMenu = () => this.toggleDraftMenu('formMenuOpen');
   toggleStatusMenu = () => this.toggleDraftMenu('statusMenuOpen');
   toggleAcquireMenu = () => this.toggleDraftMenu('acquireMenuOpen');
   pickForm = (v) => this.setState(s => ({ draft: { ...s.draft, form: v }, formMenuOpen: false }));
-  statusDateLabel(v) { return v === '已下单' ? '下单日期' : v === '待补款' ? '补款截止日' : v === '已补款' ? '补款日期' : v === '待尾款' ? '尾款截止日' : v === '已尾款' ? '尾款日期' : v === '排发中' ? '预计排发日' : v === '已发货' ? '预计到货日' : (v === '已归家' || v === '已到货') ? '归家日期' : (v === '已出物' || v === '已出/已卖出') ? '出物日期' : '提醒日期'; }
+  statusDateLabel(v) { return v === '已下单' ? '下单日期' : v === '待补款' ? '补款截止日' : v === '已补款' ? '补款日期' : v === '待尾款' ? '尾款截止日' : v === '已尾款' ? '尾款日期' : v === '排发中' ? '预计排发日' : v === '已发货' ? '发货日' : (v === '已归家' || v === '已到货') ? '归家日期' : (v === '已出物' || v === '已出/已卖出') ? '出物日期' : '提醒日期'; }
   pickStatus = (v) => {
     this.setState(s => {
       const draft = { ...s.draft, status: v };
@@ -3679,7 +3760,7 @@ class Component extends DCLogic {
     if (!val || val === '全部') return;
     const nv = (window.prompt('重命名' + label + '「' + val + '」为（会同步修改所有使用该选项的谷子）：', val) || '').trim();
     if (!nv || nv === val) return;
-    const fallbackMap = { formOrder: this.FORMS, statusList: this.STATUSES, acquireOrder: ['官谷','同人谷','通贩','场贩','代购','拼团','单买','抱盒','盲抽','二手','煤炉','日拍','骏河屋','闲鱼','淘宝','其他'], reminderTypes: this.REMINDER_TYPES };
+    const fallbackMap = { formOrder: this.FORMS, statusList: this.STATUSES, acquireOrder: ['日谷','国谷','同人'], reminderTypes: this.REMINDER_TYPES };
     const base = (this.state[which] && this.state[which].length) ? this.state[which] : (fallbackMap[which] || []);
     const next = base.map(x => x === val ? nv : x);
     try { localStorage.setItem(this.wkey(lsKey), JSON.stringify(next)); } catch (e) {}
@@ -3707,6 +3788,12 @@ class Component extends DCLogic {
   addChannel = () => { const v = (window.prompt('新的平台或店铺名称') || '').trim(); if (!v) return; if (!this.state.channels.includes(v)) this.saveChannels([...this.state.channels, v]); this.setState(s => ({ draft: { ...s.draft, channel: v }, channelMenuOpen: false })); };
   renameChannelItem = (c, ev) => { ev.stopPropagation(); const nv = (window.prompt('重命名平台「' + c + '」为（会同步修改所有该平台的谷子）：', c) || '').trim(); if (!nv || nv === c) return; this.saveChannels(this.state.channels.map(x => x === c ? nv : x)); const items = this.state.items.map(x => (x.channel || '') === c ? { ...x, channel: nv } : x); this.commit(items); this.setState(s => ({ channelSel: (s.channelSel || []).map(x => x === c ? nv : x), draft: s.draft ? { ...s.draft, channel: s.draft.channel === c ? nv : s.draft.channel } : s.draft })); };
   delChannelItem = (c, ev) => { ev.stopPropagation(); this.saveChannels(this.state.channels.filter(x => x !== c)); };
+  togglePurchaseChannelMenu = () => this.toggleDraftMenu('purchaseChannelMenuOpen');
+  pickPurchaseChannel = (c) => this.setState(s => ({ draft: { ...s.draft, purchaseChannel: c }, purchaseChannelMenuOpen: false }));
+  clearPurchaseChannel = () => this.pickPurchaseChannel('');
+  addPurchaseChannel = () => { const v = (window.prompt('新的渠道名称') || '').trim(); if (!v) return; const cur = this.state.purchaseChannels || []; if (!cur.includes(v)) this.saveList('purchaseChannels', 'zzz_purchase_channels', [...cur, v]); this.setState(s => ({ draft: { ...s.draft, purchaseChannel: v }, purchaseChannelMenuOpen: false })); };
+  renamePurchaseChannelItem = (c, ev) => { ev && ev.stopPropagation && ev.stopPropagation(); const nv = (window.prompt('重命名渠道「' + c + '」为（会同步修改所有该渠道的谷子）：', c) || '').trim(); if (!nv || nv === c) return; this.saveList('purchaseChannels', 'zzz_purchase_channels', (this.state.purchaseChannels || []).map(x => x === c ? nv : x)); const items = (this.state.items || []).map(x => (x.purchaseChannel || '') === c ? { ...x, purchaseChannel: nv } : x); this.commit(items); this.setState(s => ({ purchaseChannelSel: (s.purchaseChannelSel || []).map(x => x === c ? nv : x), draft: s.draft ? { ...s.draft, purchaseChannel: s.draft.purchaseChannel === c ? nv : s.draft.purchaseChannel } : s.draft })); };
+  delPurchaseChannelItem = (c, ev) => { ev && ev.stopPropagation && ev.stopPropagation(); this.saveList('purchaseChannels', 'zzz_purchase_channels', (this.state.purchaseChannels || []).filter(x => x !== c)); };
   toggleReminderMenu = () => this.toggleDraftMenu('reminderMenuOpen');
   pickReminderType = (c) => this.setState(s => ({ draft: { ...s.draft, reminderType: c }, reminderMenuOpen: false }));
   addReminderType = () => { const v = (window.prompt('新的提醒事件名称') || '').trim(); if (!v) return; const cur = this.state.reminderTypes || []; if (!cur.includes(v)) this.saveList('reminderTypes', 'zzz_reminder_types', [...cur, v]); this.setState(s => ({ draft: { ...s.draft, reminderType: v }, reminderMenuOpen: false })); };
@@ -3739,41 +3826,7 @@ class Component extends DCLogic {
     }
     return Math.round((d - today) / 86400000);
   }
-  reminderInfo(it) {
-    const doneWords = ['已补款','已付尾款','已排发','已完成','已到货','已出/已卖出'];
-    const isDone = doneWords.some(w => String((it && it.status) || '').includes(w));
-    const candidates = [];
-    const statusLabelMap = { '待补款': '补款截止', '已补款': '尾款截止', '待尾款': '尾款截止', '已尾款': '预计排发', '排发中': '预计排发', '已发货': '预计到货', '在途/运输中': '预计到货', '已下单未发货': '预计发货' };
-    const type = (it && it.reminderType) || statusLabelMap[(it && it.status) || ''] || '';
-    const dateStr = (it && it.reminderDate) || '';
-    const days = this.dateDiffDays(dateStr, false);
-    if (!isDone && type && dateStr && days != null) {
-      const urgent = days <= 3;
-      let text = type + ' ';
-      if (days < 0) text += '已逾期 ' + Math.abs(days) + ' 天';
-      else if (days === 0) text += '今天截止';
-      else text += '还有 ' + days + ' 天';
-      let badgeText = type + ' ';
-      if (days < 0) badgeText += '逾期' + Math.abs(days) + '天';
-      else if (days === 0) badgeText += '今天';
-      else badgeText += days + '天';
-      candidates.push({ active: urgent, pending: true, days, text, badgeText, type, date: dateStr, overdue: days < 0, score: days });
-    }
-    const bd = (it && it.buyDate) || '';
-    const adays = this.dateDiffDays(bd, true);
-    if (bd && adays != null) {
-      const yearNow = new Date().getFullYear();
-      const buyYear = new Date(bd + 'T00:00:00').getFullYear();
-      const years = Math.max(1, yearNow - buyYear + (adays === 0 ? 0 : 0));
-      const label = '收谷周年';
-      const text = adays === 0 ? (label + ' 今天') : (label + ' 还有 ' + adays + ' 天');
-      const badgeText = adays === 0 ? '周年今天' : ('周年' + adays + '天');
-      candidates.push({ active: adays <= 3 && yearNow > buyYear, pending: adays <= 3 && yearNow > buyYear, days: adays, text, badgeText, type: label, date: bd, yearly: true, overdue: false, score: adays + 0.2 });
-    }
-    if (!candidates.length) return { active: false };
-    candidates.sort((a, b) => a.score - b.score);
-    return candidates[0];
-  }
+  reminderInfo(it) { const status = String((it && it.status) || ''); const dateStr = (it && it.reminderDate) || ''; const days = this.dateDiffDays(dateStr, false); const statusLabelMap = { '已下单': '已下单', '已下单未发货': '已下单', '待补款': '补款截止', '已补款': '补款完成', '待尾款': '尾款截止', '已尾款': '尾款完成', '排发中': '排发中', '已发货': '已发货', '在途/运输中': '已发货', '已归家': '已归家', '已到货': '已归家', '已出物': '已出物', '出售中': '已出物', '已出/已卖出': '已出物' }; const type = (it && it.reminderType) || statusLabelMap[status] || ''; if (!type || !dateStr || days == null) return null; const urgentTypes = [...((this.state.reminderTypes && this.state.reminderTypes.length) ? this.state.reminderTypes : this.REMINDER_TYPES), '补款截止', '尾款截止']; const isDeadline = urgentTypes.includes(type); let text = ''; let badgeText = ''; let urgent = false; let overdue = false; let score = days; if (isDeadline) { urgent = days <= 3; overdue = days < 0; if (days < 0) { text = type + ' 已逾期 ' + Math.abs(days) + ' 天'; badgeText = '逾期' + Math.abs(days) + '天'; } else if (days === 0) { text = type + ' 今天截止'; badgeText = '今天截止'; } else { text = type + ' 还有 ' + days + ' 天'; badgeText = days + '天'; } } else { const passed = Math.abs(days); text = type + ' ' + passed + ' 天'; badgeText = type + ' ' + passed + '天'; score = 9999 + passed; } return { active: urgent, pending: isDeadline, days, text, badgeText, type, date: dateStr, overdue, score }; }
   monthKey(d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0'); }
   todayStr() { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
   monthLabel(d) { return (d.getMonth() + 1) + '月'; }
@@ -3979,7 +4032,7 @@ class Component extends DCLogic {
       return topMoney(map);
     }
     if (metric === 'reminder') {
-      const rows = ledgerItems.map(it => ({ it, rem:this.reminderInfo(it) })).filter(x => x.rem.pending).sort((a,b) => a.rem.days - b.rem.days).slice(0,3).map(x => ({ name:x.it.name || this.genName(x.it) || '未命名', value:x.rem.badgeText || x.rem.text }));
+      const rows = ledgerItems.map(it => ({ it, rem:(this.reminderInfo(it) || {}) })).filter(x => x.rem.pending).sort((a,b) => a.rem.days - b.rem.days).slice(0,3).map(x => ({ name:x.it.name || this.genName(x.it) || '未命名', value:x.rem.badgeText || x.rem.text }));
       return fillRows(rows);
     }
     if (metric === 'salePrice') return fillRows([...saleItems].map(it => { const e=this.enrich(it); return { name: it.name || this.genName(it) || '未命名', valueNum:e.sell, qty:e.qty }; }).filter(r=>r.valueNum>0).sort((a,b)=>b.valueNum-a.valueNum).slice(0,3).map(r=>({ name:r.qty>1? r.name+' ×'+r.qty : r.name, value:cur+this.fmt(r.valueNum)+'/个' })));
@@ -4027,7 +4080,7 @@ class Component extends DCLogic {
     const cur = this.cur();
     const fieldVisible = (k) => this.isFieldVisible(k);
     const view = this.state.view || this.props.startView || 'gallery';
-    const { group, groupBy, search, charSel, typeSel, seriesFilter, formSel, statusSel, acquireSel, channelSel } = this.state;
+    const { group, groupBy, search, charSel, typeSel, seriesFilter, formSel, statusSel, acquireSel, channelSel, purchaseChannelSel } = this.state;
     const allItems = this.state.items;
     const workListForFilter = this.state.works || [];
     const curWorkForFilter = workListForFilter.find(w => w.id === this.state.currentWorkId) || workListForFilter[0] || { id: this.MAIN_WORK, group: this.DEFAULT_GROUP, name: '' };
@@ -4071,9 +4124,9 @@ class Component extends DCLogic {
     const typeChips = typeList.map(t => ({ label: t, ...this.chipDrag(t, 'type'), onDblClick: t === '全部' ? null : (ev) => this.renameTypeItem(t, ev), style: this.chipStyle(t === '全部' ? typeSel.length === 0 : typeSel.includes(t)), onClick: this.chipClick(() => this.toggleSel('typeSel', t === '全部' ? '__all__' : t)) }));
     const statsOn = this.state.statsOn || {};
     const statEnabled = (k) => statsOn[k] !== false;
-    const _seriesLabel = (this.state.fieldLabels || {}).series || '厂商';
+    const _seriesLabel = this.flabel('series');
     const _setLabel = (this.state.fieldLabels || {}).set || '系列收藏';
-    const groupBaseOptions = [{ k: 'none', l: '不分组', always: true }, { k: 'workGroup', l: '按系列IP', always: true }, { k: 'work', l: '按作品', always: true }, { k: 'set', l: '按' + _setLabel }, { k: 'character', l: '按角色' }, { k: 'type', l: '按种类' }, { k: 'series', l: '按' + _seriesLabel }, { k: 'form', l: '按形态' }, { k: 'status', l: '按状态' }, { k: 'acquire', l: '按来源' }, { k: 'channel', l: '按平台' }].filter(o => o.always || (o.k === 'set' ? statEnabled('set') : (fieldVisible(o.k) && statEnabled(o.k)))); 
+    const groupBaseOptions = [{ k: 'none', l: '不分组', always: true }, { k: 'workGroup', l: '按系列IP', always: true }, { k: 'work', l: '按作品', always: true }, { k: 'set', l: '按' + _setLabel }, { k: 'character', l: '按角色' }, { k: 'type', l: '按种类' }, { k: 'series', l: '按' + _seriesLabel }, { k: 'form', l: '按形态' }, { k: 'status', l: '按状态' }, { k: 'acquire', l: '按来源' }, { k: 'channel', l: '按平台' }, { k: 'purchaseChannel', l: '按渠道' }].filter(o => o.always || (o.k === 'set' ? statEnabled('set') : (fieldVisible(o.k) && statEnabled(o.k)))); 
     const customGroupOptions = (this.state.customFields || []).filter(f => statEnabled(f.key)).map(f => ({ k: 'custom:' + f.key, l: '按' + f.label }));
     let groupBySafe = groupBy;
     const availableGroupKeys = new Set([...groupBaseOptions, ...customGroupOptions].map(o => o.k));
@@ -4089,13 +4142,18 @@ class Component extends DCLogic {
     const statusBase = (this.state.statusList && this.state.statusList.length) ? this.state.statusList : this.STATUSES;
     const statusChips = ['全部', ...statusBase].map(x => ({ label: x, ...this.chipDrag(x, 'status'), onDblClick: x === '全部' ? null : (ev) => this.renameListOption('statusList', 'zzz_status', 'status', x, '状态', ev), style: this.chipStyle(x === '全部' ? statusSel.length === 0 : statusSel.includes(x)), onClick: this.chipClick(() => this.toggleSel('statusSel', x === '全部' ? '__all__' : x)) }));
     const showStatusFilter = fieldVisible('status') && !!this.state.filterOn.status;
-    const acquireBase = (this.state.acquireOrder && this.state.acquireOrder.length) ? this.state.acquireOrder : [...this.SOURCES];
+    const acquireBase = (this.state.acquireOrder && this.state.acquireOrder.length) ? this.state.acquireOrder : ['日谷','国谷','同人'];
     const acquireChips = ['全部', ...acquireBase].map(x => ({ label: x, ...this.chipDrag(x, 'acquire'), onDblClick: x === '全部' ? null : (ev) => this.renameListOption('acquireOrder', 'zzz_acquire_order', 'acquire', x, '来源方式', ev), style: this.chipStyle(x === '全部' ? acquireSel.length === 0 : acquireSel.includes(x)), onClick: this.chipClick(() => this.toggleSel('acquireSel', x === '全部' ? '__all__' : x)) }));
     const presentChannels = [...new Set(items.map(i => i.channel).filter(Boolean))];
     const chBase = (this.state.channels && this.state.channels.length) ? this.state.channels : presentChannels;
     const chOrdered = [...chBase.filter(x => presentChannels.includes(x)), ...presentChannels.filter(x => !chBase.includes(x))];
     const channelChips = ['全部', ...chOrdered].map(x => ({ label: x, ...this.chipDrag(x, 'channel'), onDblClick: x === '全部' ? null : (ev) => this.renameChannelItem(x, ev), style: this.chipStyle(x === '全部' ? channelSel.length === 0 : channelSel.includes(x)), onClick: this.chipClick(() => this.toggleSel('channelSel', x === '全部' ? '__all__' : x)) }));
     const showChannelFilter = fieldVisible('channel');
+    const presentPurchaseChannels = [...new Set(items.map(i => i.purchaseChannel).filter(Boolean))];
+    const pcBase = (this.state.purchaseChannels && this.state.purchaseChannels.length) ? this.state.purchaseChannels : this.CHANNELS;
+    const pcOrdered = [...pcBase.filter(x => presentPurchaseChannels.includes(x)), ...presentPurchaseChannels.filter(x => !pcBase.includes(x))];
+    const purchaseChannelChips = ['全部', ...pcOrdered].map(x => ({ label: x, ...this.chipDrag(x, 'purchaseChannel'), onDblClick: x === '全部' ? null : (ev) => this.renamePurchaseChannelItem(x, ev), style: this.chipStyle(x === '全部' ? (purchaseChannelSel || []).length === 0 : (purchaseChannelSel || []).includes(x)), onClick: this.chipClick(() => this.toggleSel('purchaseChannelSel', x === '全部' ? '__all__' : x)) }));
+    const showPurchaseChannelFilter = fieldVisible('purchaseChannel');
     const tagPresent = [...new Set(items.flatMap(i => i.tags || []))];
     const rarityPresent = [...new Set(items.flatMap(i => i.rarity || []))];
     const tagOrdered = [...this.TRADE_TAGS.filter(t => tagPresent.includes(t)), ...tagPresent.filter(t => !this.TRADE_TAGS.includes(t))];
@@ -4129,7 +4187,7 @@ class Component extends DCLogic {
     const _mk = this.state.manageKind || '';
     const _mc = this.manageConfig()[_mk] || (this.cfKeyOf(_mk) ? { label: ((this.state.customFields||[]).find(f=>f.key===this.cfKeyOf(_mk))||{}).label || '字段', field: 'custom', custom: true } : null);
     const _mLabelCustom = this.cfKeyOf(_mk) ? (((this.state.customFields||[]).find(f=>f.key===this.cfKeyOf(_mk))||{}).label || '字段') : '';
-    const _lblKey = ({character:'character',type:'type',series:'series',channel:'channel',status:'status',form:'form',acquire:'acquire',method:'method',tradeTags:'tags',rarityTags:'rarity'})[_mk];
+    const _lblKey = ({character:'character',type:'type',series:'series',channel:'channel',purchaseChannel:'purchaseChannel',status:'status',form:'form',acquire:'acquire',method:'method',tradeTags:'tags',rarityTags:'rarity'})[_mk];
     const _mLabel = _lblKey ? ((this.state.fieldLabels||{})[_lblKey] || this.FIELD_DEFAULTS[_lblKey] || (_mc&&_mc.label)) : (_mc?_mc.label:'');
     const manageTitle = _mc ? ('管理 · ' + _mLabel) : '资料管理';
     const _cfk = this.cfKeyOf(_mk);
@@ -4162,20 +4220,24 @@ class Component extends DCLogic {
     const arrivedState = dStatus === '已归家' || dStatus === '已到货';
     const soldState = dStatus === '已出物' || dStatus === '出售中' || dStatus === '已出/已卖出';
     const showReminderFields = !!dStatus && !arrivedState && !soldState;
-    const reminderDateLabel = dStatus === '已下单' ? '下单日期' : dStatus === '待补款' ? '补款截止日' : dStatus === '已补款' ? '补款日期' : dStatus === '待尾款' ? '尾款截止日' : dStatus === '已尾款' ? '尾款日期' : dStatus === '排发中' ? '预计排发日' : dStatus === '已发货' ? '预计到货日' : dStatus === '已归家' || dStatus === '已到货' ? '归家日期' : dStatus === '已出物' || dStatus === '已出/已卖出' ? '出物日期' : '提醒日期';
+    const reminderDateLabel = dStatus === '已下单' ? '下单日期' : dStatus === '待补款' ? '补款截止日' : dStatus === '已补款' ? '补款日期' : dStatus === '待尾款' ? '尾款截止日' : dStatus === '已尾款' ? '尾款日期' : dStatus === '排发中' ? '预计排发日' : dStatus === '已发货' ? '发货日' : dStatus === '已归家' || dStatus === '已到货' ? '归家日期' : dStatus === '已出物' || dStatus === '已出/已卖出' ? '出物日期' : '提醒日期';
     const dAcquire = this.state.draft ? (this.state.draft.acquire || '') : '';
-    const acquireMenuItems = ((this.state.acquireOrder && this.state.acquireOrder.length) ? this.state.acquireOrder : [...this.SOURCES]).map(c => ({ name: c, onPick: () => this.pickAcquire(c), onRename: (ev) => this.renameListOption('acquireOrder', 'zzz_acquire_order', 'acquire', c, '来源方式', ev), onDel: (ev) => this.delListOption('acquireOrder', 'zzz_acquire_order', 'acquire', c, ev), rowStyle: this.menuRow(dAcquire === c) }));
+    const acquireMenuItems = ((this.state.acquireOrder && this.state.acquireOrder.length) ? this.state.acquireOrder : ['日谷','国谷','同人']).map(c => ({ name: c, onPick: () => this.pickAcquire(c), onRename: (ev) => this.renameListOption('acquireOrder', 'zzz_acquire_order', 'acquire', c, '来源方式', ev), onDel: (ev) => this.delListOption('acquireOrder', 'zzz_acquire_order', 'acquire', c, ev), rowStyle: this.menuRow(dAcquire === c) }));
     const acquireDisplay = dAcquire || '选择来源方式';
-    // 来源驱动：购买方式候选（不清空已选，只调整候选顺序）
+    // 来源驱动：购买方式候选（推荐项固定置顶，其余按你自己维护的列表顺序排在后面）
     const dSource = dAcquire;
     const dMethod = this.state.draft ? (this.state.draft.method || '') : '';
     const _methodPreset = this.SOURCE_METHODS[dSource] || [];
     const _methodStored = this.state.methodList || [];
-    const _methodAll = _methodPreset.length ? [...new Set([..._methodPreset, ...(dMethod ? [dMethod] : [])])] : [...new Set([..._methodStored, ...(dMethod ? [dMethod] : [])])];
-    if (!_methodAll.length) ['通贩','场贩','代购','拼团','抱盒','单买','盲抽','二手'].forEach(x => _methodAll.push(x));
-    if (dMethod && !_methodAll.includes(dMethod)) _methodAll.push(dMethod);
-    const _methodFlat = _methodAll.filter(x => x !== '盲抽');
-    const menuItems = _methodFlat.map(c => ({ name: c, isDivider: false, notDivider: true, isSub: false, onPick: () => this.pickMethod(c), rowStyle: this.menuRow(dMethod === c) }));
+    const _methodRest = _methodStored.filter(x => !_methodPreset.includes(x));
+    if (dMethod && !_methodPreset.includes(dMethod) && !_methodRest.includes(dMethod)) _methodRest.push(dMethod);
+    let _methodPresetFlat = _methodPreset.filter(x => x !== '盲抽');
+    let _methodRestFlat = _methodRest.filter(x => x !== '盲抽');
+    if (!_methodPresetFlat.length && !_methodRestFlat.length) _methodRestFlat = ['通贩','场贩','代购','拼团','抱盒','单买','二手'];
+    const menuItems = [];
+    _methodPresetFlat.forEach(c => menuItems.push({ name: c, isDivider: false, notDivider: true, isSub: false, onPick: () => this.pickMethod(c), rowStyle: this.menuRow(dMethod === c) }));
+    if (_methodPresetFlat.length && _methodRestFlat.length) menuItems.push({ name: '', isDivider: true, notDivider: false, isSub: false, onPick: () => {}, rowStyle: {} });
+    _methodRestFlat.forEach(c => menuItems.push({ name: c, isDivider: false, notDivider: true, isSub: false, onPick: () => this.pickMethod(c), rowStyle: this.menuRow(dMethod === c) }));
     menuItems.push({ name: '', isDivider: true, notDivider: false, isSub: false, onPick: () => {}, rowStyle: {} });
     const _gr = this.state.draft ? (this.state.draft.gachaResult || '自抽') : '自抽';
     menuItems.push({ name: '盲抽', isDivider: false, notDivider: true, isSub: false, onPick: () => this.pickMethod('盲抽'), rowStyle: this.menuRow(dMethod === '盲抽' && !_gr) });
@@ -4202,6 +4264,7 @@ class Component extends DCLogic {
     const hasSeriesMenuItems = (this.state.seriesList || []).length > 0;
 
     const dChannel = this.state.draft ? (this.state.draft.channel || '') : '';
+    const dPurchaseChannel = this.state.draft ? (this.state.draft.purchaseChannel || '') : '';
     const dReminder = this.state.draft ? (this.state.draft.reminderType || '') : '';
     const reminderMenuItems = ((this.state.reminderTypes && this.state.reminderTypes.length ? this.state.reminderTypes : this.REMINDER_TYPES) || []).map(c => ({ name: c, onPick: () => this.pickReminderType(c), onDel: (ev) => this.delReminderItem(c, ev), rowStyle: this.menuRow(dReminder === c) }));
     const reminderDisplay = dReminder || '不提醒';
@@ -4209,32 +4272,43 @@ class Component extends DCLogic {
     const _platPreset = (this.SOURCE_PLATFORMS[dSource] || []).filter(x => !hiddenChannels.includes(x));
     const _storedCh = (this.state.channels || []).filter(x => !hiddenChannels.includes(x));
     const _dChannelCur = this.state.draft ? (this.state.draft.channel || '') : '';
-    const _chOrder = _platPreset.length ? [...new Set([..._platPreset, ...(_dChannelCur ? [_dChannelCur] : [])])] : [...new Set([..._storedCh, ...(_dChannelCur ? [_dChannelCur] : [])])];
-    const channelMenuItems = _chOrder.map(c => ({ name: c, active: dChannel === c, onPick: () => this.pickChannel(c), onRename: (ev) => this.renameChannelItem(c, ev), onDel: (ev) => this.delChannelItem(c, ev), rowStyle: { display: 'flex', alignItems: 'center', gap: '6px', padding: '7px 9px', borderRadius: '8px', background: dChannel === c ? 'color-mix(in srgb, var(--accent,#ff3355) 11%, transparent)' : 'transparent' } }));
+    const _chRest = _storedCh.filter(x => !_platPreset.includes(x));
+    if (_dChannelCur && !_platPreset.includes(_dChannelCur) && !_chRest.includes(_dChannelCur)) _chRest.push(_dChannelCur);
+    const _chRowStyle = (c) => ({ display: 'flex', alignItems: 'center', gap: '6px', padding: '7px 9px', borderRadius: '8px', background: dChannel === c ? 'color-mix(in srgb, var(--accent,#ff3355) 11%, transparent)' : 'transparent' });
+    const channelMenuItems = [
+      ..._platPreset.map(c => ({ name: c, active: dChannel === c, isDivider: false, notDivider: true, onPick: () => this.pickChannel(c), onRename: (ev) => this.renameChannelItem(c, ev), onDel: (ev) => this.delChannelItem(c, ev), rowStyle: _chRowStyle(c) })),
+      ...(_platPreset.length && _chRest.length ? [{ name: '', isDivider: true, notDivider: false, onPick: () => {}, onRename: () => {}, onDel: () => {}, rowStyle: {} }] : []),
+      ..._chRest.map(c => ({ name: c, active: dChannel === c, isDivider: false, notDivider: true, onPick: () => this.pickChannel(c), onRename: (ev) => this.renameChannelItem(c, ev), onDel: (ev) => this.delChannelItem(c, ev), rowStyle: _chRowStyle(c) }))
+    ];
+    const hiddenPurchaseChannels = this.state.hiddenPurchaseChannels || [];
+    const _pcStored = ((this.state.purchaseChannels && this.state.purchaseChannels.length) ? this.state.purchaseChannels : this.CHANNELS).filter(x => !hiddenPurchaseChannels.includes(x));
+    const _pcOrder = [...new Set([..._pcStored, ...(dPurchaseChannel ? [dPurchaseChannel] : [])])];
+    const purchaseChannelMenuItems = _pcOrder.map(c => ({ name: c, active: dPurchaseChannel === c, onPick: () => this.pickPurchaseChannel(c), onRename: (ev) => this.renamePurchaseChannelItem(c, ev), onDel: (ev) => this.delPurchaseChannelItem(c, ev), rowStyle: this.menuRow(dPurchaseChannel === c) }));
     // rows
     const s = (search || '').toLowerCase();
-    const matchSearch = it => !s || [it.name, it.note, it.channel, it.subtype, it.character, it.type, it.series, (workOfItem(it).group || ''), (workOfItem(it).name || '')].some(x => (x || '').toLowerCase().includes(s));
+    const matchSearch = it => !s || [it.name, it.note, it.channel, it.purchaseChannel, it.subtype, it.character, it.type, it.series, (workOfItem(it).group || ''), (workOfItem(it).name || '')].some(x => (x || '').toLowerCase().includes(s));
     const matchForm = it => !fieldVisible('form') || formSel.length === 0 || formSel.includes(it.form || '通用');
     const matchStatus = it => !fieldVisible('status') || statusSel.length === 0 || statusSel.includes(it.status || '已收藏');
     const matchAcquire = it => !fieldVisible('acquire') || acquireSel.length === 0 || acquireSel.includes(it.acquire || '直购');
     const matchChannel = it => !fieldVisible('channel') || channelSel.length === 0 || channelSel.includes(it.channel || '');
+    const matchPurchaseChannel = it => !fieldVisible('purchaseChannel') || (purchaseChannelSel || []).length === 0 || (purchaseChannelSel || []).includes(it.purchaseChannel || '');
     const matchCustomFilters = it => Object.entries(this.state.customFilterSel || {}).every(([k, arr]) => !arr || !arr.length || arr.includes((it.custom && it.custom[k]) || ''));
     const tagSel = this.state.tagSel || [], raritySel = this.state.raritySel || [];
     const matchTags = it => (tagSel.length === 0 || tagSel.every(t => (it.tags || []).includes(t))) && (raritySel.length === 0 || raritySel.every(t => (it.rarity || []).includes(t)));
-    const filteredBase = baseList.filter(it => (!fieldVisible('character') || charSel.length === 0 || charSel.includes(it.character)) && (!fieldVisible('type') || typeSel.length === 0 || typeSel.includes(it.type)) && (!fieldVisible('series') || seriesFilter === '全部' || (it.series || '') === seriesFilter) && matchForm(it) && matchStatus(it) && matchAcquire(it) && matchChannel(it) && matchCustomFilters(it) && matchTags(it) && matchSearch(it));
+    const filteredBase = baseList.filter(it => (!fieldVisible('character') || charSel.length === 0 || charSel.includes(it.character)) && (!fieldVisible('type') || typeSel.length === 0 || typeSel.includes(it.type)) && (!fieldVisible('series') || seriesFilter === '全部' || (it.series || '') === seriesFilter) && matchForm(it) && matchStatus(it) && matchAcquire(it) && matchChannel(it) && matchPurchaseChannel(it) && matchCustomFilters(it) && matchTags(it) && matchSearch(it));
     const sortKey = this.state.tableSortKey || '';
     const sortDir = this.state.tableSortDir === 'asc' ? 1 : -1;
     const sortText = v => String(v || '').trim();
     const sortNum = v => { const n = Number(v); return Number.isFinite(n) ? n : 0; };
     const sortDateNum = v => { const t = v ? new Date(v + 'T00:00:00').getTime() : 0; return Number.isFinite(t) ? t : 0; };
-    const sortValue = (it, key) => { const e = this.enrich(it); const typeFull = (it.type || '') + (it.subtype ? ' · ' + it.subtype : ''); const ship = e.sd + e.si; const map = { name: sortText(it.name), character: sortText(it.character), type: sortText(typeFull), group: sortText(this.groupOf(it)), status: sortText(it.status), qty: sortNum(e.qty), original: sortNum(it.originalPrice), buy: sortNum(e.buy), ship: sortNum(ship), sell: sortNum(e.sell), profit: sortNum(e.profit), channel: sortText(it.channel), date: sortDateNum(it.buyDate) }; return map[key]; };
+    const sortValue = (it, key) => { const e = this.enrich(it); const typeFull = (it.type || '') + (it.subtype ? ' · ' + it.subtype : ''); const ship = e.sd + e.si; const map = { name: sortText(it.name), character: sortText(it.character), type: sortText(typeFull), group: sortText(this.groupOf(it)), status: sortText(it.status), qty: sortNum(e.qty), original: sortNum(it.originalPrice), buy: sortNum(e.buy), ship: sortNum(ship), sell: sortNum(e.sell), profit: sortNum(e.profit), channel: sortText(it.channel), purchaseChannel: sortText(it.purchaseChannel), date: sortDateNum(it.buyDate) }; return map[key]; };
     const filtered = [...filteredBase].sort((a, b) => {
       if (view === 'table' && sortKey) {
         const av = sortValue(a, sortKey), bv = sortValue(b, sortKey);
         if (typeof av === 'string' || typeof bv === 'string') return sortText(av).localeCompare(sortText(bv), 'zh-Hans') * sortDir;
         return (av - bv) * sortDir;
       }
-      const ra = this.reminderInfo(a), rb = this.reminderInfo(b); if (!!ra.active !== !!rb.active) return ra.active ? -1 : 1; if (ra.active && rb.active) return ra.days - rb.days; return 0;
+      const ra = this.reminderInfo(a) || {}, rb = this.reminderInfo(b) || {}; if (!!ra.active !== !!rb.active) return ra.active ? -1 : 1; if (ra.active && rb.active) return ra.days - rb.days; return 0;
     });
     const sortMark = k => this.state.tableSortKey === k ? (this.state.tableSortDir === 'asc' ? '↑' : '↓') : '↕';
     let fQty = 0, fCost = 0, fSell = 0, fProfit = 0, fSold = false;
@@ -4267,7 +4341,7 @@ class Component extends DCLogic {
     const currentWorkGroupName = curWorkForFilter.group || this.DEFAULT_GROUP;
     const currentWorkNameText = curWorkForFilter.name || '当前作品';
     const ledgerWorkScope = groupBy === 'workGroup' ? '全部系列IP' : groupBy === 'work' ? ('当前系列IP：' + currentWorkGroupName) : ('当前作品：' + currentWorkNameText);
-    const hasActiveFilter = !!(charSel.length || typeSel.length || formSel.length || statusSel.length || acquireSel.length || channelSel.length || seriesFilter !== '全部' || search || Object.values(this.state.customFilterSel || {}).some(arr => arr && arr.length));
+    const hasActiveFilter = !!(charSel.length || typeSel.length || formSel.length || statusSel.length || acquireSel.length || channelSel.length || (purchaseChannelSel || []).length || seriesFilter !== '全部' || search || Object.values(this.state.customFilterSel || {}).some(arr => arr && arr.length));
     const ledgerScopeText = ledgerWorkScope + ' · ' + (hasActiveFilter ? '当前筛选 ' : '当前范围 ') + filtered.length + ' 项 · ' + fQty + ' 件';
     const nowForLedger = new Date();
     const monthValues = this.makeConsumptionSeries(ledgerItems, ledgerRangeInfo, cur);
@@ -4383,7 +4457,7 @@ class Component extends DCLogic {
     const ledgerRankTitle2 = ledgerRankCards[1] ? ledgerRankCards[1].title : '';
     const ledgerRankTitle3 = ledgerRankCards[2] ? ledgerRankCards[2].title : '';
     const ledgerRankTitle4 = ledgerRankCards[3] ? ledgerRankCards[3].title : '';
-    const reminderItemsRaw = ledgerItems.map(it => ({ it, rem: this.reminderInfo(it) })).filter(x => x.rem.pending).sort((a,b) => a.rem.days - b.rem.days);
+    const reminderItemsRaw = ledgerItems.map(it => ({ it, rem: (this.reminderInfo(it) || {}) })).filter(x => x.rem.pending).sort((a,b) => a.rem.days - b.rem.days);
     const seenReminderKeys = new Set();
     const reminderItems = reminderItemsRaw.filter(x => { const key = [x.it.id || (x.it.name || this.genName(x.it) || '未命名'), x.rem.type || '', x.rem.date || ''].join('|'); if (seenReminderKeys.has(key)) return false; seenReminderKeys.add(key); return true; });
     const upcomingReminders = reminderItems.filter(x => x.rem.active).slice(0,5).map(x => ({ name: x.it.name || this.genName(x.it) || '未命名', text: x.rem.text, tag: x.rem.type || '提醒', days: x.rem.days }));
@@ -4430,7 +4504,7 @@ class Component extends DCLogic {
     const itemRows = filtered.map(it => {
       const e = this.enrich(it);
       const g = this.groupOf(it);
-      const rem = this.reminderInfo(it);
+      const rem = this.reminderInfo(it) || {};
       const imgUrl = it.imageId ? this.imgUrls[it.imageId] : null;
       const isSwapped = it.method === '盲抽' && (it.gachaResult === '置换' || it.gachaResult === '收现' || it.gachaResult === '置换/收现');
       const dispChar = (it.character || '其他');
@@ -4459,7 +4533,7 @@ class Component extends DCLogic {
         circleImgStyle: { position: 'relative', width: '84px', height: '84px', borderRadius: '50%', overflow: 'hidden', background: 'linear-gradient(145deg,#eae5f4,#e1dcf0)', border: isSelected ? '3px solid var(--accent,#ff3355)' : (rem.active ? '3px solid #e23b5d' : '2px solid #ffffff'), boxShadow: isSelected ? `0 0 0 5px ${this.accentAlpha(0.18)}, 0 10px 24px rgba(50,38,90,.18)` : (rem.active ? '0 0 0 3px rgba(226,59,93,.12), 0 8px 18px rgba(226,59,93,.28)' : '0 3px 10px rgba(50,38,90,.14)') },
         circleReminderStyle: { position: 'absolute', top: '2px', right: '2px', minWidth: '20px', height: '20px', padding: '0 5px', borderRadius: '999px', background: '#e23b5d', color: '#fff', fontSize: '10px', fontWeight: 900, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid #fff', boxShadow: '0 3px 9px rgba(226,59,93,.35)' },
         hasReminderAlert: !!rem.active, reminderText: rem.text || '', reminderBadgeText: rem.badgeText || rem.text || '', reminderShort: rem.type || '!',
-        id: it.id, name: displayName, cardMeta: (() => { const co = this.state.cardOn || {}; const parts = []; if (co.character && it.character) parts.push(dispChar); if (co.type && it.type) parts.push(it.type + (it.subtype ? ' · ' + it.subtype : '')); if (co.series && it.series) parts.push(it.series); if (co.form && it.form && it.form !== '通用') parts.push(it.form); if (co.acquire && it.acquire) parts.push(it.acquire); if (co.channel && it.channel) parts.push(it.channel); if (co.status && it.status) parts.push(it.status); if (co.set && it.setName) parts.push(it.setName + (it.setVariant ? ' ' + it.setVariant : '')); (this.state.customFields || []).forEach(f => { if (co[f.key] && it.custom && it.custom[f.key]) parts.push(it.custom[f.key]); }); return parts.join(' · '); })(),
+        id: it.id, name: displayName, cardMeta: (() => { const co = this.state.cardOn || {}; const parts = []; if (co.character && it.character) parts.push(dispChar); if (co.type && it.type) parts.push(it.type + (it.subtype ? ' · ' + it.subtype : '')); if (co.series && it.series) parts.push(it.series); if (co.form && it.form && it.form !== '通用') parts.push(it.form); if (co.acquire && it.acquire) parts.push(it.acquire); if (co.channel && it.channel) parts.push(it.channel); if (co.purchaseChannel && it.purchaseChannel) parts.push(it.purchaseChannel); if (co.status && it.status) parts.push(it.status); if (co.set && it.setName) parts.push(it.setName + (it.setVariant ? ' ' + it.setVariant : '')); (this.state.customFields || []).forEach(f => { if (co[f.key] && it.custom && it.custom[f.key]) parts.push(it.custom[f.key]); }); return parts.join(' · '); })(),
         showTextMeta: false, hasOrig: !!(isSwapped && it.swapNote), origText: it.swapNote || '', character: dispChar, showCharBadge: !(charSel && charSel.length === 1),
         hasAvatar: !!this.charImg(dispChar), avatarStyle: { width: '16px', height: '16px', borderRadius: '50%', backgroundImage: `url(${this.charImg(dispChar)})`, backgroundSize: 'cover', backgroundPosition: 'center', margin: '0 4px 0 -2px', flexShrink: 0 },
         charStyle: { display: 'inline-flex', alignItems: 'center', padding: '3px 9px', borderRadius: '999px', fontSize: '12px', fontWeight: 500, whiteSpace: 'nowrap', background: `hsla(${hue},60%,55%,.16)`, color: `hsl(${hue},72%,40%)`, border: `1px solid hsla(${hue},60%,60%,.32)` },
@@ -4478,7 +4552,7 @@ class Component extends DCLogic {
         totalText: this.num(it.buyPrice) ? cur + this.fmt(e.cost) : '—',
         breakdownText: this.num(it.buyPrice) ? ('单价 ' + cur + this.fmt(e.buy) + ' ×' + e.qty + ((e.sd + e.si) > 0 ? ' ＋邮费 ' + cur + this.fmt(e.sd + e.si) : '')) : '',
         hasBreakdown: !!this.num(it.buyPrice),
-        heldText: this.heldSince(it.buyDate), hasHeld: !!this.heldSince(it.buyDate),
+        heldText: rem.text || '', hasHeld: !!(rem.text && !rem.active),
         originalText: this.num(it.originalPrice) ? this.fmt(this.num(it.originalPrice)) + ' 円' : '—',
         hasOriginal: !!this.num(it.originalPrice),
         buyText: this.num(it.buyPrice) ? cur + this.fmt(e.buy) : '—',
@@ -4488,7 +4562,7 @@ class Component extends DCLogic {
         profitText: (e.profit >= 0 ? '+' : '') + cur + this.fmt(e.profit),
         profitTableText: e.sold ? (e.profit >= 0 ? '+' : '') + cur + this.fmt(e.profit) : '—',
         profitStyle, profitCellStyle: e.sold ? profitStyle : { color: '#8b85ab' },
-        channel: it.channel || '—', hasChannel: !!it.channel, channelText: it.channel, heat: it.heat || 0, hasHeat: (it.heat || 0) > 0, starsText: '★'.repeat(it.heat || 0), cardStars: [1, 2, 3, 4, 5].map(n => ({ onClick: (ev) => { ev.stopPropagation(); this.setItemHeat(it.id, n); }, style: { background: 'none', border: 'none', cursor: 'pointer', fontSize: '18px', lineHeight: 1, padding: '0 1px', color: n <= (it.heat || 0) ? '#ff7a1a' : '#d8d2ea' } })), dateText: it.buyDate || '—', note: it.note || '',
+        channel: it.channel || '—', hasChannel: !!it.channel, channelText: it.channel, purchaseChannel: it.purchaseChannel || '—', hasPurchaseChannel: !!it.purchaseChannel, purchaseChannelText: it.purchaseChannel, heat: it.heat || 0, hasHeat: (it.heat || 0) > 0, starsText: '★'.repeat(it.heat || 0), cardStars: [1, 2, 3, 4, 5].map(n => ({ onClick: (ev) => { ev.stopPropagation(); this.setItemHeat(it.id, n); }, style: { background: 'none', border: 'none', cursor: 'pointer', fontSize: '18px', lineHeight: 1, padding: '0 1px', color: n <= (it.heat || 0) ? '#ff7a1a' : '#d8d2ea' } })), dateText: it.buyDate || '—', note: it.note || '',
         imgUrl: primaryUrl, hasImg: !!primaryUrl, noImg: galleryUrls.length === 0, hasImg2: galleryUrls.length > 1, imageCountText: galleryUrls.length + '图', galleryImgs, ph: (displayName || it.character || '?').slice(0, 1),
         thumbBg: primaryUrl ? { position: 'absolute', inset: 0, backgroundImage: `url(${primaryUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' } : { display: 'none' },
         groupBadgeStyle: { ...groupStyle, position: 'absolute', top: '9px', left: '9px', backdropFilter: 'blur(4px)' },
@@ -4512,7 +4586,7 @@ class Component extends DCLogic {
     // 分组：把同类（同角色的人脸+皮套）合并成一组分区显示
     let displayRows = itemRows;
     if (groupBySafe !== 'none') {
-      const keyf = groupBySafe === 'set' ? (i => i.setName ? (i.setName + (i.setVariant ? ' ' + i.setVariant : '')) : '未归类套装') : groupBySafe === 'character' ? (i => i.character || '未分类') : groupBySafe === 'type' ? (i => i.type || '未分类') : groupBySafe === 'series' ? (i => i.series || '未分类') : groupBySafe === 'form' ? (i => (i.form && i.form !== '通用') ? i.form : '通用') : groupBySafe === 'status' ? (i => i.status || '未分类') : groupBySafe === 'acquire' ? (i => i.acquire || '未分类') : groupBySafe === 'channel' ? (i => i.channel || '未分类') : groupBySafe === 'work' ? (i => workOfItem(i).name || '未命名作品') : groupBySafe === 'workGroup' ? (i => workOfItem(i).group || this.DEFAULT_GROUP) : groupBySafe && groupBySafe.indexOf('custom:') === 0 ? (i => (i.custom && i.custom[groupBySafe.slice(7)]) || '未分类') : (i => '未分类');
+      const keyf = groupBySafe === 'set' ? (i => i.setName ? (i.setName + (i.setVariant ? ' ' + i.setVariant : '')) : '未归类套装') : groupBySafe === 'character' ? (i => i.character || '未分类') : groupBySafe === 'type' ? (i => i.type || '未分类') : groupBySafe === 'series' ? (i => i.series || '未分类') : groupBySafe === 'form' ? (i => (i.form && i.form !== '通用') ? i.form : '通用') : groupBySafe === 'status' ? (i => i.status || '未分类') : groupBySafe === 'acquire' ? (i => i.acquire || '未分类') : groupBySafe === 'channel' ? (i => i.channel || '未分类') : groupBySafe === 'purchaseChannel' ? (i => i.purchaseChannel || '未分类') : groupBySafe === 'work' ? (i => workOfItem(i).name || '未命名作品') : groupBySafe === 'workGroup' ? (i => workOfItem(i).group || this.DEFAULT_GROUP) : groupBySafe && groupBySafe.indexOf('custom:') === 0 ? (i => (i.custom && i.custom[groupBySafe.slice(7)]) || '未分类') : (i => '未分类');
       const map = {};
       filtered.forEach(it => { const e = this.enrich(it); const k = keyf(it); (map[k] = map[k] || { label: k, count: 0, qty: 0, cost: 0, profit: 0, sold: false, ids: [] }); const m = map[k]; m.count++; m.qty += e.qty; m.cost += e.cost; if (e.sold) { m.profit += e.profit; m.sold = true; } m.ids.push(it.id); });
       const groups = Object.values(map).sort((a, b) => b.cost - a.cost);
@@ -4584,7 +4658,7 @@ class Component extends DCLogic {
     const appClass = 'ui-app ui-mobile-' + mobileMode + (this.state.filtersOpen ? ' ui-filters-open' : '') + (this.state.batchMode ? ' ui-batch-active' : '');
     const mobileModeText = mobileMode === 'full' ? '清爽模式' : '完整模式';
     const activeCustomFilterCount = Object.values(this.state.customFilterSel || {}).reduce((n, arr) => n + (Array.isArray(arr) && arr.length ? 1 : 0), 0);
-    const activeFilterCount = (charSel.length ? 1 : 0) + (typeSel.length ? 1 : 0) + (seriesFilter !== '全部' ? 1 : 0) + (formSel.length ? 1 : 0) + (statusSel.length ? 1 : 0) + (acquireSel.length ? 1 : 0) + (channelSel.length ? 1 : 0) + activeCustomFilterCount + (groupBySafe !== 'none' ? 1 : 0);
+    const activeFilterCount = (charSel.length ? 1 : 0) + (typeSel.length ? 1 : 0) + (seriesFilter !== '全部' ? 1 : 0) + (formSel.length ? 1 : 0) + (statusSel.length ? 1 : 0) + (acquireSel.length ? 1 : 0) + (channelSel.length ? 1 : 0) + ((purchaseChannelSel || []).length ? 1 : 0) + activeCustomFilterCount + (groupBySafe !== 'none' ? 1 : 0);
     const filterSummaryText = activeFilterCount ? (activeFilterCount + ' 个条件') : '全部';
     const filterToggleText = this.state.filtersOpen ? '收起筛选' : '展开筛选';
 
@@ -4630,7 +4704,7 @@ class Component extends DCLogic {
     const toggleDraftFilterOn = (key) => () => this.updateSettingsDraft({ filterOn: { ...draftFilterOn, [key]: !draftFilterOn[key] } });
     const toggleDraftStatsOn = (key) => () => this.updateSettingsDraft({ statsOn: { ...draftStatsOn, [key]: draftStatsOn[key] === false ? true : false } });
     const L = k => (Object.prototype.hasOwnProperty.call(draftFieldLabels, k) ? draftFieldLabels[k] : (this.FIELD_DEFAULTS[k] || k));
-    const labels = { character: L('character'), type: L('type'), series: L('series'), channel: L('channel'), status: L('status'), form: L('form'), acquire: L('acquire') };
+    const labels = { character: L('character'), type: L('type'), series: L('series'), channel: L('channel'), purchaseChannel: L('purchaseChannel'), status: L('status'), form: L('form'), acquire: L('acquire') };
     const workManageRows = draftWorks.map(w => ({
       id: w.id, nameVal: w.name, groupVal: w.group || this.DEFAULT_GROUP, isCurrent: w.id === this.state.currentWorkId,
       onName: (e) => this.updateSettingsDraft({ works: draftWorks.map(x => x.id === w.id ? { ...x, name: e.target.value } : x) }),
@@ -4648,7 +4722,7 @@ class Component extends DCLogic {
     };
     const dashboardCollectionRows = dashCfg.collection.map((v, i) => ({ no: '卡片' + (i + 1), value: v, options: dashOps.collection, onChange: setDashCard('collection', i) }));
     const dashboardSaleRows = dashCfg.sale.map((v, i) => ({ no: '卡片' + (i + 1), value: v, options: dashOps.sale, onChange: setDashCard('sale', i) }));
-    const fieldRows = ['character', 'type', 'series', 'channel', 'status', 'form', 'acquire'].filter(k => fieldVisible(k)).map(k => {
+    const fieldRows = ['character', 'type', 'series', 'channel', 'purchaseChannel', 'status', 'form', 'acquire'].filter(k => fieldVisible(k)).map(k => {
       const sOn = (draftStatsOn || {})[k] !== false;
       const fOn = !!draftFilterOn[k];
       return { key: k, labelVal: L(k), onLabel: updateDraftFieldLabel(k), onDel: this.deleteBaseField(k), filterOn: fOn, onToggle: toggleDraftFilterOn(k), onStatsToggle: toggleDraftStatsOn(k),
@@ -4665,6 +4739,7 @@ class Component extends DCLogic {
       { key: 'type', label: L('type'), text: ob.typesList != null ? ob.typesList : (this.state.typesList || []).join('\n'), onChange: this.setOptionsText('typesList', 'zzz_types') },
       { key: 'series', label: L('series'), text: ob.seriesList != null ? ob.seriesList : (this.state.seriesList || []).join('\n'), onChange: this.setOptionsText('seriesList', 'zzz_series') },
       { key: 'channel', label: L('channel'), text: ob.channels != null ? ob.channels : (this.state.channels || []).join('\n'), onChange: this.setOptionsText('channels', 'zzz_channels') },
+      { key: 'purchaseChannel', label: L('purchaseChannel'), text: ob.purchaseChannels != null ? ob.purchaseChannels : (this.state.purchaseChannels || this.CHANNELS).join('\n'), onChange: this.setOptionsText('purchaseChannels', 'zzz_purchase_channels') },
       { key: 'status', label: L('status'), text: ob.statusList != null ? ob.statusList : (this.state.statusList || []).join('\n'), onChange: this.setOptionsText('statusList', 'zzz_status') },
       { key: 'form', label: L('form'), text: ob.formOrder != null ? ob.formOrder : (this.state.formOrder || []).join('\n'), onChange: this.setOptionsText('formOrder', 'zzz_form_order') },
       { key: 'acquire', label: L('acquire'), text: ob.acquireOrder != null ? ob.acquireOrder : (this.state.acquireOrder || []).join('\n'), onChange: this.setOptionsText('acquireOrder', 'zzz_acquire_order') },
@@ -4678,7 +4753,7 @@ class Component extends DCLogic {
       knob: { position: 'absolute', top: '2px', left: fOn ? '16px' : '2px', width: '16px', height: '16px', borderRadius: '50%', background: '#fff', transition: '.15s' },
       statDot: { width: '34px', height: '20px', borderRadius: '999px', position: 'relative', flexShrink: 0, transition: '.15s', background: sOn ? 'var(--accent,#ff3355)' : '#d8d2ea' },
       statKnob: { position: 'absolute', top: '2px', left: sOn ? '16px' : '2px', width: '16px', height: '16px', borderRadius: '50%', background: '#fff', transition: '.15s' } }; });
-    const draftCustomInputs = (this.state.customFields || []).map(f => { const val = (this.state.draft && this.state.draft.custom && this.state.draft.custom[f.key]) || ''; const opts = (f.options || []).slice(); if (val && !opts.includes(val)) opts.push(val); return { key: f.key, label: f.label, value: val, onChange: this.onCustomDraft(f.key), optionItems: opts.map(o => ({ v: o })), hasOpts: opts.length > 0, onManage: () => this.openManage('custom:' + f.key), onRenameField: () => this.renameCustomFieldLabel(f.key) }; });
+    const draftCustomInputs = (this.state.customFields || []).map(f => { const val = (this.state.draft && this.state.draft.custom && this.state.draft.custom[f.key]) || ''; const opts = (f.options || []).slice(); if (val && !opts.includes(val)) opts.push(val); const menuOpen = !!(this.state.customMenuOpen || {})[f.key]; return { key: f.key, label: f.label, value: val, display: val || '（未选择）', menuOpen, onToggleMenu: this.toggleCustomMenu(f.key), onClear: () => this.pickCustom(f.key, ''), onChange: this.onCustomDraft(f.key), optionItems: opts.map(o => ({ v: o, onPick: () => this.pickCustom(f.key, o), rowStyle: this.menuRow(val === o) })), hasOpts: opts.length > 0, onManage: () => this.openManage('custom:' + f.key), onRenameField: () => this.renameCustomFieldLabel(f.key) }; });
     // 按系列IP分组的作品管理
     const draftCurrentWorkId = sd.currentWorkId || this.state.currentWorkId;
     const wgMap = {}; draftWorks.forEach(w => { const gkey = (w.group || this.DEFAULT_GROUP); (wgMap[gkey] = wgMap[gkey] || []).push(w); });
@@ -4753,9 +4828,9 @@ class Component extends DCLogic {
       onCn: this.onDraftSettingField('collectorName'), onCurrency: this.onDraftSettingField('currency'), onAccent: this.onDraftSettingField('accent'), onNameStyle: this.setNameStyle, toggleAdvanced: this.toggleAdvanced, advToggleStyle: { flexShrink: 0, width: '46px', height: '27px', borderRadius: '999px', border: 'none', cursor: 'pointer', position: 'relative', transition: '.16s', background: (sd.advancedMode ? this.accentColor() : '#d8d2ea') }, advToggleKnob: { position: 'absolute', top: '3px', left: sd.advancedMode ? '22px' : '3px', width: '21px', height: '21px', borderRadius: '50%', background: '#fff', transition: '.16s', boxShadow: '0 1px 3px rgba(0,0,0,.2)' }, onDisplayMode: this.setDisplayMode, onTitleSet: this.onDraftSettingField('title'), onSubtitleSet: this.onDraftSettingField('subtitle'), onFooterSet: this.onDraftSettingField('footer'),
       showWelcomeCard: !cnPrefix, cloudSyncCode: this.state.cloudSyncCode || '', hasCloudCode: !!this.state.cloudSyncCode, noCloudCode: !this.state.cloudSyncCode, hasCloudStatus: !!this.state.cloudStatus, cloudStatus: this.state.cloudStatus || '', copyCloudCode: this.copyCloudCode, cloudCodeInput: this.state.cloudCodeInput || '', onCloudCodeInput: this.onCloudCodeInput, createCloudCollection: this.createCloudCollection, connectCloudCollection: this.connectCloudCollection, pushCloud: this.pushCloud, pullCloud: this.pullCloud, disconnectCloud: this.disconnectCloud, hasCloudSync: !!this.state.cloudSyncId, cloudSyncText: this.state.cloudSyncCode ? ('当前同步代码：' + this.state.cloudSyncCode + '。' + (this.state.cloudStatus || '')) : (this.state.cloudStatus || '未连接云同步。'),
       trendOpen: this.state.trendOpen, closeTrend: this.closeTrend, saveTrend: this.saveTrend, addTrendRow: this.addTrendRow, trendRowsView, trendMetrics, trendTitle: (trendIt.name || '未命名') + ' · 价格趋势', setChartCanvas: this.setChartCanvas, trendHasData: !tr.empty, onOcr: this.handleOcr, ocrStatus: this.state.ocrStatus || '', hasOcrText: !!(this.state.ocrRawText || this.state.ocrBulkText), ocrRawText: this.state.ocrRawText || '', ocrBulkText: this.state.ocrBulkText || '', onOcrRawChange: this.onOcrRawChange, onOcrBulkChange: this.onOcrBulkChange, reparseOcrRaw: this.reparseOcrRaw, fillOcrBulk: this.fillOcrBulk,
-      labels, workManageRows, fieldRows, optionGroups, customFieldRows, draftCustomInputs, hasCustomFields: draftCustomFields.length > 0, addCustomField: this.addCustomField, restoreBaseFields: this.restoreBaseFields, workSettingGroups, dashboardCollectionRows, dashboardSaleRows, addGroupAlone: this.addGroupAlone, uploadBg: this.uploadBg, clearBg: this.clearBg, hasBg: !!this.bgUrl, addWorkInline: this.addWork,
+      labels, workManageRows, fieldRows, optionGroups, customFieldRows, draftCustomInputs, hasCustomFields: draftCustomFields.length > 0, addCustomField: this.addCustomField, restoreBaseFields: this.restoreBaseFields, migrateSeriesToSet: this.migrateSeriesToSet, migrateSeriesToCustom: this.migrateSeriesToCustom, workSettingGroups, dashboardCollectionRows, dashboardSaleRows, addGroupAlone: this.addGroupAlone, uploadBg: this.uploadBg, clearBg: this.clearBg, hasBg: !!this.bgUrl, addWorkInline: this.addWork,
       addFormOpt: this.addOptionTo('formOrder', 'zzz_form_order', '输入新的形态'), addStatusOpt: this.addOptionTo('statusList', 'zzz_status', '输入新的状态'), addAcquireOpt: this.addOptionTo('acquireOrder', 'zzz_acquire_order', '输入新的来源方式'), formMenuItems, formDisplay, formMenuOpen: this.state.formMenuOpen, toggleFormMenu: this.toggleFormMenu, statusMenuItems, statusDisplay, statusMenuOpen: this.state.statusMenuOpen, toggleStatusMenu: this.toggleStatusMenu, acquireMenuItems, acquireDisplay, acquireMenuOpen: this.state.acquireMenuOpen, toggleAcquireMenu: this.toggleAcquireMenu, methodMenuItems, methodDisplay, methodMenuOpen: this.state.methodMenuOpen, toggleMethodMenu: this.toggleMethodMenu, clearMethod: this.clearMethod, hasMethodItems: methodMenuItems.length > 0,
-      lblCharacter: labels.character, lblType: labels.type, lblChannel: labels.channel, lblSeries: labels.series, lblStatus: labels.status, lblForm: labels.form, lblAcquire: labels.acquire, showReminderFields, reminderDateLabel,
+      lblCharacter: labels.character, lblType: labels.type, lblChannel: labels.channel, lblPurchaseChannel: labels.purchaseChannel, lblSeries: labels.series, lblStatus: labels.status, lblForm: labels.form, lblAcquire: labels.acquire, showReminderFields, reminderDateLabel,
       cnPrefix, hasCn: !!cnPrefix, cnDisplay, cnSidebarClass,
       rootBgStyle: this.bgUrl ? { backgroundImage: `linear-gradient(rgba(236,232,246,.82),rgba(236,232,246,.92)), url(${this.bgUrl})`, backgroundSize: 'cover', backgroundAttachment: 'fixed', backgroundPosition: 'center' } : {},
       appClass, mobileModeText, toggleMobileMode: this.toggleMobileMode, filterSummaryText, filterToggleText, toggleFiltersOpen: this.toggleFiltersOpen,
@@ -4782,6 +4857,7 @@ class Component extends DCLogic {
       sortBySell: () => this.toggleTableSort('sell'), sortSellMark: sortMark('sell'),
       sortByProfit: () => this.toggleTableSort('profit'), sortProfitMark: sortMark('profit'),
       sortByChannel: () => this.toggleTableSort('channel'), sortChannelMark: sortMark('channel'),
+      sortByPurchaseChannel: () => this.toggleTableSort('purchaseChannel'), sortPurchaseChannelMark: sortMark('purchaseChannel'),
       sortByDate: () => this.toggleTableSort('date'), sortDateMark: sortMark('date'),
       tableBtnStyle: this.segStyle(view === 'table'), galleryBtnStyle: this.segStyle(view === 'gallery'), circleBtnStyle: this.segStyle(view === 'circle'), ledgerBtnStyle: this.segStyle(view === 'ledger'),
       navViewItems: [
@@ -4792,10 +4868,10 @@ class Component extends DCLogic {
       ].map(t => ({ label: t.label, icon: t.icon, active: view === t.key, style: this.navItemStyle(view === t.key), iconStyle: this.navIconStyle(view === t.key), onClick: t.onClick })),
       navGroupItems,
       openAdd: this.openAdd, openBulkImageImport: this.openBulkImageImport, toggleBatchMode: this.toggleBatchMode, batchMode: this.state.batchMode, showBatchControl, showBatchBar, batchButtonText: this.state.batchMode ? '退出批量' : '批量编辑', mobileBatchText: this.state.batchMode ? '退出' : '批量', batchSelectedText: (this.state.selectedIds || []).length + ' 件', batchSelectVisible: this.batchSelectVisible, batchClear: this.batchClear, batchEditStatus: this.batchEditStatus, batchEditReminder: this.batchEditReminder, batchEditField: this.batchEditField, batchQtyPlus: this.batchQtyPlus, batchDelete: this.batchDelete, hasBulkEditNav: (this.state.bulkEditIds || []).length > 1 && this.state.modalOpen, bulkEditProgress: ((this.bulkCurrentIndex ? this.bulkCurrentIndex() : (this.state.bulkEditIndex || 0)) + 1) + '/' + ((this.state.bulkEditIds || []).length || 1), saveBulkPrev: this.saveBulkPrev, saveBulkNext: this.saveBulkNext,
-      search, onSearch: this.onSearch, charChips, addCharacter: this.addCharacter, addTypeF: this.addType, addSeriesF: this.addSeries, addChannelF: this.addChannel, typeChips, seriesChips, showSeriesFilter, formChips, statusChips, showStatusFilter, acquireChips, channelChips, showChannelFilter, customFilterRows, groupByChips, hasRows: filtered.length > 0, fCountText, fCostText, fSellText, fNetText, fProfitText, fProfitStyle, fSummaryLabel,
-      labelChar: labels.character, labelType: labels.type, labelSeries: labels.series, labelChannel: labels.channel, labelForm: labels.form, labelStatus: labels.status, labelAcquire: labels.acquire,
+      search, onSearch: this.onSearch, charChips, addCharacter: this.addCharacter, addTypeF: this.addType, addSeriesF: this.addSeries, addChannelF: this.addChannel, typeChips, seriesChips, showSeriesFilter, formChips, statusChips, showStatusFilter, acquireChips, channelChips, purchaseChannelChips, showChannelFilter, showPurchaseChannelFilter, customFilterRows, groupByChips, hasRows: filtered.length > 0, fCountText, fCostText, fSellText, fNetText, fProfitText, fProfitStyle, fSummaryLabel,
+      labelChar: labels.character, labelType: labels.type, labelSeries: labels.series, labelChannel: labels.channel, labelPurchaseChannel: labels.purchaseChannel, labelForm: labels.form, labelStatus: labels.status, labelAcquire: labels.acquire,
       showCharF: fieldVisible('character') && this.state.filterOn.character !== false, showTypeF: fieldVisible('type') && this.state.filterOn.type !== false, showFormF: fieldVisible('form') && this.state.filterOn.form !== false, showStatusF: showStatusFilter, showAcquireF: fieldVisible('acquire') && this.state.filterOn.acquire !== false,
-      showSeriesF: showSeriesFilter && this.state.filterOn.series !== false, showChannelF: showChannelFilter && this.state.filterOn.channel !== false,
+      showSeriesF: showSeriesFilter && this.state.filterOn.series !== false, showChannelF: showChannelFilter && this.state.filterOn.channel !== false, showPurchaseChannelF: showPurchaseChannelFilter && this.state.filterOn.purchaseChannel !== false,
       tagChips, rarityChips, showTagFilter, showRarityFilter, yrCards, showYrReview, yrLabel: yearKey + ' 年度回顾',
       toast: this.state.toast || '', hasToast: !!this.state.toast, showTip: this.showTip,
       displayRows, isEmpty: itemRows.length === 0 && view !== 'ledger', isTable: view === 'table', isGallery: view === 'gallery', isCircle: view === 'circle', isLedger: view === 'ledger',
@@ -4804,12 +4880,12 @@ class Component extends DCLogic {
       modalOpen: this.state.modalOpen, modalTitle: this.state.editing ? '编辑谷子' : '新增谷子', isEditing: !!this.state.editing, duplicateCurrent: this.duplicateCurrent, deleteCurrent: this.deleteCurrent,
       draft: d || this.emptyDraft(),
       CHARACTERS: this.orderedChars(), TYPES: this.TYPES, reminderTypeOptions: (this.state.reminderTypes && this.state.reminderTypes.length ? this.state.reminderTypes : this.REMINDER_TYPES), reminderMenuItems, reminderDisplay, reminderMenuOpen: this.state.reminderMenuOpen, toggleReminderMenu: this.toggleReminderMenu, addReminderType: this.addReminderType, clearReminderType: () => this.pickReminderType(''), STATUSES: this.state.statusList || this.STATUSES, FORMS: this.FORMS,
-      closeModal: this.closeModal, saveItem: this.saveItem, onDraftChange: this.onDraftChange, autoGrowNote: this.autoGrowNote, charMenuItems, charDisplay, charMenuOpen: this.state.charMenuOpen, toggleCharMenu: this.toggleCharMenu, onTypeChange: this.onTypeChange, onSeriesChange: this.onSeriesChange, fillName: this.fillName, draftStars, typeMenuItems, typeDisplay, hasTypeMenuItems, typeMenuOpen: this.state.typeMenuOpen, toggleTypeMenu: this.toggleTypeMenu, addType: this.addType, seriesMenuItems, seriesDisplay, hasSeriesMenuItems, seriesMenuOpen: this.state.seriesMenuOpen, toggleSeriesMenu: this.toggleSeriesMenu, addSeries: this.addSeries, clearSeries: this.clearSeries, channelMenuItems, channelMenuOpen: this.state.channelMenuOpen, toggleChannelMenu: this.toggleChannelMenu, addChannel: this.addChannel, clearChannel: this.clearChannel, channelDisplay: (this.state.draft && this.state.draft.channel) ? this.state.draft.channel : '（未分类）', hasChannelMenuItems: channelMenuItems.length > 0, fillBuyFromRate: this.fillBuyFromRate, draftHasConv, draftConvText, draftIsGacha, draftSwapped,
+      closeModal: this.closeModal, saveItem: this.saveItem, onDraftChange: this.onDraftChange, autoGrowNote: this.autoGrowNote, charMenuItems, charDisplay, charMenuOpen: this.state.charMenuOpen, toggleCharMenu: this.toggleCharMenu, onTypeChange: this.onTypeChange, onSeriesChange: this.onSeriesChange, fillName: this.fillName, draftStars, typeMenuItems, typeDisplay, hasTypeMenuItems, typeMenuOpen: this.state.typeMenuOpen, toggleTypeMenu: this.toggleTypeMenu, addType: this.addType, seriesMenuItems, seriesDisplay, hasSeriesMenuItems, seriesMenuOpen: this.state.seriesMenuOpen, toggleSeriesMenu: this.toggleSeriesMenu, addSeries: this.addSeries, clearSeries: this.clearSeries, channelMenuItems, channelMenuOpen: this.state.channelMenuOpen, toggleChannelMenu: this.toggleChannelMenu, addChannel: this.addChannel, clearChannel: this.clearChannel, channelDisplay: (this.state.draft && this.state.draft.channel) ? this.state.draft.channel : '（未分类）', hasChannelMenuItems: channelMenuItems.length > 0, purchaseChannelMenuItems, purchaseChannelMenuOpen: this.state.purchaseChannelMenuOpen, togglePurchaseChannelMenu: this.togglePurchaseChannelMenu, addPurchaseChannel: this.addPurchaseChannel, clearPurchaseChannel: this.clearPurchaseChannel, purchaseChannelDisplay: (this.state.draft && this.state.draft.purchaseChannel) ? this.state.draft.purchaseChannel : '（未分类）', hasPurchaseChannelMenuItems: purchaseChannelMenuItems.length > 0, fillBuyFromRate: this.fillBuyFromRate, draftHasConv, draftConvText, draftIsGacha, draftSwapped,
       onImagePick: this.onImagePick, onImagePick2: this.onImagePick2, onImagePick3: this.onImagePick3, onImagePickSwap: this.onImagePickSwap, swapMenuItems, swappedDisplay, swapHint, swapNoteLabel, draftIsSwapKind, swapMenuOpen: this.state.swapMenuOpen, toggleSwapMenu: this.toggleSwapMenu, swapCharMenuItems, swapCharDisplay, swapCharMenuOpen: this.state.swapCharMenuOpen, toggleSwapCharMenu: this.toggleSwapCharMenu, clearSwapCharacter: this.clearSwapCharacter, swapCharHasAvatar, swapCharAvatarStyle, removeDraftImg: this.removeDraftImg, removeDraftImg2: this.removeDraftImg2, removeDraftImg3: this.removeDraftImg3, removeDraftImg4: this.removeDraftImg4, removeDraftSwapImg: this.removeDraftSwapImg,
       draftTimelineRows, isAdvanced: true, showBrandField: !!this.state.advancedMode || !!(d && d.series), draftWorkName, draftWorkGroupName, draftWorkMenuGroups, draftWorkMenuOpen: this.state.draftWorkMenuOpen, toggleDraftWorkMenu: this.toggleDraftWorkMenu, addWorkInline: this.addWorkInline, draftIsSelling, draftNotSelling,
       manageOpen: this.state.manageOpen, closeManage: this.closeManage, manageTitle, manageRows, manageAddText, onManageAdd, manageCanRenameLabel, onManageRenameLabel, manageCanToggle, manageFilterOn, workManageOpen: this.state.workManageOpen, openWorkManage: this.openWorkManage, closeWorkManage: this.closeWorkManage, workManageGroups, addGroupAlone: this.addGroupAlone, setManageOpen: this.state.setManageOpen, openSetManage: this.openSetManage, closeSetManage: this.closeSetManage, setManageList, addSetInManage: this.addSetInManage, hasSetManageList: setManageList.length > 0, setFieldLabel: this.setLabelText(), renameSetLabel: this.renameSetLabel, setFilterStyle, setGroupStyle, setFilterText: setFilterOn ? '筛选 ✓' : '筛选', setGroupText: setGroupOn ? '分组 ✓' : '分组', setCardStyle, setCardText: setCardOn ? '图鉴 ✓' : '图鉴', onSetToggleCard: this.toggleCardOn('set'), onSetToggleFilter: this.toggleFilterOn('set'), onSetToggleGroup: this.toggleStatsOn('set'), manageGroupOn, onManageToggleFilter, onManageToggleGroup, manageFilterStyle, manageGroupStyle, manageCardOn, onManageToggleCard, manageCardStyle, manageCardText: manageCardOn ? '图鉴 ✓' : '图鉴', manageFilterText: manageFilterOn ? '筛选 ✓' : '筛选', manageGroupText: manageGroupOn ? '分组 ✓' : '分组',
       mgrStatus: () => this.openManage('status'), mgrMethod: () => this.openManage('method'), mgrTradeTags: () => this.openManage('tradeTags'), mgrRarityTags: () => this.openManage('rarityTags'),
-      lblMethod: (this.state.fieldLabels||{}).method || '购买方式', lblTags: (this.state.fieldLabels||{}).tags || '交易标签', lblRarity: (this.state.fieldLabels||{}).rarity || '稀有度 / 心动标签', mgrCharacter: () => this.openManage('character'), mgrType: () => this.openManage('type'), mgrForm: () => this.openManage('form'), mgrSeries: () => this.openManage('series'), mgrAcquire: () => this.openManage('acquire'), mgrChannel: () => this.openManage('channel'), mgrReminder: () => this.openManage('reminder'), mgrTrade: () => this.openManage('tradeTags'), mgrRarity: () => this.openManage('rarityTags'),
+      lblMethod: (this.state.fieldLabels||{}).method || '购买方式', lblTags: (this.state.fieldLabels||{}).tags || '交易标签', lblRarity: (this.state.fieldLabels||{}).rarity || '稀有度 / 心动标签', mgrCharacter: () => this.openManage('character'), mgrType: () => this.openManage('type'), mgrForm: () => this.openManage('form'), mgrSeries: () => this.openManage('series'), mgrAcquire: () => this.openManage('acquire'), mgrChannel: () => this.openManage('channel'), mgrPurchaseChannel: () => this.openManage('purchaseChannel'), mgrReminder: () => this.openManage('reminder'), mgrTrade: () => this.openManage('tradeTags'), mgrRarity: () => this.openManage('rarityTags'),
       setMenuOpen: this.state.setMenuOpen, toggleSetMenu: this.toggleSetMenu, addSet: this.addSet, clearSet: () => this.pickSet(''),
       setDisplay: (() => { const s = this.setById(d && d.setId); if (!s) return '（选择套装）'; const got = this.setCollectedCodes(s.id, d && d.id).length; return s.name + (s.total ? '（' + got + '/' + s.total + '）' : ''); })(),
       hasSet: !!(d && d.setId && this.setById(d.setId)),
