@@ -1988,6 +1988,7 @@ class Component extends DCLogic {
     return {
       charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], purchaseChannelSel: [],
       customFilterSel: {},
+      selectedIds: [],
       ...(extra || {})
     };
   }
@@ -3686,7 +3687,7 @@ class Component extends DCLogic {
   setCircle = () => this.setState({ view: 'circle' });
   setHeat = (n) => this.setState(s => ({ draft: { ...s.draft, heat: ((s.draft.heat || 0) === n ? n - 1 : n) } }));
   setItemHeat = (id, n) => { const items = this.state.items.map(x => x.id === id ? { ...x, heat: ((x.heat || 0) === n ? n - 1 : n) } : x); this.commit(items); };
-  onSearch = (e) => this.setState({ search: e.target.value });
+  onSearch = (e) => { const v = e.target.value; this.setState(s => (s.batchMode && (s.selectedIds || []).length) ? { search: v, selectedIds: [] } : { search: v }); };
   saveChannels = (channels) => { try { localStorage.setItem(this.wkey('zzz_channels', this.optScopeId()), JSON.stringify(channels)); } catch (e) {} this.setState({ channels }); };
   optScopeId() { const c = this.state.currentWorkId; if (c && c !== this.ALL_WORKS && (this.state.works||[]).some(w=>w.id===c)) return c; return this.draftWorkId(this.state.draft||{}); }
   saveList = (key, lsKey, list) => { try { localStorage.setItem(this.wkey(lsKey, this.optScopeId()), JSON.stringify(list)); } catch (e) {} this.setState({ [key]: list }); };
@@ -3807,8 +3808,9 @@ class Component extends DCLogic {
   pickReminderType = (c) => this.setState(s => ({ draft: { ...s.draft, reminderType: c }, reminderMenuOpen: false }));
   addReminderType = () => { const v = (window.prompt('新的提醒事件名称') || '').trim(); if (!v) return; const cur = this.state.reminderTypes || []; if (!cur.includes(v)) this.saveList('reminderTypes', 'zzz_reminder_types', [...cur, v]); this.setState(s => ({ draft: { ...s.draft, reminderType: v }, reminderMenuOpen: false })); };
   delReminderItem = (c, ev) => { ev.stopPropagation(); this.saveList('reminderTypes', 'zzz_reminder_types', (this.state.reminderTypes || []).filter(x => x !== c)); };
-  toggleSel = (key, value) => { this.setState(s => { if (value === '__all__') return { [key]: [] }; const cur = s[key] || []; return { [key]: cur.includes(value) ? cur.filter(x => x !== value) : [...cur, value] }; }); };
-  toggleCustomFilter = (key, value) => { this.setState(s => { const all = { ...(s.customFilterSel || {}) }; if (value === '__all__') { all[key] = []; return { customFilterSel: all }; } const cur = all[key] || []; all[key] = cur.includes(value) ? cur.filter(x => x !== value) : [...cur, value]; return { customFilterSel: all }; }); };
+  setFilterState = (patch) => this.setState(s => (s.batchMode && (s.selectedIds || []).length) ? { ...patch, selectedIds: [] } : patch);
+  toggleSel = (key, value) => { this.setState(s => { const patch = (value === '__all__') ? { [key]: [] } : { [key]: (s[key] || []).includes(value) ? (s[key] || []).filter(x => x !== value) : [...(s[key] || []), value] }; if (s.batchMode && (s.selectedIds || []).length) patch.selectedIds = []; return patch; }); };
+  toggleCustomFilter = (key, value) => { this.setState(s => { const all = { ...(s.customFilterSel || {}) }; if (value === '__all__') { all[key] = []; } else { const cur = all[key] || []; all[key] = cur.includes(value) ? cur.filter(x => x !== value) : [...cur, value]; } const patch = { customFilterSel: all }; if (s.batchMode && (s.selectedIds || []).length) patch.selectedIds = []; return patch; }); };
 
   arrivedOf(it) { return it.status === '已到货' || it.status === '已归家'; }
   groupOf(it) { return (it.status === '出售中' || it.status === '已出物' || it.status === '已出/已卖出') ? '出物' : '收藏'; }
@@ -4110,13 +4112,13 @@ class Component extends DCLogic {
       { key: 'inhand', label: '🏡 已归家', n: inhandN },
       { key: 'air', label: '☁️ 空气谷', n: airN },
       { key: 'sale', label: '💸 已出物', n: saleN }
-    ].map(t => ({ ...t, style: this.tabStyle(group === t.key), onClick: () => this.setState({ group: t.key }) }));
+    ].map(t => ({ ...t, style: this.tabStyle(group === t.key), onClick: () => this.setFilterState({ group: t.key }) }));
     const navGroupItems = [
       { key: 'all', label: '全部', icon: '▦', n: items.length },
       { key: 'inhand', label: '已归家', icon: '🏡', n: inhandN },
       { key: 'air', label: '空气谷', icon: '☁️', n: airN },
       { key: 'sale', label: '已出物', icon: '💸', n: saleN }
-    ].map(t => ({ label: t.label, icon: t.icon, n: t.n, active: group === t.key, tipText: this.GLOSSARY[t.label] || '', hasTip: !!this.GLOSSARY[t.label], style: this.navItemStyle(group === t.key), iconStyle: this.navIconStyle(group === t.key), countStyle: this.navCountStyle(group === t.key), onClick: () => this.setState({ group: t.key }) }));
+    ].map(t => ({ label: t.label, icon: t.icon, n: t.n, active: group === t.key, tipText: this.GLOSSARY[t.label] || '', hasTip: !!this.GLOSSARY[t.label], style: this.navItemStyle(group === t.key), iconStyle: this.navIconStyle(group === t.key), countStyle: this.navCountStyle(group === t.key), onClick: () => this.setFilterState({ group: t.key }) }));
 
     // base list (group tab filter)
     const matchGroup = it => group === 'all' ? true : group === 'collection' ? this.groupOf(it) !== '出物' : group === 'inhand' ? this.groupKind(it) === 'inhand' : group === 'air' ? this.groupKind(it) === 'air' : this.groupOf(it) === '出物';
@@ -4140,11 +4142,11 @@ class Component extends DCLogic {
     let groupBySafe = groupBy;
     const availableGroupKeys = new Set([...groupBaseOptions, ...customGroupOptions].map(o => o.k));
     if (!availableGroupKeys.has(groupBySafe)) groupBySafe = 'none';
-    const groupByChips = [...groupBaseOptions, ...customGroupOptions].map(o => ({ label: o.l, style: this.chipStyle(groupBySafe === o.k), onClick: () => this.setState({ groupBy: o.k }) }));
+    const groupByChips = [...groupBaseOptions, ...customGroupOptions].map(o => ({ label: o.l, style: this.chipStyle(groupBySafe === o.k), onClick: () => this.setFilterState({ groupBy: o.k }) }));
     const presentSeries = [...new Set(items.map(i => i.series).filter(Boolean))];
     const seriesBase = (this.state.seriesList && this.state.seriesList.length) ? this.state.seriesList : presentSeries;
     const seriesOrdered = [...seriesBase.filter(x => presentSeries.includes(x)), ...presentSeries.filter(x => !seriesBase.includes(x))];
-    const seriesChips = ['全部', ...seriesOrdered].map(x => ({ label: x, ...this.chipDrag(x, 'series'), onDblClick: x === '全部' ? null : (ev) => this.renameSeriesItem(x, ev), style: this.chipStyle(seriesFilter === x), onClick: this.chipClick(() => this.setState({ seriesFilter: x })) }));
+    const seriesChips = ['全部', ...seriesOrdered].map(x => ({ label: x, ...this.chipDrag(x, 'series'), onDblClick: x === '全部' ? null : (ev) => this.renameSeriesItem(x, ev), style: this.chipStyle(seriesFilter === x), onClick: this.chipClick(() => this.setState(s => (s.batchMode && (s.selectedIds || []).length) ? { seriesFilter: x, selectedIds: [] } : { seriesFilter: x })) }));
     const showSeriesFilter = fieldVisible('series');
     const formBase = (this.state.formOrder && this.state.formOrder.length) ? this.state.formOrder : this.FORMS;
     const formChips = ['全部', ...formBase].map(x => ({ label: x, ...this.chipDrag(x, 'form'), onDblClick: x === '全部' ? null : (ev) => this.renameListOption('formOrder', 'zzz_form_order', 'form', x, '形态', ev), style: this.chipStyle(x === '全部' ? formSel.length === 0 : formSel.includes(x)), onClick: this.chipClick(() => this.toggleSel('formSel', x === '全部' ? '__all__' : x)) }));
