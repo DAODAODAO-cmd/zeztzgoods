@@ -1695,13 +1695,13 @@
 
           <div style="border-top:1px solid #e1dbf0;padding-top:16px">
             <div style="font-weight:700;font-size:14px;color:#251d49;margin-bottom:4px">字段管理</div>
-            <div style="font-size:11.5px;color:#938db0;margin-bottom:10px;line-height:1.6">删除用不到的字段（编辑页、顶部筛选、分组会一起隐藏，已填数据保留）；也可新增自定义字段。改动只影响你自己。</div>
+            <div style="font-size:11.5px;color:#938db0;margin-bottom:10px;line-height:1.6">删除用不到的字段（编辑页、顶部筛选、分组会一起隐藏，已填数据保留）；也可新增自定义字段。点"批"可以切换该字段是否出现在批量编辑里。改动只影响你自己。</div>
             <div style="display:flex;flex-wrap:wrap;gap:7px">
               <sc-for list="{{ fieldRows }}" as="f" hint-placeholder-count="7">
-                <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(50,38,90,.04);border:1px solid #e8e2f2;border-radius:999px;padding:5px 6px 5px 12px;font-size:13px;color:#251d49">{{ f.labelVal }}<button onClick="{{ f.onDel }}" title="删除字段" style="flex-shrink:0;width:18px;height:18px;border-radius:50%;border:none;background:rgba(226,59,93,.12);color:#e23b5d;cursor:pointer;font-size:12px;line-height:1">×</button></span>
+                <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(50,38,90,.04);border:1px solid #e8e2f2;border-radius:999px;padding:5px 6px 5px 12px;font-size:13px;color:#251d49">{{ f.labelVal }}<button onClick="{{ f.onBatchToggle }}" title="是否在批量编辑中显示" style="{{ f.batchBtnStyle }}">批</button><button onClick="{{ f.onDel }}" title="删除字段" style="flex-shrink:0;width:18px;height:18px;border-radius:50%;border:none;background:rgba(226,59,93,.12);color:#e23b5d;cursor:pointer;font-size:12px;line-height:1">×</button></span>
               </sc-for>
               <sc-for list="{{ customFieldRows }}" as="f" hint-placeholder-count="0">
-                <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(50,38,90,.04);border:1px solid #e8e2f2;border-radius:999px;padding:5px 6px 5px 12px;font-size:13px;color:#251d49">{{ f.labelVal }}<button onClick="{{ f.onDel }}" title="删除" style="flex-shrink:0;width:18px;height:18px;border-radius:50%;border:none;background:rgba(226,59,93,.12);color:#e23b5d;cursor:pointer;font-size:12px;line-height:1">×</button></span>
+                <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(50,38,90,.04);border:1px solid #e8e2f2;border-radius:999px;padding:5px 6px 5px 12px;font-size:13px;color:#251d49">{{ f.labelVal }}<button onClick="{{ f.onBatchToggle }}" title="是否在批量编辑中显示" style="{{ f.batchBtnStyle }}">批</button><button onClick="{{ f.onDel }}" title="删除" style="flex-shrink:0;width:18px;height:18px;border-radius:50%;border:none;background:rgba(226,59,93,.12);color:#e23b5d;cursor:pointer;font-size:12px;line-height:1">×</button></span>
               </sc-for>
               <button onClick="{{ addCustomField }}" style="font-family:inherit;font-size:13px;color:#544f7e;background:none;border:1px dashed #ded7ee;padding:5px 13px;border-radius:999px;cursor:pointer">＋ 字段</button>
               <button onClick="{{ restoreBaseFields }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:5px 13px;border-radius:999px;cursor:pointer">恢复默认</button>
@@ -1842,7 +1842,7 @@ class Component extends DCLogic {
   FIELD_DEFAULTS = { character: '角色', type: '种类', series: '系列', channel: '平台', purchaseChannel: '渠道', status: '状态', form: '形态', acquire: '来源', method: '购买方式', tags: '交易标签', rarity: '稀有度 / 心动标签', set: '系列收藏 / 套装' };
   CHAR_IMG = { '诺克斯': 'assets/c_nox.webp', 'NOX': 'assets/r_blue.webp', 'MIDNIGHT SHADOW': 'assets/r_nox_midnight.webp', 'NOX KNIGHT': 'assets/r_lady.webp', 'ZEZTZ': 'assets/r_red.webp', '西格': 'assets/c_zeke.webp', 'DAWN': 'assets/r_zeztz.webp', '宁梦': 'assets/c_nemu.webp', '南云成华': 'assets/c_nagumo.webp', 'ZERO': 'assets/c_zero.webp', '万津莫': 'assets/c_matsu.webp', '万津美浪': 'assets/c_minami.webp', '富士见铁也': 'assets/c_fujimi.webp', 'THE LADY': 'assets/c_lady.webp', 'CODE': 'assets/c_code.webp' };
   imgUrls = {};
-  state = { items: [], view: null, sets: [], lastSetId: '', setMenuOpen: false, feeOpen: false, colInfoOpen: false, setInfoOpen: false, recentWorks: [], collapsedGroups: {}, reminderMenuOpen: false, monthlyBudget: '', budgets: {}, ledgerDetailKey: '', ledgerDetailType: 'day', ledgerDetailLabel: '', tableSortKey: '', tableSortDir: 'desc', nameStyleMode: 'default', displayMode: 'standard', dashboardCards: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], purchaseChannelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, purchaseChannels: [], purchaseChannelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], hiddenPurchaseChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, purchaseChannel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, dataManageOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, trendOpen: false, trendItemId: null, trendRows: [], trendResult: null, ocrRawText: '', ocrBulkText: '', modalOpen: false, editing: null, draft: null, savedAt: 0, batchMode: false, selectedIds: [], bulkEditIds: [], bulkEditIndex: 0, ledgerRange: 'month', ledgerMode: 'month', ledgerYear: String(new Date().getFullYear()), ledgerMonth: String(new Date().getMonth()+1), ledgerWeek: '', ledgerPieBy: 'character', ledgerPieActive: 0, batchEditOpen: false, batchEditField: '' };
+  state = { items: [], view: null, sets: [], lastSetId: '', setMenuOpen: false, feeOpen: false, colInfoOpen: false, setInfoOpen: false, recentWorks: [], collapsedGroups: {}, reminderMenuOpen: false, monthlyBudget: '', budgets: {}, ledgerDetailKey: '', ledgerDetailType: 'day', ledgerDetailLabel: '', tableSortKey: '', tableSortDir: 'desc', nameStyleMode: 'default', displayMode: 'standard', dashboardCards: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], purchaseChannelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, purchaseChannels: [], purchaseChannelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], hiddenPurchaseChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, purchaseChannel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, dataManageOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, trendOpen: false, trendItemId: null, trendRows: [], trendResult: null, ocrRawText: '', ocrBulkText: '', modalOpen: false, editing: null, draft: null, savedAt: 0, batchMode: false, selectedIds: [], bulkEditIds: [], bulkEditIndex: 0, ledgerRange: 'month', ledgerMode: 'month', ledgerYear: String(new Date().getFullYear()), ledgerMonth: String(new Date().getMonth()+1), ledgerWeek: '', ledgerPieBy: 'character', ledgerPieActive: 0, batchEditOpen: false, batchEditField: '', batchOn: null };
 
   setRoot = (el) => { this.rootEl = el; if (el) { const a = this.state.accent || this.props.accent || '#ff3355'; el.style.setProperty('--accent', a); try { document.documentElement.style.setProperty('--accent', a); } catch (e) {} this.applyBg(); } };
   setImportRef = (el) => { this.importRef = el; };
@@ -1883,6 +1883,7 @@ class Component extends DCLogic {
     if (!filterOn) filterOn = { character: true, type: true, series: false, form: false, acquire: true, channel: true, purchaseChannel: true, status: false };
     else filterOn = { purchaseChannel: true, ...filterOn };
     let statsOn = null; try { statsOn = JSON.parse(localStorage.getItem('zzz_stats_on') || 'null') || null; } catch (e) {}
+    let batchOn = null; try { batchOn = JSON.parse(localStorage.getItem('zzz_batch_on') || 'null') || null; } catch (e) {}
     let cardOn = {}; try { cardOn = JSON.parse(localStorage.getItem('zzz_card_on') || '{}') || {}; } catch (e) {}
     let deletedFields = []; try { deletedFields = JSON.parse(localStorage.getItem('zzz_deleted_fields') || '[]') || []; } catch (e) {}
     let customFields = []; try { customFields = JSON.parse(localStorage.getItem('zzz_custom_fields') || '[]') || []; } catch (e) {}
@@ -1908,7 +1909,7 @@ class Component extends DCLogic {
     this.charOrder = lists.charOrder;
     let cloudSyncId = '', cloudSyncCode = '';
     try { cloudSyncId = localStorage.getItem('zzz_cloud_id') || ''; cloudSyncCode = localStorage.getItem('zzz_cloud_code') || ''; } catch (e) {}
-    this.setState({ items, works, currentWorkId, recentWorks, sets, lastSetId, workGroupLabel, title, subtitle, footer, collectorName, currency, accent, monthlyBudget, budgets, nameStyleMode, advancedMode, displayMode, dashboardCards, fieldLabels, filterOn, statsOn, deletedFields, customFields, customFilterOrder, cloudSyncId, cloudSyncCode, cloudCodeInput: cloudSyncCode || '', mobileMode, filtersOpen: false, groupBy: startGroupBy, view: startView, ...lists });
+    this.setState({ items, works, currentWorkId, recentWorks, sets, lastSetId, workGroupLabel, title, subtitle, footer, collectorName, currency, accent, monthlyBudget, budgets, nameStyleMode, advancedMode, displayMode, dashboardCards, fieldLabels, filterOn, statsOn, batchOn, deletedFields, customFields, customFilterOrder, cloudSyncId, cloudSyncCode, cloudCodeInput: cloudSyncCode || '', mobileMode, filtersOpen: false, groupBy: startGroupBy, view: startView, ...lists });
     this.loadImages(items);
     this.loadCharAvatars();
     this.loadLogo();
@@ -2099,7 +2100,7 @@ class Component extends DCLogic {
     return code;
   }
   cloudSnapshot() {
-    const keys = ['zzz_cn','zzz_currency','zzz_accent','zzz_title','zzz_subtitle','zzz_footer','zzz_works','zzz_current_work','zzz_work_group_label','zzz_field_labels','zzz_filter_on','zzz_stats_on','zzz_custom_fields','zzz_deleted_fields','zzz_custom_filter_order'];
+    const keys = ['zzz_cn','zzz_currency','zzz_accent','zzz_title','zzz_subtitle','zzz_footer','zzz_works','zzz_current_work','zzz_work_group_label','zzz_field_labels','zzz_filter_on','zzz_stats_on','zzz_batch_on','zzz_custom_fields','zzz_deleted_fields','zzz_custom_filter_order'];
     const allWorks = this.state.works || [];
     ['zzz_char_order','zzz_types','zzz_series','zzz_channels','zzz_purchase_channels','zzz_form_order','zzz_acquire_order','zzz_status','zzz_hidden_types','zzz_hidden_channels','zzz_hidden_purchase_channels'].forEach(base => {
       allWorks.forEach(w => keys.push(w.id === this.MAIN_WORK ? base : base + '__' + w.id));
@@ -2124,6 +2125,7 @@ class Component extends DCLogic {
     let filterOn = {}; try { filterOn = JSON.parse(localStorage.getItem('zzz_filter_on') || 'null') || {}; } catch(e) {}
     filterOn = { purchaseChannel: true, ...filterOn };
     let statsOn = null; try { statsOn = JSON.parse(localStorage.getItem('zzz_stats_on') || 'null') || null; } catch(e) {}
+    let batchOn = null; try { batchOn = JSON.parse(localStorage.getItem('zzz_batch_on') || 'null') || null; } catch(e) {}
     let cardOn = {}; try { cardOn = JSON.parse(localStorage.getItem('zzz_card_on') || '{}') || {}; } catch(e) {}
     let deletedFields = []; try { deletedFields = JSON.parse(localStorage.getItem('zzz_deleted_fields') || '[]') || []; } catch(e) {}
     let customFields = []; try { customFields = JSON.parse(localStorage.getItem('zzz_custom_fields') || '[]') || []; } catch(e) {}
@@ -2135,7 +2137,7 @@ class Component extends DCLogic {
       workGroupLabel: localStorage.getItem('zzz_work_group_label') || this.state.workGroupLabel,
       collectorName: localStorage.getItem('zzz_cn') || '', currency: localStorage.getItem('zzz_currency') || '', accent: localStorage.getItem('zzz_accent') || '',
       title: localStorage.getItem('zzz_title') || this.state.title, subtitle: localStorage.getItem('zzz_subtitle') || this.state.subtitle, footer: localStorage.getItem('zzz_footer') || this.state.footer,
-      fieldLabels: { ...this.FIELD_DEFAULTS, ...fieldLabels }, filterOn, statsOn, cardOn, deletedFields, customFields, customFilterOrder, ...lists, savedAt: Date.now()
+      fieldLabels: { ...this.FIELD_DEFAULTS, ...fieldLabels }, filterOn, statsOn, batchOn, cardOn, deletedFields, customFields, customFilterOrder, ...lists, savedAt: Date.now()
     });
   }
   createCloudCollection = async () => {
@@ -2523,6 +2525,12 @@ class Component extends DCLogic {
     const statsOn = { ...cur, [key]: cur[key] === false };
     try { localStorage.setItem('zzz_stats_on', JSON.stringify(statsOn)); } catch (e) {}
     this.setState({ statsOn });
+  };
+  toggleBatchOn = (key) => () => {
+    const cur = this.state.batchOn || {};
+    const batchOn = { ...cur, [key]: cur[key] === false };
+    try { localStorage.setItem('zzz_batch_on', JSON.stringify(batchOn)); } catch (e) {}
+    this.setState({ batchOn });
   };
   toggleCardOn = (key) => () => {
     const cur = this.state.cardOn || {};
@@ -3441,6 +3449,7 @@ class Component extends DCLogic {
   batchFieldDefs(){
     // 批量修改只按当前内置字段生成，不再读取历史隐藏/旧字段配置。
     // 字段名称仍通过 flabel() 读取设置里的改名，保证显示名称同步。
+    const bOn = (k) => (this.state.batchOn || {})[k] !== false;
     return [
       { key:'status', label:this.flabel('status'), type:'select' },
       { key:'buyDate', label:'购买日期', type:'date' },
@@ -3456,7 +3465,7 @@ class Component extends DCLogic {
       { key:'shipDom', label:'国内邮费', type:'number' },
       { key:'shipIntl', label:'国际邮费', type:'number' },
       ...((this.state.customFields || []).map(f => ({ key:'custom:'+f.key, label:f.label, type:'text', customKey:f.key })))
-    ];
+    ].filter(f => bOn(f.customKey || f.key));
   }
   batchFieldDef(field){ return this.batchFieldDefs().find(f => f.key === field) || null; }
   batchFieldLabel(field){ const d = this.batchFieldDef(field); return d ? d.label : field; }
@@ -4736,7 +4745,10 @@ class Component extends DCLogic {
     const fieldRows = ['character', 'type', 'series', 'channel', 'purchaseChannel', 'status', 'form', 'acquire'].filter(k => fieldVisible(k)).map(k => {
       const sOn = (draftStatsOn || {})[k] !== false;
       const fOn = !!draftFilterOn[k];
+      const bOn = (this.state.batchOn || {})[k] !== false;
       return { key: k, labelVal: L(k), onLabel: updateDraftFieldLabel(k), onDel: this.deleteBaseField(k), filterOn: fOn, onToggle: toggleDraftFilterOn(k), onStatsToggle: toggleDraftStatsOn(k),
+        batchOn: bOn, onBatchToggle: this.toggleBatchOn(k),
+        batchBtnStyle: { flexShrink: 0, fontSize: '11px', fontWeight: 700, padding: '2px 8px', borderRadius: '999px', border: '1px solid', cursor: 'pointer', fontFamily: 'inherit', borderColor: bOn ? 'transparent' : '#ded7ee', background: bOn ? this.accentColor() : '#fff', color: bOn ? '#fff' : '#8b84ad' },
         filterStyle: { display: 'inline-flex', alignItems: 'center', gap: '5px', cursor: 'pointer', fontSize: '12.5px', color: fOn ? '#251d49' : '#938db0' },
         statStyle: { display: 'inline-flex', alignItems: 'center', gap: '5px', cursor: 'pointer', fontSize: '12.5px', color: sOn ? '#251d49' : '#938db0' },
         dot: { width: '34px', height: '20px', borderRadius: '999px', position: 'relative', flexShrink: 0, transition: '.15s', background: fOn ? 'var(--accent,#ff3355)' : '#d8d2ea' },
@@ -4757,7 +4769,9 @@ class Component extends DCLogic {
       { key: 'reminderType', label: '提醒类型', text: ob.reminderTypes != null ? ob.reminderTypes : (this.state.reminderTypes || this.REMINDER_TYPES).join('\n'), onChange: this.setOptionsText('reminderTypes', 'zzz_reminder_types') }
     ].filter(o => o.key === 'reminderType' || fieldVisible(o.key));
     // 自定义字段
-    const customFieldRows = draftCustomFields.map(f => { const sOn = (draftStatsOn || {})[f.key] !== false; const fOn = !!draftFilterOn[f.key]; return { key: f.key, labelVal: f.label, onLabel: updateDraftCustomFieldLabel(f.key), onDel: () => this.delCustomField(f.key), onToggle: toggleDraftFilterOn(f.key), onStatsToggle: toggleDraftStatsOn(f.key),
+    const customFieldRows = draftCustomFields.map(f => { const sOn = (draftStatsOn || {})[f.key] !== false; const fOn = !!draftFilterOn[f.key]; const bOn = (this.state.batchOn || {})[f.key] !== false; return { key: f.key, labelVal: f.label, onLabel: updateDraftCustomFieldLabel(f.key), onDel: () => this.delCustomField(f.key), onToggle: toggleDraftFilterOn(f.key), onStatsToggle: toggleDraftStatsOn(f.key),
+      batchOn: bOn, onBatchToggle: this.toggleBatchOn(f.key),
+      batchBtnStyle: { flexShrink: 0, fontSize: '11px', fontWeight: 700, padding: '2px 8px', borderRadius: '999px', border: '1px solid', cursor: 'pointer', fontFamily: 'inherit', borderColor: bOn ? 'transparent' : '#ded7ee', background: bOn ? this.accentColor() : '#fff', color: bOn ? '#fff' : '#8b84ad' },
       filterStyle: { display: 'inline-flex', alignItems: 'center', gap: '5px', cursor: 'pointer', fontSize: '12.5px', color: fOn ? '#251d49' : '#938db0' },
       statStyle: { display: 'inline-flex', alignItems: 'center', gap: '5px', cursor: 'pointer', fontSize: '12.5px', color: sOn ? '#251d49' : '#938db0' },
       dot: { width: '34px', height: '20px', borderRadius: '999px', position: 'relative', flexShrink: 0, transition: '.15s', background: fOn ? 'var(--accent,#ff3355)' : '#d8d2ea' },
