@@ -3528,7 +3528,22 @@ class Component extends DCLogic {
     if (!confirm('确认把 ' + ids.length + ' 件谷子的「' + label + '」改成「' + showValue + '」？')) return;
     if (field === 'lifecycle') {
       const statusMap = { '已归家': '已归家', '空气谷': '已下单', '已出物': '已出物' };
-      this.batchApply(ids, it => ({ ...it, status: value ? (statusMap[value] || value) : '' }));
+      const today = new Date().toISOString().slice(0, 10);
+      this.batchApply(ids, it => {
+        const st = value ? (statusMap[value] || value) : '';
+        if (!st || it.status === st) return { ...it, status: st };
+        const log = Array.isArray(it.statusLog) ? [...it.statusLog] : [];
+        log.push({ status: st, date: today, ts: Date.now() });
+        return { ...it, status: st, statusLog: log };
+      });
+    } else if (field === 'status') {
+      const today = new Date().toISOString().slice(0, 10);
+      this.batchApply(ids, it => {
+        if (!value || it.status === value) return { ...it, status: value };
+        const log = Array.isArray(it.statusLog) ? [...it.statusLog] : [];
+        log.push({ status: value, date: today, ts: Date.now() });
+        return { ...it, status: value, statusLog: log };
+      });
     } else if (field === 'setId') {
       const st = this.setById(value);
       this.batchApply(ids, it => ({ ...it, setId: value || '', setName: st ? st.name : '', setTotal: st ? (st.total || '') : '', setVariant: '' }));
