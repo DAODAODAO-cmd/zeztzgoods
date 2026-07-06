@@ -1341,6 +1341,14 @@
               <input name="buyPrice" type="number" min="0" value="{{ draft.buyPrice }}" onChange="{{ onDraftChange }}" placeholder="你花了多少" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             </sc-if>
+            <div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">补款金额<span style="font-size:10.5px;color:#a49ec4;font-weight:400">· 按补款那个月单独计入钱包</span></div>
+              <input name="supplementPrice" type="number" min="0" value="{{ draft.supplementPrice }}" onChange="{{ onDraftChange }}" placeholder="有分期补款再填" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+            </div>
+            <div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">尾款金额<span style="font-size:10.5px;color:#a49ec4;font-weight:400">· 按尾款那个月单独计入钱包</span></div>
+              <input name="finalPrice" type="number" min="0" value="{{ draft.finalPrice }}" onChange="{{ onDraftChange }}" placeholder="有尾款再填" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+            </div>
             <sc-if value="{{ draftNotSelling }}" hint-placeholder-val="{{ true }}">
             <div>
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">卖出价（单价）</div>
@@ -2728,7 +2736,7 @@ class Component extends DCLogic {
     try { localStorage.setItem('zzz_custom_filter_order', JSON.stringify(orderMap)); } catch(e) {}
     this.setState({ customFilterOrder: orderMap, customFilterSel }, () => this.commit(items));
   };
-  emptyDraft() { const chars = this.orderedChars(); return { id: null, workId: this.defaultDraftWorkId(), custom: {}, name: '', character: (chars[0] || ''), type: this.TYPES[0], subtype: '', series: '', form: '通用', heat: 0, rate: '', otherFee: '', acquire: '', method: '', purchaseChannel: '', swapped: '未置换', swapTo: '', swapCharacter: '', swapImageId: null, group: '收藏', status: '已下单', qty: '1', originalPrice: '', buyPrice: '', shipDom: '', shipIntl: '', sellPrice: '', channel: '', buyDate: this.todayStr(), reminderType: '', reminderDate: this.todayStr(), note: '', imageId: null, imageId2: null, imageId3: null, imageId4: null, specialType: '', specialDate: '', setId: '', setName: '', setTotal: '', setVariant: '', timeline: [], tags: [], rarity: [] }; }
+  emptyDraft() { const chars = this.orderedChars(); return { id: null, workId: this.defaultDraftWorkId(), custom: {}, name: '', character: (chars[0] || ''), type: this.TYPES[0], subtype: '', series: '', form: '通用', heat: 0, rate: '', otherFee: '', acquire: '', method: '', purchaseChannel: '', swapped: '未置换', swapTo: '', swapCharacter: '', swapImageId: null, group: '收藏', status: '已下单', qty: '1', originalPrice: '', buyPrice: '', shipDom: '', shipIntl: '', sellPrice: '', supplementPrice: '', finalPrice: '', channel: '', buyDate: this.todayStr(), reminderType: '', reminderDate: this.todayStr(), note: '', imageId: null, imageId2: null, imageId3: null, imageId4: null, specialType: '', specialDate: '', setId: '', setName: '', setTotal: '', setVariant: '', timeline: [], tags: [], rarity: [] }; }
   imageSlotKeys() { return ['imageId', 'imageId2', 'imageId3', 'imageId4']; }
   imageIdsOf(it) { return this.imageSlotKeys().map(k => it && it[k]).filter(Boolean); }
   imageUrlsOf(it) { return this.imageIdsOf(it).map(id => this.imgUrls[id]).filter(Boolean); }
@@ -3166,7 +3174,7 @@ class Component extends DCLogic {
     const saleRows = itemRows.filter(r => r['卖出单价'] || String(r['状态']).includes('出'));
     const now = new Date();
     const monthKeys = []; for (let i = 5; i >= 0; i--) { const d = new Date(now.getFullYear(), now.getMonth() - i, 1); monthKeys.push(this.monthKey(d)); }
-    const walletRows = monthKeys.map(k => { let cost=0, sell=0, profit=0; items.forEach(it => { const e=this.enrich(it); const kk = it.buyDate ? String(it.buyDate).slice(0,7) : ''; if (kk === k) { cost += e.cost; if (e.sold || e.sell > 0) { sell += e.revenue; profit += e.profit; } } }); return { '月份': k, '消费': cost, '卖出': sell, '净支出': cost - sell, '盈亏': profit }; });
+    const walletRows = monthKeys.map(k => { let cost=0, sell=0, profit=0; items.forEach(it => { const e=this.enrich(it); this.cashFlowEntries(it).forEach(cf => { if (String(cf.date||'').slice(0,7) === k) cost += cf.amount; }); const kk = it.buyDate ? String(it.buyDate).slice(0,7) : ''; if (kk === k && (e.sold || e.sell > 0)) { sell += e.revenue; profit += e.profit; } }); return { '月份': k, '消费': cost, '卖出': sell, '净支出': cost - sell, '盈亏': profit }; });
     const todoRows = items.map(it => ({ it, rem: this.reminderInfo(it) })).filter(x => x.rem && x.rem.pending).sort((a,b) => a.rem.days - b.rem.days).map(x => ({ '日期': x.rem.date || '', '类型': x.rem.type || '', '名称': x.it.name || this.genName(x.it) || '', '状态': x.it.status || '', '提示': x.rem.text || '' }));
     const sumMap = (keyFn, valFn) => { const m={}; items.forEach(it => { const k=keyFn(it)||'未分类'; m[k]=(m[k]||0)+valFn(it); }); return Object.entries(m).sort((a,b)=>b[1]-a[1]).slice(0,10).map(([name,value],i)=>({'排行':i+1,'名称':name,'数值':value})); };
     const statRows = [
@@ -3492,8 +3500,25 @@ class Component extends DCLogic {
     if (def.type === 'date') {
       return [{ label:'输入日期', onClick: () => { const v = prompt('输入' + def.label + '（YYYY-MM-DD，留空清除）','') || ''; this.applyBatchField(field, v.trim()); } }, { label:'清空日期', onClick: () => this.applyBatchField(field, '') }];
     }
+    if (def.type === 'number') {
+      const ids = this.state.selectedIds || [];
+      return [
+        { label:'输入' + def.label, onClick: () => { const v = prompt('输入新的' + def.label,'') || ''; this.applyBatchField(field, v.trim()); } },
+        { label:'均摊到每件（共 ' + ids.length + ' 件）', onClick: () => { const v = prompt('输入总金额，将平均分摊到已选中的 ' + ids.length + ' 件谷子的「' + def.label + '」',''); if (v === null || v.trim() === '') return; this.applyBatchFieldSplit(field, v.trim()); } },
+        { label:'清空', onClick: () => this.applyBatchField(field, '') }
+      ];
+    }
     return [{ label:'输入' + def.label, onClick: () => { const v = prompt('输入新的' + def.label,'') || ''; this.applyBatchField(field, v.trim()); } }, { label:'清空', onClick: () => this.applyBatchField(field, '') }];
   }
+  applyBatchFieldSplit = (field, totalValue) => {
+    const ids = this.batchIdsOrWarn(); if (!ids) return;
+    const def = this.batchFieldDef(field); if (!def) return;
+    const total = this.num(totalValue);
+    if (!(total >= 0)) { alert('请输入有效的总金额'); return; }
+    const per = Math.round((total / ids.length) * 100) / 100;
+    if (!confirm('确认把总金额 ' + total + ' 平均分摊到 ' + ids.length + ' 件谷子的「' + def.label + '」，每件约 ' + per + '？')) return;
+    this.batchApply(ids, it => ({ ...it, [field]: String(per) }));
+  };
   applyBatchField = (field, value) => {
     const ids = this.batchIdsOrWarn(); if (!ids) return;
     const def = this.batchFieldDef(field); if (!def) return;
@@ -3575,7 +3600,7 @@ class Component extends DCLogic {
   }
   makeConsumptionSeries(items, rangeInfo, cur) {
     const mode = (rangeInfo && rangeInfo.mode) || 'month';
-    const sumFor = (dateStr) => (items || []).reduce((sum, it) => ((it.buyDate || '') === dateStr ? sum + this.enrich(it).cost : sum), 0);
+    const sumFor = (dateStr) => (items || []).reduce((sum, it) => sum + this.cashFlowEntries(it).filter(cf => cf.date === dateStr).reduce((s, cf) => s + cf.amount, 0), 0);
     let points = [];
     const pad = n => String(n).padStart(2,'0');
     if (mode === 'week') {
@@ -3583,9 +3608,9 @@ class Component extends DCLogic {
       for (let i=0;i<7;i++){ const d = new Date(st); d.setDate(st.getDate()+i); const key=d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); points.push({label:(d.getMonth()+1)+'/'+d.getDate(), value:sumFor(key), key, keyType:'day'}); }
     } else if (mode === 'year') {
       const y = (rangeInfo.start || new Date()).getFullYear();
-      points = Array.from({length:12}, (_,i)=>{ const m=i+1; const key=y+'-'+pad(m); const val=(items||[]).reduce((s,it)=> (it.buyDate||'').startsWith(key) ? s+this.enrich(it).cost : s,0); return {label:m+'月', value:val, key, keyType:'month'}; });
+      points = Array.from({length:12}, (_,i)=>{ const m=i+1; const key=y+'-'+pad(m); const val=(items||[]).reduce((s,it)=> s + this.cashFlowEntries(it).filter(cf => String(cf.date||'').startsWith(key)).reduce((a,cf)=>a+cf.amount,0), 0); return {label:m+'月', value:val, key, keyType:'month'}; });
     } else if (mode === 'all') {
-      const map={}; (items||[]).forEach(it=>{ const k=(it.buyDate||'').slice(0,7); if(!k) return; map[k]=(map[k]||0)+this.enrich(it).cost; });
+      const map={}; (items||[]).forEach(it=>{ this.cashFlowEntries(it).forEach(cf => { const k=String(cf.date||'').slice(0,7); if(!k) return; map[k]=(map[k]||0)+cf.amount; }); });
       points=Object.entries(map).sort().slice(-12).map(([k,v])=>{ const [yy,mm]=k.split('-'); return {label:yy.slice(2)+'年'+parseInt(mm,10)+'月', value:v, key:k, keyType:'month'}; });
       if(!points.length) points=[{label:'暂无',value:0}];
     } else {
@@ -3596,11 +3621,10 @@ class Component extends DCLogic {
   }
   inLedgerRange(it, rangeInfo) {
     if (!rangeInfo || (!rangeInfo.start && !rangeInfo.end)) return true;
-    const ds = it.buyDate || it.reminderDate || '';
-    if (!ds) return false;
-    const d = new Date(ds + 'T00:00:00');
-    if (isNaN(d.getTime())) return false;
-    return (!rangeInfo.start || d >= rangeInfo.start) && (!rangeInfo.end || d <= rangeInfo.end);
+    const inWindow = (ds) => { if (!ds) return false; const d = new Date(ds + 'T00:00:00'); if (isNaN(d.getTime())) return false; return (!rangeInfo.start || d >= rangeInfo.start) && (!rangeInfo.end || d <= rangeInfo.end); };
+    const dates = this.cashFlowEntries(it).map(cf => cf.date).filter(Boolean);
+    if (dates.length) return dates.some(inWindow);
+    return inWindow(it.buyDate || it.reminderDate || '');
   }
   makeLedgerPie(items, by, cur) {
     const workById = Object.fromEntries((this.state.works || []).map(w => [w.id, w]));
@@ -3739,6 +3763,14 @@ class Component extends DCLogic {
           draft.reminderDate = today;
           if (v === '已下单') draft.buyDate = today;
         }
+        if (v === '已补款') {
+          const amt = window.prompt('这笔补款金额是多少？（只计这一笔，会按今天所在月份单独计入钱包，不填可以留空以后再补）', draft.supplementPrice || '');
+          if (amt !== null && amt.trim() !== '') draft.supplementPrice = amt.trim();
+        }
+        if (v === '已尾款') {
+          const amt = window.prompt('这笔尾款金额是多少？（只计这一笔，会按今天所在月份单独计入钱包，不填可以留空以后再补）', draft.finalPrice || '');
+          if (amt !== null && amt.trim() !== '') draft.finalPrice = amt.trim();
+        }
       }
       return { draft, statusMenuOpen: false };
     });
@@ -3824,6 +3856,32 @@ class Component extends DCLogic {
     const revenue = sell * qty;
     const sold = it.status === '已出/已卖出' || it.status === '已出物';
     return { qty, buy, sd, si, other, sell, cost, revenue, sold, profit: revenue - cost };
+  }
+  statusLogDate(it, status) {
+    const log = Array.isArray(it.statusLog) ? it.statusLog.filter(s => s && s.status === status && s.date) : [];
+    return log.length ? log[log.length - 1].date : '';
+  }
+  // 把一件谷子的总花费，按「补款/尾款/国际运费/国内运费各自实际发生的月份」拆开，而不是整笔都算在下单那个月
+  // 国际运费通常跟补款/尾款一起先交；国内运费要等排发/发货之后才知道、才交
+  cashFlowEntries(it) {
+    const e = this.enrich(it);
+    const buyTotal = e.buy * e.qty;
+    const supp = this.num(it.supplementPrice);
+    const fin = this.num(it.finalPrice);
+    const suppDate = supp > 0 ? (this.statusLogDate(it, '已补款') || it.buyDate) : '';
+    const finDate = fin > 0 ? (this.statusLogDate(it, '已尾款') || it.buyDate) : '';
+    const lateDate = finDate || suppDate || it.buyDate;
+    const shipDomDate = this.statusLogDate(it, '已发货') || this.statusLogDate(it, '排发中') || lateDate;
+    const remainder = buyTotal - supp - fin;
+    const entries = [];
+    if (it.buyDate && remainder) entries.push({ date: it.buyDate, amount: remainder });
+    if (supp && suppDate) entries.push({ date: suppDate, amount: supp });
+    if (fin && finDate) entries.push({ date: finDate, amount: fin });
+    if (e.si && lateDate) entries.push({ date: lateDate, amount: e.si });
+    if (e.sd && shipDomDate) entries.push({ date: shipDomDate, amount: e.sd });
+    if (e.other && lateDate) entries.push({ date: lateDate, amount: e.other });
+    if (!entries.length && it.buyDate) entries.push({ date: it.buyDate, amount: e.cost });
+    return entries;
   }
   dateDiffDays(dateStr, yearly) {
     if (!dateStr) return null;
@@ -4338,9 +4396,24 @@ class Component extends DCLogic {
     const ledgerRangeInfo = this.ledgerDateRange(this.state.ledgerRange || 'month');
     const ledgerItemsAll = filtered;
     const ledgerItems = ledgerItemsAll.filter(it => this.inLedgerRange(it, ledgerRangeInfo));
-    // 费用构成拆分（当前范围）
+    // 费用构成拆分（当前范围）—— 只统计落在这个范围里的那一笔，补款/尾款/国际运费/国内运费按各自实际日期算
     let feeGoods = 0, feeIntl = 0, feeDom = 0, feeOther = 0;
-    ledgerItems.forEach(it => { const e = this.enrich(it); feeGoods += e.buy * e.qty; feeIntl += e.si; feeDom += e.sd; feeOther += e.other; });
+    const _inR = (ds) => { if (!ds || !ledgerRangeInfo || (!ledgerRangeInfo.start && !ledgerRangeInfo.end)) return !!ds; const d = new Date(ds + 'T00:00:00'); if (isNaN(d.getTime())) return false; return (!ledgerRangeInfo.start || d >= ledgerRangeInfo.start) && (!ledgerRangeInfo.end || d <= ledgerRangeInfo.end); };
+    ledgerItemsAll.forEach(it => {
+      const e = this.enrich(it);
+      const supp = this.num(it.supplementPrice), fin = this.num(it.finalPrice);
+      const suppDate = supp > 0 ? (this.statusLogDate(it, '已补款') || it.buyDate) : '';
+      const finDate = fin > 0 ? (this.statusLogDate(it, '已尾款') || it.buyDate) : '';
+      const lateDate = finDate || suppDate || it.buyDate;
+      const shipDomDate = this.statusLogDate(it, '已发货') || this.statusLogDate(it, '排发中') || lateDate;
+      const remainder = e.buy * e.qty - supp - fin;
+      if (remainder && _inR(it.buyDate)) feeGoods += remainder;
+      if (supp && _inR(suppDate)) feeGoods += supp;
+      if (fin && _inR(finDate)) feeGoods += fin;
+      if (e.si && _inR(lateDate)) feeIntl += e.si;
+      if (e.sd && _inR(shipDomDate)) feeDom += e.sd;
+      if (e.other && _inR(lateDate)) feeOther += e.other;
+    });
     const feeTotal = feeGoods + feeIntl + feeDom + feeOther;
     const feeComposition = [
       { label: '谷子', value: feeGoods, color: 'var(--accent,#ff3355)' },
@@ -4408,9 +4481,9 @@ class Component extends DCLogic {
     const yearKey = String(lgYear);
     const yearBudget = Object.keys(bmapAll).reduce((s, k) => (k.indexOf(yearKey + '-') === 0 ? s + this.num(bmapAll[k]) : s), 0);
     const globalItems = this.state.items || [];
-    const yearSpent = globalItems.reduce((s, it) => (String(it.buyDate || '').slice(0, 4) === yearKey ? s + this.enrich(it).cost : s), 0);
+    const yearSpent = globalItems.reduce((s, it) => s + this.cashFlowEntries(it).filter(cf => String(cf.date||'').slice(0,4) === yearKey).reduce((a,cf)=>a+cf.amount,0), 0);
     const allSpent = globalItems.reduce((s, it) => s + this.enrich(it).cost, 0);
-    const monthsWithData = new Set(globalItems.map(it => String(it.buyDate || '').slice(0, 7)).filter(Boolean));
+    const monthsWithData = new Set(); globalItems.forEach(it => this.cashFlowEntries(it).forEach(cf => { const k = String(cf.date||'').slice(0,7); if (k) monthsWithData.add(k); }));
     const allAvg = monthsWithData.size ? allSpent / monthsWithData.size : allSpent;
     // 年度回顾（当前所选年）
     const reviewYearItems = globalItems.filter(it => String(it.buyDate || '').slice(0, 4) === yearKey);
@@ -4424,7 +4497,7 @@ class Component extends DCLogic {
       { label: '海景', value: yrReview.sea + ' 件', color: '#2f6fdb' }
     ];
     const showYrReview = lgMode === 'year' || lgMode === 'all';
-    const monthSpentMonth = globalItems.reduce((sum, it) => (String(it.buyDate || '').slice(0, 7) === budgetMonthKey ? sum + this.enrich(it).cost : sum), 0);
+    const monthSpentMonth = globalItems.reduce((sum, it) => sum + this.cashFlowEntries(it).filter(cf => String(cf.date||'').slice(0,7) === budgetMonthKey).reduce((a,cf)=>a+cf.amount,0), 0);
     const monthSpent = isYearScope ? yearSpent : isAllScope ? allSpent : monthSpentMonth;
     const budget = isYearScope ? yearBudget : isAllScope ? 0 : budgetForCells;
     const budgetRemain = budget - monthSpent;
