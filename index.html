@@ -1326,7 +1326,7 @@
               <textarea name="note" value="{{ draft.note }}" onChange="{{ onDraftChange }}" onInput="{{ autoGrowNote }}" rows="1" placeholder="特典 / 瑕疵 / 让渡信息 等" style="width:100%;min-height:42px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none;resize:vertical;box-sizing:border-box;overflow:hidden"></textarea>
             </div>
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;gap:6px"><span>{{ reminderDateLabel }}</span><span style="font-size:10.5px;color:#a49ec4;font-weight:400">· 到期自动提醒</span></div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;gap:6px"><span>{{ reminderDateLabel }}</span><span style="font-size:10.5px;color:#a49ec4;font-weight:400">{{ reminderDateHint }}</span></div>
               <input name="reminderDate" type="date" value="{{ draft.reminderDate }}" onChange="{{ onDraftChange }}" style="width:100%;box-sizing:border-box;min-width:0;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             <div style="grid-column:1/-1">
@@ -2728,7 +2728,7 @@ class Component extends DCLogic {
     try { localStorage.setItem('zzz_custom_filter_order', JSON.stringify(orderMap)); } catch(e) {}
     this.setState({ customFilterOrder: orderMap, customFilterSel }, () => this.commit(items));
   };
-  emptyDraft() { const chars = this.orderedChars(); return { id: null, workId: this.defaultDraftWorkId(), custom: {}, name: '', character: (chars[0] || ''), type: this.TYPES[0], subtype: '', series: '', form: '通用', heat: 0, rate: '', otherFee: '', acquire: '', method: '', purchaseChannel: '', swapped: '未置换', swapTo: '', swapCharacter: '', swapImageId: null, group: '收藏', status: '已归家', qty: '1', originalPrice: '', buyPrice: '', shipDom: '', shipIntl: '', sellPrice: '', channel: '', buyDate: this.todayStr(), reminderType: '', reminderDate: '', note: '', imageId: null, imageId2: null, imageId3: null, imageId4: null, specialType: '', specialDate: '', setId: '', setName: '', setTotal: '', setVariant: '', timeline: [], tags: [], rarity: [] }; }
+  emptyDraft() { const chars = this.orderedChars(); return { id: null, workId: this.defaultDraftWorkId(), custom: {}, name: '', character: (chars[0] || ''), type: this.TYPES[0], subtype: '', series: '', form: '通用', heat: 0, rate: '', otherFee: '', acquire: '', method: '', purchaseChannel: '', swapped: '未置换', swapTo: '', swapCharacter: '', swapImageId: null, group: '收藏', status: '已下单', qty: '1', originalPrice: '', buyPrice: '', shipDom: '', shipIntl: '', sellPrice: '', channel: '', buyDate: this.todayStr(), reminderType: '', reminderDate: this.todayStr(), note: '', imageId: null, imageId2: null, imageId3: null, imageId4: null, specialType: '', specialDate: '', setId: '', setName: '', setTotal: '', setVariant: '', timeline: [], tags: [], rarity: [] }; }
   imageSlotKeys() { return ['imageId', 'imageId2', 'imageId3', 'imageId4']; }
   imageIdsOf(it) { return this.imageSlotKeys().map(k => it && it[k]).filter(Boolean); }
   imageUrlsOf(it) { return this.imageIdsOf(it).map(id => this.imgUrls[id]).filter(Boolean); }
@@ -2916,9 +2916,9 @@ class Component extends DCLogic {
     }
     this.setState({ modalOpen: false, draft: null, editing: null, bulkEditIds: [], bulkEditIndex: 0 });
   };
-  duplicateCurrent = () => { const d = this.state.draft; if (!d) return; this.setState({ editing: null, draft: { ...d, id: null, name: (d.name || '未命名') + ' 副本' } }); };
+  duplicateCurrent = () => { const d = this.state.draft; if (!d) return; this.setState({ editing: null, draft: { ...d, id: null, name: (d.name || '未命名') + ' 副本', buyDate: this.todayStr(), reminderDate: '', statusLog: [], swapLog: [] } }); };
   deleteCurrent = () => { const id = this.state.editing; if (!id) return; const it = this.state.items.find(x => x.id === id); if (!it) { this.closeModal(); return; } if (!confirm('确定删除「' + (it.name || '该谷子') + '」？')) return; this.commit(this.state.items.filter(x => x.id !== id)); this.closeModal(); };
-  onDraftChange = (e) => { const { name, value } = e.target; this.setState(s => ({ draft: { ...s.draft, [name]: value } })); };
+  onDraftChange = (e) => { const { name, value } = e.target; this.setState(s => { const draft = { ...s.draft, [name]: value }; if (name === 'reminderDate' && s.draft && s.draft.status === '已下单') draft.buyDate = value; return { draft }; }); };
   autoGrowNote = (e) => { const el = e.target; el.style.height = 'auto'; el.style.height = Math.max(42, el.scrollHeight) + 'px'; };
   onTypeChange = (e) => { let v = e.target.value; if (v === '__custom__') { v = (window.prompt('输入新的种类名称') || '').trim(); if (!v) return; } else if (v === '__rename__') { return this.renameType(); } else if (v === '__delete__') { return this.deleteType(); } this.setState(s => ({ draft: { ...s.draft, type: v } })); };
   deleteType = () => {
@@ -3735,7 +3735,10 @@ class Component extends DCLogic {
       if (v && v !== prevStatus) {
         const today = new Date().toISOString().slice(0, 10);
         const label = this.statusDateLabel(v);
-        if (window.confirm('记录「' + label + '」？\n\n' + today + '\n\n确定＝用今天，取消＝保留原日期，稍后可改')) draft.reminderDate = today;
+        if (window.confirm('记录「' + label + '」？\n\n' + today + '\n\n确定＝用今天，取消＝保留原日期，稍后可改')) {
+          draft.reminderDate = today;
+          if (v === '已下单') draft.buyDate = today;
+        }
       }
       return { draft, statusMenuOpen: false };
     });
@@ -4229,6 +4232,7 @@ class Component extends DCLogic {
     const soldState = dStatus === '已出物' || dStatus === '出售中' || dStatus === '已出/已卖出';
     const showReminderFields = !!dStatus && !arrivedState && !soldState;
     const reminderDateLabel = dStatus === '已下单' ? '下单日期' : dStatus === '待补款' ? '补款截止日' : dStatus === '已补款' ? '补款日期' : dStatus === '待尾款' ? '尾款截止日' : dStatus === '已尾款' ? '尾款日期' : dStatus === '排发中' ? '预计排发日' : dStatus === '已发货' ? '发货日' : dStatus === '已归家' || dStatus === '已到货' ? '归家日期' : dStatus === '已出物' || dStatus === '已出/已卖出' ? '出物日期' : '提醒日期';
+    const reminderDateHint = dStatus === '已下单' ? '· 即购买日期，钱包按此统计' : '· 到期自动提醒';
     const dAcquire = this.state.draft ? (this.state.draft.acquire || '') : '';
     const acquireMenuItems = ((this.state.acquireOrder && this.state.acquireOrder.length) ? this.state.acquireOrder : ['日谷','国谷','同人']).map(c => ({ name: c, onPick: () => this.pickAcquire(c), onRename: (ev) => this.renameListOption('acquireOrder', 'zzz_acquire_order', 'acquire', c, '来源方式', ev), onDel: (ev) => this.delListOption('acquireOrder', 'zzz_acquire_order', 'acquire', c, ev), rowStyle: this.menuRow(dAcquire === c) }));
     const acquireDisplay = dAcquire || '选择来源方式';
@@ -4836,7 +4840,7 @@ class Component extends DCLogic {
       trendOpen: this.state.trendOpen, closeTrend: this.closeTrend, saveTrend: this.saveTrend, addTrendRow: this.addTrendRow, trendRowsView, trendMetrics, trendTitle: (trendIt.name || '未命名') + ' · 价格趋势', setChartCanvas: this.setChartCanvas, trendHasData: !tr.empty, onOcr: this.handleOcr, ocrStatus: this.state.ocrStatus || '', hasOcrText: !!(this.state.ocrRawText || this.state.ocrBulkText), ocrRawText: this.state.ocrRawText || '', ocrBulkText: this.state.ocrBulkText || '', onOcrRawChange: this.onOcrRawChange, onOcrBulkChange: this.onOcrBulkChange, reparseOcrRaw: this.reparseOcrRaw, fillOcrBulk: this.fillOcrBulk,
       labels, workManageRows, fieldRows, optionGroups, customFieldRows, draftCustomInputs, hasCustomFields: draftCustomFields.length > 0, addCustomField: this.addCustomField, restoreBaseFields: this.restoreBaseFields, migrateSeriesToSet: this.migrateSeriesToSet, migrateSeriesToCustom: this.migrateSeriesToCustom, workSettingGroups, dashboardCollectionRows, dashboardSaleRows, addGroupAlone: this.addGroupAlone, uploadBg: this.uploadBg, clearBg: this.clearBg, hasBg: !!this.bgUrl, addWorkInline: this.addWork,
       addFormOpt: this.addOptionTo('formOrder', 'zzz_form_order', '输入新的形态'), addStatusOpt: this.addOptionTo('statusList', 'zzz_status', '输入新的状态'), addAcquireOpt: this.addOptionTo('acquireOrder', 'zzz_acquire_order', '输入新的来源方式'), formMenuItems, formDisplay, formMenuOpen: this.state.formMenuOpen, toggleFormMenu: this.toggleFormMenu, statusMenuItems, statusDisplay, statusMenuOpen: this.state.statusMenuOpen, toggleStatusMenu: this.toggleStatusMenu, acquireMenuItems, acquireDisplay, acquireMenuOpen: this.state.acquireMenuOpen, toggleAcquireMenu: this.toggleAcquireMenu, methodMenuItems, methodDisplay, methodMenuOpen: this.state.methodMenuOpen, toggleMethodMenu: this.toggleMethodMenu, clearMethod: this.clearMethod, hasMethodItems: methodMenuItems.length > 0,
-      lblCharacter: labels.character, lblType: labels.type, lblChannel: labels.channel, lblPurchaseChannel: labels.purchaseChannel, lblSeries: labels.series, lblStatus: labels.status, lblForm: labels.form, lblAcquire: labels.acquire, showReminderFields, reminderDateLabel,
+      lblCharacter: labels.character, lblType: labels.type, lblChannel: labels.channel, lblPurchaseChannel: labels.purchaseChannel, lblSeries: labels.series, lblStatus: labels.status, lblForm: labels.form, lblAcquire: labels.acquire, showReminderFields, reminderDateLabel, reminderDateHint,
       cnPrefix, hasCn: !!cnPrefix, cnDisplay, cnSidebarClass,
       rootBgStyle: this.bgUrl ? { backgroundImage: `linear-gradient(rgba(236,232,246,.82),rgba(236,232,246,.92)), url(${this.bgUrl})`, backgroundSize: 'cover', backgroundAttachment: 'fixed', backgroundPosition: 'center' } : {},
       appClass, mobileModeText, toggleMobileMode: this.toggleMobileMode, filterSummaryText, filterToggleText, toggleFiltersOpen: this.toggleFiltersOpen,
