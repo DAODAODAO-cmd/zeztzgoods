@@ -3167,7 +3167,7 @@ class Component extends DCLogic {
       const e = this.enrich(it); const w = workById[it.workId] || {};
       const row = {
         '图片1': includeImages ? await this.imgData(it.imageId) : '', '图片2': includeImages ? await this.imgData(it.imageId2) : '', '图片3': includeImages ? await this.imgData(it.imageId3) : '', '图片4': includeImages ? await this.imgData(it.imageId4) : '',
-        '作品系列IP': w.group || '', '作品': w.name || '', '名称': it.name || '', '角色': it.character || '', '种类': it.type || '', '细分': it.subtype || '', '系列': it.series || '', '状态': it.status || '', '数量': e.qty, '原价(日元)': it.originalPrice || '', '买入单价': e.buy || '', '国内邮费': e.sd || '', '国际邮费': e.si || '', '总投入': e.cost || '', '卖出单价': e.sell || '', '卖出金额': e.revenue || '', '盈亏': e.sold ? e.profit : '', '平台': it.channel || '', '渠道': it.purchaseChannel || '', '购买日期': it.buyDate || '', '提醒类型': it.reminderType || '', '提醒日期': it.reminderDate || '', '所属套装': it.setName || '', '套装总数': it.setTotal || '', '款式编号': it.setVariant || '', '备注': it.note || ''
+        '作品系列IP': w.group || '', '作品': w.name || '', '名称': it.name || '', '角色': it.character || '', '种类': it.type || '', '细分': it.subtype || '', '系列': it.series || '', '状态': it.status || '', '数量': e.qty, '原价(日元)': it.originalPrice || '', '买入单价': e.buy || '', '国内邮费': e.sd || '', '国际邮费': e.si || '', '总投入': e.cost || '', '卖出单价': e.sell || '', '卖出金额': e.revenue || '', '盈亏': e.sold ? e.profit : '', '平台': it.channel || '', '渠道': it.purchaseChannel || '', '购买日期': it.buyDate || '', '提醒类型': it.reminderType || '', '提醒日期': it.reminderDate || '', '所属套装': it.setName || '', '套装总数': it.setTotal || '', '款式编号': it.setVariant || '', '备注': it.note || '', '编号（请勿修改，用于重新导入时识别更新）': it.id || ''
       };
       itemRows.push(row);
     }
@@ -3274,9 +3274,9 @@ class Component extends DCLogic {
       if (!window.ExcelJS) throw new Error('ExcelJS 未加载，请刷新页面或检查网络后重试');
       const wb = new ExcelJS.Workbook();
       const ws = wb.addWorksheet('收藏');
-      const headers = ['图片1','图片2','图片3','图片4','作品系列IP','作品','名称','角色','种类','细分','系列','状态','数量','原价(日元)','买入单价','国内邮费','国际邮费','卖出单价','平台','渠道','购买日期','提醒类型','提醒日期','所属套装','套装总数','款式编号','备注'];
+      const headers = ['图片1','图片2','图片3','图片4','作品系列IP','作品','名称','角色','种类','细分','系列','状态','数量','原价(日元)','买入单价','国内邮费','国际邮费','卖出单价','平台','渠道','购买日期','提醒类型','提醒日期','所属套装','套装总数','款式编号','备注','编号（请勿修改，用于重新导入时识别更新）'];
       ws.addRow(headers);
-      ws.addRow(['可直接在此单元格插入图片，也可留空','','','','默认','默认作品','NOX 吧唧','NOX','吧唧','初版','TV动画','已归家','1','800','150','10','30','','淘宝','代购','2026-07-01','','','','','','示例数据，可直接删除此行']);
+      ws.addRow(['可直接在此单元格插入图片，也可留空','','','','默认','默认作品','NOX 吧唧','NOX','吧唧','初版','TV动画','已归家','1','800','150','10','30','','淘宝','代购','2026-07-01','','','','','','示例数据，可直接删除此行','']);
       ws.getRow(1).font = { bold: true };
       ws.getRow(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFEFEAF8' } };
       ws.getRow(2).height = 58;
@@ -3350,6 +3350,8 @@ class Component extends DCLogic {
       if (!confirm('将从 Excel 导入 ' + rows.length + ' 条收藏，是否继续？')) { e.target.value=''; return; }
       const workByName = Object.fromEntries((this.state.works || []).map(w => [w.name, w]));
       const newItems = [];
+      const updateMap = {};
+      const existingItemIds = new Set((this.state.items || []).map(it => it.id));
       for (const r of rows) {
         const name = String(this.excelVal(r, ['名称','商品名称','谷子名称']) || '').trim();
         if (!name) continue;
@@ -3359,12 +3361,22 @@ class Component extends DCLogic {
         const img2 = await this.saveImageDataURL(this.excelVal(r, ['图片2']));
         const img3 = await this.saveImageDataURL(this.excelVal(r, ['图片3']));
         const img4 = await this.saveImageDataURL(this.excelVal(r, ['图片4']));
-        newItems.push({ ...this.emptyDraft(), id:'it_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6), workId, name, imageId: img1, imageId2: img2, imageId3: img3, imageId4: img4,
-          character:String(this.excelVal(r,['角色'])||''), type:String(this.excelVal(r,['种类','类型'])||''), subtype:String(this.excelVal(r,['细分','款式'])||''), series:String(this.excelVal(r,['系列'])||''), status:String(this.excelVal(r,['状态'])||'已归家'), qty:String(this.excelVal(r,['数量'])||'1'), originalPrice:String(this.excelVal(r,['原价(日元)','原价'])||''), buyPrice:String(this.excelVal(r,['买入单价','买入价'])||''), shipDom:String(this.excelVal(r,['国内邮费'])||''), shipIntl:String(this.excelVal(r,['国际邮费'])||''), sellPrice:String(this.excelVal(r,['卖出单价','卖出价'])||''), channel:String(this.excelVal(r,['平台','购买平台','厂商'])||''), purchaseChannel:String(this.excelVal(r,['渠道','购买渠道'])||''), buyDate:String(this.excelVal(r,['购买日期','日期'])||''), reminderType:String(this.excelVal(r,['提醒类型'])||''), reminderDate:String(this.excelVal(r,['提醒日期'])||''), setName:String(this.excelVal(r,['所属套装','套装'])||''), setTotal:String(this.excelVal(r,['套装总数'])||''), setVariant:String(this.excelVal(r,['款式编号','款式'])||''), note:String(this.excelVal(r,['备注'])||'') });
+        const existingId = String(this.excelVal(r, ['编号（请勿修改，用于重新导入时识别更新）','编号']) || '').trim();
+        const fields = { workId, name,
+          character:String(this.excelVal(r,['角色'])||''), type:String(this.excelVal(r,['种类','类型'])||''), subtype:String(this.excelVal(r,['细分','款式'])||''), series:String(this.excelVal(r,['系列'])||''), status:String(this.excelVal(r,['状态'])||'已归家'), qty:String(this.excelVal(r,['数量'])||'1'), originalPrice:String(this.excelVal(r,['原价(日元)','原价'])||''), buyPrice:String(this.excelVal(r,['买入单价','买入价'])||''), shipDom:String(this.excelVal(r,['国内邮费'])||''), shipIntl:String(this.excelVal(r,['国际邮费'])||''), sellPrice:String(this.excelVal(r,['卖出单价','卖出价'])||''), channel:String(this.excelVal(r,['平台','购买平台','厂商'])||''), purchaseChannel:String(this.excelVal(r,['渠道','购买渠道'])||''), buyDate:String(this.excelVal(r,['购买日期','日期'])||''), reminderType:String(this.excelVal(r,['提醒类型'])||''), reminderDate:String(this.excelVal(r,['提醒日期'])||''), setName:String(this.excelVal(r,['所属套装','套装'])||''), setTotal:String(this.excelVal(r,['套装总数'])||''), setVariant:String(this.excelVal(r,['款式编号','款式'])||''), note:String(this.excelVal(r,['备注'])||'') };
+        if (img1) fields.imageId = img1; if (img2) fields.imageId2 = img2; if (img3) fields.imageId3 = img3; if (img4) fields.imageId4 = img4;
+        if (existingId && existingItemIds.has(existingId)) {
+          updateMap[existingId] = fields;
+        } else {
+          newItems.push({ ...this.emptyDraft(), id:'it_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6), imageId: img1, imageId2: img2, imageId3: img3, imageId4: img4, ...fields });
+        }
       }
-      if (!newItems.length) { alert('没有找到可导入的收藏行'); e.target.value=''; return; }
-      this.commit([...newItems, ...(this.state.items || [])]);
-      alert('已导入 ' + newItems.length + ' 条收藏。');
+      const updatedCount = Object.keys(updateMap).length;
+      if (!newItems.length && !updatedCount) { alert('没有找到可导入的收藏行'); e.target.value=''; return; }
+      const mergedItems = (this.state.items || []).map(it => updateMap[it.id] ? { ...it, ...updateMap[it.id] } : it);
+      this.commit([...newItems, ...mergedItems]);
+      const parts = []; if (newItems.length) parts.push('新增 ' + newItems.length + ' 条'); if (updatedCount) parts.push('更新 ' + updatedCount + ' 条');
+      alert('已' + parts.join('、') + '收藏。');
     } catch (err) { alert('导入 Excel 失败：' + (err && err.message ? err.message : err)); }
     e.target.value = '';
   };
