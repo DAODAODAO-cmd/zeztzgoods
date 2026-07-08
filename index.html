@@ -23,7 +23,7 @@
   .ui-app [style*="display:flex"] > *{min-width:0}
   .ui-app [style*="Orbitron"]{overflow-wrap:anywhere;word-break:break-word;min-width:0}
   .ui-stat-value,.ui-gallery-name,.ui-mobile-card-price,.ui-mobile-card-price *{overflow-wrap:anywhere;word-break:break-word;min-width:0}
-  body{margin:0;background:#ece8f6}
+  body{margin:0;background:linear-gradient(180deg,#fff7fb 0%,#f7fbff 48%,#fff9ef 100%)}
   ::placeholder{color:#938db0}
   select option{background:#ffffff;color:#251d49}
   input[type=date]::-webkit-calendar-picker-indicator{filter:invert(.4);cursor:pointer}
@@ -326,8 +326,10 @@
   .ui-batch-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:linear-gradient(120deg,#fff,#f7f3ff);border:1px solid #ded7ee;border-left:4px solid var(--accent,#ff3355);border-radius:14px;padding:10px 13px;margin-bottom:14px;position:sticky;top:8px;z-index:20;box-shadow:0 10px 28px rgba(50,38,90,.1);}
   .ui-batch-active .ui-filter-summary{position:sticky !important;top:8px;z-index:22;box-shadow:0 10px 28px rgba(50,38,90,.1);}
   .ui-batch-active .ui-batch-bar{top:64px;}
-  .ui-gallery-card{transition:transform .16s,box-shadow .16s,border-color .16s;}
-  .ui-gallery-card:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(50,38,90,.12) !important;}
+  .ui-gallery-card{transition:transform .16s,box-shadow .16s,border-color .16s;background:linear-gradient(180deg,#fff,#fffaff);}
+  .ui-gallery-card:hover{transform:translateY(-2px);box-shadow:0 18px 36px rgba(255,122,162,.14),0 10px 24px rgba(91,157,255,.09) !important;}
+  .ui-gallery-card .ui-image-mosaic::after{content:"";position:absolute;left:0;right:0;top:0;height:44%;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,.34),rgba(255,255,255,0));z-index:1;}
+  .ui-gallery-card .ui-image-mosaic > span{z-index:2;}
   .ui-table-row:not(.ui-table-head){transition:background .15s,box-shadow .15s;}
   .ui-table-selectable{cursor:pointer;}
   .ui-table-selectable:hover{background:rgba(124,92,214,.055);}
@@ -356,9 +358,132 @@
   .ui-editable-text{border-radius:6px;transition:background .14s;}
   .ui-editable-text:hover{background:rgba(95,68,140,.06);}
   .ui-stats-grid > div{background:linear-gradient(158deg,#ffffff,#faf8ff)!important;border-color:#ece7f6!important;}
+  /* ===== V5 明亮吃谷风：圆润、轻甜、但不过度堆装饰 ===== */
+  .ui-app{background:linear-gradient(180deg,var(--accent-bg-a,#fff7fb) 0%,#f7fbff 46%,var(--accent-bg-b,#fff9ef) 100%);}
+  .ui-page-inner > div[style*="background"],
+  .ui-filters-panel,
+  .ui-filter-summary,
+  .ui-ledger-card,
+  .ui-ledger-month-card,
+  .ui-modal-card,
+  .ui-batch-bar{
+    border-color:#f0dff1 !important;
+    box-shadow:0 10px 28px rgba(255,122,162,.08),0 8px 24px rgba(91,157,255,.06) !important;
+  }
+  .ui-gallery-card{
+    border-radius:22px !important;
+    border-color:var(--accent-border,#f3e2f1);
+    box-shadow:0 8px 22px var(--accent-shadow,rgba(255,122,162,.08)),0 4px 14px rgba(91,157,255,.06);
+  }
+  .ui-gallery-card-body{background:linear-gradient(180deg,#fff,var(--accent-bg-a,#fffafd)) !important;}
+  .ui-image-mosaic{background:linear-gradient(145deg,var(--accent-bg-b,#fff0f7),#eef8ff) !important;}
+  .ui-app button:not([style*="border-radius:50%"]){border-radius:14px !important;}
+  .ui-modal-card input:not([type="file"]):not([type="color"]),
+  .ui-modal-card textarea,
+  .ui-modal-card button[style*="width:100%"]{border-radius:14px !important;border-color:#efdff1 !important;}
+  .ui-table-wrap{border-radius:20px !important;border-color:var(--accent-border,#efdff1) !important;background:linear-gradient(160deg,#ffffff,var(--accent-bg-a,#fff7fb)) !important;}
+  .ui-sidebar{background:rgba(255,255,255,.88) !important;border-right-color:var(--accent-border,#f0dff1) !important;}
+  .ui-sidebar-logo,.ui-draft-image-mosaic{border-radius:20px !important;}
   .ui-ledger-card{border-color:#ece7f6!important;}
   .ui-sidebar-lib-head::before{content:"🗂 ";}
   .ui-sidebar-ip-label{opacity:.92;}
+
+  /* ===== V6 主题色轻量氛围层：主题跟随，但页面始终保持明亮可读 ===== */
+  .ui-app{
+    background:
+      radial-gradient(circle at 14% -10%,var(--accent-bg-c,rgba(255,236,246,.9)) 0%,rgba(255,255,255,0) 42%),
+      radial-gradient(circle at 96% 2%,var(--accent-bg-b,rgba(240,246,255,.92)) 0%,rgba(255,255,255,0) 38%),
+      linear-gradient(180deg,var(--accent-bg-a,#fff8fb) 0%,#f9fbff 50%,#fff 100%);
+  }
+  .ui-page-inner > div[style*="background"],
+  .ui-filters-panel,
+  .ui-filter-summary,
+  .ui-ledger-card,
+  .ui-ledger-month-card,
+  .ui-modal-card,
+  .ui-batch-bar,
+  .ui-sidebar-brand{
+    background:linear-gradient(155deg,rgba(255,255,255,.94),var(--accent-bg-a,rgba(255,248,251,.94))) !important;
+    border-color:var(--accent-border,#eadff3) !important;
+    box-shadow:0 12px 30px rgba(46,35,86,.07),0 8px 24px var(--accent-shadow,rgba(255,122,162,.08)) !important;
+  }
+  .ui-batch-bar,
+  .ui-filter-summary{border-left-color:var(--accent,#ff3355) !important;}
+  .ui-app button:not([disabled]){
+    transition:transform .14s,box-shadow .14s,background .14s,border-color .14s,color .14s;
+  }
+  .ui-app button:not([disabled]):hover{
+    box-shadow:0 8px 18px var(--accent-shadow,rgba(255,122,162,.12));
+  }
+  .ui-app button:not([disabled]):active{transform:translateY(1px);}
+  .ui-batch-check{
+    border-color:var(--accent-border,#ded7ee) !important;
+    background:rgba(255,255,255,.96) !important;
+    color:transparent;
+    box-shadow:0 6px 16px rgba(46,35,86,.12),0 0 0 3px var(--accent-softer,rgba(255,51,85,.06)) !important;
+  }
+  .ui-batch-check.on{
+    background:var(--accent,#ff3355) !important;
+    border-color:var(--accent,#ff3355) !important;
+    color:#fff !important;
+    box-shadow:0 0 0 4px var(--accent-soft,rgba(255,51,85,.12)),0 10px 22px var(--accent-shadow,rgba(255,51,85,.18)) !important;
+  }
+  .ui-table-selectable:hover{background:var(--accent-softer,rgba(255,51,85,.06)) !important;}
+  .ui-table-selected{
+    background:linear-gradient(90deg,var(--accent-soft,rgba(255,51,85,.12)),rgba(255,255,255,.78)) !important;
+    box-shadow:inset 4px 0 0 var(--accent,#ff3355),0 0 0 1px var(--accent-border,#ded7ee) !important;
+  }
+  .ui-gallery-card:hover{
+    box-shadow:0 18px 36px var(--accent-shadow,rgba(255,122,162,.14)),0 10px 24px rgba(46,35,86,.08) !important;
+  }
+  .ui-card-stars{
+    display:inline-flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap:0;
+    margin-left:auto;
+    padding:2px 5px;
+    border-radius:999px;
+    background:rgba(255,255,255,.78);
+    border:1px solid var(--accent-border,#eadff3);
+    box-shadow:0 4px 10px rgba(46,35,86,.06);
+    flex-shrink:0;
+  }
+  .ui-card-meta-line{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    margin-top:6px;
+  }
+  .ui-modal-card input:not([type="file"]):not([type="color"]),
+  .ui-modal-card select,
+  .ui-modal-card textarea,
+  .ui-mini-select{
+    background:rgba(255,255,255,.94) !important;
+    border-color:var(--accent-border,#ded7ee) !important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.7);
+  }
+  .ui-modal-card input:focus,
+  .ui-modal-card select:focus,
+  .ui-modal-card textarea:focus,
+  .ui-mini-select:focus{
+    outline:none !important;
+    border-color:var(--accent,#ff3355) !important;
+    box-shadow:0 0 0 4px var(--accent-soft,rgba(255,51,85,.12)) !important;
+  }
+  .ui-sidebar-work-btn,
+  .ui-sidebar-foot-btn,
+  .ui-batch-edit-modal-grid button,
+  .ui-batch-option-grid button{
+    border-color:var(--accent-border,#ded7ee) !important;
+    background:rgba(255,255,255,.88) !important;
+    box-shadow:0 4px 12px rgba(46,35,86,.045);
+  }
+  .ui-sidebar-work-menu{
+    border-color:var(--accent-border,#ded7ee) !important;
+    box-shadow:0 18px 44px rgba(46,35,86,.16),0 8px 22px var(--accent-shadow,rgba(255,51,85,.1)) !important;
+  }
 
 </style>
 </helmet>
@@ -757,7 +882,7 @@
             <div class="ui-gallery-card-body" style="padding:12px 13px 13px;display:flex;flex-direction:column;gap:9px;flex:1">
               <div>
                 <div class="ui-gallery-name" style="font-weight:700;font-size:14.5px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">{{ row.name }}</div>
-                <div style="margin-top:5px"><span style="{{ row.charStyle }}"><sc-if value="{{ row.hasAvatar }}" hint-placeholder-val="{{ false }}"><div style="{{ row.avatarStyle }}"></div></sc-if>{{ row.character }}</span></div>
+                <div class="ui-card-meta-line"><span style="{{ row.charStyle }}"><sc-if value="{{ row.hasAvatar }}" hint-placeholder-val="{{ false }}"><div style="{{ row.avatarStyle }}"></div></sc-if>{{ row.character }}</span><div class="ui-card-stars" title="点星星设烫度"><sc-for list="{{ row.cardStars }}" as="st" hint-placeholder-count="5"><button onClick="{{ st.onClick }}" style="{{ st.style }}">★</button></sc-for></div></div>
                 <sc-if value="{{ row.hasOrig }}" hint-placeholder-val="{{ false }}"><div class="ui-mobile-card-extra" style="font-size:11px;color:#938db0;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ row.origText }}</div></sc-if>
               </div>
               <sc-if value="{{ row.showTextMeta }}" hint-placeholder-val="{{ true }}">
@@ -772,9 +897,6 @@
                 <sc-if value="{{ row.hasChipTags }}" hint-placeholder-val="{{ false }}"><sc-for list="{{ row.chipTags }}" as="t" hint-placeholder-count="1"><span style="{{ t.style }}">{{ t.label }}</span></sc-for></sc-if>
               </div>
               </sc-if>
-              <div class="ui-mobile-card-extra" style="display:flex;align-items:center;gap:1px" title="点星星设烫度">
-                <sc-for list="{{ row.cardStars }}" as="st" hint-placeholder-count="5"><button onClick="{{ st.onClick }}" style="{{ st.style }}">★</button></sc-for>
-              </div>
               <div class="ui-mobile-card-price" style="display:flex;align-items:flex-end;justify-content:space-between;gap:8px;margin-top:2px;padding-top:9px;border-top:1px solid rgba(50,38,90,.05)">
                 <div>
                   <div style="font-size:11px;color:#837da4">总价 · 数量{{ row.qtyText }}</div>
@@ -1307,14 +1429,14 @@
             </div>
             <sc-if value="{{ draftNotSelling }}" hint-placeholder-val="{{ true }}">
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">买入价（人民币 · 单价）</div>
-              <input name="buyPrice" type="number" min="0" value="{{ draft.buyPrice }}" onChange="{{ onDraftChange }}" placeholder="你花了多少" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">买入价（人民币 · 单价）<span style="font-size:10.5px;color:#a49ec4;font-weight:400">· 支持算式，如 280+20</span></div>
+              <input name="buyPrice" type="text" min="0" value="{{ draft.buyPrice }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" placeholder="你花了多少" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             </sc-if>
             <sc-if value="{{ draftIsSelling }}" hint-placeholder-val="{{ false }}">
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">卖出价（人民币 · 单价）</div>
-              <input name="sellPrice" type="number" min="0" value="{{ draft.sellPrice }}" onChange="{{ onDraftChange }}" placeholder="出物 / 已卖填写" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">卖出价（人民币 · 单价）<span style="font-size:10.5px;color:#a49ec4;font-weight:400">· 支持算式，如 280+20</span></div>
+              <input name="sellPrice" type="text" min="0" value="{{ draft.sellPrice }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" placeholder="出物 / 已卖填写" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             </sc-if>
             <div>
@@ -1337,43 +1459,43 @@
             <sc-if value="{{ feeShow }}" hint-placeholder-val="{{ false }}">
             <sc-if value="{{ draftIsSelling }}" hint-placeholder-val="{{ false }}">
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">买入价（单价）</div>
-              <input name="buyPrice" type="number" min="0" value="{{ draft.buyPrice }}" onChange="{{ onDraftChange }}" placeholder="你花了多少" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">买入价（单价）<span style="font-size:10.5px;color:#a49ec4;font-weight:400">· 支持算式，如 280+20</span></div>
+              <input name="buyPrice" type="text" min="0" value="{{ draft.buyPrice }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" placeholder="你花了多少" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             </sc-if>
             <div>
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">补款金额<span style="font-size:10.5px;color:#a49ec4;font-weight:400">· 按补款那个月单独计入钱包</span></div>
-              <input name="supplementPrice" type="number" min="0" value="{{ draft.supplementPrice }}" onChange="{{ onDraftChange }}" placeholder="有分期补款再填" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              <input name="supplementPrice" type="text" min="0" value="{{ draft.supplementPrice }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" placeholder="有分期补款再填" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             <div>
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">尾款金额<span style="font-size:10.5px;color:#a49ec4;font-weight:400">· 按尾款那个月单独计入钱包</span></div>
-              <input name="finalPrice" type="number" min="0" value="{{ draft.finalPrice }}" onChange="{{ onDraftChange }}" placeholder="有尾款再填" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              <input name="finalPrice" type="text" min="0" value="{{ draft.finalPrice }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" placeholder="有尾款再填" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             <sc-if value="{{ draftNotSelling }}" hint-placeholder-val="{{ true }}">
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">卖出价（单价）</div>
-              <input name="sellPrice" type="number" min="0" value="{{ draft.sellPrice }}" onChange="{{ onDraftChange }}" placeholder="出物 / 已卖填写" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">卖出价（单价）<span style="font-size:10.5px;color:#a49ec4;font-weight:400">· 支持算式，如 280+20</span></div>
+              <input name="sellPrice" type="text" min="0" value="{{ draft.sellPrice }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" placeholder="出物 / 已卖填写" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             </sc-if>
             <div>
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">国内邮费</div>
-              <input name="shipDom" type="number" min="0" value="{{ draft.shipDom }}" onChange="{{ onDraftChange }}" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              <input name="shipDom" type="text" min="0" value="{{ draft.shipDom }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             <div>
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">国际邮费</div>
-              <input name="shipIntl" type="number" min="0" value="{{ draft.shipIntl }}" onChange="{{ onDraftChange }}" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              <input name="shipIntl" type="text" min="0" value="{{ draft.shipIntl }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             <div>
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">其他费用</div>
-              <input name="otherFee" type="number" min="0" value="{{ draft.otherFee }}" onChange="{{ onDraftChange }}" placeholder="车马 / 手续费 等" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              <input name="otherFee" type="text" min="0" value="{{ draft.otherFee }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" placeholder="车马 / 手续费 等" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             <div>
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">原价（日元 円）</div>
-              <input name="originalPrice" type="number" min="0" value="{{ draft.originalPrice }}" onChange="{{ onDraftChange }}" placeholder="官方定价（日元）" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              <input name="originalPrice" type="text" min="0" value="{{ draft.originalPrice }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" placeholder="官方定价（日元）" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             <div>
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">汇率（1日元≈? 人民币）</div>
-              <input name="rate" type="number" min="0" step="0.0001" value="{{ draft.rate }}" onChange="{{ onDraftChange }}" placeholder="例：0.05" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              <input name="rate" type="text" min="0" step="0.0001" value="{{ draft.rate }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" placeholder="例：0.05" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
               <sc-if value="{{ draftHasConv }}" hint-placeholder-val="{{ false }}">
                 <div style="font-size:11.5px;color:#544f7e;margin-top:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">折算 ≈ {{ draftConvText }} <button onClick="{{ fillBuyFromRate }}" style="font-family:inherit;font-size:11.5px;color:#fff;background:var(--accent,#ff3355);border:none;padding:3px 9px;border-radius:7px;cursor:pointer">填入买入价</button></div>
               </sc-if>
@@ -1849,7 +1971,24 @@ class Component extends DCLogic {
   imgUrls = {};
   state = { items: [], view: null, sets: [], lastSetId: '', setMenuOpen: false, feeOpen: false, colInfoOpen: false, setInfoOpen: false, recentWorks: [], collapsedGroups: {}, reminderMenuOpen: false, monthlyBudget: '', budgets: {}, ledgerDetailKey: '', ledgerDetailType: 'day', ledgerDetailLabel: '', tableSortKey: '', tableSortDir: 'desc', nameStyleMode: 'default', displayMode: 'standard', dashboardCards: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], purchaseChannelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, purchaseChannels: [], purchaseChannelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], hiddenPurchaseChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, purchaseChannel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, dataManageOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, trendOpen: false, trendItemId: null, trendRows: [], trendResult: null, ocrRawText: '', ocrBulkText: '', modalOpen: false, editing: null, draft: null, savedAt: 0, batchMode: false, selectedIds: [], bulkEditIds: [], bulkEditIndex: 0, ledgerRange: 'month', ledgerMode: 'month', ledgerYear: String(new Date().getFullYear()), ledgerMonth: String(new Date().getMonth()+1), ledgerWeek: '', ledgerPieBy: 'character', ledgerPieActive: 0, batchEditOpen: false, batchEditField: '', batchOn: null };
 
-  setRoot = (el) => { this.rootEl = el; if (el) { const a = this.state.accent || this.props.accent || '#ff3355'; el.style.setProperty('--accent', a); try { document.documentElement.style.setProperty('--accent', a); } catch (e) {} this.applyBg(); } };
+  setRoot = (el) => { this.rootEl = el; if (el) { this.applyThemeVars(); this.applyBg(); } };
+  applyThemeVars() {
+    const a = this.state.accent || this.props.accent || '#ff3355';
+    const vars = {
+      '--accent': a,
+      '--accent-soft': this.accentAlpha(0.12),
+      '--accent-softer': this.accentAlpha(0.06),
+      '--accent-border': this.accentAlpha(0.22),
+      '--accent-shadow': this.accentAlpha(0.13),
+      '--accent-bg-a': this.accentLight(0.96),
+      '--accent-bg-b': this.accentLight(0.9),
+      '--accent-bg-c': this.accentLight(0.84)
+    };
+    [this.rootEl, document.documentElement].forEach(el => {
+      if (!el || !el.style) return;
+      Object.keys(vars).forEach(k => el.style.setProperty(k, vars[k]));
+    });
+  }
   setImportRef = (el) => { this.importRef = el; };
   setExcelImportRef = (el) => { this.excelImportRef = el; };
   stop = (e) => { if (e && e.stopPropagation) e.stopPropagation(); };
@@ -1862,7 +2001,7 @@ class Component extends DCLogic {
     if (!hasStoredItems && !items.length) { items = this.samples(); }
     // 仅补全缺失的新字段默认值（不覆盖任何已有值）；历史厂商字段只复制到平台，不删除原字段。
     items = items.map(it => {
-      const next = { form: '通用', series: '', heat: 0, rate: '', otherFee: '', shipDomDate: '', shipIntlDate: '', otherFeeDate: '', acquire: '', method: '', purchaseChannel: '', swapped: '未置换', swapTo: '', swapCharacter: '', swapImageId: null, imageId2: null, imageId3: null, imageId4: null, group: '收藏', workId: 'w_main', reminderType: '', reminderDate: '', specialType: '', specialDate: '', setName: '', setTotal: '', setVariant: '', timeline: [], tags: [], rarity: [], ...it };
+      const next = { form: '通用', series: '', heat: 0, rate: '', otherFee: '', supplementPriceDate: '', finalPriceDate: '', shipDomDate: '', shipIntlDate: '', otherFeeDate: '', sellDate: '', acquire: '', method: '', purchaseChannel: '', swapped: '未置换', swapTo: '', swapCharacter: '', swapImageId: null, imageId2: null, imageId3: null, imageId4: null, group: '收藏', workId: 'w_main', reminderType: '', reminderDate: '', specialType: '', specialDate: '', setName: '', setTotal: '', setVariant: '', timeline: [], tags: [], rarity: [], ...it };
       const legacyVendor = this.legacyVendorOf(next);
       if (!next.channel && legacyVendor) next.channel = legacyVendor;
       return next;
@@ -1920,7 +2059,7 @@ class Component extends DCLogic {
     this.charOrder = lists.charOrder;
     let cloudSyncId = '', cloudSyncCode = '';
     try { cloudSyncId = localStorage.getItem('zzz_cloud_id') || ''; cloudSyncCode = localStorage.getItem('zzz_cloud_code') || ''; } catch (e) {}
-    this.setState({ items, works, currentWorkId, recentWorks, sets, lastSetId, workGroupLabel, title, subtitle, footer, collectorName, currency, accent, monthlyBudget, budgets, nameStyleMode, displayMode, dashboardCards, fieldLabels, filterOn, statsOn, batchOn, deletedFields, customFields, customFilterOrder, cloudSyncId, cloudSyncCode, cloudCodeInput: cloudSyncCode || '', mobileMode, filtersOpen: false, groupBy: startGroupBy, view: startView, ...lists });
+    this.setState({ items, works, currentWorkId, recentWorks, sets, lastSetId, workGroupLabel, title, subtitle, footer, collectorName, currency, accent, monthlyBudget, budgets, nameStyleMode, displayMode, dashboardCards, fieldLabels, filterOn, statsOn, batchOn, deletedFields, customFields, customFilterOrder, cloudSyncId, cloudSyncCode, cloudCodeInput: cloudSyncCode || '', mobileMode, filtersOpen: false, groupBy: startGroupBy, view: startView, ...lists }, () => { this.applyThemeVars(); this.applyBg(); });
     this.loadImages(items);
     this.loadCharAvatars();
     this.loadLogo();
@@ -2240,10 +2379,8 @@ class Component extends DCLogic {
     this.charImgIds = {};
     this.charImgMap = { ...this.CHAR_IMG };
     this._ciInit = true;
-    this.applyBg();
     const lists = this.loadWorkLists(this.MAIN_WORK, []);
     this.charOrder = lists.charOrder;
-    if (this.rootEl) this.rootEl.style.setProperty('--accent', this.props.accent || '#ff3355');
     this.setState({
       items: [], works, currentWorkId: this.MAIN_WORK, group: 'all', groupBy: 'none', search: '',
       charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], purchaseChannelSel: [], customFilterSel: {}, customFilterOrder: {},
@@ -2252,7 +2389,7 @@ class Component extends DCLogic {
       modalOpen: false, editing: null, draft: null, trendOpen: false, trendItemId: null, trendRows: [], trendResult: null,
       title: '谷子收纳', subtitle: '梦 境 特 工 档 案', footer: '梦境特工档案 · コードナンバー：収集家',
       ...lists, savedAt: Date.now()
-    });
+    }, () => { this.applyThemeVars(); this.applyBg(); });
   };
 
   // ===== 设置 =====
@@ -2315,7 +2452,6 @@ class Component extends DCLogic {
     try { localStorage.setItem('zzz_current_work', currentWorkId); localStorage.setItem('zzz_works', JSON.stringify(works)); } catch (e) {}
     const validWorkIds = new Set(works.map(w => w.id));
     const safeItems = (this.state.items || []).filter(it => validWorkIds.has(it.workId || this.MAIN_WORK));
-    if (this.rootEl) this.rootEl.style.setProperty('--accent', d.accent || this.props.accent || '#ff3355');
     const workLists = this.loadWorkLists(currentWorkId, safeItems);
     this.setState(this.resetScopedFilters({
       settingsOpen: false,
@@ -2334,9 +2470,9 @@ class Component extends DCLogic {
       statsOn: d.statsOn || {},
       customFields: d.customFields || [],
       ...workLists
-    }), () => { if (this.state.cloudSyncId) this.pushCloud(); });
+    }), () => { this.applyThemeVars(); this.applyBg(); if (this.state.cloudSyncId) this.pushCloud(); });
   };
-  onSettingField = (key, lsKey) => (e) => { const v = e.target.value; try { localStorage.setItem(lsKey, v); } catch (er) {} this.setState({ [key]: v }); if (key === 'accent' && this.rootEl) this.rootEl.style.setProperty('--accent', v || this.props.accent || '#ff3355'); };
+  onSettingField = (key, lsKey) => (e) => { const v = e.target.value; try { localStorage.setItem(lsKey, v); } catch (er) {} this.setState({ [key]: v }, () => { if (key === 'accent') { this.applyThemeVars(); this.applyBg(); } }); };
 
   // ===== 价格趋势 =====
   trendParseDate(input) {
@@ -2463,7 +2599,14 @@ class Component extends DCLogic {
   };
   async loadLogo() { try { const b = await this.idbGet('zzz_logo'); if (b) { this.logoUrl = URL.createObjectURL(b); this.forceUpdate(); } } catch (e) {} }
   async loadWorkLogos() { this.workLogoUrls = this.workLogoUrls || {}; let ch = false; for (const w of (this.state.works || [])) { try { const b = await this.idbGet('zzz_worklogo_' + w.id); if (b) { this.workLogoUrls[w.id] = URL.createObjectURL(b); ch = true; } } catch (e) {} } if (ch) this.forceUpdate(); }
-  applyBg() { if (!this.rootEl) return; if (this.bgUrl) { this.rootEl.style.background = `linear-gradient(rgba(236,232,246,.8),rgba(236,232,246,.9)), url(${this.bgUrl}) center/cover fixed`; } else { this.rootEl.style.background = 'radial-gradient(circle at 15% -5%, #ddd2f2 0%, transparent 50%), radial-gradient(circle at 92% 4%, #f3d8e6 0%, transparent 45%), linear-gradient(165deg,#e7e1f4,#ece8f6 70%)'; } }
+  applyBg() {
+    if (!this.rootEl) return;
+    if (this.bgUrl) {
+      this.rootEl.style.background = `linear-gradient(180deg,rgba(255,255,255,.78),rgba(255,255,255,.9)), url(${this.bgUrl}) center/cover fixed`;
+    } else {
+      this.rootEl.style.background = `radial-gradient(circle at 14% -10%,${this.accentLight(0.84)} 0%,rgba(255,255,255,0) 42%), radial-gradient(circle at 96% 2%,${this.accentLight(0.9)} 0%,rgba(255,255,255,0) 38%), linear-gradient(180deg,${this.accentLight(0.96)} 0%,#f9fbff 50%,#fff 100%)`;
+    }
+  }
   async loadBg() { try { const b = await this.idbGet('zzz_bg'); if (b) { this.bgUrl = URL.createObjectURL(b); this.applyBg(); this.forceUpdate(); } } catch (e) {} }
   uploadWorkLogo = (workId) => { const inp = document.createElement('input'); inp.type = 'file'; inp.accept = 'image/*'; inp.onchange = async () => { const f = inp.files && inp.files[0]; if (!f) return; try { await this.idbPut('zzz_worklogo_' + workId, f); this.workLogoUrls = this.workLogoUrls || {}; this.workLogoUrls[workId] = URL.createObjectURL(f); this.forceUpdate(); } catch (e) { alert('Logo 保存失败：' + e); } }; inp.click(); };
   uploadBg = () => { const inp = document.createElement('input'); inp.type = 'file'; inp.accept = 'image/*'; inp.onchange = async () => { const f = inp.files && inp.files[0]; if (!f) return; try { await this.idbPut('zzz_bg', f); this.bgUrl = URL.createObjectURL(f); this.applyBg(); this.forceUpdate(); } catch (e) { alert('背景保存失败：' + e); } }; inp.click(); };
@@ -2565,9 +2708,10 @@ class Component extends DCLogic {
   onCnFocus = (e) => { if (((e.target.textContent || '').trim()) === 'CN / 昵称') e.target.textContent = ''; };
   onCnBlur = (e) => { const raw = (e.target.textContent || '').trim(); const v = raw === 'CN / 昵称' ? '' : raw; try { localStorage.setItem('zzz_cn', v); } catch (er) {} this.setState({ collectorName: v }); };
   componentDidUpdate(prevProps, prevState) {
-    const a = this.state.accent || this.props.accent || '#ff3355';
-    if (this.rootEl) this.rootEl.style.setProperty('--accent', a);
-    try { document.documentElement.style.setProperty('--accent', a); } catch (e) {}
+    if (prevState.accent !== this.state.accent || prevProps.accent !== this.props.accent) {
+      this.applyThemeVars();
+      this.applyBg();
+    }
     if (this.state.batchMode && (this.state.selectedIds || []).length) {
       const filterKeys = ['search','charSel','typeSel','seriesFilter','formSel','statusSel','acquireSel','channelSel','purchaseChannelSel','customFilterSel','group','groupBy','currentWorkId'];
       const changed = filterKeys.some(k => JSON.stringify(prevState[k]) !== JSON.stringify(this.state[k]));
@@ -2605,6 +2749,32 @@ class Component extends DCLogic {
 
   // ---- helpers ----
   num(v) { const n = parseFloat(v); return isNaN(n) ? 0 : n; }
+  // 金额输入支持算式：280+20、500-30、398*2、1000/4、(300+20)*2
+  // 自动清理 ¥ ￥ , 空格 RMB 元；结果四舍五入到 2 位小数，整数不带多余小数
+  // 返回 '' 表示清空为空值；返回 null 表示公式错误（调用方应保留原输入、不写回）
+  calcMoneyInput(raw) {
+    if (raw == null) return '';
+    let s = String(raw).trim();
+    if (!s) return '';
+    s = s.replace(/[¥￥,，\s]/g, '').replace(/RMB/gi, '').replace(/元/g, '');
+    if (!s) return '';
+    if (!/^[0-9+\-*/().]+$/.test(s)) return null;
+    if (/[+\-*/.]{2,}|\(\)/.test(s)) return null;
+    let result;
+    try { result = Function('"use strict";return (' + s + ')')(); } catch (err) { return null; }
+    if (typeof result !== 'number' || !isFinite(result)) return null;
+    return String(Math.round(result * 100) / 100);
+  }
+  // 输入框失焦/回车时触发：算式正确就写回计算结果，错误就提示并保留原输入
+  onMoneyBlur = (e) => {
+    const { name, value } = e.target;
+    if (value == null || String(value).trim() === '') return;
+    const result = this.calcMoneyInput(value);
+    if (result === null) { alert('公式错误'); return; }
+    if (result === String(value).trim()) return;
+    this.setState(s => ({ draft: { ...s.draft, [name]: result } }));
+  };
+  onMoneyKeyDown = (e) => { if (e.key === 'Enter') { e.preventDefault && e.preventDefault(); e.target.blur(); } };
   fmt(n) { return (Math.round(n * 100) / 100).toLocaleString('zh-CN'); }
   heldSince(d) { if (!d) return ''; const t = new Date(d + 'T00:00:00').getTime(); if (isNaN(t)) return ''; const days = Math.floor((Date.now() - t) / 86400000); if (days < 0) return ''; if (days === 0) return '今天入手'; if (days < 30) return '已持有 ' + days + ' 天'; if (days < 365) { const m = Math.floor(days / 30); return '已持有 ' + m + ' 个月'; } const y = Math.floor(days / 365), rm = Math.floor((days % 365) / 30); return '已持有 ' + y + ' 年' + (rm ? rm + ' 个月' : ''); }
   money(v) { return this.cur() + this.fmt(v); }
@@ -2741,7 +2911,7 @@ class Component extends DCLogic {
     try { localStorage.setItem('zzz_custom_filter_order', JSON.stringify(orderMap)); } catch(e) {}
     this.setState({ customFilterOrder: orderMap, customFilterSel }, () => this.commit(items));
   };
-  emptyDraft() { const chars = this.orderedChars(); return { id: null, workId: this.defaultDraftWorkId(), custom: {}, name: '', character: (chars[0] || ''), type: this.TYPES[0], subtype: '', series: '', form: '通用', heat: 0, rate: '', otherFee: '', shipDomDate: '', shipIntlDate: '', otherFeeDate: '', acquire: '', method: '', purchaseChannel: '', swapped: '未置换', swapTo: '', swapCharacter: '', swapImageId: null, group: '收藏', status: '已下单', qty: '1', originalPrice: '', buyPrice: '', shipDom: '', shipIntl: '', sellPrice: '', supplementPrice: '', finalPrice: '', channel: '', buyDate: this.todayStr(), reminderType: '', reminderDate: this.todayStr(), note: '', imageId: null, imageId2: null, imageId3: null, imageId4: null, specialType: '', specialDate: '', setId: '', setName: '', setTotal: '', setVariant: '', timeline: [], tags: [], rarity: [] }; }
+  emptyDraft() { const chars = this.orderedChars(); return { id: null, workId: this.defaultDraftWorkId(), custom: {}, name: '', character: (chars[0] || ''), type: this.TYPES[0], subtype: '', series: '', form: '通用', heat: 0, rate: '', otherFee: '', supplementPriceDate: '', finalPriceDate: '', shipDomDate: '', shipIntlDate: '', otherFeeDate: '', sellDate: '', acquire: '', method: '', purchaseChannel: '', swapped: '未置换', swapTo: '', swapCharacter: '', swapImageId: null, group: '收藏', status: '已下单', qty: '1', originalPrice: '', buyPrice: '', shipDom: '', shipIntl: '', sellPrice: '', supplementPrice: '', finalPrice: '', channel: '', buyDate: this.todayStr(), reminderType: '', reminderDate: this.todayStr(), note: '', imageId: null, imageId2: null, imageId3: null, imageId4: null, specialType: '', specialDate: '', setId: '', setName: '', setTotal: '', setVariant: '', timeline: [], tags: [], rarity: [] }; }
   imageSlotKeys() { return ['imageId', 'imageId2', 'imageId3', 'imageId4']; }
   imageIdsOf(it) { return this.imageSlotKeys().map(k => it && it[k]).filter(Boolean); }
   imageUrlsOf(it) { return this.imageIdsOf(it).map(id => this.imgUrls[id]).filter(Boolean); }
@@ -3099,6 +3269,17 @@ class Component extends DCLogic {
   saveItem = () => {
     let d = this.state.draft; if (!d) return;
     if (!d.name || !d.name.trim()) { const g = this.genName(d); if (!g) { alert('请先填写名称（或选择角色 / 填细分后点自动生成）'); return; } d = { ...d, name: g }; }
+    // 金额字段兜底：万一是带公式的文本还没失焦触发计算（比如直接点了保存），这里再算一遍，算错就拦住不让保存
+    const _moneyLabels = { buyPrice:'买入价', sellPrice:'卖出价', supplementPrice:'补款金额', finalPrice:'尾款金额', shipDom:'国内邮费', shipIntl:'国际邮费', otherFee:'其他费用', originalPrice:'原价', rate:'汇率' };
+    const _moneyPatch = {};
+    for (const f of Object.keys(_moneyLabels)) {
+      const v = d[f];
+      if (v == null || String(v).trim() === '') continue;
+      const r = this.calcMoneyInput(v);
+      if (r === null) { alert('「' + _moneyLabels[f] + '」这一栏的公式错误，请检查后再保存：' + v); return; }
+      if (r !== String(v)) _moneyPatch[f] = r;
+    }
+    if (Object.keys(_moneyPatch).length) d = { ...d, ..._moneyPatch };
     if (!this.state.editing && this.handleDuplicateBeforeSave(d)) return;
     const prev = this.state.editing ? this.state.items.find(x => x.id === this.state.editing) : null;
     const setObj = this.setById(d.setId);
@@ -3115,12 +3296,18 @@ class Component extends DCLogic {
     d = { ...d, statusLog };
     const feeEventDate = curStatusDate;
     const feeWasEmpty = (key) => !prev || !this.num(prev[key]);
+    if (this.num(d.supplementPrice) > 0 && (!d.supplementPriceDate || feeWasEmpty('supplementPrice'))) d = { ...d, supplementPriceDate: this.statusLogDate(d, '已补款') || feeEventDate };
+    if (!this.num(d.supplementPrice)) d = { ...d, supplementPriceDate: '' };
+    if (this.num(d.finalPrice) > 0 && (!d.finalPriceDate || feeWasEmpty('finalPrice'))) d = { ...d, finalPriceDate: this.statusLogDate(d, '已尾款') || feeEventDate };
+    if (!this.num(d.finalPrice)) d = { ...d, finalPriceDate: '' };
     if (this.num(d.shipDom) > 0 && (!d.shipDomDate || feeWasEmpty('shipDom'))) d = { ...d, shipDomDate: feeEventDate };
     if (!this.num(d.shipDom)) d = { ...d, shipDomDate: '' };
     if (this.num(d.shipIntl) > 0 && (!d.shipIntlDate || feeWasEmpty('shipIntl'))) d = { ...d, shipIntlDate: feeEventDate };
     if (!this.num(d.shipIntl)) d = { ...d, shipIntlDate: '' };
     if (this.num(d.otherFee) > 0 && (!d.otherFeeDate || feeWasEmpty('otherFee'))) d = { ...d, otherFeeDate: feeEventDate };
     if (!this.num(d.otherFee)) d = { ...d, otherFeeDate: '' };
+    if (this.num(d.sellPrice) > 0 && (!d.sellDate || feeWasEmpty('sellPrice'))) d = { ...d, sellDate: (this.statusLogDate(d, '已出物') || this.statusLogDate(d, '已出/已卖出') || feeEventDate) };
+    if (!this.num(d.sellPrice)) d = { ...d, sellDate: '' };
     // 置换 / 收现 = 收藏历程事件：主表单是最终收藏，这里记录「怎么得到的」
     // 厂商已并入平台，不再由平台自动回填到系列。
     const isSwapNow = d.method === '盲抽' && (d.gachaResult === '置换' || d.gachaResult === '收现');
@@ -3179,14 +3366,14 @@ class Component extends DCLogic {
       const e = this.enrich(it); const w = workById[it.workId] || {};
       const row = {
         '图片1': includeImages ? await this.imgData(it.imageId) : '', '图片2': includeImages ? await this.imgData(it.imageId2) : '', '图片3': includeImages ? await this.imgData(it.imageId3) : '', '图片4': includeImages ? await this.imgData(it.imageId4) : '',
-        '作品系列IP': w.group || '', '作品': w.name || '', '名称': it.name || '', '角色': it.character || '', '种类': it.type || '', '细分': it.subtype || '', '系列': it.series || '', '状态': it.status || '', '数量': e.qty, '原价(日元)': it.originalPrice || '', '买入单价': e.buy || '', '国内邮费': e.sd || '', '国际邮费': e.si || '', '总投入': e.cost || '', '卖出单价': e.sell || '', '卖出金额': e.revenue || '', '盈亏': e.sold ? e.profit : '', '平台': it.channel || '', '渠道': it.purchaseChannel || '', '购买日期': it.buyDate || '', '提醒类型': it.reminderType || '', '状态日期': it.reminderDate || '', '所属套装': it.setName || '', '套装总数': it.setTotal || '', '款式编号': it.setVariant || '', '备注': it.note || '', '编号（请勿修改，用于重新导入时识别更新）': it.id || ''
+        '作品系列IP': w.group || '', '作品': w.name || '', '名称': it.name || '', '角色': it.character || '', '种类': it.type || '', '细分': it.subtype || '', '系列': it.series || '', '状态': it.status || '', '数量': e.qty, '原价(日元)': it.originalPrice || '', '买入单价': e.buy || '', '购买日期': it.buyDate || '', '补款金额': it.supplementPrice || '', '补款日期': it.supplementPriceDate || '', '尾款金额': it.finalPrice || '', '尾款日期': it.finalPriceDate || '', '国内邮费': e.sd || '', '国内邮费日期': it.shipDomDate || '', '国际邮费': e.si || '', '国际邮费日期': it.shipIntlDate || '', '其他费用': e.other || '', '其他费用日期': it.otherFeeDate || '', '总投入': e.cost || '', '卖出单价': e.sell || '', '卖出日期': this.sellDateFor(it) || '', '卖出金额': e.revenue || '', '盈亏': e.sold ? e.profit : '', '平台': it.channel || '', '渠道': it.purchaseChannel || '', '提醒类型': it.reminderType || '', '状态日期': it.reminderDate || '', '所属套装': it.setName || '', '套装总数': it.setTotal || '', '款式编号': it.setVariant || '', '备注': it.note || '', '编号（请勿修改，用于重新导入时识别更新）': it.id || ''
       };
       itemRows.push(row);
     }
     const saleRows = itemRows.filter(r => r['卖出单价'] || String(r['状态']).includes('出'));
     const now = new Date();
     const monthKeys = []; for (let i = 5; i >= 0; i--) { const d = new Date(now.getFullYear(), now.getMonth() - i, 1); monthKeys.push(this.monthKey(d)); }
-    const walletRows = monthKeys.map(k => { let cost=0, sell=0, profit=0; items.forEach(it => { const e=this.enrich(it); this.cashFlowEntries(it).forEach(cf => { if (String(cf.date||'').slice(0,7) === k) cost += cf.amount; }); const kk = it.buyDate ? String(it.buyDate).slice(0,7) : ''; if (kk === k && (e.sold || e.sell > 0)) { sell += e.revenue; profit += e.profit; } }); return { '月份': k, '消费': cost, '卖出': sell, '净支出': cost - sell, '盈亏': profit }; });
+    const walletRows = monthKeys.map(k => { let cost=0, sell=0, profit=0; items.forEach(it => { const e=this.enrich(it); this.cashFlowEntries(it).forEach(cf => { if (String(cf.date||'').slice(0,7) === k) cost += cf.amount; }); const kk = this.sellDateFor(it) ? String(this.sellDateFor(it)).slice(0,7) : ''; if (kk === k && (e.sold || e.sell > 0)) { sell += e.revenue; profit += e.profit; } }); return { '月份': k, '消费': cost, '卖出': sell, '净支出': cost - sell, '盈亏': profit }; });
     const todoRows = items.map(it => ({ it, rem: this.reminderInfo(it) })).filter(x => x.rem && x.rem.pending).sort((a,b) => a.rem.days - b.rem.days).map(x => ({ '日期': x.rem.date || '', '类型': x.rem.type || '', '名称': x.it.name || this.genName(x.it) || '', '状态': x.it.status || '', '提示': x.rem.text || '' }));
     const sumMap = (keyFn, valFn) => { const m={}; items.forEach(it => { const k=keyFn(it)||'未分类'; m[k]=(m[k]||0)+valFn(it); }); return Object.entries(m).sort((a,b)=>b[1]-a[1]).slice(0,10).map(([name,value],i)=>({'排行':i+1,'名称':name,'数值':value})); };
     const statRows = [
@@ -3286,9 +3473,9 @@ class Component extends DCLogic {
       if (!window.ExcelJS) throw new Error('ExcelJS 未加载，请刷新页面或检查网络后重试');
       const wb = new ExcelJS.Workbook();
       const ws = wb.addWorksheet('收藏');
-      const headers = ['图片1','图片2','图片3','图片4','作品系列IP','作品','名称','角色','种类','细分','系列','状态','数量','原价(日元)','买入单价','国内邮费','国际邮费','卖出单价','平台','渠道','购买日期','提醒类型','状态日期','所属套装','套装总数','款式编号','备注','编号（请勿修改，用于重新导入时识别更新）'];
+      const headers = ['图片1','图片2','图片3','图片4','作品系列IP','作品','名称','角色','种类','细分','系列','状态','数量','原价(日元)','买入单价','购买日期','补款金额','补款日期','尾款金额','尾款日期','国内邮费','国内邮费日期','国际邮费','国际邮费日期','其他费用','其他费用日期','卖出单价','卖出日期','平台','渠道','提醒类型','状态日期','所属套装','套装总数','款式编号','备注','编号（请勿修改，用于重新导入时识别更新）'];
       ws.addRow(headers);
-      ws.addRow(['可直接在此单元格插入图片，也可留空','','','','默认','默认作品','NOX 吧唧','NOX','吧唧','初版','TV动画','已归家','1','800','150','10','30','','淘宝','代购','2026-07-01','','','','','','示例数据，可直接删除此行','']);
+      ws.addRow(['可直接在此单元格插入图片，也可留空','','','','默认','默认作品','NOX 吧唧','NOX','吧唧','初版','TV动画','已归家','1','800','150','2026-07-01','','','','','10','2026-07-20','30','2026-07-15','','','','','淘宝','代购','','2026-07-22','','','','示例数据，可直接删除此行','']);
       ws.getRow(1).font = { bold: true };
       ws.getRow(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFEFEAF8' } };
       ws.getRow(2).height = 58;
@@ -3375,7 +3562,15 @@ class Component extends DCLogic {
         const img4 = await this.saveImageDataURL(this.excelVal(r, ['图片4']));
         const existingId = String(this.excelVal(r, ['编号（请勿修改，用于重新导入时识别更新）','编号']) || '').trim();
         const fields = { workId, name,
-          character:String(this.excelVal(r,['角色'])||''), type:String(this.excelVal(r,['种类','类型'])||''), subtype:String(this.excelVal(r,['细分','款式'])||''), series:String(this.excelVal(r,['系列'])||''), status:String(this.excelVal(r,['状态'])||'已归家'), qty:String(this.excelVal(r,['数量'])||'1'), originalPrice:String(this.excelVal(r,['原价(日元)','原价'])||''), buyPrice:String(this.excelVal(r,['买入单价','买入价'])||''), shipDom:String(this.excelVal(r,['国内邮费'])||''), shipIntl:String(this.excelVal(r,['国际邮费'])||''), sellPrice:String(this.excelVal(r,['卖出单价','卖出价'])||''), channel:String(this.excelVal(r,['平台','购买平台'])||''), purchaseChannel:String(this.excelVal(r,['渠道','购买渠道'])||''), buyDate:String(this.excelVal(r,['购买日期','日期'])||''), reminderType:String(this.excelVal(r,['提醒类型'])||''), reminderDate:String(this.excelVal(r,['状态日期'])||''), setName:String(this.excelVal(r,['所属套装','套装'])||''), setTotal:String(this.excelVal(r,['套装总数'])||''), setVariant:String(this.excelVal(r,['款式编号','款式'])||''), note:String(this.excelVal(r,['备注'])||'') };
+          character:String(this.excelVal(r,['角色'])||''), type:String(this.excelVal(r,['种类','类型'])||''), subtype:String(this.excelVal(r,['细分','款式'])||''), series:String(this.excelVal(r,['系列'])||''), status:String(this.excelVal(r,['状态'])||'已归家'), qty:String(this.excelVal(r,['数量'])||'1'), originalPrice:String(this.excelVal(r,['原价(日元)','原价'])||''), buyPrice:String(this.excelVal(r,['买入单价','买入价'])||''), supplementPrice:String(this.excelVal(r,['补款金额','补款'])||''), supplementPriceDate:String(this.excelVal(r,['补款日期'])||''), finalPrice:String(this.excelVal(r,['尾款金额','尾款'])||''), finalPriceDate:String(this.excelVal(r,['尾款日期'])||''), shipDom:String(this.excelVal(r,['国内邮费'])||''), shipDomDate:String(this.excelVal(r,['国内邮费日期'])||''), shipIntl:String(this.excelVal(r,['国际邮费'])||''), shipIntlDate:String(this.excelVal(r,['国际邮费日期'])||''), otherFee:String(this.excelVal(r,['其他费用'])||''), otherFeeDate:String(this.excelVal(r,['其他费用日期'])||''), sellPrice:String(this.excelVal(r,['卖出单价','卖出价'])||''), sellDate:String(this.excelVal(r,['卖出日期'])||''), channel:String(this.excelVal(r,['平台','购买平台'])||''), purchaseChannel:String(this.excelVal(r,['渠道','购买渠道'])||''), buyDate:String(this.excelVal(r,['购买日期','日期'])||''), reminderType:String(this.excelVal(r,['提醒类型'])||''), reminderDate:String(this.excelVal(r,['状态日期'])||''), setName:String(this.excelVal(r,['所属套装','套装'])||''), setTotal:String(this.excelVal(r,['套装总数'])||''), setVariant:String(this.excelVal(r,['款式编号','款式'])||''), note:String(this.excelVal(r,['备注'])||'') };
+        const eventDate = fields.reminderDate || fields.buyDate || this.todayStr();
+        if (this.num(fields.supplementPrice) > 0 && !fields.supplementPriceDate) fields.supplementPriceDate = eventDate;
+        if (this.num(fields.finalPrice) > 0 && !fields.finalPriceDate) fields.finalPriceDate = eventDate;
+        if (this.num(fields.shipDom) > 0 && !fields.shipDomDate) fields.shipDomDate = eventDate;
+        if (this.num(fields.shipIntl) > 0 && !fields.shipIntlDate) fields.shipIntlDate = eventDate;
+        if (this.num(fields.otherFee) > 0 && !fields.otherFeeDate) fields.otherFeeDate = eventDate;
+        if (this.num(fields.sellPrice) > 0 && !fields.sellDate) fields.sellDate = eventDate;
+        if (fields.status && eventDate) fields.statusLog = this.statusLogWith([], fields.status, eventDate);
         if (img1) fields.imageId = img1; if (img2) fields.imageId2 = img2; if (img3) fields.imageId3 = img3; if (img4) fields.imageId4 = img4;
         if (existingId && existingItemIds.has(existingId)) {
           updateMap[existingId] = fields;
@@ -3480,6 +3675,9 @@ class Component extends DCLogic {
       { key:'character', label:this.flabel('character'), type:'select' },
       { key:'type', label:this.flabel('type'), type:'select' },
       { key:'buyPrice', label:'买入价', type:'number' },
+      { key:'supplementPrice', label:'补款金额', type:'number' },
+      { key:'finalPrice', label:'尾款金额', type:'number' },
+      { key:'sellPrice', label:'卖出价', type:'number' },
       { key:'acquire', label:this.flabel('acquire'), type:'select' },
       { key:'method', label:this.flabel('method'), type:'select' },
       { key:'channel', label:this.flabel('channel'), type:'select' },
@@ -3488,6 +3686,7 @@ class Component extends DCLogic {
       { key:'setId', label:this.flabel('set'), type:'select' },
       { key:'shipDom', label:'国内邮费', type:'number' },
       { key:'shipIntl', label:'国际邮费', type:'number' },
+      { key:'otherFee', label:'其他费用', type:'number' },
       ...((this.state.customFields || []).map(f => ({ key:'custom:'+f.key, label:f.label, type:'text', customKey:f.key })))
     ].filter(f => bOn(f.customKey || f.key));
   }
@@ -3539,8 +3738,8 @@ class Component extends DCLogic {
     if (def.type === 'number') {
       const ids = this.state.selectedIds || [];
       return [
-        { label:'输入' + def.label, onClick: () => { const v = prompt('输入新的' + def.label,'') || ''; this.applyBatchField(field, v.trim()); } },
-        { label:'均摊到每件（共 ' + ids.length + ' 件）', onClick: () => { const v = prompt('输入总金额，将平均分摊到已选中的 ' + ids.length + ' 件谷子的「' + def.label + '」',''); if (v === null || v.trim() === '') return; this.applyBatchFieldSplit(field, v.trim()); } },
+        { label:'输入' + def.label, onClick: () => { const raw = prompt('输入新的' + def.label + '（支持算式，如 280+20）',''); if (raw === null) return; const v = this.calcMoneyInput(raw.trim()); if (v === null) { alert('公式错误'); return; } this.applyBatchField(field, v); } },
+        { label:'均摊到每件（共 ' + ids.length + ' 件）', onClick: () => { const raw = prompt('输入总金额（支持算式），将平均分摊到已选中的 ' + ids.length + ' 件谷子的「' + def.label + '」',''); if (raw === null || raw.trim() === '') return; const v = this.calcMoneyInput(raw.trim()); if (v === null) { alert('公式错误'); return; } this.applyBatchFieldSplit(field, v); } },
         { label:'清空', onClick: () => this.applyBatchField(field, '') }
       ];
     }
@@ -3558,6 +3757,9 @@ class Component extends DCLogic {
       if (field === 'shipDom') next.shipDomDate = this.eventDateFor(it);
       if (field === 'shipIntl') next.shipIntlDate = this.eventDateFor(it);
       if (field === 'otherFee') next.otherFeeDate = this.eventDateFor(it);
+      if (field === 'supplementPrice') next.supplementPriceDate = this.eventDateFor(it);
+      if (field === 'finalPrice') next.finalPriceDate = this.eventDateFor(it);
+      if (field === 'sellPrice') next.sellDate = this.eventDateFor(it);
       return next;
     });
   };
@@ -3568,6 +3770,9 @@ class Component extends DCLogic {
     this.batchApply(ids, it => {
       const next = { ...it, status, reminderDate: date, statusLog: this.statusLogWith(it.statusLog, status, date) };
       if (status === '已下单') next.buyDate = date;
+      if (status === '已补款' && this.num(it.supplementPrice) > 0) next.supplementPriceDate = date;
+      if (status === '已尾款' && this.num(it.finalPrice) > 0) next.finalPriceDate = date;
+      if (String(status || '').includes('出') && this.num(it.sellPrice) > 0) next.sellDate = date;
       return next;
     });
     this.closeBatchEditor();
@@ -3595,6 +3800,9 @@ class Component extends DCLogic {
         if (!value) return { ...it, status: value };
         const next = { ...it, status: value, reminderDate: today, statusLog: this.statusLogWith(it.statusLog, value, today) };
         if (value === '已下单') next.buyDate = today;
+        if (value === '已补款' && this.num(it.supplementPrice) > 0) next.supplementPriceDate = today;
+        if (value === '已尾款' && this.num(it.finalPrice) > 0) next.finalPriceDate = today;
+        if (String(value || '').includes('出') && this.num(it.sellPrice) > 0) next.sellDate = today;
         return next;
       });
     } else if (field === 'reminderDate') {
@@ -3602,6 +3810,9 @@ class Component extends DCLogic {
         const next = { ...it, reminderDate: value };
         if (value && it.status) next.statusLog = this.statusLogWith(it.statusLog, it.status, value);
         if (it.status === '已下单') next.buyDate = value;
+        if (it.status === '已补款' && this.num(it.supplementPrice) > 0) next.supplementPriceDate = value;
+        if (it.status === '已尾款' && this.num(it.finalPrice) > 0) next.finalPriceDate = value;
+        if (String(it.status || '').includes('出') && this.num(it.sellPrice) > 0) next.sellDate = value;
         return next;
       });
     } else if (field === 'setId') {
@@ -3624,10 +3835,10 @@ class Component extends DCLogic {
         if (it.status === '已下单' && value) next.statusLog = this.statusLogWith(it.statusLog, '已下单', value);
         return next;
       });
-    } else if (field === 'shipDom' || field === 'shipIntl' || field === 'otherFee') {
+    } else if (field === 'shipDom' || field === 'shipIntl' || field === 'otherFee' || field === 'supplementPrice' || field === 'finalPrice' || field === 'sellPrice') {
       this.batchApply(ids, it => {
         const next = { ...it, [field]: value };
-        const dateKey = field === 'shipDom' ? 'shipDomDate' : field === 'shipIntl' ? 'shipIntlDate' : 'otherFeeDate';
+        const dateKey = field === 'shipDom' ? 'shipDomDate' : field === 'shipIntl' ? 'shipIntlDate' : field === 'otherFee' ? 'otherFeeDate' : field === 'supplementPrice' ? 'supplementPriceDate' : field === 'finalPrice' ? 'finalPriceDate' : 'sellDate';
         next[dateKey] = this.num(value) > 0 ? this.eventDateFor(it) : '';
         return next;
       });
@@ -3961,6 +4172,7 @@ class Component extends DCLogic {
     return log;
   }
   eventDateFor(it) { return (it && (it.reminderDate || this.statusLogDate(it, it.status) || it.buyDate)) || this.todayStr(); }
+  sellDateFor(it) { return (it && (it.sellDate || this.statusLogDate(it, '已出物') || this.statusLogDate(it, '已出/已卖出') || (String(it.status || '').includes('出') ? it.reminderDate : '') || it.buyDate)) || ''; }
   // 把一件谷子的总花费，按「补款/尾款/国际运费/国内运费各自实际发生的月份」拆开，而不是整笔都算在下单那个月
   // 国际运费通常跟补款/尾款一起先交；国内运费要等排发/发货之后才知道、才交
   cashFlowEntries(it) {
@@ -3968,8 +4180,8 @@ class Component extends DCLogic {
     const buyTotal = e.buy * e.qty;
     const supp = this.num(it.supplementPrice);
     const fin = this.num(it.finalPrice);
-    const suppDate = supp > 0 ? (this.statusLogDate(it, '已补款') || it.buyDate) : '';
-    const finDate = fin > 0 ? (this.statusLogDate(it, '已尾款') || it.buyDate) : '';
+    const suppDate = supp > 0 ? (it.supplementPriceDate || this.statusLogDate(it, '已补款') || it.buyDate) : '';
+    const finDate = fin > 0 ? (it.finalPriceDate || this.statusLogDate(it, '已尾款') || it.buyDate) : '';
     const lateDate = finDate || suppDate || it.buyDate;
     const shipDomDate = it.shipDomDate || this.statusLogDate(it, '已发货') || this.statusLogDate(it, '排发中') || lateDate;
     const shipIntlDate = it.shipIntlDate || lateDate;
@@ -4536,8 +4748,8 @@ class Component extends DCLogic {
     ledgerItemsAll.forEach(it => {
       const e = this.enrich(it);
       const supp = this.num(it.supplementPrice), fin = this.num(it.finalPrice);
-      const suppDate = supp > 0 ? (this.statusLogDate(it, '已补款') || it.buyDate) : '';
-      const finDate = fin > 0 ? (this.statusLogDate(it, '已尾款') || it.buyDate) : '';
+      const suppDate = supp > 0 ? (it.supplementPriceDate || this.statusLogDate(it, '已补款') || it.buyDate) : '';
+      const finDate = fin > 0 ? (it.finalPriceDate || this.statusLogDate(it, '已尾款') || it.buyDate) : '';
       const lateDate = finDate || suppDate || it.buyDate;
       const shipDomDate = it.shipDomDate || this.statusLogDate(it, '已发货') || this.statusLogDate(it, '排发中') || lateDate;
       const shipIntlDate = it.shipIntlDate || lateDate;
@@ -4601,9 +4813,9 @@ class Component extends DCLogic {
     const detailKey = this.state.ledgerDetailKey || '';
     const detailType = this.state.ledgerDetailType || 'day';
     const ledgerDetailOpen = !!detailKey;
-    const ledgerDetailMatched = detailKey ? ledgerItems.filter(it => detailType === 'day' ? (it.buyDate || '') === detailKey : String(it.buyDate || '').slice(0, 7) === detailKey) : [];
-    const ledgerDetailItems = ledgerDetailMatched.map(it => { const e = this.enrich(it); return { name: it.name || '未命名', qtyText: (e.qty > 1 ? '×' + e.qty : ''), costText: cur + this.fmt(e.cost), character: it.character || '' }; });
-    const ledgerDetailTotal = cur + this.fmt(ledgerDetailMatched.reduce((s, it) => s + this.enrich(it).cost, 0));
+    const ledgerDetailMatched = detailKey ? ledgerItems.map(it => ({ it, entries: this.cashFlowEntries(it).filter(cf => detailType === 'day' ? cf.date === detailKey : String(cf.date || '').slice(0, 7) === detailKey) })).filter(x => x.entries.length) : [];
+    const ledgerDetailItems = ledgerDetailMatched.map(x => { const e = this.enrich(x.it); const amount = x.entries.reduce((s, cf) => s + cf.amount, 0); return { name: x.it.name || '未命名', qtyText: (e.qty > 1 ? '×' + e.qty : ''), costText: cur + this.fmt(amount), character: x.it.character || '' }; });
+    const ledgerDetailTotal = cur + this.fmt(ledgerDetailMatched.reduce((s, x) => s + x.entries.reduce((a, cf) => a + cf.amount, 0), 0));
     const ledgerDetailTitle = (this.state.ledgerDetailLabel || '') + ' · ' + ledgerDetailMatched.length + ' 项';
     const ledgerDetailEmpty = ledgerDetailItems.length === 0;
     const ledgerMonthTotalNum = monthValues.reduce((sum, x) => sum + x.value, 0);
@@ -4740,7 +4952,7 @@ class Component extends DCLogic {
       if (e.sd > 0) shipParts.push('内' + cur + this.fmt(e.sd));
       if (e.si > 0) shipParts.push('际' + cur + this.fmt(e.si));
       const profitStyle = { color: e.profit >= 0 ? '#12a85f' : '#e23b5d', fontWeight: 700 };
-      const groupStyle = g === '出物' ? { display: 'inline-flex', alignItems: 'center', padding: '3px 10px', borderRadius: '999px', fontSize: '11.5px', fontWeight: 700, whiteSpace: 'nowrap', color: '#c23d78', background: 'rgba(255,255,255,.9)', border: '1px solid rgba(224,86,143,.4)', boxShadow: '0 2px 8px rgba(50,38,90,.18)' } : { display: 'inline-flex', alignItems: 'center', padding: '3px 10px', borderRadius: '999px', fontSize: '11.5px', fontWeight: 700, whiteSpace: 'nowrap', color: '#5a3fc0', background: 'rgba(255,255,255,.9)', border: '1px solid rgba(108,92,231,.4)', boxShadow: '0 2px 8px rgba(50,38,90,.18)' };
+      const groupStyle = g === '出物' ? this.badge('#d14a86', 'rgba(255,107,157,.14)', 'rgba(255,107,157,.3)') : this.badge('#6a4fd0', 'rgba(108,92,231,.16)', 'rgba(108,92,231,.32)');
       const fcol = it.form === '人脸' ? '#c8860d' : it.form === '皮套' ? '#2f7fd0' : '#7c5cd6';
       const fbg = it.form === '人脸' ? 'rgba(255,193,75,.13)' : it.form === '皮套' ? 'rgba(91,157,255,.13)' : 'rgba(124,92,214,.14)';
       const isSelected = selectedSet.has(it.id);
@@ -4750,7 +4962,7 @@ class Component extends DCLogic {
         tableRowClass: 'ui-table-row' + (showBatchBar ? ' ui-table-selectable' : '') + (isSelected ? ' ui-table-selected' : ''),
         tableRowStyle: { cursor: showBatchBar ? 'pointer' : 'default' },
         onTableRowClick: (ev) => { if (!showBatchBar) return; ev && ev.preventDefault && ev.preventDefault(); this.toggleBatchId(it.id, !isSelected); },
-        cardStyle: { background: isSelected ? `linear-gradient(160deg,#fff,${this.accentAlpha(0.06)})` : '#ffffff', border: isSelected ? '2px solid var(--accent,#ff3355)' : (rem.active ? '2px solid #e23b5d' : '1px solid #ece7f6'), borderRadius: '16px', overflow: 'hidden', display: 'flex', flexDirection: 'column', boxShadow: isSelected ? `0 0 0 3px ${this.accentAlpha(0.14)}, 0 12px 28px rgba(50,38,90,.14)` : (rem.active ? '0 0 0 3px rgba(226,59,93,.08), 0 12px 28px rgba(226,59,93,.16)' : '0 2px 10px rgba(95,68,140,.05)') },
+        cardStyle: { background: isSelected ? `linear-gradient(160deg,#fff,${this.accentLight(0.94)})` : `linear-gradient(180deg,#ffffff,${this.accentLight(0.98)})`, border: isSelected ? '2px solid var(--accent,#ff3355)' : (rem.active ? '2px solid #ff7aa2' : `1px solid ${this.accentAlpha(0.16)}`), borderRadius: '22px', overflow: 'hidden', display: 'flex', flexDirection: 'column', boxShadow: isSelected ? `0 0 0 4px ${this.accentAlpha(0.16)}, 0 16px 34px ${this.accentAlpha(0.18)}` : (rem.active ? '0 0 0 4px rgba(255,122,162,.11), 0 16px 34px rgba(255,122,162,.18)' : `0 8px 22px ${this.accentAlpha(0.09)}, 0 4px 14px rgba(46,35,86,.06)`) },
         circleImgStyle: { position: 'relative', width: '84px', height: '84px', borderRadius: '50%', overflow: 'hidden', background: 'linear-gradient(145deg,#eae5f4,#e1dcf0)', border: isSelected ? '3px solid var(--accent,#ff3355)' : (rem.active ? '3px solid #e23b5d' : '2px solid #ffffff'), boxShadow: isSelected ? `0 0 0 5px ${this.accentAlpha(0.18)}, 0 10px 24px rgba(50,38,90,.18)` : (rem.active ? '0 0 0 3px rgba(226,59,93,.12), 0 8px 18px rgba(226,59,93,.28)' : '0 3px 10px rgba(50,38,90,.14)') },
         circleReminderStyle: { position: 'absolute', top: '2px', right: '2px', minWidth: '20px', height: '20px', padding: '0 5px', borderRadius: '999px', background: '#e23b5d', color: '#fff', fontSize: '10px', fontWeight: 900, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid #fff', boxShadow: '0 3px 9px rgba(226,59,93,.35)' },
         hasReminderAlert: !!rem.active, reminderText: rem.text || '', reminderBadgeText: rem.badgeText || rem.text || '', reminderShort: rem.type || '!',
@@ -4783,11 +4995,11 @@ class Component extends DCLogic {
         profitText: (e.profit >= 0 ? '+' : '') + cur + this.fmt(e.profit),
         profitTableText: e.sold ? (e.profit >= 0 ? '+' : '') + cur + this.fmt(e.profit) : '—',
         profitStyle, profitCellStyle: e.sold ? profitStyle : { color: '#8b85ab' },
-        channel: it.channel || '—', purchaseChannel: it.purchaseChannel || '—', heat: it.heat || 0, hasHeat: (it.heat || 0) > 0, starsText: '★'.repeat(it.heat || 0), cardStars: [1, 2, 3, 4, 5].map(n => ({ onClick: (ev) => { ev.stopPropagation(); this.setItemHeat(it.id, n); }, style: { background: 'none', border: 'none', cursor: 'pointer', fontSize: '18px', lineHeight: 1, padding: '0 1px', color: n <= (it.heat || 0) ? '#ff7a1a' : '#d8d2ea' } })), dateText: it.buyDate || '—', note: it.note || '',
+        channel: it.channel || '—', purchaseChannel: it.purchaseChannel || '—', heat: it.heat || 0, hasHeat: (it.heat || 0) > 0, starsText: '★'.repeat(it.heat || 0), cardStars: [1, 2, 3, 4, 5].map(n => ({ onClick: (ev) => { ev.stopPropagation(); this.setItemHeat(it.id, n); }, style: { background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', lineHeight: 1, padding: '0 1px', color: n <= (it.heat || 0) ? '#ff9a1f' : '#d9d2ea' } })), dateText: it.buyDate || '—', note: it.note || '',
         imgUrl: primaryUrl, hasImg: !!primaryUrl, noImg: galleryUrls.length === 0, hasImg2: galleryUrls.length > 1, imageCountText: galleryUrls.length + '图', galleryImgs, ph: (displayName || it.character || '?').slice(0, 1),
         thumbBg: primaryUrl ? { position: 'absolute', inset: 0, backgroundImage: `url(${primaryUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' } : { display: 'none' },
-        groupBadgeStyle: { ...groupStyle, position: 'absolute', top: '9px', left: '9px', backdropFilter: 'blur(4px)' },
-        statusBadgeStyle: { ...this.badge(this.STATUS_COLOR[it.status] || '#6f6996', 'rgba(255,255,255,.85)', (this.STATUS_COLOR[it.status] || '#6f6996') + '55'), position: 'absolute', top: '9px', right: '9px', backdropFilter: 'blur(4px)' },
+        groupBadgeStyle: { display: 'inline-flex', alignItems: 'center', padding: '5px 10px', borderRadius: '999px', fontSize: '11.5px', fontWeight: 900, whiteSpace: 'nowrap', color: g === '出物' ? '#c93f78' : '#6a4fd0', background: g === '出物' ? 'rgba(255,246,250,.9)' : 'rgba(249,247,255,.9)', border: '1px solid rgba(255,255,255,.9)', boxShadow: '0 8px 18px rgba(255,122,162,.2),0 2px 8px rgba(55,35,90,.12)', textShadow: '0 1px 0 rgba(255,255,255,.85)', position: 'absolute', top: '9px', left: '9px', backdropFilter: 'blur(10px)' },
+        statusBadgeStyle: { ...this.badge(this.STATUS_COLOR[it.status] || '#6f6996', 'rgba(255,255,255,.92)', (this.STATUS_COLOR[it.status] || '#6f6996') + '44'), position: 'absolute', top: '9px', right: '9px', backdropFilter: 'blur(10px)', boxShadow: '0 8px 18px rgba(91,157,255,.12),0 2px 8px rgba(55,35,90,.09)', fontWeight: 800 },
         onEdit: (ev) => { if (showBatchBar) { ev && ev.stopPropagation && ev.stopPropagation(); this.toggleBatchId(it.id, !isSelected); } else this.openItemFromRow(it, ev); }, onDelete: () => this.removeItem(it), onDup: () => this.openDuplicate(it), onTrend: (ev) => { ev && ev.stopPropagation && ev.stopPropagation(); if (showBatchBar) this.toggleBatchId(it.id, !isSelected); else this.openTrend(it); },
         draggable: true,
         onMouseDown: (ev) => this.startItemPointer(it.id, ev),
@@ -5051,7 +5263,7 @@ class Component extends DCLogic {
       addFormOpt: this.addOptionTo('formOrder', 'zzz_form_order', '输入新的形态'), addStatusOpt: this.addOptionTo('statusList', 'zzz_status', '输入新的状态'), addAcquireOpt: this.addOptionTo('acquireOrder', 'zzz_acquire_order', '输入新的来源方式'), formMenuItems, formDisplay, formMenuOpen: this.state.formMenuOpen, toggleFormMenu: this.toggleFormMenu, statusMenuItems, statusDisplay, statusMenuOpen: this.state.statusMenuOpen, toggleStatusMenu: this.toggleStatusMenu, acquireMenuItems, acquireDisplay, acquireMenuOpen: this.state.acquireMenuOpen, toggleAcquireMenu: this.toggleAcquireMenu, methodMenuItems, methodDisplay, methodMenuOpen: this.state.methodMenuOpen, toggleMethodMenu: this.toggleMethodMenu, clearMethod: this.clearMethod, hasMethodItems: methodMenuItems.length > 0,
       lblCharacter: labels.character, lblType: labels.type, lblChannel: labels.channel, lblPurchaseChannel: labels.purchaseChannel, lblSeries: labels.series, lblStatus: labels.status, lblForm: labels.form, lblAcquire: labels.acquire, showReminderFields, reminderDateLabel, reminderDateHint,
       cnPrefix, hasCn: !!cnPrefix, cnDisplay, cnSidebarClass,
-      rootBgStyle: this.bgUrl ? { backgroundImage: `linear-gradient(rgba(236,232,246,.82),rgba(236,232,246,.92)), url(${this.bgUrl})`, backgroundSize: 'cover', backgroundAttachment: 'fixed', backgroundPosition: 'center' } : {},
+      rootBgStyle: this.bgUrl ? { backgroundImage: `linear-gradient(180deg,rgba(255,255,255,.78),rgba(255,255,255,.9)), url(${this.bgUrl})`, backgroundSize: 'cover', backgroundAttachment: 'fixed', backgroundPosition: 'center' } : {},
       appClass, mobileModeText, toggleMobileMode: this.toggleMobileMode, filterSummaryText, filterToggleText, toggleFiltersOpen: this.toggleFiltersOpen,
       savedText, doExport: this.doExport, doExcelExport: this.doExcelExport, doExcelTemplate: this.doExcelTemplate, triggerExcelImport: this.triggerExcelImport, onExcelImportFile: this.onExcelImportFile, triggerImport: this.triggerImport, onImportFile: this.onImportFile,
       logoFallback,
@@ -5099,7 +5311,7 @@ class Component extends DCLogic {
       modalOpen: this.state.modalOpen, modalTitle: this.state.editing ? '编辑谷子' : '新增谷子', isEditing: !!this.state.editing, duplicateCurrent: this.duplicateCurrent, deleteCurrent: this.deleteCurrent,
       draft: d || this.emptyDraft(),
       CHARACTERS: this.orderedChars(), TYPES: this.TYPES, reminderTypeOptions: (this.state.reminderTypes && this.state.reminderTypes.length ? this.state.reminderTypes : this.REMINDER_TYPES), reminderMenuItems, reminderDisplay, reminderMenuOpen: this.state.reminderMenuOpen, toggleReminderMenu: this.toggleReminderMenu, addReminderType: this.addReminderType, clearReminderType: () => this.pickReminderType(''), STATUSES: this.state.statusList || this.STATUSES, FORMS: this.FORMS,
-      closeModal: this.closeModal, saveItem: this.saveItem, onDraftChange: this.onDraftChange, autoGrowNote: this.autoGrowNote, charMenuItems, charDisplay, charMenuOpen: this.state.charMenuOpen, toggleCharMenu: this.toggleCharMenu, onTypeChange: this.onTypeChange, onSeriesChange: this.onSeriesChange, fillName: this.fillName, draftStars, typeMenuItems, typeDisplay, hasTypeMenuItems, typeMenuOpen: this.state.typeMenuOpen, toggleTypeMenu: this.toggleTypeMenu, addType: this.addType, seriesMenuItems, seriesDisplay, hasSeriesMenuItems, seriesMenuOpen: this.state.seriesMenuOpen, toggleSeriesMenu: this.toggleSeriesMenu, addSeries: this.addSeries, clearSeries: this.clearSeries, channelMenuItems, channelMenuOpen: this.state.channelMenuOpen, toggleChannelMenu: this.toggleChannelMenu, addChannel: this.addChannel, clearChannel: this.clearChannel, channelDisplay: (this.state.draft && this.state.draft.channel) ? this.state.draft.channel : '（未分类）', hasChannelMenuItems: channelMenuItems.length > 0, purchaseChannelMenuItems, purchaseChannelMenuOpen: this.state.purchaseChannelMenuOpen, togglePurchaseChannelMenu: this.togglePurchaseChannelMenu, addPurchaseChannel: this.addPurchaseChannel, clearPurchaseChannel: this.clearPurchaseChannel, purchaseChannelDisplay: (this.state.draft && this.state.draft.purchaseChannel) ? this.state.draft.purchaseChannel : '（未分类）', hasPurchaseChannelMenuItems: purchaseChannelMenuItems.length > 0, fillBuyFromRate: this.fillBuyFromRate, draftHasConv, draftConvText, draftIsGacha, draftSwapped,
+      closeModal: this.closeModal, saveItem: this.saveItem, onDraftChange: this.onDraftChange, onMoneyBlur: this.onMoneyBlur, onMoneyKeyDown: this.onMoneyKeyDown, autoGrowNote: this.autoGrowNote, charMenuItems, charDisplay, charMenuOpen: this.state.charMenuOpen, toggleCharMenu: this.toggleCharMenu, onTypeChange: this.onTypeChange, onSeriesChange: this.onSeriesChange, fillName: this.fillName, draftStars, typeMenuItems, typeDisplay, hasTypeMenuItems, typeMenuOpen: this.state.typeMenuOpen, toggleTypeMenu: this.toggleTypeMenu, addType: this.addType, seriesMenuItems, seriesDisplay, hasSeriesMenuItems, seriesMenuOpen: this.state.seriesMenuOpen, toggleSeriesMenu: this.toggleSeriesMenu, addSeries: this.addSeries, clearSeries: this.clearSeries, channelMenuItems, channelMenuOpen: this.state.channelMenuOpen, toggleChannelMenu: this.toggleChannelMenu, addChannel: this.addChannel, clearChannel: this.clearChannel, channelDisplay: (this.state.draft && this.state.draft.channel) ? this.state.draft.channel : '（未分类）', hasChannelMenuItems: channelMenuItems.length > 0, purchaseChannelMenuItems, purchaseChannelMenuOpen: this.state.purchaseChannelMenuOpen, togglePurchaseChannelMenu: this.togglePurchaseChannelMenu, addPurchaseChannel: this.addPurchaseChannel, clearPurchaseChannel: this.clearPurchaseChannel, purchaseChannelDisplay: (this.state.draft && this.state.draft.purchaseChannel) ? this.state.draft.purchaseChannel : '（未分类）', hasPurchaseChannelMenuItems: purchaseChannelMenuItems.length > 0, fillBuyFromRate: this.fillBuyFromRate, draftHasConv, draftConvText, draftIsGacha, draftSwapped,
       onImagePick: this.onImagePick, onImagePick2: this.onImagePick2, onImagePick3: this.onImagePick3, onImagePickSwap: this.onImagePickSwap, swapMenuItems, swappedDisplay, swapHint, swapNoteLabel, draftIsSwapKind, swapMenuOpen: this.state.swapMenuOpen, toggleSwapMenu: this.toggleSwapMenu, swapCharMenuItems, swapCharDisplay, swapCharMenuOpen: this.state.swapCharMenuOpen, toggleSwapCharMenu: this.toggleSwapCharMenu, clearSwapCharacter: this.clearSwapCharacter, swapCharHasAvatar, swapCharAvatarStyle, removeDraftImg: this.removeDraftImg, removeDraftImg2: this.removeDraftImg2, removeDraftImg3: this.removeDraftImg3, removeDraftImg4: this.removeDraftImg4, removeDraftSwapImg: this.removeDraftSwapImg,
       draftTimelineRows, showBrandField: fieldVisible('series') && !!(d && d.series), draftWorkName, draftWorkGroupName, draftWorkMenuGroups, draftWorkMenuOpen: this.state.draftWorkMenuOpen, toggleDraftWorkMenu: this.toggleDraftWorkMenu, addWorkInline: this.addWorkInline, draftIsSelling, draftNotSelling,
       manageOpen: this.state.manageOpen, closeManage: this.closeManage, manageTitle, manageRows, manageAddText, onManageAdd, manageCanRenameLabel, onManageRenameLabel, manageCanToggle, manageFilterOn, workManageOpen: this.state.workManageOpen, openWorkManage: this.openWorkManage, closeWorkManage: this.closeWorkManage, workManageGroups, addGroupAlone: this.addGroupAlone, setManageOpen: this.state.setManageOpen, openSetManage: this.openSetManage, closeSetManage: this.closeSetManage, setManageList, addSetInManage: this.addSetInManage, hasSetManageList: setManageList.length > 0, setFieldLabel: this.setLabelText(), renameSetLabel: this.renameSetLabel, setFilterStyle, setGroupStyle, setFilterText: setFilterOn ? '筛选 ✓' : '筛选', setGroupText: setGroupOn ? '分组 ✓' : '分组', onSetToggleFilter: this.toggleFilterOn('set'), onSetToggleGroup: this.toggleStatsOn('set'), manageGroupOn, onManageToggleFilter, onManageToggleGroup, manageFilterStyle, manageGroupStyle, manageFilterText: manageFilterOn ? '筛选 ✓' : '筛选', manageGroupText: manageGroupOn ? '分组 ✓' : '分组', manageBatchOn, onManageToggleBatch, manageBatchStyle, manageBatchText: manageBatchOn ? '批量 ✓' : '批量',
