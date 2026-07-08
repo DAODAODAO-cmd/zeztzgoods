@@ -4740,7 +4740,7 @@ class Component extends DCLogic {
       if (e.sd > 0) shipParts.push('内' + cur + this.fmt(e.sd));
       if (e.si > 0) shipParts.push('际' + cur + this.fmt(e.si));
       const profitStyle = { color: e.profit >= 0 ? '#12a85f' : '#e23b5d', fontWeight: 700 };
-      const groupStyle = g === '出物' ? this.badge('#d14a86', 'rgba(255,107,157,.14)', 'rgba(255,107,157,.3)') : this.badge('#6a4fd0', 'rgba(108,92,231,.16)', 'rgba(108,92,231,.32)');
+      const groupStyle = g === '出物' ? { display: 'inline-flex', alignItems: 'center', padding: '3px 10px', borderRadius: '999px', fontSize: '11.5px', fontWeight: 700, whiteSpace: 'nowrap', color: '#c23d78', background: 'rgba(255,255,255,.9)', border: '1px solid rgba(224,86,143,.4)', boxShadow: '0 2px 8px rgba(50,38,90,.18)' } : { display: 'inline-flex', alignItems: 'center', padding: '3px 10px', borderRadius: '999px', fontSize: '11.5px', fontWeight: 700, whiteSpace: 'nowrap', color: '#5a3fc0', background: 'rgba(255,255,255,.9)', border: '1px solid rgba(108,92,231,.4)', boxShadow: '0 2px 8px rgba(50,38,90,.18)' };
       const fcol = it.form === '人脸' ? '#c8860d' : it.form === '皮套' ? '#2f7fd0' : '#7c5cd6';
       const fbg = it.form === '人脸' ? 'rgba(255,193,75,.13)' : it.form === '皮套' ? 'rgba(91,157,255,.13)' : 'rgba(124,92,214,.14)';
       const isSelected = selectedSet.has(it.id);
