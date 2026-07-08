@@ -2076,7 +2076,6 @@ class Component extends DCLogic {
     const isMain = workId === this.MAIN_WORK;
     const rd = (base, fallback) => { let v = null; try { v = JSON.parse(localStorage.getItem(this.wkey(base, workId)) || 'null'); } catch (e) {} return Array.isArray(v) ? v : fallback(); };
     let charOrder = rd('zzz_char_order', () => isMain ? [...this.CHARACTERS] : []);
-    if (isMain) charOrder = [...this.CHARACTERS];
     items.forEach(it => { [it.character, it.swapCharacter].forEach(c => { if (c && !charOrder.includes(c)) charOrder.push(c); }); });
     let typesList = rd('zzz_types', () => [...new Set([...this.TYPES, ...items.map(i => i.type).filter(Boolean)])]);
     let seriesList = rd('zzz_series', () => [...new Set(items.map(i => i.series).filter(Boolean))]);
@@ -2750,9 +2749,9 @@ class Component extends DCLogic {
   // ---- helpers ----
   num(v) { const n = parseFloat(v); return isNaN(n) ? 0 : n; }
   // 金额输入支持算式：280+20、500-30、398*2、1000/4、(300+20)*2
-  // 自动清理 ¥ ￥ , 空格 RMB 元；结果四舍五入到 2 位小数，整数不带多余小数
+  // 自动清理 ¥ ￥ , 空格 RMB 元；结果四舍五入到指定小数位（默认 2 位，汇率用 4 位），整数不带多余小数
   // 返回 '' 表示清空为空值；返回 null 表示公式错误（调用方应保留原输入、不写回）
-  calcMoneyInput(raw) {
+  calcMoneyInput(raw, decimals = 2) {
     if (raw == null) return '';
     let s = String(raw).trim();
     if (!s) return '';
@@ -2763,13 +2762,14 @@ class Component extends DCLogic {
     let result;
     try { result = Function('"use strict";return (' + s + ')')(); } catch (err) { return null; }
     if (typeof result !== 'number' || !isFinite(result)) return null;
-    return String(Math.round(result * 100) / 100);
+    const mul = Math.pow(10, decimals);
+    return String(Math.round(result * mul) / mul);
   }
   // 输入框失焦/回车时触发：算式正确就写回计算结果，错误就提示并保留原输入
   onMoneyBlur = (e) => {
     const { name, value } = e.target;
     if (value == null || String(value).trim() === '') return;
-    const result = this.calcMoneyInput(value);
+    const result = this.calcMoneyInput(value, name === 'rate' ? 4 : 2);
     if (result === null) { alert('公式错误'); return; }
     if (result === String(value).trim()) return;
     this.setState(s => ({ draft: { ...s.draft, [name]: result } }));
@@ -3275,7 +3275,7 @@ class Component extends DCLogic {
     for (const f of Object.keys(_moneyLabels)) {
       const v = d[f];
       if (v == null || String(v).trim() === '') continue;
-      const r = this.calcMoneyInput(v);
+      const r = this.calcMoneyInput(v, f === 'rate' ? 4 : 2);
       if (r === null) { alert('「' + _moneyLabels[f] + '」这一栏的公式错误，请检查后再保存：' + v); return; }
       if (r !== String(v)) _moneyPatch[f] = r;
     }
