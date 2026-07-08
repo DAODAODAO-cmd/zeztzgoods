@@ -1853,14 +1853,20 @@ class Component extends DCLogic {
   setImportRef = (el) => { this.importRef = el; };
   setExcelImportRef = (el) => { this.excelImportRef = el; };
   stop = (e) => { if (e && e.stopPropagation) e.stopPropagation(); };
+  legacyVendorOf(it) { return String((it && (it.vendor || it.maker || it.manufacturer || it.factory || it.brand || it['厂商'])) || '').trim(); }
 
   componentDidMount() {
     let items = [], hasStoredItems = false;
     try { const raw = localStorage.getItem('zzz_goods_v1'); if (raw != null) { hasStoredItems = true; items = JSON.parse(raw) || []; } } catch (e) { items = []; }
     if (!Array.isArray(items)) items = [];
     if (!hasStoredItems && !items.length) { items = this.samples(); }
-    // 仅补全缺失的新字段默认值（不覆盖任何已有值）
-    items = items.map(it => ({ form: '通用', series: '', heat: 0, rate: '', otherFee: '', acquire: '', method: '', purchaseChannel: '', swapped: '未置换', swapTo: '', swapCharacter: '', swapImageId: null, imageId2: null, imageId3: null, imageId4: null, group: '收藏', workId: 'w_main', reminderType: '', reminderDate: '', specialType: '', specialDate: '', setName: '', setTotal: '', setVariant: '', timeline: [], tags: [], rarity: [], ...it }));
+    // 仅补全缺失的新字段默认值（不覆盖任何已有值）；历史厂商字段只复制到平台，不删除原字段。
+    items = items.map(it => {
+      const next = { form: '通用', series: '', heat: 0, rate: '', otherFee: '', shipDomDate: '', shipIntlDate: '', otherFeeDate: '', acquire: '', method: '', purchaseChannel: '', swapped: '未置换', swapTo: '', swapCharacter: '', swapImageId: null, imageId2: null, imageId3: null, imageId4: null, group: '收藏', workId: 'w_main', reminderType: '', reminderDate: '', specialType: '', specialDate: '', setName: '', setTotal: '', setVariant: '', timeline: [], tags: [], rarity: [], ...it };
+      const legacyVendor = this.legacyVendorOf(next);
+      if (!next.channel && legacyVendor) next.channel = legacyVendor;
+      return next;
+    });
     items.forEach(it => { if (!it.workId) it.workId = 'w_main'; });
     try { localStorage.setItem('zzz_goods_v1', JSON.stringify(items)); } catch (e) {}
     // 作品 / 系列IP
@@ -1935,8 +1941,7 @@ class Component extends DCLogic {
     items.forEach(it => { [it.character, it.swapCharacter].forEach(c => { if (c && !charOrder.includes(c)) charOrder.push(c); }); });
     let typesList = rd('zzz_types', () => [...new Set([...this.TYPES, ...items.map(i => i.type).filter(Boolean)])]);
     let seriesList = rd('zzz_series', () => [...new Set(items.map(i => i.series).filter(Boolean))]);
-    let channels = rd('zzz_channels', () => [...new Set(items.map(i => i.channel).filter(Boolean))]);
-    items.map(i => i.series).filter(Boolean).forEach(v => { if (!channels.includes(v)) channels.push(v); });
+    let channels = rd('zzz_channels', () => [...new Set(items.map(i => i.channel || this.legacyVendorOf(i)).filter(Boolean))]);
     items.map(i => i.channel).filter(Boolean).forEach(v => { if (!channels.includes(v)) channels.push(v); });
     let purchaseChannels = rd('zzz_purchase_channels', () => [...new Set([...this.CHANNELS, ...items.map(i => i.purchaseChannel).filter(Boolean)])]);
     items.map(i => i.purchaseChannel).filter(Boolean).forEach(v => { if (!purchaseChannels.includes(v)) purchaseChannels.push(v); });
@@ -2736,7 +2741,7 @@ class Component extends DCLogic {
     try { localStorage.setItem('zzz_custom_filter_order', JSON.stringify(orderMap)); } catch(e) {}
     this.setState({ customFilterOrder: orderMap, customFilterSel }, () => this.commit(items));
   };
-  emptyDraft() { const chars = this.orderedChars(); return { id: null, workId: this.defaultDraftWorkId(), custom: {}, name: '', character: (chars[0] || ''), type: this.TYPES[0], subtype: '', series: '', form: '通用', heat: 0, rate: '', otherFee: '', acquire: '', method: '', purchaseChannel: '', swapped: '未置换', swapTo: '', swapCharacter: '', swapImageId: null, group: '收藏', status: '已下单', qty: '1', originalPrice: '', buyPrice: '', shipDom: '', shipIntl: '', sellPrice: '', supplementPrice: '', finalPrice: '', channel: '', buyDate: this.todayStr(), reminderType: '', reminderDate: this.todayStr(), note: '', imageId: null, imageId2: null, imageId3: null, imageId4: null, specialType: '', specialDate: '', setId: '', setName: '', setTotal: '', setVariant: '', timeline: [], tags: [], rarity: [] }; }
+  emptyDraft() { const chars = this.orderedChars(); return { id: null, workId: this.defaultDraftWorkId(), custom: {}, name: '', character: (chars[0] || ''), type: this.TYPES[0], subtype: '', series: '', form: '通用', heat: 0, rate: '', otherFee: '', shipDomDate: '', shipIntlDate: '', otherFeeDate: '', acquire: '', method: '', purchaseChannel: '', swapped: '未置换', swapTo: '', swapCharacter: '', swapImageId: null, group: '收藏', status: '已下单', qty: '1', originalPrice: '', buyPrice: '', shipDom: '', shipIntl: '', sellPrice: '', supplementPrice: '', finalPrice: '', channel: '', buyDate: this.todayStr(), reminderType: '', reminderDate: this.todayStr(), note: '', imageId: null, imageId2: null, imageId3: null, imageId4: null, specialType: '', specialDate: '', setId: '', setName: '', setTotal: '', setVariant: '', timeline: [], tags: [], rarity: [] }; }
   imageSlotKeys() { return ['imageId', 'imageId2', 'imageId3', 'imageId4']; }
   imageIdsOf(it) { return this.imageSlotKeys().map(k => it && it[k]).filter(Boolean); }
   imageUrlsOf(it) { return this.imageIdsOf(it).map(id => this.imgUrls[id]).filter(Boolean); }
@@ -2835,9 +2840,9 @@ class Component extends DCLogic {
   migrateSeriesToCustom = () => {
     const scope = (this.state.items || []);
     const has = scope.some(it => (it.series || '').trim());
-    if (!has) { alert('没有旧「厂商 / 系列」数据需要转换。'); return; }
-    if (!window.confirm('把旧「厂商 / 系列」整列转成一个自定义字段保留吗？\n\n· 会新建一个自定义字段（默认名「厂商」）\n· 每件谷子的旧厂商值搬进这个自定义字段\n· 内置「厂商」字段会被隐藏，不再和新结构冲突\n建议先导出备份。')) return;
-    const label = (window.prompt('给这个自定义字段起个名字：', '厂商') || '厂商').trim() || '厂商';
+    if (!has) { alert('没有旧「系列」数据需要转换。'); return; }
+    if (!window.confirm('把旧「系列」整列转成一个自定义字段保留吗？\n\n· 会新建一个自定义字段（默认名「系列备份」）\n· 每件谷子的旧系列值搬进这个自定义字段\n· 内置「系列」字段会被隐藏，不再和新结构冲突\n建议先导出备份。')) return;
+    const label = (window.prompt('给这个自定义字段起个名字：', '系列备份') || '系列备份').trim() || '系列备份';
     const key = 'cf_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
     const opts = [...new Set(scope.map(it => (it.series || '').trim()).filter(Boolean))];
     const customFields = [...(this.state.customFields || []), { key, label, options: opts }];
@@ -2846,14 +2851,14 @@ class Component extends DCLogic {
     try { localStorage.setItem('zzz_custom_fields', JSON.stringify(customFields)); localStorage.setItem('zzz_deleted_fields', JSON.stringify(deletedFields)); } catch (e) {}
     this.setState({ customFields, deletedFields });
     this.commit(items);
-    alert('已把旧「厂商」转成自定义字段「' + label + '」并隐藏内置厂商。');
+    alert('已把旧「系列」转成自定义字段「' + label + '」并隐藏内置系列。');
   };
   migrateSeriesToSet = () => {
     const wid = this.state.currentWorkId && this.state.currentWorkId !== this.ALL_WORKS ? this.state.currentWorkId : this.MAIN_WORK;
     const scope = (this.state.items || []).filter(it => (it.workId || this.MAIN_WORK) === wid);
     const vals = [...new Set(scope.map(it => (it.series || '').trim()).filter(Boolean))];
-    if (!vals.length) { alert('当前作品没有可迁移的旧「系列/厂商」数据。'); return; }
-    if (!window.confirm('把当前作品里 ' + vals.length + ' 个旧「系列/厂商」值（' + vals.join('、') + '）迁移为「系列收藏 / 套装」吗？\n\n· 会为每个值建立一个套装，并把对应谷子归入\n· 原「厂商」字段会清空\n建议先导出备份。')) return;
+    if (!vals.length) { alert('当前作品没有可迁移的旧「系列」数据。'); return; }
+    if (!window.confirm('把当前作品里 ' + vals.length + ' 个旧「系列」值（' + vals.join('、') + '）迁移为「系列收藏 / 套装」吗？\n\n· 会为每个值建立一个套装，并把对应谷子归入\n· 原「系列」字段会清空\n建议先导出备份。')) return;
     let sets = [...(this.state.sets || [])];
     const idByName = {};
     vals.forEach(v => {
@@ -3104,11 +3109,18 @@ class Component extends DCLogic {
     const prevStatus = prev ? (prev.status || '') : '';
     const curStatus = d.status || '';
     let statusLog = Array.isArray(d.statusLog) ? [...d.statusLog] : (prev && Array.isArray(prev.statusLog) ? [...prev.statusLog] : []);
-    if (curStatus && curStatus !== prevStatus) {
-      const stDate = d.reminderDate || d.buyDate || new Date().toISOString().slice(0, 10);
-      statusLog.push({ status: curStatus, date: stDate, ts: Date.now() });
-    }
+    const prevStatusDate = prev ? (prev.reminderDate || prev.buyDate || '') : '';
+    const curStatusDate = d.reminderDate || d.buyDate || new Date().toISOString().slice(0, 10);
+    if (curStatus && (curStatus !== prevStatus || curStatusDate !== prevStatusDate)) statusLog = this.statusLogWith(statusLog, curStatus, curStatusDate);
     d = { ...d, statusLog };
+    const feeEventDate = curStatusDate;
+    const feeWasEmpty = (key) => !prev || !this.num(prev[key]);
+    if (this.num(d.shipDom) > 0 && (!d.shipDomDate || feeWasEmpty('shipDom'))) d = { ...d, shipDomDate: feeEventDate };
+    if (!this.num(d.shipDom)) d = { ...d, shipDomDate: '' };
+    if (this.num(d.shipIntl) > 0 && (!d.shipIntlDate || feeWasEmpty('shipIntl'))) d = { ...d, shipIntlDate: feeEventDate };
+    if (!this.num(d.shipIntl)) d = { ...d, shipIntlDate: '' };
+    if (this.num(d.otherFee) > 0 && (!d.otherFeeDate || feeWasEmpty('otherFee'))) d = { ...d, otherFeeDate: feeEventDate };
+    if (!this.num(d.otherFee)) d = { ...d, otherFeeDate: '' };
     // 置换 / 收现 = 收藏历程事件：主表单是最终收藏，这里记录「怎么得到的」
     // 厂商已并入平台，不再由平台自动回填到系列。
     const isSwapNow = d.method === '盲抽' && (d.gachaResult === '置换' || d.gachaResult === '收现');
@@ -3167,7 +3179,7 @@ class Component extends DCLogic {
       const e = this.enrich(it); const w = workById[it.workId] || {};
       const row = {
         '图片1': includeImages ? await this.imgData(it.imageId) : '', '图片2': includeImages ? await this.imgData(it.imageId2) : '', '图片3': includeImages ? await this.imgData(it.imageId3) : '', '图片4': includeImages ? await this.imgData(it.imageId4) : '',
-        '作品系列IP': w.group || '', '作品': w.name || '', '名称': it.name || '', '角色': it.character || '', '种类': it.type || '', '细分': it.subtype || '', '系列': it.series || '', '状态': it.status || '', '数量': e.qty, '原价(日元)': it.originalPrice || '', '买入单价': e.buy || '', '国内邮费': e.sd || '', '国际邮费': e.si || '', '总投入': e.cost || '', '卖出单价': e.sell || '', '卖出金额': e.revenue || '', '盈亏': e.sold ? e.profit : '', '平台': it.channel || '', '渠道': it.purchaseChannel || '', '购买日期': it.buyDate || '', '提醒类型': it.reminderType || '', '提醒日期': it.reminderDate || '', '所属套装': it.setName || '', '套装总数': it.setTotal || '', '款式编号': it.setVariant || '', '备注': it.note || '', '编号（请勿修改，用于重新导入时识别更新）': it.id || ''
+        '作品系列IP': w.group || '', '作品': w.name || '', '名称': it.name || '', '角色': it.character || '', '种类': it.type || '', '细分': it.subtype || '', '系列': it.series || '', '状态': it.status || '', '数量': e.qty, '原价(日元)': it.originalPrice || '', '买入单价': e.buy || '', '国内邮费': e.sd || '', '国际邮费': e.si || '', '总投入': e.cost || '', '卖出单价': e.sell || '', '卖出金额': e.revenue || '', '盈亏': e.sold ? e.profit : '', '平台': it.channel || '', '渠道': it.purchaseChannel || '', '购买日期': it.buyDate || '', '提醒类型': it.reminderType || '', '状态日期': it.reminderDate || '', '所属套装': it.setName || '', '套装总数': it.setTotal || '', '款式编号': it.setVariant || '', '备注': it.note || '', '编号（请勿修改，用于重新导入时识别更新）': it.id || ''
       };
       itemRows.push(row);
     }
@@ -3274,7 +3286,7 @@ class Component extends DCLogic {
       if (!window.ExcelJS) throw new Error('ExcelJS 未加载，请刷新页面或检查网络后重试');
       const wb = new ExcelJS.Workbook();
       const ws = wb.addWorksheet('收藏');
-      const headers = ['图片1','图片2','图片3','图片4','作品系列IP','作品','名称','角色','种类','细分','系列','状态','数量','原价(日元)','买入单价','国内邮费','国际邮费','卖出单价','平台','渠道','购买日期','提醒类型','提醒日期','所属套装','套装总数','款式编号','备注','编号（请勿修改，用于重新导入时识别更新）'];
+      const headers = ['图片1','图片2','图片3','图片4','作品系列IP','作品','名称','角色','种类','细分','系列','状态','数量','原价(日元)','买入单价','国内邮费','国际邮费','卖出单价','平台','渠道','购买日期','提醒类型','状态日期','所属套装','套装总数','款式编号','备注','编号（请勿修改，用于重新导入时识别更新）'];
       ws.addRow(headers);
       ws.addRow(['可直接在此单元格插入图片，也可留空','','','','默认','默认作品','NOX 吧唧','NOX','吧唧','初版','TV动画','已归家','1','800','150','10','30','','淘宝','代购','2026-07-01','','','','','','示例数据，可直接删除此行','']);
       ws.getRow(1).font = { bold: true };
@@ -3363,7 +3375,7 @@ class Component extends DCLogic {
         const img4 = await this.saveImageDataURL(this.excelVal(r, ['图片4']));
         const existingId = String(this.excelVal(r, ['编号（请勿修改，用于重新导入时识别更新）','编号']) || '').trim();
         const fields = { workId, name,
-          character:String(this.excelVal(r,['角色'])||''), type:String(this.excelVal(r,['种类','类型'])||''), subtype:String(this.excelVal(r,['细分','款式'])||''), series:String(this.excelVal(r,['系列'])||''), status:String(this.excelVal(r,['状态'])||'已归家'), qty:String(this.excelVal(r,['数量'])||'1'), originalPrice:String(this.excelVal(r,['原价(日元)','原价'])||''), buyPrice:String(this.excelVal(r,['买入单价','买入价'])||''), shipDom:String(this.excelVal(r,['国内邮费'])||''), shipIntl:String(this.excelVal(r,['国际邮费'])||''), sellPrice:String(this.excelVal(r,['卖出单价','卖出价'])||''), channel:String(this.excelVal(r,['平台','购买平台','厂商'])||''), purchaseChannel:String(this.excelVal(r,['渠道','购买渠道'])||''), buyDate:String(this.excelVal(r,['购买日期','日期'])||''), reminderType:String(this.excelVal(r,['提醒类型'])||''), reminderDate:String(this.excelVal(r,['提醒日期'])||''), setName:String(this.excelVal(r,['所属套装','套装'])||''), setTotal:String(this.excelVal(r,['套装总数'])||''), setVariant:String(this.excelVal(r,['款式编号','款式'])||''), note:String(this.excelVal(r,['备注'])||'') };
+          character:String(this.excelVal(r,['角色'])||''), type:String(this.excelVal(r,['种类','类型'])||''), subtype:String(this.excelVal(r,['细分','款式'])||''), series:String(this.excelVal(r,['系列'])||''), status:String(this.excelVal(r,['状态'])||'已归家'), qty:String(this.excelVal(r,['数量'])||'1'), originalPrice:String(this.excelVal(r,['原价(日元)','原价'])||''), buyPrice:String(this.excelVal(r,['买入单价','买入价'])||''), shipDom:String(this.excelVal(r,['国内邮费'])||''), shipIntl:String(this.excelVal(r,['国际邮费'])||''), sellPrice:String(this.excelVal(r,['卖出单价','卖出价'])||''), channel:String(this.excelVal(r,['平台','购买平台'])||''), purchaseChannel:String(this.excelVal(r,['渠道','购买渠道'])||''), buyDate:String(this.excelVal(r,['购买日期','日期'])||''), reminderType:String(this.excelVal(r,['提醒类型'])||''), reminderDate:String(this.excelVal(r,['状态日期'])||''), setName:String(this.excelVal(r,['所属套装','套装'])||''), setTotal:String(this.excelVal(r,['套装总数'])||''), setVariant:String(this.excelVal(r,['款式编号','款式'])||''), note:String(this.excelVal(r,['备注'])||'') };
         if (img1) fields.imageId = img1; if (img2) fields.imageId2 = img2; if (img3) fields.imageId3 = img3; if (img4) fields.imageId4 = img4;
         if (existingId && existingItemIds.has(existingId)) {
           updateMap[existingId] = fields;
@@ -3461,6 +3473,9 @@ class Component extends DCLogic {
     const bOn = (k) => (this.state.batchOn || {})[k] !== false;
     return [
       { key:'status', label:this.flabel('status'), type:'select' },
+      { key:'statusWithDate', label:'状态 + 日期', type:'statusDate' },
+      { key:'reminderDate', label:'状态日期 / 提醒日期', type:'date' },
+      { key:'reminderType', label:'提醒类型', type:'select' },
       { key:'buyDate', label:'购买日期', type:'date' },
       { key:'character', label:this.flabel('character'), type:'select' },
       { key:'type', label:this.flabel('type'), type:'select' },
@@ -3495,6 +3510,7 @@ class Component extends DCLogic {
       method: methodList,
       channel: platformList,
       purchaseChannel: this.state.purchaseChannels || this.CHANNELS,
+      reminderType: (this.state.reminderTypes && this.state.reminderTypes.length) ? this.state.reminderTypes : this.REMINDER_TYPES,
       setId: setIds,
       lifecycle: ['已归家','空气谷','已出物'],
     };
@@ -3508,6 +3524,14 @@ class Component extends DCLogic {
         const st = field === 'setId' ? this.setById(v) : null;
         return { label: field === 'setId' ? (st ? st.name : '清空') : (v || '清空'), onClick: () => this.applyBatchField(field, v) };
       });
+    }
+    if (def.type === 'statusDate') {
+      return this.batchSelectValues('status').map(v => ({ label: v, onClick: () => {
+        const today = new Date().toISOString().slice(0, 10);
+        const d = prompt('输入「' + v + '」的日期（YYYY-MM-DD，留空用今天）', today);
+        if (d === null) return;
+        this.applyBatchStatusWithDate(v, (d.trim() || today));
+      } }));
     }
     if (def.type === 'date') {
       return [{ label:'输入日期', onClick: () => { const v = prompt('输入' + def.label + '（YYYY-MM-DD，留空清除）','') || ''; this.applyBatchField(field, v.trim()); } }, { label:'清空日期', onClick: () => this.applyBatchField(field, '') }];
@@ -3529,7 +3553,24 @@ class Component extends DCLogic {
     if (!(total >= 0)) { alert('请输入有效的总金额'); return; }
     const per = Math.round((total / ids.length) * 100) / 100;
     if (!confirm('确认把总金额 ' + total + ' 平均分摊到 ' + ids.length + ' 件谷子的「' + def.label + '」，每件约 ' + per + '？')) return;
-    this.batchApply(ids, it => ({ ...it, [field]: String(per) }));
+    this.batchApply(ids, it => {
+      const next = { ...it, [field]: String(per) };
+      if (field === 'shipDom') next.shipDomDate = this.eventDateFor(it);
+      if (field === 'shipIntl') next.shipIntlDate = this.eventDateFor(it);
+      if (field === 'otherFee') next.otherFeeDate = this.eventDateFor(it);
+      return next;
+    });
+  };
+  applyBatchStatusWithDate = (status, date) => {
+    const ids = this.batchIdsOrWarn(); if (!ids) return;
+    if (!status) return;
+    if (!confirm('确认把 ' + ids.length + ' 件谷子的「状态」改成「' + status + '」，并记录日期「' + date + '」？')) return;
+    this.batchApply(ids, it => {
+      const next = { ...it, status, reminderDate: date, statusLog: this.statusLogWith(it.statusLog, status, date) };
+      if (status === '已下单') next.buyDate = date;
+      return next;
+    });
+    this.closeBatchEditor();
   };
   applyBatchField = (field, value) => {
     const ids = this.batchIdsOrWarn(); if (!ids) return;
@@ -3551,10 +3592,17 @@ class Component extends DCLogic {
     } else if (field === 'status') {
       const today = new Date().toISOString().slice(0, 10);
       this.batchApply(ids, it => {
-        if (!value || it.status === value) return { ...it, status: value };
-        const log = Array.isArray(it.statusLog) ? [...it.statusLog] : [];
-        log.push({ status: value, date: today, ts: Date.now() });
-        return { ...it, status: value, statusLog: log };
+        if (!value) return { ...it, status: value };
+        const next = { ...it, status: value, reminderDate: today, statusLog: this.statusLogWith(it.statusLog, value, today) };
+        if (value === '已下单') next.buyDate = today;
+        return next;
+      });
+    } else if (field === 'reminderDate') {
+      this.batchApply(ids, it => {
+        const next = { ...it, reminderDate: value };
+        if (value && it.status) next.statusLog = this.statusLogWith(it.statusLog, it.status, value);
+        if (it.status === '已下单') next.buyDate = value;
+        return next;
       });
     } else if (field === 'setId') {
       const st = this.setById(value);
@@ -3570,6 +3618,19 @@ class Component extends DCLogic {
       });
     } else if (field === 'method') {
       this.batchApply(ids, it => ({ ...it, method: value, gachaResult: value === '盲抽' ? (it.gachaResult || '自抽') : '' }));
+    } else if (field === 'buyDate') {
+      this.batchApply(ids, it => {
+        const next = { ...it, buyDate: value };
+        if (it.status === '已下单' && value) next.statusLog = this.statusLogWith(it.statusLog, '已下单', value);
+        return next;
+      });
+    } else if (field === 'shipDom' || field === 'shipIntl' || field === 'otherFee') {
+      this.batchApply(ids, it => {
+        const next = { ...it, [field]: value };
+        const dateKey = field === 'shipDom' ? 'shipDomDate' : field === 'shipIntl' ? 'shipIntlDate' : 'otherFeeDate';
+        next[dateKey] = this.num(value) > 0 ? this.eventDateFor(it) : '';
+        return next;
+      });
     } else if (def.customKey) {
       this.batchApply(ids, it => ({ ...it, custom: { ...(it.custom || {}), [def.customKey]: value } }));
     } else {
@@ -3888,6 +3949,18 @@ class Component extends DCLogic {
     const log = Array.isArray(it.statusLog) ? it.statusLog.filter(s => s && s.status === status && s.date) : [];
     return log.length ? log[log.length - 1].date : '';
   }
+  statusLogWith(logArg, status, date) {
+    const log = Array.isArray(logArg) ? [...logArg] : [];
+    if (!status || !date) return log;
+    const last = log[log.length - 1];
+    if (last && last.status === status) {
+      log[log.length - 1] = { ...last, date, ts: Date.now() };
+    } else {
+      log.push({ status, date, ts: Date.now() });
+    }
+    return log;
+  }
+  eventDateFor(it) { return (it && (it.reminderDate || this.statusLogDate(it, it.status) || it.buyDate)) || this.todayStr(); }
   // 把一件谷子的总花费，按「补款/尾款/国际运费/国内运费各自实际发生的月份」拆开，而不是整笔都算在下单那个月
   // 国际运费通常跟补款/尾款一起先交；国内运费要等排发/发货之后才知道、才交
   cashFlowEntries(it) {
@@ -3898,15 +3971,17 @@ class Component extends DCLogic {
     const suppDate = supp > 0 ? (this.statusLogDate(it, '已补款') || it.buyDate) : '';
     const finDate = fin > 0 ? (this.statusLogDate(it, '已尾款') || it.buyDate) : '';
     const lateDate = finDate || suppDate || it.buyDate;
-    const shipDomDate = this.statusLogDate(it, '已发货') || this.statusLogDate(it, '排发中') || lateDate;
+    const shipDomDate = it.shipDomDate || this.statusLogDate(it, '已发货') || this.statusLogDate(it, '排发中') || lateDate;
+    const shipIntlDate = it.shipIntlDate || lateDate;
+    const otherFeeDate = it.otherFeeDate || lateDate;
     const remainder = buyTotal - supp - fin;
     const entries = [];
     if (it.buyDate && remainder) entries.push({ date: it.buyDate, amount: remainder });
     if (supp && suppDate) entries.push({ date: suppDate, amount: supp });
     if (fin && finDate) entries.push({ date: finDate, amount: fin });
-    if (e.si && lateDate) entries.push({ date: lateDate, amount: e.si });
+    if (e.si && shipIntlDate) entries.push({ date: shipIntlDate, amount: e.si });
     if (e.sd && shipDomDate) entries.push({ date: shipDomDate, amount: e.sd });
-    if (e.other && lateDate) entries.push({ date: lateDate, amount: e.other });
+    if (e.other && otherFeeDate) entries.push({ date: otherFeeDate, amount: e.other });
     if (!entries.length && it.buyDate) entries.push({ date: it.buyDate, amount: e.cost });
     return entries;
   }
@@ -3923,7 +3998,39 @@ class Component extends DCLogic {
     }
     return Math.round((d - today) / 86400000);
   }
-  reminderInfo(it) { const status = String((it && it.status) || ''); const dateStr = (it && it.reminderDate) || ''; const days = this.dateDiffDays(dateStr, false); const statusLabelMap = { '已下单': '已下单', '已下单未发货': '已下单', '待补款': '补款截止', '已补款': '补款完成', '待尾款': '尾款截止', '已尾款': '尾款完成', '排发中': '排发中', '已发货': '已发货', '在途/运输中': '已发货', '已归家': '已归家', '已到货': '已归家', '已出物': '已出物', '出售中': '已出物', '已出/已卖出': '已出物' }; const type = (it && it.reminderType) || statusLabelMap[status] || ''; if (!type || !dateStr || days == null) return null; const urgentTypes = [...((this.state.reminderTypes && this.state.reminderTypes.length) ? this.state.reminderTypes : this.REMINDER_TYPES), '补款截止', '尾款截止']; const isDeadline = urgentTypes.includes(type); let text = ''; let badgeText = ''; let urgent = false; let overdue = false; let score = days; if (isDeadline) { urgent = days <= 3; overdue = days < 0; if (days < 0) { text = type + ' 已逾期 ' + Math.abs(days) + ' 天'; badgeText = '逾期' + Math.abs(days) + '天'; } else if (days === 0) { text = type + ' 今天截止'; badgeText = '今天截止'; } else { text = type + ' 还有 ' + days + ' 天'; badgeText = days + '天'; } } else { const passed = Math.abs(days); text = type + ' ' + passed + ' 天'; badgeText = type + ' ' + passed + '天'; score = 9999 + passed; } return { active: urgent, pending: isDeadline, days, text, badgeText, type, date: dateStr, overdue, score }; }
+  reminderInfo(it) {
+    const status = String((it && it.status) || '');
+    const statusLabelMap = { '已下单': '已下单', '已下单未发货': '已下单', '待补款': '补款截止', '已补款': '补款完成', '待尾款': '尾款截止', '已尾款': '尾款完成', '排发中': '排发中', '已发货': '已发货', '在途/运输中': '已发货', '已归家': '已归家', '已到货': '已归家', '已出物': '已出物', '出售中': '已出物', '已出/已卖出': '已出物' };
+    const rawType = (it && it.reminderType) || statusLabelMap[status] || '';
+    const typeAliasMap = { '补款': '补款截止', '尾款': '尾款截止', '排发': '排发中', '到货': '已归家', '集运': '排发中' };
+    const type = typeAliasMap[rawType] || rawType;
+    const dateStr = (it && (it.reminderDate || this.statusLogDate(it, status) || (status === '已下单' ? it.buyDate : ''))) || '';
+    const days = this.dateDiffDays(dateStr, false);
+    if (!type || !dateStr || days == null) return null;
+
+    const deadlineTypes = ['补款截止', '尾款截止'];
+    const isDeadline = deadlineTypes.includes(type);
+    let text = '';
+    let badgeText = '';
+    let urgent = false;
+    let overdue = false;
+    let score = days;
+
+    if (isDeadline) {
+      urgent = days <= 3;
+      overdue = days < 0;
+      if (days < 0) { text = type + ' 已逾期 ' + Math.abs(days) + ' 天'; badgeText = '逾期' + Math.abs(days) + '天'; }
+      else if (days === 0) { text = type + ' 今天截止'; badgeText = '今天截止'; }
+      else { text = type + ' 还有 ' + days + ' 天'; badgeText = days + '天'; }
+    } else {
+      const passed = Math.abs(days);
+      const badgePrefix = type === '已下单' ? '下单' : type === '补款完成' ? '补款' : type === '尾款完成' ? '尾款' : type === '排发中' ? '排发' : type === '已发货' ? '发货' : type === '已归家' ? '归家' : type === '已出物' ? '出物' : type;
+      text = type + ' ' + passed + ' 天';
+      badgeText = badgePrefix + '+' + passed + '天';
+      score = 9999 + passed;
+    }
+    return { active: urgent, pending: isDeadline, days, text, badgeText, type, date: dateStr, overdue, score };
+  }
   monthKey(d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0'); }
   todayStr() { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
   monthLabel(d) { return (d.getMonth() + 1) + '月'; }
@@ -4317,7 +4424,7 @@ class Component extends DCLogic {
     const soldState = dStatus === '已出物' || dStatus === '出售中' || dStatus === '已出/已卖出';
     const showReminderFields = !!dStatus && !arrivedState && !soldState;
     const reminderDateLabel = dStatus === '已下单' ? '下单日期' : dStatus === '待补款' ? '补款截止日' : dStatus === '已补款' ? '补款日期' : dStatus === '待尾款' ? '尾款截止日' : dStatus === '已尾款' ? '尾款日期' : dStatus === '排发中' ? '预计排发日' : dStatus === '已发货' ? '发货日' : dStatus === '已归家' || dStatus === '已到货' ? '归家日期' : dStatus === '已出物' || dStatus === '已出/已卖出' ? '出物日期' : '提醒日期';
-    const reminderDateHint = dStatus === '已下单' ? '· 即购买日期，钱包按此统计' : '· 到期自动提醒';
+    const reminderDateHint = dStatus === '已下单' ? '· 即购买日期，钱包按此统计' : (dStatus === '待补款' || dStatus === '待尾款') ? '· 到期自动提醒' : '· 写入状态时间轴';
     const dAcquire = this.state.draft ? (this.state.draft.acquire || '') : '';
     const acquireMenuItems = ((this.state.acquireOrder && this.state.acquireOrder.length) ? this.state.acquireOrder : ['日谷','国谷','同人']).map(c => ({ name: c, onPick: () => this.pickAcquire(c), onRename: (ev) => this.renameListOption('acquireOrder', 'zzz_acquire_order', 'acquire', c, '来源方式', ev), onDel: (ev) => this.delListOption('acquireOrder', 'zzz_acquire_order', 'acquire', c, ev), rowStyle: this.menuRow(dAcquire === c) }));
     const acquireDisplay = dAcquire || '选择来源方式';
@@ -4432,14 +4539,16 @@ class Component extends DCLogic {
       const suppDate = supp > 0 ? (this.statusLogDate(it, '已补款') || it.buyDate) : '';
       const finDate = fin > 0 ? (this.statusLogDate(it, '已尾款') || it.buyDate) : '';
       const lateDate = finDate || suppDate || it.buyDate;
-      const shipDomDate = this.statusLogDate(it, '已发货') || this.statusLogDate(it, '排发中') || lateDate;
+      const shipDomDate = it.shipDomDate || this.statusLogDate(it, '已发货') || this.statusLogDate(it, '排发中') || lateDate;
+      const shipIntlDate = it.shipIntlDate || lateDate;
+      const otherFeeDate = it.otherFeeDate || lateDate;
       const remainder = e.buy * e.qty - supp - fin;
       if (remainder && _inR(it.buyDate)) feeGoods += remainder;
       if (supp && _inR(suppDate)) feeGoods += supp;
       if (fin && _inR(finDate)) feeGoods += fin;
-      if (e.si && _inR(lateDate)) feeIntl += e.si;
+      if (e.si && _inR(shipIntlDate)) feeIntl += e.si;
       if (e.sd && _inR(shipDomDate)) feeDom += e.sd;
-      if (e.other && _inR(lateDate)) feeOther += e.other;
+      if (e.other && _inR(otherFeeDate)) feeOther += e.other;
     });
     const feeTotal = feeGoods + feeIntl + feeDom + feeOther;
     const feeComposition = [
