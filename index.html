@@ -1530,14 +1530,14 @@
             </div>
             <sc-if value="{{ draftNotSelling }}" hint-placeholder-val="{{ true }}">
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">买入价（人民币 · 单价）</div>
-              <input name="buyPrice" type="number" min="0" value="{{ draft.buyPrice }}" onChange="{{ onDraftChange }}" placeholder="你花了多少" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">买入价（人民币 · 单价）<span style="font-size:10.5px;color:#a49ec4;font-weight:400">· 支持算式，如 280+20</span></div>
+              <input name="buyPrice" type="text" min="0" value="{{ draft.buyPrice }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" placeholder="你花了多少" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             </sc-if>
             <sc-if value="{{ draftIsSelling }}" hint-placeholder-val="{{ false }}">
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">卖出价（人民币 · 单价）</div>
-              <input name="sellPrice" type="number" min="0" value="{{ draft.sellPrice }}" onChange="{{ onDraftChange }}" placeholder="出物 / 已卖填写" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">卖出价（人民币 · 单价）<span style="font-size:10.5px;color:#a49ec4;font-weight:400">· 支持算式，如 280+20</span></div>
+              <input name="sellPrice" type="text" min="0" value="{{ draft.sellPrice }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" placeholder="出物 / 已卖填写" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             </sc-if>
             <div>
@@ -1560,43 +1560,43 @@
             <sc-if value="{{ feeShow }}" hint-placeholder-val="{{ false }}">
             <sc-if value="{{ draftIsSelling }}" hint-placeholder-val="{{ false }}">
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">买入价（单价）</div>
-              <input name="buyPrice" type="number" min="0" value="{{ draft.buyPrice }}" onChange="{{ onDraftChange }}" placeholder="你花了多少" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">买入价（单价）<span style="font-size:10.5px;color:#a49ec4;font-weight:400">· 支持算式，如 280+20</span></div>
+              <input name="buyPrice" type="text" min="0" value="{{ draft.buyPrice }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" placeholder="你花了多少" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             </sc-if>
             <div>
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">补款金额<span style="font-size:10.5px;color:#a49ec4;font-weight:400">· 按补款那个月单独计入钱包</span></div>
-              <input name="supplementPrice" type="number" min="0" value="{{ draft.supplementPrice }}" onChange="{{ onDraftChange }}" placeholder="有分期补款再填" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              <input name="supplementPrice" type="text" min="0" value="{{ draft.supplementPrice }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" placeholder="有分期补款再填" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             <div>
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">尾款金额<span style="font-size:10.5px;color:#a49ec4;font-weight:400">· 按尾款那个月单独计入钱包</span></div>
-              <input name="finalPrice" type="number" min="0" value="{{ draft.finalPrice }}" onChange="{{ onDraftChange }}" placeholder="有尾款再填" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              <input name="finalPrice" type="text" min="0" value="{{ draft.finalPrice }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" placeholder="有尾款再填" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             <sc-if value="{{ draftNotSelling }}" hint-placeholder-val="{{ true }}">
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">卖出价（单价）</div>
-              <input name="sellPrice" type="number" min="0" value="{{ draft.sellPrice }}" onChange="{{ onDraftChange }}" placeholder="出物 / 已卖填写" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">卖出价（单价）<span style="font-size:10.5px;color:#a49ec4;font-weight:400">· 支持算式，如 280+20</span></div>
+              <input name="sellPrice" type="text" min="0" value="{{ draft.sellPrice }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" placeholder="出物 / 已卖填写" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             </sc-if>
             <div>
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">国内邮费</div>
-              <input name="shipDom" type="number" min="0" value="{{ draft.shipDom }}" onChange="{{ onDraftChange }}" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              <input name="shipDom" type="text" min="0" value="{{ draft.shipDom }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             <div>
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">国际邮费</div>
-              <input name="shipIntl" type="number" min="0" value="{{ draft.shipIntl }}" onChange="{{ onDraftChange }}" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              <input name="shipIntl" type="text" min="0" value="{{ draft.shipIntl }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             <div>
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">其他费用</div>
-              <input name="otherFee" type="number" min="0" value="{{ draft.otherFee }}" onChange="{{ onDraftChange }}" placeholder="车马 / 手续费 等" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              <input name="otherFee" type="text" min="0" value="{{ draft.otherFee }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" placeholder="车马 / 手续费 等" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             <div>
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">原价（日元 円）</div>
-              <input name="originalPrice" type="number" min="0" value="{{ draft.originalPrice }}" onChange="{{ onDraftChange }}" placeholder="官方定价（日元）" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              <input name="originalPrice" type="text" min="0" value="{{ draft.originalPrice }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" placeholder="官方定价（日元）" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             <div>
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">汇率（1日元≈? 人民币）</div>
-              <input name="rate" type="number" min="0" step="0.0001" value="{{ draft.rate }}" onChange="{{ onDraftChange }}" placeholder="例：0.05" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              <input name="rate" type="text" min="0" step="0.0001" value="{{ draft.rate }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" placeholder="例：0.05" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
               <sc-if value="{{ draftHasConv }}" hint-placeholder-val="{{ false }}">
                 <div style="font-size:11.5px;color:#544f7e;margin-top:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">折算 ≈ {{ draftConvText }} <button onClick="{{ fillBuyFromRate }}" style="font-family:inherit;font-size:11.5px;color:#fff;background:var(--accent,#ff3355);border:none;padding:3px 9px;border-radius:7px;cursor:pointer">填入买入价</button></div>
               </sc-if>
@@ -2178,7 +2178,6 @@ class Component extends DCLogic {
     const isMain = workId === this.MAIN_WORK;
     const rd = (base, fallback) => { let v = null; try { v = JSON.parse(localStorage.getItem(this.wkey(base, workId)) || 'null'); } catch (e) {} return Array.isArray(v) ? v : fallback(); };
     let charOrder = rd('zzz_char_order', () => isMain ? [...this.CHARACTERS] : []);
-    if (isMain) charOrder = [...this.CHARACTERS];
     items.forEach(it => { [it.character, it.swapCharacter].forEach(c => { if (c && !charOrder.includes(c)) charOrder.push(c); }); });
     let typesList = rd('zzz_types', () => [...new Set([...this.TYPES, ...items.map(i => i.type).filter(Boolean)])]);
     let seriesList = rd('zzz_series', () => [...new Set(items.map(i => i.series).filter(Boolean))]);
@@ -2855,6 +2854,32 @@ class Component extends DCLogic {
 
   // ---- helpers ----
   num(v) { const n = parseFloat(v); return isNaN(n) ? 0 : n; }
+  // 金额输入支持算式：280+20、500-30、398*2、1000/4、(300+20)*2
+  // 自动清理 ¥ ￥ , 空格 RMB 元；结果四舍五入到指定小数位（默认 2 位，汇率用 4 位），整数不带多余小数
+  // 返回 '' 表示清空为空值；返回 null 表示公式错误（调用方应保留原输入、不写回）
+  calcMoneyInput(raw, decimals = 2) {
+    if (raw == null) return '';
+    let s = String(raw).trim();
+    if (!s) return '';
+    s = s.replace(/[¥￥,，\s]/g, '').replace(/RMB/gi, '').replace(/元/g, '');
+    if (!s) return '';
+    if (!/^[0-9+\-*/().]+$/.test(s)) return null;
+    if (/[+\-*/.]{2,}|\(\)/.test(s)) return null;
+    let result;
+    try { result = Function('"use strict";return (' + s + ')')(); } catch (err) { return null; }
+    if (typeof result !== 'number' || !isFinite(result)) return null;
+    const mul = Math.pow(10, decimals);
+    return String(Math.round(result * mul) / mul);
+  }
+  onMoneyBlur = (e) => {
+    const { name, value } = e.target;
+    if (value == null || String(value).trim() === '') return;
+    const result = this.calcMoneyInput(value, name === 'rate' ? 4 : 2);
+    if (result === null) { alert('公式错误'); return; }
+    if (result === String(value).trim()) return;
+    this.setState(s => ({ draft: { ...s.draft, [name]: result } }));
+  };
+  onMoneyKeyDown = (e) => { if (e.key === 'Enter') { e.preventDefault && e.preventDefault(); e.target.blur(); } };
   fmt(n) { return (Math.round(n * 100) / 100).toLocaleString('zh-CN'); }
   heldSince(d) { if (!d) return ''; const t = new Date(d + 'T00:00:00').getTime(); if (isNaN(t)) return ''; const days = Math.floor((Date.now() - t) / 86400000); if (days < 0) return ''; if (days === 0) return '今天入手'; if (days < 30) return '已持有 ' + days + ' 天'; if (days < 365) { const m = Math.floor(days / 30); return '已持有 ' + m + ' 个月'; } const y = Math.floor(days / 365), rm = Math.floor((days % 365) / 30); return '已持有 ' + y + ' 年' + (rm ? rm + ' 个月' : ''); }
   money(v) { return this.cur() + this.fmt(v); }
@@ -3349,6 +3374,16 @@ class Component extends DCLogic {
   saveItem = () => {
     let d = this.state.draft; if (!d) return;
     if (!d.name || !d.name.trim()) { const g = this.genName(d); if (!g) { alert('请先填写名称（或选择角色 / 填细分后点自动生成）'); return; } d = { ...d, name: g }; }
+    const _moneyLabels = { buyPrice:'买入价', sellPrice:'卖出价', supplementPrice:'补款金额', finalPrice:'尾款金额', shipDom:'国内邮费', shipIntl:'国际邮费', otherFee:'其他费用', originalPrice:'原价', rate:'汇率' };
+    const _moneyPatch = {};
+    for (const f of Object.keys(_moneyLabels)) {
+      const v = d[f];
+      if (v == null || String(v).trim() === '') continue;
+      const r = this.calcMoneyInput(v, f === 'rate' ? 4 : 2);
+      if (r === null) { alert('「' + _moneyLabels[f] + '」这一栏的公式错误，请检查后再保存：' + v); return; }
+      if (r !== String(v)) _moneyPatch[f] = r;
+    }
+    if (Object.keys(_moneyPatch).length) d = { ...d, ..._moneyPatch };
     if (!this.state.editing && this.handleDuplicateBeforeSave(d)) return;
     const prev = this.state.editing ? this.state.items.find(x => x.id === this.state.editing) : null;
     const setObj = this.setById(d.setId);
@@ -5469,7 +5504,7 @@ class Component extends DCLogic {
       modalOpen: this.state.modalOpen, modalTitle: this.state.editing ? '编辑谷子' : '新增谷子', isEditing: !!this.state.editing, duplicateCurrent: this.duplicateCurrent, deleteCurrent: this.deleteCurrent,
       draft: d || this.emptyDraft(),
       CHARACTERS: this.orderedChars(), TYPES: this.TYPES, reminderTypeOptions: (this.state.reminderTypes && this.state.reminderTypes.length ? this.state.reminderTypes : this.REMINDER_TYPES), reminderMenuItems, reminderDisplay, reminderMenuOpen: this.state.reminderMenuOpen, toggleReminderMenu: this.toggleReminderMenu, addReminderType: this.addReminderType, clearReminderType: () => this.pickReminderType(''), STATUSES: this.state.statusList || this.STATUSES, FORMS: this.FORMS,
-      closeModal: this.closeModal, saveItem: this.saveItem, onDraftChange: this.onDraftChange, autoGrowNote: this.autoGrowNote, charMenuItems, charDisplay, charMenuOpen: this.state.charMenuOpen, toggleCharMenu: this.toggleCharMenu, onTypeChange: this.onTypeChange, onSeriesChange: this.onSeriesChange, fillName: this.fillName, draftStars, typeMenuItems, typeDisplay, hasTypeMenuItems, typeMenuOpen: this.state.typeMenuOpen, toggleTypeMenu: this.toggleTypeMenu, addType: this.addType, seriesMenuItems, seriesDisplay, hasSeriesMenuItems, seriesMenuOpen: this.state.seriesMenuOpen, toggleSeriesMenu: this.toggleSeriesMenu, addSeries: this.addSeries, clearSeries: this.clearSeries, channelMenuItems, channelMenuOpen: this.state.channelMenuOpen, toggleChannelMenu: this.toggleChannelMenu, addChannel: this.addChannel, clearChannel: this.clearChannel, channelDisplay: (this.state.draft && this.state.draft.channel) ? this.state.draft.channel : '（未分类）', hasChannelMenuItems: channelMenuItems.length > 0, purchaseChannelMenuItems, purchaseChannelMenuOpen: this.state.purchaseChannelMenuOpen, togglePurchaseChannelMenu: this.togglePurchaseChannelMenu, addPurchaseChannel: this.addPurchaseChannel, clearPurchaseChannel: this.clearPurchaseChannel, purchaseChannelDisplay: (this.state.draft && this.state.draft.purchaseChannel) ? this.state.draft.purchaseChannel : '（未分类）', hasPurchaseChannelMenuItems: purchaseChannelMenuItems.length > 0, fillBuyFromRate: this.fillBuyFromRate, draftHasConv, draftConvText, draftIsGacha, draftSwapped,
+      closeModal: this.closeModal, saveItem: this.saveItem, onDraftChange: this.onDraftChange, onMoneyBlur: this.onMoneyBlur, onMoneyKeyDown: this.onMoneyKeyDown, autoGrowNote: this.autoGrowNote, charMenuItems, charDisplay, charMenuOpen: this.state.charMenuOpen, toggleCharMenu: this.toggleCharMenu, onTypeChange: this.onTypeChange, onSeriesChange: this.onSeriesChange, fillName: this.fillName, draftStars, typeMenuItems, typeDisplay, hasTypeMenuItems, typeMenuOpen: this.state.typeMenuOpen, toggleTypeMenu: this.toggleTypeMenu, addType: this.addType, seriesMenuItems, seriesDisplay, hasSeriesMenuItems, seriesMenuOpen: this.state.seriesMenuOpen, toggleSeriesMenu: this.toggleSeriesMenu, addSeries: this.addSeries, clearSeries: this.clearSeries, channelMenuItems, channelMenuOpen: this.state.channelMenuOpen, toggleChannelMenu: this.toggleChannelMenu, addChannel: this.addChannel, clearChannel: this.clearChannel, channelDisplay: (this.state.draft && this.state.draft.channel) ? this.state.draft.channel : '（未分类）', hasChannelMenuItems: channelMenuItems.length > 0, purchaseChannelMenuItems, purchaseChannelMenuOpen: this.state.purchaseChannelMenuOpen, togglePurchaseChannelMenu: this.togglePurchaseChannelMenu, addPurchaseChannel: this.addPurchaseChannel, clearPurchaseChannel: this.clearPurchaseChannel, purchaseChannelDisplay: (this.state.draft && this.state.draft.purchaseChannel) ? this.state.draft.purchaseChannel : '（未分类）', hasPurchaseChannelMenuItems: purchaseChannelMenuItems.length > 0, fillBuyFromRate: this.fillBuyFromRate, draftHasConv, draftConvText, draftIsGacha, draftSwapped,
       onImagePick: this.onImagePick, onImagePick2: this.onImagePick2, onImagePick3: this.onImagePick3, onImagePickSwap: this.onImagePickSwap, swapMenuItems, swappedDisplay, swapHint, swapNoteLabel, draftIsSwapKind, swapMenuOpen: this.state.swapMenuOpen, toggleSwapMenu: this.toggleSwapMenu, swapCharMenuItems, swapCharDisplay, swapCharMenuOpen: this.state.swapCharMenuOpen, toggleSwapCharMenu: this.toggleSwapCharMenu, clearSwapCharacter: this.clearSwapCharacter, swapCharHasAvatar, swapCharAvatarStyle, removeDraftImg: this.removeDraftImg, removeDraftImg2: this.removeDraftImg2, removeDraftImg3: this.removeDraftImg3, removeDraftImg4: this.removeDraftImg4, removeDraftSwapImg: this.removeDraftSwapImg,
       draftTimelineRows, showBrandField: fieldVisible('series') && !!(d && d.series), draftWorkName, draftWorkGroupName, draftWorkMenuGroups, draftWorkMenuOpen: this.state.draftWorkMenuOpen, toggleDraftWorkMenu: this.toggleDraftWorkMenu, addWorkInline: this.addWorkInline, draftIsSelling, draftNotSelling,
       manageOpen: this.state.manageOpen, closeManage: this.closeManage, manageTitle, manageRows, manageAddText, onManageAdd, manageCanRenameLabel, onManageRenameLabel, manageCanToggle, manageCanBatch, manageFilterOn, workManageOpen: this.state.workManageOpen, openWorkManage: this.openWorkManage, closeWorkManage: this.closeWorkManage, workManageGroups, addGroupAlone: this.addGroupAlone, setManageOpen: this.state.setManageOpen, openSetManage: this.openSetManage, closeSetManage: this.closeSetManage, setManageList, addSetInManage: this.addSetInManage, hasSetManageList: setManageList.length > 0, setFieldLabel: this.setLabelText(), renameSetLabel: this.renameSetLabel, setFilterStyle, setGroupStyle, setBatchStyle, setFilterText: setFilterOn ? '筛选 ✓' : '筛选', setGroupText: setGroupOn ? '分组 ✓' : '分组', setBatchText: setBatchOn ? '批量 ✓' : '批量', onSetToggleFilter: this.toggleFilterOn('set'), onSetToggleGroup: this.toggleStatsOn('set'), onSetToggleBatch: this.toggleBatchOn('set'), manageGroupOn, onManageToggleFilter, onManageToggleGroup, manageFilterStyle, manageGroupStyle, manageFilterText: manageFilterOn ? '筛选 ✓' : '筛选', manageGroupText: manageGroupOn ? '分组 ✓' : '分组', manageBatchOn, onManageToggleBatch, manageBatchStyle, manageBatchText: manageBatchOn ? '批量 ✓' : '批量',
