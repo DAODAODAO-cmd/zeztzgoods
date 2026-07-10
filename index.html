@@ -1530,14 +1530,14 @@
             </div>
             <sc-if value="{{ draftNotSelling }}" hint-placeholder-val="{{ true }}">
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">买入价（人民币 · 单价）<span style="font-size:10.5px;color:#a49ec4;font-weight:400">· 支持算式，如 280+20</span></div>
-              <input name="buyPrice" type="text" min="0" value="{{ draft.buyPrice }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" placeholder="你花了多少" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">买入价（人民币 · 单价）</div>
+              <input name="buyPrice" type="number" min="0" value="{{ draft.buyPrice }}" onChange="{{ onDraftChange }}" placeholder="你花了多少" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             </sc-if>
             <sc-if value="{{ draftIsSelling }}" hint-placeholder-val="{{ false }}">
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">卖出价（人民币 · 单价）<span style="font-size:10.5px;color:#a49ec4;font-weight:400">· 支持算式，如 280+20</span></div>
-              <input name="sellPrice" type="text" min="0" value="{{ draft.sellPrice }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" placeholder="出物 / 已卖填写" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">卖出价（人民币 · 单价）</div>
+              <input name="sellPrice" type="number" min="0" value="{{ draft.sellPrice }}" onChange="{{ onDraftChange }}" placeholder="出物 / 已卖填写" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             </sc-if>
             <div>
@@ -1560,43 +1560,43 @@
             <sc-if value="{{ feeShow }}" hint-placeholder-val="{{ false }}">
             <sc-if value="{{ draftIsSelling }}" hint-placeholder-val="{{ false }}">
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">买入价（单价）<span style="font-size:10.5px;color:#a49ec4;font-weight:400">· 支持算式，如 280+20</span></div>
-              <input name="buyPrice" type="text" min="0" value="{{ draft.buyPrice }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" placeholder="你花了多少" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">买入价（单价）</div>
+              <input name="buyPrice" type="number" min="0" value="{{ draft.buyPrice }}" onChange="{{ onDraftChange }}" placeholder="你花了多少" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             </sc-if>
             <div>
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">补款金额<span style="font-size:10.5px;color:#a49ec4;font-weight:400">· 按补款那个月单独计入钱包</span></div>
-              <input name="supplementPrice" type="text" min="0" value="{{ draft.supplementPrice }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" placeholder="有分期补款再填" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              <input name="supplementPrice" type="number" min="0" value="{{ draft.supplementPrice }}" onChange="{{ onDraftChange }}" placeholder="有分期补款再填" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             <div>
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">尾款金额<span style="font-size:10.5px;color:#a49ec4;font-weight:400">· 按尾款那个月单独计入钱包</span></div>
-              <input name="finalPrice" type="text" min="0" value="{{ draft.finalPrice }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" placeholder="有尾款再填" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              <input name="finalPrice" type="number" min="0" value="{{ draft.finalPrice }}" onChange="{{ onDraftChange }}" placeholder="有尾款再填" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             <sc-if value="{{ draftNotSelling }}" hint-placeholder-val="{{ true }}">
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">卖出价（单价）<span style="font-size:10.5px;color:#a49ec4;font-weight:400">· 支持算式，如 280+20</span></div>
-              <input name="sellPrice" type="text" min="0" value="{{ draft.sellPrice }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" placeholder="出物 / 已卖填写" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">卖出价（单价）</div>
+              <input name="sellPrice" type="number" min="0" value="{{ draft.sellPrice }}" onChange="{{ onDraftChange }}" placeholder="出物 / 已卖填写" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             </sc-if>
             <div>
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">国内邮费</div>
-              <input name="shipDom" type="text" min="0" value="{{ draft.shipDom }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              <input name="shipDom" type="number" min="0" value="{{ draft.shipDom }}" onChange="{{ onDraftChange }}" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             <div>
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">国际邮费</div>
-              <input name="shipIntl" type="text" min="0" value="{{ draft.shipIntl }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              <input name="shipIntl" type="number" min="0" value="{{ draft.shipIntl }}" onChange="{{ onDraftChange }}" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             <div>
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">其他费用</div>
-              <input name="otherFee" type="text" min="0" value="{{ draft.otherFee }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" placeholder="车马 / 手续费 等" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              <input name="otherFee" type="number" min="0" value="{{ draft.otherFee }}" onChange="{{ onDraftChange }}" placeholder="车马 / 手续费 等" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             <div>
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">原价（日元 円）</div>
-              <input name="originalPrice" type="text" min="0" value="{{ draft.originalPrice }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" placeholder="官方定价（日元）" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              <input name="originalPrice" type="number" min="0" value="{{ draft.originalPrice }}" onChange="{{ onDraftChange }}" placeholder="官方定价（日元）" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             <div>
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">汇率（1日元≈? 人民币）</div>
-              <input name="rate" type="text" min="0" step="0.0001" value="{{ draft.rate }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" placeholder="例：0.05" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              <input name="rate" type="number" min="0" step="0.0001" value="{{ draft.rate }}" onChange="{{ onDraftChange }}" placeholder="例：0.05" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
               <sc-if value="{{ draftHasConv }}" hint-placeholder-val="{{ false }}">
                 <div style="font-size:11.5px;color:#544f7e;margin-top:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">折算 ≈ {{ draftConvText }} <button onClick="{{ fillBuyFromRate }}" style="font-family:inherit;font-size:11.5px;color:#fff;background:var(--accent,#ff3355);border:none;padding:3px 9px;border-radius:7px;cursor:pointer">填入买入价</button></div>
               </sc-if>
@@ -2066,10 +2066,15 @@ class Component extends DCLogic {
   DEFAULT_GROUP = '自定义系列';
   SUPA_URL = 'https://kgifcpdajnyhxxmenazz.supabase.co';
   SUPA_KEY = 'sb_publishable_Bvg4r_n3JiokW3cY3NDo3A_9M2CNfaU';
+  SUPA_IMAGE_BUCKET = 'goods-images';
+  CLOUD_IMAGE_MAX_SIDE = 960;
+  CLOUD_IMAGE_MAX_BYTES = 220 * 1024;
+  CLOUD_IMAGE_QUALITY = 0.72;
   PLATFORM_BRAND = { 'PB官店': '万代', 'Premium Bandai': '万代', '万代官网': '万代', 'Movic官店': 'Movic', '东映': '东映', '安利美特': 'Animate', 'A店': 'Animate' };
   FIELD_DEFAULTS = { character: '角色', type: '种类', series: '系列', channel: '平台', purchaseChannel: '渠道', status: '状态', form: '形态', acquire: '来源', method: '购买方式', tags: '交易标签', rarity: '稀有度 / 心动标签', set: '系列收藏 / 套装' };
   CHAR_IMG = { '诺克斯': 'assets/c_nox.webp', 'NOX': 'assets/r_blue.webp', 'MIDNIGHT SHADOW': 'assets/r_nox_midnight.webp', 'NOX KNIGHT': 'assets/r_lady.webp', 'ZEZTZ': 'assets/r_red.webp', '西格': 'assets/c_zeke.webp', 'DAWN': 'assets/r_zeztz.webp', '宁梦': 'assets/c_nemu.webp', '南云成华': 'assets/c_nagumo.webp', 'ZERO': 'assets/c_zero.webp', '万津莫': 'assets/c_matsu.webp', '万津美浪': 'assets/c_minami.webp', '富士见铁也': 'assets/c_fujimi.webp', 'THE LADY': 'assets/c_lady.webp', 'CODE': 'assets/c_code.webp' };
   imgUrls = {};
+  cloudImageMap = {};
   state = { items: [], view: null, sets: [], lastSetId: '', setMenuOpen: false, feeOpen: false, colInfoOpen: false, setInfoOpen: false, recentWorks: [], collapsedGroups: {}, reminderMenuOpen: false, monthlyBudget: '', budgets: {}, ledgerDetailKey: '', ledgerDetailType: 'day', ledgerDetailLabel: '', tableSortKey: '', tableSortDir: 'desc', tableHiddenCols: [], tableColumnMenuOpen: false, nameStyleMode: 'default', displayMode: 'standard', dashboardCards: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], purchaseChannelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, purchaseChannels: [], purchaseChannelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], hiddenPurchaseChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, purchaseChannel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, dataManageOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, trendOpen: false, trendItemId: null, trendRows: [], trendResult: null, ocrRawText: '', ocrBulkText: '', modalOpen: false, editing: null, draft: null, savedAt: 0, batchMode: false, selectedIds: [], bulkEditIds: [], bulkEditIndex: 0, ledgerRange: 'month', ledgerMode: 'month', ledgerYear: String(new Date().getFullYear()), ledgerMonth: String(new Date().getMonth()+1), ledgerWeek: '', ledgerPieBy: 'character', ledgerPieActive: 0, batchEditOpen: false, batchEditField: '', batchOn: null };
 
   setRoot = (el) => { this.rootEl = el; if (el) { this.applyThemeVars(); this.applyBg(); } };
@@ -2178,6 +2183,7 @@ class Component extends DCLogic {
     const isMain = workId === this.MAIN_WORK;
     const rd = (base, fallback) => { let v = null; try { v = JSON.parse(localStorage.getItem(this.wkey(base, workId)) || 'null'); } catch (e) {} return Array.isArray(v) ? v : fallback(); };
     let charOrder = rd('zzz_char_order', () => isMain ? [...this.CHARACTERS] : []);
+    if (isMain) charOrder = [...this.CHARACTERS];
     items.forEach(it => { [it.character, it.swapCharacter].forEach(c => { if (c && !charOrder.includes(c)) charOrder.push(c); }); });
     let typesList = rd('zzz_types', () => [...new Set([...this.TYPES, ...items.map(i => i.type).filter(Boolean)])]);
     let seriesList = rd('zzz_series', () => [...new Set(items.map(i => i.series).filter(Boolean))]);
@@ -2319,6 +2325,7 @@ class Component extends DCLogic {
   // ===== Supabase（匿名只写，用于收集行情/快照/事件）=====
   initSupabase() {
     this.sb = null;
+    this.loadCloudImageMap();
     const url = this.SUPA_URL, key = this.SUPA_KEY;
     if (url && key && window.supabase && window.supabase.createClient) {
       try { this.sb = window.supabase.createClient(url, key); } catch (e) { this.sb = null; }
@@ -2342,6 +2349,134 @@ class Component extends DCLogic {
   }
 
   // ===== 云同步（文字数据 + 配置，图片仍保存在本机）=====
+  loadCloudImageMap() {
+    if (this._cloudImageMapLoaded) return this.cloudImageMap || {};
+    this._cloudImageMapLoaded = true;
+    try { this.cloudImageMap = JSON.parse(localStorage.getItem('zzz_cloud_image_map') || '{}') || {}; } catch (e) { this.cloudImageMap = {}; }
+    return this.cloudImageMap;
+  }
+  saveCloudImageMap(map) {
+    this.cloudImageMap = map || {};
+    try { localStorage.setItem('zzz_cloud_image_map', JSON.stringify(this.cloudImageMap)); } catch (e) {}
+  }
+  imageIdsOf(it) {
+    return [it && it.imageId, it && it.imageId2, it && it.imageId3, it && it.imageId4, it && it.swapImageId].filter(Boolean);
+  }
+  async decodeBlobImage(blob) {
+    return new Promise((resolve, reject) => {
+      const url = URL.createObjectURL(blob);
+      const img = new Image();
+      img.onload = () => { URL.revokeObjectURL(url); resolve(img); };
+      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('image decode failed')); };
+      img.src = url;
+    });
+  }
+  canvasToBlob(canvas, type, quality) {
+    return new Promise(resolve => canvas.toBlob(resolve, type, quality));
+  }
+  async compressImageBlob(blob) {
+    const img = await this.decodeBlobImage(blob);
+    let maxSide = this.CLOUD_IMAGE_MAX_SIDE;
+    let quality = this.CLOUD_IMAGE_QUALITY;
+    let last = null;
+    for (let i = 0; i < 5; i++) {
+      const scale = Math.min(1, maxSide / Math.max(img.naturalWidth || img.width, img.naturalHeight || img.height));
+      const w = Math.max(1, Math.round((img.naturalWidth || img.width) * scale));
+      const h = Math.max(1, Math.round((img.naturalHeight || img.height) * scale));
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      const ctx = canvas.getContext('2d', { alpha: false });
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(0, 0, w, h);
+      ctx.drawImage(img, 0, 0, w, h);
+      let out = await this.canvasToBlob(canvas, 'image/webp', quality);
+      let mime = 'image/webp', ext = 'webp';
+      if (!out) { out = await this.canvasToBlob(canvas, 'image/jpeg', quality); mime = 'image/jpeg'; ext = 'jpg'; }
+      if (out) last = { blob: out, width: w, height: h, size: out.size, mime: out.type || mime, ext };
+      if (last && last.size <= this.CLOUD_IMAGE_MAX_BYTES) return last;
+      maxSide = Math.max(520, Math.round(maxSide * 0.82));
+      quality = Math.max(0.5, quality - 0.08);
+    }
+    return last || { blob, width: img.naturalWidth || img.width || 0, height: img.naturalHeight || img.height || 0, size: blob.size, mime: blob.type || 'image/jpeg', ext: (String(blob.type).includes('png') ? 'png' : 'jpg') };
+  }
+  cloudImagePath(id, ext) {
+    const safeId = String(id || '').replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 120);
+    return 'clients/' + this.clientUuid() + '/' + safeId + '.' + (ext || 'webp');
+  }
+  async uploadCloudImage(id) {
+    if (!this.sb || !id) return null;
+    const map = this.loadCloudImageMap();
+    if (map[id] && map[id].url) return map[id];
+    const original = await this.idbGet(id);
+    if (!original) return map[id] || null;
+    const packed = await this.compressImageBlob(original);
+    const path = this.cloudImagePath(id, packed.ext);
+    const { error } = await this.sb.storage.from(this.SUPA_IMAGE_BUCKET).upload(path, packed.blob, { upsert: true, contentType: packed.mime, cacheControl: '31536000' });
+    if (error) throw error;
+    const pub = this.sb.storage.from(this.SUPA_IMAGE_BUCKET).getPublicUrl(path);
+    const meta = { url: pub && pub.data ? pub.data.publicUrl : '', path, width: packed.width, height: packed.height, size: packed.size, mime: packed.mime, updated_at: new Date().toISOString() };
+    map[id] = meta;
+    this.saveCloudImageMap(map);
+    return meta;
+  }
+  async syncCloudImagesForItems(items) {
+    const map = this.loadCloudImageMap();
+    if (!this.sb) return { map, total: 0, uploaded: 0, failed: 0 };
+    const ids = [...new Set((items || []).flatMap(it => this.imageIdsOf(it)))];
+    let uploaded = 0, failed = 0;
+    for (const id of ids) {
+      if (map[id] && map[id].url) continue;
+      try { const meta = await this.uploadCloudImage(id); if (meta && meta.url) uploaded++; } catch (e) { failed++; }
+    }
+    return { map: this.loadCloudImageMap(), total: ids.length, uploaded, failed };
+  }
+  compactItemForSummary(it) {
+    const e = this.enrich(it || {});
+    return { id: String((it && it.id) || ''), name: String((it && it.name) || '').slice(0, 120), character: (it && it.character) || '', type: (it && it.type) || '', status: (it && it.status) || '', qty: e.qty, cost: e.cost, buyDate: (it && it.buyDate) || '' };
+  }
+  sumBy(items, keyFn, valueFn) {
+    const out = {};
+    (items || []).forEach(it => { const k = keyFn(it) || '未分类'; out[k] = (out[k] || 0) + valueFn(it); });
+    return out;
+  }
+  collectionSummaryPayload(syncCode) {
+    const items = this.state.items || [];
+    const workById = Object.fromEntries((this.state.works || []).map(w => [w.id, w]));
+    let totalQty = 0, totalSpent = 0, totalSell = 0, totalProfit = 0;
+    const byMonth = {};
+    items.forEach(it => {
+      const e = this.enrich(it);
+      totalQty += e.qty; totalSpent += e.cost;
+      if (e.sold || e.sell > 0) { totalSell += e.revenue; totalProfit += e.profit; }
+      this.cashFlowEntries(it).forEach(cf => { const k = String(cf.date || '').slice(0, 7); if (k) byMonth[k] = Math.round(((byMonth[k] || 0) + cf.amount) * 100) / 100; });
+    });
+    return {
+      sync_code: syncCode || this.state.cloudSyncCode || localStorage.getItem('zzz_cloud_code') || null,
+      client_uuid: this.clientUuid(),
+      collector_name: (this.state.collectorName || '').slice(0, 80) || null,
+      title: (this.state.title || '').slice(0, 120) || null,
+      item_count: items.length,
+      total_quantity: totalQty,
+      total_spent: Math.round(totalSpent * 100) / 100,
+      total_sell: Math.round(totalSell * 100) / 100,
+      total_profit: Math.round(totalProfit * 100) / 100,
+      currency: this.cur(),
+      by_status: this.sumBy(items, it => it.status, it => this.enrich(it).qty),
+      by_character: this.sumBy(items, it => it.character, it => this.enrich(it).qty),
+      by_type: this.sumBy(items, it => it.type, it => this.enrich(it).qty),
+      by_work: this.sumBy(items, it => ((workById[it.workId] || {}).name || ''), it => this.enrich(it).qty),
+      by_month: byMonth,
+      sample_items: items.slice(0, 80).map(it => this.compactItemForSummary(it)),
+      updated_at: new Date().toISOString()
+    };
+  }
+  async uploadCollectionSummary(syncCode) {
+    if (!this.sb) return;
+    const payload = this.collectionSummaryPayload(syncCode);
+    if (!payload.sync_code) return;
+    try { await this.sb.from('collection_summaries').upsert([payload], { onConflict: 'sync_code' }); } catch (e) {}
+  }
+
   cloudReady() { return !!this.sb; }
   genSyncCode() {
     const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
@@ -2349,7 +2484,7 @@ class Component extends DCLogic {
     for (let i = 0; i < 6; i++) code += chars[Math.floor(Math.random() * chars.length)];
     return code;
   }
-  cloudSnapshot() {
+  cloudSnapshot(imageMapArg) {
     const keys = ['zzz_cn','zzz_currency','zzz_accent','zzz_title','zzz_subtitle','zzz_footer','zzz_works','zzz_current_work','zzz_work_group_label','zzz_field_labels','zzz_filter_on','zzz_stats_on','zzz_batch_on','zzz_custom_fields','zzz_deleted_fields','zzz_custom_filter_order'];
     const allWorks = this.state.works || [];
     ['zzz_char_order','zzz_types','zzz_series','zzz_channels','zzz_purchase_channels','zzz_form_order','zzz_acquire_order','zzz_status','zzz_hidden_types','zzz_hidden_channels','zzz_hidden_purchase_channels'].forEach(base => {
@@ -2357,13 +2492,15 @@ class Component extends DCLogic {
     });
     const local = {};
     keys.forEach(k => { try { const v = localStorage.getItem(k); if (v != null) local[k] = v; } catch(e) {} });
-    return { version: 1, updated_at: new Date().toISOString(), items: this.state.items || [], local, note: 'image/logo/background files are kept locally in this version' };
+    const imageMap = imageMapArg || this.loadCloudImageMap();
+    return { version: 2, updated_at: new Date().toISOString(), items: this.state.items || [], imageMap, local, note: 'item images are compressed before upload; logo/background files stay local to save space' };
   }
   async applyCloudSnapshot(data) {
     if (!data || typeof data !== 'object') return;
     try {
       if (data.local) Object.keys(data.local).forEach(k => localStorage.setItem(k, data.local[k]));
       if (Array.isArray(data.items)) localStorage.setItem('zzz_goods_v1', JSON.stringify(data.items));
+      if (data.imageMap && typeof data.imageMap === 'object') this.saveCloudImageMap({ ...this.loadCloudImageMap(), ...data.imageMap });
     } catch (e) {}
     const items = Array.isArray(data.items) ? data.items : this.state.items;
     let works = this.state.works || [];
@@ -2388,7 +2525,7 @@ class Component extends DCLogic {
       collectorName: localStorage.getItem('zzz_cn') || '', currency: localStorage.getItem('zzz_currency') || '', accent: localStorage.getItem('zzz_accent') || '',
       title: localStorage.getItem('zzz_title') || this.state.title, subtitle: localStorage.getItem('zzz_subtitle') || this.state.subtitle, footer: localStorage.getItem('zzz_footer') || this.state.footer,
       fieldLabels: { ...this.FIELD_DEFAULTS, ...fieldLabels }, filterOn, statsOn, batchOn, deletedFields, customFields, customFilterOrder, ...lists, savedAt: Date.now()
-    });
+    }, () => { this.applyThemeVars(); this.applyBg(); this.loadImages(items); });
   }
   createCloudCollection = async () => {
     if (!this.cloudReady()) { this.setState({ cloudStatus: 'Supabase 未连接，请检查网络或配置。' }); return; }
@@ -2396,10 +2533,12 @@ class Component extends DCLogic {
     try {
       for (let i = 0; i < 8; i++) {
         const code = this.genSyncCode();
-        const snap = this.cloudSnapshot();
-        const { data, error } = await this.sb.from('collections').insert([{ sync_code: code, cn: ((this.state.settingsDraft && this.state.settingsDraft.collectorName) || this.state.collectorName || null), title: ((this.state.settingsDraft && this.state.settingsDraft.title) || this.state.title || null), data: snap }]).select('id,sync_code').single();
+        const imgSync = await this.syncCloudImagesForItems(this.state.items || []);
+        const snap = this.cloudSnapshot(imgSync.map);
+        const { data, error } = await this.sb.from('collections').insert([{ sync_code: code, client_uuid: this.clientUuid(), cn: ((this.state.settingsDraft && this.state.settingsDraft.collectorName) || this.state.collectorName || null), title: ((this.state.settingsDraft && this.state.settingsDraft.title) || this.state.title || null), data: snap }]).select('id,sync_code').single();
         if (!error && data) {
           localStorage.setItem('zzz_cloud_id', data.id); localStorage.setItem('zzz_cloud_code', data.sync_code);
+          await this.uploadCollectionSummary(data.sync_code);
           this.setState({ cloudSyncId: data.id, cloudSyncCode: data.sync_code, cloudCodeInput: data.sync_code, cloudStatus: '🎉 同步代码已生成！以后换电脑、换手机，记得带上它一起出发～', cloudBusy: false });
           return;
         }
@@ -2426,8 +2565,10 @@ class Component extends DCLogic {
     if (!this.cloudReady() || !id) { this.setState({ cloudStatus: '还没有连接同步代码。' }); return; }
     this.setState({ cloudBusy: true, cloudStatus: '正在上传到云端…' });
     try {
-      const { error } = await this.sb.from('collections').update({ cn: this.state.collectorName || null, title: this.state.title || null, data: this.cloudSnapshot(), updated_at: new Date().toISOString() }).eq('id', id);
+      const imgSync = await this.syncCloudImagesForItems(this.state.items || []);
+      const { error } = await this.sb.from('collections').update({ client_uuid: this.clientUuid(), cn: this.state.collectorName || null, title: this.state.title || null, data: this.cloudSnapshot(imgSync.map), updated_at: new Date().toISOString() }).eq('id', id);
       if (error) throw error;
+      await this.uploadCollectionSummary(this.state.cloudSyncCode || localStorage.getItem('zzz_cloud_code') || '');
       this.setState({ cloudStatus: '已上传到云端。', cloudBusy: false });
     } catch (e) { this.setState({ cloudStatus: '上传失败：' + (e.message || e), cloudBusy: false }); }
   };
@@ -2813,6 +2954,8 @@ class Component extends DCLogic {
   onCnFocus = (e) => { if (((e.target.textContent || '').trim()) === 'CN / 昵称') e.target.textContent = ''; };
   onCnBlur = (e) => { const raw = (e.target.textContent || '').trim(); const v = raw === 'CN / 昵称' ? '' : raw; try { localStorage.setItem('zzz_cn', v); } catch (er) {} this.setState({ collectorName: v }); };
   componentDidUpdate(prevProps, prevState) {
+    prevProps = prevProps || {};
+    prevState = prevState || {};
     if (prevState.accent !== this.state.accent || prevProps.accent !== this.props.accent) {
       this.applyThemeVars();
       this.applyBg();
@@ -2826,10 +2969,11 @@ class Component extends DCLogic {
 
   async loadImages(items) {
     let changed = false;
+    const cloudMap = this.loadCloudImageMap();
     for (const it of items) {
       for (const id of [it.imageId, it.imageId2, it.imageId3, it.imageId4, it.swapImageId]) {
         if (id && !this.imgUrls[id]) {
-          try { const b = await this.idbGet(id); if (b) { this.imgUrls[id] = URL.createObjectURL(b); changed = true; } } catch (e) {}
+          try { const b = await this.idbGet(id); if (b) { this.imgUrls[id] = URL.createObjectURL(b); changed = true; } else if (cloudMap[id] && cloudMap[id].url) { this.imgUrls[id] = cloudMap[id].url; changed = true; } } catch (e) { if (cloudMap[id] && cloudMap[id].url) { this.imgUrls[id] = cloudMap[id].url; changed = true; } }
         }
       }
     }
@@ -2854,32 +2998,6 @@ class Component extends DCLogic {
 
   // ---- helpers ----
   num(v) { const n = parseFloat(v); return isNaN(n) ? 0 : n; }
-  // 金额输入支持算式：280+20、500-30、398*2、1000/4、(300+20)*2
-  // 自动清理 ¥ ￥ , 空格 RMB 元；结果四舍五入到指定小数位（默认 2 位，汇率用 4 位），整数不带多余小数
-  // 返回 '' 表示清空为空值；返回 null 表示公式错误（调用方应保留原输入、不写回）
-  calcMoneyInput(raw, decimals = 2) {
-    if (raw == null) return '';
-    let s = String(raw).trim();
-    if (!s) return '';
-    s = s.replace(/[¥￥,，\s]/g, '').replace(/RMB/gi, '').replace(/元/g, '');
-    if (!s) return '';
-    if (!/^[0-9+\-*/().]+$/.test(s)) return null;
-    if (/[+\-*/.]{2,}|\(\)/.test(s)) return null;
-    let result;
-    try { result = Function('"use strict";return (' + s + ')')(); } catch (err) { return null; }
-    if (typeof result !== 'number' || !isFinite(result)) return null;
-    const mul = Math.pow(10, decimals);
-    return String(Math.round(result * mul) / mul);
-  }
-  onMoneyBlur = (e) => {
-    const { name, value } = e.target;
-    if (value == null || String(value).trim() === '') return;
-    const result = this.calcMoneyInput(value, name === 'rate' ? 4 : 2);
-    if (result === null) { alert('公式错误'); return; }
-    if (result === String(value).trim()) return;
-    this.setState(s => ({ draft: { ...s.draft, [name]: result } }));
-  };
-  onMoneyKeyDown = (e) => { if (e.key === 'Enter') { e.preventDefault && e.preventDefault(); e.target.blur(); } };
   fmt(n) { return (Math.round(n * 100) / 100).toLocaleString('zh-CN'); }
   heldSince(d) { if (!d) return ''; const t = new Date(d + 'T00:00:00').getTime(); if (isNaN(t)) return ''; const days = Math.floor((Date.now() - t) / 86400000); if (days < 0) return ''; if (days === 0) return '今天入手'; if (days < 30) return '已持有 ' + days + ' 天'; if (days < 365) { const m = Math.floor(days / 30); return '已持有 ' + m + ' 个月'; } const y = Math.floor(days / 365), rm = Math.floor((days % 365) / 30); return '已持有 ' + y + ' 年' + (rm ? rm + ' 个月' : ''); }
   money(v) { return this.cur() + this.fmt(v); }
@@ -3374,16 +3492,6 @@ class Component extends DCLogic {
   saveItem = () => {
     let d = this.state.draft; if (!d) return;
     if (!d.name || !d.name.trim()) { const g = this.genName(d); if (!g) { alert('请先填写名称（或选择角色 / 填细分后点自动生成）'); return; } d = { ...d, name: g }; }
-    const _moneyLabels = { buyPrice:'买入价', sellPrice:'卖出价', supplementPrice:'补款金额', finalPrice:'尾款金额', shipDom:'国内邮费', shipIntl:'国际邮费', otherFee:'其他费用', originalPrice:'原价', rate:'汇率' };
-    const _moneyPatch = {};
-    for (const f of Object.keys(_moneyLabels)) {
-      const v = d[f];
-      if (v == null || String(v).trim() === '') continue;
-      const r = this.calcMoneyInput(v, f === 'rate' ? 4 : 2);
-      if (r === null) { alert('「' + _moneyLabels[f] + '」这一栏的公式错误，请检查后再保存：' + v); return; }
-      if (r !== String(v)) _moneyPatch[f] = r;
-    }
-    if (Object.keys(_moneyPatch).length) d = { ...d, ..._moneyPatch };
     if (!this.state.editing && this.handleDuplicateBeforeSave(d)) return;
     const prev = this.state.editing ? this.state.items.find(x => x.id === this.state.editing) : null;
     const setObj = this.setById(d.setId);
@@ -5504,7 +5612,7 @@ class Component extends DCLogic {
       modalOpen: this.state.modalOpen, modalTitle: this.state.editing ? '编辑谷子' : '新增谷子', isEditing: !!this.state.editing, duplicateCurrent: this.duplicateCurrent, deleteCurrent: this.deleteCurrent,
       draft: d || this.emptyDraft(),
       CHARACTERS: this.orderedChars(), TYPES: this.TYPES, reminderTypeOptions: (this.state.reminderTypes && this.state.reminderTypes.length ? this.state.reminderTypes : this.REMINDER_TYPES), reminderMenuItems, reminderDisplay, reminderMenuOpen: this.state.reminderMenuOpen, toggleReminderMenu: this.toggleReminderMenu, addReminderType: this.addReminderType, clearReminderType: () => this.pickReminderType(''), STATUSES: this.state.statusList || this.STATUSES, FORMS: this.FORMS,
-      closeModal: this.closeModal, saveItem: this.saveItem, onDraftChange: this.onDraftChange, onMoneyBlur: this.onMoneyBlur, onMoneyKeyDown: this.onMoneyKeyDown, autoGrowNote: this.autoGrowNote, charMenuItems, charDisplay, charMenuOpen: this.state.charMenuOpen, toggleCharMenu: this.toggleCharMenu, onTypeChange: this.onTypeChange, onSeriesChange: this.onSeriesChange, fillName: this.fillName, draftStars, typeMenuItems, typeDisplay, hasTypeMenuItems, typeMenuOpen: this.state.typeMenuOpen, toggleTypeMenu: this.toggleTypeMenu, addType: this.addType, seriesMenuItems, seriesDisplay, hasSeriesMenuItems, seriesMenuOpen: this.state.seriesMenuOpen, toggleSeriesMenu: this.toggleSeriesMenu, addSeries: this.addSeries, clearSeries: this.clearSeries, channelMenuItems, channelMenuOpen: this.state.channelMenuOpen, toggleChannelMenu: this.toggleChannelMenu, addChannel: this.addChannel, clearChannel: this.clearChannel, channelDisplay: (this.state.draft && this.state.draft.channel) ? this.state.draft.channel : '（未分类）', hasChannelMenuItems: channelMenuItems.length > 0, purchaseChannelMenuItems, purchaseChannelMenuOpen: this.state.purchaseChannelMenuOpen, togglePurchaseChannelMenu: this.togglePurchaseChannelMenu, addPurchaseChannel: this.addPurchaseChannel, clearPurchaseChannel: this.clearPurchaseChannel, purchaseChannelDisplay: (this.state.draft && this.state.draft.purchaseChannel) ? this.state.draft.purchaseChannel : '（未分类）', hasPurchaseChannelMenuItems: purchaseChannelMenuItems.length > 0, fillBuyFromRate: this.fillBuyFromRate, draftHasConv, draftConvText, draftIsGacha, draftSwapped,
+      closeModal: this.closeModal, saveItem: this.saveItem, onDraftChange: this.onDraftChange, autoGrowNote: this.autoGrowNote, charMenuItems, charDisplay, charMenuOpen: this.state.charMenuOpen, toggleCharMenu: this.toggleCharMenu, onTypeChange: this.onTypeChange, onSeriesChange: this.onSeriesChange, fillName: this.fillName, draftStars, typeMenuItems, typeDisplay, hasTypeMenuItems, typeMenuOpen: this.state.typeMenuOpen, toggleTypeMenu: this.toggleTypeMenu, addType: this.addType, seriesMenuItems, seriesDisplay, hasSeriesMenuItems, seriesMenuOpen: this.state.seriesMenuOpen, toggleSeriesMenu: this.toggleSeriesMenu, addSeries: this.addSeries, clearSeries: this.clearSeries, channelMenuItems, channelMenuOpen: this.state.channelMenuOpen, toggleChannelMenu: this.toggleChannelMenu, addChannel: this.addChannel, clearChannel: this.clearChannel, channelDisplay: (this.state.draft && this.state.draft.channel) ? this.state.draft.channel : '（未分类）', hasChannelMenuItems: channelMenuItems.length > 0, purchaseChannelMenuItems, purchaseChannelMenuOpen: this.state.purchaseChannelMenuOpen, togglePurchaseChannelMenu: this.togglePurchaseChannelMenu, addPurchaseChannel: this.addPurchaseChannel, clearPurchaseChannel: this.clearPurchaseChannel, purchaseChannelDisplay: (this.state.draft && this.state.draft.purchaseChannel) ? this.state.draft.purchaseChannel : '（未分类）', hasPurchaseChannelMenuItems: purchaseChannelMenuItems.length > 0, fillBuyFromRate: this.fillBuyFromRate, draftHasConv, draftConvText, draftIsGacha, draftSwapped,
       onImagePick: this.onImagePick, onImagePick2: this.onImagePick2, onImagePick3: this.onImagePick3, onImagePickSwap: this.onImagePickSwap, swapMenuItems, swappedDisplay, swapHint, swapNoteLabel, draftIsSwapKind, swapMenuOpen: this.state.swapMenuOpen, toggleSwapMenu: this.toggleSwapMenu, swapCharMenuItems, swapCharDisplay, swapCharMenuOpen: this.state.swapCharMenuOpen, toggleSwapCharMenu: this.toggleSwapCharMenu, clearSwapCharacter: this.clearSwapCharacter, swapCharHasAvatar, swapCharAvatarStyle, removeDraftImg: this.removeDraftImg, removeDraftImg2: this.removeDraftImg2, removeDraftImg3: this.removeDraftImg3, removeDraftImg4: this.removeDraftImg4, removeDraftSwapImg: this.removeDraftSwapImg,
       draftTimelineRows, showBrandField: fieldVisible('series') && !!(d && d.series), draftWorkName, draftWorkGroupName, draftWorkMenuGroups, draftWorkMenuOpen: this.state.draftWorkMenuOpen, toggleDraftWorkMenu: this.toggleDraftWorkMenu, addWorkInline: this.addWorkInline, draftIsSelling, draftNotSelling,
       manageOpen: this.state.manageOpen, closeManage: this.closeManage, manageTitle, manageRows, manageAddText, onManageAdd, manageCanRenameLabel, onManageRenameLabel, manageCanToggle, manageCanBatch, manageFilterOn, workManageOpen: this.state.workManageOpen, openWorkManage: this.openWorkManage, closeWorkManage: this.closeWorkManage, workManageGroups, addGroupAlone: this.addGroupAlone, setManageOpen: this.state.setManageOpen, openSetManage: this.openSetManage, closeSetManage: this.closeSetManage, setManageList, addSetInManage: this.addSetInManage, hasSetManageList: setManageList.length > 0, setFieldLabel: this.setLabelText(), renameSetLabel: this.renameSetLabel, setFilterStyle, setGroupStyle, setBatchStyle, setFilterText: setFilterOn ? '筛选 ✓' : '筛选', setGroupText: setGroupOn ? '分组 ✓' : '分组', setBatchText: setBatchOn ? '批量 ✓' : '批量', onSetToggleFilter: this.toggleFilterOn('set'), onSetToggleGroup: this.toggleStatsOn('set'), onSetToggleBatch: this.toggleBatchOn('set'), manageGroupOn, onManageToggleFilter, onManageToggleGroup, manageFilterStyle, manageGroupStyle, manageFilterText: manageFilterOn ? '筛选 ✓' : '筛选', manageGroupText: manageGroupOn ? '分组 ✓' : '分组', manageBatchOn, onManageToggleBatch, manageBatchStyle, manageBatchText: manageBatchOn ? '批量 ✓' : '批量',
