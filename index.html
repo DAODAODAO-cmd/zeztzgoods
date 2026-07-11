@@ -2960,13 +2960,14 @@ class Component extends DCLogic {
   onCnFocus = (e) => { if (((e.target.textContent || '').trim()) === 'CN / 昵称') e.target.textContent = ''; };
   onCnBlur = (e) => { const raw = (e.target.textContent || '').trim(); const v = raw === 'CN / 昵称' ? '' : raw; try { localStorage.setItem('zzz_cn', v); } catch (er) {} this.setState({ collectorName: v }); };
   componentDidUpdate(prevProps, prevState) {
+    const hasPrevState = !!(prevState && Object.prototype.hasOwnProperty.call(prevState, 'batchMode'));
     prevProps = prevProps || {};
     prevState = prevState || {};
     if (prevState.accent !== this.state.accent || prevProps.accent !== this.props.accent) {
       this.applyThemeVars();
       this.applyBg();
     }
-    if (this.state.batchMode && (this.state.selectedIds || []).length) {
+    if (hasPrevState && this.state.batchMode && (this.state.selectedIds || []).length) {
       const filterKeys = ['search','charSel','typeSel','seriesFilter','formSel','statusSel','acquireSel','channelSel','purchaseChannelSel','customFilterSel','group','groupBy','currentWorkId'];
       const changed = filterKeys.some(k => JSON.stringify(prevState[k]) !== JSON.stringify(this.state[k]));
       if (changed) this.setState({ selectedIds: [] });
@@ -3864,15 +3865,24 @@ class Component extends DCLogic {
   toggleBatchMode = () => {
     const view = this.state.view || this.props.startView || 'gallery';
     if (view === 'ledger') return;
-    this.setState(s => ({ batchMode: !s.batchMode, selectedIds: s.batchMode ? [] : (s.selectedIds || []) }));
+    const nextMode = !this.state.batchMode;
+    this.setState({ batchMode: nextMode, selectedIds: nextMode ? (this.state.selectedIds || []) : [] });
   };
-  toggleBatchId = (id, checked) => this.setState(s => {
-    const set = new Set(s.selectedIds || []);
+  toggleBatchId = (id, checked) => {
+    const set = new Set(this.state.selectedIds || []);
     if (checked) set.add(id); else set.delete(id);
-    return { selectedIds: Array.from(set) };
-  });
-  batchVisibleIds() { return (this._lastVisibleIds || []).filter(Boolean); }
-  batchSelectVisible = () => this.setState(s => ({ selectedIds: Array.from(new Set([...(s.selectedIds || []), ...this.batchVisibleIds()])) }));
+    this.setState({ selectedIds: Array.from(set) });
+  };
+  batchVisibleIds() {
+    const ids = (this._lastVisibleIds || []).filter(Boolean);
+    if (ids.length) return ids;
+    const cur = this.state.currentWorkId || this.MAIN_WORK;
+    return (this.state.items || [])
+      .filter(it => cur === this.ALL_WORKS || (it.workId || this.MAIN_WORK) === cur)
+      .map(it => it.id)
+      .filter(Boolean);
+  }
+  batchSelectVisible = () => this.setState({ selectedIds: Array.from(new Set([...(this.state.selectedIds || []), ...this.batchVisibleIds()])) });
   batchClear = () => this.setState({ selectedIds: [] });
   batchIdsOrWarn() { const ids = (this.state.selectedIds || []).filter(id => (this.state.items || []).some(x => x.id === id)); if (!ids.length) { alert('请先选择要批量编辑的谷子'); return null; } return ids; }
   batchApply(ids, updater) { const idSet = new Set(ids || []); const items = (this.state.items || []).map(it => idSet.has(it.id) ? updater(it) : it); this.commit(items); this.setState({ selectedIds: Array.from(idSet), batchMode: true }); }
