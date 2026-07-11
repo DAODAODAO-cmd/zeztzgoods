@@ -536,6 +536,9 @@
       <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:#0f8f50;margin-bottom:9px">
         <span style="width:6px;height:6px;border-radius:50%;background:#12a85f;box-shadow:0 0 8px #12a85f;flex-shrink:0"></span><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ savedText }}</span>
       </div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:{{ cloudSaveColor }};margin-top:-5px;margin-bottom:9px">
+        <span style="{{ cloudSaveDotStyle }}"></span><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ cloudSaveText }}</span>
+      </div>
       <div style="display:flex;gap:8px">
         <sc-if value="{{ showBatchControl }}" hint-placeholder-val="{{ true }}"><button onClick="{{ toggleBatchMode }}" class="ui-sidebar-foot-btn">{{ batchButtonText }}</button></sc-if>
         <button onClick="{{ openSettings }}" class="ui-sidebar-foot-btn">设置</button>
@@ -560,6 +563,9 @@
       <div class="ui-header-actions" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
         <span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#0f8f50;background:rgba(61,220,151,.1);border:1px solid rgba(61,220,151,.22);padding:6px 11px;border-radius:999px">
           <span style="width:6px;height:6px;border-radius:50%;background:#12a85f;box-shadow:0 0 8px #12a85f"></span>{{ savedText }}
+        </span>
+        <span style="{{ cloudSavePillStyle }}">
+          <span style="{{ cloudSaveDotStyle }}"></span>{{ cloudSaveText }}
         </span>
         <button onClick="{{ openSettings }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.045);border:1px solid #ded7ee;padding:8px 13px;border-radius:9px;cursor:pointer">设置</button>
         <button class="ui-mobile-mode-button" onClick="{{ toggleMobileMode }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.045);border:1px solid #ded7ee;padding:8px 13px;border-radius:9px;cursor:pointer">{{ mobileModeText }}</button>
@@ -1873,7 +1879,7 @@
 
           <div style="border-top:1px solid #e1dbf0;padding-top:16px">
             <div style="font-weight:700;font-size:14px;color:#251d49;margin-bottom:4px">☁️ 同步（换设备用）</div>
-            <div style="font-size:11.5px;color:#938db0;margin-bottom:10px;line-height:1.6">生成同步代码，在新设备输入即可继续用同一个收藏库。图片仍在本机，换设备前建议先导出备份。</div>
+            <div style="font-size:11.5px;color:#938db0;margin-bottom:10px;line-height:1.6">生成同步代码，在新设备输入即可继续用同一个收藏库。图片会压缩后同步到云端；完整大图仍建议定期导出备份。</div>
             <div style="background:rgba(255,255,255,.68);border:1px solid #e1dbf0;border-radius:13px;padding:12px 13px">
               <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px">
                 <div style="font-weight:700;font-size:13px;color:#251d49">我的同步代码</div>
@@ -2075,7 +2081,7 @@ class Component extends DCLogic {
   CHAR_IMG = { '诺克斯': 'assets/c_nox.webp', 'NOX': 'assets/r_blue.webp', 'MIDNIGHT SHADOW': 'assets/r_nox_midnight.webp', 'NOX KNIGHT': 'assets/r_lady.webp', 'ZEZTZ': 'assets/r_red.webp', '西格': 'assets/c_zeke.webp', 'DAWN': 'assets/r_zeztz.webp', '宁梦': 'assets/c_nemu.webp', '南云成华': 'assets/c_nagumo.webp', 'ZERO': 'assets/c_zero.webp', '万津莫': 'assets/c_matsu.webp', '万津美浪': 'assets/c_minami.webp', '富士见铁也': 'assets/c_fujimi.webp', 'THE LADY': 'assets/c_lady.webp', 'CODE': 'assets/c_code.webp' };
   imgUrls = {};
   cloudImageMap = {};
-  state = { items: [], view: null, sets: [], lastSetId: '', setMenuOpen: false, feeOpen: false, colInfoOpen: false, setInfoOpen: false, recentWorks: [], collapsedGroups: {}, reminderMenuOpen: false, monthlyBudget: '', budgets: {}, ledgerDetailKey: '', ledgerDetailType: 'day', ledgerDetailLabel: '', tableSortKey: '', tableSortDir: 'desc', tableHiddenCols: [], tableColumnMenuOpen: false, nameStyleMode: 'default', displayMode: 'standard', dashboardCards: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], purchaseChannelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, purchaseChannels: [], purchaseChannelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], hiddenPurchaseChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, purchaseChannel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, dataManageOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, trendOpen: false, trendItemId: null, trendRows: [], trendResult: null, ocrRawText: '', ocrBulkText: '', modalOpen: false, editing: null, draft: null, savedAt: 0, batchMode: false, selectedIds: [], bulkEditIds: [], bulkEditIndex: 0, ledgerRange: 'month', ledgerMode: 'month', ledgerYear: String(new Date().getFullYear()), ledgerMonth: String(new Date().getMonth()+1), ledgerWeek: '', ledgerPieBy: 'character', ledgerPieActive: 0, batchEditOpen: false, batchEditField: '', batchOn: null };
+  state = { items: [], view: null, sets: [], lastSetId: '', setMenuOpen: false, feeOpen: false, colInfoOpen: false, setInfoOpen: false, recentWorks: [], collapsedGroups: {}, reminderMenuOpen: false, monthlyBudget: '', budgets: {}, ledgerDetailKey: '', ledgerDetailType: 'day', ledgerDetailLabel: '', tableSortKey: '', tableSortDir: 'desc', tableHiddenCols: [], tableColumnMenuOpen: false, nameStyleMode: 'default', displayMode: 'standard', dashboardCards: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], purchaseChannelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, purchaseChannels: [], purchaseChannelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], hiddenPurchaseChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, purchaseChannel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, dataManageOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, cloudPending: false, trendOpen: false, trendItemId: null, trendRows: [], trendResult: null, ocrRawText: '', ocrBulkText: '', modalOpen: false, editing: null, draft: null, savedAt: 0, batchMode: false, selectedIds: [], bulkEditIds: [], bulkEditIndex: 0, ledgerRange: 'month', ledgerMode: 'month', ledgerYear: String(new Date().getFullYear()), ledgerMonth: String(new Date().getMonth()+1), ledgerWeek: '', ledgerPieBy: 'character', ledgerPieActive: 0, batchEditOpen: false, batchEditField: '', batchOn: null };
 
   setRoot = (el) => { this.rootEl = el; if (el) { this.applyThemeVars(); this.applyBg(); } };
   applyThemeVars() {
@@ -2529,7 +2535,7 @@ class Component extends DCLogic {
   }
   createCloudCollection = async () => {
     if (!this.cloudReady()) { this.setState({ cloudStatus: 'Supabase 未连接，请检查网络或配置。' }); return; }
-    this.setState({ cloudBusy: true, cloudStatus: '正在创建同步代码…' });
+    this.setState({ cloudBusy: true, cloudPending: false, cloudStatus: '正在创建同步代码…' });
     try {
       for (let i = 0; i < 8; i++) {
         const code = this.genSyncCode();
@@ -2539,26 +2545,26 @@ class Component extends DCLogic {
         if (!error && data) {
           localStorage.setItem('zzz_cloud_id', data.id); localStorage.setItem('zzz_cloud_code', data.sync_code);
           await this.uploadCollectionSummary(data.sync_code);
-          this.setState({ cloudSyncId: data.id, cloudSyncCode: data.sync_code, cloudCodeInput: data.sync_code, cloudStatus: '🎉 同步代码已生成！以后换电脑、换手机，记得带上它一起出发～', cloudBusy: false });
+          this.setState({ cloudSyncId: data.id, cloudSyncCode: data.sync_code, cloudCodeInput: data.sync_code, cloudStatus: '🎉 同步代码已生成！当前资料已上传到云端。以后换电脑、换手机，记得带上它一起出发～', cloudBusy: false, cloudPending: false });
           return;
         }
       }
-      this.setState({ cloudStatus: '创建失败，请稍后再试。', cloudBusy: false });
-    } catch (e) { this.setState({ cloudStatus: '创建失败：' + (e.message || e), cloudBusy: false }); }
+      this.setState({ cloudStatus: '创建失败，请稍后再试。', cloudBusy: false, cloudPending: false });
+    } catch (e) { this.setState({ cloudStatus: '创建失败：' + (e.message || e), cloudBusy: false, cloudPending: false }); }
   };
   onCloudCodeInput = (e) => this.setState({ cloudCodeInput: (e.target.value || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8) });
   connectCloudCollection = async () => {
     const code = (this.state.cloudCodeInput || '').trim().toUpperCase();
     if (!code) { this.setState({ cloudStatus: '请先输入同步代码。' }); return; }
     if (!this.cloudReady()) { this.setState({ cloudStatus: 'Supabase 未连接，请检查网络或配置。' }); return; }
-    this.setState({ cloudBusy: true, cloudStatus: '正在连接同步代码…' });
+    this.setState({ cloudBusy: true, cloudPending: false, cloudStatus: '正在连接同步代码…' });
     try {
       const { data, error } = await this.sb.from('collections').select('id,sync_code,data').eq('sync_code', code).single();
       if (error || !data) { this.setState({ cloudStatus: '没有找到这个同步代码。', cloudBusy: false }); return; }
       localStorage.setItem('zzz_cloud_id', data.id); localStorage.setItem('zzz_cloud_code', data.sync_code);
       await this.applyCloudSnapshot(data.data || {});
-      this.setState({ cloudSyncId: data.id, cloudSyncCode: data.sync_code, cloudCodeInput: data.sync_code, cloudStatus: '已连接：' + data.sync_code, cloudBusy: false });
-    } catch (e) { this.setState({ cloudStatus: '连接失败：' + (e.message || e), cloudBusy: false }); }
+      this.setState({ cloudSyncId: data.id, cloudSyncCode: data.sync_code, cloudCodeInput: data.sync_code, cloudStatus: '已连接并读取云端：' + data.sync_code, cloudBusy: false, cloudPending: false });
+    } catch (e) { this.setState({ cloudStatus: '连接失败：' + (e.message || e), cloudBusy: false, cloudPending: false }); }
   };
   pushCloud = async () => {
     const id = this.state.cloudSyncId || localStorage.getItem('zzz_cloud_id');
@@ -2569,21 +2575,21 @@ class Component extends DCLogic {
       const { error } = await this.sb.from('collections').update({ client_uuid: this.clientUuid(), cn: this.state.collectorName || null, title: this.state.title || null, data: this.cloudSnapshot(imgSync.map), updated_at: new Date().toISOString() }).eq('id', id);
       if (error) throw error;
       await this.uploadCollectionSummary(this.state.cloudSyncCode || localStorage.getItem('zzz_cloud_code') || '');
-      this.setState({ cloudStatus: '已上传到云端。', cloudBusy: false });
-    } catch (e) { this.setState({ cloudStatus: '上传失败：' + (e.message || e), cloudBusy: false }); }
+      this.setState({ cloudStatus: '已上传到云端。', cloudBusy: false, cloudPending: false });
+    } catch (e) { this.setState({ cloudStatus: '上传失败：' + (e.message || e), cloudBusy: false, cloudPending: false }); }
   };
   pullCloud = async () => {
     const id = this.state.cloudSyncId || localStorage.getItem('zzz_cloud_id');
     if (!this.cloudReady() || !id) { this.setState({ cloudStatus: '还没有连接同步代码。' }); return; }
-    this.setState({ cloudBusy: true, cloudStatus: '正在从云端读取…' });
+    this.setState({ cloudBusy: true, cloudPending: false, cloudStatus: '正在从云端读取…' });
     try {
       const { data, error } = await this.sb.from('collections').select('id,sync_code,data').eq('id', id).single();
       if (error || !data) throw error || new Error('没有找到云端数据');
       await this.applyCloudSnapshot(data.data || {});
-      this.setState({ cloudStatus: '已从云端同步。', cloudBusy: false });
-    } catch (e) { this.setState({ cloudStatus: '读取失败：' + (e.message || e), cloudBusy: false }); }
+      this.setState({ cloudStatus: '已从云端同步。', cloudBusy: false, cloudPending: false });
+    } catch (e) { this.setState({ cloudStatus: '读取失败：' + (e.message || e), cloudBusy: false, cloudPending: false }); }
   };
-  disconnectCloud = () => { try { localStorage.removeItem('zzz_cloud_id'); localStorage.removeItem('zzz_cloud_code'); } catch(e) {} this.setState({ cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '已退出云同步，本地数据仍保留。' }); };
+  disconnectCloud = () => { try { localStorage.removeItem('zzz_cloud_id'); localStorage.removeItem('zzz_cloud_code'); } catch(e) {} this.setState({ cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '已退出云同步，本地数据仍保留。', cloudPending: false }); };
   copyCloudCode = async () => { const code = (this.state.cloudSyncCode || this.state.cloudCodeInput || '').trim(); if (!code) { this.setState({ cloudStatus: '还没有同步代码，先生成一个吧。' }); return; } try { await navigator.clipboard.writeText(code); this.setState({ cloudStatus: '已复制同步代码：' + code }); } catch(e) { window.prompt('复制这串同步代码：', code); } };
   clearAllData = async () => {
     const count = (this.state.items || []).length;
@@ -2994,7 +3000,7 @@ class Component extends DCLogic {
   dataURLToBlob(d) { const [m, b64] = d.split(','); const mime = (m.match(/:(.*?);/) || [])[1] || 'image/png'; const bin = atob(b64); const arr = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i); return new Blob([arr], { type: mime }); }
 
   // ---- persistence ----
-  commit(items) { try { localStorage.setItem('zzz_goods_v1', JSON.stringify(items)); } catch (e) {} this.setState({ items, savedAt: Date.now() }, () => { if (this.state.cloudSyncId) { clearTimeout(this._cloudTimer); this._cloudTimer = setTimeout(() => this.pushCloud(), 600); } }); }
+  commit(items) { try { localStorage.setItem('zzz_goods_v1', JSON.stringify(items)); } catch (e) {} this.setState({ items, savedAt: Date.now(), cloudPending: !!this.state.cloudSyncId }, () => { if (this.state.cloudSyncId) { clearTimeout(this._cloudTimer); this._cloudTimer = setTimeout(() => this.pushCloud(), 600); } }); }
 
   // ---- helpers ----
   num(v) { const n = parseFloat(v); return isNaN(n) ? 0 : n; }
@@ -3314,7 +3320,7 @@ class Component extends DCLogic {
       if (remove.size) {
         const items = (this.state.items || []).filter(x => !remove.has(x.id));
         try { localStorage.setItem('zzz_goods_v1', JSON.stringify(items)); } catch (e) {}
-        this.setState({ items, savedAt: Date.now(), modalOpen: false, draft: null, editing: null, bulkEditIds: [], bulkEditIndex: 0 }, () => { if (this.state.cloudSyncId) { clearTimeout(this._cloudTimer); this._cloudTimer = setTimeout(() => this.pushCloud(), 600); } });
+        this.setState({ items, savedAt: Date.now(), cloudPending: !!this.state.cloudSyncId, modalOpen: false, draft: null, editing: null, bulkEditIds: [], bulkEditIndex: 0 }, () => { if (this.state.cloudSyncId) { clearTimeout(this._cloudTimer); this._cloudTimer = setTimeout(() => this.pushCloud(), 600); } });
         this.bulkSavedIds = new Set();
         return;
       }
@@ -5383,7 +5389,17 @@ class Component extends DCLogic {
     const batchEditTitle = bf ? ('修改' + this.batchFieldLabel(bf)) : '';
     const batchEditChooseMode = !bf;
     const batchEditOptionMode = !!bf;
-    const savedText = this.state.savedAt ? '已自动保存 ' + new Date(this.state.savedAt).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' }) : '自动保存已开启';
+    const savedText = this.state.savedAt ? '本机已保存 ' + new Date(this.state.savedAt).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' }) : '本机自动保存已开启';
+    const hasCloudSyncNow = !!this.state.cloudSyncId;
+    const cloudStatusRaw = String(this.state.cloudStatus || '');
+    const cloudHasProblem = /失败|未连接|没有找到|请先|还没有|Supabase/.test(cloudStatusRaw);
+    const cloudSaveText = !hasCloudSyncNow ? '云端未连接' : (this.state.cloudBusy ? '云端同步中' : (this.state.cloudPending ? '云端等待同步' : (cloudHasProblem ? '云端需处理' : '云端已同步')));
+    const cloudSaveColor = !hasCloudSyncNow ? '#8c83a8' : (this.state.cloudBusy || this.state.cloudPending ? '#b7791f' : (cloudHasProblem ? '#d64262' : '#0f8f50'));
+    const cloudSaveBg = !hasCloudSyncNow ? 'rgba(50,38,90,.045)' : (this.state.cloudBusy || this.state.cloudPending ? 'rgba(255,183,77,.13)' : (cloudHasProblem ? 'rgba(226,59,93,.1)' : 'rgba(61,220,151,.1)'));
+    const cloudSaveBorder = !hasCloudSyncNow ? 'rgba(50,38,90,.1)' : (this.state.cloudBusy || this.state.cloudPending ? 'rgba(255,183,77,.28)' : (cloudHasProblem ? 'rgba(226,59,93,.22)' : 'rgba(61,220,151,.22)'));
+    const cloudDotColor = !hasCloudSyncNow ? '#aaa3bd' : (this.state.cloudBusy || this.state.cloudPending ? '#d99023' : (cloudHasProblem ? '#e23b5d' : '#12a85f'));
+    const cloudSavePillStyle = { display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: cloudSaveColor, background: cloudSaveBg, border: '1px solid ' + cloudSaveBorder, padding: '6px 11px', borderRadius: '999px' };
+    const cloudSaveDotStyle = { width: '6px', height: '6px', borderRadius: '50%', background: cloudDotColor, boxShadow: '0 0 8px ' + cloudDotColor, flexShrink: 0 };
     const mobileMode = this.state.mobileMode || 'auto';
     const appClass = 'ui-app ui-mobile-' + mobileMode + (this.state.filtersOpen ? ' ui-filters-open' : '') + (this.state.batchMode ? ' ui-batch-active' : '');
     const mobileModeText = mobileMode === 'full' ? '清爽模式' : '完整模式';
@@ -5564,7 +5580,7 @@ class Component extends DCLogic {
       cnPrefix, hasCn: !!cnPrefix, cnDisplay, cnSidebarClass,
       rootBgStyle: this.bgUrl ? { backgroundImage: `linear-gradient(180deg,rgba(255,255,255,.78),rgba(255,255,255,.9)), url(${this.bgUrl})`, backgroundSize: 'cover', backgroundAttachment: 'fixed', backgroundPosition: 'center' } : {},
       appClass, mobileModeText, toggleMobileMode: this.toggleMobileMode, filterSummaryText, filterToggleText, toggleFiltersOpen: this.toggleFiltersOpen,
-      savedText, doExport: this.doExport, doExcelExport: this.doExcelExport, doExcelTemplate: this.doExcelTemplate, triggerExcelImport: this.triggerExcelImport, onExcelImportFile: this.onExcelImportFile, triggerImport: this.triggerImport, onImportFile: this.onImportFile,
+      savedText, cloudSaveText, cloudSaveColor, cloudSavePillStyle, cloudSaveDotStyle, doExport: this.doExport, doExcelExport: this.doExcelExport, doExcelTemplate: this.doExcelTemplate, triggerExcelImport: this.triggerExcelImport, onExcelImportFile: this.onExcelImportFile, triggerImport: this.triggerImport, onImportFile: this.onImportFile,
       logoFallback,
       logoStyle: logoFallback ? { height: '54px', width: '54px', borderRadius: '15px', position: 'relative', overflow: 'hidden', cursor: 'pointer', flexShrink: 0, border: '1px solid #ded7ee', background: 'linear-gradient(145deg,#ffffff,#f8f4ff)', boxShadow: '0 8px 20px rgba(50,38,90,.08)' } : { height: '54px', width: '160px', backgroundImage: `url(${headerLogoUrl})`, backgroundSize: 'contain', backgroundPosition: 'left center', backgroundRepeat: 'no-repeat', filter: 'drop-shadow(0 4px 14px rgba(0,0,0,.5))', cursor: 'pointer', flexShrink: 0 },
       sidebarLogoStyle: { width: '100%', height: '112px', borderRadius: '15px', position: 'relative', overflow: 'hidden', flexShrink: 0, cursor: 'pointer', border: '1px solid #e3def1', backgroundColor: 'rgba(255,255,255,.86)', boxShadow: 'inset 0 0 0 1px rgba(255,255,255,.7), 0 8px 20px rgba(50,38,90,.08)', backgroundImage: logoFallback ? 'linear-gradient(145deg,#ffffff,#f8f4ff)' : `url(${headerLogoUrl})`, backgroundSize: logoFallback ? 'cover' : 'contain', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }, title: this.state.title || '谷子收纳', subtitle: this.state.subtitle || '梦 境 特 工 档 案', footer: this.state.footer || '梦境特工档案 · コードナンバー：収集家', uploadLogo: this.uploadLogo, onTitleBlur: this.onTitleBlur, onSubtitleBlur: this.onSubtitleBlur, onFooterBlur: this.onFooterBlur, onCnBlur: this.onCnBlur, onCnFocus: this.onCnFocus,
