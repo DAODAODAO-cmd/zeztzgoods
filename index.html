@@ -12,9 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Orbitron:wght@600;700;900&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
 <style>
@@ -487,6 +485,34 @@
     box-shadow:0 18px 44px rgba(46,35,86,.16),0 8px 22px var(--accent-shadow,rgba(255,51,85,.1)) !important;
   }
 
+  /* ===== 排发资料中心 ===== */
+  .ui-ship-grid{display:grid;grid-template-columns:minmax(280px,.85fr) minmax(0,1.35fr);gap:16px;align-items:start}
+  .ui-ship-card{background:rgba(255,255,255,.9);border:1px solid var(--accent-border,#ded7ee);border-radius:18px;padding:15px;box-shadow:0 8px 24px rgba(50,38,90,.06)}
+  .ui-ship-title{font-weight:900;font-size:14px;color:#251d49;margin-bottom:10px}
+  .ui-ship-label{font-size:12px;font-weight:700;color:#544f7e;margin:10px 0 6px}
+  .ui-ship-input{width:100%;min-height:42px;padding:9px 11px;border-radius:12px;border:1px solid var(--accent-border,#ded7ee);background:#fff;color:#251d49;font:14px 'Noto Sans SC',sans-serif;box-sizing:border-box}
+  select.ui-ship-input{-webkit-appearance:none;appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23938db0' d='M6 8 0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:30px}
+  .ui-ship-notice{margin-top:11px;font-size:12px;line-height:1.6;color:#6d5fa6;background:rgba(124,92,214,.07);border:1px solid rgba(124,92,214,.18);border-radius:11px;padding:10px 12px}
+  .ui-ship-checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;max-height:240px;overflow:auto;padding:4px}
+  .ui-ship-filterbar{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(120px,.75fr);gap:7px;margin-bottom:8px}
+  .ui-ship-actions{display:flex;gap:6px;flex-wrap:wrap;margin:7px 0 8px}
+  .ui-ship-action{font-family:inherit;font-size:11.5px;font-weight:800;color:#4c4580;background:#fff;border:1px solid #ded7ee;border-radius:9px;padding:7px 9px;cursor:pointer}
+  .ui-ship-empty{grid-column:1/-1;padding:18px 10px;text-align:center;color:#938db0;font-size:12px;border:1px dashed #ded7ee;border-radius:11px;background:#fff}
+  .ui-ship-check{display:flex;align-items:center;gap:7px;padding:8px 9px;border:1px solid #eee9f8;border-radius:10px;background:#fff;font-size:12.5px;color:#4c4580;cursor:pointer;min-width:0}
+  .ui-ship-check span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .ui-ship-row{display:grid;grid-template-columns:70px minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid #eee9f8}
+  .ui-ship-thumb{width:70px;height:70px;border-radius:11px;background:#f3f0fb center/cover no-repeat;border:1px solid #e5def0}
+  .ui-ship-meta{min-width:0}.ui-ship-meta strong{display:block;font-size:13.5px;color:#251d49;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ui-ship-meta small{display:block;color:#837da4;font-size:11.5px;line-height:1.5;margin-top:3px}
+  .ui-ship-preview{background:linear-gradient(180deg,#fff,#faf8ff);border:1px solid #ded7ee;border-radius:16px;padding:14px}
+  .ui-ship-preview-head{text-align:center;border-bottom:2px solid var(--accent,#ff3355);padding-bottom:7px;margin-bottom:9px}.ui-ship-preview-head strong{display:block;font-size:14px;color:#251d49}.ui-ship-preview-head span{font-size:11px;color:#837da4}
+  .ui-ship-pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}.ui-ship-pair figure{margin:0;border:1px solid #e5def0;border-radius:12px;overflow:hidden;background:#fff}.ui-ship-pair img{width:100%;height:220px;object-fit:contain;display:block;background:#f7f5fb}.ui-ship-pair figcaption{text-align:center;padding:7px;font-size:12px;font-weight:800;color:#544f7e;border-top:1px solid #eee9f8}
+  .ui-ship-package{border:1px solid #e6e0f1;border-radius:14px;background:#fff;margin-top:10px;overflow:hidden}
+  .ui-ship-package-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:11px 12px;background:linear-gradient(135deg,#fff,#f7f3ff);border-bottom:1px solid #eee9f8}
+  .ui-ship-package-head strong{display:block;font-size:13.5px;color:#251d49}.ui-ship-package-head small{display:block;font-size:11.5px;color:#837da4;margin-top:3px;line-height:1.5}
+  .ui-ship-package-images{display:flex;flex-direction:column;gap:10px;max-height:300px;overflow-y:auto}.ui-ship-package-image{margin:0;border:1px solid #e5def0;border-radius:12px;overflow:hidden;background:#fff}.ui-ship-package-image img{width:100%;max-height:220px;object-fit:contain;display:block;background:#f7f5fb}.ui-ship-package-image figcaption{padding:6px 9px;font-size:11px;font-weight:800;color:#544f7e;border-top:1px solid #eee9f8}
+  .ui-ship-item-summary{font-size:11.5px;line-height:1.55;color:#544f7e;background:#fff;border:1px solid #e8e2f2;border-radius:12px;padding:8px 11px;margin-bottom:10px;white-space:pre-wrap;max-height:120px;overflow-y:auto}
+  @media(max-width:800px){.ui-ship-grid{grid-template-columns:1fr}.ui-ship-checks{grid-template-columns:1fr}.ui-ship-pair{grid-template-columns:1fr}.ui-ship-pair img{height:260px}}
+
 </style>
 </helmet>
 <div ref="{{ setRoot }}" class="{{ appClass }}" style="min-height:100vh;background:radial-gradient(circle at 15% -5%, #ddd2f2 0%, transparent 50%), radial-gradient(circle at 92% 4%, #f3d8e6 0%, transparent 45%), linear-gradient(165deg,#e7e1f4,#ece8f6 70%);color:#251d49;font-family:'Noto Sans SC',sans-serif;padding:clamp(14px,3vw,34px) clamp(12px,3vw,34px) 60px;-webkit-font-smoothing:antialiased">
@@ -526,6 +552,7 @@
       <sc-for list="{{ navGroupItems }}" as="n" hint-placeholder-count="3">
         <button onClick="{{ n.onClick }}" style="{{ n.style }}"><span style="{{ n.iconStyle }}">{{ n.icon }}</span>{{ n.label }}<sc-if value="{{ n.hasTip }}" hint-placeholder-val="{{ false }}"><span title="{{ n.tipText }}" style="margin-left:6px;width:15px;height:15px;border-radius:50%;background:rgba(124,92,214,.14);color:#7c5cd6;font-size:10px;font-style:italic;font-weight:700;font-family:Georgia,serif;line-height:15px;text-align:center;cursor:help;flex-shrink:0">i</span></sc-if><span style="{{ n.countStyle }}">{{ n.n }}</span></button>
       </sc-for>
+      <button onClick="{{ openShipping }}" style="display:flex;align-items:center;gap:8px;width:100%;font-family:inherit;font-size:13px;font-weight:800;color:#fff;background:var(--accent,#ff3355);border:none;padding:10px 12px;border-radius:12px;cursor:pointer;margin-top:10px"><span>📦</span>排发中心<span style="margin-left:auto;font-size:11px;opacity:.85">{{ shippingCount }}</span></button>
       <div class="ui-sidebar-label" style="margin-top:13px">视图</div>
       <sc-for list="{{ navViewItems }}" as="n" hint-placeholder-count="4">
         <button onClick="{{ n.onClick }}" style="{{ n.style }}"><span style="{{ n.iconStyle }}">{{ n.icon }}</span>{{ n.label }}</button>
@@ -652,6 +679,7 @@
       </div>
       <div style="display:flex;align-items:center;gap:10px">
         <div style="display:flex;gap:4px;background:rgba(50,38,90,.06);padding:4px;border-radius:11px">
+          <button onClick="{{ setDashboard }}" style="{{ dashboardBtnStyle }}">⌂ 首页</button>
           <button onClick="{{ setGallery }}" style="{{ galleryBtnStyle }}">▧ 图鉴</button>
           <button onClick="{{ setCircle }}" style="{{ circleBtnStyle }}">◎ 圆图</button>
           <button class="ui-table-mode-btn" onClick="{{ setTable }}" style="{{ tableBtnStyle }}">▤ 表格</button>
@@ -876,6 +904,52 @@
     </sc-if>
 
     <!-- ===== GALLERY VIEW ===== -->
+    <sc-if value="{{ isDashboard }}" hint-placeholder-val="{{ false }}">
+      <div class="ui-dashboard-page" style="display:flex;flex-direction:column;gap:16px">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+          <div><div style="font-size:22px;font-weight:900;color:#251d49">📦 今日待办</div><div style="font-size:12px;color:#938db0;margin-top:4px">点击卡片即可查看对应谷子</div></div>
+          <button onClick="{{ openShipping }}" style="font-family:inherit;font-size:13px;font-weight:800;color:#fff;background:var(--accent,#ff3355);border:none;padding:9px 14px;border-radius:11px;cursor:pointer">打开排发中心</button>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px">
+          <sc-for list="{{ dashboardTodoRows }}" as="t" hint-placeholder-count="5">
+            <button onClick="{{ t.onClick }}" style="font-family:inherit;text-align:left;background:linear-gradient(145deg,#fff,#f8f5ff);border:1px solid #e5dff0;border-radius:16px;padding:15px;cursor:pointer;box-shadow:0 8px 24px rgba(61,43,100,.07)">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><span style="font-size:22px">{{ t.icon }}</span><span style="font-family:'Orbitron';font-size:22px;font-weight:800;color:{{ t.color }}">{{ t.count }}</span></div>
+              <div style="font-size:13px;font-weight:800;color:#251d49;margin-top:10px">{{ t.label }}</div>
+              <div style="font-size:11px;color:#938db0;margin-top:3px">{{ t.hint }}</div>
+            </button>
+          </sc-for>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px">
+          <div style="background:linear-gradient(145deg,#fff,#f8f5ff);border:1px solid #e5dff0;border-radius:17px;padding:16px">
+            <div style="font-size:13px;font-weight:800;color:#251d49;margin-bottom:11px">📊 收藏概况</div>
+            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px">
+              <sc-for list="{{ dashboardSummaryRows }}" as="r" hint-placeholder-count="4"><div style="background:rgba(50,38,90,.035);border:1px solid #eee8f7;border-radius:12px;padding:11px"><div style="font-size:11px;color:#938db0">{{ r.label }}</div><div style="font-family:'Orbitron';font-size:19px;font-weight:800;color:#251d49;margin-top:4px">{{ r.value }}</div></div></sc-for>
+            </div>
+          </div>
+          <div style="background:linear-gradient(145deg,#fff,#f8f5ff);border:1px solid #e5dff0;border-radius:17px;padding:16px">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px"><div style="font-size:13px;font-weight:800;color:#251d49">💰 本月记录</div><button onClick="{{ setLedger }}" style="font-family:inherit;font-size:11px;color:#6f6996;background:rgba(50,38,90,.05);border:1px solid #e1dbf0;padding:5px 9px;border-radius:8px;cursor:pointer">查看钱包</button></div>
+            <div style="font-size:11px;color:#938db0">本月新增成本</div><div style="font-family:'Orbitron';font-size:25px;font-weight:800;color:var(--accent,#ff3355);margin-top:4px">{{ dashboardMonthCost }}</div>
+            <div style="font-size:11px;color:#938db0;margin-top:11px">累计收藏成本</div><div style="font-family:'Orbitron';font-size:18px;font-weight:800;color:#251d49;margin-top:3px">{{ dashboardTotalCost }}</div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px">
+          <div style="background:#fff;border:1px solid #e5dff0;border-radius:17px;padding:16px;min-width:0">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px"><div style="font-size:13px;font-weight:800;color:#251d49">📎 最近资料</div><button onClick="{{ openShipping }}" style="font-family:inherit;font-size:11px;color:#6f6996;background:rgba(50,38,90,.05);border:1px solid #e1dbf0;padding:5px 9px;border-radius:8px;cursor:pointer">排发中心</button></div>
+            <sc-if value="{{ hasDashboardDocs }}" hint-placeholder-val="false"><sc-for list="{{ dashboardRecentDocs }}" as="r" hint-placeholder-count="3"><button onClick="{{ openShipping }}" style="width:100%;font-family:inherit;text-align:left;background:transparent;border:none;border-top:1px solid rgba(50,38,90,.06);padding:10px 0;cursor:pointer"><div style="display:flex;justify-content:space-between;gap:10px"><span style="font-size:13px;font-weight:700;color:#251d49;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.type }}</span><span style="font-size:11px;color:#938db0;white-space:nowrap">{{ r.date }}</span></div><div style="font-size:11.5px;color:#837da4;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.title }}</div></button></sc-for></sc-if>
+            <sc-if value="{{ noDashboardDocs }}" hint-placeholder-val="true"><div style="font-size:12px;color:#aaa3bd;padding:18px 0;text-align:center">还没有资料记录</div></sc-if>
+          </div>
+          <div style="background:#fff;border:1px solid #e5dff0;border-radius:17px;padding:16px;min-width:0">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px"><div style="font-size:13px;font-weight:800;color:#251d49">🆕 最近新增</div><button onClick="{{ setGallery }}" style="font-family:inherit;font-size:11px;color:#6f6996;background:rgba(50,38,90,.05);border:1px solid #e1dbf0;padding:5px 9px;border-radius:8px;cursor:pointer">查看图鉴</button></div>
+            <sc-if value="{{ hasDashboardItems }}" hint-placeholder-val="false"><sc-for list="{{ dashboardRecentItems }}" as="r" hint-placeholder-count="4"><button onClick="{{ r.onClick }}" style="width:100%;font-family:inherit;text-align:left;background:transparent;border:none;border-top:1px solid rgba(50,38,90,.06);padding:10px 0;cursor:pointer"><div style="display:flex;justify-content:space-between;gap:10px"><span style="font-size:13px;font-weight:700;color:#251d49;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</span><span style="font-size:11px;color:#938db0;white-space:nowrap">{{ r.date }}</span></div><div style="font-size:11.5px;color:#837da4;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.meta }}</div></button></sc-for></sc-if>
+            <sc-if value="{{ noDashboardItems }}" hint-placeholder-val="true"><div style="font-size:12px;color:#aaa3bd;padding:18px 0;text-align:center">还没有收藏记录</div></sc-if>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
     <sc-if value="{{ isGallery }}" hint-placeholder-val="{{ true }}">
       <div class="ui-gallery-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:15px">
         <sc-for list="{{ displayRows }}" as="row" hint-placeholder-count="4">
@@ -940,7 +1014,6 @@
               <sc-if value="{{ row.hasReminderAlert }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;font-weight:800;color:#e23b5d;background:rgba(226,59,93,.08);border:1px solid rgba(226,59,93,.25);border-radius:9px;padding:7px 9px">⚠ {{ row.reminderBadgeText }}</div></sc-if>
               <div style="display:flex;gap:7px;margin-top:3px">
                 <button onClick="{{ row.onEdit }}" style="flex:1;font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:7px;border-radius:9px;cursor:pointer">编辑</button>
-                <button class="ui-mobile-card-extra" onClick="{{ row.onTrend }}" title="价格趋势" style="font-family:inherit;font-size:13px;color:#2f6fdb;background:rgba(47,111,219,.08);border:1px solid rgba(47,111,219,.25);padding:7px 13px;border-radius:9px;cursor:pointer">趋势</button>
               </div>
             </div>
           </div>
@@ -1087,7 +1160,6 @@
                 <div class="ui-table-cell ui-table-center">
                   <div style="display:inline-flex;gap:6px">
                     <button onClick="{{ row.onEdit }}" style="font-family:inherit;font-size:12px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:5px 10px;border-radius:8px;cursor:pointer">编辑</button>
-                    <button onClick="{{ row.onTrend }}" style="font-family:inherit;font-size:12px;color:#2f6fdb;background:rgba(47,111,219,.08);border:1px solid rgba(47,111,219,.25);padding:5px 10px;border-radius:8px;cursor:pointer">趋势</button>
                   </div>
                 </div>
                 </sc-if>
@@ -1799,6 +1871,39 @@
                 <div style="text-align:right"><div style="font-size:11px;color:#837da4">预计盈亏</div><div style="font-family:'Orbitron';font-weight:700;font-size:18px;margin-top:3px"><span style="{{ draftProfitStyle }}">{{ draftProfitText }}</span></div></div>
               </sc-if>
             </div>
+            <div style="grid-column:1/-1;background:linear-gradient(145deg,#fff,#f7f3ff);border:1px solid var(--accent-border,#ded7ee);border-radius:14px;overflow:hidden">
+              <button onClick="{{ toggleItemEvidence }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 15px;border:none;background:linear-gradient(135deg,var(--accent-soft,rgba(255,51,85,.10)),rgba(255,255,255,.88));font-family:inherit;text-align:left;cursor:pointer;color:#251d49">
+                <span style="display:flex;align-items:center;gap:10px;min-width:0"><span style="width:30px;height:30px;border-radius:10px;background:var(--accent,#ff3355);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:15px;flex:0 0 auto">📁</span><span style="min-width:0"><strong style="display:block;font-size:13px">本体交肾 · 排发资料（可选）</strong><small style="display:block;font-size:10.8px;color:#837da4;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ itemEvidenceSummary }}</small></span></span>
+                <span style="display:flex;align-items:center;gap:7px;flex:0 0 auto"><span style="font-size:10.5px;font-weight:800;color:var(--accent,#ff3355);background:#fff;border:1px solid var(--accent-border,#ded7ee);border-radius:999px;padding:4px 8px">{{ itemEvidenceBadge }}</span><span style="font-size:12px;font-weight:900;color:#544f7e">{{ itemEvidenceCaret }}</span></span>
+              </button>
+              <sc-if value="{{ itemEvidenceOpen }}" hint-placeholder-val="false">
+              <div style="padding:12px 15px 14px">
+              <div style="font-size:11.5px;color:#837da4;line-height:1.55;margin-bottom:9px">上传群内肾表／交款要求图和我的付款截图；已有资料可直接复用，不需要重复上传。</div>
+              <sc-if value="{{ noCloudForItemEvidence }}" hint-placeholder-val="false"><div style="font-size:11.5px;color:#7b6f9f;background:rgba(124,92,214,.06);border:1px solid rgba(124,92,214,.16);border-radius:10px;padding:8px 10px;margin-bottom:9px">谷子可以直接保存、本地正常使用。这里的肾表／付款截图属于双端同步内容，连接同步代码后才会上传，方便手机上传、电脑查看。</div></sc-if>
+              <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px">
+                <label style="position:relative;min-width:0;border:1px dashed #cfc8e6;border-radius:11px;background:#fff;padding:12px;cursor:pointer;text-align:center;overflow:hidden">
+                  <input type="file" multiple accept="image/png,image/jpeg,image/webp" onChange="{{ onItemEvidenceRequirement }}" style="position:absolute;inset:0;opacity:0;cursor:pointer">
+                  <div style="font-size:12px;font-weight:800;color:#251d49">肾表／群内交款要求（可多张）</div><div style="font-size:10.5px;color:#837da4;margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ itemEvidenceRequirementName }}</div>
+                </label>
+                <label style="position:relative;min-width:0;border:1px dashed #cfc8e6;border-radius:11px;background:#fff;padding:12px;cursor:pointer;text-align:center;overflow:hidden">
+                  <input type="file" multiple accept="image/png,image/jpeg,image/webp" onChange="{{ onItemEvidencePaid }}" style="position:absolute;inset:0;opacity:0;cursor:pointer">
+                  <div style="font-size:12px;font-weight:800;color:#251d49">我的付款截图（可多张）</div><div style="font-size:10.5px;color:#837da4;margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ itemEvidencePaidName }}</div>
+                </label>
+              </div>
+              <sc-if value="{{ hasItemEvidenceDrafts }}" hint-placeholder-val="false"><button onClick="{{ clearAllItemEvidence }}" style="margin-top:9px;font-family:inherit;font-size:11.5px;color:#e23b5d;background:rgba(226,59,93,.06);border:1px solid rgba(226,59,93,.18);padding:6px 10px;border-radius:8px;cursor:pointer">清空本次待上传资料</button></sc-if>
+              <div style="margin-top:11px;padding-top:10px;border-top:1px solid #ece7f5">
+                <div style="font-size:12px;font-weight:800;color:#251d49;margin-bottom:6px">使用已有本体资料</div>
+                <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+                  <select value="{{ itemEvidenceExistingSelect }}" onChange="{{ onItemEvidenceExistingSelect }}" style="flex:1;min-width:220px;font-family:inherit;font-size:12px;border:1px solid #ded7ee;border-radius:9px;padding:8px;background:#fff;color:#251d49">
+                    <option value="">选择已有本体资料（不会重复上传图片）</option>
+                    <sc-for list="{{ itemEvidenceExistingOptions }}" as="op" hint-placeholder-count="3"><option value="{{ op.value }}">{{ op.label }}</option></sc-for>
+                  </select>
+                  <span style="font-size:11px;color:#837da4">已选 {{ itemEvidenceExistingCount }} 份</span>
+                </div>
+              </div>
+              </div>
+              </sc-if>
+            </div>
             <div style="grid-column:1/-1;background:rgba(50,38,90,.025);border:1px solid #e8e2f2;border-radius:11px;padding:12px 15px">
               <div style="font-size:12px;color:#4a4570;font-weight:700;margin-bottom:8px">收藏历程</div>
               <sc-for list="{{ draftTimelineRows }}" as="tl" hint-placeholder-count="3">
@@ -1879,7 +1984,7 @@
 
           <div style="border-top:1px solid #e1dbf0;padding-top:16px">
             <div style="font-weight:700;font-size:14px;color:#251d49;margin-bottom:4px">☁️ 同步（换设备用）</div>
-            <div style="font-size:11.5px;color:#938db0;margin-bottom:10px;line-height:1.6">生成同步代码，在新设备输入即可继续用同一个收藏库。图片会压缩后同步到云端；完整大图仍建议定期导出备份。</div>
+            <div style="font-size:11.5px;color:#938db0;margin-bottom:10px;line-height:1.6">本机修改会自动保存，但不会自动上传。完成一轮整理后，请手动点击“上传到云端”；另一台设备使用前先点击“读取云端数据”。</div>
             <div style="background:rgba(255,255,255,.68);border:1px solid #e1dbf0;border-radius:13px;padding:12px 13px">
               <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px">
                 <div style="font-weight:700;font-size:13px;color:#251d49">我的同步代码</div>
@@ -1902,8 +2007,9 @@
               <button onClick="{{ connectCloudCollection }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:9px 14px;border-radius:9px;cursor:pointer;white-space:nowrap">连接</button>
             </div>
             <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
-              <button onClick="{{ pushCloud }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:9px 16px;border-radius:9px;cursor:pointer">上传本机数据</button>
+              <button onClick="{{ pushCloud }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:9px 16px;border-radius:9px;cursor:pointer">上传到云端</button>
               <button onClick="{{ pullCloud }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:9px 16px;border-radius:9px;cursor:pointer">读取云端数据</button>
+              <button onClick="{{ checkCloudVersion }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:9px 16px;border-radius:9px;cursor:pointer">检查云端版本</button>
               <sc-if value="{{ hasCloudSync }}" hint-placeholder-val="false"><button onClick="{{ disconnectCloud }}" style="font-family:inherit;font-size:13px;color:#e23b5d;background:rgba(255,51,85,.08);border:1px solid rgba(255,51,85,.25);padding:9px 16px;border-radius:9px;cursor:pointer">退出同步</button></sc-if>
             </div>
           </div>
@@ -1974,70 +2080,141 @@
     </div>
   </sc-if>
 
-  <!-- ===== TREND MODAL ===== -->
-  <sc-if value="{{ trendOpen }}" hint-placeholder-val="{{ false }}">
-    <div style="position:fixed;inset:0;z-index:320;background:rgba(70,58,110,.32);backdrop-filter:blur(4px);display:flex;align-items:flex-start;justify-content:center;padding:28px 14px;overflow-y:auto">
-      <div class="ui-modal-card ui-trend-modal" onClick="{{ stop }}" style="width:100%;max-width:880px;max-height:96vh;display:flex;flex-direction:column;background:linear-gradient(160deg,#ffffff,#f4f1fb);border:1px solid #d6cfe9;border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.4);overflow:hidden">
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid #e1dbf0">
-          <div style="font-weight:800;font-size:16px;color:#251d49">{{ trendTitle }}</div>
-          <button onClick="{{ closeTrend }}" style="width:32px;height:32px;border-radius:9px;border:1px solid #ded7ee;background:rgba(50,38,90,.05);color:#595287;font-size:18px;cursor:pointer;line-height:1">×</button>
+
+  <!-- ===== 排发资料中心 ===== -->
+  <sc-if value="{{ shippingOpen }}" hint-placeholder-val="false">
+    <div class="ui-modal-backdrop" style="position:fixed;inset:0;z-index:360;background:rgba(70,58,110,.38);backdrop-filter:blur(5px);display:flex;align-items:flex-start;justify-content:center;padding:18px 12px;overflow:auto">
+      <div class="ui-modal-card" onClick="{{ stop }}" style="width:100%;max-width:1120px;max-height:96vh;display:flex;flex-direction:column;background:linear-gradient(160deg,#fff,#f5f2fb);border:1px solid #d6cfe9;border-radius:22px;box-shadow:0 30px 80px rgba(0,0,0,.35);overflow:hidden">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:17px 20px;border-bottom:1px solid #e1dbf0;flex-shrink:0">
+          <div><div style="font-weight:900;font-size:18px;color:#251d49">📑 排发中心</div><div style="font-size:11.5px;color:#837da4;margin-top:2px">本体、国际和其他排发资料都集中放在这里。排发时只需选择谷子，系统会自动整理并去重。</div></div>
+          <button onClick="{{ closeShipping }}" style="width:34px;height:34px;border-radius:10px;border:1px solid #ded7ee;background:#fff;color:#595287;font-size:19px;cursor:pointer">×</button>
         </div>
-        <div style="padding:14px 16px;flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:14px">
-          <div>
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-              <div style="font-weight:700;font-size:14px;color:#251d49">成交记录</div>
-              <button onClick="{{ addTrendRow }}" style="font-family:inherit;font-size:12px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:5px 11px;border-radius:8px;cursor:pointer">＋ 加一行</button>
-            </div>
-            <div style="display:flex;flex-direction:column;gap:7px">
-              <sc-for list="{{ trendRowsView }}" as="r" hint-placeholder-count="2">
-                <div style="display:flex;gap:6px;align-items:center">
-                  <input value="{{ r.date }}" onChange="{{ r.onDate }}" placeholder="2026/07/02" style="flex:1.2;min-width:0;padding:7px 8px;border-radius:8px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:13px;font-family:inherit;outline:none">
-                  <input value="{{ r.price }}" onChange="{{ r.onPrice }}" type="number" placeholder="价格" style="flex:.9;min-width:0;padding:7px 8px;border-radius:8px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:13px;font-family:inherit;outline:none">
-                  <input value="{{ r.platform }}" onChange="{{ r.onPlatform }}" placeholder="平台" style="flex:1;min-width:0;padding:7px 8px;border-radius:8px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:13px;font-family:inherit;outline:none">
-                  <button onClick="{{ r.onDel }}" style="flex-shrink:0;width:26px;height:26px;border-radius:6px;border:none;background:rgba(226,59,93,.1);color:#e23b5d;cursor:pointer;font-size:14px;line-height:1">×</button>
+        <div style="padding:16px;overflow:auto;flex:1;min-height:0">
+          <sc-if value="{{ shipNotConnected }}" hint-placeholder-val="false"><div class="ui-ship-notice" style="margin:0 0 14px">排发中心用来集中管理肾表／付款截图等图片，需要连接同步代码后才能上传、双端查看。谷子的日常记录不受影响，本地照常使用。可在「设置 → 同步代码」里生成或连接。</div></sc-if>
+          <div class="ui-ship-grid">
+            <div class="ui-ship-card">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer" onClick="{{ toggleShipAddForm }}">
+                <div class="ui-ship-title" style="margin:0">新增资料</div>
+                <span style="font-size:12px;color:#837da4">{{ shipAddCaret }}</span>
+              </div>
+              <sc-if value="{{ shipAddExpanded }}" hint-placeholder-val="true">
+              <div style="margin-top:12px">
+              <div class="ui-ship-label">团／渠道（必填）</div>
+              <div style="position:relative">
+                <input class="ui-ship-input" style="padding-right:34px" value="{{ shipGroup }}" onChange="{{ onShipGroup }}" placeholder="例如：ゼッツ第一团／某某代购群">
+                <sc-if value="{{ hasShipGroupMenu }}" hint-placeholder-val="{{ false }}"><button onClick="{{ toggleShipGroupMenu }}" style="position:absolute;right:1px;top:1px;bottom:1px;width:34px;border:none;background:transparent;color:#938db0;font-size:11px;cursor:pointer;border-radius:0 12px 12px 0">▾</button></sc-if>
+                <sc-if value="{{ shipGroupMenuOpen }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:8;background:#fff;border:1px solid #ded7ee;border-radius:12px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:240px;overflow-y:auto">
+                    <sc-for list="{{ shipGroupMenuItems }}" as="o" hint-placeholder-count="3"><div style="{{ o.rowStyle }}"><button onClick="{{ o.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ o.label }}</button></div></sc-for>
+                  </div>
+                </sc-if>
+              </div>
+              <div style="font-size:11.5px;color:#837da4;line-height:1.55;margin-top:7px">同一团／渠道的资料会集中整理。国际资料可以分多次添加，每次只关联实际涉及的谷子。</div>
+              <div style="font-size:11.5px;color:#837da4;margin-top:6px">当前 CN：<strong style="color:var(--accent,#ff3355)">{{ fixedCn }}</strong></div>
+              <div class="ui-ship-label">资料类型</div>
+              <div style="position:relative">
+                <button onClick="{{ toggleShipTypeMenu }}" class="ui-ship-input" style="display:flex;align-items:center;justify-content:space-between;gap:8px;text-align:left;cursor:pointer"><span>{{ shipTypeDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
+                <sc-if value="{{ shipTypeMenuOpen }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:8;background:#fff;border:1px solid #ded7ee;border-radius:12px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:240px;overflow-y:auto">
+                    <sc-for list="{{ shipTypeMenuItems }}" as="o" hint-placeholder-count="4"><div style="{{ o.rowStyle }}"><button onClick="{{ o.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ o.label }}</button></div></sc-for>
+                  </div>
+                </sc-if>
+              </div>
+              <div class="ui-ship-label">图片内容</div>
+              <div style="position:relative">
+                <button onClick="{{ toggleShipRoleMenu }}" class="ui-ship-input" style="display:flex;align-items:center;justify-content:space-between;gap:8px;text-align:left;cursor:pointer"><span>{{ shipRoleDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
+                <sc-if value="{{ shipRoleMenuOpen }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:8;background:#fff;border:1px solid #ded7ee;border-radius:12px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:240px;overflow-y:auto">
+                    <sc-for list="{{ shipRoleMenuItems }}" as="o" hint-placeholder-count="3"><div style="{{ o.rowStyle }}"><button onClick="{{ o.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ o.label }}</button></div></sc-for>
+                  </div>
+                </sc-if>
+              </div>
+              <div class="ui-ship-label">添加图片（可多选）</div>
+              <label style="display:flex;align-items:center;justify-content:center;min-height:82px;border:2px dashed var(--accent-border,#ded7ee);border-radius:14px;background:#fff;cursor:pointer;text-align:center;color:#595287;font-size:13px;padding:10px">
+                <span>{{ shipUploadText }}</span><input type="file" multiple accept="image/png,image/jpeg,image/webp" onChange="{{ onShipImage }}" style="display:none">
+              </label>
+              <sc-if value="{{ hasShipDraftImage }}" hint-placeholder-val="false"><div style="margin-top:8px;padding:9px;border-radius:12px;background:#fff;border:1px solid #e5def0;font-size:11.5px;color:#595287;line-height:1.6">{{ shipDraftImageSummary }}<br><button onClick="{{ clearShipImages }}" style="margin-top:5px;border:1px solid rgba(226,59,93,.22);background:rgba(226,59,93,.06);color:#e23b5d;border-radius:7px;padding:4px 8px;cursor:pointer">清空待上传图片</button></div></sc-if>
+              <div class="ui-ship-label">关联谷子</div>
+              <div style="font-size:11.5px;color:#837da4;line-height:1.55;margin-bottom:7px">例如：本体资料关联 A／B／C；第一次国际资料关联 A／B，第二次再单独关联 C。</div>
+              <div class="ui-ship-filterbar">
+                <input class="ui-ship-input" value="{{ shipSearch }}" onChange="{{ onShipSearch }}" placeholder="搜索名称 / 角色 / 种类 / 订单号">
+                <div style="position:relative">
+                  <button onClick="{{ toggleShipStatusMenu }}" class="ui-ship-input" style="display:flex;align-items:center;justify-content:space-between;gap:8px;text-align:left;cursor:pointer"><span>{{ shipStatusDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
+                  <sc-if value="{{ shipStatusMenuOpen }}" hint-placeholder-val="{{ false }}">
+                    <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:8;background:#fff;border:1px solid #ded7ee;border-radius:12px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:240px;overflow-y:auto">
+                      <sc-for list="{{ shipStatusMenuItems }}" as="o" hint-placeholder-count="4"><div style="{{ o.rowStyle }}"><button onClick="{{ o.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ o.label }}</button></div></sc-for>
+                    </div>
+                  </sc-if>
                 </div>
-              </sc-for>
-            </div>
-            <div style="font-size:11px;color:#938db0;margin-top:8px;line-height:1.6">日期支持 2026/07/02、2026-07-02、2026.7.2、7/2 等。输入越多成交记录，分析越准。</div>
-            <div style="margin-top:10px;border-top:1px dashed #ded7ee;padding-top:10px">
-              <label style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:8px 14px;border-radius:9px;cursor:pointer;display:inline-block">上传截图自动识别<input type="file" accept="image/*" multiple onChange="{{ onOcr }}" style="display:none"></label>
-              <div style="font-size:11px;color:#938db0;margin-top:6px;line-height:1.6">把成交截图传上来，自动识别日期+价格填进表格（截图不会上传，仅本地识别）。</div>
-              <sc-if value="{{ ocrStatus }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;color:#2f6fdb;margin-top:5px">{{ ocrStatus }}</div></sc-if>
-              <sc-if value="{{ hasOcrText }}" hint-placeholder-val="{{ false }}">
-                <div style="margin-top:10px;display:grid;grid-template-columns:1fr;gap:8px">
-                  <div>
-                    <div style="font-size:11.5px;color:#837da4;margin-bottom:4px">OCR 原始文字（可整体修改）</div>
-                    <textarea value="{{ ocrRawText }}" onChange="{{ onOcrRawChange }}" rows="4" style="width:100%;padding:8px 9px;border-radius:9px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:12.5px;font-family:inherit;outline:none;resize:vertical"></textarea>
-                  </div>
-                  <div>
-                    <div style="font-size:11.5px;color:#837da4;margin-bottom:4px">识别记录（每行：日期 价格 平台，可手改）</div>
-                    <textarea value="{{ ocrBulkText }}" onChange="{{ onOcrBulkChange }}" rows="4" placeholder="2026-07-02 30 Mercari" style="width:100%;padding:8px 9px;border-radius:9px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:12.5px;font-family:inherit;outline:none;resize:vertical"></textarea>
-                  </div>
-                  <div style="display:flex;gap:8px;flex-wrap:wrap">
-                    <button onClick="{{ reparseOcrRaw }}" style="font-family:inherit;font-size:12px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:6px 11px;border-radius:8px;cursor:pointer">从原始文字重新提取</button>
-                    <button onClick="{{ fillOcrBulk }}" style="font-family:inherit;font-size:12px;font-weight:700;color:#fff;background:var(--accent,#ff3355);border:none;padding:6px 13px;border-radius:8px;cursor:pointer">一次性填入表格</button>
-                  </div>
-                </div>
+              </div>
+              <div style="font-size:11.5px;color:#837da4;line-height:1.5">当前团／渠道匹配 <strong style="color:#251d49">{{ shipVisibleCount }}</strong> 个，已选 <strong style="color:var(--accent,#ff3355)">{{ shipSelectedCount }}</strong> 个。未选择团／渠道时会显示全部谷子。</div>
+              <div class="ui-ship-actions">
+                <button class="ui-ship-action" onClick="{{ selectAllVisibleShipItems }}">全选当前结果</button>
+                <button class="ui-ship-action" onClick="{{ clearShipItems }}">清空选择</button>
+                <button class="ui-ship-action" onClick="{{ reuseLastShipItems }}">沿用上一份关联谷子</button>
+              </div>
+              <div class="ui-ship-checks">
+                <sc-if value="{{ noShipItemChoices }}" hint-placeholder-val="false"><div class="ui-ship-empty">这个团／渠道下暂时没有匹配的谷子。请检查谷子的“渠道”字段，或清空筛选后搜索。</div></sc-if>
+                <sc-for list="{{ shipItemChoices }}" as="it" hint-placeholder-count="4"><label class="ui-ship-check"><input type="checkbox" checked="{{ it.checked }}" onChange="{{ it.onToggle }}"><span>{{ it.label }}</span></label></sc-for>
+              </div>
+              <div class="ui-ship-label">备注（可选）</div>
+              <input class="ui-ship-input" value="{{ shipNote }}" onChange="{{ onShipNote }}" placeholder="例如：第一次国际运费 / 订单号 / 说明">
+              <sc-if value="{{ hasShipNotice }}" hint-placeholder-val="false"><div class="ui-ship-notice">{{ shipNotice }}</div></sc-if>
+              <button onClick="{{ saveShipping }}" style="width:100%;margin-top:13px;min-height:44px;border:none;border-radius:13px;background:var(--accent,#ff3355);color:#fff;font-family:inherit;font-weight:900;font-size:14px;cursor:pointer">保存并关联</button>
+              </div>
               </sc-if>
             </div>
-          </div>
-          <div>
-            <sc-if value="{{ trendHasData }}" hint-placeholder-val="{{ false }}">
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
-                <div style="background:rgba(50,38,90,.04);border:1px solid #e1dbf0;border-radius:11px;padding:10px 12px"><div style="font-size:11px;color:#837da4">近期加权价</div><div style="font-family:'Orbitron';font-weight:700;font-size:18px;color:#251d49">{{ trendMetrics.weighted }}</div></div>
-                <div style="background:rgba(50,38,90,.04);border:1px solid #e1dbf0;border-radius:11px;padding:10px 12px"><div style="font-size:11px;color:#837da4">建议标价</div><div style="font-family:'Orbitron';font-weight:700;font-size:18px;color:#251d49">{{ trendMetrics.list }}</div></div>
-                <div style="background:rgba(50,38,90,.04);border:1px solid #e1dbf0;border-radius:11px;padding:10px 12px"><div style="font-size:11px;color:#837da4">预计成交</div><div style="font-family:'Orbitron';font-weight:700;font-size:18px;color:#c8860d">{{ trendMetrics.deal }}</div></div>
-                <div style="background:rgba(50,38,90,.04);border:1px solid #e1dbf0;border-radius:11px;padding:10px 12px"><div style="font-size:11px;color:#837da4">预计盈亏</div><div style="font-family:'Orbitron';font-weight:700;font-size:18px"><span style="{{ trendMetrics.profitStyle }}">{{ trendMetrics.profit }}</span></div></div>
+
+            <div style="display:flex;flex-direction:column;gap:16px;min-width:0">
+              <div class="ui-ship-card">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px"><div class="ui-ship-title" style="margin:0">已有资料</div><span style="font-size:11.5px;color:#837da4">{{ shippingPackageCount }} 个团／渠道 · {{ shippingCount }} 份资料</span></div>
+                <sc-if value="{{ noShippingPackages }}" hint-placeholder-val="true"><div style="padding:22px;text-align:center;color:#938db0;font-size:13px">这里还没有资料。录入谷子时可以直接添加本体资料，之后再补国际资料或其他内容。</div></sc-if>
+                <sc-if value="{{ hasShippingChannels }}" hint-placeholder-val="false"><div style="display:flex;gap:7px;overflow-x:auto;padding-bottom:8px;margin-bottom:6px"><sc-for list="{{ shippingChannelChips }}" as="c" hint-placeholder-count="3"><button onClick="{{ c.onClick }}" style="{{ c.style }}">{{ c.label }}</button></sc-for></div></sc-if>
+                <div style="max-height:340px;overflow-y:auto;display:flex;flex-direction:column;gap:10px">
+                <sc-for list="{{ shippingPackageRows }}" as="p" hint-placeholder-count="2">
+                  <div class="ui-ship-package">
+                    <sc-for list="{{ p.records }}" as="r" hint-placeholder-count="2"><div class="ui-ship-row" style="padding-left:10px;padding-right:10px;align-items:flex-start"><div class="ui-ship-thumb" style="{{ r.thumbStyle }}"></div><div class="ui-ship-meta" style="min-width:0"><strong>{{ r.type }}</strong><small style="display:block;color:#595287;margin-top:1px">关联：{{ r.itemNames }}</small><small style="display:block;color:#938db0">{{ r.note }}</small></div><button onClick="{{ r.onDelete }}" style="flex-shrink:0;font-family:inherit;font-size:11.5px;border:1px solid rgba(226,59,93,.22);background:rgba(226,59,93,.07);color:#e23b5d;border-radius:8px;padding:6px 9px;cursor:pointer">删除</button></div></sc-for>
+                  </div>
+                </sc-for>
+                </div>
               </div>
-              <div style="font-size:12px;color:#544f7e;line-height:1.6;background:rgba(47,111,219,.06);border:1px solid rgba(47,111,219,.18);border-radius:10px;padding:10px 12px;margin-bottom:12px">{{ trendMetrics.advice }}</div>
-            </sc-if>
-            <div style="height:180px;background:#fff;border:1px solid #e1dbf0;border-radius:12px;padding:8px"><canvas ref="{{ setChartCanvas }}"></canvas></div>
+
+              <div class="ui-ship-card">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px"><div class="ui-ship-title" style="margin:0">最近排发记录</div><span style="font-size:11.5px;color:#837da4">{{ shippingBatchCount }} 次</span></div>
+                <sc-if value="{{ noShippingBatches }}" hint-placeholder-val="true"><div style="padding:18px;text-align:center;color:#938db0;font-size:13px">导出排发长图后，会在这里保存本次排发的谷子和资料数量。</div></sc-if>
+                <div style="max-height:220px;overflow-y:auto">
+                <sc-for list="{{ shippingBatchRows }}" as="b" hint-placeholder-count="3"><div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid #eee9f8"><div style="flex:1;min-width:0"><strong style="display:block;font-size:13px;color:#251d49;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ b.name }}</strong><small style="display:block;font-size:11px;color:#938db0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ b.group }} · {{ b.itemCount }}谷 · {{ b.documentCount }}资料 · {{ b.date }}</small></div><button onClick="{{ b.onDelete }}" style="flex-shrink:0;font-family:inherit;font-size:11px;white-space:nowrap;border:1px solid rgba(226,59,93,.22);background:rgba(226,59,93,.07);color:#e23b5d;border-radius:8px;padding:5px 9px;cursor:pointer">删除</button></div></sc-for>
+                </div>
+              </div>
+
+              <div class="ui-ship-card">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px"><div class="ui-ship-title" style="margin:0">选择谷子 · 生成排发长图</div><button onClick="{{ exportSelectedShipping }}" style="font-family:inherit;font-size:13px;font-weight:900;color:#fff;background:var(--accent,#ff3355);border:none;padding:9px 13px;border-radius:10px;cursor:pointer">导出所选谷子的 PNG</button></div>
+                <div style="font-size:11.5px;color:#837da4;line-height:1.55;margin-bottom:8px">这里只列出「已经有关联资料」的谷子。先按团／渠道筛选，再勾选本次要排发的谷子——系统会自动把每个谷子的本体、国际等资料汇总去重。</div>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
+                  <select value="{{ exportGroup }}" onChange="{{ onExportGroup }}" style="flex:1;min-width:150px;font-family:inherit;font-size:12.5px;border:1px solid #ded7ee;border-radius:9px;padding:8px;background:#fff;color:#251d49">
+                    <option value="">全部团／渠道</option>
+                    <sc-for list="{{ exportGroupOptions }}" as="g" hint-placeholder-count="2"><option value="{{ g }}">{{ g }}</option></sc-for>
+                  </select>
+                  <input value="{{ exportSearch }}" onChange="{{ onExportSearch }}" placeholder="搜索名称 / 角色" style="flex:1;min-width:150px;font-family:inherit;font-size:12.5px;border:1px solid #ded7ee;border-radius:9px;padding:8px;background:#fff;color:#251d49">
+                </div>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
+                  <button onClick="{{ selectAllExportItems }}" class="ui-ship-action">全选当前结果</button>
+                  <button onClick="{{ clearExportItems }}" class="ui-ship-action">清空选择</button>
+                  <span style="font-size:11.5px;color:#837da4;align-self:center">当前 <strong style="color:#251d49">{{ exportVisibleCount }}</strong> 个 · 已选 <strong style="color:var(--accent,#ff3355)">{{ exportSelectedCount }}</strong> 个</span>
+                </div>
+                <div style="max-height:260px;overflow-y:auto;border:1px solid #ece7f5;border-radius:11px;padding:6px;margin-bottom:12px;background:#fff">
+                  <sc-if value="{{ noExportChoices }}" hint-placeholder-val="false"><div style="padding:20px;text-align:center;color:#938db0;font-size:12.5px">这个团／渠道下还没有带资料的谷子。先在上方「新增资料」里给谷子关联资料，或换一个团。</div></sc-if>
+                  <sc-for list="{{ exportItemChoices }}" as="it" hint-placeholder-count="4"><label class="ui-ship-check"><input type="checkbox" checked="{{ it.checked }}" onChange="{{ it.onToggle }}"><span>{{ it.label }}</span></label></sc-for>
+                </div>
+                <div class="ui-ship-preview">
+                  <div class="ui-ship-preview-head"><strong>CN：{{ previewCn }}</strong><span>{{ previewGroup }} · {{ previewBatch }}</span></div>
+                  <div class="ui-ship-item-summary">{{ previewItemSummary }}</div>
+                  <sc-if value="{{ noPreviewPackage }}" hint-placeholder-val="true"><div style="height:180px;display:flex;align-items:center;justify-content:center;color:#aaa3bd;font-size:12px;text-align:center;padding:0 20px">在上方勾选要排发的谷子，这里会实时汇总它们关联的资料</div></sc-if>
+                  <div class="ui-ship-package-images"><sc-for list="{{ previewPackageRows }}" as="r" hint-placeholder-count="0"><figure class="ui-ship-package-image">{{ r.imgEl }}<figcaption>{{ r.type }}<sc-if value="{{ r.hasNote }}" hint-placeholder-val="false"> · {{ r.note }}</sc-if></figcaption></figure></sc-for></div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="ui-modal-footer">
-          <div class="ui-footer-spacer"></div>
-          <button class="ui-btn-ghost" onClick="{{ closeTrend }}">取消</button>
-          <button class="ui-btn-primary" onClick="{{ saveTrend }}">保存趋势</button>
         </div>
       </div>
     </div>
@@ -2051,8 +2228,8 @@ class Component extends DCLogic {
   STATUSES = ['已下单','待补款','已补款','待尾款','已尾款','排发中','已发货','已归家','已出物'];
   STATUS_COLOR = {'已归家':'#12a85f','已到货':'#12a85f','已发货':'#2f6fdb','在途/运输中':'#c8860d','待补款':'#d9701f','已补款':'#2f6fdb','待尾款':'#d9701f','已尾款':'#2f6fdb','排发中':'#7c5cd6','已下单未发货':'#2f6fdb','想要/计划购买':'#7c5cd6','出售中':'#d9701f','已出物':'#6f6996','已出/已卖出':'#6f6996'};
   FORMS = ['通用','人脸','皮套'];
-  TRADE_TAGS = ['hold','转单','提确','补邮','补车马','定尾','捆','包邮','可刀','不刀'];
-  GLOSSARY = { '空气谷':'已购买但尚未收到的谷子（在途 / 待补款 / 待尾款 / 排发中都算）。','已归家':'已经收到、真正摆进柜子里的谷子。','已出物':'已卖出或正在出售的谷子。','海景':'高溢价、很贵才能拿下的谷子。','湖景':'溢价没海景那么夸张，中等价位。','梦情':'非常想要、情有独钟的本命谷。','普谷':'原价或平价就能买到的普通谷子。','绝版':'已停产、官方不再补货。','再贩':'官方重新贩售的批次。','受注':'接受预订后再生产（受注生产）。','在库':'现货、有库存可直接买。','头铁产物':'明知贵/风险大还是冲了。','赌博产物':'盲抽/一番赏这类靠运气抽到的。','回血':'卖出后赚回成本，甚至盈利。','置换':'盲抽到的谷子换成自己想要的款。','收现':'盲抽后不留货，直接折现给别人。','自抽':'自己抽到的，不置换不收现。','抱盒':'整盒一次性购入。','单领':'只领取其中单个，不整套买。','hold':'先占着 / 保留，暂不确认。','转单':'把订单转让给别人。','提确':'提醒确认（催付款 / 催发货）。','可刀':'可以还价。','不刀':'一口价，不还价。' };
+  TRADE_TAGS = ['hold','转单资料','提确','补邮','补车马','定尾','捆','包邮','可刀','不刀'];
+  GLOSSARY = { '空气谷':'已购买但尚未收到的谷子（在途 / 待补款 / 待尾款 / 排发中都算）。','已归家':'已经收到、真正摆进柜子里的谷子。','已出物':'已卖出或正在出售的谷子。','海景':'高溢价、很贵才能拿下的谷子。','湖景':'溢价没海景那么夸张，中等价位。','梦情':'非常想要、情有独钟的本命谷。','普谷':'原价或平价就能买到的普通谷子。','绝版':'已停产、官方不再补货。','再贩':'官方重新贩售的批次。','受注':'接受预订后再生产（受注生产）。','在库':'现货、有库存可直接买。','头铁产物':'明知贵/风险大还是冲了。','赌博产物':'盲抽/一番赏这类靠运气抽到的。','回血':'卖出后赚回成本，甚至盈利。','置换':'盲抽到的谷子换成自己想要的款。','收现':'盲抽后不留货，直接折现给别人。','自抽':'自己抽到的，不置换不收现。','抱盒':'整盒一次性购入。','单领':'只领取其中单个，不整套买。','hold':'先占着 / 保留，暂不确认。','转单资料':'把订单转让给别人。','提确':'提醒确认（催付款 / 催发货）。','可刀':'可以还价。','不刀':'一口价，不还价。' };
   RARITY_TAGS = ['梦情','湖景','海景','普谷','绝版','再贩','受注','在库','头铁产物','赌博产物'];
   REMINDER_TYPES = ['补款','尾款','排发','到货','集运'];
   CHANNELS = ['团名','群名','其他'];
@@ -2073,6 +2250,7 @@ class Component extends DCLogic {
   SUPA_URL = 'https://kgifcpdajnyhxxmenazz.supabase.co';
   SUPA_KEY = 'sb_publishable_Bvg4r_n3JiokW3cY3NDo3A_9M2CNfaU';
   SUPA_IMAGE_BUCKET = 'goods-images';
+  SUPA_SHIPPING_BUCKET = 'goods_shipping';
   CLOUD_IMAGE_MAX_SIDE = 960;
   CLOUD_IMAGE_MAX_BYTES = 220 * 1024;
   CLOUD_IMAGE_QUALITY = 0.72;
@@ -2081,7 +2259,7 @@ class Component extends DCLogic {
   CHAR_IMG = { '诺克斯': 'assets/c_nox.webp', 'NOX': 'assets/r_blue.webp', 'MIDNIGHT SHADOW': 'assets/r_nox_midnight.webp', 'NOX KNIGHT': 'assets/r_lady.webp', 'ZEZTZ': 'assets/r_red.webp', '西格': 'assets/c_zeke.webp', 'DAWN': 'assets/r_zeztz.webp', '宁梦': 'assets/c_nemu.webp', '南云成华': 'assets/c_nagumo.webp', 'ZERO': 'assets/c_zero.webp', '万津莫': 'assets/c_matsu.webp', '万津美浪': 'assets/c_minami.webp', '富士见铁也': 'assets/c_fujimi.webp', 'THE LADY': 'assets/c_lady.webp', 'CODE': 'assets/c_code.webp' };
   imgUrls = {};
   cloudImageMap = {};
-  state = { items: [], view: null, sets: [], lastSetId: '', setMenuOpen: false, feeOpen: false, colInfoOpen: false, setInfoOpen: false, recentWorks: [], collapsedGroups: {}, reminderMenuOpen: false, monthlyBudget: '', budgets: {}, ledgerDetailKey: '', ledgerDetailType: 'day', ledgerDetailLabel: '', tableSortKey: '', tableSortDir: 'desc', tableHiddenCols: [], tableColumnMenuOpen: false, nameStyleMode: 'default', displayMode: 'standard', dashboardCards: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], purchaseChannelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, purchaseChannels: [], purchaseChannelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], hiddenPurchaseChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, purchaseChannel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, dataManageOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, cloudPending: false, trendOpen: false, trendItemId: null, trendRows: [], trendResult: null, ocrRawText: '', ocrBulkText: '', modalOpen: false, editing: null, draft: null, savedAt: 0, batchMode: false, selectedIds: [], bulkEditIds: [], bulkEditIndex: 0, ledgerRange: 'month', ledgerMode: 'month', ledgerYear: String(new Date().getFullYear()), ledgerMonth: String(new Date().getMonth()+1), ledgerWeek: '', ledgerPieBy: 'character', ledgerPieActive: 0, batchEditOpen: false, batchEditField: '', batchOn: null };
+  state = { items: [], view: null, sets: [], lastSetId: '', setMenuOpen: false, feeOpen: false, colInfoOpen: false, setInfoOpen: false, recentWorks: [], collapsedGroups: {}, reminderMenuOpen: false, monthlyBudget: '', budgets: {}, ledgerDetailKey: '', ledgerDetailType: 'day', ledgerDetailLabel: '', tableSortKey: '', tableSortDir: 'desc', tableHiddenCols: [], tableColumnMenuOpen: false, nameStyleMode: 'default', displayMode: 'standard', dashboardCards: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], purchaseChannelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, purchaseChannels: [], purchaseChannelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], hiddenPurchaseChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, purchaseChannel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, dataManageOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, cloudPending: false, cloudLastSyncedAt: '', cloudRemoteUpdatedAt: '', modalOpen: false, editing: null, draft: null, savedAt: 0, batchMode: false, selectedIds: [], bulkEditIds: [], bulkEditIndex: 0, ledgerRange: 'month', ledgerMode: 'month', ledgerYear: String(new Date().getFullYear()), ledgerMonth: String(new Date().getMonth()+1), ledgerWeek: '', ledgerPieBy: 'character', ledgerPieActive: 0, batchEditOpen: false, batchEditField: '', batchOn: null, shippingOpen: false, shippingRecords: [], shippingBatches: [], shippingDraft: null, shippingPreviewNotice: '', shippingPreviewPaid: '', shippingPreviewCn: '', shippingPreviewGroup: '', shippingPreviewBatch: '', shippingPreviewPackageKey: '', itemEvidenceDrafts: [], itemEvidenceExistingIds: [], itemEvidenceOpen: false, exportGroup: '', exportSearch: '', exportIds: [], shipAddCollapsed: false, shippingViewChannel: null };
 
   setRoot = (el) => { this.rootEl = el; if (el) { this.applyThemeVars(); this.applyBg(); } };
   applyThemeVars() {
@@ -2170,15 +2348,18 @@ class Component extends DCLogic {
     const startGroupBy = currentWorkId === this.ALL_WORKS ? 'work' : 'none';
     const lists = this.loadWorkLists(currentWorkId, items);
     this.charOrder = lists.charOrder;
-    let cloudSyncId = '', cloudSyncCode = '';
-    try { cloudSyncId = localStorage.getItem('zzz_cloud_id') || ''; cloudSyncCode = localStorage.getItem('zzz_cloud_code') || ''; } catch (e) {}
-    this.setState({ items, works, currentWorkId, recentWorks, sets, lastSetId, workGroupLabel, title, subtitle, footer, collectorName, currency, accent, monthlyBudget, budgets, nameStyleMode, displayMode, dashboardCards, fieldLabels, filterOn, statsOn, batchOn, deletedFields, customFields, customFilterOrder, tableHiddenCols, cloudSyncId, cloudSyncCode, cloudCodeInput: cloudSyncCode || '', mobileMode, filtersOpen: false, groupBy: startGroupBy, view: startView, ...lists }, () => { this.applyThemeVars(); this.applyBg(); });
+    let cloudSyncId = '', cloudSyncCode = '', cloudLastSyncedAt = '';
+    try { cloudSyncId = localStorage.getItem('zzz_cloud_id') || ''; cloudSyncCode = localStorage.getItem('zzz_cloud_code') || ''; cloudLastSyncedAt = localStorage.getItem('zzz_cloud_last_synced_at') || ''; } catch (e) {}
+    const shippingRecords = [], shippingBatches = [];
+    this.setState({ items, works, currentWorkId, recentWorks, sets, lastSetId, workGroupLabel, title, subtitle, footer, collectorName, shippingRecords, shippingBatches, currency, accent, monthlyBudget, budgets, nameStyleMode, displayMode, dashboardCards, fieldLabels, filterOn, statsOn, batchOn, deletedFields, customFields, customFilterOrder, tableHiddenCols, cloudSyncId, cloudSyncCode, cloudCodeInput: cloudSyncCode || '', cloudLastSyncedAt, mobileMode, filtersOpen: false, groupBy: startGroupBy, view: startView, ...lists }, () => { this.applyThemeVars(); this.applyBg(); });
     this.loadImages(items);
     this.loadCharAvatars();
     this.loadLogo();
     this.loadWorkLogos();
     this.loadBg();
     this.initSupabase();
+    if (cloudSyncCode) setTimeout(() => this.loadShippingFromCloud(cloudSyncCode), 0);
+    else setTimeout(() => this.loadLocalShipping(), 0);
     this.logEvent('page_view', { title });
   }
   // 每个作品独立的选项列表；主作品沿用旧的无后缀 key 以兼容历史数据
@@ -2328,7 +2509,7 @@ class Component extends DCLogic {
   };
   toggleFiltersOpen = () => this.setState(s => ({ filtersOpen: !s.filtersOpen }));
 
-  // ===== Supabase（匿名只写，用于收集行情/快照/事件）=====
+  // ===== Supabase（云同步、快照与事件）=====
   initSupabase() {
     this.sb = null;
     this.loadCloudImageMap();
@@ -2346,12 +2527,6 @@ class Component extends DCLogic {
     try {
       await this.sb.from('collection_snapshots').insert([{ ...this.sbMeta(), item_local_id: String(it.id || ''), work_group: w.group || null, work_name: w.name || null, item_name: String(it.name || '未命名').slice(0, 160), item_character: it.character || null, item_type: it.type || null, item_series: it.series || null, item_channel: it.channel || null, item_status: it.status || null, quantity: this.num(it.qty || 1), official_price: this.num(it.originalPrice) || null, buy_price: this.num(it.buyPrice) || null, sell_price: this.num(it.sellPrice) || null, currency: this.cur(), buy_date: it.buyDate || null }]);
     } catch (e) {}
-  }
-  async uploadMarketRows(it, rows, result) {
-    if (!this.sb || !rows || !rows.length) return 0;
-    const w = this.state.works.find(x => x.id === (it.workId || this.MAIN_WORK)) || {};
-    const payload = rows.map(r => ({ ...this.sbMeta(), work_group: w.group || null, work_name: w.name || null, item_name: String(it.name || '未命名').slice(0, 120), item_character: it.character || null, item_type: it.type || null, item_series: it.series || null, item_status: it.status || null, item_channel: it.channel || null, platform: r.platform || null, deal_price: this.num(r.price), deal_date: r.date, quantity: this.num(it.qty || 1), official_price: this.num(it.originalPrice) || null, buy_price: this.num(it.buyPrice) || null, sell_price: this.num(it.sellPrice) || null, suggested_price: (result && !result.empty) ? result.list : null, currency: this.cur() }));
-    try { const { error } = await this.sb.from('market_records').insert(payload); if (error) throw error; return payload.length; } catch (e) { return 0; }
   }
 
   // ===== 云同步（文字数据 + 配置，图片仍保存在本机）=====
@@ -2533,6 +2708,32 @@ class Component extends DCLogic {
       fieldLabels: { ...this.FIELD_DEFAULTS, ...fieldLabels }, filterOn, statsOn, batchOn, deletedFields, customFields, customFilterOrder, ...lists, savedAt: Date.now()
     }, () => { this.applyThemeVars(); this.applyBg(); this.loadImages(items); });
   }
+  markCloudPending = (message = '') => {
+    if (!this.state.cloudSyncCode && !localStorage.getItem('zzz_cloud_code')) return;
+    this.setState({ cloudPending: true, cloudStatus: message || '本机有未上传的修改。请完成整理后手动上传到云端。' });
+  };
+  fmtCloudTime(v) {
+    if (!v) return '未知';
+    const d = new Date(v);
+    return isNaN(d.getTime()) ? String(v) : d.toLocaleString('zh-CN', { hour12: false });
+  }
+  checkCloudVersion = async () => {
+    const code = String(this.state.cloudSyncCode || this.state.cloudCodeInput || localStorage.getItem('zzz_cloud_code') || '').trim().toUpperCase();
+    if (!this.cloudReady() || !code) { this.setState({ cloudStatus: '还没有连接同步代码。' }); return; }
+    this.setState({ cloudBusy: true, cloudStatus: '正在检查云端版本…' });
+    try {
+      const { data, error } = await this.sb.from('collections').select('id,sync_code,updated_at,data').eq('sync_code', code).single();
+      if (error) throw error;
+      if (!data) throw new Error('没有找到云端收藏库');
+      const remoteAt = data.updated_at || (data.data && data.data.updated_at) || '';
+      const localAt = this.state.cloudLastSyncedAt || localStorage.getItem('zzz_cloud_last_synced_at') || '';
+      const remoteNewer = remoteAt && (!localAt || new Date(remoteAt).getTime() > new Date(localAt).getTime() + 1000);
+      const msg = remoteNewer
+        ? '发现云端有较新版本：' + this.fmtCloudTime(remoteAt) + (this.state.cloudPending ? '；本机也有未上传修改，请先决定保留哪一边。' : '。可点击“读取云端数据”。')
+        : '云端没有发现比本机同步记录更新的版本。云端时间：' + this.fmtCloudTime(remoteAt);
+      this.setState({ cloudSyncId: data.id, cloudSyncCode: data.sync_code, cloudRemoteUpdatedAt: remoteAt, cloudStatus: msg, cloudBusy: false });
+    } catch (e) { this.setState({ cloudStatus: '检查失败：' + ((e && e.message) || e), cloudBusy: false }); }
+  };
   createCloudCollection = async () => {
     if (!this.cloudReady()) { this.setState({ cloudStatus: 'Supabase 未连接，请检查网络或配置。' }); return; }
     this.setState({ cloudBusy: true, cloudPending: false, cloudStatus: '正在创建同步代码…' });
@@ -2543,9 +2744,9 @@ class Component extends DCLogic {
         const snap = this.cloudSnapshot(imgSync.map);
         const { data, error } = await this.sb.from('collections').insert([{ sync_code: code, client_uuid: this.clientUuid(), cn: ((this.state.settingsDraft && this.state.settingsDraft.collectorName) || this.state.collectorName || null), title: ((this.state.settingsDraft && this.state.settingsDraft.title) || this.state.title || null), data: snap }]).select('id,sync_code').single();
         if (!error && data) {
-          localStorage.setItem('zzz_cloud_id', data.id); localStorage.setItem('zzz_cloud_code', data.sync_code);
+          localStorage.setItem('zzz_cloud_id', data.id); localStorage.setItem('zzz_cloud_code', data.sync_code); localStorage.setItem('zzz_cloud_last_synced_at', new Date().toISOString());
           await this.uploadCollectionSummary(data.sync_code);
-          this.setState({ cloudSyncId: data.id, cloudSyncCode: data.sync_code, cloudCodeInput: data.sync_code, cloudStatus: '🎉 同步代码已生成！当前资料已上传到云端。以后换电脑、换手机，记得带上它一起出发～', cloudBusy: false, cloudPending: false });
+          this.setState({ cloudSyncId: data.id, cloudSyncCode: data.sync_code, cloudCodeInput: data.sync_code, cloudStatus: '🎉 同步代码已生成！当前资料已上传到云端。以后换电脑、换手机，记得带上它一起出发～', cloudBusy: false, cloudPending: false, cloudLastSyncedAt: new Date().toISOString() });
           return;
         }
       }
@@ -2559,37 +2760,71 @@ class Component extends DCLogic {
     if (!this.cloudReady()) { this.setState({ cloudStatus: 'Supabase 未连接，请检查网络或配置。' }); return; }
     this.setState({ cloudBusy: true, cloudPending: false, cloudStatus: '正在连接同步代码…' });
     try {
-      const { data, error } = await this.sb.from('collections').select('id,sync_code,data').eq('sync_code', code).single();
+      const { data, error } = await this.sb.from('collections').select('id,sync_code,data,updated_at').eq('sync_code', code).single();
       if (error || !data) { this.setState({ cloudStatus: '没有找到这个同步代码。', cloudBusy: false }); return; }
       localStorage.setItem('zzz_cloud_id', data.id); localStorage.setItem('zzz_cloud_code', data.sync_code);
-      await this.applyCloudSnapshot(data.data || {});
-      this.setState({ cloudSyncId: data.id, cloudSyncCode: data.sync_code, cloudCodeInput: data.sync_code, cloudStatus: '已连接并读取云端：' + data.sync_code, cloudBusy: false, cloudPending: false });
+      this.setState({ cloudSyncId: data.id, cloudSyncCode: data.sync_code, cloudCodeInput: data.sync_code, cloudStatus: '已连接同步代码：' + data.sync_code + '。云端更新时间：' + this.fmtCloudTime(data.updated_at) + '。请确认后点击“读取云端数据”，不会自动覆盖本机。', cloudBusy: false, cloudPending: false, cloudRemoteUpdatedAt: data.updated_at || '' });
     } catch (e) { this.setState({ cloudStatus: '连接失败：' + (e.message || e), cloudBusy: false, cloudPending: false }); }
   };
   pushCloud = async () => {
-    const id = this.state.cloudSyncId || localStorage.getItem('zzz_cloud_id');
-    if (!this.cloudReady() || !id) { this.setState({ cloudStatus: '还没有连接同步代码。' }); return; }
-    this.setState({ cloudBusy: true, cloudStatus: '正在上传到云端…' });
+    const code = String(this.state.cloudSyncCode || localStorage.getItem('zzz_cloud_code') || '').trim().toUpperCase();
+    if (!this.cloudReady() || !code) { this.setState({ cloudStatus: '还没有连接同步代码。', cloudBusy: false }); return; }
+    this.setState({ cloudBusy: true, cloudStatus: '正在检查并上传到云端…' });
     try {
+      const { data: remote, error: readError } = await this.sb.from('collections').select('id,sync_code,updated_at').eq('sync_code', code).single();
+      if (readError) throw readError;
+      if (!remote) throw new Error('没有找到云端收藏库');
+      const localSyncedAt = this.state.cloudLastSyncedAt || localStorage.getItem('zzz_cloud_last_synced_at') || '';
+      const remoteAt = remote.updated_at || '';
+      const remoteNewer = remoteAt && localSyncedAt && new Date(remoteAt).getTime() > new Date(localSyncedAt).getTime() + 1000;
+      if (remoteNewer) {
+        const ok = window.confirm('云端版本比本机上次同步记录更新。\n\n云端：' + this.fmtCloudTime(remoteAt) + '\n本机上次同步：' + this.fmtCloudTime(localSyncedAt) + '\n\n继续上传会用本机完整资料覆盖云端。确定继续吗？');
+        if (!ok) { this.setState({ cloudBusy: false, cloudPending: true, cloudRemoteUpdatedAt: remoteAt, cloudStatus: '已取消上传。建议先导出本机备份，再读取云端或确认覆盖。' }); return; }
+      }
       const imgSync = await this.syncCloudImagesForItems(this.state.items || []);
-      const { error } = await this.sb.from('collections').update({ client_uuid: this.clientUuid(), cn: this.state.collectorName || null, title: this.state.title || null, data: this.cloudSnapshot(imgSync.map), updated_at: new Date().toISOString() }).eq('id', id);
+      const now = new Date().toISOString();
+      const payload = { client_uuid: this.clientUuid(), cn: this.state.collectorName || null, title: this.state.title || null, data: this.cloudSnapshot(imgSync.map), updated_at: now };
+      const { data, error } = await this.sb.from('collections').update(payload).eq('sync_code', code).select('id,sync_code,updated_at');
       if (error) throw error;
-      await this.uploadCollectionSummary(this.state.cloudSyncCode || localStorage.getItem('zzz_cloud_code') || '');
-      this.setState({ cloudStatus: '已上传到云端。', cloudBusy: false, cloudPending: false });
-    } catch (e) { this.setState({ cloudStatus: '上传失败：' + (e.message || e), cloudBusy: false, cloudPending: false }); }
+      if (!Array.isArray(data) || data.length !== 1) throw new Error('同步代码 ' + code + ' 没有匹配到云端收藏库，实际更新 ' + ((data && data.length) || 0) + ' 条记录');
+      const syncedAt = data[0].updated_at || now;
+      localStorage.setItem('zzz_cloud_id', data[0].id);
+      localStorage.setItem('zzz_cloud_code', data[0].sync_code);
+      localStorage.setItem('zzz_cloud_last_synced_at', syncedAt);
+      await this.uploadCollectionSummary(code);
+      const imageTip = imgSync.failed ? '；有 ' + imgSync.failed + ' 张图片上传失败' : '';
+      this.setState({ cloudSyncId: data[0].id, cloudSyncCode: data[0].sync_code, cloudCodeInput: data[0].sync_code, cloudStatus: '已手动上传到云端，共 ' + ((this.state.items || []).length) + ' 件谷子' + imageTip + '。同步时间：' + this.fmtCloudTime(syncedAt), cloudBusy: false, cloudPending: false, cloudLastSyncedAt: syncedAt, cloudRemoteUpdatedAt: syncedAt });
+    } catch (e) {
+      console.error('pushCloud failed:', e);
+      this.setState({ cloudStatus: '上传失败：' + ((e && e.message) || e), cloudBusy: false, cloudPending: true });
+    }
   };
   pullCloud = async () => {
-    const id = this.state.cloudSyncId || localStorage.getItem('zzz_cloud_id');
-    if (!this.cloudReady() || !id) { this.setState({ cloudStatus: '还没有连接同步代码。' }); return; }
-    this.setState({ cloudBusy: true, cloudPending: false, cloudStatus: '正在从云端读取…' });
+    const code = String(this.state.cloudSyncCode || this.state.cloudCodeInput || localStorage.getItem('zzz_cloud_code') || '').trim().toUpperCase();
+    if (!this.cloudReady() || !code) { this.setState({ cloudStatus: '还没有连接同步代码。', cloudBusy: false }); return; }
+    if (this.state.cloudPending) {
+      const ok = window.confirm('本机有尚未上传的修改。\n\n读取云端会覆盖本机当前资料。建议先导出 JSON 备份。\n\n确定仍要读取云端吗？');
+      if (!ok) { this.setState({ cloudStatus: '已取消读取，本机未上传修改仍保留。' }); return; }
+    }
+    this.setState({ cloudBusy: true, cloudStatus: '正在从云端读取…' });
     try {
-      const { data, error } = await this.sb.from('collections').select('id,sync_code,data').eq('id', id).single();
-      if (error || !data) throw error || new Error('没有找到云端数据');
+      const { data, error } = await this.sb.from('collections').select('id,sync_code,data,updated_at').eq('sync_code', code).single();
+      if (error) throw error;
+      if (!data) throw new Error('没有找到云端收藏库');
+      const syncedAt = data.updated_at || (data.data && data.data.updated_at) || new Date().toISOString();
+      localStorage.setItem('zzz_cloud_id', data.id);
+      localStorage.setItem('zzz_cloud_code', data.sync_code);
+      localStorage.setItem('zzz_cloud_last_synced_at', syncedAt);
       await this.applyCloudSnapshot(data.data || {});
-      this.setState({ cloudStatus: '已从云端同步。', cloudBusy: false, cloudPending: false });
-    } catch (e) { this.setState({ cloudStatus: '读取失败：' + (e.message || e), cloudBusy: false, cloudPending: false }); }
+      await this.loadShippingFromCloud(data.sync_code);
+      const itemCount = Array.isArray(data.data && data.data.items) ? data.data.items.length : 0;
+      this.setState({ cloudSyncId: data.id, cloudSyncCode: data.sync_code, cloudCodeInput: data.sync_code, cloudStatus: '已读取云端，共 ' + itemCount + ' 件谷子。云端时间：' + this.fmtCloudTime(syncedAt), cloudBusy: false, cloudPending: false, cloudLastSyncedAt: syncedAt, cloudRemoteUpdatedAt: syncedAt });
+    } catch (e) {
+      console.error('pullCloud failed:', e);
+      this.setState({ cloudStatus: '读取失败：' + ((e && e.message) || e), cloudBusy: false });
+    }
   };
-  disconnectCloud = () => { try { localStorage.removeItem('zzz_cloud_id'); localStorage.removeItem('zzz_cloud_code'); } catch(e) {} this.setState({ cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '已退出云同步，本地数据仍保留。', cloudPending: false }); };
+  disconnectCloud = () => { try { localStorage.removeItem('zzz_cloud_id'); localStorage.removeItem('zzz_cloud_code'); localStorage.removeItem('zzz_cloud_last_synced_at'); } catch(e) {} this.setState({ cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '已退出云同步，本地数据仍保留。', cloudPending: false, cloudLastSyncedAt: '', cloudRemoteUpdatedAt: '' }); };
   copyCloudCode = async () => { const code = (this.state.cloudSyncCode || this.state.cloudCodeInput || '').trim(); if (!code) { this.setState({ cloudStatus: '还没有同步代码，先生成一个吧。' }); return; } try { await navigator.clipboard.writeText(code); this.setState({ cloudStatus: '已复制同步代码：' + code }); } catch(e) { window.prompt('复制这串同步代码：', code); } };
   clearAllData = async () => {
     const count = (this.state.items || []).length;
@@ -2633,8 +2868,8 @@ class Component extends DCLogic {
       items: [], works, currentWorkId: this.MAIN_WORK, group: 'all', groupBy: 'none', search: '',
       charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], purchaseChannelSel: [], customFilterSel: {}, customFilterOrder: {},
       workGroupLabel: '系列IP', workMenuOpen: false, fieldLabels: { ...this.FIELD_DEFAULTS }, filterOn, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, purchaseChannels: [...this.CHANNELS], hiddenPurchaseChannels: [], reminderTypes, nameStyleMode: 'default', displayMode: 'standard', dashboardCards: this.defaultDashboardCards(),
-      settingsOpen: false, dataManageOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', nameStyleMode: 'default', displayMode: 'standard', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '本机资料已清空。', cloudBusy: false,
-      modalOpen: false, editing: null, draft: null, trendOpen: false, trendItemId: null, trendRows: [], trendResult: null,
+      settingsOpen: false, dataManageOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', nameStyleMode: 'default', displayMode: 'standard', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '本机资料已清空。', cloudBusy: false, cloudPending: false, cloudLastSyncedAt: '', cloudRemoteUpdatedAt: '',
+      modalOpen: false, editing: null, draft: null,
       title: '谷子收纳', subtitle: '梦 境 特 工 档 案', footer: '梦境特工档案 · コードナンバー：収集家',
       ...lists, savedAt: Date.now()
     }, () => { this.applyThemeVars(); this.applyBg(); });
@@ -2660,6 +2895,176 @@ class Component extends DCLogic {
       customFields: (this.state.customFields || []).map(f => ({ ...f }))
     };
   }
+  SHIPPING_TYPES = ['本体资料','国际资料','转单资料','拼单资料','商品资料','补充资料'];
+  SHIPPING_ROLES = {
+    '本体资料':['肾表／群内交款要求','我的付款截图'],
+    '国际资料':['国际表／国际通知','我的付款截图'],
+    '转单资料':['聊天记录','付款截图','确认截图'],
+    '拼单资料':['聊天记录','付款截图','确认截图'],
+    '商品资料':['扫街 CN 图','扭蛋 CN 图','订单截图','商品实拍'],
+    '补充资料':['国内运费截图','其他截图','其他附件']
+  };
+  shippingRoles(type) { return this.SHIPPING_ROLES[type] || ['其他附件']; }
+  shippingRoleLabel(raw) {
+    const text=String(raw||'其他附件');
+    const labels={
+      '肾表／群内交款要求':'肾表／群内交款要求',
+      '我的付款截图':'我的付款截图',
+      '国际表／国际通知':'国际表／国际通知',
+      '聊天记录':'聊天记录',
+      '付款截图':'付款截图',
+      '确认截图':'确认截图',
+      '扫街 CN 图':'扫街 CN 图',
+      '扭蛋 CN 图':'扭蛋 CN 图',
+      '订单截图':'订单截图',
+      '商品实拍':'商品实拍',
+      '国内运费截图':'国内运费截图',
+      '其他截图':'其他截图',
+      '其他附件':'其他附件'
+    };
+    return labels[text]||text;
+  }
+  shippingTypeLabel(raw) {
+    const text=String(raw||'补充资料');
+    const labels={
+      '本体资料':'📦 本体资料',
+      '国际资料':'🌏 国际资料',
+      '转单资料':'🔄 转单资料',
+      '拼单资料':'👥 拼单资料',
+      '商品资料':'🖼 商品资料',
+      '补充资料':'📁 补充资料'
+    };
+    return {module:labels[text]||text,role:''};
+  }
+  onItemEvidencePick = (role) => (e) => {
+    const files=[...((e&&e.target&&e.target.files)||[])];
+    if(!files.length)return;
+    const valid=[];
+    for(const f of files){if(!/^image\/(png|jpeg|webp)$/i.test(f.type||'')){alert('只支持 PNG、JPG、WEBP 图片。');continue;}if(f.size>10*1024*1024){alert('单张资料图片不能超过 10 MB：'+(f.name||''));continue;}valid.push({role,file:f,filename:f.name||role});}
+    this.setState(st=>({itemEvidenceDrafts:[...(st.itemEvidenceDrafts||[]),...valid]}));
+    e.target.value='';
+  };
+  onItemEvidenceExistingSelect = (e) => { const id=String((e&&e.target&&e.target.value)||''); if(!id)return; this.setState(st=>({itemEvidenceExistingIds:[...new Set([...(st.itemEvidenceExistingIds||[]),id])]})); e.target.value=''; };
+  async linkExistingDocumentsToItem(item){const ids=this.state.itemEvidenceExistingIds||[];if(!ids.length||!item||!item.id||!this.sb)return;const rows=ids.map(document_id=>({document_id,item_id:item.id,sync_code:this.shippingSyncCode()}));const{error}=await this.sb.from('shipping_document_items').upsert(rows,{onConflict:'document_id,item_id'});if(error)throw error;}
+  async ensureShippingChannel(code,name){
+    const channelName=String(name||'').trim(); if(!channelName)throw new Error('请先填写渠道 / 排发群。');
+    const payload={sync_code:code,client_uuid:this.clientUuid(),channel_name:channelName,cn:(this.state.collectorName||'').trim()||null};
+    const{data,error}=await this.sb.from('shipping_channels').upsert([payload],{onConflict:'sync_code,channel_name'}).select('id,channel_name').single();if(error)throw error;return data;
+  }
+  async createShippingDocument(code,d){
+    const channel=await this.ensureShippingChannel(code,d.group);
+    const payload={sync_code:code,client_uuid:this.clientUuid(),channel_id:channel.id,document_group:d.type||'补充资料',title:(d.title||d.type||'资料').trim(),note:(d.note||'').trim()||null};
+    const{data,error}=await this.sb.from('shipping_documents').insert([payload]).select('id').single();if(error)throw error;return data.id;
+  }
+  async uploadDocumentImages(code,documentId,group,files){
+    let sort=0; const uploaded=[];
+    try{
+      for(const entry of (files||[])){
+        const file=entry.file; const ext=((file.type||'').split('/')[1]||'jpg').replace('jpeg','jpg');
+        const filename=Date.now()+'_'+Math.random().toString(36).slice(2,9)+'.'+ext;
+        const path=[this.safeStoragePart(code),this.safeStoragePart(group),'documents',documentId,filename].join('/');
+        const{error:ue}=await this.sb.storage.from(this.SUPA_SHIPPING_BUCKET).upload(path,file,{upsert:false,contentType:file.type||'image/jpeg',cacheControl:'3600'});if(ue)throw ue;
+        uploaded.push(path);const pub=this.sb.storage.from(this.SUPA_SHIPPING_BUCKET).getPublicUrl(path);
+        const row={document_id:documentId,image_role:entry.role||'其他附件',storage_bucket:this.SUPA_SHIPPING_BUCKET,storage_path:path,public_url:pub&&pub.data?pub.data.publicUrl:null,original_filename:file.name||null,mime_type:file.type||null,file_size:file.size||null,sort_order:sort++};
+        const{error:ie}=await this.sb.from('shipping_document_images').insert([row]);if(ie)throw ie;
+      }
+    }catch(e){if(uploaded.length)await this.sb.storage.from(this.SUPA_SHIPPING_BUCKET).remove(uploaded);throw e;}
+  }
+  async linkDocumentItems(documentId,itemIds,code){const rows=[...new Set(itemIds||[])].map(item_id=>({document_id:documentId,item_id,sync_code:code}));if(!rows.length)return;const{error}=await this.sb.from('shipping_document_items').upsert(rows,{onConflict:'document_id,item_id'});if(error)throw error;}
+  async uploadPendingItemEvidence(item){
+    const files=this.state.itemEvidenceDrafts||[],existing=this.state.itemEvidenceExistingIds||[];if(!files.length&&!existing.length)return;
+    const code=this.shippingSyncCode();
+    if(!code){const now=Date.now();const meta=this.loadLocalShippingMeta();
+      if(files.length){const imgs=[];for(let i=0;i<files.length;i++){const f=files[i];const id='shipimg_'+now+'_'+i+'_'+Math.random().toString(36).slice(2,6);await this.idbPut(id,f.file||f);imgs.push({id,role:f.role||'本体资料',filename:(f.file&&f.file.name)||f.filename||'图片'});}
+        meta.push({id:'shiploc_'+now+'_'+Math.random().toString(36).slice(2,6),group:String((item&&item.purchaseChannel)||'').trim(),cn:(this.state.collectorName||'').trim(),type:'本体资料',title:'本体资料',note:'录入谷子时创建',itemIds:[item.id],createdAt:now,imgs});}
+      existing.forEach(rid=>{const m=meta.find(x=>x.id===rid);if(m&&!(m.itemIds||[]).includes(item.id))m.itemIds=[...(m.itemIds||[]),item.id];});
+      this.persistLocalShippingMeta(meta);await this.loadLocalShipping();return;}
+    if(!this.sb)throw new Error('云端未就绪，谷子已保存在本机。');
+    const group=String((item&&item.purchaseChannel)||'').trim();
+    if(files.length){const documentId=await this.createShippingDocument(code,{group,type:'本体资料',title:'本体资料',note:'录入谷子时创建'});await this.uploadDocumentImages(code,documentId,group,files);await this.linkDocumentItems(documentId,[item.id],code);}
+    await this.linkExistingDocumentsToItem(item);await this.loadShippingFromCloud(code);
+  }
+  newShippingDraft(){return{group:'',type:'本体资料',role:'肾表／群内交款要求',files:[],itemIds:[],note:'',search:'',status:'全部'};}
+  shippingPackageKey(r){return String((r&&r.group)||'未分类渠道')+'||排发中心';}
+  loadLocalShippingMeta(){try{return JSON.parse(localStorage.getItem('zzz_shipping_local')||'[]')||[];}catch(e){return[];}}
+  persistLocalShippingMeta(arr){try{localStorage.setItem('zzz_shipping_local',JSON.stringify(arr));}catch(e){}}
+  async loadLocalShipping(){
+    const meta=this.loadLocalShippingMeta();const records=[];
+    for(const m of meta){const imgs=[];for(const im of (m.imgs||[])){let url='';try{const b=await this.idbGet(im.id);if(b)url=URL.createObjectURL(b);}catch(e){}imgs.push({id:im.id,role:im.role,image:url,localId:im.id,filename:im.filename});}
+      records.push({id:m.id,local:true,group:m.group||'',cn:m.cn||'',type:m.type||'补充资料',typeLabel:this.shippingTypeLabel(m.type||'补充资料').module,title:m.title||'',note:m.note||'',images:imgs,image:(imgs[0]&&imgs[0].image)||'',itemIds:m.itemIds||[],createdAt:m.createdAt||0,updatedAt:m.createdAt||0});}
+    records.sort((a,b)=>(a.createdAt||0)-(b.createdAt||0));
+    this.setState({shippingRecords:records},()=>this.autoPairShipping());return records;
+  }
+  safeStoragePart(v){const s=String(v||'').trim().replace(/[^a-zA-Z0-9_-]+/g,'_').replace(/^_+|_+$/g,'').slice(0,80);return s||'x';}
+  shippingSyncCode(){return String(this.state.cloudSyncCode||localStorage.getItem('zzz_cloud_code')||'').trim().toUpperCase();}
+  openShipping=()=>this.setState({shippingOpen:true,shipNotice:'',shippingDraft:this.newShippingDraft()},()=>{this.autoPairShipping();if(this.shippingSyncCode())this.loadShippingFromCloud();else this.loadLocalShipping();});
+  closeShipping=()=>this.setState({shippingOpen:false});
+  closeShipMenus(extra={}){return{shipTypeMenuOpen:false,shipRoleMenuOpen:false,shipStatusMenuOpen:false,shipGroupMenuOpen:false,...extra};}
+  toggleShipMenu=(key)=>()=>this.setState(s=>this.closeShipMenus({[key]:!s[key]}));
+  pickShip=(k,v)=>()=>this.setState(st=>{const d={...(st.shippingDraft||this.newShippingDraft()),[k]:v};if(k==='type')d.role=this.shippingRoles(v)[0]||'其他附件';return{shippingDraft:d,...this.closeShipMenus()};});
+  onShipField=(k)=>(e)=>{const v=e&&e.target?e.target.value:'';this.setState(st=>{const d={...(st.shippingDraft||this.newShippingDraft()),[k]:v};if(k==='type')d.role=this.shippingRoles(v)[0]||'其他附件';if(k==='group')d.itemIds=[];return{shippingDraft:d};});};
+  onShipImage=(e)=>{const files=[...((e&&e.target&&e.target.files)||[])];if(!files.length)return;this.setState(st=>{const d=st.shippingDraft||this.newShippingDraft(),add=[];for(const f of files){if(/^image\/(png|jpeg|webp)$/i.test(f.type||'')&&f.size<=10*1024*1024)add.push({role:d.role||'其他附件',file:f,filename:f.name||'图片'});}return{shippingDraft:{...d,files:[...(d.files||[]),...add]}};});e.target.value='';};
+  clearShipImages=()=>this.setState(st=>({shippingDraft:{...(st.shippingDraft||this.newShippingDraft()),files:[]}}));
+  toggleShipItem=(id)=>()=>this.setState(st=>{const d=st.shippingDraft||this.newShippingDraft(),a=Array.isArray(d.itemIds)?d.itemIds:[];return{shippingDraft:{...d,itemIds:a.includes(id)?a.filter(x=>x!==id):[...a,id]}};});
+  // ==== 生成排发长图：独立的选谷子器（自带团筛选 + 勾选，不依赖左边新增表单）====
+  toggleAddFormCollapsed=()=>this.setState(st=>({shipAddCollapsed:!st.shipAddCollapsed}));
+  onExportGroup=(e)=>{const v=e&&e.target?e.target.value:'';this.setState({exportGroup:v});};
+  onExportSearch=(e)=>{const v=e&&e.target?e.target.value:'';this.setState({exportSearch:v});};
+  toggleExportItem=(id)=>()=>this.setState(st=>{const a=Array.isArray(st.exportIds)?st.exportIds:[];return{exportIds:a.includes(id)?a.filter(x=>x!==id):[...a,id]};});
+  // 导出选谷子器可见的谷子：只列出「有关联排发资料」的谷子，按团/渠道 + 搜索过滤
+  exportVisibleItems(){
+    const group=String(this.state.exportGroup||'').trim();
+    const q=String(this.state.exportSearch||'').trim().toLowerCase();
+    const recs=this.state.shippingRecords||[];
+    const idsWithRecords=new Set(recs.flatMap(r=>r.itemIds||[]));
+    // 每个谷子关联到的团/渠道集合
+    const itemGroups={};
+    recs.forEach(r=>{(r.itemIds||[]).forEach(id=>{(itemGroups[id]=itemGroups[id]||new Set()).add(String(r.group||'未分类渠道'));});});
+    return (this.state.items||[]).filter(it=>{
+      if(!idsWithRecords.has(it.id))return false;
+      if(group&&!(itemGroups[it.id]&&itemGroups[it.id].has(group)))return false;
+      if(q){const hay=[it.name,it.character,it.type,it.subtype,it.series,it.note,it.purchaseChannel].map(x=>String(x||'').toLowerCase()).join(' ');if(!hay.includes(q))return false;}
+      return true;
+    });
+  }
+  selectAllExportItems=()=>this.setState(st=>{const ids=this.exportVisibleItems().map(x=>x.id);return{exportIds:[...new Set([...(st.exportIds||[]),...ids])]};});
+  clearExportItems=()=>this.setState({exportIds:[]});
+  setShippingViewChannel=(g)=>()=>this.setState({shippingViewChannel:g});
+  shippingVisibleItems(draft=null){const d=draft||this.state.shippingDraft||this.newShippingDraft(),group=String(d.group||'').trim().toLowerCase(),q=String(d.search||'').trim().toLowerCase(),status=String(d.status||'全部');return(this.state.items||[]).filter(it=>{const sameGroup=!group||String(it.purchaseChannel||'').trim().toLowerCase()===group,sameStatus=status==='全部'||String(it.status||'')===status,hay=[it.name,it.character,it.type,it.subtype,it.series,it.note,it.purchaseChannel,it.channel,it.setName].map(x=>String(x||'').toLowerCase()).join(' ');return sameGroup&&sameStatus&&(!q||hay.includes(q));});}
+  selectAllVisibleShipItems=()=>this.setState(st=>{const d=st.shippingDraft||this.newShippingDraft(),ids=this.shippingVisibleItems(d).map(x=>x.id);return{shippingDraft:{...d,itemIds:[...new Set([...(d.itemIds||[]),...ids])]}};});
+  clearShipItems=()=>this.setState(st=>({shippingDraft:{...(st.shippingDraft||this.newShippingDraft()),itemIds:[]}}));
+  reuseLastShipItems=()=>this.setState(st=>{const rs=st.shippingRecords||[],group=String((st.shippingDraft||{}).group||'').trim(),last=[...rs].reverse().find(r=>!group||r.group===group);return{shippingDraft:{...(st.shippingDraft||this.newShippingDraft()),itemIds:last?[...(last.itemIds||[])]:[]}};});
+  async loadShippingFromCloud(codeArg=''){
+    const code=String(codeArg||this.shippingSyncCode()).trim().toUpperCase();if(!this.sb||!code){await this.loadLocalShipping();return[];}
+    try{
+      const{data:channels,error:ce}=await this.sb.from('shipping_channels').select('id,channel_name,cn').eq('sync_code',code);if(ce)throw ce;const cmap=Object.fromEntries((channels||[]).map(c=>[c.id,c]));
+      const{data:docs,error:de}=await this.sb.from('shipping_documents').select('id,sync_code,channel_id,document_group,title,note,created_at,updated_at').eq('sync_code',code).order('created_at',{ascending:true});if(de)throw de;
+      const ids=(docs||[]).map(d=>d.id);let links=[],images=[];
+      if(ids.length){const a=await this.sb.from('shipping_document_items').select('document_id,item_id').in('document_id',ids);if(a.error)throw a.error;links=a.data||[];const b=await this.sb.from('shipping_document_images').select('id,document_id,image_role,storage_bucket,storage_path,public_url,original_filename,mime_type,file_size,sort_order,created_at').in('document_id',ids).order('sort_order',{ascending:true});if(b.error)throw b.error;images=b.data||[];}
+      const records=(docs||[]).map(d=>{const ch=cmap[d.channel_id]||{};const imgs=images.filter(x=>x.document_id===d.id).map(x=>({id:x.id,role:x.image_role,image:x.public_url||'',storageBucket:x.storage_bucket,storagePath:x.storage_path,filename:x.original_filename,sortOrder:x.sort_order||0}));return{id:d.id,group:ch.channel_name||'',cn:ch.cn||'',type:d.document_group||'补充资料',typeLabel:this.shippingTypeLabel(d.document_group||'补充资料').module,title:d.title||'',note:d.note||'',images:imgs,image:(imgs[0]&&imgs[0].image)||'',itemIds:links.filter(x=>x.document_id===d.id).map(x=>x.item_id),createdAt:d.created_at?Date.parse(d.created_at):0,updatedAt:d.updated_at?Date.parse(d.updated_at):0};});
+      this.setState({shippingRecords:records},()=>this.autoPairShipping());await this.loadShippingBatches(code);return records;
+    }catch(e){console.error('loadShippingFromCloud failed',e);this.setState({cloudStatus:'资料读取失败：'+((e&&e.message)||e)});return[];}
+  }
+  autoPairShipping=()=>{const rs=this.state.shippingRecords||[];if(!rs.length)return;const key=this.state.shippingPreviewPackageKey||this.shippingPackageKey(rs[0]);this.setState({shippingPreviewPackageKey:key,shippingPreviewGroup:key.split('||')[0]||'',shippingPreviewBatch:'按所选谷子动态汇总'});};
+  async loadShippingBatches(codeArg){const code=String(codeArg||this.shippingSyncCode()).trim().toUpperCase();if(!this.sb||!code){this.setState({shippingBatches:[]});return[];}try{const{data,error}=await this.sb.from('shipping_batches').select('id,sync_code,channel_id,batch_name,cn,note,item_count,document_count,export_filename,item_ids,document_ids,exported_at,created_at,updated_at').eq('sync_code',code).order('exported_at',{ascending:false}).limit(50);if(error)throw error;const channelIds=[...new Set((data||[]).map(x=>x.channel_id).filter(Boolean))];let cmap={};if(channelIds.length){const r=await this.sb.from('shipping_channels').select('id,channel_name').in('id',channelIds);if(r.error)throw r.error;cmap=Object.fromEntries((r.data||[]).map(x=>[x.id,x.channel_name]));}const rows=(data||[]).map(x=>({...x,group:cmap[x.channel_id]||'未分类渠道',dateText:x.exported_at?new Date(x.exported_at).toLocaleString('zh-CN',{hour12:false}):''}));this.setState({shippingBatches:rows});return rows;}catch(e){console.warn('读取排发历史失败',e);this.setState({shippingBatches:[]});return[];}}
+  async createShippingBatch(records,items,group,filename){const code=this.shippingSyncCode();if(!this.sb||!code)return null;const channel=await this.ensureShippingChannel(code,group||'未分类渠道');const itemIds=[...new Set((items||[]).map(x=>x.id).filter(Boolean))],documentIds=[...new Set((records||[]).map(x=>x.id).filter(Boolean))];const now=new Date().toISOString(),batchName=`${group||'未分类渠道'} · ${new Date().toLocaleDateString('zh-CN')}`;const payload={sync_code:code,client_uuid:this.clientUuid(),channel_id:channel.id,batch_name:batchName,cn:(this.state.collectorName||'').trim()||null,note:null,item_count:itemIds.length,document_count:documentIds.length,export_filename:filename,item_ids:itemIds,document_ids:documentIds,exported_at:now};const{data,error}=await this.sb.from('shipping_batches').insert([payload]).select('id').single();if(error)throw error;const rows=(items||[]).map(it=>({batch_id:data.id,item_id:it.id,sync_code:code,item_snapshot:{name:it.name||'',character:it.character||'',type:it.type||'',qty:it.qty||1,status:it.status||''}}));if(rows.length){const r=await this.sb.from('shipping_batch_items').insert(rows);if(r.error)throw r.error;}await this.loadShippingBatches(code);return data.id;}
+  deleteShippingBatch=(id)=>async()=>{if(!confirm('删除这条排发历史？只会删除历史记录，不会删除谷子或资料。'))return;if(!this.sb)return;const{error}=await this.sb.from('shipping_batches').delete().eq('id',id);if(error){alert('删除失败：'+error.message);return;}await this.loadShippingBatches();};
+  saveShipping=async()=>{const d=this.state.shippingDraft||this.newShippingDraft(),code=this.shippingSyncCode();if(!d.group.trim()){this.setState({shipNotice:'请先填写团／渠道。'});return;}if(!(d.files||[]).length){this.setState({shipNotice:'请至少选择一张资料图片。'});return;}if(!(d.itemIds||[]).length){this.setState({shipNotice:'请选择这份资料涉及的谷子。'});return;}
+    if(!code){this.setState({cloudBusy:true,shipNotice:''});try{const now=Date.now();const imgs=[];for(let i=0;i<d.files.length;i++){const f=d.files[i];const id='shipimg_'+now+'_'+i+'_'+Math.random().toString(36).slice(2,6);await this.idbPut(id,f.file||f);imgs.push({id,role:f.role||d.role||'其他附件',filename:f.filename||(f.file&&f.file.name)||'图片'});}
+      const rec={id:'shiploc_'+now+'_'+Math.random().toString(36).slice(2,6),group:d.group.trim(),cn:(this.state.collectorName||'').trim(),type:d.type,title:d.type,note:(d.note||'').trim(),itemIds:[...new Set(d.itemIds||[])],createdAt:now,imgs};
+      const meta=this.loadLocalShippingMeta();meta.push(rec);this.persistLocalShippingMeta(meta);
+      const next={...this.newShippingDraft(),group:d.group.trim(),itemIds:[...(d.itemIds||[])],type:d.type,role:this.shippingRoles(d.type)[0]};
+      await this.loadLocalShipping();
+      this.setState({shippingDraft:next,shippingPreviewPackageKey:d.group.trim()+'||排发中心',shippingPreviewGroup:d.group.trim(),cloudBusy:false,shipNotice:'资料已保存到本机，并完成谷子关联。（连接同步代码后可跨设备同步）'});
+    }catch(e){this.setState({cloudBusy:false,shipNotice:'资料保存失败：'+((e&&e.message)||e)});}return;}
+    this.setState({cloudBusy:true,shipNotice:''});try{const documentId=await this.createShippingDocument(code,{...d,title:d.type});await this.uploadDocumentImages(code,documentId,d.group,d.files);await this.linkDocumentItems(documentId,d.itemIds,code);const next={...this.newShippingDraft(),group:d.group.trim(),itemIds:[...(d.itemIds||[])],type:d.type,role:this.shippingRoles(d.type)[0]};await this.loadShippingFromCloud(code);this.setState({shippingDraft:next,shippingPreviewPackageKey:d.group.trim()+'||排发中心',shippingPreviewGroup:d.group.trim(),cloudBusy:false,shipNotice:'排发资料已上传，并完成谷子关联。'});}catch(e){this.setState({cloudBusy:false,shipNotice:'资料上传失败：'+((e&&e.message)||e)});}};
+  deleteShipping=(id)=>async()=>{if(!confirm('删除这份业务资料？其中全部图片及谷子关联都会一起删除。'))return;const rec=(this.state.shippingRecords||[]).find(x=>x.id===id);if(!rec)return;if(rec.local){const meta=this.loadLocalShippingMeta().filter(m=>m.id!==id);this.persistLocalShippingMeta(meta);for(const im of (rec.images||[])){try{await this.idbPut(im.localId||im.id,null);}catch(e){}}await this.loadLocalShipping();return;}if(!this.sb)return;try{const paths=(rec.images||[]).map(x=>x.storagePath).filter(Boolean);if(paths.length){const{error}=await this.sb.storage.from(this.SUPA_SHIPPING_BUCKET).remove(paths);if(error)throw error;}const{error:de}=await this.sb.from('shipping_documents').delete().eq('id',id);if(de)throw de;await this.loadShippingFromCloud();}catch(e){alert('删除失败：'+((e&&e.message)||e));}};
+  viewShippingPackage=(key)=>()=>this.setState({shippingPreviewPackageKey:key,shippingPreviewGroup:String(key||'').split('||')[0]||'',shippingPreviewBatch:'按所选谷子动态汇总'});
+  selectedShippingItemIds(){const ex=this.state.exportIds||[];if(ex.length)return[...new Set(ex)];const d=this.state.shippingDraft||this.newShippingDraft();return[...new Set(d.itemIds||[])];}
+  selectedShippingRecords(){const selected=this.selectedShippingItemIds();return(this.state.shippingRecords||[]).filter(r=>(r.itemIds||[]).some(id=>selected.includes(id)));}
+  loadShipImage(src){return new Promise((resolve,reject)=>{const img=new Image();img.crossOrigin='anonymous';img.onload=()=>resolve(img);img.onerror=reject;img.src=src;});}
+  exportSelectedShipping=async()=>{const selected=this.selectedShippingItemIds();if(!selected.length){alert('请先在左侧勾选本次排发的谷子。');return;}const records=this.selectedShippingRecords();if(!records.length){alert('所选谷子还没有关联资料。');return;}try{const group=String((this.state.shippingDraft||{}).group||records[0].group||'未分类渠道');const items=selected.map(id=>(this.state.items||[]).find(it=>it.id===id)).filter(Boolean);const cn=(this.state.collectorName||records[0].cn||'未填写').trim();const order=this.SHIPPING_TYPES;const sorted=[...records].sort((a,b)=>order.indexOf(a.type)-order.indexOf(b.type)||(a.createdAt||0)-(b.createdAt||0));const flat=[];for(const r of sorted)for(const im of (r.images||[]))if(im.image)flat.push({r,im,img:await this.loadShipImage(im.image)});const W=1200,pad=55,inner=W-pad*2,itemLines=items.map((it,i)=>`${i+1}. ${it.name||'未命名'}${it.character?' · '+it.character:''}${it.qty?' ×'+it.qty:''}`);let H=230+Math.max(1,itemLines.length)*34+40;flat.forEach(({img})=>{const scale=Math.min(inner/img.width,1300/img.height,1);H+=82+Math.round(img.height*scale)+30;});H+=60;if(H>30000){alert('生成图片过长，请分两次导出。');return;}const c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,W,H);x.textAlign='center';x.fillStyle='#251d49';x.font='900 40px sans-serif';x.fillText('排发资料',W/2,62);x.font='800 30px sans-serif';x.fillText('CN：'+cn,W/2,108);x.font='22px sans-serif';x.fillStyle='#6f6996';x.fillText('渠道：'+group,W/2,145);x.fillStyle='#ff3355';x.fillRect(pad,170,inner,5);let y=208;x.textAlign='left';x.fillStyle='#251d49';x.font='800 23px sans-serif';x.fillText(`本次排发谷子（${items.length}）`,pad,y);y+=38;x.font='20px sans-serif';x.fillStyle='#544f7e';for(const line of itemLines){x.fillText(line,pad+10,y);y+=34;}y+=18;for(const {r,im,img} of flat){x.fillStyle='#f4f1fa';x.fillRect(pad,y,inner,54);x.fillStyle='#251d49';x.font='800 22px sans-serif';x.fillText(`${r.typeLabel||this.shippingTypeLabel(r.type).module} · ${this.shippingRoleLabel(im.role)}${r.note?' · '+r.note:''}`,pad+16,y+35);y+=68;const scale=Math.min(inner/img.width,1300/img.height,1),dw=Math.round(img.width*scale),dh=Math.round(img.height*scale),dx=pad+(inner-dw)/2;x.fillStyle='#faf9fc';x.fillRect(pad,y,inner,dh);x.drawImage(img,dx,y,dw,dh);y+=dh+30;}x.textAlign='center';x.fillStyle='#938db0';x.font='17px sans-serif';x.fillText('由谷子收纳 · 排发中心生成',W/2,H-25);const a=document.createElement('a');const filename=`排发资料_${cn}_${group}_${items.length}件.png`.replace(/[\/:*?"<>|]/g,'_');a.download=filename;a.href=c.toDataURL('image/png');document.body.appendChild(a);a.click();a.remove();try{await this.createShippingBatch(sorted,items,group,filename);}catch(historyError){console.warn('排发长图已导出，但历史记录保存失败',historyError);this.setState({cloudStatus:'长图已导出；排发历史未保存：'+((historyError&&historyError.message)||historyError)});}}catch(e){alert('导出失败：'+((e&&e.message)||e));}};
+  exportShippingPackage = () => this.exportSelectedShipping();
   openDataManage = () => this.setState({ dataManageOpen: true });
   openWorkManage = () => this.setState({ workManageOpen: true });
   closeWorkManage = () => this.setState({ workManageOpen: false });
@@ -2718,133 +3123,9 @@ class Component extends DCLogic {
       statsOn: d.statsOn || {},
       customFields: d.customFields || [],
       ...workLists
-    }), () => { this.applyThemeVars(); this.applyBg(); if (this.state.cloudSyncId) this.pushCloud(); });
+    }), () => { this.applyThemeVars(); this.applyBg(); if (this.state.cloudSyncId) this.markCloudPending(); });
   };
   onSettingField = (key, lsKey) => (e) => { const v = e.target.value; try { localStorage.setItem(lsKey, v); } catch (er) {} this.setState({ [key]: v }, () => { if (key === 'accent') { this.applyThemeVars(); this.applyBg(); } }); };
-
-  // ===== 价格趋势 =====
-  trendParseDate(input) {
-    let s = String(input || '').replace(/[０-９]/g, ch => String(ch.charCodeAt(0) - 65296)).trim(); if (!s) return null;
-    const now = new Date(); const valid = (y, m, d) => { const dt = new Date(y, m - 1, d); return dt.getFullYear() === y && dt.getMonth() === m - 1 && dt.getDate() === d ? dt : null; };
-    if (/今天|today/i.test(s)) return new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    let m = s.match(/(20\d{2}|19\d{2})\s*[年\/\-. _]\s*(\d{1,2})\s*[月\/\-. _]\s*(\d{1,2})/); if (m) return valid(+m[1], +m[2], +m[3]);
-    m = s.match(/\b(20\d{2}|19\d{2})(\d{2})(\d{2})\b/); if (m) return valid(+m[1], +m[2], +m[3]);
-    m = s.match(/\b(\d{1,2})\s*[\/\-.]\s*(\d{1,2})\b/); if (m) return valid(now.getFullYear(), +m[1], +m[2]);
-    return null;
-  }
-  trendFmtDate(d) { return d ? `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}` : ''; }
-  trendAnalyze(rows, totalCost) {
-    const list = (rows || []).map(r => ({ date: this.trendFmtDate(this.trendParseDate(r.date)), price: this.num(r.price), platform: r.platform || '' })).filter(r => r.date && r.price > 0).sort((a, b) => new Date(a.date) - new Date(b.date));
-    if (!list.length) return { rows: [], empty: true };
-    const latest = new Date(list[list.length - 1].date);
-    const wr = list.map(r => { const days = Math.max(0, Math.round((latest - new Date(r.date)) / 86400000)); return { ...r, days, weight: Math.max(.25, Math.exp(-days / 20)) }; });
-    const weighted = wr.reduce((s, r) => s + r.price * r.weight, 0) / wr.reduce((s, r) => s + r.weight, 0);
-    let recent = wr.filter(r => r.days <= 14); if (recent.length < 3) recent = wr.slice(-Math.min(5, wr.length));
-    const med = a => { const x = [...a].sort((p, q) => p - q); const n = x.length; return n % 2 ? x[(n - 1) / 2] : (x[n / 2 - 1] + x[n / 2]) / 2; };
-    const recentMedian = med(recent.map(r => r.price));
-    const xs = wr.map((_, i) => i), ys = wr.map(r => r.price), n = wr.length, xm = xs.reduce((a, b) => a + b, 0) / n, ym = ys.reduce((a, b) => a + b, 0) / n;
-    let num = 0, den = 0; for (let i = 0; i < n; i++) { num += (xs[i] - xm) * (ys[i] - ym); den += (xs[i] - xm) ** 2; }
-    const sl = den ? num / den : 0; const trend = sl > 4 ? '上涨' : sl < -4 ? '下跌' : '稳定';
-    const deal = Math.round(trend === '上涨' ? Math.max(weighted, recentMedian) : trend === '下跌' ? Math.min(weighted, recentMedian) : (weighted * .45 + recentMedian * .55));
-    const listP = Math.round(trend === '上涨' ? deal + 25 : trend === '下跌' ? deal + 5 : deal + 15);
-    const ma = wr.map((_, i) => { const part = wr.slice(Math.max(0, i - 2), i + 1); return Math.round(part.reduce((a, b) => a + b.price, 0) / part.length); });
-    return { rows: wr, weighted: Math.round(weighted), recentMedian: Math.round(recentMedian), deal, list: listP, profit: deal - (totalCost || 0), trend, ma };
-  }
-  openTrend = (it) => { const rows = (it.trend && it.trend.length) ? it.trend.map(r => ({ ...r })) : [{ date: '', price: '', platform: '', note: '' }]; this.setState({ trendOpen: true, trendItemId: it.id, trendRows: rows }, () => this.recalcTrend()); };
-  closeTrend = () => { this.setState({ trendOpen: false, trendItemId: null }); if (this._chart) { try { this._chart.destroy(); } catch (e) {} this._chart = null; } };
-  trendItem() { return this.state.items.find(x => x.id === this.state.trendItemId) || {}; }
-  setTrendRow = (i, key, v) => { this.setState(s => { const rows = s.trendRows.map((r, idx) => idx === i ? { ...r, [key]: v } : r); return { trendRows: rows }; }, () => this.recalcTrend()); };
-  addTrendRow = () => this.setState(s => ({ trendRows: [...s.trendRows, { date: '', price: '', platform: '', note: '' }] }));
-  parseOcrText(text) {
-    const parsed = [];
-    const lines = String(text || '').split(/\n+/);
-    for (const line of lines) {
-      const d = this.trendParseDate(line);
-      const pm = line.match(/(?:¥|￥|RMB|CNY|SGD|S\$|USD|\$)?\s*(\d{1,6})(?:\.\d+)?\s*(?:円|元)?/i);
-      const price = pm ? Number(pm[1]) : 0;
-      let platform = '';
-      if (/mercari|メルカリ|煤炉/i.test(line)) platform = 'Mercari';
-      else if (/闲鱼|咸鱼|xianyu/i.test(line)) platform = '闲鱼';
-      else if (/官方|shop|store|商店/i.test(line)) platform = '官方商店';
-      if (d && price > 0) parsed.push({ date: this.trendFmtDate(d), price: String(price), platform, note: '' });
-    }
-    return parsed;
-  }
-  ocrRowsToText(rows) { return (rows || []).map(r => [r.date || '', r.price || '', r.platform || ''].filter(Boolean).join(' ')).join('\n'); }
-  ocrTextToRows(text) {
-    const rows = [];
-    String(text || '').split(/\n+/).forEach(line => {
-      const d = this.trendParseDate(line);
-      const pm = line.match(/(?:¥|￥|RMB|CNY|SGD|S\$|USD|\$)?\s*(\d{1,6})(?:\.\d+)?\s*(?:円|元)?/i);
-      const price = pm ? Number(pm[1]) : 0;
-      let rest = line.replace(/\d{4}[-/.年]\d{1,2}[-/.月]\d{1,2}日?/, '').replace(/\d{1,2}[-/.月]\d{1,2}日?/, '').replace(pm ? pm[0] : '', '').trim();
-      if (d && price > 0) rows.push({ date: this.trendFmtDate(d), price: String(price), platform: rest || '', note: '' });
-    });
-    return rows;
-  }
-  onOcrRawChange = (e) => this.setState({ ocrRawText: e.target.value });
-  onOcrBulkChange = (e) => this.setState({ ocrBulkText: e.target.value });
-  reparseOcrRaw = () => {
-    const parsed = this.parseOcrText(this.state.ocrRawText || '');
-    this.setState({ ocrBulkText: this.ocrRowsToText(parsed), ocrStatus: parsed.length ? '已重新提取 ' + parsed.length + ' 条，请核对后填入。' : '没有提取到日期+价格，请修改原始文字后再试。' });
-  };
-  fillOcrBulk = () => {
-    const parsed = this.ocrTextToRows(this.state.ocrBulkText || '');
-    if (!parsed.length) { this.setState({ ocrStatus: '没有可填入的记录，请按「日期 价格 平台」每行一条修改。' }); return; }
-    this.setState(s => {
-      const seen = new Set(s.trendRows.map(r => r.date + '|' + r.price + '|' + r.platform));
-      const add = parsed.filter(r => !seen.has(r.date + '|' + r.price + '|' + r.platform));
-      return { trendRows: [...s.trendRows.filter(r => r.date || r.price), ...add], ocrStatus: '已填入 ' + add.length + ' 条，可继续手动修改表格。' };
-    }, () => this.recalcTrend());
-  };
-  handleOcr = async (e) => {
-    const files = Array.from((e.target && e.target.files) || []); if (!files.length) return;
-    if (!window.Tesseract) { this.setState({ ocrStatus: '识别库未加载，请检查网络后重试' }); return; }
-    this.setState({ ocrStatus: '识别中…（首次会下载语言包，稍候）' });
-    const rawParts = [];
-    let parsed = [];
-    try {
-      for (const f of files) {
-        const res = await window.Tesseract.recognize(f, 'eng+chi_sim+jpn');
-        const text = (res && res.data && res.data.text) || '';
-        rawParts.push(text.trim());
-        parsed = parsed.concat(this.parseOcrText(text));
-      }
-    } catch (err) { this.setState({ ocrStatus: '识别失败：' + err }); return; }
-    const rawText = rawParts.filter(Boolean).join('\n\n---\n\n');
-    if (!parsed.length) { this.setState({ ocrRawText: rawText, ocrBulkText: '', ocrStatus: '没识别到「日期+价格」，可在原始文字框里修改后重新提取。' }); return; }
-    this.setState({ ocrRawText: rawText, ocrBulkText: this.ocrRowsToText(parsed), ocrStatus: '识别完成，提取到 ' + parsed.length + ' 条。请核对后点「一次性填入表格」。' });
-  };
-  delTrendRow = (i) => this.setState(s => ({ trendRows: s.trendRows.filter((_, idx) => idx !== i) }), () => this.recalcTrend());
-  recalcTrend() {
-    const it = this.trendItem(); const e = this.enrich(it);
-    const result = this.trendAnalyze(this.state.trendRows, e.cost || 0);
-    this.setState({ trendResult: result });
-    this.drawChart(result);
-  }
-  setChartCanvas = (el) => { this.chartCanvas = el; if (el) this.drawChart(this.state.trendResult); };
-  drawChart(result) {
-    if (!this.chartCanvas || !window.Chart) return;
-    if (this._chart) { try { this._chart.destroy(); } catch (e) {} this._chart = null; }
-    if (!result || result.empty || !result.rows.length) return;
-    const cur = this.cur(); const it = this.trendItem(); const e = this.enrich(it);
-    const labels = result.rows.map(r => r.date.slice(5));
-    const ds = [
-      { label: '成交价', data: result.rows.map(r => r.price), tension: .25, pointRadius: 4, borderWidth: 3, borderColor: this.state.accent || this.props.accent || '#ff3355', backgroundColor: 'rgba(255,51,85,.08)' },
-      { label: '3单均价', data: result.ma, tension: .25, pointRadius: 0, borderWidth: 2, borderColor: '#7c5cd6' }
-    ];
-    if (e.buy > 0) ds.push({ label: '买入价', data: labels.map(() => e.buy), pointRadius: 0, borderWidth: 2, borderDash: [4, 4], borderColor: '#c8860d' });
-    try { this._chart = new window.Chart(this.chartCanvas, { type: 'line', data: { labels, datasets: ds }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { size: 11 } } }, tooltip: { callbacks: { label: c => `${c.dataset.label}: ${cur}${c.raw}` } } }, scales: { y: { ticks: { callback: v => cur + v } }, x: { grid: { display: false } } } } }); } catch (e2) {}
-  }
-  saveTrend = async () => {
-    const it = this.state.items.find(x => x.id === this.state.trendItemId); if (!it) { this.closeTrend(); return; }
-    const rows = this.state.trendRows.map(r => ({ date: this.trendFmtDate(this.trendParseDate(r.date)) || r.date, price: this.num(r.price), platform: r.platform || '', note: r.note || '' })).filter(r => r.date && r.price).sort((a, b) => new Date(a.date) - new Date(b.date));
-    const items = this.state.items.map(x => x.id === it.id ? { ...x, trend: rows } : x);
-    this.commit(items);
-    const result = this.trendAnalyze(rows, this.enrich(it).cost || 0);
-    const n = await this.uploadMarketRows(it, rows, result); await this.uploadSnapshot(it); this.logEvent('trend_saved', { item_name: it.name || '', records: rows.length, uploaded: n });
-    this.closeTrend();
-  };
   async loadLogo() { try { const b = await this.idbGet('zzz_logo'); if (b) { this.logoUrl = URL.createObjectURL(b); this.forceUpdate(); } } catch (e) {} }
   async loadWorkLogos() { this.workLogoUrls = this.workLogoUrls || {}; let ch = false; for (const w of (this.state.works || [])) { try { const b = await this.idbGet('zzz_worklogo_' + w.id); if (b) { this.workLogoUrls[w.id] = URL.createObjectURL(b); ch = true; } } catch (e) {} } if (ch) this.forceUpdate(); }
   applyBg() {
@@ -3001,7 +3282,7 @@ class Component extends DCLogic {
   dataURLToBlob(d) { const [m, b64] = d.split(','); const mime = (m.match(/:(.*?);/) || [])[1] || 'image/png'; const bin = atob(b64); const arr = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i); return new Blob([arr], { type: mime }); }
 
   // ---- persistence ----
-  commit(items) { try { localStorage.setItem('zzz_goods_v1', JSON.stringify(items)); } catch (e) {} this.setState({ items, savedAt: Date.now(), cloudPending: !!this.state.cloudSyncId }, () => { if (this.state.cloudSyncId) { clearTimeout(this._cloudTimer); this._cloudTimer = setTimeout(() => this.pushCloud(), 600); } }); }
+  commit(items) { try { localStorage.setItem('zzz_goods_v1', JSON.stringify(items)); } catch (e) {} this.setState({ items, savedAt: Date.now(), cloudPending: !!(this.state.cloudSyncCode || localStorage.getItem('zzz_cloud_code')), cloudStatus: (this.state.cloudSyncCode || localStorage.getItem('zzz_cloud_code')) ? '本机有未上传的修改。请完成整理后手动上传到云端。' : this.state.cloudStatus }); }
 
   // ---- helpers ----
   num(v) { const n = parseFloat(v); return isNaN(n) ? 0 : n; }
@@ -3072,7 +3353,7 @@ class Component extends DCLogic {
     const si = arr.indexOf(src); if (si < 0) return; arr.splice(si, 1);
     const di = arr.indexOf(dst); if (di < 0) return; arr.splice(di, 0, src);
     try { localStorage.setItem(this.wkey(cfg[1]), JSON.stringify(arr)); } catch (e) {}
-    this.setState({ [cfg[0]]: arr }, () => { if (this.state.cloudSyncId) this.pushCloud(); });
+    this.setState({ [cfg[0]]: arr }, () => { if (this.state.cloudSyncId) this.markCloudPending(); });
   }
   addCharacter = () => {
     const v = (window.prompt('输入新角色名称') || '').trim(); if (!v) return;
@@ -3107,7 +3388,7 @@ class Component extends DCLogic {
     const si = arr.indexOf(srcName); if (si < 0) return; arr.splice(si, 1);
     const di = arr.indexOf(dstName); if (di < 0) return; arr.splice(di, 0, srcName);
     try { localStorage.setItem(this.wkey('zzz_char_order', this.optScopeId()), JSON.stringify(arr)); } catch (e) {}
-    this.setState({ charOrder: arr }, () => { if (this.state.cloudSyncId) this.pushCloud(); });
+    this.setState({ charOrder: arr }, () => { if (this.state.cloudSyncId) this.markCloudPending(); });
   };
   customChipDrag(fieldKey, name) { return { draggable: name !== '全部', onMouseDown: (ev) => this.startChipPointer(name, 'custom:' + fieldKey, ev), onMouseUp: (ev) => { const drag = this.pointerChipDrag; this.finishChipPointer(name, 'custom:' + fieldKey, ev); if (drag && drag.kind === 'custom:' + fieldKey && drag.name !== name && name !== '全部') this.reorderCustomChip(fieldKey, drag.name, name); }, onTouchStart: (ev) => this.startChipPointer(name, 'custom:' + fieldKey, ev), onTouchEnd: (ev) => { const drag = this.pointerChipDrag; this.finishChipPointer(name, 'custom:' + fieldKey, ev); if (drag && drag.kind === 'custom:' + fieldKey && drag.name !== name && name !== '全部') this.reorderCustomChip(fieldKey, drag.name, name); }, onTouchCancel: () => { this.pointerChipDrag = null; }, onDragStart: (ev) => { if (name === '全部') return; this.cdKind = 'custom:' + fieldKey; this.cdName = name; if (ev.dataTransfer) { ev.dataTransfer.effectAllowed = 'move'; try { ev.dataTransfer.setData('text/plain', JSON.stringify({ kind: 'custom:' + fieldKey, name })); } catch(e) {} } }, onDragOver: (ev) => { if (name !== '全部') { ev.preventDefault(); if (ev.dataTransfer) ev.dataTransfer.dropEffect = 'move'; } }, onDrop: (ev) => { ev.preventDefault(); let src = this.cdName, k = this.cdKind; try { const raw = ev.dataTransfer && ev.dataTransfer.getData('text/plain'); if (raw) { const obj = JSON.parse(raw); src = obj.name || src; k = obj.kind || k; } } catch(e) {} if (k === 'custom:' + fieldKey) this.reorderCustomChip(fieldKey, src, name); this.cdName = null; this.cdKind = null; this.pointerChipDrag = null; } }; }
   reorderCustomChip(fieldKey, src, dst) {
@@ -3121,7 +3402,7 @@ class Component extends DCLogic {
     const di = arr.indexOf(dst); if (di < 0) return; arr.splice(di, 0, src);
     orderMap[fieldKey] = arr;
     try { localStorage.setItem('zzz_custom_filter_order', JSON.stringify(orderMap)); } catch(e) {}
-    this.setState({ customFilterOrder: orderMap }, () => { if (this.state.cloudSyncId) this.pushCloud(); });
+    this.setState({ customFilterOrder: orderMap }, () => { if (this.state.cloudSyncId) this.markCloudPending(); });
   }
   renameCustomFilterValue = (fieldKey, oldValue, ev) => {
     if (ev) { ev.preventDefault && ev.preventDefault(); ev.stopPropagation && ev.stopPropagation(); }
@@ -3201,10 +3482,11 @@ class Component extends DCLogic {
   feeHas(d) { return !!(this.num(d.originalPrice) || this.num(d.rate) || this.num(d.shipDom) || this.num(d.shipIntl) || this.num(d.otherFee)); }
   colInfoHas(d) { return !!((d.series && String(d.series).trim()) || (d.subtype && String(d.subtype).trim()) || (d.acquire && String(d.acquire).trim()) || (d.channel && String(d.channel).trim()) || (d.purchaseChannel && String(d.purchaseChannel).trim())); }
   setInfoHas(d) { return !!(d.setId || (d.setName && String(d.setName).trim()) || this.num(d.setTotal) || (d.setVariant && String(d.setVariant).trim())); }
-  openAdd = () => this.setState({ modalOpen: true, editing: null, draft: this.emptyDraft(), feeOpen: false, colInfoOpen: false, setInfoOpen: false });
-  openEdit = (it) => { const d = { ...this.emptyDraft(), ...it }; this.setState({ modalOpen: true, editing: it.id, draft: d, feeOpen: this.feeHas(d), colInfoOpen: this.colInfoHas(d), setInfoOpen: this.setInfoHas(d) }); };
+  openAdd = () => this.setState({ modalOpen: true, editing: null, draft: this.emptyDraft(), feeOpen: false, colInfoOpen: false, setInfoOpen: false, itemEvidenceDrafts: [], itemEvidenceExistingIds: [], itemEvidenceOpen: false }, () => { if (this.shippingSyncCode()) this.loadShippingFromCloud(); else this.loadLocalShipping(); });
+  openEdit = (it) => { const d = { ...this.emptyDraft(), ...it }; this.setState({ modalOpen: true, editing: it.id, draft: d, feeOpen: this.feeHas(d), colInfoOpen: this.colInfoHas(d), setInfoOpen: this.setInfoHas(d), itemEvidenceDrafts: [], itemEvidenceExistingIds: [], itemEvidenceOpen: false }, () => { if (this.shippingSyncCode()) this.loadShippingFromCloud(); else this.loadLocalShipping(); }); };
   openDuplicate = (it) => { const d = { ...this.emptyDraft(), ...it, id: null }; this.setState({ modalOpen: true, editing: null, draft: d, feeOpen: this.feeHas(d), colInfoOpen: this.colInfoHas(d), setInfoOpen: this.setInfoHas(d) }); };
   toggleFee = () => this.setState(s => ({ feeOpen: !s.feeOpen }));
+  toggleItemEvidence = () => this.setState(s => ({ itemEvidenceOpen: !s.itemEvidenceOpen }));
   toggleSetMenu = () => this.toggleDraftMenu('setMenuOpen');
   pickSet = (id) => { try { if (id) localStorage.setItem('zzz_last_set', id); } catch (e) {} this.setState(s => ({ draft: { ...s.draft, setId: id }, setMenuOpen: false, lastSetId: id || s.lastSetId })); };
   addSet = () => {
@@ -3321,7 +3603,7 @@ class Component extends DCLogic {
       if (remove.size) {
         const items = (this.state.items || []).filter(x => !remove.has(x.id));
         try { localStorage.setItem('zzz_goods_v1', JSON.stringify(items)); } catch (e) {}
-        this.setState({ items, savedAt: Date.now(), cloudPending: !!this.state.cloudSyncId, modalOpen: false, draft: null, editing: null, bulkEditIds: [], bulkEditIndex: 0 }, () => { if (this.state.cloudSyncId) { clearTimeout(this._cloudTimer); this._cloudTimer = setTimeout(() => this.pushCloud(), 600); } });
+        this.setState({ items, savedAt: Date.now(), cloudPending: !!(this.state.cloudSyncCode || localStorage.getItem('zzz_cloud_code')), cloudStatus: (this.state.cloudSyncCode || localStorage.getItem('zzz_cloud_code')) ? '本机有未上传的修改。请完成整理后手动上传到云端。' : this.state.cloudStatus, modalOpen: false, draft: null, editing: null, bulkEditIds: [], bulkEditIndex: 0 });
         this.bulkSavedIds = new Set();
         return;
       }
@@ -3496,7 +3778,7 @@ class Component extends DCLogic {
     if (!dup) return false;
     return !window.confirm('已经有一条很像的记录了，还是要保存这一条吗？');
   }
-  saveItem = () => {
+  saveItem = async () => {
     let d = this.state.draft; if (!d) return;
     if (!d.name || !d.name.trim()) { const g = this.genName(d); if (!g) { alert('请先填写名称（或选择角色 / 填细分后点自动生成）'); return; } d = { ...d, name: g }; }
     if (!this.state.editing && this.handleDuplicateBeforeSave(d)) return;
@@ -3549,7 +3831,15 @@ class Component extends DCLogic {
     if (d.purchaseChannel && !(this.state.purchaseChannels || []).includes(d.purchaseChannel)) this.saveList('purchaseChannels', 'zzz_purchase_channels', [...(this.state.purchaseChannels || []), d.purchaseChannel]);
     if (d.type && !this.state.typesList.includes(d.type)) this.saveList('typesList', 'zzz_types', [...this.state.typesList, d.type]);
     if (d.series && !this.state.seriesList.includes(d.series)) this.saveList('seriesList', 'zzz_series', [...this.state.seriesList, d.series]);
-    this.commit(items); if ((this.state.bulkEditIds || []).includes(savedItem.id)) { this.bulkSavedIds = this.bulkSavedIds || new Set(); this.bulkSavedIds.add(savedItem.id); } this.closeModal();
+    const pendingDocs=this.state.itemEvidenceDrafts || [];
+    this.commit(items);
+    if ((this.state.bulkEditIds || []).includes(savedItem.id)) { this.bulkSavedIds = this.bulkSavedIds || new Set(); this.bulkSavedIds.add(savedItem.id); }
+    if (pendingDocs.length || (this.state.itemEvidenceExistingIds||[]).length) {
+      this.setState({ cloudBusy:true, cloudStatus:'谷子已保存，正在保存或关联本体资料…' });
+      try { await this.uploadPendingItemEvidence(savedItem); this.setState({ itemEvidenceDrafts:[], itemEvidenceExistingIds:[], cloudBusy:false, cloudStatus:'谷子和本体资料已保存。' }); }
+      catch(e) { this.setState({ cloudBusy:false, cloudStatus:'谷子已保存，但资料保存失败：'+((e&&e.message)||e) }); alert('谷子已保存在本机，但资料保存失败：'+((e&&e.message)||e)); }
+    }
+    this.closeModal();
     if (nowArrived) this.celebrateArrival();
     this.uploadSnapshot(savedItem); this.logEvent('item_saved', { item_name: savedItem.name || '', has_sell: !!this.num(savedItem.sellPrice), qty: this.num(savedItem.qty || 1) });
   };
@@ -3863,7 +4153,7 @@ class Component extends DCLogic {
 
   // ---- batch edit helpers ----
   toggleBatchMode = () => {
-    const view = this.state.view || this.props.startView || 'gallery';
+    const view = this.state.view || this.props.startView || 'dashboard';
     if (view === 'ledger') return;
     const nextMode = !this.state.batchMode;
     this.setState({ batchMode: nextMode, selectedIds: nextMode ? (this.state.selectedIds || []) : [] });
@@ -4105,6 +4395,8 @@ class Component extends DCLogic {
   batchDelete = () => { const ids = this.batchIdsOrWarn(); if (!ids) return; if (!confirm('确定批量删除 ' + ids.length + ' 件谷子？')) return; const set = new Set(ids); this.commit((this.state.items || []).filter(it => !set.has(it.id))); this.setState({ selectedIds: [] }); };
 
   // ---- view setters ----
+  setDashboard = () => this.setState({ view: 'dashboard', batchMode: false, selectedIds: [] });
+  openDashboardStatus = (status) => this.setState({ view: 'gallery', group: 'all', statusSel: status ? [status] : [], filtersOpen: true, batchMode: false, selectedIds: [] });
   setTable = () => this.setState({ view: 'table' });
   tableColumnDefs() {
     return [
@@ -4777,7 +5069,7 @@ class Component extends DCLogic {
   renderVals() {
     const cur = this.cur();
     const fieldVisible = (k) => this.isFieldVisible(k);
-    const view = this.state.view || this.props.startView || 'gallery';
+    const view = this.state.view || this.props.startView || 'dashboard';
     const { group, groupBy, search, charSel, typeSel, seriesFilter, formSel, statusSel, acquireSel, channelSel, purchaseChannelSel } = this.state;
     const methodSel = this.state.methodSel || [], setSel = this.state.setSel || [], tagSel = this.state.tagSel || [], raritySel = this.state.raritySel || [];
     const allItems = this.state.items;
@@ -4790,6 +5082,26 @@ class Component extends DCLogic {
     // stats over all
     let totalIn = 0, totalSell = 0, totalProfit = 0, colCount = 0, saleCount = 0;
     items.forEach(it => { const e = this.enrich(it); totalIn += e.cost; if (this.groupOf(it) === '出物') saleCount += e.qty; else colCount += e.qty; if (e.sold) { totalSell += e.revenue; totalProfit += e.profit; } });
+
+    const dashCount = (status) => items.filter(it => (it.status || '') === status).reduce((n,it)=>n + Math.max(1, parseInt(it.qty)||1), 0);
+    const dashboardTodoRows = [
+      { label:'待补款', status:'待补款', icon:'🔴', color:'#d34a61', hint:'需要补款的谷子' },
+      { label:'待尾款', status:'待尾款', icon:'🟠', color:'#d9701f', hint:'等待支付尾款' },
+      { label:'待国际', status:'已尾款', icon:'🟡', color:'#c8860d', hint:'本体已付，等待国际' },
+      { label:'待排发', status:'排发中', icon:'🔵', color:'#2f6fdb', hint:'等待整理或排发' },
+      { label:'待归家', status:'已发货', icon:'🟢', color:'#12a85f', hint:'已发货，等待到货' }
+    ].map(x => ({ ...x, count: dashCount(x.status), onClick: () => this.openDashboardStatus(x.status) }));
+    const dashboardSummaryRows = [
+      { label:'总收藏', value: items.reduce((n,it)=>n+Math.max(1,parseInt(it.qty)||1),0)+' 件' },
+      { label:'已归家', value: dashCount('已归家')+' 件' },
+      { label:'排发中', value: dashCount('排发中')+' 件' },
+      { label:'已出物', value: dashCount('已出物')+' 件' }
+    ];
+    const dashDate = (v) => { const d = new Date(v || 0); return isNaN(d.getTime()) || !v ? '—' : `${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')}`; };
+    const dashboardRecentItems = [...items].sort((a,b)=>(b.updatedAt||b.createdAt||b.id||0)-(a.updatedAt||a.createdAt||a.id||0)).slice(0,5).map(it=>({ name:it.name||'未命名', meta:[it.character,it.type,it.status].filter(Boolean).join(' · '), date:dashDate(it.updatedAt||it.createdAt), onClick:()=>this.openEdit(it) }));
+    const dashboardRecentDocs = [...(this.state.shippingRecords||[])].sort((a,b)=>(b.updatedAt||b.createdAt||0)-(a.updatedAt||a.createdAt||0)).slice(0,5).map(r=>({ type:r.typeLabel||this.shippingTypeLabel(r.type||'补充资料').module, title:[r.group,r.title,(r.images||[]).length+' 张图'].filter(Boolean).join(' · '), date:dashDate(r.updatedAt||r.createdAt) }));
+    const nowDash = new Date(); const dashMonthKey = `${nowDash.getFullYear()}-${String(nowDash.getMonth()+1).padStart(2,'0')}`;
+    const dashboardMonthCostNum = items.reduce((sum,it)=>{ const raw=it.purchaseDate||it.reminderDate||it.date||it.createdAt; const d=new Date(raw||0); if(!raw||isNaN(d.getTime())) return sum; const k=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`; return k===dashMonthKey ? sum + this.enrich(it).cost : sum; },0);
 
     // group tabs
     const colN = items.filter(i => this.groupOf(i) !== '出物').length, saleN = items.filter(i => this.groupOf(i) === '出物').length;
@@ -5313,8 +5625,7 @@ class Component extends DCLogic {
         thumbBg: primaryUrl ? { position: 'absolute', inset: 0, backgroundImage: `url(${primaryUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' } : { display: 'none' },
         groupBadgeStyle: { display: 'inline-flex', alignItems: 'center', padding: '5px 10px', borderRadius: '999px', fontSize: '11.5px', fontWeight: 900, whiteSpace: 'nowrap', color: g === '出物' ? '#c93f78' : '#6a4fd0', background: g === '出物' ? 'rgba(255,246,250,.9)' : 'rgba(249,247,255,.9)', border: '1px solid rgba(255,255,255,.9)', boxShadow: '0 8px 18px rgba(255,122,162,.2),0 2px 8px rgba(55,35,90,.12)', textShadow: '0 1px 0 rgba(255,255,255,.85)', position: 'absolute', top: '9px', left: '9px', backdropFilter: 'blur(10px)' },
         statusBadgeStyle: { ...this.badge(this.STATUS_COLOR[it.status] || '#6f6996', 'rgba(255,255,255,.92)', (this.STATUS_COLOR[it.status] || '#6f6996') + '44'), position: 'absolute', top: '9px', right: '9px', backdropFilter: 'blur(10px)', boxShadow: '0 8px 18px rgba(91,157,255,.12),0 2px 8px rgba(55,35,90,.09)', fontWeight: 800 },
-        onEdit: (ev) => { if (showBatchBar) { ev && ev.stopPropagation && ev.stopPropagation(); this.toggleBatchId(it.id, !isSelected); } else this.openItemFromRow(it, ev); }, onDelete: () => this.removeItem(it), onDup: () => this.openDuplicate(it), onTrend: (ev) => { ev && ev.stopPropagation && ev.stopPropagation(); if (showBatchBar) this.toggleBatchId(it.id, !isSelected); else this.openTrend(it); },
-        draggable: true,
+        onEdit: (ev) => { if (showBatchBar) { ev && ev.stopPropagation && ev.stopPropagation(); this.toggleBatchId(it.id, !isSelected); } else this.openItemFromRow(it, ev); }, onDelete: () => this.removeItem(it), onDup: () => this.openDuplicate(it), draggable: true,
         onMouseDown: (ev) => this.startItemPointer(it.id, ev),
         onMouseUp: (ev) => this.finishItemPointer(it.id, ev),
         onTouchStart: (ev) => this.startItemPointer(it.id, ev),
@@ -5403,7 +5714,7 @@ class Component extends DCLogic {
     const hasCloudSyncNow = !!this.state.cloudSyncId;
     const cloudStatusRaw = String(this.state.cloudStatus || '');
     const cloudHasProblem = /失败|未连接|没有找到|请先|还没有|Supabase/.test(cloudStatusRaw);
-    const cloudSaveText = !hasCloudSyncNow ? '云端未连接' : (this.state.cloudBusy ? '云端同步中' : (this.state.cloudPending ? '云端等待同步' : (cloudHasProblem ? '云端需处理' : '云端已同步')));
+    const cloudSaveText = !hasCloudSyncNow ? '云端未连接' : (this.state.cloudBusy ? '云端处理中' : (this.state.cloudPending ? '云端未上传' : (cloudHasProblem ? '云端需处理' : '云端已同步')));
     const cloudSaveColor = !hasCloudSyncNow ? '#8c83a8' : (this.state.cloudBusy || this.state.cloudPending ? '#b7791f' : (cloudHasProblem ? '#d64262' : '#0f8f50'));
     const cloudSaveBg = !hasCloudSyncNow ? 'rgba(50,38,90,.045)' : (this.state.cloudBusy || this.state.cloudPending ? 'rgba(255,183,77,.13)' : (cloudHasProblem ? 'rgba(226,59,93,.1)' : 'rgba(61,220,151,.1)'));
     const cloudSaveBorder = !hasCloudSyncNow ? 'rgba(50,38,90,.1)' : (this.state.cloudBusy || this.state.cloudPending ? 'rgba(255,183,77,.28)' : (cloudHasProblem ? 'rgba(226,59,93,.22)' : 'rgba(61,220,151,.22)'));
@@ -5438,15 +5749,6 @@ class Component extends DCLogic {
     const hasRecent = recentRows.length > 0;
     // 手机端切换弹窗用
     const mobileWorkGroups = libraryTree;
-
-    // 趋势
-    const tr = this.state.trendResult || { empty: true };
-    const trendRowsView = (this.state.trendRows || []).map((r, i) => ({
-      date: r.date || '', price: r.price || '', platform: r.platform || '', note: r.note || '',
-      onDate: (e) => this.setTrendRow(i, 'date', e.target.value), onPrice: (e) => this.setTrendRow(i, 'price', e.target.value), onPlatform: (e) => this.setTrendRow(i, 'platform', e.target.value), onNote: (e) => this.setTrendRow(i, 'note', e.target.value), onDel: () => this.delTrendRow(i)
-    }));
-    const trendIt = this.trendItem();
-    const trendMetrics = tr.empty ? null : { weighted: cur + this.fmt(tr.weighted), list: cur + this.fmt(tr.list), deal: cur + this.fmt(tr.deal), profit: (tr.profit >= 0 ? '+' : '') + cur + this.fmt(tr.profit), profitStyle: { color: tr.profit >= 0 ? '#12a85f' : '#e23b5d' }, trend: tr.trend, advice: `趋势判断：${tr.trend}。近期中位 ${cur}${tr.recentMedian}，加权价 ${cur}${tr.weighted}。建议挂牌 ${cur}${tr.list}，预计成交 ${cur}${tr.deal}。` };
 
     // ===== 设置面板数据 =====
     const sd = this.state.settingsDraft || this.makeSettingsDraft();
@@ -5575,15 +5877,44 @@ class Component extends DCLogic {
     const setBatchStyle = { ..._tglBase, borderColor: setBatchOn ? 'transparent' : '#ded7ee', background: setBatchOn ? this.accentColor() : '#fff', color: setBatchOn ? '#fff' : '#8b84ad' };
     const cnDisplay = cnPrefix || 'CN / 昵称';
     const cnSidebarClass = 'ui-sidebar-cn ui-editable-text' + (cnPrefix ? '' : ' ui-sidebar-cn-empty');
+    const shipDraft = this.state.shippingDraft || this.newShippingDraft();
+    const shipVisibleItems = this.shippingVisibleItems(shipDraft);
+    const shipItemChoices = shipVisibleItems.map(it => ({ id: it.id, label: ((it.name || '未命名') + (it.character ? ' · ' + it.character : '') + (it.status ? ' · ' + it.status : '')), checked: (shipDraft.itemIds || []).includes(it.id), onToggle: this.toggleShipItem(it.id) }));
+    const shipStatusOptions = [...new Set((this.state.items || []).map(it => it.status).filter(Boolean))];
+    const shipRecords = this.state.shippingRecords || [];
+    const shippingBatchRows=(this.state.shippingBatches||[]).map(b=>({name:b.batch_name||b.export_filename||'排发记录',group:b.group||'未分类渠道',itemCount:b.item_count||0,documentCount:b.document_count||0,date:b.dateText||'',onDelete:this.deleteShippingBatch(b.id)}));
+    const pkgMap = {}; shipRecords.forEach(r => { const k=this.shippingPackageKey(r); (pkgMap[k]=pkgMap[k]||[]).push(r); });
+    const shippingPackageRows = Object.entries(pkgMap).map(([key,rs]) => { const ids=[...new Set(rs.flatMap(r=>r.itemIds||[]))]; const itemName=(id)=>{const it=(this.state.items||[]).find(x=>x.id===id);return it?(it.name||'未命名')+(it.character?'·'+it.character:''):'(已删除)';}; return { key, group:rs[0].group||'未分类渠道', batch:'排发中心', recordCount:rs.length, itemCount:ids.length, types:[...new Set(rs.map(r=>r.typeLabel||this.shippingTypeLabel(r.type).module))].join('、'), onView:this.viewShippingPackage(key), onExport:()=>this.exportShippingPackage(key), records:rs.map(r=>{ const names=(r.itemIds||[]).map(itemName); return { ...r, type:r.typeLabel||this.shippingTypeLabel(r.type).module, itemCount:(r.itemIds||[]).length, itemNames: names.length?names.join('、'):'未关联谷子', note:(r.note||'无备注')+' · '+((r.images||[]).length)+' 张图', thumbStyle:{backgroundImage:`url(${r.image})`}, onDelete:this.deleteShipping(r.id) }; }) }; });
+    const _shipChannels = shippingPackageRows.map(p => p.group);
+    const _shipViewCh = (this.state.shippingViewChannel && _shipChannels.includes(this.state.shippingViewChannel)) ? this.state.shippingViewChannel : (_shipChannels[0] || null);
+    const shippingChannelChips = _shipChannels.map(g => ({ label: g, active: g === _shipViewCh, onClick: this.setShippingViewChannel(g), style: { flexShrink: 0, whiteSpace: 'nowrap', fontFamily: 'inherit', fontSize: '12.5px', fontWeight: 700, padding: '6px 13px', borderRadius: '999px', cursor: 'pointer', border: '1px solid', borderColor: g === _shipViewCh ? 'transparent' : '#ded7ee', background: g === _shipViewCh ? this.accentColor() : '#fff', color: g === _shipViewCh ? '#fff' : '#8b84ad' } }));
+    const shippingPackageRowsView = shippingPackageRows.filter(p => p.group === _shipViewCh);
+    const previewKey = this.state.shippingPreviewPackageKey || (shippingPackageRows[0] && shippingPackageRows[0].key) || '';
+    const previewRecords = shipRecords.filter(r => this.shippingPackageKey(r)===previewKey).sort((a,b)=>(a.createdAt||0)-(b.createdAt||0));
+    // 导出预览：跟着右边勾选的谷子实时汇总它们关联的全部资料（勾了才显示，去重）
+    const _exSelIds = this.state.exportIds || [];
+    const _exSelRecords = _exSelIds.length ? shipRecords.filter(r => (r.itemIds||[]).some(id => _exSelIds.includes(id))).sort((a,b)=>{const o=this.SHIPPING_TYPES;return (o.indexOf(a.type)-o.indexOf(b.type))||((a.createdAt||0)-(b.createdAt||0));}) : [];
+    const previewItems = _exSelIds.map(id=>(this.state.items||[]).find(it=>it.id===id)).filter(Boolean);
+    const previewPackageRows = _exSelRecords.flatMap(r=>(r.images||[]).map(im=>({image:im.image,imgEl:im.image?React.createElement('img',{src:im.image}):null,type:(r.typeLabel||this.shippingTypeLabel(r.type).module)+' · '+this.shippingRoleLabel(im.role),note:r.note||'',hasNote:!!r.note})));
+    const previewItemSummary = previewItems.length ? ('本批共 '+previewItems.length+' 个谷子：\n'+previewItems.map((it,i)=>(i+1)+'. '+(it.name||'未命名')+(it.character?' · '+it.character:'')+(it.qty?' ×'+it.qty:'')).join('\n')) : '本批尚未关联具体谷子。';
+    // 导出选谷子器
+    const _exRecs = this.state.shippingRecords || [];
+    const _exGroupSet = [...new Set(_exRecs.map(r=>String(r.group||'未分类渠道')).filter(Boolean))];
+    const _exVisible = this.exportVisibleItems();
+    const _exIds = this.state.exportIds || [];
+    const exportGroupOptions = _exGroupSet;
+    const exportItemChoices = _exVisible.map(it=>{const grps=[...new Set(_exRecs.filter(r=>(r.itemIds||[]).includes(it.id)).map(r=>String(r.group||'未分类渠道')))];return{id:it.id,label:((it.name||'未命名')+(it.character?' · '+it.character:'')+(it.status?' · '+it.status:'')+(grps.length?' 〔'+grps.join('／')+'〕':'')),checked:_exIds.includes(it.id),onToggle:this.toggleExportItem(it.id)};});
 
     return {
       setRoot: this.setRoot, setImportRef: this.setImportRef, setExcelImportRef: this.setExcelImportRef, stop: this.stop,
+      openShipping: this.openShipping, closeShipping: this.closeShipping, shippingOpen: this.state.shippingOpen, shippingCount: shipRecords.length, shippingPackageCount: shippingPackageRows.length, shippingBatchRows, shippingBatchCount:shippingBatchRows.length, noShippingBatches:shippingBatchRows.length===0, shippingTypes: this.SHIPPING_TYPES, shippingTypeOptions:this.SHIPPING_TYPES.map(value=>({value,label:this.shippingTypeLabel(value).module})), shippingRoleOptions:this.shippingRoles(shipDraft.type).map(value=>({value,label:this.shippingRoleLabel(value)})), shipRole:shipDraft.role || this.shippingRoles(shipDraft.type)[0], shipGroup: shipDraft.group || '',  shipBatch: '排发中心', shipTypeMenuItems: this.SHIPPING_TYPES.map(v=>({label:this.shippingTypeLabel(v).module,onPick:this.pickShip('type',v),rowStyle:this.menuRow((shipDraft.type||'本体资料')===v)})), shipTypeDisplay: this.shippingTypeLabel(shipDraft.type||'本体资料').module, shipTypeMenuOpen: this.state.shipTypeMenuOpen, toggleShipTypeMenu: this.toggleShipMenu('shipTypeMenuOpen'), shipRoleMenuItems: this.shippingRoles(shipDraft.type).map(v=>({label:this.shippingRoleLabel(v),onPick:this.pickShip('role',v),rowStyle:this.menuRow((shipDraft.role||this.shippingRoles(shipDraft.type)[0])===v)})), shipRoleDisplay: this.shippingRoleLabel(shipDraft.role||this.shippingRoles(shipDraft.type)[0]), shipRoleMenuOpen: this.state.shipRoleMenuOpen, toggleShipRoleMenu: this.toggleShipMenu('shipRoleMenuOpen'), shipStatusMenuItems: ['全部',...shipStatusOptions].map(v=>({label:v==='全部'?'全部状态':v,onPick:this.pickShip('status',v),rowStyle:this.menuRow((shipDraft.status||'全部')===v)})), shipStatusDisplay: (shipDraft.status&&shipDraft.status!=='全部')?shipDraft.status:'全部状态', shipStatusMenuOpen: this.state.shipStatusMenuOpen, toggleShipStatusMenu: this.toggleShipMenu('shipStatusMenuOpen'), shipGroupMenuItems: [...new Set([...(this.state.purchaseChannels||[]),...(this.state.channels||[]),...((this.state.shippingRecords||[]).map(r=>r.group).filter(Boolean))])].map(v=>({label:v,onPick:this.pickShip('group',v),rowStyle:this.menuRow(shipDraft.group===v)})), shipGroupMenuOpen: this.state.shipGroupMenuOpen, toggleShipGroupMenu: this.toggleShipMenu('shipGroupMenuOpen'), hasShipGroupMenu: [...new Set([...(this.state.purchaseChannels||[]),...(this.state.channels||[])])].length>0, shippingGroups: [...new Set([...(this.state.purchaseChannels || []), ...shipRecords.map(r => r.group).filter(Boolean)])], shippingBatches: [...new Set(shipRecords.filter(r => !shipDraft.group || r.group === shipDraft.group).map(r => r.batch).filter(Boolean))], fixedCn: cnPrefix || '未填写', shipType: shipDraft.type || '本体资料', shipNote: shipDraft.note || '', shipSearch: shipDraft.search || '', shipStatus: shipDraft.status || '全部', shipStatusOptions, shipVisibleCount: shipVisibleItems.length, shipSelectedCount: (shipDraft.itemIds || []).length, noShipItemChoices: shipItemChoices.length === 0, onShipGroup: this.onShipField('group'), onShipBatch: this.onShipField('batch'), onShipType: this.onShipField('type'), onShipRole:this.onShipField('role'), onShipNote: this.onShipField('note'), onShipSearch: this.onShipField('search'), onShipStatus: this.onShipField('status'), selectAllVisibleShipItems: this.selectAllVisibleShipItems, clearShipItems: this.clearShipItems, reuseLastShipItems: this.reuseLastShipItems, onShipImage: this.onShipImage, saveShipping: this.saveShipping, shipNotice: this.state.shipNotice || '', hasShipNotice: !!this.state.shipNotice, shipNotConnected: !this.shippingSyncCode(), shipItemChoices, shippingPackageRows: shippingPackageRowsView, shippingChannelChips, hasShippingChannels: shippingChannelChips.length > 0, noShippingPackages: shippingPackageRows.length === 0, hasShipDraftImage:(shipDraft.files||[]).length>0, shipUploadText:(shipDraft.files||[]).length?'＋ 继续添加图片':'＋ 添加资料图片', shipDraftImageSummary:(shipDraft.files||[]).map(x=>this.shippingRoleLabel(x.role)+'：'+x.filename).join('；'), clearShipImages:this.clearShipImages, previewCn: cnPrefix || '未填写', previewGroup: this.state.shippingPreviewGroup || (previewRecords[0] && previewRecords[0].group) || '未选择团／渠道', previewBatch: '按当前勾选谷子自动汇总', previewPackageRows, previewItemSummary, noPreviewPackage: previewPackageRows.length === 0, exportShippingPackage: this.exportShippingPackage, exportSelectedShipping:this.exportSelectedShipping,
+      toggleShipAddForm: this.toggleAddFormCollapsed, shipAddExpanded: !this.state.shipAddCollapsed, shipAddCaret: this.state.shipAddCollapsed ? '▼ 展开' : '▲ 收起',
+      exportGroup: this.state.exportGroup || '', exportSearch: this.state.exportSearch || '', onExportGroup: this.onExportGroup, onExportSearch: this.onExportSearch, exportGroupOptions, exportItemChoices, noExportChoices: exportItemChoices.length === 0, exportVisibleCount: _exVisible.length, exportSelectedCount: _exIds.length, selectAllExportItems: this.selectAllExportItems, clearExportItems: this.clearExportItems,
       workGroupLabel: this.state.workGroupLabel, workGroupName: curWork.group || this.DEFAULT_GROUP, workName: curWork.name || '', workTabs, workGroups, libraryTree, libAllActive, libAllStyle, libAllCount, recentRows, hasRecent, mobileWorkGroups, isAllWorks, switchAll: () => this.switchWork(this.ALL_WORKS), workMenuOpen: this.state.workMenuOpen, toggleWorkMenu: this.toggleWorkMenu, addWork: this.addWork,
       openSettings: this.openSettings, closeSettings: this.cancelSettings, cancelSettings: this.cancelSettings, saveSettings: this.saveSettings, clearAllData: this.clearAllData, settingsOpen: this.state.settingsOpen, dataManageOpen: this.state.dataManageOpen, openDataManage: this.openDataManage, batchEditOpen: this.state.batchEditOpen, closeBatchEditor: this.closeBatchEditor, openBatchEditor: this.openBatchEditor, batchEditFields, batchEditOptions, batchEditTitle, batchEditChooseMode, batchEditOptionMode, batchEditBack: this.batchEditBack, closeDataManage: this.closeDataManage, confirmExcelExport: this.confirmExcelExport, confirmExcelTemplate: this.confirmExcelTemplate, confirmExcelImport: this.confirmExcelImport, confirmJsonExport: this.confirmJsonExport, confirmJsonImport: this.confirmJsonImport,
       cnVal: sd.collectorName || '', curVal: sd.currency || this.cur(), accentVal: sd.accent || this.props.accent || '#ff3355', nameStyleVal: sd.nameStyleMode || this.state.nameStyleMode || 'default', displayModeVal: sd.displayMode || this.state.displayMode || 'standard', stylePreviewText: this.previewStyleText(sd.nameStyleMode || this.state.nameStyleMode || 'default'), titleVal: sd.title || '', subtitleVal: sd.subtitle || '', footerVal: sd.footer || '',
       onCn: this.onDraftSettingField('collectorName'), onCurrency: this.onDraftSettingField('currency'), onAccent: this.onDraftSettingField('accent'), onNameStyle: this.setNameStyle, onDisplayMode: this.setDisplayMode, onTitleSet: this.onDraftSettingField('title'), onSubtitleSet: this.onDraftSettingField('subtitle'), onFooterSet: this.onDraftSettingField('footer'),
-      showWelcomeCard: !cnPrefix, cloudSyncCode: this.state.cloudSyncCode || '', hasCloudCode: !!this.state.cloudSyncCode, noCloudCode: !this.state.cloudSyncCode, hasCloudStatus: !!this.state.cloudStatus, cloudStatus: this.state.cloudStatus || '', copyCloudCode: this.copyCloudCode, cloudCodeInput: this.state.cloudCodeInput || '', onCloudCodeInput: this.onCloudCodeInput, createCloudCollection: this.createCloudCollection, connectCloudCollection: this.connectCloudCollection, pushCloud: this.pushCloud, pullCloud: this.pullCloud, disconnectCloud: this.disconnectCloud, hasCloudSync: !!this.state.cloudSyncId, cloudSyncText: this.state.cloudSyncCode ? ('当前同步代码：' + this.state.cloudSyncCode + '。' + (this.state.cloudStatus || '')) : (this.state.cloudStatus || '未连接云同步。'),
-      trendOpen: this.state.trendOpen, closeTrend: this.closeTrend, saveTrend: this.saveTrend, addTrendRow: this.addTrendRow, trendRowsView, trendMetrics, trendTitle: (trendIt.name || '未命名') + ' · 价格趋势', setChartCanvas: this.setChartCanvas, trendHasData: !tr.empty, onOcr: this.handleOcr, ocrStatus: this.state.ocrStatus || '', hasOcrText: !!(this.state.ocrRawText || this.state.ocrBulkText), ocrRawText: this.state.ocrRawText || '', ocrBulkText: this.state.ocrBulkText || '', onOcrRawChange: this.onOcrRawChange, onOcrBulkChange: this.onOcrBulkChange, reparseOcrRaw: this.reparseOcrRaw, fillOcrBulk: this.fillOcrBulk,
+      showWelcomeCard: !cnPrefix, cloudSyncCode: this.state.cloudSyncCode || '', hasCloudCode: !!this.state.cloudSyncCode, noCloudCode: !this.state.cloudSyncCode, hasCloudStatus: !!this.state.cloudStatus, cloudStatus: this.state.cloudStatus || '', copyCloudCode: this.copyCloudCode, cloudCodeInput: this.state.cloudCodeInput || '', onCloudCodeInput: this.onCloudCodeInput, createCloudCollection: this.createCloudCollection, connectCloudCollection: this.connectCloudCollection, pushCloud: this.pushCloud, pullCloud: this.pullCloud, checkCloudVersion: this.checkCloudVersion, disconnectCloud: this.disconnectCloud, hasCloudSync: !!this.state.cloudSyncId, cloudSyncText: this.state.cloudSyncCode ? ('当前同步代码：' + this.state.cloudSyncCode + '。' + (this.state.cloudStatus || '')) : (this.state.cloudStatus || '未连接云同步。'),
       labels, workManageRows, fieldRows, optionGroups, customFieldRows, draftCustomInputs, hasCustomFields: draftCustomFields.length > 0, addCustomField: this.addCustomField, restoreBaseFields: this.restoreBaseFields, migrateSeriesToSet: this.migrateSeriesToSet, migrateSeriesToCustom: this.migrateSeriesToCustom, workSettingGroups, dashboardCollectionRows, dashboardSaleRows, addGroupAlone: this.addGroupAlone, uploadBg: this.uploadBg, clearBg: this.clearBg, hasBg: !!this.bgUrl, addWorkInline: this.addWork,
       addFormOpt: this.addOptionTo('formOrder', 'zzz_form_order', '输入新的形态'), addStatusOpt: this.addOptionTo('statusList', 'zzz_status', '输入新的状态'), addAcquireOpt: this.addOptionTo('acquireOrder', 'zzz_acquire_order', '输入新的来源方式'), formMenuItems, formDisplay, formMenuOpen: this.state.formMenuOpen, toggleFormMenu: this.toggleFormMenu, statusMenuItems, statusDisplay, statusMenuOpen: this.state.statusMenuOpen, toggleStatusMenu: this.toggleStatusMenu, acquireMenuItems, acquireDisplay, acquireMenuOpen: this.state.acquireMenuOpen, toggleAcquireMenu: this.toggleAcquireMenu, methodMenuItems, methodDisplay, methodMenuOpen: this.state.methodMenuOpen, toggleMethodMenu: this.toggleMethodMenu, clearMethod: this.clearMethod, hasMethodItems: methodMenuItems.length > 0,
       lblCharacter: labels.character, lblType: labels.type, lblChannel: labels.channel, lblPurchaseChannel: labels.purchaseChannel, lblSeries: labels.series, lblStatus: labels.status, lblForm: labels.form, lblAcquire: labels.acquire, showReminderFields, reminderDateLabel, reminderDateHint,
@@ -5600,7 +5931,7 @@ class Component extends DCLogic {
       statNet: cur + this.fmt(totalIn - totalSell),
       statCol: colCount, statSale: saleCount,
       groupTabs,
-      setTable: this.setTable, setGallery: this.setGallery, setCircle: this.setCircle, setLedger: this.setLedger,
+      setDashboard: this.setDashboard, setTable: this.setTable, setGallery: this.setGallery, setCircle: this.setCircle, setLedger: this.setLedger,
       sortByName: () => this.toggleTableSort('name'), sortNameMark: sortMark('name'),
       sortByCharacter: () => this.toggleTableSort('character'), sortCharacterMark: sortMark('character'),
       sortByType: () => this.toggleTableSort('type'), sortTypeMark: sortMark('type'),
@@ -5617,8 +5948,9 @@ class Component extends DCLogic {
       sortByDate: () => this.toggleTableSort('date'), sortDateMark: sortMark('date'),
       tableColumnMenuOpen: this.state.tableColumnMenuOpen, toggleTableColumnMenu: this.toggleTableColumnMenu, resetTableColumns: this.resetTableColumns, tableColumnChips, tableColumnSummary, tableGridStyle, tableGridOuterStyle,
       showTableImage: this.tableColumnVisible('image'), showTableName: this.tableColumnVisible('name'), showTableCharacter: this.tableColumnVisible('character'), showTableType: this.tableColumnVisible('type'), showTableGroup: this.tableColumnVisible('group'), showTableStatus: this.tableColumnVisible('status'), showTableQty: this.tableColumnVisible('qty'), showTableOriginal: this.tableColumnVisible('original'), showTableBuy: this.tableColumnVisible('buy'), showTableShip: this.tableColumnVisible('ship'), showTableSell: this.tableColumnVisible('sell'), showTableProfit: this.tableColumnVisible('profit'), showTableChannel: this.tableColumnVisible('channel'), showTablePurchaseChannel: this.tableColumnVisible('purchaseChannel'), showTableDate: this.tableColumnVisible('date'), showTableActions: this.tableColumnVisible('actions'),
-      tableBtnStyle: this.segStyle(view === 'table'), galleryBtnStyle: this.segStyle(view === 'gallery'), circleBtnStyle: this.segStyle(view === 'circle'), ledgerBtnStyle: this.segStyle(view === 'ledger'),
+      dashboardBtnStyle: this.segStyle(view === 'dashboard'), tableBtnStyle: this.segStyle(view === 'table'), galleryBtnStyle: this.segStyle(view === 'gallery'), circleBtnStyle: this.segStyle(view === 'circle'), ledgerBtnStyle: this.segStyle(view === 'ledger'),
       navViewItems: [
+        { key: 'dashboard', icon: '⌂', label: '首页', onClick: this.setDashboard },
         { key: 'gallery', icon: '▧', label: '图鉴', onClick: this.setGallery },
         { key: 'circle', icon: '◎', label: '圆图', onClick: this.setCircle },
         { key: 'table', icon: '▤', label: '表格', onClick: this.setTable },
@@ -5632,10 +5964,16 @@ class Component extends DCLogic {
       showSeriesF: showSeriesFilter && this.state.filterOn.series !== false, showChannelF: showChannelFilter && this.state.filterOn.channel !== false, showPurchaseChannelF: showPurchaseChannelFilter && this.state.filterOn.purchaseChannel !== false,
       showTagFilter, showRarityFilter, yrCards, showYrReview, yrLabel: yearKey + ' 年度回顾',
       toast: this.state.toast || '', hasToast: !!this.state.toast, showTip: this.showTip,
-      displayRows, isEmpty: itemRows.length === 0 && view !== 'ledger', isTable: view === 'table', isGallery: view === 'gallery', isCircle: view === 'circle', isLedger: view === 'ledger',
+      displayRows, isEmpty: itemRows.length === 0 && view !== 'ledger' && view !== 'dashboard', isDashboard: view === 'dashboard', isTable: view === 'table', isGallery: view === 'gallery', isCircle: view === 'circle', isLedger: view === 'ledger',
+      dashboardTodoRows, dashboardSummaryRows, dashboardRecentItems, dashboardRecentDocs, hasDashboardItems: dashboardRecentItems.length>0, noDashboardItems: dashboardRecentItems.length===0, hasDashboardDocs: dashboardRecentDocs.length>0, noDashboardDocs: dashboardRecentDocs.length===0, dashboardMonthCost: cur + this.fmt(dashboardMonthCostNum), dashboardTotalCost: cur + this.fmt(totalIn),
       budgetInput: (this.state.budgets || {})[budgetMonthKey] || '', hasFeeComposition, feeComposition, feeTotalText, budgetDisplayText: budget > 0 ? (cur + this.fmt(budget)) : (isAllScope ? '不适用' : '未设置'), consumeTitle: TXT.consumeTitle || '消费表', ledgerMonthAreaPath, jumpBudgetThisMonth: this.jumpBudgetThisMonth, ledgerDetailOpen, ledgerDetailItems, ledgerDetailTitle, ledgerDetailTotal, ledgerDetailEmpty, closeLedgerDetail: this.closeLedgerDetail, onBudgetChange: this.onBudgetChange, onBudgetQuickEdit: this.onBudgetQuickEdit, ledgerScopeText, ledgerRangeText, ledgerModeChips, ledgerYearOptions, ledgerMonthOptions, ledgerWeekOptions, ledgerYear, ledgerMonth, ledgerWeek, showLedgerYear, showLedgerMonth, showLedgerWeek, onLedgerYear: this.onLedgerYear, onLedgerMonth: this.onLedgerMonth, onLedgerWeek: this.onLedgerWeek, ledgerPieBy, onLedgerPieBy: this.onLedgerPieBy, ledgerPieChips, ledgerPieTitle, ledgerPieStyle, ledgerPieRows, ledgerPieTotal, ledgerPieCenterLabel, ledgerPieTopText, ledgerPieTip, ledgerPieSegments, ledgerPieActiveName, ledgerPieActivePercent, ledgerPieActiveValue, ledgerPieActiveDot, ledgerDetailRows, ledgerDetailSummary, monthSpentText: cur + this.fmt(monthSpent), budgetRemainText: panelRemainText, budgetRemainStyle: panelRemainStyle, budgetPctText: panelPctText, budgetPctStyle: panelPctStyle, budgetBarStyle: panelBarStyle, budgetStatusText: panelStatusText, ledgerTitle: TXT.ledgerTitle, ledgerHelpText: '', budgetLabel: panelBudgetLabel, spentLabel: panelSpentLabel, remainLabel: panelRemainLabel, progressLabel: panelProgressLabel, showBudgetEdit, showBudgetView: !showBudgetEdit, monthsTitle: TXT.months, reminderCenterTitle: TXT.reminderCenter, noReminderText: TXT.noReminder, mobileWalletTitle: TXT.walletMini, miniBudgetLabel: TXT.miniBudget, miniSpentLabel: TXT.miniSpent, miniRemainLabel: TXT.miniRemain, addItemText: TXT.addItem, ledgerMonths: ledgerMonthCells, barTop, barBottom, areaColor, ledgerMonthBars, ledgerMonthDots, ledgerMonthLinePoints, ledgerMonthHint, ledgerMonthTotal, ledgerMonthPeakText, topCostRows, topQtyRows, topCharacterRows, topPlatformRows, ledgerRankCards, reviewCards, completeSetRows, reviewPeriodText, achievementRows, ledgerRankTitle1, ledgerRankTitle2, ledgerRankTitle3, ledgerRankTitle4, upcomingReminders, ledgerReminderRows, hasLedgerReminders: ledgerReminderRows.length > 0, noLedgerReminders: ledgerReminderRows.length === 0, hasUpcomingReminders: upcomingReminders.length > 0, mobileReminderText, mobileReminderDetail, mobileTodoRows, mobileBudgetText: budget > 0 ? (cur + this.fmt(budget)) : '未设', reminderCountText,
       qtyBadgeStyle: { position: 'absolute', top: '1px', right: '5px', minWidth: '22px', height: '22px', padding: '0 6px', borderRadius: '999px', background: `radial-gradient(circle at 32% 28%, ${this.accentLight(0.5)}, ${this.accentColor()} 82%)`, color: '#fff', fontSize: '12px', fontWeight: 800, lineHeight: 1, fontFamily: "'Orbitron',sans-serif", display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: `0 3px 9px ${this.accentAlpha(0.5)}`, border: '2.5px solid #fff' },
       modalOpen: this.state.modalOpen, modalTitle: this.state.editing ? '编辑谷子' : '新增谷子', isEditing: !!this.state.editing, duplicateCurrent: this.duplicateCurrent, deleteCurrent: this.deleteCurrent,
+      itemEvidenceSelectedCount:(this.state.itemEvidenceDrafts||[]).length, hasItemEvidenceDrafts:(this.state.itemEvidenceDrafts||[]).length>0, noCloudForItemEvidence:!this.shippingSyncCode(), itemEvidenceExistingSelect:'', itemEvidenceExistingCount:(this.state.itemEvidenceExistingIds||[]).length, itemEvidenceExistingOptions:(this.state.shippingRecords||[]).filter(r=>r.type==='本体资料').map(r=>({value:r.id,label:[r.group,r.title,r.note,(r.images||[]).length+'张图'].filter(Boolean).join(' · ')})), onItemEvidenceExistingSelect:this.onItemEvidenceExistingSelect, itemEvidenceOpen:!!this.state.itemEvidenceOpen, toggleItemEvidence:this.toggleItemEvidence, itemEvidenceCaret:this.state.itemEvidenceOpen?'▲ 收起':'▼ 展开', itemEvidenceBadge:((this.state.itemEvidenceDrafts||[]).length+(this.state.itemEvidenceExistingIds||[]).length)>0?('已选 '+((this.state.itemEvidenceDrafts||[]).length+(this.state.itemEvidenceExistingIds||[]).length)): '可选填', itemEvidenceSummary:(()=>{const a=(this.state.itemEvidenceDrafts||[]).length,b=(this.state.itemEvidenceExistingIds||[]).length;if(a||b)return ['待上传 '+a+' 张',b?'复用 '+b+' 份':''].filter(Boolean).join(' · ');return '肾表、群内交款要求、付款截图，或使用已有资料';})(),
+      itemEvidenceRequirementName:(()=>{const n=(this.state.itemEvidenceDrafts||[]).filter(x=>x.role==='肾表／群内交款要求').length;return n?n+' 张已选':'点击选择';})(),
+      itemEvidencePaidName:(()=>{const n=(this.state.itemEvidenceDrafts||[]).filter(x=>x.role==='我的付款截图').length;return n?n+' 张已选':'点击选择';})(),
+      onItemEvidenceRequirement:this.onItemEvidencePick('肾表／群内交款要求'), onItemEvidencePaid:this.onItemEvidencePick('我的付款截图'),
+      clearAllItemEvidence:()=>this.setState({itemEvidenceDrafts:[],itemEvidenceExistingIds:[]}),
       draft: d || this.emptyDraft(),
       CHARACTERS: this.orderedChars(), TYPES: this.TYPES, reminderTypeOptions: (this.state.reminderTypes && this.state.reminderTypes.length ? this.state.reminderTypes : this.REMINDER_TYPES), reminderMenuItems, reminderDisplay, reminderMenuOpen: this.state.reminderMenuOpen, toggleReminderMenu: this.toggleReminderMenu, addReminderType: this.addReminderType, clearReminderType: () => this.pickReminderType(''), STATUSES: this.state.statusList || this.STATUSES, FORMS: this.FORMS,
       closeModal: this.closeModal, saveItem: this.saveItem, onDraftChange: this.onDraftChange, autoGrowNote: this.autoGrowNote, charMenuItems, charDisplay, charMenuOpen: this.state.charMenuOpen, toggleCharMenu: this.toggleCharMenu, onTypeChange: this.onTypeChange, onSeriesChange: this.onSeriesChange, fillName: this.fillName, draftStars, typeMenuItems, typeDisplay, hasTypeMenuItems, typeMenuOpen: this.state.typeMenuOpen, toggleTypeMenu: this.toggleTypeMenu, addType: this.addType, seriesMenuItems, seriesDisplay, hasSeriesMenuItems, seriesMenuOpen: this.state.seriesMenuOpen, toggleSeriesMenu: this.toggleSeriesMenu, addSeries: this.addSeries, clearSeries: this.clearSeries, channelMenuItems, channelMenuOpen: this.state.channelMenuOpen, toggleChannelMenu: this.toggleChannelMenu, addChannel: this.addChannel, clearChannel: this.clearChannel, channelDisplay: (this.state.draft && this.state.draft.channel) ? this.state.draft.channel : '（未分类）', hasChannelMenuItems: channelMenuItems.length > 0, purchaseChannelMenuItems, purchaseChannelMenuOpen: this.state.purchaseChannelMenuOpen, togglePurchaseChannelMenu: this.togglePurchaseChannelMenu, addPurchaseChannel: this.addPurchaseChannel, clearPurchaseChannel: this.clearPurchaseChannel, purchaseChannelDisplay: (this.state.draft && this.state.draft.purchaseChannel) ? this.state.draft.purchaseChannel : '（未分类）', hasPurchaseChannelMenuItems: purchaseChannelMenuItems.length > 0, fillBuyFromRate: this.fillBuyFromRate, draftHasConv, draftConvText, draftIsGacha, draftSwapped,
