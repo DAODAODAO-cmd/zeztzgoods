@@ -193,6 +193,7 @@
     .ui-mobile-auto .ui-mobile-secondary-action,.ui-mobile-simple .ui-mobile-secondary-action{display:none !important;}
     .ui-mobile-auto .ui-mobile-mode-button,.ui-mobile-simple .ui-mobile-mode-button,.ui-mobile-full .ui-mobile-mode-button{display:inline-flex !important;align-items:center;justify-content:center;}
     .ui-mobile-auto .ui-mobile-ship-btn,.ui-mobile-simple .ui-mobile-ship-btn,.ui-mobile-full .ui-mobile-ship-btn{display:inline-flex !important;align-items:center;justify-content:center;}
+    .ui-mobile-auto .ui-mobile-sync-btn,.ui-mobile-simple .ui-mobile-sync-btn,.ui-mobile-full .ui-mobile-sync-btn{display:inline-flex !important;align-items:center;justify-content:center;}
     .ui-mobile-auto .ui-mobile-batch-action,.ui-mobile-simple .ui-mobile-batch-action,.ui-mobile-full .ui-mobile-batch-action{position:fixed !important;left:16px !important;bottom:18px !important;z-index:50 !important;border-radius:999px !important;min-width:48px !important;min-height:46px !important;padding:0 15px !important;background:#fff !important;color:#4c4580 !important;border:1px solid #ded7ee !important;box-shadow:0 12px 26px rgba(50,38,90,.18) !important;}
     .ui-mobile-auto .ui-stats-grid,.ui-mobile-simple .ui-stats-grid{display:none !important;}
     .ui-mobile-auto .ui-toolbar,.ui-mobile-simple .ui-toolbar{position:sticky !important;top:0 !important;z-index:12 !important;margin-left:-4px !important;margin-right:-4px !important;border-radius:12px !important;box-shadow:0 8px 24px rgba(50,38,90,.08) !important;}
@@ -597,6 +598,7 @@
         </span>
         <button onClick="{{ openSettings }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.045);border:1px solid #ded7ee;padding:8px 13px;border-radius:9px;cursor:pointer">设置</button>
         <button class="ui-mobile-ship-btn" onClick="{{ openShipping }}" style="display:none;font-family:inherit;font-size:13px;font-weight:700;color:#fff;background:var(--accent,#ff3355);border:none;padding:8px 13px;border-radius:9px;cursor:pointer">📦 排发中心</button>
+        <button class="ui-mobile-sync-btn" onClick="{{ mobileCloudSync }}" style="{{ mobileSyncBtnStyle }}">{{ mobileSyncLabel }}</button>
         <button class="ui-mobile-mode-button" onClick="{{ toggleMobileMode }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.045);border:1px solid #ded7ee;padding:8px 13px;border-radius:9px;cursor:pointer">{{ mobileModeText }}</button>
         <button class="ui-mobile-secondary-action" onClick="{{ openDataManage }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.045);border:1px solid #ded7ee;padding:8px 13px;border-radius:9px;cursor:pointer">数据管理</button>
         <input ref="{{ setImportRef }}" type="file" accept="application/json" onChange="{{ onImportFile }}" style="display:none">
@@ -2768,10 +2770,20 @@ class Component extends DCLogic {
       this.setState({ cloudSyncId: data.id, cloudSyncCode: data.sync_code, cloudCodeInput: data.sync_code, cloudStatus: '已连接同步代码：' + data.sync_code + '。云端更新时间：' + this.fmtCloudTime(data.updated_at) + '。请确认后点击“读取云端数据”，不会自动覆盖本机。', cloudBusy: false, cloudPending: false, cloudRemoteUpdatedAt: data.updated_at || '' });
     } catch (e) { this.setState({ cloudStatus: '连接失败：' + (e.message || e), cloudBusy: false, cloudPending: false }); }
   };
-  pushCloud = async () => {
+  // 手机端快捷同步：点一下选择上传或读取
+  mobileCloudSync = () => {
+    if (this.state.cloudBusy) { return; }
+    const hasCode = !!(this.state.cloudSyncCode || localStorage.getItem('zzz_cloud_code'));
+    if (!hasCode) { alert('还没有连接同步代码。请先到「设置 → 同步」生成或连接同步代码。'); this.openSettings && this.openSettings(); return; }
+    const pending = this.state.cloudPending ? '（本机有未上传的修改）' : '';
+    const up = window.confirm('云端同步' + pending + '\n\n点「确定」= 上传到云端（用本机资料覆盖云端）\n点「取消」= 换成读取云端数据到本机');
+    if (up) { this.pushCloud(); }
+    else { const ok = window.confirm('读取云端数据会用云端资料覆盖本机当前内容。\n\n确定要读取吗？'); if (ok) this.pullCloud(); }
+  };
+  pushCloud = async (auto) => {
     const code = String(this.state.cloudSyncCode || localStorage.getItem('zzz_cloud_code') || '').trim().toUpperCase();
-    if (!this.cloudReady() || !code) { this.setState({ cloudStatus: '还没有连接同步代码。', cloudBusy: false }); return; }
-    this.setState({ cloudBusy: true, cloudStatus: '正在检查并上传到云端…' });
+    if (!this.cloudReady() || !code) { if (!auto) this.setState({ cloudStatus: '还没有连接同步代码。', cloudBusy: false }); return; }
+    this.setState({ cloudBusy: true, cloudStatus: auto ? '正在自动上传到云端…' : '正在检查并上传到云端…' });
     try {
       const { data: remote, error: readError } = await this.sb.from('collections').select('id,sync_code,updated_at').eq('sync_code', code).single();
       if (readError) throw readError;
@@ -2780,6 +2792,7 @@ class Component extends DCLogic {
       const remoteAt = remote.updated_at || '';
       const remoteNewer = remoteAt && localSyncedAt && new Date(remoteAt).getTime() > new Date(localSyncedAt).getTime() + 1000;
       if (remoteNewer) {
+        if (auto) { this.setState({ cloudBusy: false, cloudPending: true, cloudRemoteUpdatedAt: remoteAt, cloudStatus: '云端有较新版本，已暂停自动上传以免覆盖。请手动确认要保留哪一边。' }); return; }
         const ok = window.confirm('云端版本比本机上次同步记录更新。\n\n云端：' + this.fmtCloudTime(remoteAt) + '\n本机上次同步：' + this.fmtCloudTime(localSyncedAt) + '\n\n继续上传会用本机完整资料覆盖云端。确定继续吗？');
         if (!ok) { this.setState({ cloudBusy: false, cloudPending: true, cloudRemoteUpdatedAt: remoteAt, cloudStatus: '已取消上传。建议先导出本机备份，再读取云端或确认覆盖。' }); return; }
       }
@@ -2795,10 +2808,10 @@ class Component extends DCLogic {
       localStorage.setItem('zzz_cloud_last_synced_at', syncedAt);
       await this.uploadCollectionSummary(code);
       const imageTip = imgSync.failed ? '；有 ' + imgSync.failed + ' 张图片上传失败' : '';
-      this.setState({ cloudSyncId: data[0].id, cloudSyncCode: data[0].sync_code, cloudCodeInput: data[0].sync_code, cloudStatus: '已手动上传到云端，共 ' + ((this.state.items || []).length) + ' 件谷子' + imageTip + '。同步时间：' + this.fmtCloudTime(syncedAt), cloudBusy: false, cloudPending: false, cloudLastSyncedAt: syncedAt, cloudRemoteUpdatedAt: syncedAt });
+      this.setState({ cloudSyncId: data[0].id, cloudSyncCode: data[0].sync_code, cloudCodeInput: data[0].sync_code, cloudStatus: (auto ? '已自动上传到云端（停手 5 分钟触发），共 ' : '已手动上传到云端，共 ') + ((this.state.items || []).length) + ' 件谷子' + imageTip + '。同步时间：' + this.fmtCloudTime(syncedAt), cloudBusy: false, cloudPending: false, cloudLastSyncedAt: syncedAt, cloudRemoteUpdatedAt: syncedAt });
     } catch (e) {
       console.error('pushCloud failed:', e);
-      this.setState({ cloudStatus: '上传失败：' + ((e && e.message) || e), cloudBusy: false, cloudPending: true });
+      this.setState({ cloudStatus: (auto ? '自动上传失败（稍后会再尝试）：' : '上传失败：') + ((e && e.message) || e), cloudBusy: false, cloudPending: true });
     }
   };
   pullCloud = async () => {
@@ -3284,7 +3297,20 @@ class Component extends DCLogic {
   dataURLToBlob(d) { const [m, b64] = d.split(','); const mime = (m.match(/:(.*?);/) || [])[1] || 'image/png'; const bin = atob(b64); const arr = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i); return new Blob([arr], { type: mime }); }
 
   // ---- persistence ----
-  commit(items) { try { localStorage.setItem('zzz_goods_v1', JSON.stringify(items)); } catch (e) {} this.setState({ items, savedAt: Date.now(), cloudPending: !!(this.state.cloudSyncCode || localStorage.getItem('zzz_cloud_code')), cloudStatus: (this.state.cloudSyncCode || localStorage.getItem('zzz_cloud_code')) ? '本机有未上传的修改。请完成整理后手动上传到云端。' : this.state.cloudStatus }); }
+  commit(items) { try { localStorage.setItem('zzz_goods_v1', JSON.stringify(items)); } catch (e) {} const hasCode = !!(this.state.cloudSyncCode || localStorage.getItem('zzz_cloud_code')); this.setState({ items, savedAt: Date.now(), cloudPending: hasCode, cloudStatus: hasCode ? '本机有未上传的修改。停手 5 分钟会自动上传，也可以随时手动上传。' : this.state.cloudStatus }); this.scheduleAutoCloudPush(); }
+  // 停手 5 分钟自动上传：每次改动都重置计时，连续 5 分钟没有新改动才真正上传（需已连接同步代码）
+  scheduleAutoCloudPush() {
+    const hasCode = !!(this.state.cloudSyncCode || localStorage.getItem('zzz_cloud_code'));
+    if (!hasCode) return;
+    if (this._autoCloudTimer) clearTimeout(this._autoCloudTimer);
+    this._autoCloudTimer = setTimeout(() => {
+      this._autoCloudTimer = null;
+      // 只有确实还有未上传的修改、且此刻没有别的同步操作在进行时才自动上传
+      if (this.state.cloudPending && !this.state.cloudBusy) {
+        try { this.pushCloud(true); } catch (e) {}
+      }
+    }, 5 * 60 * 1000);
+  }
 
   // ---- helpers ----
   num(v) { const n = parseFloat(v); return isNaN(n) ? 0 : n; }
@@ -5719,6 +5745,9 @@ class Component extends DCLogic {
     const cloudSaveText = !hasCloudSyncNow ? '云端未连接' : (this.state.cloudBusy ? '云端处理中' : (this.state.cloudPending ? '云端未上传' : (cloudHasProblem ? '云端需处理' : '云端已同步')));
     const cloudSaveColor = !hasCloudSyncNow ? '#8c83a8' : (this.state.cloudBusy || this.state.cloudPending ? '#b7791f' : (cloudHasProblem ? '#d64262' : '#0f8f50'));
     const cloudSaveBg = !hasCloudSyncNow ? 'rgba(50,38,90,.045)' : (this.state.cloudBusy || this.state.cloudPending ? 'rgba(255,183,77,.13)' : (cloudHasProblem ? 'rgba(226,59,93,.1)' : 'rgba(61,220,151,.1)'));
+    const mobileSyncBusy = !!this.state.cloudBusy;
+    const mobileSyncLabel = !hasCloudSyncNow ? '☁️ 同步' : (this.state.cloudBusy ? '⏳ 同步中…' : (this.state.cloudPending ? '☁️ 待上传' : (cloudHasProblem ? '⚠️ 同步' : '✅ 已同步')));
+    const mobileSyncBtnStyle = { display: 'none', fontFamily: 'inherit', fontSize: '13px', fontWeight: 700, border: '1px solid', borderColor: (this.state.cloudBusy || this.state.cloudPending) ? 'rgba(183,121,31,.3)' : (cloudHasProblem ? 'rgba(226,59,93,.3)' : (hasCloudSyncNow ? 'rgba(15,143,80,.3)' : '#ded7ee')), color: cloudSaveColor, background: cloudSaveBg, padding: '8px 13px', borderRadius: '9px', cursor: this.state.cloudBusy ? 'default' : 'pointer', opacity: this.state.cloudBusy ? 0.7 : 1 };
     const cloudSaveBorder = !hasCloudSyncNow ? 'rgba(50,38,90,.1)' : (this.state.cloudBusy || this.state.cloudPending ? 'rgba(255,183,77,.28)' : (cloudHasProblem ? 'rgba(226,59,93,.22)' : 'rgba(61,220,151,.22)'));
     const cloudDotColor = !hasCloudSyncNow ? '#aaa3bd' : (this.state.cloudBusy || this.state.cloudPending ? '#d99023' : (cloudHasProblem ? '#e23b5d' : '#12a85f'));
     const cloudSavePillStyle = { display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: cloudSaveColor, background: cloudSaveBg, border: '1px solid ' + cloudSaveBorder, padding: '6px 11px', borderRadius: '999px' };
@@ -5916,14 +5945,14 @@ class Component extends DCLogic {
       openSettings: this.openSettings, closeSettings: this.cancelSettings, cancelSettings: this.cancelSettings, saveSettings: this.saveSettings, clearAllData: this.clearAllData, settingsOpen: this.state.settingsOpen, dataManageOpen: this.state.dataManageOpen, openDataManage: this.openDataManage, batchEditOpen: this.state.batchEditOpen, closeBatchEditor: this.closeBatchEditor, openBatchEditor: this.openBatchEditor, batchEditFields, batchEditOptions, batchEditTitle, batchEditChooseMode, batchEditOptionMode, batchEditBack: this.batchEditBack, closeDataManage: this.closeDataManage, confirmExcelExport: this.confirmExcelExport, confirmExcelTemplate: this.confirmExcelTemplate, confirmExcelImport: this.confirmExcelImport, confirmJsonExport: this.confirmJsonExport, confirmJsonImport: this.confirmJsonImport,
       cnVal: sd.collectorName || '', curVal: sd.currency || this.cur(), accentVal: sd.accent || this.props.accent || '#ff3355', nameStyleVal: sd.nameStyleMode || this.state.nameStyleMode || 'default', displayModeVal: sd.displayMode || this.state.displayMode || 'standard', stylePreviewText: this.previewStyleText(sd.nameStyleMode || this.state.nameStyleMode || 'default'), titleVal: sd.title || '', subtitleVal: sd.subtitle || '', footerVal: sd.footer || '',
       onCn: this.onDraftSettingField('collectorName'), onCurrency: this.onDraftSettingField('currency'), onAccent: this.onDraftSettingField('accent'), onNameStyle: this.setNameStyle, onDisplayMode: this.setDisplayMode, onTitleSet: this.onDraftSettingField('title'), onSubtitleSet: this.onDraftSettingField('subtitle'), onFooterSet: this.onDraftSettingField('footer'),
-      showWelcomeCard: !cnPrefix, cloudSyncCode: this.state.cloudSyncCode || '', hasCloudCode: !!this.state.cloudSyncCode, noCloudCode: !this.state.cloudSyncCode, hasCloudStatus: !!this.state.cloudStatus, cloudStatus: this.state.cloudStatus || '', copyCloudCode: this.copyCloudCode, cloudCodeInput: this.state.cloudCodeInput || '', onCloudCodeInput: this.onCloudCodeInput, createCloudCollection: this.createCloudCollection, connectCloudCollection: this.connectCloudCollection, pushCloud: this.pushCloud, pullCloud: this.pullCloud, checkCloudVersion: this.checkCloudVersion, disconnectCloud: this.disconnectCloud, hasCloudSync: !!this.state.cloudSyncId, cloudSyncText: this.state.cloudSyncCode ? ('当前同步代码：' + this.state.cloudSyncCode + '。' + (this.state.cloudStatus || '')) : (this.state.cloudStatus || '未连接云同步。'),
+      showWelcomeCard: !cnPrefix, cloudSyncCode: this.state.cloudSyncCode || '', hasCloudCode: !!this.state.cloudSyncCode, noCloudCode: !this.state.cloudSyncCode, hasCloudStatus: !!this.state.cloudStatus, cloudStatus: this.state.cloudStatus || '', copyCloudCode: this.copyCloudCode, cloudCodeInput: this.state.cloudCodeInput || '', onCloudCodeInput: this.onCloudCodeInput, createCloudCollection: this.createCloudCollection, connectCloudCollection: this.connectCloudCollection, pushCloud: this.pushCloud, pullCloud: this.pullCloud, mobileCloudSync: this.mobileCloudSync, checkCloudVersion: this.checkCloudVersion, disconnectCloud: this.disconnectCloud, hasCloudSync: !!this.state.cloudSyncId, cloudSyncText: this.state.cloudSyncCode ? ('当前同步代码：' + this.state.cloudSyncCode + '。' + (this.state.cloudStatus || '')) : (this.state.cloudStatus || '未连接云同步。'),
       labels, workManageRows, fieldRows, optionGroups, customFieldRows, draftCustomInputs, hasCustomFields: draftCustomFields.length > 0, addCustomField: this.addCustomField, restoreBaseFields: this.restoreBaseFields, migrateSeriesToSet: this.migrateSeriesToSet, migrateSeriesToCustom: this.migrateSeriesToCustom, workSettingGroups, dashboardCollectionRows, dashboardSaleRows, addGroupAlone: this.addGroupAlone, uploadBg: this.uploadBg, clearBg: this.clearBg, hasBg: !!this.bgUrl, addWorkInline: this.addWork,
       addFormOpt: this.addOptionTo('formOrder', 'zzz_form_order', '输入新的形态'), addStatusOpt: this.addOptionTo('statusList', 'zzz_status', '输入新的状态'), addAcquireOpt: this.addOptionTo('acquireOrder', 'zzz_acquire_order', '输入新的来源方式'), formMenuItems, formDisplay, formMenuOpen: this.state.formMenuOpen, toggleFormMenu: this.toggleFormMenu, statusMenuItems, statusDisplay, statusMenuOpen: this.state.statusMenuOpen, toggleStatusMenu: this.toggleStatusMenu, acquireMenuItems, acquireDisplay, acquireMenuOpen: this.state.acquireMenuOpen, toggleAcquireMenu: this.toggleAcquireMenu, methodMenuItems, methodDisplay, methodMenuOpen: this.state.methodMenuOpen, toggleMethodMenu: this.toggleMethodMenu, clearMethod: this.clearMethod, hasMethodItems: methodMenuItems.length > 0,
       lblCharacter: labels.character, lblType: labels.type, lblChannel: labels.channel, lblPurchaseChannel: labels.purchaseChannel, lblSeries: labels.series, lblStatus: labels.status, lblForm: labels.form, lblAcquire: labels.acquire, showReminderFields, reminderDateLabel, reminderDateHint,
       cnPrefix, hasCn: !!cnPrefix, cnDisplay, cnSidebarClass,
       rootBgStyle: this.bgUrl ? { backgroundImage: `linear-gradient(180deg,rgba(255,255,255,.78),rgba(255,255,255,.9)), url(${this.bgUrl})`, backgroundSize: 'cover', backgroundAttachment: 'fixed', backgroundPosition: 'center' } : {},
       appClass, mobileModeText, toggleMobileMode: this.toggleMobileMode, filterSummaryText, filterToggleText, toggleFiltersOpen: this.toggleFiltersOpen,
-      savedText, cloudSaveText, cloudSaveColor, cloudSavePillStyle, cloudSaveDotStyle, doExport: this.doExport, doExcelExport: this.doExcelExport, doExcelTemplate: this.doExcelTemplate, triggerExcelImport: this.triggerExcelImport, onExcelImportFile: this.onExcelImportFile, triggerImport: this.triggerImport, onImportFile: this.onImportFile,
+      savedText, cloudSaveText, cloudSaveColor, cloudSavePillStyle, cloudSaveDotStyle, mobileSyncLabel, mobileSyncBtnStyle, mobileSyncBusy, doExport: this.doExport, doExcelExport: this.doExcelExport, doExcelTemplate: this.doExcelTemplate, triggerExcelImport: this.triggerExcelImport, onExcelImportFile: this.onExcelImportFile, triggerImport: this.triggerImport, onImportFile: this.onImportFile,
       logoFallback,
       logoStyle: logoFallback ? { height: '54px', width: '54px', borderRadius: '15px', position: 'relative', overflow: 'hidden', cursor: 'pointer', flexShrink: 0, border: '1px solid #ded7ee', background: 'linear-gradient(145deg,#ffffff,#f8f4ff)', boxShadow: '0 8px 20px rgba(50,38,90,.08)' } : { height: '54px', width: '160px', backgroundImage: `url(${headerLogoUrl})`, backgroundSize: 'contain', backgroundPosition: 'left center', backgroundRepeat: 'no-repeat', filter: 'drop-shadow(0 4px 14px rgba(0,0,0,.5))', cursor: 'pointer', flexShrink: 0 },
       sidebarLogoStyle: { width: '100%', height: '112px', borderRadius: '15px', position: 'relative', overflow: 'hidden', flexShrink: 0, cursor: 'pointer', border: '1px solid #e3def1', backgroundColor: 'rgba(255,255,255,.86)', boxShadow: 'inset 0 0 0 1px rgba(255,255,255,.7), 0 8px 20px rgba(50,38,90,.08)', backgroundImage: logoFallback ? 'linear-gradient(145deg,#ffffff,#f8f4ff)' : `url(${headerLogoUrl})`, backgroundSize: logoFallback ? 'cover' : 'contain', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }, title: this.state.title || '谷子收纳', subtitle: this.state.subtitle || '梦 境 特 工 档 案', footer: this.state.footer || '梦境特工档案 · コードナンバー：収集家', uploadLogo: this.uploadLogo, onTitleBlur: this.onTitleBlur, onSubtitleBlur: this.onSubtitleBlur, onFooterBlur: this.onFooterBlur, onCnBlur: this.onCnBlur, onCnFocus: this.onCnFocus,
