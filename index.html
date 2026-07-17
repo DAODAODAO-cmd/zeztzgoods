@@ -2225,8 +2225,8 @@
     </div>
   </sc-if>
   <sc-if value="{{ relinkOpen }}" hint-placeholder-val="false">
-  <div style="position:fixed;inset:0;z-index:60;background:rgba(30,22,54,.5);display:flex;align-items:center;justify-content:center;padding:16px" onClick="{{ closeRelink }}">
-    <div style="width:100%;max-width:460px;max-height:82vh;display:flex;flex-direction:column;background:linear-gradient(160deg,#fff,#f5f2fb);border-radius:18px;overflow:hidden;box-shadow:0 20px 60px rgba(30,22,54,.3)" onClick="{{ stopEvt }}">
+  <div style="position:fixed;inset:0;z-index:400;background:rgba(30,22,54,.5);display:flex;align-items:center;justify-content:center;padding:16px" onClick="{{ closeRelink }}">
+    <div style="width:100%;max-width:460px;max-height:82vh;display:flex;flex-direction:column;background:linear-gradient(160deg,#fff,#f5f2fb);border-radius:18px;overflow:hidden;box-shadow:0 20px 60px rgba(30,22,54,.3)" onClick="{{ stop }}">
       <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #e1dbf0">
         <div><div style="font-weight:900;font-size:15px;color:#251d49">修改关联</div><div style="font-size:11.5px;color:#837da4;margin-top:1px">{{ relinkTitle }}</div></div>
         <button onClick="{{ closeRelink }}" style="width:30px;height:30px;border-radius:9px;border:1px solid #ded7ee;background:#fff;color:#595287;font-size:17px;cursor:pointer">×</button>
