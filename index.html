@@ -286,7 +286,7 @@
     .ui-app.ui-view-home .ui-reminder-strip,.ui-app.ui-view-home .ui-mobile-ledger-mini{display:none !important;}
     .ui-app.ui-view-home .ui-toolbar{display:none !important;}
     .ui-app.ui-view-home .ui-stats-grid{display:none !important;}
-    .ui-app.ui-view-home .ui-mobile-home-view-switch{display:flex !important;}
+    .ui-app.ui-view-home .ui-mobile-home-toprow{display:flex !important;}
 
     /* 搜索 tab 连顶部 logo/标题栏也隐藏，只留搜索框、筛选与结果 */
     .ui-app.ui-view-search .ui-header{display:none !important;}
@@ -792,13 +792,19 @@
       </div>
     </div>
 
-    <!-- 手机端首页专属：图鉴 / 圆图 切换 + 批量按钮（桌面端始终隐藏，手机端只在"首页"tab显示） -->
-    <div class="ui-mobile-home-view-switch" style="display:none;align-items:center;justify-content:space-between;gap:8px;margin-bottom:14px;width:100%">
-      <div style="display:flex;gap:4px;background:rgba(50,38,90,.06);padding:4px;border-radius:11px">
-        <button onClick="{{ setGallery }}" style="{{ galleryBtnStyle }}">▧ 图鉴</button>
-        <button onClick="{{ setCircle }}" style="{{ circleBtnStyle }}">◎ 圆图</button>
+    <!-- 手机端首页专属：图鉴/圆图一键切换 + 批量 + 分组筛选，全部同一行（桌面端始终隐藏，手机端只在"首页"tab显示） -->
+    <div class="ui-mobile-home-toprow" style="display:none;align-items:center;gap:4px;margin-bottom:14px">
+      <div style="flex-shrink:0;display:flex;gap:2px;background:rgba(50,38,90,.06);padding:3px;border-radius:9px">
+        <button onClick="{{ setGallery }}" style="{{ galleryIconStyle }}">▧</button>
+        <button onClick="{{ setCircle }}" style="{{ circleIconStyle }}">◎</button>
       </div>
-      <sc-if value="{{ showBatchControl }}" hint-placeholder-val="{{ true }}"><button onClick="{{ toggleBatchMode }}" style="font-family:inherit;font-size:13px;font-weight:700;color:#4c4580;background:#fff;border:1px solid #ded7ee;padding:8px 13px;border-radius:10px;cursor:pointer">{{ mobileBatchText }}</button></sc-if>
+      <sc-if value="{{ showBatchControl }}" hint-placeholder-val="{{ true }}"><button onClick="{{ toggleBatchMode }}" style="flex-shrink:0;white-space:nowrap;font-family:inherit;font-size:11.5px;font-weight:700;color:#4c4580;background:#fff;border:1px solid #ded7ee;padding:7px 8px;border-radius:8px;cursor:pointer">{{ mobileBatchText }}</button></sc-if>
+      <div style="flex:1;display:flex;gap:3px;min-width:0">
+        <button onClick="{{ gtAll.onClick }}" style="{{ gtAll.style }}">全部 {{ gtAll.n }}</button>
+        <button onClick="{{ gtInhand.onClick }}" style="{{ gtInhand.style }}"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:2px"><path d="M4 12l5 5L20 6"/></svg>{{ gtInhand.mobileLabel }} {{ gtInhand.n }}</button>
+        <button onClick="{{ gtAir.onClick }}" style="{{ gtAir.style }}"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:2px"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>{{ gtAir.mobileLabel }} {{ gtAir.n }}</button>
+        <button onClick="{{ gtSale.onClick }}" style="{{ gtSale.style }}"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:2px"><path d="M12 19V6"/><path d="M5 12l7-7 7 7"/></svg>{{ gtSale.mobileLabel }} {{ gtSale.n }}</button>
+      </div>
     </div>
 
     <sc-if value="{{ hasUpcomingReminders }}" hint-placeholder-val="{{ false }}">
@@ -6260,6 +6266,15 @@ class Component extends DCLogic {
       onClick: () => this.setState({ mobileFilterCat: mobileFilterCat === c.key ? '' : c.key }),
       style: { ...this.segStyle(mobileFilterCat === c.key), whiteSpace: 'nowrap', flexShrink: 0 }
     }));
+    const galleryIconStyle = { ...this.segStyle(view === 'gallery'), padding: '6px 9px', fontSize: '14px', borderRadius: '7px' };
+    const circleIconStyle = { ...this.segStyle(view === 'circle'), padding: '6px 9px', fontSize: '14px', borderRadius: '7px' };
+    const mobileGroupTabStyle = { padding: '6px 3px', fontSize: '10px', borderRadius: '7px', flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' };
+    const mobileGroupTextLabel = t => t.key === 'all' ? '全部' : t.label.split(' ').slice(1).join(' ');
+    const mobileGroupTabs = groupTabs.map(t => ({ ...t, mobileLabel: mobileGroupTextLabel(t), style: { ...t.style, ...mobileGroupTabStyle } }));
+    const gtAll = mobileGroupTabs.find(t => t.key === 'all') || mobileGroupTabs[0];
+    const gtInhand = mobileGroupTabs.find(t => t.key === 'inhand') || mobileGroupTabs[0];
+    const gtAir = mobileGroupTabs.find(t => t.key === 'air') || mobileGroupTabs[0];
+    const gtSale = mobileGroupTabs.find(t => t.key === 'sale') || mobileGroupTabs[0];
 
     return {
       setRoot: this.setRoot, setImportRef: this.setImportRef, setExcelImportRef: this.setExcelImportRef, stop: this.stop,
@@ -6328,7 +6343,7 @@ class Component extends DCLogic {
       showCharF: fieldVisible('character') && this.state.filterOn.character !== false, showTypeF: fieldVisible('type') && this.state.filterOn.type !== false, showFormF: fieldVisible('form') && this.state.filterOn.form !== false, showStatusF: showStatusFilter, showAcquireF: fieldVisible('acquire') && this.state.filterOn.acquire !== false, showMethodF: showMethodFilter, showSetF: showSetFilter,
       showSeriesF: showSeriesFilter && this.state.filterOn.series !== false, showChannelF: showChannelFilter && this.state.filterOn.channel !== false, showPurchaseChannelF: showPurchaseChannelFilter && this.state.filterOn.purchaseChannel !== false,
       showTagFilter, showRarityFilter, yrCards, showYrReview, yrLabel: yearKey + ' 年度回顾',
-      mobileFilterCat, mobileFilterCatChips,
+      mobileFilterCat, mobileFilterCatChips, galleryIconStyle, circleIconStyle, mobileGroupTabs, gtAll, gtInhand, gtAir, gtSale,
       toast: this.state.toast || '', hasToast: !!this.state.toast, showTip: this.showTip,
       displayRows, isEmpty: itemRows.length === 0 && view !== 'ledger' && view !== 'dashboard', isDashboard: view === 'dashboard', isTable: view === 'table', isGallery: view === 'gallery', isCircle: view === 'circle', isLedger: view === 'ledger',
       dashboardTodoRows, dashboardSummaryRows, dashboardRecentItems, dashboardRecentDocs, hasDashboardItems: dashboardRecentItems.length>0, noDashboardItems: dashboardRecentItems.length===0, hasDashboardDocs: dashboardRecentDocs.length>0, noDashboardDocs: dashboardRecentDocs.length===0, dashboardMonthCost: cur + this.fmt(dashboardMonthCostNum), dashboardTotalCost: cur + this.fmt(totalIn),
