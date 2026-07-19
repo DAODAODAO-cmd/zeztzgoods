@@ -204,7 +204,7 @@
     .ui-hide-mobile{display:none !important;}
     /* 手机底部 tab 栏 */
     .ui-bottom-tab{position:fixed;left:0;right:0;bottom:0;z-index:320;display:flex;align-items:center;justify-content:space-around;gap:2px;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-top:1px solid #eadff3;padding:4px 8px calc(4px + env(safe-area-inset-bottom));box-shadow:0 -6px 20px rgba(46,35,86,.08)}
-    .ui-bottom-tab-add{flex:0 0 auto;width:52px;height:52px;margin-top:-18px;border-radius:50%;background:var(--accent,#ff3355);color:#fff;border:4px solid #fff;box-shadow:0 6px 16px rgba(255,51,85,.4);display:flex;align-items:center;justify-content:center;cursor:pointer;font-family:inherit}
+    .ui-bottom-tab-add{flex:0 0 auto;width:52px;height:52px;margin-top:-18px;border-radius:50%;background:var(--accent,#ff3355);color:#fff;border:4px solid #fff;box-shadow:0 6px 16px var(--accent-shadow,rgba(255,51,85,.4));display:flex;align-items:center;justify-content:center;cursor:pointer;font-family:inherit}
     .ui-page-inner{padding-bottom:calc(78px + env(safe-area-inset-bottom)) !important;}
     .ui-mobile-auto .ui-mobile-batch-action,.ui-mobile-simple .ui-mobile-batch-action,.ui-mobile-full .ui-mobile-batch-action{position:fixed !important;left:16px !important;bottom:18px !important;z-index:50 !important;border-radius:999px !important;min-width:48px !important;min-height:46px !important;padding:0 15px !important;background:#fff !important;color:#4c4580 !important;border:1px solid #ded7ee !important;box-shadow:0 12px 26px rgba(50,38,90,.18) !important;}
     .ui-mobile-auto .ui-stats-grid,.ui-mobile-simple .ui-stats-grid{display:none !important;}
@@ -249,9 +249,11 @@
     .ui-mobile-auto .ui-mobile-card-price,.ui-mobile-simple .ui-mobile-card-price{margin-top:1px !important;padding-top:7px !important;}
     .ui-mobile-auto .ui-mobile-card-price [style*="font-size:18px"],.ui-mobile-simple .ui-mobile-card-price [style*="font-size:18px"]{font-size:15px !important;}
     .ui-mobile-auto .ui-mobile-card-main span:nth-child(n+3),.ui-mobile-simple .ui-mobile-card-main span:nth-child(n+3){display:none !important;}
-    .ui-mobile-auto .ui-circle-wrap,.ui-mobile-simple .ui-circle-wrap{gap:13px 10px !important;justify-content:flex-start !important;}
-    .ui-mobile-auto .ui-circle-item,.ui-mobile-simple .ui-circle-item{width:76px !important;}
-    .ui-mobile-auto .ui-circle-img,.ui-mobile-simple .ui-circle-img{width:70px !important;height:70px !important;}
+    .ui-circle-wrap{display:grid !important;grid-template-columns:repeat(4,1fr) !important;gap:16px 8px !important;justify-items:center !important;}
+    .ui-circle-header{grid-column:1 / -1 !important;}
+    .ui-circle-item{width:100% !important;}
+    .ui-circle-img{width:100% !important;height:auto !important;aspect-ratio:1/1 !important;}
+    .ui-circle-name{max-width:100% !important;}
     .ui-mobile-auto .ui-page-footer,.ui-mobile-simple .ui-page-footer{display:none !important;}
 
     .ui-mobile-auto .ui-ledger-page,.ui-mobile-simple .ui-ledger-page{display:none !important;}
@@ -273,9 +275,12 @@
     .ui-app.ui-view-home .ui-mobile-ledger-mini{display:block !important;margin-bottom:12px !important;}
     .ui-app.ui-view-ledger .ui-group-tabs{display:none !important;}
     .ui-app.ui-view-search .ui-mobile-ledger-mini,.ui-app.ui-view-search .ui-reminder-strip{display:none !important;}
-    .ui-ledger-card{padding:11px 12px !important;}
-    .ui-ledger-card > div[style*="font-size:24px"]{font-size:17px !important;}
-    .ui-ledger-card > div[style*="font-size:22px"]{font-size:17px !important;}
+    .ui-ledger-grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:8px !important;}
+    .ui-ledger-card{padding:9px 10px !important;}
+    .ui-ledger-card > div[style*="font-size:24px"]{font-size:15px !important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .ui-ledger-card > div[style*="font-size:22px"]{font-size:15px !important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .ui-ledger-card input[style*="font-size:22px"]{font-size:15px !important;}
+    .ui-ledger-card > div:first-child{font-size:11px !important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:5px !important;}
 
     /* 首页 tab 只留纯图鉴网格 + 悬浮加号（底部 tab 栏自带加号，工具栏内重复的加号一并隐藏不影响功能） */
     .ui-app.ui-view-home .ui-reminder-strip,.ui-app.ui-view-home .ui-mobile-ledger-mini{display:none !important;}
@@ -782,10 +787,13 @@
       </div>
     </div>
 
-    <!-- 手机端首页专属：图鉴 / 圆图 切换（桌面端始终隐藏，手机端只在"首页"tab显示） -->
-    <div class="ui-mobile-home-view-switch" style="display:none;gap:4px;background:rgba(50,38,90,.06);padding:4px;border-radius:11px;margin-bottom:14px;width:fit-content">
-      <button onClick="{{ setGallery }}" style="{{ galleryBtnStyle }}">▧ 图鉴</button>
-      <button onClick="{{ setCircle }}" style="{{ circleBtnStyle }}">◎ 圆图</button>
+    <!-- 手机端首页专属：图鉴 / 圆图 切换 + 批量按钮（桌面端始终隐藏，手机端只在"首页"tab显示） -->
+    <div class="ui-mobile-home-view-switch" style="display:none;align-items:center;justify-content:space-between;gap:8px;margin-bottom:14px;width:100%">
+      <div style="display:flex;gap:4px;background:rgba(50,38,90,.06);padding:4px;border-radius:11px">
+        <button onClick="{{ setGallery }}" style="{{ galleryBtnStyle }}">▧ 图鉴</button>
+        <button onClick="{{ setCircle }}" style="{{ circleBtnStyle }}">◎ 圆图</button>
+      </div>
+      <sc-if value="{{ showBatchControl }}" hint-placeholder-val="{{ true }}"><button onClick="{{ toggleBatchMode }}" style="font-family:inherit;font-size:13px;font-weight:700;color:#4c4580;background:#fff;border:1px solid #ded7ee;padding:8px 13px;border-radius:10px;cursor:pointer">{{ mobileBatchText }}</button></sc-if>
     </div>
 
     <sc-if value="{{ hasUpcomingReminders }}" hint-placeholder-val="{{ false }}">
@@ -1280,7 +1288,7 @@
       <div class="ui-circle-wrap" style="display:flex;flex-wrap:wrap;gap:16px 14px;align-items:flex-start">
         <sc-for list="{{ displayRows }}" as="row" hint-placeholder-count="12">
           <sc-if value="{{ row.isHeader }}" hint-placeholder-val="{{ false }}">
-            <div style="width:100%;display:flex;align-items:center;gap:10px;margin-top:4px">
+            <div class="ui-circle-header" style="width:100%;display:flex;align-items:center;gap:10px;margin-top:4px">
               <sc-if value="{{ row.headerHasImg }}" hint-placeholder-val="{{ false }}"><div style="{{ row.headerImgT }}"></div></sc-if>
               <sc-if value="{{ row.headerNoImg }}" hint-placeholder-val="{{ true }}"><span style="{{ row.dotStyle }}"></span></sc-if>
               <span onClick="{{ row.onToggleCollapse }}" style="cursor:pointer;color:#8b85ab;font-size:12px;user-select:none;flex-shrink:0">{{ row.caret }}</span>
@@ -1298,7 +1306,7 @@
                 <sc-if value="{{ row.hasHeat }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;bottom:3px;right:6px;color:#ff7a1a;font-size:11px;text-shadow:0 1px 2px rgba(255,255,255,.9)">{{ row.starsText }}</span></sc-if>
               </div>
               <sc-if value="{{ row.showQty }}" hint-placeholder-val="{{ false }}"><span style="{{ qtyBadgeStyle }}">{{ row.qty }}</span></sc-if>
-              <span style="font-size:11px;color:#544f7e;line-height:1.25;text-align:center;max-width:92px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">{{ row.name }}</span>
+              <span class="ui-circle-name" style="font-size:11px;color:#544f7e;line-height:1.25;text-align:center;max-width:92px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">{{ row.name }}</span>
             </button>
           </sc-if>
         </sc-for>
@@ -2363,11 +2371,11 @@
   </sc-if>
   <!-- ===== MOBILE 底部 TAB 栏 ===== -->
   <nav class="ui-bottom-tab">
-    <button onClick="{{ tabHome }}" style="{{ tabHomeStyle }}"><span style="font-size:19px">🏠</span><span>首页</span></button>
-    <button onClick="{{ tabSearch }}" style="{{ tabSearchStyle }}"><span style="font-size:19px">🔍</span><span>搜索</span></button>
+    <button onClick="{{ tabHome }}" style="{{ tabHomeStyle }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9a1 1 0 0 0 1 1H10v-6h4v6h3.5a1 1 0 0 0 1-1v-9"/></svg><span>首页</span></button>
+    <button onClick="{{ tabSearch }}" style="{{ tabSearchStyle }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.3-4.3"/></svg><span>搜索</span></button>
     <button onClick="{{ tabAdd }}" class="ui-bottom-tab-add"><span style="font-size:26px;line-height:1">＋</span></button>
-    <button onClick="{{ tabLedger }}" style="{{ tabLedgerStyle }}"><span style="font-size:19px">📒</span><span>账本</span></button>
-    <button onClick="{{ tabMine }}" style="{{ tabMineStyle }}"><span style="font-size:19px">👤</span><span>我的</span></button>
+    <button onClick="{{ tabLedger }}" style="{{ tabLedgerStyle }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6.5" width="18" height="13" rx="2"/><path d="M3 10h18"/><path d="M7 6.5V5.2a1.2 1.2 0 0 1 1.2-1.2h7.6A1.2 1.2 0 0 1 17 5.2v1.3"/><circle cx="16.3" cy="14.7" r="1.1" fill="currentColor" stroke="none"/></svg><span>钱包</span></button>
+    <button onClick="{{ tabMine }}" style="{{ tabMineStyle }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M4.8 20c.7-3.8 3.8-6.2 7.2-6.2s6.5 2.4 7.2 6.2"/></svg><span>我的</span></button>
   </nav>
 </div>
 </x-dc>
