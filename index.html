@@ -303,6 +303,9 @@
     .ui-mobile-card-extra{display:none !important;}
     .ui-mobile-card-price{margin-top:1px !important;padding-top:7px !important;}
     .ui-mobile-card-price [style*="font-size:18px"]{font-size:15px !important;}
+    .ui-wallet-header-row{padding:13px 14px !important;gap:4px !important;}
+    .ui-wallet-scope-text{display:none !important;}
+    .ui-wallet-scope-mobile{display:flex !important;}
     .ui-mobile-card-main span:nth-child(n+3){display:none !important;}
     .ui-mobile-card-price .ui-card-breakdown{display:none !important;}
 
@@ -794,11 +797,11 @@
 
     <!-- 手机端首页专属：图鉴/圆图一键切换 + 批量 + 分组筛选，全部同一行（桌面端始终隐藏，手机端只在"首页"tab显示） -->
     <div class="ui-mobile-home-toprow" style="display:none;align-items:center;gap:4px;margin-bottom:14px">
-      <div style="flex-shrink:0;display:flex;gap:2px;background:rgba(50,38,90,.06);padding:3px;border-radius:9px">
+      <div style="flex-shrink:0;display:flex;gap:1px;background:rgba(50,38,90,.06);padding:2px;border-radius:8px">
         <button onClick="{{ setGallery }}" style="{{ galleryIconStyle }}">▧</button>
         <button onClick="{{ setCircle }}" style="{{ circleIconStyle }}">◎</button>
       </div>
-      <sc-if value="{{ showBatchControl }}" hint-placeholder-val="{{ true }}"><button onClick="{{ toggleBatchMode }}" style="flex-shrink:0;white-space:nowrap;font-family:inherit;font-size:11.5px;font-weight:700;color:#4c4580;background:#fff;border:1px solid #ded7ee;padding:7px 8px;border-radius:8px;cursor:pointer">{{ mobileBatchText }}</button></sc-if>
+      <sc-if value="{{ showBatchControl }}" hint-placeholder-val="{{ true }}"><button onClick="{{ toggleBatchMode }}" style="flex-shrink:0;white-space:nowrap;font-family:inherit;font-size:9.5px;font-weight:700;color:#4c4580;background:#fff;border:1px solid #ded7ee;padding:5px 6px;border-radius:6px;cursor:pointer">{{ mobileBatchText }}</button></sc-if>
       <div style="flex:1;display:flex;gap:3px;min-width:0">
         <button onClick="{{ gtAll.onClick }}" style="{{ gtAll.style }}">全部 {{ gtAll.n }}</button>
         <button onClick="{{ gtInhand.onClick }}" style="{{ gtInhand.style }}"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:2px"><path d="M4 12l5 5L20 6"/></svg>{{ gtInhand.mobileLabel }} {{ gtInhand.n }}</button>
@@ -1327,12 +1330,16 @@
     <!-- ===== LEDGER VIEW ===== -->
     <sc-if value="{{ isLedger }}" hint-placeholder-val="{{ false }}">
       <div class="ui-ledger-page">
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:linear-gradient(120deg,#ffffff,#f3f0fb);border:1px solid #ded7ee;border-radius:16px;padding:15px 18px">
+        <div class="ui-wallet-header-row" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:linear-gradient(120deg,#ffffff,#f3f0fb);border:1px solid #ded7ee;border-radius:16px;padding:15px 18px">
           <div>
             <div style="font-weight:900;font-size:18px;color:#251d49">{{ ledgerTitle }}</div>
             <div style="font-size:12.5px;color:#837da4;margin-top:4px">{{ ledgerHelpText }}</div>
           </div>
-          <div style="font-size:12px;color:#837da4;text-align:right">{{ ledgerRangeText }} · {{ ledgerScopeText }}</div>
+          <div class="ui-wallet-scope-text" style="font-size:12px;color:#837da4;text-align:right">{{ ledgerRangeText }} · {{ ledgerScopeText }}</div>
+          <div class="ui-wallet-scope-mobile" style="display:none;gap:6px;flex-wrap:wrap">
+            <span style="font-size:11px;color:#4c4580;background:rgba(50,38,90,.06);padding:4px 9px;border-radius:999px;white-space:nowrap">{{ mobileWalletRangeText }}</span>
+            <span style="font-size:11px;color:#4c4580;background:rgba(50,38,90,.06);padding:4px 9px;border-radius:999px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px">{{ mobileWalletScopeText }}</span>
+          </div>
         </div>
 
         <div style="display:none"></div>
@@ -5723,6 +5730,9 @@ class Component extends DCLogic {
     const ledgerWorkScope = groupBy === 'workGroup' ? '全部系列IP' : groupBy === 'work' ? ('当前系列IP：' + currentWorkGroupName) : ('当前作品：' + currentWorkNameText);
     const hasActiveFilter = !!(charSel.length || typeSel.length || formSel.length || statusSel.length || acquireSel.length || channelSel.length || (purchaseChannelSel || []).length || seriesFilter !== '全部' || search || Object.values(this.state.customFilterSel || {}).some(arr => arr && arr.length));
     const ledgerScopeText = ledgerWorkScope + ' · ' + (hasActiveFilter ? '当前筛选 ' : '当前范围 ') + filtered.length + ' 项 · ' + fQty + ' 件';
+    const mobileWalletRangeText = ledgerRangeInfo.label || '本月';
+    const mobileWalletScopeName = groupBy === 'workGroup' ? '全部系列IP' : (groupBy === 'work' ? currentWorkGroupName : currentWorkNameText);
+    const mobileWalletScopeText = mobileWalletScopeName + ' · ' + fQty + ' 件';
     const nowForLedger = new Date();
     const monthValues = this.makeConsumptionSeries(ledgerItems, ledgerRangeInfo, cur);
     const maxMonth = Math.max(1, ...monthValues.map(x => x.value));
@@ -6266,8 +6276,8 @@ class Component extends DCLogic {
       onClick: () => this.setState({ mobileFilterCat: mobileFilterCat === c.key ? '' : c.key }),
       style: { ...this.segStyle(mobileFilterCat === c.key), whiteSpace: 'nowrap', flexShrink: 0 }
     }));
-    const galleryIconStyle = { ...this.segStyle(view === 'gallery'), padding: '6px 9px', fontSize: '14px', borderRadius: '7px' };
-    const circleIconStyle = { ...this.segStyle(view === 'circle'), padding: '6px 9px', fontSize: '14px', borderRadius: '7px' };
+    const galleryIconStyle = { ...this.segStyle(view === 'gallery'), padding: '4px 6px', fontSize: '11px', borderRadius: '6px' };
+    const circleIconStyle = { ...this.segStyle(view === 'circle'), padding: '4px 6px', fontSize: '11px', borderRadius: '6px' };
     const mobileGroupTabStyle = { padding: '6px 3px', fontSize: '10px', borderRadius: '7px', flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' };
     const mobileGroupTextLabel = t => t.key === 'all' ? '全部' : t.label.split(' ').slice(1).join(' ');
     const mobileGroupTabs = groupTabs.map(t => ({ ...t, mobileLabel: mobileGroupTextLabel(t), style: { ...t.style, ...mobileGroupTabStyle } }));
@@ -6347,7 +6357,7 @@ class Component extends DCLogic {
       toast: this.state.toast || '', hasToast: !!this.state.toast, showTip: this.showTip,
       displayRows, isEmpty: itemRows.length === 0 && view !== 'ledger' && view !== 'dashboard', isDashboard: view === 'dashboard', isTable: view === 'table', isGallery: view === 'gallery', isCircle: view === 'circle', isLedger: view === 'ledger',
       dashboardTodoRows, dashboardSummaryRows, dashboardRecentItems, dashboardRecentDocs, hasDashboardItems: dashboardRecentItems.length>0, noDashboardItems: dashboardRecentItems.length===0, hasDashboardDocs: dashboardRecentDocs.length>0, noDashboardDocs: dashboardRecentDocs.length===0, dashboardMonthCost: cur + this.fmt(dashboardMonthCostNum), dashboardTotalCost: cur + this.fmt(totalIn),
-      budgetInput: (this.state.budgets || {})[budgetMonthKey] || '', hasFeeComposition, feeComposition, feeTotalText, budgetDisplayText: budget > 0 ? (cur + this.fmt(budget)) : (isAllScope ? '不适用' : '未设置'), consumeTitle: TXT.consumeTitle || '消费表', ledgerMonthAreaPath, jumpBudgetThisMonth: this.jumpBudgetThisMonth, ledgerDetailOpen, ledgerDetailItems, ledgerDetailTitle, ledgerDetailTotal, ledgerDetailEmpty, closeLedgerDetail: this.closeLedgerDetail, onBudgetChange: this.onBudgetChange, onBudgetQuickEdit: this.onBudgetQuickEdit, ledgerScopeText, ledgerRangeText, ledgerModeChips, ledgerYearOptions, ledgerMonthOptions, ledgerWeekOptions, ledgerYear, ledgerMonth, ledgerWeek, showLedgerYear, showLedgerMonth, showLedgerWeek, onLedgerYear: this.onLedgerYear, onLedgerMonth: this.onLedgerMonth, onLedgerWeek: this.onLedgerWeek, ledgerPieBy, onLedgerPieBy: this.onLedgerPieBy, ledgerPieChips, ledgerPieTitle, ledgerPieStyle, ledgerPieRows, ledgerPieTotal, ledgerPieCenterLabel, ledgerPieTopText, ledgerPieTip, ledgerPieSegments, ledgerPieActiveName, ledgerPieActivePercent, ledgerPieActiveValue, ledgerPieActiveDot, ledgerDetailRows, ledgerDetailSummary, monthSpentText: cur + this.fmt(monthSpent), monthSpentBig: cur + this.fmtBig(monthSpent), monthSpentFull: cur + this.fmt(monthSpent), budgetRemainText: panelRemainText, budgetRemainStyle: panelRemainStyle, budgetPctText: panelPctText, budgetPctStyle: panelPctStyle, budgetBarStyle: panelBarStyle, budgetStatusText: panelStatusText, ledgerTitle: TXT.ledgerTitle, ledgerHelpText: '', budgetLabel: panelBudgetLabel, spentLabel: panelSpentLabel, remainLabel: panelRemainLabel, progressLabel: panelProgressLabel, showBudgetEdit, showBudgetView: !showBudgetEdit, monthsTitle: TXT.months, reminderCenterTitle: TXT.reminderCenter, noReminderText: TXT.noReminder, mobileWalletTitle: TXT.walletMini, miniBudgetLabel: TXT.miniBudget, miniSpentLabel: TXT.miniSpent, miniRemainLabel: TXT.miniRemain, addItemText: TXT.addItem, ledgerMonths: ledgerMonthCells, barTop, barBottom, areaColor, ledgerMonthBars, ledgerMonthDots, ledgerMonthLinePoints, ledgerMonthHint, ledgerMonthTotal, ledgerMonthPeakText, topCostRows, topQtyRows, topCharacterRows, topPlatformRows, ledgerRankCards, reviewCards, completeSetRows, reviewPeriodText, achievementRows, ledgerRankTitle1, ledgerRankTitle2, ledgerRankTitle3, ledgerRankTitle4, upcomingReminders, ledgerReminderRows, hasLedgerReminders: ledgerReminderRows.length > 0, noLedgerReminders: ledgerReminderRows.length === 0, hasUpcomingReminders: upcomingReminders.length > 0, mobileReminderText, mobileReminderDetail, mobileTodoRows, mobileBudgetText: budget > 0 ? (cur + this.fmt(budget)) : '未设', reminderCountText,
+      budgetInput: (this.state.budgets || {})[budgetMonthKey] || '', hasFeeComposition, feeComposition, feeTotalText, budgetDisplayText: budget > 0 ? (cur + this.fmt(budget)) : (isAllScope ? '不适用' : '未设置'), consumeTitle: TXT.consumeTitle || '消费表', ledgerMonthAreaPath, jumpBudgetThisMonth: this.jumpBudgetThisMonth, ledgerDetailOpen, ledgerDetailItems, ledgerDetailTitle, ledgerDetailTotal, ledgerDetailEmpty, closeLedgerDetail: this.closeLedgerDetail, onBudgetChange: this.onBudgetChange, onBudgetQuickEdit: this.onBudgetQuickEdit, ledgerScopeText, ledgerRangeText, mobileWalletRangeText, mobileWalletScopeText, ledgerModeChips, ledgerYearOptions, ledgerMonthOptions, ledgerWeekOptions, ledgerYear, ledgerMonth, ledgerWeek, showLedgerYear, showLedgerMonth, showLedgerWeek, onLedgerYear: this.onLedgerYear, onLedgerMonth: this.onLedgerMonth, onLedgerWeek: this.onLedgerWeek, ledgerPieBy, onLedgerPieBy: this.onLedgerPieBy, ledgerPieChips, ledgerPieTitle, ledgerPieStyle, ledgerPieRows, ledgerPieTotal, ledgerPieCenterLabel, ledgerPieTopText, ledgerPieTip, ledgerPieSegments, ledgerPieActiveName, ledgerPieActivePercent, ledgerPieActiveValue, ledgerPieActiveDot, ledgerDetailRows, ledgerDetailSummary, monthSpentText: cur + this.fmt(monthSpent), monthSpentBig: cur + this.fmtBig(monthSpent), monthSpentFull: cur + this.fmt(monthSpent), budgetRemainText: panelRemainText, budgetRemainStyle: panelRemainStyle, budgetPctText: panelPctText, budgetPctStyle: panelPctStyle, budgetBarStyle: panelBarStyle, budgetStatusText: panelStatusText, ledgerTitle: TXT.ledgerTitle, ledgerHelpText: '', budgetLabel: panelBudgetLabel, spentLabel: panelSpentLabel, remainLabel: panelRemainLabel, progressLabel: panelProgressLabel, showBudgetEdit, showBudgetView: !showBudgetEdit, monthsTitle: TXT.months, reminderCenterTitle: TXT.reminderCenter, noReminderText: TXT.noReminder, mobileWalletTitle: TXT.walletMini, miniBudgetLabel: TXT.miniBudget, miniSpentLabel: TXT.miniSpent, miniRemainLabel: TXT.miniRemain, addItemText: TXT.addItem, ledgerMonths: ledgerMonthCells, barTop, barBottom, areaColor, ledgerMonthBars, ledgerMonthDots, ledgerMonthLinePoints, ledgerMonthHint, ledgerMonthTotal, ledgerMonthPeakText, topCostRows, topQtyRows, topCharacterRows, topPlatformRows, ledgerRankCards, reviewCards, completeSetRows, reviewPeriodText, achievementRows, ledgerRankTitle1, ledgerRankTitle2, ledgerRankTitle3, ledgerRankTitle4, upcomingReminders, ledgerReminderRows, hasLedgerReminders: ledgerReminderRows.length > 0, noLedgerReminders: ledgerReminderRows.length === 0, hasUpcomingReminders: upcomingReminders.length > 0, mobileReminderText, mobileReminderDetail, mobileTodoRows, mobileBudgetText: budget > 0 ? (cur + this.fmt(budget)) : '未设', reminderCountText,
       qtyBadgeStyle: { position: 'absolute', top: '1px', right: '5px', minWidth: '22px', height: '22px', padding: '0 6px', borderRadius: '999px', background: `radial-gradient(circle at 32% 28%, ${this.accentLight(0.5)}, ${this.accentColor()} 82%)`, color: '#fff', fontSize: '12px', fontWeight: 800, lineHeight: 1, fontFamily: "'Orbitron',sans-serif", display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: `0 3px 9px ${this.accentAlpha(0.5)}`, border: '2.5px solid #fff' },
       modalOpen: this.state.modalOpen, modalTitle: this.state.editing ? '编辑谷子' : '新增谷子', isEditing: !!this.state.editing, duplicateCurrent: this.duplicateCurrent, deleteCurrent: this.deleteCurrent,
       itemEvidenceSelectedCount:(this.state.itemEvidenceDrafts||[]).length, hasItemEvidenceDrafts:(this.state.itemEvidenceDrafts||[]).length>0, noCloudForItemEvidence:!this.shippingSyncCode(), itemEvidenceExistingSelect:'', itemEvidenceExistingCount:(this.state.itemEvidenceExistingIds||[]).length, itemEvidenceExistingOptions:(this.state.shippingRecords||[]).filter(r=>r.type==='本体资料').map(r=>({value:r.id,label:[r.group,r.title,r.note,(r.images||[]).length+'张图'].filter(Boolean).join(' · ')})), onItemEvidenceExistingSelect:this.onItemEvidenceExistingSelect, itemEvidenceOpen:!!this.state.itemEvidenceOpen, toggleItemEvidence:this.toggleItemEvidence, itemEvidenceCaret:this.state.itemEvidenceOpen?'▲ 收起':'▼ 展开', itemEvidenceBadge:((this.state.itemEvidenceDrafts||[]).length+(this.state.itemEvidenceExistingIds||[]).length)>0?('已选 '+((this.state.itemEvidenceDrafts||[]).length+(this.state.itemEvidenceExistingIds||[]).length)): '可选填', itemEvidenceSummary:(()=>{const a=(this.state.itemEvidenceDrafts||[]).length,b=(this.state.itemEvidenceExistingIds||[]).length;if(a||b)return ['待上传 '+a+' 张',b?'复用 '+b+' 份':''].filter(Boolean).join(' · ');return '肾表、群内交款要求、付款截图，或使用已有资料';})(),
