@@ -21,10 +21,12 @@
 <script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
 <style>
   *{box-sizing:border-box}
+  .ui-bottom-tab{display:none}
   /* 全局防溢出：flex 子项可收缩，数字/长文断行不冲出容器 */
   .ui-app [style*="display:flex"] > *{min-width:0}
   .ui-app [style*="Orbitron"]{overflow-wrap:anywhere;word-break:break-word;min-width:0}
-  .ui-stat-value,.ui-gallery-name,.ui-mobile-card-price,.ui-mobile-card-price *{overflow-wrap:anywhere;word-break:break-word;min-width:0}
+  .ui-stat-value,.ui-gallery-name{overflow-wrap:anywhere;word-break:break-word;min-width:0}
+  .ui-mobile-card-price,.ui-mobile-card-price *{white-space:nowrap;min-width:0}
   body{margin:0;background:linear-gradient(180deg,#fff7fb 0%,#f7fbff 48%,#fff9ef 100%)}
   ::placeholder{color:#938db0}
   select option{background:#ffffff;color:#251d49}
@@ -194,11 +196,16 @@
     .ui-modal-card .ui-modal-footer{position:sticky !important;bottom:0 !important;background:linear-gradient(0deg,#f6f3fc,#fbfaff) !important;}
     .ui-page-inner{max-width:none !important;}
     .ui-mobile-auto .ui-header-actions,.ui-mobile-simple .ui-header-actions{width:100%;justify-content:space-between !important;gap:8px !important;}
-    .ui-mobile-auto .ui-mobile-secondary-action,.ui-mobile-simple .ui-mobile-secondary-action{display:none !important;}
+    .ui-mobile-secondary-action{display:none !important;}
     .ui-mobile-auto .ui-mobile-mode-button,.ui-mobile-simple .ui-mobile-mode-button,.ui-mobile-full .ui-mobile-mode-button{display:inline-flex !important;align-items:center;justify-content:center;}
     .ui-mobile-auto .ui-mobile-ship-btn,.ui-mobile-simple .ui-mobile-ship-btn,.ui-mobile-full .ui-mobile-ship-btn{display:inline-flex !important;align-items:center;justify-content:center;}
     .ui-mobile-auto .ui-mobile-sync-btn,.ui-mobile-simple .ui-mobile-sync-btn,.ui-mobile-full .ui-mobile-sync-btn{display:inline-flex !important;align-items:center;justify-content:center;}
     .ui-mobile-auto .ui-header-status-pill,.ui-mobile-simple .ui-header-status-pill,.ui-mobile-full .ui-header-status-pill{display:none !important;}
+    .ui-hide-mobile{display:none !important;}
+    /* 手机底部 tab 栏 */
+    .ui-bottom-tab{position:fixed;left:0;right:0;bottom:0;z-index:320;display:flex;align-items:center;justify-content:space-around;gap:2px;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-top:1px solid #eadff3;padding:4px 8px calc(4px + env(safe-area-inset-bottom));box-shadow:0 -6px 20px rgba(46,35,86,.08)}
+    .ui-bottom-tab-add{flex:0 0 auto;width:52px;height:52px;margin-top:-18px;border-radius:50%;background:var(--accent,#ff3355);color:#fff;border:4px solid #fff;box-shadow:0 6px 16px rgba(255,51,85,.4);display:flex;align-items:center;justify-content:center;cursor:pointer;font-family:inherit}
+    .ui-page-inner{padding-bottom:calc(78px + env(safe-area-inset-bottom)) !important;}
     .ui-mobile-auto .ui-mobile-batch-action,.ui-mobile-simple .ui-mobile-batch-action,.ui-mobile-full .ui-mobile-batch-action{position:fixed !important;left:16px !important;bottom:18px !important;z-index:50 !important;border-radius:999px !important;min-width:48px !important;min-height:46px !important;padding:0 15px !important;background:#fff !important;color:#4c4580 !important;border:1px solid #ded7ee !important;box-shadow:0 12px 26px rgba(50,38,90,.18) !important;}
     .ui-mobile-auto .ui-stats-grid,.ui-mobile-simple .ui-stats-grid{display:none !important;}
     .ui-mobile-auto .ui-toolbar,.ui-mobile-simple .ui-toolbar{position:sticky !important;top:0 !important;z-index:12 !important;margin-left:-4px !important;margin-right:-4px !important;border-radius:12px !important;box-shadow:0 8px 24px rgba(50,38,90,.08) !important;}
@@ -251,6 +258,35 @@
     .ui-mobile-auto .ui-reminder-strip,.ui-mobile-simple .ui-reminder-strip{display:block !important;margin-bottom:12px !important;}
     .ui-mobile-auto .ui-mobile-ledger-mini,.ui-mobile-simple .ui-mobile-ledger-mini{display:block !important;margin-bottom:12px !important;}
     .ui-mobile-auto .ui-reminder-full-text,.ui-mobile-simple .ui-reminder-full-text{display:none !important;}
+
+    /* ===== 手机端专属：首页 / 搜索 / 账本 内容分离 + 顶部金额缩小（仅 ≤640px 生效，电脑端不受影响）===== */
+    .ui-app .ui-desktop-view-switch{display:none !important;}
+    .ui-app .ui-table-mode-btn{display:none !important;}
+    .ui-stats-grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:8px !important;}
+    .ui-stats-grid > div{padding:10px 11px !important;border-radius:12px !important;}
+    .ui-stats-grid > div > div:first-child{font-size:10px !important;margin-bottom:4px !important;}
+    .ui-stats-grid > div > div:last-child{font-size:14px !important;}
+    .ui-app .ui-stats-grid{display:none !important;}
+    .ui-app.ui-view-home .ui-stats-grid{display:grid !important;}
+    .ui-app .ui-reminder-strip,.ui-app .ui-mobile-ledger-mini{display:none !important;}
+    .ui-app.ui-view-home .ui-reminder-strip{display:block !important;margin-bottom:12px !important;}
+    .ui-app.ui-view-home .ui-mobile-ledger-mini{display:block !important;margin-bottom:12px !important;}
+    .ui-app.ui-view-ledger .ui-work-switch,.ui-app.ui-view-ledger .ui-group-tabs{display:none !important;}
+    .ui-app.ui-view-search .ui-mobile-ledger-mini,.ui-app.ui-view-search .ui-reminder-strip{display:none !important;}
+    .ui-ledger-card{padding:11px 12px !important;}
+    .ui-ledger-card > div[style*="font-size:24px"]{font-size:17px !important;}
+    .ui-ledger-card > div[style*="font-size:22px"]{font-size:17px !important;}
+
+    /* 1A：首页 tab 只留纯图鉴网格 + 悬浮加号（底部 tab 栏自带加号，工具栏内重复的加号一并隐藏不影响功能） */
+    .ui-app.ui-view-home .ui-reminder-strip,.ui-app.ui-view-home .ui-mobile-ledger-mini{display:none !important;}
+    .ui-app.ui-view-home .ui-work-switch{display:none !important;}
+    .ui-app.ui-view-home .ui-toolbar{display:none !important;}
+    .ui-app.ui-view-home .ui-stats-grid{display:none !important;}
+
+    /* 2A：搜索 tab 连顶部 logo/标题栏也隐藏，只留搜索框、筛选与结果 */
+    .ui-app.ui-view-search .ui-header{display:none !important;}
+    .ui-app.ui-view-search .ui-work-switch{display:none !important;}
+    .ui-app.ui-view-search .ui-toolbar{display:none !important;}
   }
 
   @media (max-width:900px){
@@ -559,7 +595,7 @@
       <sc-for list="{{ navGroupItems }}" as="n" hint-placeholder-count="3">
         <button onClick="{{ n.onClick }}" style="{{ n.style }}"><span style="{{ n.iconStyle }}">{{ n.icon }}</span>{{ n.label }}<sc-if value="{{ n.hasTip }}" hint-placeholder-val="{{ false }}"><span title="{{ n.tipText }}" style="margin-left:6px;width:15px;height:15px;border-radius:50%;background:rgba(124,92,214,.14);color:#7c5cd6;font-size:10px;font-style:italic;font-weight:700;font-family:Georgia,serif;line-height:15px;text-align:center;cursor:help;flex-shrink:0">i</span></sc-if><span style="{{ n.countStyle }}">{{ n.n }}</span></button>
       </sc-for>
-      <button onClick="{{ openShipping }}" style="display:flex;align-items:center;gap:8px;width:100%;font-family:inherit;font-size:13px;font-weight:800;color:#fff;background:var(--accent,#ff3355);border:none;padding:10px 12px;border-radius:12px;cursor:pointer;margin-top:10px"><span>📦</span>排发中心<span style="margin-left:auto;font-size:11px;opacity:.85">{{ shippingCount }}</span></button>
+      <button onClick="{{ openShipping }}" style="display:flex;align-items:center;gap:8px;width:100%;font-family:inherit;font-size:13px;font-weight:800;color:#fff;background:var(--accent,#ff3355);border:none;padding:10px 12px;border-radius:12px;cursor:pointer;margin-top:10px"><span>📦</span>排发中心<span style="margin-left:auto;font-size:12px;font-family:'Orbitron',sans-serif;color:#fff;background:rgba(255,255,255,.22);border-radius:999px;padding:1px 8px;min-width:20px;text-align:center">{{ shippingCount }}</span></button>
       <div class="ui-sidebar-label" style="margin-top:13px">视图</div>
       <sc-for list="{{ navViewItems }}" as="n" hint-placeholder-count="4">
         <button onClick="{{ n.onClick }}" style="{{ n.style }}"><span style="{{ n.iconStyle }}">{{ n.icon }}</span>{{ n.label }}</button>
@@ -601,10 +637,10 @@
         <span class="ui-header-status-pill" style="{{ cloudSavePillStyle }}">
           <span style="{{ cloudSaveDotStyle }}"></span>{{ cloudSaveText }}
         </span>
-        <button onClick="{{ openSettings }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.045);border:1px solid #ded7ee;padding:8px 13px;border-radius:9px;cursor:pointer">设置</button>
-        <button class="ui-mobile-ship-btn" onClick="{{ openShipping }}" style="display:none;font-family:inherit;font-size:13px;font-weight:700;color:#fff;background:var(--accent,#ff3355);border:none;padding:8px 13px;border-radius:9px;cursor:pointer">📦 排发中心</button>
-        <button class="ui-mobile-sync-btn" onClick="{{ mobileCloudSync }}" style="{{ mobileSyncBtnStyle }}">{{ mobileSyncLabel }}</button>
-        <button class="ui-mobile-mode-button" onClick="{{ toggleMobileMode }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.045);border:1px solid #ded7ee;padding:8px 13px;border-radius:9px;cursor:pointer">{{ mobileModeText }}</button>
+        <button class="ui-hide-mobile" onClick="{{ openSettings }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.045);border:1px solid #ded7ee;padding:8px 13px;border-radius:9px;cursor:pointer">设置</button>
+        <button class="ui-hide-mobile" onClick="{{ openShipping }}" style="display:none;font-family:inherit;font-size:13px;font-weight:700;color:#fff;background:var(--accent,#ff3355);border:none;padding:8px 13px;border-radius:9px;cursor:pointer">📦 排发中心</button>
+        <button class="ui-hide-mobile" onClick="{{ mobileCloudSync }}" style="{{ mobileSyncBtnStyle }}">{{ mobileSyncLabel }}</button>
+        <button class="ui-hide-mobile" onClick="{{ toggleMobileMode }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.045);border:1px solid #ded7ee;padding:8px 13px;border-radius:9px;cursor:pointer">{{ mobileModeText }}</button>
         <button class="ui-mobile-secondary-action" onClick="{{ openDataManage }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.045);border:1px solid #ded7ee;padding:8px 13px;border-radius:9px;cursor:pointer">数据管理</button>
         <input ref="{{ setImportRef }}" type="file" accept="application/json" onChange="{{ onImportFile }}" style="display:none">
         <input ref="{{ setExcelImportRef }}" type="file" accept=".xlsx,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" onChange="{{ onExcelImportFile }}" style="display:none">
@@ -655,15 +691,15 @@
     <div class="ui-stats-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:13px;margin-bottom:20px">
       <div style="background:linear-gradient(150deg,#ffffff,#ffffff);border:1px solid #e1dbf0;border-radius:16px;padding:16px 18px">
         <div style="font-size:12px;color:#544f7e;margin-bottom:8px">总消费金额</div>
-        <div style="font-family:'Orbitron';font-weight:700;font-size:24px;color:#251d49">{{ statIn }}</div>
+        <div title="{{ statInFull }}" style="font-family:'Orbitron';font-weight:700;font-size:24px;color:#251d49;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ statIn }}</div>
       </div>
       <div style="background:linear-gradient(150deg,#ffffff,#ffffff);border:1px solid #e1dbf0;border-radius:16px;padding:16px 18px">
         <div style="font-size:12px;color:#544f7e;margin-bottom:8px">总卖出金额</div>
-        <div style="font-family:'Orbitron';font-weight:700;font-size:24px;color:#c8860d">{{ statSell }}</div>
+        <div title="{{ statSellFull }}" style="font-family:'Orbitron';font-weight:700;font-size:24px;color:#c8860d;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ statSell }}</div>
       </div>
       <div style="background:linear-gradient(150deg,#ffffff,#eae5f4);border:1px solid #ecd9ee;border-radius:16px;padding:16px 18px">
         <div style="font-size:12px;color:#544f7e;margin-bottom:8px">总盈亏</div>
-        <div style="font-family:'Orbitron';font-weight:700;font-size:24px"><span style="{{ statProfitStyle }}">{{ statProfit }}</span></div>
+        <div title="{{ statProfitFull }}" style="font-family:'Orbitron';font-weight:700;font-size:24px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><span style="{{ statProfitStyle }}">{{ statProfit }}</span></div>
       </div>
       <div style="background:linear-gradient(150deg,#ffffff,#ffffff);border:1px solid #e1dbf0;border-radius:16px;padding:16px 18px">
         <div style="font-size:12px;color:#544f7e;margin-bottom:8px">净支出（花费−卖出）</div>
@@ -687,7 +723,7 @@
         </sc-for>
       </div>
       <div style="display:flex;align-items:center;gap:10px">
-        <div style="display:flex;gap:4px;background:rgba(50,38,90,.06);padding:4px;border-radius:11px">
+        <div class="ui-desktop-view-switch" style="display:flex;gap:4px;background:rgba(50,38,90,.06);padding:4px;border-radius:11px">
           <button onClick="{{ setDashboard }}" style="{{ dashboardBtnStyle }}">⌂ 首页</button>
           <button onClick="{{ setGallery }}" style="{{ galleryBtnStyle }}">▧ 图鉴</button>
           <button onClick="{{ setCircle }}" style="{{ circleBtnStyle }}">◎ 圆图</button>
@@ -988,12 +1024,13 @@
               </sc-if>
               <span style="{{ row.groupBadgeStyle }}">{{ row.groupText }}</span>
               <span style="{{ row.statusBadgeStyle }}">{{ row.status }}</span>
+              <div class="ui-card-stars-overlay" title="点星星设烫度" style="position:absolute;bottom:8px;left:8px;display:inline-flex;align-items:center;padding:2px 5px;border-radius:999px;background:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.6);box-shadow:0 3px 9px rgba(46,35,86,.14);backdrop-filter:blur(2px)"><sc-for list="{{ row.cardStars }}" as="st" hint-placeholder-count="5"><button onClick="{{ st.onClick }}" style="{{ st.style }}">★</button></sc-for></div>
               <sc-if value="{{ row.hasImg2 }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;bottom:8px;right:8px;background:rgba(255,255,255,.88);color:#544f7e;font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:999px;border:1px solid #ded7ee">{{ row.imageCountText }}</span></sc-if>
             </div>
             <div class="ui-gallery-card-body" style="padding:12px 13px 13px;display:flex;flex-direction:column;gap:9px;flex:1">
               <div>
                 <div class="ui-gallery-name" style="font-weight:700;font-size:14.5px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">{{ row.name }}</div>
-                <div class="ui-card-meta-line"><span style="{{ row.charStyle }}"><sc-if value="{{ row.hasAvatar }}" hint-placeholder-val="{{ false }}"><div style="{{ row.avatarStyle }}"></div></sc-if>{{ row.character }}</span><div class="ui-card-stars" title="点星星设烫度"><sc-for list="{{ row.cardStars }}" as="st" hint-placeholder-count="5"><button onClick="{{ st.onClick }}" style="{{ st.style }}">★</button></sc-for></div></div>
+                <div class="ui-card-meta-line"><span style="{{ row.charStyle }}"><sc-if value="{{ row.hasAvatar }}" hint-placeholder-val="{{ false }}"><div style="{{ row.avatarStyle }}"></div></sc-if>{{ row.character }}</span></div>
                 <sc-if value="{{ row.hasOrig }}" hint-placeholder-val="{{ false }}"><div class="ui-mobile-card-extra" style="font-size:11px;color:#938db0;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ row.origText }}</div></sc-if>
               </div>
               <sc-if value="{{ row.showTextMeta }}" hint-placeholder-val="{{ true }}">
@@ -1234,7 +1271,7 @@
             </sc-if>
             <div style="height:7px;background:#eee9f8;border-radius:999px;margin-top:12px;overflow:hidden"><div style="{{ budgetBarStyle }}"></div></div>
           </div>
-          <div class="ui-ledger-card"><div style="font-size:12px;color:#544f7e;margin-bottom:8px">{{ spentLabel }}</div><div style="font-family:'Orbitron';font-weight:700;font-size:24px;color:#251d49">{{ monthSpentText }}</div></div>
+          <div class="ui-ledger-card"><div style="font-size:12px;color:#544f7e;margin-bottom:8px">{{ spentLabel }}</div><div title="{{ monthSpentFull }}" style="font-family:'Orbitron';font-weight:700;font-size:24px;color:#251d49;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ monthSpentBig }}</div></div>
           <div class="ui-ledger-card"><div style="font-size:12px;color:#544f7e;margin-bottom:8px">{{ remainLabel }}</div><div style="font-family:'Orbitron';font-weight:700;font-size:24px"><span style="{{ budgetRemainStyle }}">{{ budgetRemainText }}</span></div></div>
           <div class="ui-ledger-card"><div style="font-size:12px;color:#544f7e;margin-bottom:8px">{{ progressLabel }}</div><div style="font-family:'Orbitron';font-weight:700;font-size:24px"><span style="{{ budgetPctStyle }}">{{ budgetPctText }}</span></div><div style="font-size:11.5px;color:#837da4;margin-top:5px">{{ budgetStatusText }}</div></div>
         </div>
@@ -1939,7 +1976,7 @@
 
   <!-- ===== SETTINGS MODAL ===== -->
   <sc-if value="{{ dataManageOpen }}" hint-placeholder-val="false">
-    <div style="position:fixed;inset:0;z-index:64;background:rgba(70,58,110,.32);backdrop-filter:blur(6px);display:flex;align-items:flex-start;justify-content:center;padding:30px 14px;overflow-y:auto;animation:fadein .18s ease">
+    <div style="position:fixed;inset:0;z-index:400;background:rgba(70,58,110,.32);backdrop-filter:blur(6px);display:flex;align-items:flex-start;justify-content:center;padding:30px 14px;overflow-y:auto;animation:fadein .18s ease">
       <div class="ui-modal-card" onClick="{{ stop }}" style="width:100%;max-width:620px;background:linear-gradient(160deg,#ffffff,#f4f1fb);border:1px solid #d6cfe9;border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.45);animation:modalpop .22s cubic-bezier(.2,.8,.3,1);overflow:hidden">
         <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid #e1dbf0">
           <div><div style="font-family:'Orbitron';font-weight:700;font-size:17px">数据管理</div></div>
@@ -1961,7 +1998,7 @@
   </sc-if>
 
   <sc-if value="{{ settingsOpen }}" hint-placeholder-val="false">
-    <div class="ui-modal-backdrop" style="position:fixed;inset:0;z-index:320;background:rgba(70,58,110,.32);backdrop-filter:blur(4px);display:flex;align-items:flex-start;justify-content:center;padding:30px 14px;overflow-y:auto">
+    <div class="ui-modal-backdrop" style="position:fixed;inset:0;z-index:400;background:rgba(70,58,110,.32);backdrop-filter:blur(4px);display:flex;align-items:flex-start;justify-content:center;padding:30px 14px;overflow-y:auto">
       <div class="ui-modal-card ui-settings-modal" onClick="{{ stop }}" style="width:100%;max-width:680px;max-height:92vh;display:flex;flex-direction:column;background:linear-gradient(160deg,#ffffff,#f4f1fb);border:1px solid #d6cfe9;border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.4);overflow:hidden">
         <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid #e1dbf0;flex-shrink:0">
           <div style="font-weight:800;font-size:17px;color:#251d49">项目设置</div>
@@ -2253,6 +2290,27 @@
     </div>
     </sc-if>
   </sc-if>
+  <!-- ===== MOBILE 我的 面板 ===== -->
+  <sc-if value="{{ mobileMineOpen }}" hint-placeholder-val="false">
+  <div class="ui-mine-sheet" style="position:fixed;inset:0;z-index:340;background:rgba(30,22,54,.4);display:flex;align-items:flex-end" onClick="{{ closeMine }}">
+    <div style="width:100%;background:linear-gradient(160deg,#fff,#f5f2fb);border-radius:22px 22px 0 0;padding:8px 16px calc(84px + env(safe-area-inset-bottom));max-height:80vh;overflow-y:auto" onClick="{{ stop }}">
+      <div style="width:38px;height:4px;border-radius:999px;background:#ded7ee;margin:8px auto 14px"></div>
+      <div style="font-weight:900;font-size:17px;color:#251d49;margin-bottom:14px">我的</div>
+      <button onClick="{{ openShipping }}" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;font-family:inherit;font-size:15px;font-weight:700;color:#251d49;background:#fff;border:1px solid #e8e2f2;border-radius:14px;padding:15px;margin-bottom:10px;cursor:pointer"><span style="font-size:20px">📦</span>排发中心<span style="margin-left:auto;font-size:13px;color:#938db0">{{ shippingCount }} 份资料 ›</span></button>
+      <button onClick="{{ mobileCloudSync }}" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;font-family:inherit;font-size:15px;font-weight:700;color:#251d49;background:#fff;border:1px solid #e8e2f2;border-radius:14px;padding:15px;margin-bottom:10px;cursor:pointer"><span style="font-size:20px">☁️</span>云端同步<span style="margin-left:auto;font-size:13px;color:#938db0">{{ cloudSaveText }} ›</span></button>
+      <button onClick="{{ openSettings }}" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;font-family:inherit;font-size:15px;font-weight:700;color:#251d49;background:#fff;border:1px solid #e8e2f2;border-radius:14px;padding:15px;margin-bottom:10px;cursor:pointer"><span style="font-size:20px">⚙️</span>设置<span style="margin-left:auto;font-size:13px;color:#938db0">›</span></button>
+      <button onClick="{{ openDataManage }}" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;font-family:inherit;font-size:15px;font-weight:700;color:#251d49;background:#fff;border:1px solid #e8e2f2;border-radius:14px;padding:15px;cursor:pointer"><span style="font-size:20px">🗂️</span>数据管理<span style="margin-left:auto;font-size:13px;color:#938db0">›</span></button>
+    </div>
+  </div>
+  </sc-if>
+  <!-- ===== MOBILE 底部 TAB 栏 ===== -->
+  <nav class="ui-bottom-tab">
+    <button onClick="{{ tabHome }}" style="{{ tabHomeStyle }}"><span style="font-size:19px">🏠</span><span>首页</span></button>
+    <button onClick="{{ tabSearch }}" style="{{ tabSearchStyle }}"><span style="font-size:19px">🔍</span><span>搜索</span></button>
+    <button onClick="{{ tabAdd }}" class="ui-bottom-tab-add"><span style="font-size:26px;line-height:1">＋</span></button>
+    <button onClick="{{ tabLedger }}" style="{{ tabLedgerStyle }}"><span style="font-size:19px">📒</span><span>账本</span></button>
+    <button onClick="{{ tabMine }}" style="{{ tabMineStyle }}"><span style="font-size:19px">👤</span><span>我的</span></button>
+  </nav>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:&quot;100%&quot;},&quot;currency&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;¥&quot;,&quot;$&quot;,&quot;S$&quot;,&quot;NT$&quot;,&quot;HK$&quot;,&quot;€&quot;],&quot;default&quot;:&quot;¥&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#ff3355&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;startView&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;gallery&quot;,&quot;table&quot;],&quot;default&quot;:&quot;gallery&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
@@ -2293,7 +2351,7 @@ class Component extends DCLogic {
   CHAR_IMG = { '诺克斯': 'assets/c_nox.webp', 'NOX': 'assets/r_blue.webp', 'MIDNIGHT SHADOW': 'assets/r_nox_midnight.webp', 'NOX KNIGHT': 'assets/r_lady.webp', 'ZEZTZ': 'assets/r_red.webp', '西格': 'assets/c_zeke.webp', 'DAWN': 'assets/r_zeztz.webp', '宁梦': 'assets/c_nemu.webp', '南云成华': 'assets/c_nagumo.webp', 'ZERO': 'assets/c_zero.webp', '万津莫': 'assets/c_matsu.webp', '万津美浪': 'assets/c_minami.webp', '富士见铁也': 'assets/c_fujimi.webp', 'THE LADY': 'assets/c_lady.webp', 'CODE': 'assets/c_code.webp' };
   imgUrls = {};
   cloudImageMap = {};
-  state = { items: [], view: null, sets: [], lastSetId: '', setMenuOpen: false, feeOpen: false, colInfoOpen: false, setInfoOpen: false, recentWorks: [], collapsedGroups: {}, reminderMenuOpen: false, monthlyBudget: '', budgets: {}, ledgerDetailKey: '', ledgerDetailType: 'day', ledgerDetailLabel: '', tableSortKey: '', tableSortDir: 'desc', tableHiddenCols: [], tableColumnMenuOpen: false, nameStyleMode: 'default', displayMode: 'standard', dashboardCards: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], purchaseChannelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, purchaseChannels: [], purchaseChannelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], hiddenPurchaseChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, purchaseChannel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, dataManageOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, cloudPending: false, cloudLastSyncedAt: '', cloudRemoteUpdatedAt: '', modalOpen: false, editing: null, draft: null, savedAt: 0, batchMode: false, selectedIds: [], bulkEditIds: [], bulkEditIndex: 0, ledgerRange: 'month', ledgerMode: 'month', ledgerYear: String(new Date().getFullYear()), ledgerMonth: String(new Date().getMonth()+1), ledgerWeek: '', ledgerPieBy: 'character', ledgerPieActive: 0, batchEditOpen: false, batchEditField: '', batchOn: null, shippingOpen: false, shippingRecords: [], shippingBatches: [], shippingDraft: null, shippingPreviewNotice: '', shippingPreviewPaid: '', shippingPreviewCn: '', shippingPreviewGroup: '', shippingPreviewBatch: '', shippingPreviewPackageKey: '', itemEvidenceDrafts: [], itemEvidenceExistingIds: [], itemEvidenceOpen: false, exportGroup: '', exportSearch: '', exportIds: [], shipAddCollapsed: false, shippingViewChannel: null, relinkRecordId: null, relinkItemIds: [], relinkSearch: '', relinkNote: '' };
+  state = { items: [], view: null, sets: [], lastSetId: '', setMenuOpen: false, feeOpen: false, colInfoOpen: false, setInfoOpen: false, recentWorks: [], collapsedGroups: {}, reminderMenuOpen: false, monthlyBudget: '', budgets: {}, ledgerDetailKey: '', ledgerDetailType: 'day', ledgerDetailLabel: '', tableSortKey: '', tableSortDir: 'desc', tableHiddenCols: [], tableColumnMenuOpen: false, nameStyleMode: 'default', displayMode: 'standard', dashboardCards: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], purchaseChannelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, purchaseChannels: [], purchaseChannelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], hiddenPurchaseChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, purchaseChannel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, dataManageOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, cloudPending: false, cloudLastSyncedAt: '', cloudRemoteUpdatedAt: '', modalOpen: false, editing: null, draft: null, savedAt: 0, batchMode: false, selectedIds: [], bulkEditIds: [], bulkEditIndex: 0, ledgerRange: 'month', ledgerMode: 'month', ledgerYear: String(new Date().getFullYear()), ledgerMonth: String(new Date().getMonth()+1), ledgerWeek: '', ledgerPieBy: 'character', ledgerPieActive: 0, batchEditOpen: false, batchEditField: '', batchOn: null, shippingOpen: false, shippingRecords: [], shippingBatches: [], shippingDraft: null, shippingPreviewNotice: '', shippingPreviewPaid: '', shippingPreviewCn: '', shippingPreviewGroup: '', shippingPreviewBatch: '', shippingPreviewPackageKey: '', itemEvidenceDrafts: [], itemEvidenceExistingIds: [], itemEvidenceOpen: false, exportGroup: '', exportSearch: '', exportIds: [], shipAddCollapsed: false, shippingViewChannel: null, relinkRecordId: null, relinkItemIds: [], relinkSearch: '', relinkNote: '', mobileMineOpen: false };
 
   setRoot = (el) => { this.rootEl = el; if (el) { this.applyThemeVars(); this.applyBg(); } };
   applyThemeVars() {
@@ -2802,6 +2860,7 @@ class Component extends DCLogic {
   };
   // 手机端快捷同步：点一下选择上传或读取
   mobileCloudSync = () => {
+    if (this.state.mobileMineOpen) this.setState({ mobileMineOpen: false });
     if (this.state.cloudBusy) { return; }
     const hasCode = !!(this.state.cloudSyncCode || localStorage.getItem('zzz_cloud_code'));
     if (!hasCode) { alert('还没有连接同步代码。请先到「设置 → 同步」生成或连接同步代码。'); this.openSettings && this.openSettings(); return; }
@@ -3042,7 +3101,7 @@ class Component extends DCLogic {
   }
   safeStoragePart(v){const s=String(v||'').trim().replace(/[^a-zA-Z0-9_-]+/g,'_').replace(/^_+|_+$/g,'').slice(0,80);return s||'x';}
   shippingSyncCode(){return String(this.state.cloudSyncCode||localStorage.getItem('zzz_cloud_code')||'').trim().toUpperCase();}
-  openShipping=()=>this.setState({shippingOpen:true,shipNotice:'',shippingDraft:this.newShippingDraft()},()=>{this.autoPairShipping();if(this.shippingSyncCode())this.loadShippingFromCloud();else this.loadLocalShipping();});
+  openShipping=()=>this.setState({shippingOpen:true,shipNotice:'',shippingDraft:this.newShippingDraft(),mobileMineOpen:false},()=>{this.autoPairShipping();if(this.shippingSyncCode())this.loadShippingFromCloud();else this.loadLocalShipping();});
   closeShipping=()=>this.setState({shippingOpen:false});
   closeShipMenus(extra={}){return{shipTypeMenuOpen:false,shipRoleMenuOpen:false,shipStatusMenuOpen:false,shipGroupMenuOpen:false,...extra};}
   toggleShipMenu=(key)=>()=>this.setState(s=>this.closeShipMenus({[key]:!s[key]}));
@@ -3137,7 +3196,7 @@ class Component extends DCLogic {
   loadShipImage(src){return new Promise((resolve,reject)=>{const img=new Image();img.crossOrigin='anonymous';img.onload=()=>resolve(img);img.onerror=reject;img.src=src;});}
   exportSelectedShipping=async()=>{const selected=this.selectedShippingItemIds();if(!selected.length){alert('请先在左侧勾选本次排发的谷子。');return;}const records=this.selectedShippingRecords();if(!records.length){alert('所选谷子还没有关联资料。');return;}try{const group=String((this.state.shippingDraft||{}).group||records[0].group||'未分类渠道');const items=selected.map(id=>(this.state.items||[]).find(it=>it.id===id)).filter(Boolean);const cn=(this.state.collectorName||records[0].cn||'未填写').trim();const order=this.SHIPPING_TYPES;const sorted=[...records].sort((a,b)=>order.indexOf(a.type)-order.indexOf(b.type)||(a.createdAt||0)-(b.createdAt||0));const flat=[];for(const r of sorted)for(const im of (r.images||[]))if(im.image)flat.push({r,im,img:await this.loadShipImage(im.image)});const W=1200,pad=55,inner=W-pad*2,itemLines=items.map((it,i)=>`${i+1}. ${it.name||'未命名'}${it.character?' · '+it.character:''}${it.qty?' ×'+it.qty:''}`);let H=230+Math.max(1,itemLines.length)*34+40;flat.forEach(({img})=>{const scale=Math.min(inner/img.width,1300/img.height,1);H+=82+Math.round(img.height*scale)+30;});H+=60;if(H>30000){alert('生成图片过长，请分两次导出。');return;}const c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,W,H);x.textAlign='center';x.fillStyle='#251d49';x.font='900 40px sans-serif';x.fillText('排发资料',W/2,62);x.font='800 30px sans-serif';x.fillText('CN：'+cn,W/2,108);x.font='22px sans-serif';x.fillStyle='#6f6996';x.fillText('渠道：'+group,W/2,145);x.fillStyle='#ff3355';x.fillRect(pad,170,inner,5);let y=208;x.textAlign='left';x.fillStyle='#251d49';x.font='800 23px sans-serif';x.fillText(`本次排发谷子（${items.length}）`,pad,y);y+=38;x.font='20px sans-serif';x.fillStyle='#544f7e';for(const line of itemLines){x.fillText(line,pad+10,y);y+=34;}y+=18;for(const {r,im,img} of flat){x.fillStyle='#f4f1fa';x.fillRect(pad,y,inner,54);x.fillStyle='#251d49';x.font='800 22px sans-serif';x.fillText(`${r.typeLabel||this.shippingTypeLabel(r.type).module} · ${this.shippingRoleLabel(im.role)}${r.note?' · '+r.note:''}`,pad+16,y+35);y+=68;const scale=Math.min(inner/img.width,1300/img.height,1),dw=Math.round(img.width*scale),dh=Math.round(img.height*scale),dx=pad+(inner-dw)/2;x.fillStyle='#faf9fc';x.fillRect(pad,y,inner,dh);x.drawImage(img,dx,y,dw,dh);y+=dh+30;}x.textAlign='center';x.fillStyle='#938db0';x.font='17px sans-serif';x.fillText('由谷子收纳 · 排发中心生成',W/2,H-25);const a=document.createElement('a');const filename=`排发资料_${cn}_${group}_${items.length}件.png`.replace(/[\/:*?"<>|]/g,'_');a.download=filename;a.href=c.toDataURL('image/png');document.body.appendChild(a);a.click();a.remove();try{await this.createShippingBatch(sorted,items,group,filename);}catch(historyError){console.warn('排发长图已导出，但历史记录保存失败',historyError);this.setState({cloudStatus:'长图已导出；排发历史未保存：'+((historyError&&historyError.message)||historyError)});}}catch(e){alert('导出失败：'+((e&&e.message)||e));}};
   exportShippingPackage = () => this.exportSelectedShipping();
-  openDataManage = () => this.setState({ dataManageOpen: true });
+  openDataManage = () => this.setState({ dataManageOpen: true, mobileMineOpen: false });
   openWorkManage = () => this.setState({ workManageOpen: true });
   closeWorkManage = () => this.setState({ workManageOpen: false });
   closeDataManage = () => this.setState({ dataManageOpen: false });
@@ -3146,7 +3205,7 @@ class Component extends DCLogic {
   confirmJsonExport = () => { if (confirm('确认导出完整 JSON 备份？')) this.doExport(); };
   confirmExcelImport = () => { if (confirm('确认选择 Excel 文件导入？导入前请确认文件来源可靠。')) this.triggerExcelImport(); };
   confirmJsonImport = () => { if (confirm('确认选择 JSON 备份导入？导入后会替换当前资料，请先做好备份。')) this.triggerImport(); };
-  openSettings = () => this.setState({ settingsOpen: true, settingsDraft: this.makeSettingsDraft() });
+  openSettings = () => this.setState({ settingsOpen: true, settingsDraft: this.makeSettingsDraft(), mobileMineOpen: false });
   cancelSettings = () => this.setState({ settingsOpen: false, settingsDraft: null });
   closeSettings = this.cancelSettings;
   updateSettingsDraft = (patch) => this.setState(s => ({ settingsDraft: { ...(s.settingsDraft || this.makeSettingsDraft()), ...patch } }));
@@ -3398,6 +3457,14 @@ class Component extends DCLogic {
   };
   onMoneyKeyDown = (e) => { if (e.key === 'Enter') { e.preventDefault && e.preventDefault(); e.target.blur(); } };
   fmt(n) { return (Math.round(n * 100) / 100).toLocaleString('zh-CN'); }
+  // 大额金额缩写：万位以下照常显示，超过 1 万用「万」、超过 1 亿用「亿」，避免长数字撑成两行
+  fmtBig(n) {
+    const v = Math.round((Number(n) || 0) * 100) / 100;
+    const abs = Math.abs(v);
+    if (abs >= 1e8) return (Math.round(v / 1e8 * 100) / 100).toLocaleString('zh-CN') + '亿';
+    if (abs >= 1e4) return (Math.round(v / 1e4 * 100) / 100).toLocaleString('zh-CN') + '万';
+    return this.fmt(v);
+  }
   heldSince(d) { if (!d) return ''; const t = new Date(d + 'T00:00:00').getTime(); if (isNaN(t)) return ''; const days = Math.floor((Date.now() - t) / 86400000); if (days < 0) return ''; if (days === 0) return '今天入手'; if (days < 30) return '已持有 ' + days + ' 天'; if (days < 365) { const m = Math.floor(days / 30); return '已持有 ' + m + ' 个月'; } const y = Math.floor(days / 365), rm = Math.floor((days % 365) / 30); return '已持有 ' + y + ' 年' + (rm ? rm + ' 个月' : ''); }
   money(v) { return this.cur() + this.fmt(v); }
   cur() { return this.state.currency || this.props.currency || '¥'; }
@@ -4701,6 +4768,13 @@ class Component extends DCLogic {
   onBudgetChange = (e) => { this.setBudgetValue(e.target.value); };
   onBudgetQuickEdit = () => { const key = this._budgetKey || this.monthKey(new Date()); const current = (this.state.budgets || {})[key] || ''; const v = window.prompt('请输入 ' + (this._budgetLabel || '本月') + '预算', current); if (v === null) return; const clean = String(v || '').trim(); if (clean && (isNaN(Number(clean)) || Number(clean) < 0)) { window.alert('预算请输入大于等于 0 的数字'); return; } this.setBudgetValue(clean); };
   setGallery = () => this.setState({ view: 'gallery' });
+  // 手机底部 tab 动作
+  tabHome = () => this.setState({ view: 'gallery', filtersOpen: false, mobileMineOpen: false, batchMode: false, selectedIds: [] });
+  tabSearch = () => this.setState({ view: 'gallery', filtersOpen: true, mobileMineOpen: false }, () => { try { const el = document.querySelector('.ui-search-input,input[placeholder*="搜"]'); if (el) el.focus(); } catch (e) {} });
+  tabLedger = () => this.setState({ view: 'ledger', filtersOpen: false, mobileMineOpen: false, batchMode: false, selectedIds: [] });
+  tabMine = () => this.setState({ mobileMineOpen: true });
+  closeMine = () => this.setState({ mobileMineOpen: false });
+  tabBtnStyle(active) { return { flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '2px', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: '10.5px', fontWeight: active ? 700 : 500, color: active ? this.accentColor() : '#938db0', padding: '6px 0' }; }
   setCircle = () => this.setState({ view: 'circle' });
   setHeat = (n) => this.setState(s => ({ draft: { ...s.draft, heat: ((s.draft.heat || 0) === n ? n - 1 : n) } }));
   setItemHeat = (id, n) => { const items = this.state.items.map(x => x.id === id ? { ...x, heat: ((x.heat || 0) === n ? n - 1 : n) } : x); this.commit(items); };
@@ -5849,7 +5923,8 @@ class Component extends DCLogic {
     const cloudSavePillStyle = { display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: cloudSaveColor, background: cloudSaveBg, border: '1px solid ' + cloudSaveBorder, padding: '6px 11px', borderRadius: '999px' };
     const cloudSaveDotStyle = { width: '6px', height: '6px', borderRadius: '50%', background: cloudDotColor, boxShadow: '0 0 8px ' + cloudDotColor, flexShrink: 0 };
     const mobileMode = this.state.mobileMode || 'auto';
-    const appClass = 'ui-app ui-mobile-' + mobileMode + (this.state.filtersOpen ? ' ui-filters-open' : '') + (this.state.batchMode ? ' ui-batch-active' : '');
+    const mobileTabView = this.state.mobileMineOpen ? 'mine' : (this.state.view === 'ledger' ? 'ledger' : (this.state.filtersOpen ? 'search' : 'home'));
+    const appClass = 'ui-app ui-mobile-full ui-view-' + mobileTabView + (this.state.filtersOpen ? ' ui-filters-open' : '') + (this.state.batchMode ? ' ui-batch-active' : '');
     const mobileModeText = mobileMode === 'full' ? '清爽模式' : '完整模式';
     const activeCustomFilterCount = Object.values(this.state.customFilterSel || {}).reduce((n, arr) => n + (Array.isArray(arr) && arr.length ? 1 : 0), 0);
     const activeFilterCount = (charSel.length ? 1 : 0) + (typeSel.length ? 1 : 0) + (seriesFilter !== '全部' ? 1 : 0) + (formSel.length ? 1 : 0) + (statusSel.length ? 1 : 0) + (acquireSel.length ? 1 : 0) + (methodSel.length ? 1 : 0) + (setSel.length ? 1 : 0) + (channelSel.length ? 1 : 0) + ((purchaseChannelSel || []).length ? 1 : 0) + (tagSel.length ? 1 : 0) + (raritySel.length ? 1 : 0) + activeCustomFilterCount + (groupBySafe !== 'none' ? 1 : 0);
@@ -5867,7 +5942,7 @@ class Component extends DCLogic {
     const countByWork = {}; (this.state.items || []).forEach(it => { const wid = it.workId || this.MAIN_WORK; countByWork[wid] = (countByWork[wid] || 0) + 1; });
     const curId = this.state.currentWorkId;
     const workLogoNode = (id, size) => { const u = this.workLogo(id); return u ? { width: size + 'px', height: size + 'px', borderRadius: '7px', flexShrink: 0, backgroundImage: `url(${u})`, backgroundSize: 'cover', backgroundPosition: 'center', border: '1px solid #e3def1' } : { width: size + 'px', height: size + 'px', borderRadius: '7px', flexShrink: 0, background: this.accentAlpha(0.14), border: '1px solid ' + this.accentAlpha(0.25), display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: (size * 0.5) + 'px', color: this.accentColor() }; };
-    const libWorkRow = (w) => ({ id: w.id, name: w.name, count: countByWork[w.id] || 0, active: w.id === curId, hasLogo: !!this.workLogo(w.id), logoStyle: workLogoNode(w.id, 18), initial: (w.name || '?').slice(0, 1), rowStyle: { display: 'flex', alignItems: 'center', gap: '8px', width: '100%', padding: '6px 9px 6px 12px', borderRadius: '8px', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: '13px', fontWeight: w.id === curId ? 700 : 500, textAlign: 'left', background: w.id === curId ? this.accentAlpha(0.12) : 'transparent', color: w.id === curId ? this.accentColor() : '#4c4580' }, countStyle: { marginLeft: 'auto', fontSize: '11px', fontFamily: "'Orbitron',sans-serif", color: w.id === curId ? this.accentColor() : '#a99fc4' }, onClick: () => this.switchWork(w.id) });
+    const libWorkRow = (w) => ({ id: w.id, name: w.name, count: countByWork[w.id] || 0, active: w.id === curId, hasLogo: !!this.workLogo(w.id), logoStyle: workLogoNode(w.id, 18), initial: (w.name || '?').slice(0, 1), rowStyle: { display: 'flex', alignItems: 'center', gap: '8px', width: '100%', padding: '6px 9px 6px 12px', borderRadius: '8px', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: '13px', fontWeight: w.id === curId ? 700 : 500, textAlign: 'left', background: w.id === curId ? this.accentAlpha(0.12) : 'transparent', color: w.id === curId ? this.accentColor() : '#4c4580' }, countStyle: { marginLeft: 'auto', fontSize: '11px', fontFamily: "'Orbitron',sans-serif", whiteSpace: 'nowrap', flexShrink: 0, color: w.id === curId ? this.accentColor() : '#a99fc4' }, onClick: () => this.switchWork(w.id) });
     const libraryTree = Object.keys(groupsMap).map(g => ({ group: g, works: groupsMap[g].map(libWorkRow) }));
     const libAllActive = curId === this.ALL_WORKS;
     const libAllStyle = { display: 'flex', alignItems: 'center', gap: '10px', width: '100%', padding: '9px 11px', borderRadius: '10px', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: '13.5px', fontWeight: libAllActive ? 700 : 600, textAlign: 'left', background: libAllActive ? this.accentAlpha(0.14) : 'rgba(50,38,90,.04)', color: libAllActive ? this.accentColor() : '#4c4580' };
@@ -6056,12 +6131,21 @@ class Component extends DCLogic {
       cnPrefix, hasCn: !!cnPrefix, cnDisplay, cnSidebarClass,
       rootBgStyle: this.bgUrl ? { backgroundImage: `linear-gradient(180deg,rgba(255,255,255,.78),rgba(255,255,255,.9)), url(${this.bgUrl})`, backgroundSize: 'cover', backgroundAttachment: 'fixed', backgroundPosition: 'center' } : {},
       appClass, mobileModeText, toggleMobileMode: this.toggleMobileMode, filterSummaryText, filterToggleText, toggleFiltersOpen: this.toggleFiltersOpen,
+      tabHome: this.tabHome, tabSearch: this.tabSearch, tabAdd: this.openAdd, tabLedger: this.tabLedger, tabMine: this.tabMine, closeMine: this.closeMine, mobileMineOpen: this.state.mobileMineOpen,
+      tabHomeActive: this.state.view === 'gallery' && !this.state.filtersOpen && !this.state.mobileMineOpen,
+      tabSearchActive: this.state.view === 'gallery' && this.state.filtersOpen && !this.state.mobileMineOpen,
+      tabLedgerActive: this.state.view === 'ledger' && !this.state.mobileMineOpen,
+      tabMineActive: this.state.mobileMineOpen,
+      tabHomeStyle: this.tabBtnStyle(this.state.view === 'gallery' && !this.state.filtersOpen && !this.state.mobileMineOpen),
+      tabSearchStyle: this.tabBtnStyle(this.state.view === 'gallery' && this.state.filtersOpen && !this.state.mobileMineOpen),
+      tabLedgerStyle: this.tabBtnStyle(this.state.view === 'ledger' && !this.state.mobileMineOpen),
+      tabMineStyle: this.tabBtnStyle(this.state.mobileMineOpen),
       savedText, cloudSaveText, cloudSaveColor, cloudSavePillStyle, cloudSaveDotStyle, mobileSyncLabel, mobileSyncBtnStyle, mobileSyncBusy, doExport: this.doExport, doExcelExport: this.doExcelExport, doExcelTemplate: this.doExcelTemplate, triggerExcelImport: this.triggerExcelImport, onExcelImportFile: this.onExcelImportFile, triggerImport: this.triggerImport, onImportFile: this.onImportFile,
       logoFallback,
       logoStyle: logoFallback ? { height: '54px', width: '54px', borderRadius: '15px', position: 'relative', overflow: 'hidden', cursor: 'pointer', flexShrink: 0, border: '1px solid #ded7ee', background: 'linear-gradient(145deg,#ffffff,#f8f4ff)', boxShadow: '0 8px 20px rgba(50,38,90,.08)' } : { height: '54px', width: '160px', backgroundImage: `url(${headerLogoUrl})`, backgroundSize: 'contain', backgroundPosition: 'left center', backgroundRepeat: 'no-repeat', filter: 'drop-shadow(0 4px 14px rgba(0,0,0,.5))', cursor: 'pointer', flexShrink: 0 },
       sidebarLogoStyle: { width: '100%', height: '112px', borderRadius: '15px', position: 'relative', overflow: 'hidden', flexShrink: 0, cursor: 'pointer', border: '1px solid #e3def1', backgroundColor: 'rgba(255,255,255,.86)', boxShadow: 'inset 0 0 0 1px rgba(255,255,255,.7), 0 8px 20px rgba(50,38,90,.08)', backgroundImage: logoFallback ? 'linear-gradient(145deg,#ffffff,#f8f4ff)' : `url(${headerLogoUrl})`, backgroundSize: logoFallback ? 'cover' : 'contain', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }, title: this.state.title || '谷子收纳', subtitle: this.state.subtitle || '梦 境 特 工 档 案', footer: this.state.footer || '梦境特工档案 · コードナンバー：収集家', uploadLogo: this.uploadLogo, onTitleBlur: this.onTitleBlur, onSubtitleBlur: this.onSubtitleBlur, onFooterBlur: this.onFooterBlur, onCnBlur: this.onCnBlur, onCnFocus: this.onCnFocus,
-      statIn: cur + this.fmt(totalIn), statSell: cur + this.fmt(totalSell),
-      statProfit: (totalProfit >= 0 ? '+' : '') + cur + this.fmt(totalProfit),
+      statIn: cur + this.fmtBig(totalIn), statSell: cur + this.fmtBig(totalSell), statInFull: cur + this.fmt(totalIn), statSellFull: cur + this.fmt(totalSell),
+      statProfit: (totalProfit >= 0 ? '+' : '') + cur + this.fmtBig(totalProfit), statProfitFull: (totalProfit >= 0 ? '+' : '') + cur + this.fmt(totalProfit),
       statProfitStyle: { color: totalProfit >= 0 ? '#12a85f' : '#e23b5d' },
       statNet: cur + this.fmt(totalIn - totalSell),
       statCol: colCount, statSale: saleCount,
@@ -6101,7 +6185,7 @@ class Component extends DCLogic {
       toast: this.state.toast || '', hasToast: !!this.state.toast, showTip: this.showTip,
       displayRows, isEmpty: itemRows.length === 0 && view !== 'ledger' && view !== 'dashboard', isDashboard: view === 'dashboard', isTable: view === 'table', isGallery: view === 'gallery', isCircle: view === 'circle', isLedger: view === 'ledger',
       dashboardTodoRows, dashboardSummaryRows, dashboardRecentItems, dashboardRecentDocs, hasDashboardItems: dashboardRecentItems.length>0, noDashboardItems: dashboardRecentItems.length===0, hasDashboardDocs: dashboardRecentDocs.length>0, noDashboardDocs: dashboardRecentDocs.length===0, dashboardMonthCost: cur + this.fmt(dashboardMonthCostNum), dashboardTotalCost: cur + this.fmt(totalIn),
-      budgetInput: (this.state.budgets || {})[budgetMonthKey] || '', hasFeeComposition, feeComposition, feeTotalText, budgetDisplayText: budget > 0 ? (cur + this.fmt(budget)) : (isAllScope ? '不适用' : '未设置'), consumeTitle: TXT.consumeTitle || '消费表', ledgerMonthAreaPath, jumpBudgetThisMonth: this.jumpBudgetThisMonth, ledgerDetailOpen, ledgerDetailItems, ledgerDetailTitle, ledgerDetailTotal, ledgerDetailEmpty, closeLedgerDetail: this.closeLedgerDetail, onBudgetChange: this.onBudgetChange, onBudgetQuickEdit: this.onBudgetQuickEdit, ledgerScopeText, ledgerRangeText, ledgerModeChips, ledgerYearOptions, ledgerMonthOptions, ledgerWeekOptions, ledgerYear, ledgerMonth, ledgerWeek, showLedgerYear, showLedgerMonth, showLedgerWeek, onLedgerYear: this.onLedgerYear, onLedgerMonth: this.onLedgerMonth, onLedgerWeek: this.onLedgerWeek, ledgerPieBy, onLedgerPieBy: this.onLedgerPieBy, ledgerPieChips, ledgerPieTitle, ledgerPieStyle, ledgerPieRows, ledgerPieTotal, ledgerPieCenterLabel, ledgerPieTopText, ledgerPieTip, ledgerPieSegments, ledgerPieActiveName, ledgerPieActivePercent, ledgerPieActiveValue, ledgerPieActiveDot, ledgerDetailRows, ledgerDetailSummary, monthSpentText: cur + this.fmt(monthSpent), budgetRemainText: panelRemainText, budgetRemainStyle: panelRemainStyle, budgetPctText: panelPctText, budgetPctStyle: panelPctStyle, budgetBarStyle: panelBarStyle, budgetStatusText: panelStatusText, ledgerTitle: TXT.ledgerTitle, ledgerHelpText: '', budgetLabel: panelBudgetLabel, spentLabel: panelSpentLabel, remainLabel: panelRemainLabel, progressLabel: panelProgressLabel, showBudgetEdit, showBudgetView: !showBudgetEdit, monthsTitle: TXT.months, reminderCenterTitle: TXT.reminderCenter, noReminderText: TXT.noReminder, mobileWalletTitle: TXT.walletMini, miniBudgetLabel: TXT.miniBudget, miniSpentLabel: TXT.miniSpent, miniRemainLabel: TXT.miniRemain, addItemText: TXT.addItem, ledgerMonths: ledgerMonthCells, barTop, barBottom, areaColor, ledgerMonthBars, ledgerMonthDots, ledgerMonthLinePoints, ledgerMonthHint, ledgerMonthTotal, ledgerMonthPeakText, topCostRows, topQtyRows, topCharacterRows, topPlatformRows, ledgerRankCards, reviewCards, completeSetRows, reviewPeriodText, achievementRows, ledgerRankTitle1, ledgerRankTitle2, ledgerRankTitle3, ledgerRankTitle4, upcomingReminders, ledgerReminderRows, hasLedgerReminders: ledgerReminderRows.length > 0, noLedgerReminders: ledgerReminderRows.length === 0, hasUpcomingReminders: upcomingReminders.length > 0, mobileReminderText, mobileReminderDetail, mobileTodoRows, mobileBudgetText: budget > 0 ? (cur + this.fmt(budget)) : '未设', reminderCountText,
+      budgetInput: (this.state.budgets || {})[budgetMonthKey] || '', hasFeeComposition, feeComposition, feeTotalText, budgetDisplayText: budget > 0 ? (cur + this.fmt(budget)) : (isAllScope ? '不适用' : '未设置'), consumeTitle: TXT.consumeTitle || '消费表', ledgerMonthAreaPath, jumpBudgetThisMonth: this.jumpBudgetThisMonth, ledgerDetailOpen, ledgerDetailItems, ledgerDetailTitle, ledgerDetailTotal, ledgerDetailEmpty, closeLedgerDetail: this.closeLedgerDetail, onBudgetChange: this.onBudgetChange, onBudgetQuickEdit: this.onBudgetQuickEdit, ledgerScopeText, ledgerRangeText, ledgerModeChips, ledgerYearOptions, ledgerMonthOptions, ledgerWeekOptions, ledgerYear, ledgerMonth, ledgerWeek, showLedgerYear, showLedgerMonth, showLedgerWeek, onLedgerYear: this.onLedgerYear, onLedgerMonth: this.onLedgerMonth, onLedgerWeek: this.onLedgerWeek, ledgerPieBy, onLedgerPieBy: this.onLedgerPieBy, ledgerPieChips, ledgerPieTitle, ledgerPieStyle, ledgerPieRows, ledgerPieTotal, ledgerPieCenterLabel, ledgerPieTopText, ledgerPieTip, ledgerPieSegments, ledgerPieActiveName, ledgerPieActivePercent, ledgerPieActiveValue, ledgerPieActiveDot, ledgerDetailRows, ledgerDetailSummary, monthSpentText: cur + this.fmt(monthSpent), monthSpentBig: cur + this.fmtBig(monthSpent), monthSpentFull: cur + this.fmt(monthSpent), budgetRemainText: panelRemainText, budgetRemainStyle: panelRemainStyle, budgetPctText: panelPctText, budgetPctStyle: panelPctStyle, budgetBarStyle: panelBarStyle, budgetStatusText: panelStatusText, ledgerTitle: TXT.ledgerTitle, ledgerHelpText: '', budgetLabel: panelBudgetLabel, spentLabel: panelSpentLabel, remainLabel: panelRemainLabel, progressLabel: panelProgressLabel, showBudgetEdit, showBudgetView: !showBudgetEdit, monthsTitle: TXT.months, reminderCenterTitle: TXT.reminderCenter, noReminderText: TXT.noReminder, mobileWalletTitle: TXT.walletMini, miniBudgetLabel: TXT.miniBudget, miniSpentLabel: TXT.miniSpent, miniRemainLabel: TXT.miniRemain, addItemText: TXT.addItem, ledgerMonths: ledgerMonthCells, barTop, barBottom, areaColor, ledgerMonthBars, ledgerMonthDots, ledgerMonthLinePoints, ledgerMonthHint, ledgerMonthTotal, ledgerMonthPeakText, topCostRows, topQtyRows, topCharacterRows, topPlatformRows, ledgerRankCards, reviewCards, completeSetRows, reviewPeriodText, achievementRows, ledgerRankTitle1, ledgerRankTitle2, ledgerRankTitle3, ledgerRankTitle4, upcomingReminders, ledgerReminderRows, hasLedgerReminders: ledgerReminderRows.length > 0, noLedgerReminders: ledgerReminderRows.length === 0, hasUpcomingReminders: upcomingReminders.length > 0, mobileReminderText, mobileReminderDetail, mobileTodoRows, mobileBudgetText: budget > 0 ? (cur + this.fmt(budget)) : '未设', reminderCountText,
       qtyBadgeStyle: { position: 'absolute', top: '1px', right: '5px', minWidth: '22px', height: '22px', padding: '0 6px', borderRadius: '999px', background: `radial-gradient(circle at 32% 28%, ${this.accentLight(0.5)}, ${this.accentColor()} 82%)`, color: '#fff', fontSize: '12px', fontWeight: 800, lineHeight: 1, fontFamily: "'Orbitron',sans-serif", display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: `0 3px 9px ${this.accentAlpha(0.5)}`, border: '2.5px solid #fff' },
       modalOpen: this.state.modalOpen, modalTitle: this.state.editing ? '编辑谷子' : '新增谷子', isEditing: !!this.state.editing, duplicateCurrent: this.duplicateCurrent, deleteCurrent: this.deleteCurrent,
       itemEvidenceSelectedCount:(this.state.itemEvidenceDrafts||[]).length, hasItemEvidenceDrafts:(this.state.itemEvidenceDrafts||[]).length>0, noCloudForItemEvidence:!this.shippingSyncCode(), itemEvidenceExistingSelect:'', itemEvidenceExistingCount:(this.state.itemEvidenceExistingIds||[]).length, itemEvidenceExistingOptions:(this.state.shippingRecords||[]).filter(r=>r.type==='本体资料').map(r=>({value:r.id,label:[r.group,r.title,r.note,(r.images||[]).length+'张图'].filter(Boolean).join(' · ')})), onItemEvidenceExistingSelect:this.onItemEvidenceExistingSelect, itemEvidenceOpen:!!this.state.itemEvidenceOpen, toggleItemEvidence:this.toggleItemEvidence, itemEvidenceCaret:this.state.itemEvidenceOpen?'▲ 收起':'▼ 展开', itemEvidenceBadge:((this.state.itemEvidenceDrafts||[]).length+(this.state.itemEvidenceExistingIds||[]).length)>0?('已选 '+((this.state.itemEvidenceDrafts||[]).length+(this.state.itemEvidenceExistingIds||[]).length)): '可选填', itemEvidenceSummary:(()=>{const a=(this.state.itemEvidenceDrafts||[]).length,b=(this.state.itemEvidenceExistingIds||[]).length;if(a||b)return ['待上传 '+a+' 张',b?'复用 '+b+' 份':''].filter(Boolean).join(' · ');return '肾表、群内交款要求、付款截图，或使用已有资料';})(),
