@@ -339,6 +339,10 @@
     .ui-app.ui-fcat-rarity .ui-filter-extra[data-cat="rarity"],
     .ui-app.ui-fcat-custom .ui-filter-extra[data-cat="custom"],
     .ui-app.ui-fcat-group .ui-filter-extra[data-cat="group"]{display:flex !important;}
+    .ui-settings-cloud-section{display:none !important;}
+  }
+  @media (min-width:641px){
+    .ui-cloud-page-backdrop{display:none !important;}
   }
 
   @media (max-width:900px){
@@ -708,7 +712,7 @@
           以后换电脑、换手机的时候，复制同步代码，收藏就会跟着你一起搬家啦 ✨<br>
           温馨提示: 推荐先在电脑网页端批量上传图片、整理收藏，再导入到手机。图片和资料都会一起保留，日常查看、补充记录会更方便。
         </div>
-        <button onClick="{{ openSettings }}" style="margin-top:12px;font-family:inherit;font-size:13px;font-weight:700;color:#fff;background:var(--accent,#ff3355);border:none;padding:9px 16px;border-radius:10px;cursor:pointer;box-shadow:0 6px 18px rgba(50,38,90,.2)">前往设置</button>
+        <button onClick="{{ goCloudOrSettings }}" style="margin-top:12px;font-family:inherit;font-size:13px;font-weight:700;color:#fff;background:var(--accent,#ff3355);border:none;padding:9px 16px;border-radius:10px;cursor:pointer;box-shadow:0 6px 18px rgba(50,38,90,.2)">前往设置</button>
       </div>
     </sc-if>
 
@@ -2096,7 +2100,7 @@
             <div style="font-size:11.5px;color:#938db0;line-height:1.6;margin-top:10px">标题、副标题、底部文字、Logo 也可以直接在首页点上去改。</div>
           </div>
 
-          <div style="border-top:1px solid #e1dbf0;padding-top:16px">
+          <div class="ui-settings-cloud-section" style="border-top:1px solid #e1dbf0;padding-top:16px">
             <div style="font-weight:700;font-size:14px;color:#251d49;margin-bottom:4px">☁️ 同步（换设备用）</div>
             <div style="font-size:11.5px;color:#938db0;margin-bottom:10px;line-height:1.6">本机修改会自动保存，但不会自动上传。完成一轮整理后，请手动点击“上传到云端”；另一台设备使用前先点击“读取云端数据”。</div>
             <div style="background:rgba(255,255,255,.68);border:1px solid #e1dbf0;border-radius:13px;padding:12px 13px">
@@ -2195,6 +2199,53 @@
   </sc-if>
 
 
+  <!-- ===== 云端（手机端专属独立页面，桌面端始终隐藏，桌面同步仍在"设置"里） ===== -->
+  <sc-if value="{{ cloudPageOpen }}" hint-placeholder-val="false">
+    <div class="ui-cloud-page-backdrop" style="position:fixed;inset:0;z-index:400;background:rgba(70,58,110,.32);backdrop-filter:blur(4px);display:flex;align-items:flex-start;justify-content:center;padding:30px 14px;overflow-y:auto">
+      <div class="ui-modal-card" onClick="{{ stop }}" style="width:100%;max-width:480px;background:linear-gradient(160deg,#ffffff,#f4f1fb);border:1px solid #d6cfe9;border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.5);overflow:hidden">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid #e1dbf0">
+          <div style="font-weight:900;font-size:17px;color:#251d49">☁️ 云端</div>
+          <button onClick="{{ closeCloudPage }}" style="font-family:inherit;font-size:13px;color:#938db0;background:none;border:none;cursor:pointer;padding:6px">✕</button>
+        </div>
+        <div style="padding:18px 22px 22px;display:flex;flex-direction:column;gap:14px;max-height:75vh;overflow-y:auto">
+          <div style="font-size:11.5px;color:#938db0;line-height:1.6">本机修改会自动保存，但不会自动上传。完成一轮整理后，请点击"上传到云端"；换到另一台设备使用前，先点击"读取云端数据"。</div>
+          <div style="background:rgba(255,255,255,.68);border:1px solid #e1dbf0;border-radius:13px;padding:12px 13px">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+              <div style="font-weight:700;font-size:13px;color:#251d49">我的同步代码</div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <button onClick="{{ createCloudCollection }}" style="font-family:inherit;font-size:12.5px;font-weight:700;color:#fff;background:var(--accent,#ff3355);border:none;padding:7px 12px;border-radius:9px;cursor:pointer">生成同步代码</button>
+                <sc-if value="{{ hasCloudCode }}" hint-placeholder-val="false"><button onClick="{{ copyCloudCode }}" style="font-family:inherit;font-size:12.5px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:7px 12px;border-radius:9px;cursor:pointer">复制</button></sc-if>
+              </div>
+            </div>
+            <sc-if value="{{ hasCloudCode }}" hint-placeholder-val="false">
+              <div style="font-family:'Orbitron';font-weight:800;font-size:22px;letter-spacing:.14em;color:#251d49;background:#fff;border:1px solid #ded7ee;border-radius:10px;padding:9px 12px;display:inline-block">{{ cloudSyncCode }}</div>
+            </sc-if>
+            <sc-if value="{{ noCloudCode }}" hint-placeholder-val="true">
+              <div style="font-size:13px;color:#938db0;background:#fff;border:1px dashed #ded7ee;border-radius:10px;padding:10px 12px;display:inline-block">还没有生成同步代码</div>
+            </sc-if>
+            <sc-if value="{{ hasCloudStatus }}" hint-placeholder-val="false"><div style="font-size:11.5px;color:#544f7e;line-height:1.6;margin-top:8px">{{ cloudStatus }}</div></sc-if>
+          </div>
+          <div>
+            <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">连接其他收藏库</div>
+            <div style="display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center">
+              <input value="{{ cloudCodeInput }}" onChange="{{ onCloudCodeInput }}" placeholder="输入同步代码，例如 K7M9Q2" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:14px;font-family:inherit;outline:none;text-transform:uppercase">
+              <button onClick="{{ connectCloudCollection }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:9px 14px;border-radius:9px;cursor:pointer;white-space:nowrap">连接</button>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button onClick="{{ pushCloud }}" style="flex:1;min-width:120px;font-family:inherit;font-size:13px;font-weight:700;color:#fff;background:var(--accent,#ff3355);border:none;padding:11px 14px;border-radius:10px;cursor:pointer">⬆ 上传到云端</button>
+            <button onClick="{{ pullCloud }}" style="flex:1;min-width:120px;font-family:inherit;font-size:13px;font-weight:700;color:#4c4580;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:11px 14px;border-radius:10px;cursor:pointer">⬇ 读取云端数据</button>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button onClick="{{ checkCloudVersion }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:9px 16px;border-radius:9px;cursor:pointer">检查云端版本</button>
+            <sc-if value="{{ hasCloudSync }}" hint-placeholder-val="false"><button onClick="{{ disconnectCloud }}" style="font-family:inherit;font-size:13px;color:#e23b5d;background:rgba(255,51,85,.08);border:1px solid rgba(255,51,85,.25);padding:9px 16px;border-radius:9px;cursor:pointer">退出同步</button></sc-if>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+
   <!-- ===== 排发资料中心 ===== -->
   <sc-if value="{{ shippingOpen }}" hint-placeholder-val="false">
     <div class="ui-modal-backdrop" style="position:fixed;inset:0;z-index:360;background:rgba(70,58,110,.38);backdrop-filter:blur(5px);display:flex;align-items:flex-start;justify-content:center;padding:18px 12px;overflow:auto">
@@ -2204,7 +2255,7 @@
           <button onClick="{{ closeShipping }}" style="width:32px;height:32px;border-radius:10px;border:1px solid #ded7ee;background:#fff;color:#595287;font-size:18px;cursor:pointer">×</button>
         </div>
         <div style="padding:12px;overflow:auto;flex:1;min-height:0">
-          <sc-if value="{{ shipNotConnected }}" hint-placeholder-val="false"><div class="ui-ship-notice" style="margin:0 0 14px">排发中心用来集中管理肾表／付款截图等图片，需要连接同步代码后才能上传、双端查看。谷子的日常记录不受影响，本地照常使用。可在「设置 → 同步代码」里生成或连接。</div></sc-if>
+          <sc-if value="{{ shipNotConnected }}" hint-placeholder-val="false"><div class="ui-ship-notice" style="margin:0 0 14px">排发中心用来集中管理肾表／付款截图等图片，需要连接同步代码后才能上传、双端查看。谷子的日常记录不受影响，本地照常使用。手机端可在「我的 → 云端」里生成或连接，电脑端在「设置 → 同步代码」里。</div></sc-if>
           <div class="ui-ship-grid">
             <div style="display:flex;flex-direction:column;gap:16px;min-width:0">
             <div class="ui-ship-card">
@@ -2364,7 +2415,7 @@
       <div style="width:38px;height:4px;border-radius:999px;background:#ded7ee;margin:8px auto 14px"></div>
       <div style="font-weight:900;font-size:17px;color:#251d49;margin-bottom:14px">我的</div>
       <button onClick="{{ openShipping }}" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;font-family:inherit;font-size:15px;font-weight:700;color:#251d49;background:#fff;border:1px solid #e8e2f2;border-radius:14px;padding:15px;margin-bottom:10px;cursor:pointer"><span style="font-size:20px">📦</span>排发中心<span style="margin-left:auto;font-size:13px;color:#938db0">{{ shippingCount }} 份资料 ›</span></button>
-      <button onClick="{{ mobileCloudSync }}" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;font-family:inherit;font-size:15px;font-weight:700;color:#251d49;background:#fff;border:1px solid #e8e2f2;border-radius:14px;padding:15px;margin-bottom:10px;cursor:pointer"><span style="font-size:20px">☁️</span>云端同步<span style="margin-left:auto;font-size:13px;color:#938db0">{{ cloudSaveText }} ›</span></button>
+      <button onClick="{{ openCloudPage }}" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;font-family:inherit;font-size:15px;font-weight:700;color:#251d49;background:#fff;border:1px solid #e8e2f2;border-radius:14px;padding:15px;margin-bottom:10px;cursor:pointer"><span style="font-size:20px">☁️</span>云端<span style="margin-left:auto;font-size:13px;color:#938db0">{{ cloudSaveText }} ›</span></button>
       <button onClick="{{ openSettings }}" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;font-family:inherit;font-size:15px;font-weight:700;color:#251d49;background:#fff;border:1px solid #e8e2f2;border-radius:14px;padding:15px;margin-bottom:10px;cursor:pointer"><span style="font-size:20px">⚙️</span>设置<span style="margin-left:auto;font-size:13px;color:#938db0">›</span></button>
       <button onClick="{{ openDataManage }}" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;font-family:inherit;font-size:15px;font-weight:700;color:#251d49;background:#fff;border:1px solid #e8e2f2;border-radius:14px;padding:15px;cursor:pointer"><span style="font-size:20px">🗂️</span>数据管理<span style="margin-left:auto;font-size:13px;color:#938db0">›</span></button>
     </div>
@@ -2418,7 +2469,7 @@ class Component extends DCLogic {
   CHAR_IMG = { '诺克斯': 'assets/c_nox.webp', 'NOX': 'assets/r_blue.webp', 'MIDNIGHT SHADOW': 'assets/r_nox_midnight.webp', 'NOX KNIGHT': 'assets/r_lady.webp', 'ZEZTZ': 'assets/r_red.webp', '西格': 'assets/c_zeke.webp', 'DAWN': 'assets/r_zeztz.webp', '宁梦': 'assets/c_nemu.webp', '南云成华': 'assets/c_nagumo.webp', 'ZERO': 'assets/c_zero.webp', '万津莫': 'assets/c_matsu.webp', '万津美浪': 'assets/c_minami.webp', '富士见铁也': 'assets/c_fujimi.webp', 'THE LADY': 'assets/c_lady.webp', 'CODE': 'assets/c_code.webp' };
   imgUrls = {};
   cloudImageMap = {};
-  state = { items: [], view: null, sets: [], lastSetId: '', setMenuOpen: false, feeOpen: false, colInfoOpen: false, setInfoOpen: false, recentWorks: [], collapsedGroups: {}, reminderMenuOpen: false, monthlyBudget: '', budgets: {}, ledgerDetailKey: '', ledgerDetailType: 'day', ledgerDetailLabel: '', tableSortKey: '', tableSortDir: 'desc', tableHiddenCols: [], tableColumnMenuOpen: false, nameStyleMode: 'default', displayMode: 'standard', dashboardCards: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], purchaseChannelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, purchaseChannels: [], purchaseChannelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], hiddenPurchaseChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, purchaseChannel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, dataManageOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, cloudPending: false, cloudLastSyncedAt: '', cloudRemoteUpdatedAt: '', modalOpen: false, editing: null, draft: null, savedAt: 0, batchMode: false, selectedIds: [], bulkEditIds: [], bulkEditIndex: 0, ledgerRange: 'month', ledgerMode: 'month', ledgerYear: String(new Date().getFullYear()), ledgerMonth: String(new Date().getMonth()+1), ledgerWeek: '', ledgerPieBy: 'character', ledgerPieActive: 0, batchEditOpen: false, batchEditField: '', batchOn: null, shippingOpen: false, shippingRecords: [], shippingBatches: [], shippingDraft: null, shippingPreviewNotice: '', shippingPreviewPaid: '', shippingPreviewCn: '', shippingPreviewGroup: '', shippingPreviewBatch: '', shippingPreviewPackageKey: '', itemEvidenceDrafts: [], itemEvidenceExistingIds: [], itemEvidenceOpen: false, exportGroup: '', exportSearch: '', exportIds: [], shipAddCollapsed: false, shippingViewChannel: null, relinkRecordId: null, relinkItemIds: [], relinkSearch: '', relinkNote: '', mobileMineOpen: false };
+  state = { items: [], view: null, sets: [], lastSetId: '', setMenuOpen: false, feeOpen: false, colInfoOpen: false, setInfoOpen: false, recentWorks: [], collapsedGroups: {}, reminderMenuOpen: false, monthlyBudget: '', budgets: {}, ledgerDetailKey: '', ledgerDetailType: 'day', ledgerDetailLabel: '', tableSortKey: '', tableSortDir: 'desc', tableHiddenCols: [], tableColumnMenuOpen: false, nameStyleMode: 'default', displayMode: 'standard', dashboardCards: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], purchaseChannelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, purchaseChannels: [], purchaseChannelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], hiddenPurchaseChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, purchaseChannel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, dataManageOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, cloudPending: false, cloudLastSyncedAt: '', cloudRemoteUpdatedAt: '', modalOpen: false, editing: null, draft: null, savedAt: 0, batchMode: false, selectedIds: [], bulkEditIds: [], bulkEditIndex: 0, ledgerRange: 'month', ledgerMode: 'month', ledgerYear: String(new Date().getFullYear()), ledgerMonth: String(new Date().getMonth()+1), ledgerWeek: '', ledgerPieBy: 'character', ledgerPieActive: 0, batchEditOpen: false, batchEditField: '', batchOn: null, shippingOpen: false, shippingRecords: [], shippingBatches: [], shippingDraft: null, shippingPreviewNotice: '', shippingPreviewPaid: '', shippingPreviewCn: '', shippingPreviewGroup: '', shippingPreviewBatch: '', shippingPreviewPackageKey: '', itemEvidenceDrafts: [], itemEvidenceExistingIds: [], itemEvidenceOpen: false, exportGroup: '', exportSearch: '', exportIds: [], shipAddCollapsed: false, shippingViewChannel: null, relinkRecordId: null, relinkItemIds: [], relinkSearch: '', relinkNote: '', mobileMineOpen: false, cloudPageOpen: false };
 
   setRoot = (el) => { this.rootEl = el; if (el) { this.applyThemeVars(); this.applyBg(); } };
   applyThemeVars() {
@@ -4841,6 +4892,9 @@ class Component extends DCLogic {
   tabLedger = () => this.setState({ view: 'ledger', filtersOpen: false, mobileMineOpen: false, batchMode: false, selectedIds: [] });
   tabMine = () => this.setState({ mobileMineOpen: true });
   closeMine = () => this.setState({ mobileMineOpen: false });
+  openCloudPage = () => this.setState({ cloudPageOpen: true, mobileMineOpen: false });
+  closeCloudPage = () => this.setState({ cloudPageOpen: false });
+  goCloudOrSettings = () => { if (window.matchMedia && window.matchMedia('(max-width:640px)').matches) { this.openCloudPage(); } else { this.openSettings(); } };
   tabBtnStyle(active) { return { flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '2px', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: '10.5px', fontWeight: active ? 700 : 500, color: active ? this.accentColor() : '#938db0', padding: '6px 0' }; }
   setCircle = () => this.setState({ view: 'circle' });
   setHeat = (n) => this.setState(s => ({ draft: { ...s.draft, heat: ((s.draft.heat || 0) === n ? n - 1 : n) } }));
@@ -6216,7 +6270,7 @@ class Component extends DCLogic {
       openSettings: this.openSettings, closeSettings: this.cancelSettings, cancelSettings: this.cancelSettings, saveSettings: this.saveSettings, clearAllData: this.clearAllData, settingsOpen: this.state.settingsOpen, dataManageOpen: this.state.dataManageOpen, openDataManage: this.openDataManage, batchEditOpen: this.state.batchEditOpen, closeBatchEditor: this.closeBatchEditor, openBatchEditor: this.openBatchEditor, batchEditFields, batchEditOptions, batchEditTitle, batchEditChooseMode, batchEditOptionMode, batchEditBack: this.batchEditBack, closeDataManage: this.closeDataManage, confirmExcelExport: this.confirmExcelExport, confirmExcelTemplate: this.confirmExcelTemplate, confirmExcelImport: this.confirmExcelImport, confirmJsonExport: this.confirmJsonExport, confirmJsonImport: this.confirmJsonImport,
       cnVal: sd.collectorName || '', curVal: sd.currency || this.cur(), accentVal: sd.accent || this.props.accent || '#ff3355', nameStyleVal: sd.nameStyleMode || this.state.nameStyleMode || 'default', displayModeVal: sd.displayMode || this.state.displayMode || 'standard', stylePreviewText: this.previewStyleText(sd.nameStyleMode || this.state.nameStyleMode || 'default'), titleVal: sd.title || '', subtitleVal: sd.subtitle || '', footerVal: sd.footer || '',
       onCn: this.onDraftSettingField('collectorName'), onCurrency: this.onDraftSettingField('currency'), onAccent: this.onDraftSettingField('accent'), onNameStyle: this.setNameStyle, onDisplayMode: this.setDisplayMode, onTitleSet: this.onDraftSettingField('title'), onSubtitleSet: this.onDraftSettingField('subtitle'), onFooterSet: this.onDraftSettingField('footer'),
-      showWelcomeCard: !cnPrefix, cloudSyncCode: this.state.cloudSyncCode || '', hasCloudCode: !!this.state.cloudSyncCode, noCloudCode: !this.state.cloudSyncCode, hasCloudStatus: !!this.state.cloudStatus, cloudStatus: this.state.cloudStatus || '', copyCloudCode: this.copyCloudCode, cloudCodeInput: this.state.cloudCodeInput || '', onCloudCodeInput: this.onCloudCodeInput, createCloudCollection: this.createCloudCollection, connectCloudCollection: this.connectCloudCollection, pushCloud: this.pushCloud, pullCloud: this.pullCloud, mobileCloudSync: this.mobileCloudSync, checkCloudVersion: this.checkCloudVersion, disconnectCloud: this.disconnectCloud, hasCloudSync: !!this.state.cloudSyncId, cloudSyncText: this.state.cloudSyncCode ? ('当前同步代码：' + this.state.cloudSyncCode + '。' + (this.state.cloudStatus || '')) : (this.state.cloudStatus || '未连接云同步。'),
+      showWelcomeCard: !cnPrefix, cloudSyncCode: this.state.cloudSyncCode || '', hasCloudCode: !!this.state.cloudSyncCode, noCloudCode: !this.state.cloudSyncCode, hasCloudStatus: !!this.state.cloudStatus, cloudStatus: this.state.cloudStatus || '', copyCloudCode: this.copyCloudCode, cloudCodeInput: this.state.cloudCodeInput || '', onCloudCodeInput: this.onCloudCodeInput, createCloudCollection: this.createCloudCollection, connectCloudCollection: this.connectCloudCollection, pushCloud: this.pushCloud, pullCloud: this.pullCloud, mobileCloudSync: this.mobileCloudSync, checkCloudVersion: this.checkCloudVersion, disconnectCloud: this.disconnectCloud, hasCloudSync: !!this.state.cloudSyncId, cloudSyncText: this.state.cloudSyncCode ? ('当前同步代码：' + this.state.cloudSyncCode + '。' + (this.state.cloudStatus || '')) : (this.state.cloudStatus || '未连接云同步。'), cloudPageOpen: this.state.cloudPageOpen, openCloudPage: this.openCloudPage, closeCloudPage: this.closeCloudPage, goCloudOrSettings: this.goCloudOrSettings,
       labels, workManageRows, fieldRows, optionGroups, customFieldRows, draftCustomInputs, hasCustomFields: draftCustomFields.length > 0, addCustomField: this.addCustomField, restoreBaseFields: this.restoreBaseFields, migrateSeriesToSet: this.migrateSeriesToSet, migrateSeriesToCustom: this.migrateSeriesToCustom, workSettingGroups, dashboardCollectionRows, dashboardSaleRows, addGroupAlone: this.addGroupAlone, uploadBg: this.uploadBg, clearBg: this.clearBg, hasBg: !!this.bgUrl, addWorkInline: this.addWork,
       addFormOpt: this.addOptionTo('formOrder', 'zzz_form_order', '输入新的形态'), addStatusOpt: this.addOptionTo('statusList', 'zzz_status', '输入新的状态'), addAcquireOpt: this.addOptionTo('acquireOrder', 'zzz_acquire_order', '输入新的来源方式'), formMenuItems, formDisplay, formMenuOpen: this.state.formMenuOpen, toggleFormMenu: this.toggleFormMenu, statusMenuItems, statusDisplay, statusMenuOpen: this.state.statusMenuOpen, toggleStatusMenu: this.toggleStatusMenu, acquireMenuItems, acquireDisplay, acquireMenuOpen: this.state.acquireMenuOpen, toggleAcquireMenu: this.toggleAcquireMenu, methodMenuItems, methodDisplay, methodMenuOpen: this.state.methodMenuOpen, toggleMethodMenu: this.toggleMethodMenu, clearMethod: this.clearMethod, hasMethodItems: methodMenuItems.length > 0,
       lblCharacter: labels.character, lblType: labels.type, lblChannel: labels.channel, lblPurchaseChannel: labels.purchaseChannel, lblSeries: labels.series, lblStatus: labels.status, lblForm: labels.form, lblAcquire: labels.acquire, showReminderFields, reminderDateLabel, reminderDateHint,
