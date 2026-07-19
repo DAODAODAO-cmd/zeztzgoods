@@ -271,22 +271,33 @@
     .ui-app .ui-reminder-strip,.ui-app .ui-mobile-ledger-mini{display:none !important;}
     .ui-app.ui-view-home .ui-reminder-strip{display:block !important;margin-bottom:12px !important;}
     .ui-app.ui-view-home .ui-mobile-ledger-mini{display:block !important;margin-bottom:12px !important;}
-    .ui-app.ui-view-ledger .ui-work-switch,.ui-app.ui-view-ledger .ui-group-tabs{display:none !important;}
+    .ui-app.ui-view-ledger .ui-group-tabs{display:none !important;}
     .ui-app.ui-view-search .ui-mobile-ledger-mini,.ui-app.ui-view-search .ui-reminder-strip{display:none !important;}
     .ui-ledger-card{padding:11px 12px !important;}
     .ui-ledger-card > div[style*="font-size:24px"]{font-size:17px !important;}
     .ui-ledger-card > div[style*="font-size:22px"]{font-size:17px !important;}
 
-    /* 1A：首页 tab 只留纯图鉴网格 + 悬浮加号（底部 tab 栏自带加号，工具栏内重复的加号一并隐藏不影响功能） */
+    /* 首页 tab 只留纯图鉴网格 + 悬浮加号（底部 tab 栏自带加号，工具栏内重复的加号一并隐藏不影响功能） */
     .ui-app.ui-view-home .ui-reminder-strip,.ui-app.ui-view-home .ui-mobile-ledger-mini{display:none !important;}
-    .ui-app.ui-view-home .ui-work-switch{display:none !important;}
     .ui-app.ui-view-home .ui-toolbar{display:none !important;}
     .ui-app.ui-view-home .ui-stats-grid{display:none !important;}
 
-    /* 2A：搜索 tab 连顶部 logo/标题栏也隐藏，只留搜索框、筛选与结果 */
+    /* 搜索 tab 连顶部 logo/标题栏也隐藏，只留搜索框、筛选与结果 */
     .ui-app.ui-view-search .ui-header{display:none !important;}
-    .ui-app.ui-view-search .ui-work-switch{display:none !important;}
     .ui-app.ui-view-search .ui-toolbar{display:none !important;}
+
+    /* 账本 tab：去掉工具栏残留的空白条，只留搜索栏+切换IP+账本本身 */
+    .ui-app.ui-view-ledger .ui-toolbar{display:none !important;}
+
+    /* 图鉴卡片一行显示 2～3 个（原来按 200px 起步，小屏手机上会挤成一列） */
+    .ui-gallery-grid{grid-template-columns:repeat(auto-fill,minmax(110px,1fr)) !important;gap:10px !important;}
+    .ui-gallery-card{border-radius:12px !important;}
+    .ui-gallery-card-body{padding:9px 9px 10px !important;gap:7px !important;}
+    .ui-gallery-name{font-size:13px !important;line-height:1.3 !important;-webkit-line-clamp:2 !important;}
+    .ui-mobile-card-extra{display:none !important;}
+    .ui-mobile-card-price{margin-top:1px !important;padding-top:7px !important;}
+    .ui-mobile-card-price [style*="font-size:18px"]{font-size:15px !important;}
+    .ui-mobile-card-main span:nth-child(n+3){display:none !important;}
   }
 
   @media (max-width:900px){
@@ -4770,7 +4781,7 @@ class Component extends DCLogic {
   setGallery = () => this.setState({ view: 'gallery' });
   // 手机底部 tab 动作
   tabHome = () => this.setState({ view: 'gallery', filtersOpen: false, mobileMineOpen: false, batchMode: false, selectedIds: [] });
-  tabSearch = () => this.setState({ view: 'gallery', filtersOpen: true, mobileMineOpen: false }, () => { try { const el = document.querySelector('.ui-search-input,input[placeholder*="搜"]'); if (el) el.focus(); } catch (e) {} });
+  tabSearch = () => this.setState({ view: 'gallery', filtersOpen: true, mobileMineOpen: false });
   tabLedger = () => this.setState({ view: 'ledger', filtersOpen: false, mobileMineOpen: false, batchMode: false, selectedIds: [] });
   tabMine = () => this.setState({ mobileMineOpen: true });
   closeMine = () => this.setState({ mobileMineOpen: false });
