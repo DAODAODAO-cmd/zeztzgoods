@@ -3,12 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23ff3355'/%3E%3Cg fill='none' stroke='white' stroke-width='3.5' stroke-linejoin='round' stroke-linecap='round'%3E%3Cpath d='M32 14 L50 23 L32 32 L14 23 Z'/%3E%3Cpath d='M14 23 L14 43 L32 52 L50 43 L50 23'/%3E%3Cpath d='M32 32 L32 52'/%3E%3C/g%3E%3C/svg%3E">
 <script src="./support.js"></script>
 </head>
 <body>
 <x-dc>
 <!-- 谷子收纳 V2.1 Stable 完整版：手机简洁 / 网页完整 / 作品独立角色 / 防误关弹窗 -->
 <helmet>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23ff3355'/%3E%3Cg fill='none' stroke='white' stroke-width='3.5' stroke-linejoin='round' stroke-linecap='round'%3E%3Cpath d='M32 14 L50 23 L32 32 L14 23 Z'/%3E%3Cpath d='M14 23 L14 43 L32 52 L50 43 L50 23'/%3E%3Cpath d='M32 32 L32 52'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Orbitron:wght@600;700;900&display=swap" rel="stylesheet">
@@ -194,6 +196,7 @@
     .ui-mobile-auto .ui-mobile-mode-button,.ui-mobile-simple .ui-mobile-mode-button,.ui-mobile-full .ui-mobile-mode-button{display:inline-flex !important;align-items:center;justify-content:center;}
     .ui-mobile-auto .ui-mobile-ship-btn,.ui-mobile-simple .ui-mobile-ship-btn,.ui-mobile-full .ui-mobile-ship-btn{display:inline-flex !important;align-items:center;justify-content:center;}
     .ui-mobile-auto .ui-mobile-sync-btn,.ui-mobile-simple .ui-mobile-sync-btn,.ui-mobile-full .ui-mobile-sync-btn{display:inline-flex !important;align-items:center;justify-content:center;}
+    .ui-mobile-auto .ui-header-status-pill,.ui-mobile-simple .ui-header-status-pill,.ui-mobile-full .ui-header-status-pill{display:none !important;}
     .ui-mobile-auto .ui-mobile-batch-action,.ui-mobile-simple .ui-mobile-batch-action,.ui-mobile-full .ui-mobile-batch-action{position:fixed !important;left:16px !important;bottom:18px !important;z-index:50 !important;border-radius:999px !important;min-width:48px !important;min-height:46px !important;padding:0 15px !important;background:#fff !important;color:#4c4580 !important;border:1px solid #ded7ee !important;box-shadow:0 12px 26px rgba(50,38,90,.18) !important;}
     .ui-mobile-auto .ui-stats-grid,.ui-mobile-simple .ui-stats-grid{display:none !important;}
     .ui-mobile-auto .ui-toolbar,.ui-mobile-simple .ui-toolbar{position:sticky !important;top:0 !important;z-index:12 !important;margin-left:-4px !important;margin-right:-4px !important;border-radius:12px !important;box-shadow:0 8px 24px rgba(50,38,90,.08) !important;}
@@ -590,10 +593,10 @@
         </div>
       </div>
       <div class="ui-header-actions" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-        <span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#0f8f50;background:rgba(61,220,151,.1);border:1px solid rgba(61,220,151,.22);padding:6px 11px;border-radius:999px">
+        <span class="ui-header-status-pill" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#0f8f50;background:rgba(61,220,151,.1);border:1px solid rgba(61,220,151,.22);padding:6px 11px;border-radius:999px">
           <span style="width:6px;height:6px;border-radius:50%;background:#12a85f;box-shadow:0 0 8px #12a85f"></span>{{ savedText }}
         </span>
-        <span style="{{ cloudSavePillStyle }}">
+        <span class="ui-header-status-pill" style="{{ cloudSavePillStyle }}">
           <span style="{{ cloudSaveDotStyle }}"></span>{{ cloudSaveText }}
         </span>
         <button onClick="{{ openSettings }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.045);border:1px solid #ded7ee;padding:8px 13px;border-radius:9px;cursor:pointer">设置</button>
