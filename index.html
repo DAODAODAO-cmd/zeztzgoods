@@ -158,8 +158,10 @@
     .ui-draft-image-upload{width:28px !important;height:28px !important;border-radius:9px !important;font-size:18px !important}
     .ui-ship-title{font-size:12px !important;margin-bottom:6px !important;}
     .ui-ship-label{font-size:10.5px !important;margin:6px 0 4px !important;}
-    .ui-ship-input{padding:6px 8px !important;min-height:36px !important;}
+    .ui-ship-input{padding:6px 8px !important;min-height:36px !important;font-size:12.5px !important;}
     button.ui-ship-input{font-size:12.5px !important;}
+    .ui-ship-input::placeholder{font-size:12px !important;}
+    .ui-ship-notice{font-size:10.5px !important;padding:7px 9px !important;}
     .ui-ship-action{font-size:10.5px !important;padding:5px 8px !important;}
     .ui-ship-check{font-size:11.5px !important;padding:6px 8px !important;}
     .ui-ship-card{padding:11px !important;}
@@ -228,7 +230,7 @@
     .ui-mobile-auto .ui-header-status-pill,.ui-mobile-simple .ui-header-status-pill,.ui-mobile-full .ui-header-status-pill{display:none !important;}
     .ui-hide-mobile{display:none !important;}
     /* 手机底部 tab 栏 */
-    .ui-bottom-tab{position:fixed;left:0;right:0;bottom:0;z-index:320;display:flex;align-items:center;justify-content:space-around;gap:2px;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-top:1px solid #eadff3;padding:4px 8px calc(4px + env(safe-area-inset-bottom));box-shadow:0 -6px 20px rgba(46,35,86,.08)}
+    .ui-bottom-tab{position:fixed;left:0;right:0;bottom:0;z-index:360;display:flex;align-items:center;justify-content:space-around;gap:2px;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-top:1px solid #eadff3;padding:4px 8px calc(4px + env(safe-area-inset-bottom));box-shadow:0 -6px 20px rgba(46,35,86,.08)}
     .ui-bottom-tab-add{flex:0 0 auto;width:52px;height:52px;margin-top:-18px;border-radius:50%;background:var(--accent,#ff3355);color:#fff;border:4px solid #fff;box-shadow:0 6px 16px var(--accent-shadow,rgba(255,51,85,.4));display:flex;align-items:center;justify-content:center;cursor:pointer;font-family:inherit}
     .ui-page-inner{padding-bottom:calc(78px + env(safe-area-inset-bottom)) !important;}
     .ui-mobile-auto .ui-mobile-batch-action,.ui-mobile-simple .ui-mobile-batch-action,.ui-mobile-full .ui-mobile-batch-action{position:fixed !important;left:16px !important;bottom:18px !important;z-index:50 !important;border-radius:999px !important;min-width:48px !important;min-height:46px !important;padding:0 15px !important;background:#fff !important;color:#4c4580 !important;border:1px solid #ded7ee !important;box-shadow:0 12px 26px rgba(50,38,90,.18) !important;}
@@ -1373,10 +1375,10 @@
           <div class="ui-ledger-card" style="background:linear-gradient(150deg,#ffffff,#f8f5ff)">
             <div style="font-size:12px;color:#544f7e;margin-bottom:8px">{{ budgetLabel }}</div>
             <sc-if value="{{ showBudgetEdit }}" hint-placeholder-val="{{ true }}">
-              <input value="{{ budgetInput }}" onChange="{{ onBudgetChange }}" placeholder="输入预算" type="number" min="0" style="width:100%;font-family:'Orbitron';font-weight:700;font-size:22px;color:#251d49;background:transparent;border:none;outline:none;padding:0">
+              <input value="{{ budgetInput }}" onChange="{{ onBudgetChange }}" placeholder="输入预算" type="number" min="0" style="width:100%;font-family:'Orbitron';font-weight:700;font-size:24px;color:#251d49;background:transparent;border:none;outline:none;padding:0">
             </sc-if>
             <sc-if value="{{ showBudgetView }}" hint-placeholder-val="{{ false }}">
-              <div style="font-family:'Orbitron';font-weight:700;font-size:22px;color:#251d49">{{ budgetDisplayText }}</div>
+              <div style="font-family:'Orbitron';font-weight:700;font-size:24px;color:#251d49">{{ budgetDisplayText }}</div>
             </sc-if>
             <div style="height:7px;background:#eee9f8;border-radius:999px;margin-top:12px;overflow:hidden"><div style="{{ budgetBarStyle }}"></div></div>
           </div>
@@ -1394,9 +1396,9 @@
               </div>
               <div class="ui-consume-controls">
                 <sc-for list="{{ ledgerModeChips }}" as="chip" hint-placeholder-count="4"><button onClick="{{ chip.onClick }}" style="{{ chip.style }}">{{ chip.label }}</button></sc-for>
-                <sc-if value="{{ showLedgerYear }}" hint-placeholder-val="true"><select class="ui-mini-select" value="{{ ledgerYear }}" onChange="{{ onLedgerYear }}"><sc-for list="{{ ledgerYearOptions }}" as="y" hint-placeholder-count="3"><option value="{{ y }}">{{ y }}年</option></sc-for></select></sc-if>
-                <sc-if value="{{ showLedgerMonth }}" hint-placeholder-val="true"><select class="ui-mini-select" value="{{ ledgerMonth }}" onChange="{{ onLedgerMonth }}"><sc-for list="{{ ledgerMonthOptions }}" as="m" hint-placeholder-count="12"><option value="{{ m.value }}">{{ m.label }}</option></sc-for></select></sc-if>
-                <sc-if value="{{ showLedgerWeek }}" hint-placeholder-val="false"><select class="ui-mini-select" value="{{ ledgerWeek }}" onChange="{{ onLedgerWeek }}"><sc-for list="{{ ledgerWeekOptions }}" as="w" hint-placeholder-count="4"><option value="{{ w.value }}">{{ w.label }}</option></sc-for></select></sc-if>
+                <sc-if value="{{ showLedgerYear }}" hint-placeholder-val="true"><button class="ui-mini-select" onClick="{{ openLedgerYearSelect }}" style="cursor:pointer;text-align:left">{{ ledgerYearText }} ▾</button></sc-if>
+                <sc-if value="{{ showLedgerMonth }}" hint-placeholder-val="true"><button class="ui-mini-select" onClick="{{ openLedgerMonthSelect }}" style="cursor:pointer;text-align:left">{{ ledgerMonthText }} ▾</button></sc-if>
+                <sc-if value="{{ showLedgerWeek }}" hint-placeholder-val="false"><button class="ui-mini-select" onClick="{{ openLedgerWeekSelect }}" style="cursor:pointer;text-align:left">{{ ledgerWeekText }} ▾</button></sc-if>
                 <button onClick="{{ jumpBudgetThisMonth }}" style="font-family:inherit;font-size:12px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:5px 11px;border-radius:8px;cursor:pointer;white-space:nowrap">本月</button>
               </div>
             </div>
@@ -1672,12 +1674,10 @@
           <div style="font-family:'Orbitron';font-weight:700;font-size:17px">{{ modalTitle }}</div>
           <button onClick="{{ closeModal }}" style="width:32px;height:32px;border-radius:9px;border:1px solid #ded7ee;background:rgba(50,38,90,.045);color:#595287;font-size:18px;cursor:pointer;line-height:1">×</button>
         </div>
-        <sc-if value="{{ isEditing }}" hint-placeholder-val="{{ false }}">
         <div style="display:flex;gap:4px;padding:10px 22px 0;flex-shrink:0">
           <button onClick="{{ switchToEditTab }}" style="{{ editTabStyle }}">编辑</button>
-          <button onClick="{{ switchToShipTab }}" style="{{ shipTabStyle }}">排发</button>
+          <button onClick="{{ switchToShipTab }}" style="{{ shipTabStyle }}">📦 排发</button>
         </div>
-        </sc-if>
         <div style="padding:20px 22px;flex:1;min-height:0;overflow-y:auto">
           <sc-if value="{{ anyDraftMenuOpen }}" hint-placeholder-val="{{ false }}"><div onClick="{{ closeAllMenus }}" style="position:fixed;inset:0;z-index:5"></div></sc-if>
           <sc-if value="{{ isEditTab }}" hint-placeholder-val="{{ true }}">
@@ -2059,10 +2059,7 @@
               <div style="margin-top:11px;padding-top:10px;border-top:1px solid #ece7f5">
                 <div style="font-size:12px;font-weight:800;color:#251d49;margin-bottom:6px">使用已有本体资料</div>
                 <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-                  <select value="{{ itemEvidenceExistingSelect }}" onChange="{{ onItemEvidenceExistingSelect }}" style="flex:1;min-width:220px;font-family:inherit;font-size:12px;border:1px solid #ded7ee;border-radius:9px;padding:8px;background:#fff;color:#251d49">
-                    <option value="">选择已有本体资料（不会重复上传图片）</option>
-                    <sc-for list="{{ itemEvidenceExistingOptions }}" as="op" hint-placeholder-count="3"><option value="{{ op.value }}">{{ op.label }}</option></sc-for>
-                  </select>
+                  <button onClick="{{ openItemEvidenceExistingSelect }}" style="flex:1;min-width:200px;font-family:inherit;font-size:12px;border:1px solid #ded7ee;border-radius:9px;padding:9px;background:#fff;color:#251d49;text-align:left;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>选择已有本体资料（不重复上传）</span><span style="color:#938db0;font-size:11px">▾</span></button>
                   <span style="font-size:11px;color:#837da4">已选 {{ itemEvidenceExistingCount }} 份</span>
                 </div>
               </div>
@@ -2100,6 +2097,12 @@
               </div>
               </div>
               <div>
+              <div class="ui-ship-label">备注（可选）</div>
+              <input class="ui-ship-input" value="{{ shipNote }}" onChange="{{ onShipNote }}" placeholder="订单号 / 说明">
+              </div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <div>
               <div class="ui-ship-label">资料类型</div>
               <div style="position:relative">
                 <button onClick="{{ toggleShipTypeMenu }}" class="ui-ship-input" style="display:flex;align-items:center;justify-content:space-between;gap:8px;text-align:left;cursor:pointer"><span>{{ shipTypeDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
@@ -2110,10 +2113,10 @@
                 </sc-if>
               </div>
               </div>
-              </div>
-              <div style="display:flex;align-items:center;justify-content:space-between">
+              <div>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:6px">
                 <div class="ui-ship-label" style="margin:0">图片内容</div>
-                <button onClick="{{ openShipRoleManageForType }}" style="font-family:inherit;font-size:11px;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:4px 9px;border-radius:7px;cursor:pointer">⚙ 管理分类</button>
+                <button onClick="{{ openShipRoleManageForType }}" style="font-family:inherit;font-size:10.5px;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 7px;border-radius:7px;cursor:pointer;white-space:nowrap">⚙ 分类</button>
               </div>
               <div style="position:relative">
                 <button onClick="{{ toggleShipRoleMenu }}" class="ui-ship-input" style="display:flex;align-items:center;justify-content:space-between;gap:8px;text-align:left;cursor:pointer"><span>{{ shipRoleDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
@@ -2122,6 +2125,8 @@
                     <sc-for list="{{ shipRoleMenuItems }}" as="o" hint-placeholder-count="3"><div style="{{ o.rowStyle }}"><button onClick="{{ o.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ o.label }}</button></div></sc-for>
                   </div>
                 </sc-if>
+              </div>
+              </div>
               </div>
               <div class="ui-ship-label">添加图片（可多选）</div>
               <label style="display:flex;align-items:center;justify-content:center;min-height:70px;border:2px dashed var(--accent-border,#ded7ee);border-radius:14px;background:#fff;cursor:pointer;text-align:center;color:#595287;font-size:13px;padding:10px">
@@ -2138,8 +2143,6 @@
                 <sc-for list="{{ shipItemChoices }}" as="it" hint-placeholder-count="4"><label class="ui-ship-check"><input type="checkbox" checked="{{ it.checked }}" onChange="{{ it.onToggle }}"><span>{{ it.label }}</span></label></sc-for>
               </div>
               </sc-if>
-              <div class="ui-ship-label">备注（可选）</div>
-              <input class="ui-ship-input" value="{{ shipNote }}" onChange="{{ onShipNote }}" placeholder="例如：第一次国际运费 / 订单号 / 说明">
               <sc-if value="{{ hasShipNotice }}" hint-placeholder-val="false"><div class="ui-ship-notice">{{ shipNotice }}</div></sc-if>
               <button onClick="{{ saveShipping }}" style="width:100%;margin-top:6px;min-height:44px;border:none;border-radius:13px;background:var(--accent,#ff3355);color:#fff;font-family:inherit;font-weight:900;font-size:14px;cursor:pointer">保存</button>
             </sc-if>
@@ -2199,7 +2202,7 @@
           <div><div style="font-weight:900;font-size:15px;color:#251d49">编辑资料</div><div style="font-size:11.5px;color:#837da4;margin-top:1px">{{ relinkTitle }}</div></div>
           <button onClick="{{ closeRelink }}" style="width:30px;height:30px;border-radius:9px;border:1px solid #ded7ee;background:#fff;color:#595287;font-size:17px;cursor:pointer">×</button>
         </div>
-        <div style="flex:1;min-height:0;overflow-y:auto;padding:12px 16px;display:flex;flex-direction:column;gap:14px">
+        <div style="flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:12px 16px;display:flex;flex-direction:column;gap:14px">
 
           <div>
             <div style="font-size:11.5px;font-weight:700;color:#544f7e;margin-bottom:5px">团／渠道（排发用）</div>
@@ -2217,21 +2220,17 @@
             <div style="font-size:11.5px;font-weight:700;color:#544f7e;margin-bottom:5px">图片</div>
             <sc-if value="{{ noRelinkImages }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;color:#938db0;padding:8px 0">这条资料还没有图片。</div></sc-if>
             <sc-for list="{{ relinkImageRows }}" as="im" hint-placeholder-count="2">
-              <div style="{{ im.cardStyle }}display:flex;gap:9px;align-items:center;background:#fff;border:1px solid #e8e2f2;border-radius:11px;padding:8px;margin-bottom:6px">
-                <div style="{{ im.thumbStyle }}background-size:cover;background-position:center;width:44px;height:44px;border-radius:8px;flex-shrink:0;background-color:#f0edf7"></div>
-                <select value="{{ im.role }}" onChange="{{ im.onRoleChange }}" style="flex:1;min-width:0;font-family:inherit;font-size:12.5px;border:1px solid #ded7ee;border-radius:8px;padding:7px;background:#fff;color:#251d49">
-                  <sc-for list="{{ relinkRoleOptions }}" as="opt" hint-placeholder-count="3"><option value="{{ opt.value }}">{{ opt.label }}</option></sc-for>
-                </select>
-                <button onClick="{{ im.onToggleRemove }}" style="flex-shrink:0;font-family:inherit;font-size:11.5px;color:#e23b5d;background:rgba(226,59,93,.08);border:1px solid rgba(226,59,93,.22);padding:7px 10px;border-radius:8px;cursor:pointer;white-space:nowrap">{{ im.removeLabel }}</button>
+              <div style="{{ im.cardStyle }}display:flex;gap:7px;align-items:center;background:#fff;border:1px solid #e8e2f2;border-radius:11px;padding:7px;margin-bottom:6px">
+                <div style="{{ im.thumbStyle }}background-size:cover;background-position:center;width:36px;height:36px;border-radius:8px;flex-shrink:0;background-color:#f0edf7"></div>
+                <button onClick="{{ im.onOpenRole }}" style="flex:1;min-width:0;font-family:inherit;font-size:12px;border:1px solid #ded7ee;border-radius:8px;padding:6px 8px;background:#fff;color:#251d49;text-align:left;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:6px;overflow:hidden"><span style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ im.roleLabel }}</span><span style="color:#938db0;font-size:10px;flex-shrink:0">▾</span></button>
+                <button onClick="{{ im.onToggleRemove }}" style="flex-shrink:0;font-family:inherit;font-size:11px;color:#e23b5d;background:rgba(226,59,93,.08);border:1px solid rgba(226,59,93,.22);padding:6px 8px;border-radius:8px;cursor:pointer;white-space:nowrap">{{ im.removeLabel }}</button>
               </div>
             </sc-for>
             <sc-if value="{{ hasRelinkNewFiles }}" hint-placeholder-val="{{ false }}">
               <sc-for list="{{ relinkNewFileRows }}" as="nf" hint-placeholder-count="1">
                 <div style="display:flex;gap:9px;align-items:center;background:rgba(50,38,90,.04);border:1px dashed #ded7ee;border-radius:11px;padding:8px;margin-bottom:6px">
                   <div style="flex-shrink:0;font-size:11px;color:#544f7e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:70px">＋ {{ nf.filename }}</div>
-                  <select value="{{ nf.role }}" onChange="{{ nf.onRoleChange }}" style="flex:1;min-width:0;font-family:inherit;font-size:12.5px;border:1px solid #ded7ee;border-radius:8px;padding:7px;background:#fff;color:#251d49">
-                    <sc-for list="{{ relinkRoleOptions }}" as="opt" hint-placeholder-count="3"><option value="{{ opt.value }}">{{ opt.label }}</option></sc-for>
-                  </select>
+                  <button onClick="{{ nf.onOpenRole }}" style="flex:1;min-width:0;font-family:inherit;font-size:12px;border:1px solid #ded7ee;border-radius:8px;padding:6px 8px;background:#fff;color:#251d49;text-align:left;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:6px;overflow:hidden"><span style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ nf.roleLabel }}</span><span style="color:#938db0;font-size:10px;flex-shrink:0">▾</span></button>
                   <button onClick="{{ nf.onRemove }}" style="flex-shrink:0;font-family:inherit;font-size:11.5px;color:#e23b5d;background:rgba(226,59,93,.08);border:1px solid rgba(226,59,93,.22);padding:7px 10px;border-radius:8px;cursor:pointer">撤销</button>
                 </div>
               </sc-for>
@@ -2270,6 +2269,7 @@
         </div>
         <div style="padding:12px 20px;flex-shrink:0;border-bottom:1px solid #ece7f5">
           <input class="ui-ship-input" value="{{ linkExistingSearch }}" onChange="{{ onLinkExistingSearch }}" placeholder="搜索类型 / 分类 / 渠道 / 备注">
+          <sc-if value="{{ hasLinkExistingChannels }}" hint-placeholder-val="false"><div style="display:flex;gap:6px;overflow-x:auto;margin-top:9px;padding-bottom:2px"><sc-for list="{{ linkExistingChannelChips }}" as="c" hint-placeholder-count="3"><button onClick="{{ c.onClick }}" style="{{ c.style }}">{{ c.label }}</button></sc-for></div></sc-if>
         </div>
         <div style="padding:12px 20px;flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:8px">
           <sc-if value="{{ noLinkExistingRows }}" hint-placeholder-val="false"><div class="ui-ship-empty">没有找到匹配的资料。</div></sc-if>
@@ -2519,7 +2519,7 @@
 
   <!-- ===== 排发资料中心 ===== -->
   <sc-if value="{{ shippingOpen }}" hint-placeholder-val="false">
-    <div class="ui-modal-backdrop" style="position:fixed;inset:0;z-index:360;background:rgba(70,58,110,.38);backdrop-filter:blur(5px);display:flex;align-items:flex-start;justify-content:center;padding:18px 12px;overflow:auto">
+    <div class="ui-modal-backdrop" style="position:fixed;inset:0;z-index:380;background:rgba(70,58,110,.38);backdrop-filter:blur(5px);display:flex;align-items:flex-start;justify-content:center;padding:18px 12px;overflow:auto">
       <div class="ui-modal-card" onClick="{{ stop }}" style="width:100%;max-width:1120px;max-height:96vh;display:flex;flex-direction:column;background:linear-gradient(160deg,#fff,#f5f2fb);border:1px solid #d6cfe9;border-radius:22px;box-shadow:0 30px 80px rgba(0,0,0,.35);overflow:hidden">
         <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid #e1dbf0;flex-shrink:0">
           <div><div style="font-weight:900;font-size:16px;color:#251d49">📑 排发中心</div><div style="font-size:11px;color:#837da4;margin-top:1px">本体、国际和其他排发资料都集中放在这里。排发时只需选择谷子，系统会自动整理并去重。</div></div>
@@ -2535,7 +2535,7 @@
                 <sc-if value="{{ hasShippingChannels }}" hint-placeholder-val="false"><div style="display:flex;gap:7px;overflow-x:auto;padding-bottom:6px;margin-bottom:5px"><sc-for list="{{ shippingChannelChips }}" as="c" hint-placeholder-count="3"><button onClick="{{ c.onClick }}" style="{{ c.style }}">{{ c.label }}</button></sc-for></div></sc-if>
                 <div style="max-height:min(40vh,320px);overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:8px;border:1px solid #ece7f5;border-radius:12px;padding:6px;background:rgba(255,255,255,.5)">
                 <sc-for list="{{ shippingPackageRows }}" as="p" hint-placeholder-count="2">
-                    <sc-for list="{{ p.records }}" as="r" hint-placeholder-count="3"><div style="display:flex;gap:10px;align-items:flex-start;padding:8px;background:#fff;border:1px solid #f0ebf8;border-radius:10px"><div class="ui-ship-thumb" style="{{ r.thumbStyle }};flex-shrink:0;width:56px;height:56px"></div><div class="ui-ship-meta" style="flex:1;min-width:0"><strong>{{ r.type }}</strong><small style="display:block;color:#595287;margin-top:1px">关联：{{ r.itemNames }}</small><small style="display:block;color:#938db0">{{ r.note }}</small></div><div style="display:flex;flex-direction:column;gap:5px;flex-shrink:0"><button onClick="{{ r.onRelink }}" style="font-family:inherit;font-size:11.5px;border:1px solid #ded7ee;background:rgba(50,38,90,.05);color:#4c4580;border-radius:8px;padding:6px 9px;cursor:pointer;white-space:nowrap">编辑</button><button onClick="{{ r.onDelete }}" style="font-family:inherit;font-size:11.5px;border:1px solid rgba(226,59,93,.22);background:rgba(226,59,93,.07);color:#e23b5d;border-radius:8px;padding:6px 9px;cursor:pointer;white-space:nowrap">删除</button></div></div></sc-for>
+                    <sc-for list="{{ p.records }}" as="r" hint-placeholder-count="3"><div style="display:flex;gap:8px;align-items:center;padding:9px 10px;background:#fff;border:1px solid #f0ebf8;border-radius:10px"><div class="ui-ship-meta" style="flex:1;min-width:0"><strong>{{ r.type }}</strong><small style="display:block;color:#595287;margin-top:1px">关联：{{ r.itemNames }}</small><small style="display:block;color:#938db0">{{ r.note }}</small></div><button onClick="{{ r.onRelink }}" style="flex-shrink:0;font-family:inherit;font-size:11.5px;border:1px solid #ded7ee;background:rgba(50,38,90,.05);color:#4c4580;border-radius:8px;padding:6px 10px;cursor:pointer;white-space:nowrap">编辑</button><button onClick="{{ r.onDelete }}" style="flex-shrink:0;font-family:inherit;font-size:11.5px;border:1px solid rgba(226,59,93,.22);background:rgba(226,59,93,.07);color:#e23b5d;border-radius:8px;padding:6px 10px;cursor:pointer;white-space:nowrap">删除</button></div></sc-for>
                 </sc-for>
                 </div>
               </div>
@@ -2553,11 +2553,8 @@
                 <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px"><div class="ui-ship-title" style="margin:0">选择谷子</div><span style="font-size:11.5px;color:#837da4">当前 <strong style="color:#251d49">{{ exportVisibleCount }}</strong> · 已选 <strong style="color:var(--accent,#ff3355)">{{ exportSelectedCount }}</strong></span></div>
                 <div style="font-size:11.5px;color:#837da4;line-height:1.55;margin-bottom:8px">这里只列出「已经有关联资料」的谷子。先按团／渠道筛选，再勾选本次要排发的谷子。</div>
                 <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
-                  <select value="{{ exportGroup }}" onChange="{{ onExportGroup }}" style="flex:1;min-width:150px;font-family:inherit;font-size:12.5px;border:1px solid #ded7ee;border-radius:9px;padding:8px;background:#fff;color:#251d49">
-                    <option value="">全部团／渠道</option>
-                    <sc-for list="{{ exportGroupOptions }}" as="g" hint-placeholder-count="2"><option value="{{ g }}">{{ g }}</option></sc-for>
-                  </select>
-                  <input value="{{ exportSearch }}" onChange="{{ onExportSearch }}" placeholder="搜索名称 / 角色" style="flex:1;min-width:150px;font-family:inherit;font-size:12.5px;border:1px solid #ded7ee;border-radius:9px;padding:8px;background:#fff;color:#251d49">
+                  <button onClick="{{ openExportGroupSelect }}" style="flex:1;min-width:120px;font-family:inherit;font-size:12px;border:1px solid #ded7ee;border-radius:9px;padding:7px 8px;background:#fff;color:#251d49;text-align:left;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:6px"><span style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ exportGroupText }}</span><span style="color:#938db0;font-size:11px;flex-shrink:0">▾</span></button>
+                  <input value="{{ exportSearch }}" onChange="{{ onExportSearch }}" placeholder="搜索名称 / 角色" style="flex:1;min-width:120px;font-family:inherit;font-size:12px;border:1px solid #ded7ee;border-radius:9px;padding:7px 8px;background:#fff;color:#251d49">
                 </div>
                 <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
                   <button onClick="{{ selectAllExportItems }}" class="ui-ship-action">全选当前结果</button>
@@ -2604,6 +2601,19 @@
     <button onClick="{{ tabLedger }}" style="{{ tabLedgerStyle }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6.5" width="18" height="13" rx="2"/><path d="M3 10h18"/><path d="M7 6.5V5.2a1.2 1.2 0 0 1 1.2-1.2h7.6A1.2 1.2 0 0 1 17 5.2v1.3"/><circle cx="16.3" cy="14.7" r="1.1" fill="currentColor" stroke="none"/></svg><span>钱包</span></button>
     <button onClick="{{ tabMine }}" style="{{ tabMineStyle }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M4.8 20c.7-3.8 3.8-6.2 7.2-6.2s6.5 2.4 7.2 6.2"/></svg><span>我的</span></button>
   </nav>
+  <sc-if value="{{ genericSelectOpen }}" hint-placeholder-val="false">
+  <div style="position:fixed;inset:0;z-index:600;background:rgba(30,22,54,.45);display:flex;align-items:flex-end;justify-content:center" onClick="{{ closeGenericSelect }}">
+    <div style="width:100%;max-width:460px;background:linear-gradient(160deg,#fff,#f5f2fb);border-radius:20px 20px 0 0;max-height:70vh;display:flex;flex-direction:column;box-shadow:0 -10px 40px rgba(30,22,54,.3)" onClick="{{ stop }}">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid #e1dbf0;flex-shrink:0">
+        <div style="font-weight:800;font-size:15px;color:#251d49">{{ genericSelectTitle }}</div>
+        <button onClick="{{ closeGenericSelect }}" style="width:30px;height:30px;border-radius:9px;border:1px solid #ded7ee;background:#fff;color:#595287;font-size:17px;cursor:pointer">×</button>
+      </div>
+      <div style="flex:1;min-height:0;overflow-y:auto;padding:8px 12px calc(14px + env(safe-area-inset-bottom))">
+        <sc-for list="{{ genericSelectRows }}" as="o" hint-placeholder-count="6"><button onClick="{{ o.onPick }}" style="{{ o.active ? 'background:color-mix(in srgb,var(--accent,#ff3355) 12%,transparent);color:var(--accent,#ff3355);font-weight:700;' : 'background:#fff;color:#251d49;' }}display:flex;align-items:center;width:100%;text-align:left;font-family:inherit;font-size:14px;border:1px solid #eee9f8;border-radius:11px;padding:12px 14px;margin-bottom:6px;cursor:pointer"><span style="flex:1;min-width:0">{{ o.label }}</span><sc-if value="{{ o.active }}" hint-placeholder-val="{{ false }}"><span style="color:var(--accent,#ff3355);font-weight:900">✓</span></sc-if></button></sc-for>
+      </div>
+    </div>
+  </div>
+  </sc-if>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:&quot;100%&quot;},&quot;currency&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;¥&quot;,&quot;$&quot;,&quot;S$&quot;,&quot;NT$&quot;,&quot;HK$&quot;,&quot;€&quot;],&quot;default&quot;:&quot;¥&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#ff3355&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;startView&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;gallery&quot;,&quot;table&quot;],&quot;default&quot;:&quot;gallery&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
@@ -2644,7 +2654,7 @@ class Component extends DCLogic {
   CHAR_IMG = { '诺克斯': 'assets/c_nox.webp', 'NOX': 'assets/r_blue.webp', 'MIDNIGHT SHADOW': 'assets/r_nox_midnight.webp', 'NOX KNIGHT': 'assets/r_lady.webp', 'ZEZTZ': 'assets/r_red.webp', '西格': 'assets/c_zeke.webp', 'DAWN': 'assets/r_zeztz.webp', '宁梦': 'assets/c_nemu.webp', '南云成华': 'assets/c_nagumo.webp', 'ZERO': 'assets/c_zero.webp', '万津莫': 'assets/c_matsu.webp', '万津美浪': 'assets/c_minami.webp', '富士见铁也': 'assets/c_fujimi.webp', 'THE LADY': 'assets/c_lady.webp', 'CODE': 'assets/c_code.webp' };
   imgUrls = {};
   cloudImageMap = {};
-  state = { items: [], view: null, sets: [], lastSetId: '', setMenuOpen: false, feeOpen: false, colInfoOpen: false, setInfoOpen: false, recentWorks: [], collapsedGroups: {}, reminderMenuOpen: false, monthlyBudget: '', budgets: {}, ledgerDetailKey: '', ledgerDetailType: 'day', ledgerDetailLabel: '', tableSortKey: '', tableSortDir: 'desc', tableHiddenCols: [], tableColumnMenuOpen: false, nameStyleMode: 'default', displayMode: 'standard', dashboardCards: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], purchaseChannelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, purchaseChannels: [], purchaseChannelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], hiddenPurchaseChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, purchaseChannel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, dataManageOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, cloudPending: false, cloudLastSyncedAt: '', cloudRemoteUpdatedAt: '', modalOpen: false, editing: null, draft: null, savedAt: 0, batchMode: false, selectedIds: [], bulkEditIds: [], bulkEditIndex: 0, ledgerRange: 'month', ledgerMode: 'month', ledgerYear: String(new Date().getFullYear()), ledgerMonth: String(new Date().getMonth()+1), ledgerWeek: '', ledgerPieBy: 'character', ledgerPieActive: 0, batchEditOpen: false, batchEditField: '', batchOn: null, shippingOpen: false, shippingRecords: [], shippingBatches: [], shippingDraft: null, shippingPreviewNotice: '', shippingPreviewPaid: '', shippingPreviewCn: '', shippingPreviewGroup: '', shippingPreviewBatch: '', shippingPreviewPackageKey: '', itemEvidenceDrafts: [], itemEvidenceExistingIds: [], itemEvidenceOpen: false, exportGroup: '', exportSearch: '', exportIds: [], shipAddCollapsed: true, shippingViewChannel: null, relinkRecordId: null, relinkItemIds: [], relinkSearch: '', relinkNote: '', relinkGroup: '', relinkNoteOpen: false, relinkImages: [], relinkNewFiles: [], relinkRecordType: '', mobileMineOpen: false, cloudPageOpen: false, modalTab: 'edit', shippingRolesCustom: (() => { try { return JSON.parse(localStorage.getItem('zzz_shipping_roles') || '{}') || {}; } catch (e) { return {}; } })(), shipRoleManageOpen: false, shipRoleManageType: '', itemShipDraftOpen: false, itemShipItemsPanelOpen: false, linkExistingShipOpen: false, linkExistingSearch: '' };
+  state = { items: [], view: null, sets: [], lastSetId: '', setMenuOpen: false, feeOpen: false, colInfoOpen: false, setInfoOpen: false, recentWorks: [], collapsedGroups: {}, reminderMenuOpen: false, monthlyBudget: '', budgets: {}, ledgerDetailKey: '', ledgerDetailType: 'day', ledgerDetailLabel: '', tableSortKey: '', tableSortDir: 'desc', tableHiddenCols: [], tableColumnMenuOpen: false, nameStyleMode: 'default', displayMode: 'standard', dashboardCards: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], purchaseChannelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, purchaseChannels: [], purchaseChannelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], hiddenPurchaseChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, purchaseChannel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, dataManageOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, cloudPending: false, cloudLastSyncedAt: '', cloudRemoteUpdatedAt: '', modalOpen: false, editing: null, draft: null, savedAt: 0, batchMode: false, selectedIds: [], bulkEditIds: [], bulkEditIndex: 0, ledgerRange: 'month', ledgerMode: 'month', ledgerYear: String(new Date().getFullYear()), ledgerMonth: String(new Date().getMonth()+1), ledgerWeek: '', ledgerPieBy: 'character', ledgerPieActive: 0, batchEditOpen: false, batchEditField: '', batchOn: null, shippingOpen: false, shippingRecords: [], shippingBatches: [], shippingDraft: null, shippingPreviewNotice: '', shippingPreviewPaid: '', shippingPreviewCn: '', shippingPreviewGroup: '', shippingPreviewBatch: '', shippingPreviewPackageKey: '', itemEvidenceDrafts: [], itemEvidenceExistingIds: [], itemEvidenceOpen: false, exportGroup: '', exportSearch: '', exportIds: [], shipAddCollapsed: true, shippingViewChannel: null, relinkRecordId: null, relinkItemIds: [], relinkSearch: '', relinkNote: '', relinkGroup: '', relinkNoteOpen: false, relinkImages: [], relinkNewFiles: [], relinkRecordType: '', mobileMineOpen: false, cloudPageOpen: false, modalTab: 'edit', shippingRolesCustom: (() => { try { return JSON.parse(localStorage.getItem('zzz_shipping_roles') || '{}') || {}; } catch (e) { return {}; } })(), shipRoleManageOpen: false, shipRoleManageType: '', itemShipDraftOpen: false, itemShipItemsPanelOpen: false, linkExistingShipOpen: false, linkExistingSearch: '', linkExistingChannel: '', genericSelectOpen: false, genericSelectTitle: '', genericSelectOptions: [], genericSelectValue: '' };
 
   setRoot = (el) => { this.rootEl = el; if (el) { this.applyThemeVars(); this.applyBg(); } };
   applyThemeVars() {
@@ -3343,6 +3353,7 @@ class Component extends DCLogic {
     e.target.value='';
   };
   onItemEvidenceExistingSelect = (e) => { const id=String((e&&e.target&&e.target.value)||''); if(!id)return; this.setState(st=>({itemEvidenceExistingIds:[...new Set([...(st.itemEvidenceExistingIds||[]),id])]})); e.target.value=''; };
+  openItemEvidenceExistingSelect = () => { const opts = (this.state.shippingRecords||[]).filter(r=>r.type==='本体资料').map(r=>({ value:r.id, label:[r.group,r.title,r.note,(r.images||[]).length+'张图'].filter(Boolean).join(' · ') })); if (!opts.length) { alert('还没有「本体资料」类型的资料可选。'); return; } this.openGenericSelect('选择已有本体资料', opts, '', (id) => { if(!id) return; this.setState(st=>({ itemEvidenceExistingIds:[...new Set([...(st.itemEvidenceExistingIds||[]),id])] })); }); };
   async linkExistingDocumentsToItem(item){const ids=this.state.itemEvidenceExistingIds||[];if(!ids.length||!item||!item.id||!this.sb)return;const rows=ids.map(document_id=>({document_id,item_id:item.id,sync_code:this.shippingSyncCode()}));const{error}=await this.sb.from('shipping_document_items').upsert(rows,{onConflict:'document_id,item_id'});if(error)throw error;}
   async ensureShippingChannel(code,name){
     const channelName=String(name||'').trim(); if(!channelName)throw new Error('请先填写渠道 / 排发群。');
@@ -3398,6 +3409,11 @@ class Component extends DCLogic {
   openShipping=()=>this.setState({shippingOpen:true,shipNotice:'',shippingDraft:this.newShippingDraft(),mobileMineOpen:false},()=>{this.autoPairShipping();if(this.shippingSyncCode())this.loadShippingFromCloud();else this.loadLocalShipping();});
   closeShipping=()=>this.setState({shippingOpen:false});
   closeShipMenus(extra={}){return{shipTypeMenuOpen:false,shipRoleMenuOpen:false,shipStatusMenuOpen:false,shipGroupMenuOpen:false,...extra};}
+  // ==== 通用自定义下拉（替代原生 select，避免 iPhone 弹出系统滚轮）====
+  // 用法：openGenericSelect(title, options:[{value,label}], currentValue, onPickFn)
+  openGenericSelect = (title, options, current, onPick) => { this._genericSelectPick = onPick; this.setState({ genericSelectOpen: true, genericSelectTitle: title || '选择', genericSelectOptions: options || [], genericSelectValue: current }); };
+  closeGenericSelect = () => this.setState({ genericSelectOpen: false, genericSelectOptions: [] });
+  pickGenericSelect = (v) => () => { const fn = this._genericSelectPick; this.closeGenericSelect(); if (fn) fn(v); };
   toggleShipMenu=(key)=>()=>this.setState(s=>this.closeShipMenus({[key]:!s[key]}));
   pickShip=(k,v)=>()=>this.setState(st=>{const d={...(st.shippingDraft||this.newShippingDraft()),[k]:v};if(k==='type')d.role=this.shippingRoles(v)[0]||'其他附件';return{shippingDraft:d,...this.closeShipMenus()};});
   onShipField=(k)=>(e)=>{const v=e&&e.target?e.target.value:'';this.setState(st=>{const d={...(st.shippingDraft||this.newShippingDraft()),[k]:v};if(k==='type')d.role=this.shippingRoles(v)[0]||'其他附件';if(k==='group')d.itemIds=[];return{shippingDraft:d};});};
@@ -3407,6 +3423,7 @@ class Component extends DCLogic {
   // ==== 生成排发长图：独立的选谷子器（自带团筛选 + 勾选，不依赖左边新增表单）====
   toggleAddFormCollapsed=()=>this.setState(st=>({shipAddCollapsed:!st.shipAddCollapsed}));
   onExportGroup=(e)=>{const v=e&&e.target?e.target.value:'';this.setState({exportGroup:v});};
+  openExportGroupSelect = () => { const opts = [{ value:'', label:'全部团／渠道' }, ...(this._exportGroupOpts||[]).map(g => ({ value:g, label:g }))]; this.openGenericSelect('筛选团／渠道', opts, this.state.exportGroup || '', (v) => this.setState({ exportGroup: v })); };
   onExportSearch=(e)=>{const v=e&&e.target?e.target.value:'';this.setState({exportSearch:v});};
   toggleExportItem=(id)=>()=>this.setState(st=>{const a=Array.isArray(st.exportIds)?st.exportIds:[];return{exportIds:a.includes(id)?a.filter(x=>x!==id):[...a,id]};});
   // 导出选谷子器可见的谷子：只列出「有关联排发资料」的谷子，按团/渠道 + 搜索过滤
@@ -3486,15 +3503,19 @@ class Component extends DCLogic {
       this.setState({cloudBusy:false});this.closeRelink();await this.loadShippingFromCloud(code);
     }catch(e){this.setState({cloudBusy:false});alert('保存失败：'+((e&&e.message)||e));}
   };
-  switchModalTab = (tab) => () => this.setState({ modalTab: tab, itemShipDraftOpen: false });
+  switchModalTab = (tab) => () => {
+    if (tab === 'ship' && !this.state.editing) { this.saveItem({ thenShip: true }); return; }
+    this.setState({ modalTab: tab, itemShipDraftOpen: false });
+  };
   curEditItemId() { return this.state.editing || (this.state.draft && this.state.draft.id) || ''; }
   itemShipRecordsFor(itemId) { return (this.state.shippingRecords || []).filter(r => (r.itemIds || []).includes(itemId)); }
   openItemAddShip = () => { const id = this.curEditItemId(); const base = this.newShippingDraft(); this.setState({ shippingDraft: { ...base, itemIds: id ? [id] : [] }, itemShipDraftOpen: true, itemShipItemsPanelOpen: false, shipNotice: '' }); };
   closeItemAddShip = () => this.setState({ itemShipDraftOpen: false, shipNotice: '' });
   toggleItemShipItemsPanel = () => this.setState(s => ({ itemShipItemsPanelOpen: !s.itemShipItemsPanelOpen }));
-  openLinkExistingShip = () => this.setState({ linkExistingShipOpen: true, linkExistingSearch: '' });
-  closeLinkExistingShip = () => this.setState({ linkExistingShipOpen: false, linkExistingSearch: '' });
+  openLinkExistingShip = () => this.setState({ linkExistingShipOpen: true, linkExistingSearch: '', linkExistingChannel: '' });
+  closeLinkExistingShip = () => this.setState({ linkExistingShipOpen: false, linkExistingSearch: '', linkExistingChannel: '' });
   onLinkExistingSearch = (e) => { const v = e && e.target ? e.target.value : ''; this.setState({ linkExistingSearch: v }); };
+  setLinkExistingChannel = (g) => () => this.setState({ linkExistingChannel: g });
   linkRecordToCurrentItem = (recordId) => () => {
     const curId = this.curEditItemId();
     this.openRelinkRecord(recordId)();
@@ -4310,7 +4331,8 @@ class Component extends DCLogic {
     if (!dup) return false;
     return !window.confirm('已经有一条很像的记录了，还是要保存这一条吗？');
   }
-  saveItem = async () => {
+  saveItem = async (opts) => {
+    const thenShip = opts && opts.thenShip;
     let d = this.state.draft; if (!d) return;
     if (!d.name || !d.name.trim()) { const g = this.genName(d); if (!g) { alert('请先填写名称（或选择角色 / 填细分后点自动生成）'); return; } d = { ...d, name: g }; }
     const _moneyLabels = { buyPrice:'买入价', sellPrice:'卖出价', supplementPrice:'补款金额', finalPrice:'尾款金额', shipDom:'国内邮费', shipIntl:'国际邮费', otherFee:'其他费用', originalPrice:'原价', rate:'汇率' };
@@ -4380,6 +4402,13 @@ class Component extends DCLogic {
       this.setState({ cloudBusy:true, cloudStatus:'谷子已保存，正在保存或关联本体资料…' });
       try { await this.uploadPendingItemEvidence(savedItem); this.setState({ itemEvidenceDrafts:[], itemEvidenceExistingIds:[], cloudBusy:false, cloudStatus:'谷子和本体资料已保存。' }); }
       catch(e) { this.setState({ cloudBusy:false, cloudStatus:'谷子已保存，但资料保存失败：'+((e&&e.message)||e) }); alert('谷子已保存在本机，但资料保存失败：'+((e&&e.message)||e)); }
+    }
+    if (thenShip) {
+      // 保存后不关弹窗：切换成「编辑该谷子」状态，跳到排发 tab，并默认关联这件谷子
+      this.setState({ editing: savedItem.id, draft: { ...d, id: savedItem.id }, modalTab: 'ship', itemShipDraftOpen: false }, () => { if (this.shippingSyncCode()) this.loadShippingFromCloud(); else this.loadLocalShipping(); });
+      if (nowArrived) this.celebrateArrival();
+      this.uploadSnapshot(savedItem); this.logEvent('item_saved', { item_name: savedItem.name || '', has_sell: !!this.num(savedItem.sellPrice), qty: this.num(savedItem.qty || 1) });
+      return;
     }
     this.closeModal();
     if (nowArrived) this.celebrateArrival();
@@ -4981,6 +5010,9 @@ class Component extends DCLogic {
   onLedgerYear = (e) => this.setState({ ledgerYear: e.target.value });
   onLedgerMonth = (e) => this.setState({ ledgerMonth: e.target.value });
   onLedgerWeek = (e) => this.setState({ ledgerWeek: e.target.value });
+  openLedgerYearSelect = () => { const yrs = this._ledgerYearOpts || []; this.openGenericSelect('选择年份', yrs.map(y => ({ value: y, label: y + '年' })), this.state.ledgerYear, (v) => this.setState({ ledgerYear: v })); };
+  openLedgerMonthSelect = () => { this.openGenericSelect('选择月份', Array.from({length:12},(_,i)=>({ value:String(i+1), label:(i+1)+'月' })), this.state.ledgerMonth, (v) => this.setState({ ledgerMonth: v })); };
+  openLedgerWeekSelect = () => { const wks = this._ledgerWeekOpts || []; this.openGenericSelect('选择周', wks, this.state.ledgerWeek, (v) => this.setState({ ledgerWeek: v })); };
   ledgerDateRange(range) {
     const now = new Date();
     const mode = this.state.ledgerMode || range || 'month';
@@ -6095,6 +6127,10 @@ class Component extends DCLogic {
     const ledgerYear = this.state.ledgerYear || String(new Date().getFullYear());
     const ledgerMonth = this.state.ledgerMonth || String(new Date().getMonth()+1);
     const ledgerWeek = this.state.ledgerWeek || (ledgerWeekOptions[0] && ledgerWeekOptions[0].value) || '';
+    this._ledgerYearOpts = ledgerYearOptions; this._ledgerWeekOpts = ledgerWeekOptions;
+    const ledgerYearText = ledgerYear + '年';
+    const ledgerMonthText = ledgerMonth + '月';
+    const ledgerWeekText = (ledgerWeekOptions.find(w => String(w.value) === String(ledgerWeek)) || {}).label || '本周';
     const showLedgerYear = ledgerMode !== 'all';
     const showLedgerMonth = ledgerMode === 'month' || ledgerMode === 'week';
     const showLedgerWeek = ledgerMode === 'week';
@@ -6474,6 +6510,8 @@ class Component extends DCLogic {
     const relinkRoleOptions = this.shippingRoles(this.state.relinkRecordType || (_relinkRec && _relinkRec.type) || '补充资料').map(v => ({ value: v, label: this.shippingRoleLabel(v) }));
     const relinkImageRows = (this.state.relinkImages || []).map(im => ({
       id: im.id, image: im.image, role: im.role,
+      roleLabel: this.shippingRoleLabel(im.role),
+      onOpenRole: () => this.openGenericSelect('图片分类', relinkRoleOptions, im.role, (v) => this.setRelinkImageRole(im.id)({ target: { value: v } })),
       onToggleRemove: this.toggleRelinkImageRemove(im.id), onRoleChange: this.setRelinkImageRole(im.id),
       thumbStyle: { backgroundImage: `url(${im.image})` },
       cardStyle: im.toRemove ? { opacity: 0.4 } : {},
@@ -6482,6 +6520,8 @@ class Component extends DCLogic {
     const noRelinkImages = relinkImageRows.length === 0;
     const relinkNewFileRows = (this.state.relinkNewFiles || []).map((f, idx) => ({
       idx, filename: f.filename, role: f.role,
+      roleLabel: this.shippingRoleLabel(f.role),
+      onOpenRole: () => this.openGenericSelect('图片分类', relinkRoleOptions, f.role, (v) => this.setRelinkNewFileRole(idx)({ target: { value: v } })),
       onRemove: this.removeRelinkNewFile(idx), onRoleChange: this.setRelinkNewFileRole(idx)
     }));
     const hasRelinkNewFiles = relinkNewFileRows.length > 0;
@@ -6490,6 +6530,8 @@ class Component extends DCLogic {
     const _exVisible = this.exportVisibleItems();
     const _exIds = this.state.exportIds || [];
     const exportGroupOptions = _exGroupSet;
+    this._exportGroupOpts = exportGroupOptions;
+    const exportGroupText = this.state.exportGroup ? this.state.exportGroup : '全部团／渠道';
     const exportItemChoices = _exVisible.map(it=>{const grps=[...new Set(_exRecs.filter(r=>(r.itemIds||[]).includes(it.id)).map(r=>String(r.group||'未分类渠道')))];return{id:it.id,label:((it.name||'未命名')+(it.character?' · '+it.character:'')+(it.status?' · '+it.status:'')+(grps.length?' 〔'+grps.join('／')+'〕':'')),checked:_exIds.includes(it.id),onToggle:this.toggleExportItem(it.id)};});
 
     // ===== 单个谷子的"排发"tab =====
@@ -6516,7 +6558,11 @@ class Component extends DCLogic {
 
     // ===== 关联已有资料 搜索列表 =====
     const linkQ = (this.state.linkExistingSearch || '').trim().toLowerCase();
+    const linkCh = String(this.state.linkExistingChannel || '').trim();
+    const linkExistingChannels = [...new Set((this.state.shippingRecords || []).map(r => r.group || '未分类渠道'))];
+    const linkExistingChannelChips = ['全部', ...linkExistingChannels].map(g => { const val = g === '全部' ? '' : g; const active = linkCh === val; return { label: g, onClick: this.setLinkExistingChannel(val), style: { flexShrink: 0, whiteSpace: 'nowrap', fontFamily: 'inherit', fontSize: '12px', fontWeight: 700, padding: '5px 12px', borderRadius: '999px', cursor: 'pointer', border: '1px solid', borderColor: active ? 'transparent' : '#ded7ee', background: active ? this.accentColor() : '#fff', color: active ? '#fff' : '#8b84ad' } }; });
     const linkExistingRows = (this.state.shippingRecords || []).filter(r => {
+      if (linkCh && (r.group || '未分类渠道') !== linkCh) return false;
       if (!linkQ) return true;
       const hay = [r.group, r.note, this.shippingTypeLabel(r.type || '').module, ...(r.images || []).map(im => this.shippingRoleLabel(im.role))].join(' ').toLowerCase();
       return hay.includes(linkQ);
@@ -6578,7 +6624,7 @@ class Component extends DCLogic {
       setRoot: this.setRoot, setImportRef: this.setImportRef, setExcelImportRef: this.setExcelImportRef, stop: this.stop,
       openShipping: this.openShipping, closeShipping: this.closeShipping, shippingOpen: this.state.shippingOpen, shippingCount: shipRecords.length, shippingPackageCount: shippingPackageRows.length, shippingBatchRows, shippingBatchCount:shippingBatchRows.length, noShippingBatches:shippingBatchRows.length===0, shippingTypes: this.SHIPPING_TYPES, shippingTypeOptions:this.SHIPPING_TYPES.map(value=>({value,label:this.shippingTypeLabel(value).module})), shippingRoleOptions:this.shippingRoles(shipDraft.type).map(value=>({value,label:this.shippingRoleLabel(value)})), shipRole:shipDraft.role || this.shippingRoles(shipDraft.type)[0], shipGroup: shipDraft.group || '',  shipBatch: '排发中心', shipTypeMenuItems: this.SHIPPING_TYPES.map(v=>({label:this.shippingTypeLabel(v).module,onPick:this.pickShip('type',v),rowStyle:this.menuRow((shipDraft.type||'本体资料')===v)})), shipTypeDisplay: this.shippingTypeLabel(shipDraft.type||'本体资料').module, shipTypeMenuOpen: this.state.shipTypeMenuOpen, toggleShipTypeMenu: this.toggleShipMenu('shipTypeMenuOpen'), shipRoleMenuItems: this.shippingRoles(shipDraft.type).map(v=>({label:this.shippingRoleLabel(v),onPick:this.pickShip('role',v),rowStyle:this.menuRow((shipDraft.role||this.shippingRoles(shipDraft.type)[0])===v)})), shipRoleDisplay: this.shippingRoleLabel(shipDraft.role||this.shippingRoles(shipDraft.type)[0]), shipRoleMenuOpen: this.state.shipRoleMenuOpen, toggleShipRoleMenu: this.toggleShipMenu('shipRoleMenuOpen'), shipStatusMenuItems: ['全部',...shipStatusOptions].map(v=>({label:v==='全部'?'全部状态':v,onPick:this.pickShip('status',v),rowStyle:this.menuRow((shipDraft.status||'全部')===v)})), shipStatusDisplay: (shipDraft.status&&shipDraft.status!=='全部')?shipDraft.status:'全部状态', shipStatusMenuOpen: this.state.shipStatusMenuOpen, toggleShipStatusMenu: this.toggleShipMenu('shipStatusMenuOpen'), shipGroupMenuItems: [...new Set([...(this.state.purchaseChannels||[]),...(this.state.channels||[]),...((this.state.shippingRecords||[]).map(r=>r.group).filter(Boolean))])].map(v=>({label:v,onPick:this.pickShip('group',v),rowStyle:this.menuRow(shipDraft.group===v)})), shipGroupMenuOpen: this.state.shipGroupMenuOpen, toggleShipGroupMenu: this.toggleShipMenu('shipGroupMenuOpen'), hasShipGroupMenu: [...new Set([...(this.state.purchaseChannels||[]),...(this.state.channels||[])])].length>0, shippingGroups: [...new Set([...(this.state.purchaseChannels || []), ...shipRecords.map(r => r.group).filter(Boolean)])], shippingBatches: [...new Set(shipRecords.filter(r => !shipDraft.group || r.group === shipDraft.group).map(r => r.batch).filter(Boolean))], fixedCn: cnPrefix || '未填写', shipType: shipDraft.type || '本体资料', openShipRoleManageForType: this.openShipRoleManage(shipDraft.type || '本体资料'), shipNote: shipDraft.note || '', shipSearch: shipDraft.search || '', shipStatus: shipDraft.status || '全部', shipStatusOptions, shipVisibleCount: shipVisibleItems.length, shipSelectedCount: (shipDraft.itemIds || []).length, noShipItemChoices: shipItemChoices.length === 0, onShipGroup: this.onShipField('group'), onShipBatch: this.onShipField('batch'), onShipType: this.onShipField('type'), onShipRole:this.onShipField('role'), onShipNote: this.onShipField('note'), onShipSearch: this.onShipField('search'), onShipStatus: this.onShipField('status'), selectAllVisibleShipItems: this.selectAllVisibleShipItems, clearShipItems: this.clearShipItems, reuseLastShipItems: this.reuseLastShipItems, onShipImage: this.onShipImage, saveShipping: this.saveShipping, shipNotice: this.state.shipNotice || '', hasShipNotice: !!this.state.shipNotice, shipNotConnected: !this.shippingSyncCode(), shipItemChoices, relinkOpen, relinkTitle, relinkItemChoices, relinkSelectedCount, onRelinkSearch: this.onRelinkSearch, relinkSearch: this.state.relinkSearch || '', closeRelink: this.closeRelink, saveRelink: this.saveRelink, relinkNote: this.state.relinkNote || '', onRelinkNote: this.onRelinkNote, relinkGroup: this.state.relinkGroup || '', onRelinkGroup: this.onRelinkGroup, relinkNoteOpen: this.state.relinkNoteOpen, toggleRelinkNote: this.toggleRelinkNote, relinkNoteCaret: this.state.relinkNoteOpen ? '▲' : '▼', stopEvt: (e)=>{ e && e.stopPropagation && e.stopPropagation(); }, noRelinkChoices: relinkItemChoices.length === 0, relinkRoleOptions, relinkImageRows, noRelinkImages, onRelinkNewFiles: this.onRelinkNewFiles, relinkNewFileRows, hasRelinkNewFiles, shippingPackageRows: shippingPackageRowsView, shippingChannelChips, hasShippingChannels: shippingChannelChips.length > 0, noShippingPackages: shippingPackageRows.length === 0, hasShipDraftImage:(shipDraft.files||[]).length>0, shipUploadText:(shipDraft.files||[]).length?'＋ 继续添加图片':'＋ 添加资料图片', shipDraftImageSummary:(shipDraft.files||[]).map(x=>this.shippingRoleLabel(x.role)+'：'+x.filename).join('；'), clearShipImages:this.clearShipImages, previewCn: cnPrefix || '未填写', previewGroup: this.state.shippingPreviewGroup || (previewRecords[0] && previewRecords[0].group) || '未选择团／渠道', previewBatch: '按当前勾选谷子自动汇总', previewPackageRows, previewItemSummary, noPreviewPackage: previewPackageRows.length === 0, exportShippingPackage: this.exportShippingPackage, exportSelectedShipping:this.exportSelectedShipping,
       toggleShipAddForm: this.toggleAddFormCollapsed, shipAddExpanded: !this.state.shipAddCollapsed, shipAddCaret: this.state.shipAddCollapsed ? '▼ 展开' : '▲ 收起',
-      exportGroup: this.state.exportGroup || '', exportSearch: this.state.exportSearch || '', onExportGroup: this.onExportGroup, onExportSearch: this.onExportSearch, exportGroupOptions, exportItemChoices, noExportChoices: exportItemChoices.length === 0, exportVisibleCount: _exVisible.length, exportSelectedCount: _exIds.length, selectAllExportItems: this.selectAllExportItems, clearExportItems: this.clearExportItems,
+      exportGroup: this.state.exportGroup || '', exportSearch: this.state.exportSearch || '', onExportGroup: this.onExportGroup, openExportGroupSelect: this.openExportGroupSelect, exportGroupText, onExportSearch: this.onExportSearch, exportGroupOptions, exportItemChoices, noExportChoices: exportItemChoices.length === 0, exportVisibleCount: _exVisible.length, exportSelectedCount: _exIds.length, selectAllExportItems: this.selectAllExportItems, clearExportItems: this.clearExportItems,
       workGroupLabel: this.state.workGroupLabel, workGroupName: curWork.group || this.DEFAULT_GROUP, workName: curWork.name || '', workTabs, workGroups, libraryTree, libAllActive, libAllStyle, libAllCount, recentRows, hasRecent, mobileWorkGroups, isAllWorks, switchAll: () => this.switchWork(this.ALL_WORKS), workMenuOpen: this.state.workMenuOpen, toggleWorkMenu: this.toggleWorkMenu, addWork: this.addWork,
       openSettings: this.openSettings, closeSettings: this.cancelSettings, cancelSettings: this.cancelSettings, saveSettings: this.saveSettings, clearAllData: this.clearAllData, settingsOpen: this.state.settingsOpen, dataManageOpen: this.state.dataManageOpen, openDataManage: this.openDataManage, batchEditOpen: this.state.batchEditOpen, closeBatchEditor: this.closeBatchEditor, openBatchEditor: this.openBatchEditor, batchEditFields, batchEditOptions, batchEditTitle, batchEditChooseMode, batchEditOptionMode, batchEditBack: this.batchEditBack, closeDataManage: this.closeDataManage, confirmExcelExport: this.confirmExcelExport, confirmExcelTemplate: this.confirmExcelTemplate, confirmExcelImport: this.confirmExcelImport, confirmJsonExport: this.confirmJsonExport, confirmJsonImport: this.confirmJsonImport,
       cnVal: sd.collectorName || '', curVal: sd.currency || this.cur(), accentVal: sd.accent || this.props.accent || '#ff3355', nameStyleVal: sd.nameStyleMode || this.state.nameStyleMode || 'default', displayModeVal: sd.displayMode || this.state.displayMode || 'standard', stylePreviewText: this.previewStyleText(sd.nameStyleMode || this.state.nameStyleMode || 'default'), titleVal: sd.title || '', subtitleVal: sd.subtitle || '', footerVal: sd.footer || '',
@@ -6644,15 +6690,17 @@ class Component extends DCLogic {
       mobileFilterCat, mobileFilterCatChips, galleryIconStyle, circleIconStyle, mobileGroupTabs, gtAll, gtInhand, gtAir, gtSale,
       modalTab: this.state.modalTab || 'edit', switchToEditTab: this.switchModalTab('edit'), switchToShipTab: this.switchModalTab('ship'), isEditTab: modalTabIsEdit, isShipTab: !modalTabIsEdit, editTabStyle, shipTabStyle,
       itemShipGroups, hasItemShipRecords, noItemShipRecords, itemShipDraftOpen: this.state.itemShipDraftOpen, itemShipListView: !this.state.itemShipDraftOpen, openItemAddShip: this.openItemAddShip, closeItemAddShip: this.closeItemAddShip, toggleItemShipItemsPanel: this.toggleItemShipItemsPanel, itemShipItemsPanelOpen: this.state.itemShipItemsPanelOpen, itemShipItemsCaret: this.state.itemShipItemsPanelOpen ? '▲ 收起' : '▼ 展开选择',
-      openLinkExistingShip: this.openLinkExistingShip, closeLinkExistingShip: this.closeLinkExistingShip, linkExistingShipOpen: this.state.linkExistingShipOpen, linkExistingSearch: this.state.linkExistingSearch || '', onLinkExistingSearch: this.onLinkExistingSearch, linkExistingRows, noLinkExistingRows,
+      openLinkExistingShip: this.openLinkExistingShip, closeLinkExistingShip: this.closeLinkExistingShip, linkExistingShipOpen: this.state.linkExistingShipOpen, linkExistingSearch: this.state.linkExistingSearch || '', onLinkExistingSearch: this.onLinkExistingSearch, linkExistingRows, noLinkExistingRows, linkExistingChannelChips, hasLinkExistingChannels: linkExistingChannelChips.length > 1,
+      genericSelectOpen: this.state.genericSelectOpen, genericSelectTitle: this.state.genericSelectTitle || '选择', closeGenericSelect: this.closeGenericSelect,
+      genericSelectRows: (this.state.genericSelectOptions || []).map(o => ({ label: o.label, active: String(o.value) === String(this.state.genericSelectValue), onPick: this.pickGenericSelect(o.value) })),
       shipRoleManageOpen: this.state.shipRoleManageOpen, closeShipRoleManage: this.closeShipRoleManage, shipRoleManageTitle, shipRoleManageRows, shipRoleAdd: this.shipRoleAdd,
       toast: this.state.toast || '', hasToast: !!this.state.toast, showTip: this.showTip,
       displayRows, isEmpty: itemRows.length === 0 && view !== 'ledger' && view !== 'dashboard', isDashboard: view === 'dashboard', isTable: view === 'table', isGallery: view === 'gallery', isCircle: view === 'circle', isLedger: view === 'ledger',
       dashboardTodoRows, dashboardSummaryRows, dashboardRecentItems, dashboardRecentDocs, hasDashboardItems: dashboardRecentItems.length>0, noDashboardItems: dashboardRecentItems.length===0, hasDashboardDocs: dashboardRecentDocs.length>0, noDashboardDocs: dashboardRecentDocs.length===0, dashboardMonthCost: cur + this.fmt(dashboardMonthCostNum), dashboardTotalCost: cur + this.fmt(totalIn),
-      budgetInput: (this.state.budgets || {})[budgetMonthKey] || '', hasFeeComposition, feeComposition, feeTotalText, budgetDisplayText: budget > 0 ? (cur + this.fmt(budget)) : (isAllScope ? '不适用' : '未设置'), consumeTitle: TXT.consumeTitle || '消费表', ledgerMonthAreaPath, jumpBudgetThisMonth: this.jumpBudgetThisMonth, ledgerDetailOpen, ledgerDetailItems, ledgerDetailTitle, ledgerDetailTotal, ledgerDetailEmpty, closeLedgerDetail: this.closeLedgerDetail, onBudgetChange: this.onBudgetChange, onBudgetQuickEdit: this.onBudgetQuickEdit, ledgerScopeText, ledgerRangeText, mobileWalletRangeText, mobileWalletScopeText, ledgerModeChips, ledgerYearOptions, ledgerMonthOptions, ledgerWeekOptions, ledgerYear, ledgerMonth, ledgerWeek, showLedgerYear, showLedgerMonth, showLedgerWeek, onLedgerYear: this.onLedgerYear, onLedgerMonth: this.onLedgerMonth, onLedgerWeek: this.onLedgerWeek, ledgerPieBy, onLedgerPieBy: this.onLedgerPieBy, ledgerPieChips, ledgerPieTitle, ledgerPieStyle, ledgerPieRows, ledgerPieTotal, ledgerPieCenterLabel, ledgerPieTopText, ledgerPieTip, ledgerPieSegments, ledgerPieActiveName, ledgerPieActivePercent, ledgerPieActiveValue, ledgerPieActiveDot, ledgerDetailRows, ledgerDetailSummary, monthSpentText: cur + this.fmt(monthSpent), monthSpentBig: cur + this.fmtBig(monthSpent), monthSpentFull: cur + this.fmt(monthSpent), budgetRemainText: panelRemainText, budgetRemainStyle: panelRemainStyle, budgetPctText: panelPctText, budgetPctStyle: panelPctStyle, budgetBarStyle: panelBarStyle, budgetStatusText: panelStatusText, ledgerTitle: TXT.ledgerTitle, ledgerHelpText: '', budgetLabel: panelBudgetLabel, spentLabel: panelSpentLabel, remainLabel: panelRemainLabel, progressLabel: panelProgressLabel, showBudgetEdit, showBudgetView: !showBudgetEdit, monthsTitle: TXT.months, reminderCenterTitle: TXT.reminderCenter, noReminderText: TXT.noReminder, mobileWalletTitle: TXT.walletMini, miniBudgetLabel: TXT.miniBudget, miniSpentLabel: TXT.miniSpent, miniRemainLabel: TXT.miniRemain, addItemText: TXT.addItem, ledgerMonths: ledgerMonthCells, barTop, barBottom, areaColor, ledgerMonthBars, ledgerMonthDots, ledgerMonthLinePoints, ledgerMonthHint, ledgerMonthTotal, ledgerMonthPeakText, topCostRows, topQtyRows, topCharacterRows, topPlatformRows, ledgerRankCards, reviewCards, completeSetRows, reviewPeriodText, achievementRows, ledgerRankTitle1, ledgerRankTitle2, ledgerRankTitle3, ledgerRankTitle4, upcomingReminders, ledgerReminderRows, hasLedgerReminders: ledgerReminderRows.length > 0, noLedgerReminders: ledgerReminderRows.length === 0, hasUpcomingReminders: upcomingReminders.length > 0, mobileReminderText, mobileReminderDetail, mobileTodoRows, mobileBudgetText: budget > 0 ? (cur + this.fmt(budget)) : '未设', reminderCountText,
+      budgetInput: (this.state.budgets || {})[budgetMonthKey] || '', hasFeeComposition, feeComposition, feeTotalText, budgetDisplayText: budget > 0 ? (cur + this.fmt(budget)) : (isAllScope ? '不适用' : '未设置'), consumeTitle: TXT.consumeTitle || '消费表', ledgerMonthAreaPath, jumpBudgetThisMonth: this.jumpBudgetThisMonth, ledgerDetailOpen, ledgerDetailItems, ledgerDetailTitle, ledgerDetailTotal, ledgerDetailEmpty, closeLedgerDetail: this.closeLedgerDetail, onBudgetChange: this.onBudgetChange, onBudgetQuickEdit: this.onBudgetQuickEdit, ledgerScopeText, ledgerRangeText, mobileWalletRangeText, mobileWalletScopeText, ledgerModeChips, ledgerYearOptions, ledgerMonthOptions, ledgerWeekOptions, ledgerYear, ledgerMonth, ledgerWeek, showLedgerYear, showLedgerMonth, showLedgerWeek, onLedgerYear: this.onLedgerYear, onLedgerMonth: this.onLedgerMonth, onLedgerWeek: this.onLedgerWeek, openLedgerYearSelect: this.openLedgerYearSelect, openLedgerMonthSelect: this.openLedgerMonthSelect, openLedgerWeekSelect: this.openLedgerWeekSelect, ledgerYearText, ledgerMonthText, ledgerWeekText, ledgerPieBy, onLedgerPieBy: this.onLedgerPieBy, ledgerPieChips, ledgerPieTitle, ledgerPieStyle, ledgerPieRows, ledgerPieTotal, ledgerPieCenterLabel, ledgerPieTopText, ledgerPieTip, ledgerPieSegments, ledgerPieActiveName, ledgerPieActivePercent, ledgerPieActiveValue, ledgerPieActiveDot, ledgerDetailRows, ledgerDetailSummary, monthSpentText: cur + this.fmt(monthSpent), monthSpentBig: cur + this.fmtBig(monthSpent), monthSpentFull: cur + this.fmt(monthSpent), budgetRemainText: panelRemainText, budgetRemainStyle: panelRemainStyle, budgetPctText: panelPctText, budgetPctStyle: panelPctStyle, budgetBarStyle: panelBarStyle, budgetStatusText: panelStatusText, ledgerTitle: TXT.ledgerTitle, ledgerHelpText: '', budgetLabel: panelBudgetLabel, spentLabel: panelSpentLabel, remainLabel: panelRemainLabel, progressLabel: panelProgressLabel, showBudgetEdit, showBudgetView: !showBudgetEdit, monthsTitle: TXT.months, reminderCenterTitle: TXT.reminderCenter, noReminderText: TXT.noReminder, mobileWalletTitle: TXT.walletMini, miniBudgetLabel: TXT.miniBudget, miniSpentLabel: TXT.miniSpent, miniRemainLabel: TXT.miniRemain, addItemText: TXT.addItem, ledgerMonths: ledgerMonthCells, barTop, barBottom, areaColor, ledgerMonthBars, ledgerMonthDots, ledgerMonthLinePoints, ledgerMonthHint, ledgerMonthTotal, ledgerMonthPeakText, topCostRows, topQtyRows, topCharacterRows, topPlatformRows, ledgerRankCards, reviewCards, completeSetRows, reviewPeriodText, achievementRows, ledgerRankTitle1, ledgerRankTitle2, ledgerRankTitle3, ledgerRankTitle4, upcomingReminders, ledgerReminderRows, hasLedgerReminders: ledgerReminderRows.length > 0, noLedgerReminders: ledgerReminderRows.length === 0, hasUpcomingReminders: upcomingReminders.length > 0, mobileReminderText, mobileReminderDetail, mobileTodoRows, mobileBudgetText: budget > 0 ? (cur + this.fmt(budget)) : '未设', reminderCountText,
       qtyBadgeStyle: { position: 'absolute', top: '1px', right: '5px', minWidth: '22px', height: '22px', padding: '0 6px', borderRadius: '999px', background: `radial-gradient(circle at 32% 28%, ${this.accentLight(0.5)}, ${this.accentColor()} 82%)`, color: '#fff', fontSize: '12px', fontWeight: 800, lineHeight: 1, fontFamily: "'Orbitron',sans-serif", display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: `0 3px 9px ${this.accentAlpha(0.5)}`, border: '2.5px solid #fff' },
       modalOpen: this.state.modalOpen, modalTitle: this.state.editing ? '编辑谷子' : '新增谷子', isEditing: !!this.state.editing, isNewItem: !this.state.editing, duplicateCurrent: this.duplicateCurrent, deleteCurrent: this.deleteCurrent,
-      itemEvidenceSelectedCount:(this.state.itemEvidenceDrafts||[]).length, hasItemEvidenceDrafts:(this.state.itemEvidenceDrafts||[]).length>0, noCloudForItemEvidence:!this.shippingSyncCode(), itemEvidenceExistingSelect:'', itemEvidenceExistingCount:(this.state.itemEvidenceExistingIds||[]).length, itemEvidenceExistingOptions:(this.state.shippingRecords||[]).filter(r=>r.type==='本体资料').map(r=>({value:r.id,label:[r.group,r.title,r.note,(r.images||[]).length+'张图'].filter(Boolean).join(' · ')})), onItemEvidenceExistingSelect:this.onItemEvidenceExistingSelect, itemEvidenceOpen:!!this.state.itemEvidenceOpen, toggleItemEvidence:this.toggleItemEvidence, itemEvidenceCaret:this.state.itemEvidenceOpen?'▲ 收起':'▼ 展开', itemEvidenceBadge:((this.state.itemEvidenceDrafts||[]).length+(this.state.itemEvidenceExistingIds||[]).length)>0?('已选 '+((this.state.itemEvidenceDrafts||[]).length+(this.state.itemEvidenceExistingIds||[]).length)): '可选填', itemEvidenceSummary:(()=>{const a=(this.state.itemEvidenceDrafts||[]).length,b=(this.state.itemEvidenceExistingIds||[]).length;if(a||b)return ['待上传 '+a+' 张',b?'复用 '+b+' 份':''].filter(Boolean).join(' · ');return '可以先不填，保存后再补';})(),
+      itemEvidenceSelectedCount:(this.state.itemEvidenceDrafts||[]).length, hasItemEvidenceDrafts:(this.state.itemEvidenceDrafts||[]).length>0, noCloudForItemEvidence:!this.shippingSyncCode(), itemEvidenceExistingSelect:'', itemEvidenceExistingCount:(this.state.itemEvidenceExistingIds||[]).length, itemEvidenceExistingOptions:(this.state.shippingRecords||[]).filter(r=>r.type==='本体资料').map(r=>({value:r.id,label:[r.group,r.title,r.note,(r.images||[]).length+'张图'].filter(Boolean).join(' · ')})), onItemEvidenceExistingSelect:this.onItemEvidenceExistingSelect, openItemEvidenceExistingSelect:this.openItemEvidenceExistingSelect, itemEvidenceOpen:!!this.state.itemEvidenceOpen, toggleItemEvidence:this.toggleItemEvidence, itemEvidenceCaret:this.state.itemEvidenceOpen?'▲ 收起':'▼ 展开', itemEvidenceBadge:((this.state.itemEvidenceDrafts||[]).length+(this.state.itemEvidenceExistingIds||[]).length)>0?('已选 '+((this.state.itemEvidenceDrafts||[]).length+(this.state.itemEvidenceExistingIds||[]).length)): '可选填', itemEvidenceSummary:(()=>{const a=(this.state.itemEvidenceDrafts||[]).length,b=(this.state.itemEvidenceExistingIds||[]).length;if(a||b)return ['待上传 '+a+' 张',b?'复用 '+b+' 份':''].filter(Boolean).join(' · ');return '可以先不填，保存后再补';})(),
       itemEvidenceRequirementName:(()=>{const n=(this.state.itemEvidenceDrafts||[]).filter(x=>x.role==='肾表／群内交款要求').length;return n?n+' 张已选':'点击选择';})(),
       itemEvidencePaidName:(()=>{const n=(this.state.itemEvidenceDrafts||[]).filter(x=>x.role==='我的付款截图').length;return n?n+' 张已选':'点击选择';})(),
       onItemEvidenceRequirement:this.onItemEvidencePick('肾表／群内交款要求'), onItemEvidencePaid:this.onItemEvidencePick('我的付款截图'),
