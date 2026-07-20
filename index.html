@@ -2035,38 +2035,6 @@
                 <div style="text-align:right"><div style="font-size:11px;color:#837da4">预计盈亏</div><div style="font-family:'Orbitron';font-weight:700;font-size:18px;margin-top:3px"><span style="{{ draftProfitStyle }}">{{ draftProfitText }}</span></div></div>
               </sc-if>
             </div>
-            <sc-if value="{{ isNewItem }}" hint-placeholder-val="{{ true }}">
-            <div style="grid-column:1/-1;background:linear-gradient(145deg,#fff,#f7f3ff);border:1px solid var(--accent-border,#ded7ee);border-radius:14px;overflow:hidden">
-              <button onClick="{{ toggleItemEvidence }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 15px;border:none;background:linear-gradient(135deg,var(--accent-soft,rgba(255,51,85,.10)),rgba(255,255,255,.88));font-family:inherit;text-align:left;cursor:pointer;color:#251d49">
-                <span style="display:flex;align-items:center;gap:10px;min-width:0"><span style="width:30px;height:30px;border-radius:10px;background:var(--accent,#ff3355);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:15px;flex:0 0 auto">📁</span><span style="min-width:0"><strong style="display:block;font-size:13px">排发资料（可选）</strong><small style="display:block;font-size:10.8px;color:#837da4;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ itemEvidenceSummary }}</small></span></span>
-                <span style="display:flex;align-items:center;gap:7px;flex:0 0 auto"><span style="font-size:10.5px;font-weight:800;color:var(--accent,#ff3355);background:#fff;border:1px solid var(--accent-border,#ded7ee);border-radius:999px;padding:4px 8px">{{ itemEvidenceBadge }}</span><span style="font-size:12px;font-weight:900;color:#544f7e">{{ itemEvidenceCaret }}</span></span>
-              </button>
-              <sc-if value="{{ itemEvidenceOpen }}" hint-placeholder-val="false">
-              <div style="padding:12px 15px 14px">
-              <div style="font-size:11.5px;color:#837da4;line-height:1.55;margin-bottom:9px">上传群内肾表／交款要求图和我的付款截图；已有资料可直接复用，不需要重复上传。</div>
-              <sc-if value="{{ noCloudForItemEvidence }}" hint-placeholder-val="false"><div style="font-size:11.5px;color:#7b6f9f;background:rgba(124,92,214,.06);border:1px solid rgba(124,92,214,.16);border-radius:10px;padding:8px 10px;margin-bottom:9px">谷子可以直接保存、本地正常使用。这里的肾表／付款截图属于双端同步内容，连接同步代码后才会上传，方便手机上传、电脑查看。</div></sc-if>
-              <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px">
-                <label style="position:relative;min-width:0;border:1px dashed #cfc8e6;border-radius:11px;background:#fff;padding:12px;cursor:pointer;text-align:center;overflow:hidden">
-                  <input type="file" multiple accept="image/png,image/jpeg,image/webp" onChange="{{ onItemEvidenceRequirement }}" style="position:absolute;inset:0;opacity:0;cursor:pointer">
-                  <div style="font-size:12px;font-weight:800;color:#251d49">肾表／群内交款要求（可多张）</div><div style="font-size:10.5px;color:#837da4;margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ itemEvidenceRequirementName }}</div>
-                </label>
-                <label style="position:relative;min-width:0;border:1px dashed #cfc8e6;border-radius:11px;background:#fff;padding:12px;cursor:pointer;text-align:center;overflow:hidden">
-                  <input type="file" multiple accept="image/png,image/jpeg,image/webp" onChange="{{ onItemEvidencePaid }}" style="position:absolute;inset:0;opacity:0;cursor:pointer">
-                  <div style="font-size:12px;font-weight:800;color:#251d49">我的付款截图（可多张）</div><div style="font-size:10.5px;color:#837da4;margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ itemEvidencePaidName }}</div>
-                </label>
-              </div>
-              <sc-if value="{{ hasItemEvidenceDrafts }}" hint-placeholder-val="false"><button onClick="{{ clearAllItemEvidence }}" style="margin-top:9px;font-family:inherit;font-size:11.5px;color:#e23b5d;background:rgba(226,59,93,.06);border:1px solid rgba(226,59,93,.18);padding:6px 10px;border-radius:8px;cursor:pointer">清空本次待上传资料</button></sc-if>
-              <div style="margin-top:11px;padding-top:10px;border-top:1px solid #ece7f5">
-                <div style="font-size:12px;font-weight:800;color:#251d49;margin-bottom:6px">使用已有本体资料</div>
-                <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-                  <button onClick="{{ openItemEvidenceExistingSelect }}" style="flex:1;min-width:200px;font-family:inherit;font-size:12px;border:1px solid #ded7ee;border-radius:9px;padding:9px;background:#fff;color:#251d49;text-align:left;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>选择已有本体资料（不重复上传）</span><span style="color:#938db0;font-size:11px">▾</span></button>
-                  <span style="font-size:11px;color:#837da4">已选 {{ itemEvidenceExistingCount }} 份</span>
-                </div>
-              </div>
-              </div>
-              </sc-if>
-            </div>
-            </sc-if>
             <div style="grid-column:1/-1;background:rgba(50,38,90,.025);border:1px solid #e8e2f2;border-radius:11px;padding:12px 15px">
               <div style="font-size:12px;color:#4a4570;font-weight:700;margin-bottom:8px">收藏历程</div>
               <sc-for list="{{ draftTimelineRows }}" as="tl" hint-placeholder-count="3">
