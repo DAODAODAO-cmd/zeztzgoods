@@ -28,6 +28,14 @@
   .ui-stat-value,.ui-gallery-name{overflow-wrap:anywhere;word-break:break-word;min-width:0}
   .ui-mobile-card-price,.ui-mobile-card-price *{white-space:nowrap;min-width:0}
   body{margin:0;background:linear-gradient(180deg,#fff7fb 0%,#f7fbff 48%,#fff9ef 100%)}
+  /* 编辑/新增谷子表单整体更紧凑（电脑端+手机端都生效）：标签变小、控件内边距收窄。
+     注意：不改 input/select/textarea 的 font-size（手机端要保持16px防止iOS自动放大），
+     也不动备注框的自动增高逻辑，只收紧间距。 */
+  .ui-form-grid{gap:10px !important}
+  .ui-form-grid > div > div[style*="font-size:12px"]{font-size:11px !important;margin-bottom:4px !important}
+  .ui-form-grid button[style*="padding:9px 11px"]{padding:7px 9px !important;font-size:13px !important}
+  .ui-form-grid input[style*="padding:9px 11px"],.ui-form-grid textarea[style*="padding:9px 11px"]{padding:7px 9px !important}
+  .ui-ship-input{padding:7px 9px !important}
   ::placeholder{color:#938db0}
   select option{background:#ffffff;color:#251d49}
   input[type=date]::-webkit-calendar-picker-indicator{filter:invert(.4);cursor:pointer}
@@ -122,9 +130,18 @@
     .ui-ledger-review-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:16px}
     .ui-reminder-strip{display:none}
   @media (max-width:640px){
-    .ui-modal-card .ui-form-grid{grid-template-columns:1fr !important;}
+    .ui-modal-card .ui-form-grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important;}
     .ui-item-modal .ui-form-grid [style*="display:grid"]{grid-template-columns:1fr !important;}
-    .ui-item-modal .ui-form-grid > div{grid-column:auto !important;}
+    .ui-item-modal .ui-form-grid{gap:8px !important;}
+    .ui-item-modal .ui-form-grid > div > div[style*="font-size:12px"]{font-size:10px !important;margin-bottom:3px !important;}
+    .ui-item-modal .ui-form-grid > div > div[style*="font-size:11.5px"]{font-size:10px !important;}
+    .ui-item-modal .ui-form-grid small,
+    .ui-item-modal .ui-form-grid [style*="font-size:11.5px"],
+    .ui-item-modal .ui-form-grid [style*="font-size:10.5px"]{font-size:10px !important;}
+    .ui-item-modal .ui-form-grid button[style*="padding:9px 11px"]{font-size:12.5px !important;padding:6px 8px !important;}
+    .ui-item-modal .ui-form-grid input:not([type="file"]):not([type="color"]),
+    .ui-item-modal .ui-form-grid textarea{padding:6px 8px !important;}
+    .ui-item-modal .ui-field-hint{display:none !important;}
     .ui-modal-backdrop{align-items:stretch !important;padding:10px !important;overflow:hidden !important;}
     .ui-modal-card{max-height:92vh !important;height:auto !important;}
     .ui-modal-card .ui-modal-footer{padding:8px 10px !important;gap:4px !important;flex-wrap:nowrap !important;}
@@ -139,6 +156,13 @@
     .ui-draft-image-panel{flex-basis:100% !important;align-items:flex-start !important}
     .ui-draft-image-mosaic{width:88px !important;height:88px !important}
     .ui-draft-image-upload{width:28px !important;height:28px !important;border-radius:9px !important;font-size:18px !important}
+    .ui-ship-title{font-size:12px !important;margin-bottom:6px !important;}
+    .ui-ship-label{font-size:10.5px !important;margin:6px 0 4px !important;}
+    .ui-ship-input{padding:6px 8px !important;min-height:36px !important;}
+    button.ui-ship-input{font-size:12.5px !important;}
+    .ui-ship-action{font-size:10.5px !important;padding:5px 8px !important;}
+    .ui-ship-check{font-size:11.5px !important;padding:6px 8px !important;}
+    .ui-ship-card{padding:11px !important;}
   }
 
   /* ===== V25 修复：设置底部按钮固定、新增谷子左右对齐、表格视图改为稳定 div 结构 ===== */
@@ -590,14 +614,14 @@
   }
 
   /* ===== 排发资料中心 ===== */
-  .ui-ship-grid{display:grid;grid-template-columns:minmax(260px,.8fr) minmax(0,1.4fr);gap:12px;align-items:start}
+  .ui-ship-grid{display:grid;grid-template-columns:minmax(240px,.9fr) minmax(240px,1fr) minmax(240px,1fr);gap:12px;align-items:start}
   .ui-ship-card{background:rgba(255,255,255,.9);border:1px solid var(--accent-border,#ded7ee);border-radius:14px;padding:12px;box-shadow:0 6px 18px rgba(50,38,90,.05)}
   .ui-ship-title{font-weight:900;font-size:13.5px;color:#251d49;margin-bottom:8px}
   .ui-ship-label{font-size:11.5px;font-weight:700;color:#544f7e;margin:8px 0 5px}
   .ui-ship-input{width:100%;min-height:42px;padding:9px 11px;border-radius:12px;border:1px solid var(--accent-border,#ded7ee);background:#fff;color:#251d49;font:14px 'Noto Sans SC',sans-serif;box-sizing:border-box}
   select.ui-ship-input{-webkit-appearance:none;appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23938db0' d='M6 8 0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:30px}
   .ui-ship-notice{margin-top:9px;font-size:11.5px;line-height:1.5;color:#6d5fa6;background:rgba(124,92,214,.07);border:1px solid rgba(124,92,214,.18);border-radius:10px;padding:8px 10px}
-  .ui-ship-checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;max-height:240px;overflow:auto;padding:4px}
+  .ui-ship-checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;max-height:170px;overflow:auto;padding:4px}
   .ui-ship-filterbar{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(120px,.75fr);gap:7px;margin-bottom:8px}
   .ui-ship-actions{display:flex;gap:6px;flex-wrap:wrap;margin:7px 0 8px}
   .ui-ship-action{font-family:inherit;font-size:11.5px;font-weight:800;color:#4c4580;background:#fff;border:1px solid #ded7ee;border-radius:9px;padding:7px 9px;cursor:pointer}
@@ -1747,13 +1771,13 @@
             </div>
             <sc-if value="{{ draftNotSelling }}" hint-placeholder-val="{{ true }}">
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">买入价（人民币 · 单价）<span style="font-size:10.5px;color:#a49ec4;font-weight:400">· 支持算式，如 280+20</span></div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">买入价（人民币 · 单价）<span class="ui-field-hint" style="font-size:10.5px;color:#a49ec4;font-weight:400">· 支持算式，如 280+20</span></div>
               <input name="buyPrice" type="text" min="0" value="{{ draft.buyPrice }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" placeholder="你花了多少" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             </sc-if>
             <sc-if value="{{ draftIsSelling }}" hint-placeholder-val="{{ false }}">
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">卖出价（人民币 · 单价）<span style="font-size:10.5px;color:#a49ec4;font-weight:400">· 支持算式，如 280+20</span></div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">卖出价（人民币 · 单价）<span class="ui-field-hint" style="font-size:10.5px;color:#a49ec4;font-weight:400">· 支持算式，如 280+20</span></div>
               <input name="sellPrice" type="text" min="0" value="{{ draft.sellPrice }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" placeholder="出物 / 已卖填写" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             </sc-if>
@@ -1761,12 +1785,25 @@
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">数量</div>
               <input name="qty" type="number" min="1" value="{{ draft.qty }}" onChange="{{ onDraftChange }}" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
-            <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">备注</div>
-              <textarea name="note" value="{{ draft.note }}" onChange="{{ onDraftChange }}" onInput="{{ autoGrowNote }}" rows="1" placeholder="特典 / 瑕疵 / 让渡信息 等" style="width:100%;min-height:42px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none;resize:vertical;box-sizing:border-box;overflow:hidden"></textarea>
+            <div style="position:relative">
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>{{ lblPurchaseChannel }}</span><span style="display:flex;gap:6px;flex-shrink:0"><button onClick="{{ mgrPurchaseChannel }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer" title="管理 新增/改名/删除/排序">⚙ 管理</button></span></div>
+              <button onClick="{{ togglePurchaseChannelMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ purchaseChannelDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
+              <sc-if value="{{ purchaseChannelMenuOpen }}" hint-placeholder-val="{{ false }}">
+                <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:5;background:#ffffff;border:1px solid #ded7ee;border-radius:11px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:240px;overflow-y:auto">
+                  <button onClick="{{ clearPurchaseChannel }}" style="width:100%;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#938db0;padding:7px 9px;border-radius:8px">（未分类）</button>
+                  <sc-if value="{{ hasPurchaseChannelMenuItems }}" hint-placeholder-val="{{ false }}">
+                    <sc-for list="{{ purchaseChannelMenuItems }}" as="ch" hint-placeholder-count="4">
+                      <div style="{{ ch.rowStyle }}">
+                        <button onClick="{{ ch.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ch.name }}</button>
+                      </div>
+                    </sc-for>
+                  </sc-if>
+                  <button onClick="{{ addPurchaseChannel }}" style="display:none"></button>
+                </div>
+              </sc-if>
             </div>
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;gap:6px"><span>{{ reminderDateLabel }}</span><span style="font-size:10.5px;color:#a49ec4;font-weight:400">{{ reminderDateHint }}</span></div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>{{ reminderDateLabel }}</span><span class="ui-field-hint" style="font-size:10.5px;color:#a49ec4;font-weight:400">{{ reminderDateHint }}</span></div>
               <input name="reminderDate" type="date" value="{{ draft.reminderDate }}" onChange="{{ onDraftChange }}" style="width:100%;box-sizing:border-box;min-width:0;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             <div style="grid-column:1/-1">
@@ -1777,21 +1814,21 @@
             <sc-if value="{{ feeShow }}" hint-placeholder-val="{{ false }}">
             <sc-if value="{{ draftIsSelling }}" hint-placeholder-val="{{ false }}">
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">买入价（单价）<span style="font-size:10.5px;color:#a49ec4;font-weight:400">· 支持算式，如 280+20</span></div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">买入价（单价）<span class="ui-field-hint" style="font-size:10.5px;color:#a49ec4;font-weight:400">· 支持算式，如 280+20</span></div>
               <input name="buyPrice" type="text" min="0" value="{{ draft.buyPrice }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" placeholder="你花了多少" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             </sc-if>
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">补款金额<span style="font-size:10.5px;color:#a49ec4;font-weight:400">· 按补款那个月单独计入钱包</span></div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">补款金额<span class="ui-field-hint" style="font-size:10.5px;color:#a49ec4;font-weight:400">· 按补款那个月单独计入钱包</span></div>
               <input name="supplementPrice" type="text" min="0" value="{{ draft.supplementPrice }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" placeholder="有分期补款再填" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">尾款金额<span style="font-size:10.5px;color:#a49ec4;font-weight:400">· 按尾款那个月单独计入钱包</span></div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">尾款金额<span class="ui-field-hint" style="font-size:10.5px;color:#a49ec4;font-weight:400">· 按尾款那个月单独计入钱包</span></div>
               <input name="finalPrice" type="text" min="0" value="{{ draft.finalPrice }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" placeholder="有尾款再填" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             <sc-if value="{{ draftNotSelling }}" hint-placeholder-val="{{ true }}">
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">卖出价（单价）<span style="font-size:10.5px;color:#a49ec4;font-weight:400">· 支持算式，如 280+20</span></div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">卖出价（单价）<span class="ui-field-hint" style="font-size:10.5px;color:#a49ec4;font-weight:400">· 支持算式，如 280+20</span></div>
               <input name="sellPrice" type="text" min="0" value="{{ draft.sellPrice }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" placeholder="出物 / 已卖填写" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             </sc-if>
@@ -1812,16 +1849,13 @@
               <input name="originalPrice" type="text" min="0" value="{{ draft.originalPrice }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" placeholder="官方定价（日元）" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             <div>
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">汇率（1日元≈? 人民币）</div>
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>汇率（円→¥）</span><sc-if value="{{ draftHasConv }}" hint-placeholder-val="{{ false }}"><span style="display:flex;align-items:center;gap:6px;flex-shrink:0;font-weight:400"><span style="color:#544f7e;white-space:nowrap">≈{{ draftConvText }}</span><button onClick="{{ fillBuyFromRate }}" style="font-family:inherit;font-size:11px;color:#fff;background:var(--accent,#ff3355);border:none;padding:3px 8px;border-radius:7px;cursor:pointer;white-space:nowrap">填入</button></span></sc-if></div>
               <input name="rate" type="text" min="0" step="0.0001" value="{{ draft.rate }}" onChange="{{ onDraftChange }}" onBlur="{{ onMoneyBlur }}" onKeyDown="{{ onMoneyKeyDown }}" placeholder="例：0.05" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
-              <sc-if value="{{ draftHasConv }}" hint-placeholder-val="{{ false }}">
-                <div style="font-size:11.5px;color:#544f7e;margin-top:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">折算 ≈ {{ draftConvText }} <button onClick="{{ fillBuyFromRate }}" style="font-family:inherit;font-size:11.5px;color:#fff;background:var(--accent,#ff3355);border:none;padding:3px 9px;border-radius:7px;cursor:pointer">填入买入价</button></div>
-              </sc-if>
             </div>
             </sc-if>
             <div style="grid-column:1/-1">
               <button onClick="{{ toggleColInfo }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 12px;border-radius:9px;border:1px dashed #d4cee7;background:rgba(50,38,90,.03);color:#544f7e;font-family:inherit;font-size:13px;cursor:pointer">
-                <span class="ui-colinfo-label" style="flex:1;min-width:0;text-align:left">🏷 收藏信息 · 来源 / 购买方式 / 平台 / 渠道 / 形态 / 系列收藏 / 款式 / 标签（可选）</span><span style="flex-shrink:0;color:#938db0;font-size:11px">{{ colInfoCaret }}</span>
+                <span class="ui-colinfo-label" style="flex:1;min-width:0;text-align:left">🏷 收藏信息（可选）<span class="ui-field-hint">· 来源 / 购买方式 / 平台 / 形态 / 系列收藏 / 款式 / 标签</span></span><span style="flex-shrink:0;color:#938db0;font-size:11px">{{ colInfoCaret }}</span>
               </button>
             </div>
             <sc-if value="{{ colInfoShow }}" hint-placeholder-val="{{ false }}">
@@ -1876,23 +1910,6 @@
                     </sc-for>
                   </sc-if>
                   <button onClick="{{ addChannel }}" style="display:none"></button>
-                </div>
-              </sc-if>
-            </div>
-            <div style="position:relative">
-              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>{{ lblPurchaseChannel }}</span><span style="display:flex;gap:6px;flex-shrink:0"><button onClick="{{ mgrPurchaseChannel }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer" title="管理 新增/改名/删除/排序">⚙ 管理</button></span></div>
-              <button onClick="{{ togglePurchaseChannelMenu }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;cursor:pointer;text-align:left"><span>{{ purchaseChannelDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
-              <sc-if value="{{ purchaseChannelMenuOpen }}" hint-placeholder-val="{{ false }}">
-                <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:5;background:#ffffff;border:1px solid #ded7ee;border-radius:11px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:240px;overflow-y:auto">
-                  <button onClick="{{ clearPurchaseChannel }}" style="width:100%;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#938db0;padding:7px 9px;border-radius:8px">（未分类）</button>
-                  <sc-if value="{{ hasPurchaseChannelMenuItems }}" hint-placeholder-val="{{ false }}">
-                    <sc-for list="{{ purchaseChannelMenuItems }}" as="ch" hint-placeholder-count="4">
-                      <div style="{{ ch.rowStyle }}">
-                        <button onClick="{{ ch.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ch.name }}</button>
-                      </div>
-                    </sc-for>
-                  </sc-if>
-                  <button onClick="{{ addPurchaseChannel }}" style="display:none"></button>
                 </div>
               </sc-if>
             </div>
@@ -1965,6 +1982,10 @@
                 </sc-if>
               </div>
             </div>
+            <div style="grid-column:1/-1">
+              <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">备注</div>
+              <textarea name="note" value="{{ draft.note }}" onChange="{{ onDraftChange }}" onInput="{{ autoGrowNote }}" rows="1" placeholder="特典 / 瑕疵 / 让渡信息 等" style="width:100%;min-height:42px;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none;resize:vertical;box-sizing:border-box;overflow:hidden"></textarea>
+            </div>
             <sc-if value="{{ hasCustomFields }}" hint-placeholder-val="{{ false }}">
               <sc-for list="{{ draftCustomInputs }}" as="cf" hint-placeholder-count="0">
                 <div style="position:relative">
@@ -1991,18 +2012,22 @@
               </div>
             </div>
             </sc-if>
+            <sc-if value="{{ hasTagsField }}" hint-placeholder-val="{{ true }}">
             <div style="grid-column:1/-1">
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>{{ lblTags }}</span><span style="display:flex;gap:6px"><button onClick="{{ mgrTradeTags }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer" title="管理 新增/改名/删除/排序">⚙ 管理</button></span></div>
               <div style="display:flex;gap:7px;flex-wrap:wrap">
                 <sc-for list="{{ draftTradeTags }}" as="t" hint-placeholder-count="6"><span style="display:inline-flex;align-items:center;gap:4px"><button onClick="{{ t.onClick }}" style="{{ t.style }}">{{ t.label }}</button><sc-if value="{{ tagEditMode }}" hint-placeholder-val="{{ false }}"><button onClick="{{ t.onDel }}" title="删除标签" style="width:17px;height:17px;border-radius:50%;border:none;background:rgba(226,59,93,.12);color:#e23b5d;font-size:11px;line-height:1;cursor:pointer">×</button></sc-if></span></sc-for>
               </div>
             </div>
+            </sc-if>
+            <sc-if value="{{ hasRarityField }}" hint-placeholder-val="{{ true }}">
             <div style="grid-column:1/-1">
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>{{ lblRarity }}</span><span style="display:flex;gap:6px"><button onClick="{{ mgrRarityTags }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:3px 10px;border-radius:7px;cursor:pointer" title="管理 新增/改名/删除/排序">⚙ 管理</button></span></div>
               <div style="display:flex;gap:7px;flex-wrap:wrap">
                 <sc-for list="{{ draftRarityTags }}" as="t" hint-placeholder-count="6"><span style="display:inline-flex;align-items:center;gap:4px"><button onClick="{{ t.onClick }}" style="{{ t.style }}">{{ t.label }}</button><sc-if value="{{ tagEditMode }}" hint-placeholder-val="{{ false }}"><button onClick="{{ t.onDel }}" title="删除标签" style="width:17px;height:17px;border-radius:50%;border:none;background:rgba(226,59,93,.12);color:#e23b5d;font-size:11px;line-height:1;cursor:pointer">×</button></sc-if></span></sc-for>
               </div>
             </div>
+            </sc-if>
             </sc-if>
             <div style="grid-column:1/-1;display:flex;justify-content:space-between;gap:14px;background:rgba(50,38,90,.035);border:1px solid #e1dbf0;border-radius:11px;padding:12px 15px">
               <div><div style="font-size:11px;color:#837da4">总成本（自动计算）</div><div style="font-family:'Orbitron';font-weight:700;font-size:18px;margin-top:3px">{{ draftCostText }}</div></div>
@@ -2013,7 +2038,7 @@
             <sc-if value="{{ isNewItem }}" hint-placeholder-val="{{ true }}">
             <div style="grid-column:1/-1;background:linear-gradient(145deg,#fff,#f7f3ff);border:1px solid var(--accent-border,#ded7ee);border-radius:14px;overflow:hidden">
               <button onClick="{{ toggleItemEvidence }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 15px;border:none;background:linear-gradient(135deg,var(--accent-soft,rgba(255,51,85,.10)),rgba(255,255,255,.88));font-family:inherit;text-align:left;cursor:pointer;color:#251d49">
-                <span style="display:flex;align-items:center;gap:10px;min-width:0"><span style="width:30px;height:30px;border-radius:10px;background:var(--accent,#ff3355);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:15px;flex:0 0 auto">📁</span><span style="min-width:0"><strong style="display:block;font-size:13px">本体交肾 · 排发资料（可选）</strong><small style="display:block;font-size:10.8px;color:#837da4;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ itemEvidenceSummary }}</small></span></span>
+                <span style="display:flex;align-items:center;gap:10px;min-width:0"><span style="width:30px;height:30px;border-radius:10px;background:var(--accent,#ff3355);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:15px;flex:0 0 auto">📁</span><span style="min-width:0"><strong style="display:block;font-size:13px">排发资料（可选）</strong><small style="display:block;font-size:10.8px;color:#837da4;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ itemEvidenceSummary }}</small></span></span>
                 <span style="display:flex;align-items:center;gap:7px;flex:0 0 auto"><span style="font-size:10.5px;font-weight:800;color:var(--accent,#ff3355);background:#fff;border:1px solid var(--accent-border,#ded7ee);border-radius:999px;padding:4px 8px">{{ itemEvidenceBadge }}</span><span style="font-size:12px;font-weight:900;color:#544f7e">{{ itemEvidenceCaret }}</span></span>
               </button>
               <sc-if value="{{ itemEvidenceOpen }}" hint-placeholder-val="false">
@@ -2061,9 +2086,11 @@
                 <div style="font-weight:800;font-size:14px;color:#251d49">添加资料</div>
                 <button onClick="{{ closeItemAddShip }}" style="font-family:inherit;font-size:12px;color:#938db0;background:none;border:none;cursor:pointer">‹ 返回列表</button>
               </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <div>
               <div class="ui-ship-label">团／渠道（必填）</div>
               <div style="position:relative">
-                <input class="ui-ship-input" style="padding-right:34px" value="{{ shipGroup }}" onChange="{{ onShipGroup }}" placeholder="例如：ゼッツ第一团／某某代购群">
+                <input class="ui-ship-input" style="padding-right:34px" value="{{ shipGroup }}" onChange="{{ onShipGroup }}" placeholder="例如：ゼッツ第一团">
                 <sc-if value="{{ hasShipGroupMenu }}" hint-placeholder-val="{{ false }}"><button onClick="{{ toggleShipGroupMenu }}" style="position:absolute;right:1px;top:1px;bottom:1px;width:34px;border:none;background:transparent;color:#938db0;font-size:11px;cursor:pointer;border-radius:0 12px 12px 0">▾</button></sc-if>
                 <sc-if value="{{ shipGroupMenuOpen }}" hint-placeholder-val="{{ false }}">
                   <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:8;background:#fff;border:1px solid #ded7ee;border-radius:12px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:240px;overflow-y:auto">
@@ -2071,6 +2098,8 @@
                   </div>
                 </sc-if>
               </div>
+              </div>
+              <div>
               <div class="ui-ship-label">资料类型</div>
               <div style="position:relative">
                 <button onClick="{{ toggleShipTypeMenu }}" class="ui-ship-input" style="display:flex;align-items:center;justify-content:space-between;gap:8px;text-align:left;cursor:pointer"><span>{{ shipTypeDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
@@ -2079,6 +2108,8 @@
                     <sc-for list="{{ shipTypeMenuItems }}" as="o" hint-placeholder-count="4"><div style="{{ o.rowStyle }}"><button onClick="{{ o.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ o.label }}</button></div></sc-for>
                   </div>
                 </sc-if>
+              </div>
+              </div>
               </div>
               <div style="display:flex;align-items:center;justify-content:space-between">
                 <div class="ui-ship-label" style="margin:0">图片内容</div>
@@ -2093,22 +2124,24 @@
                 </sc-if>
               </div>
               <div class="ui-ship-label">添加图片（可多选）</div>
-              <label style="display:flex;align-items:center;justify-content:center;min-height:82px;border:2px dashed var(--accent-border,#ded7ee);border-radius:14px;background:#fff;cursor:pointer;text-align:center;color:#595287;font-size:13px;padding:10px">
+              <label style="display:flex;align-items:center;justify-content:center;min-height:70px;border:2px dashed var(--accent-border,#ded7ee);border-radius:14px;background:#fff;cursor:pointer;text-align:center;color:#595287;font-size:13px;padding:10px">
                 <span>{{ shipUploadText }}</span><input type="file" multiple accept="image/png,image/jpeg,image/webp" onChange="{{ onShipImage }}" style="display:none">
               </label>
               <sc-if value="{{ hasShipDraftImage }}" hint-placeholder-val="false"><div style="margin-top:8px;padding:9px;border-radius:12px;background:#fff;border:1px solid #e5def0;font-size:11.5px;color:#595287;line-height:1.6">{{ shipDraftImageSummary }}<br><button onClick="{{ clearShipImages }}" style="margin-top:5px;border:1px solid rgba(226,59,93,.22);background:rgba(226,59,93,.06);color:#e23b5d;border-radius:7px;padding:4px 8px;cursor:pointer">清空待上传图片</button></div></sc-if>
-              <div class="ui-ship-label">关联其他谷子（当前谷子已默认关联）</div>
+              <button onClick="{{ toggleItemShipItemsPanel }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 0;background:none;border:none;cursor:pointer;color:#544f7e"><span class="ui-ship-label" style="margin:0">关联其他谷子（当前谷子已默认关联）</span><span style="font-size:11px;color:#938db0">{{ itemShipItemsCaret }}</span></button>
+              <sc-if value="{{ itemShipItemsPanelOpen }}" hint-placeholder-val="{{ false }}">
               <div class="ui-ship-filterbar">
-                <input class="ui-ship-input" value="{{ shipSearch }}" onChange="{{ onShipSearch }}" placeholder="搜索名称 / 角色 / 种类，把同一单的其他谷子也勾上">
+                <input class="ui-ship-input" value="{{ shipSearch }}" onChange="{{ onShipSearch }}" placeholder="搜索名称 / 角色 / 种类">
               </div>
-              <div class="ui-ship-checks">
+              <div class="ui-ship-checks" style="max-height:150px">
                 <sc-if value="{{ noShipItemChoices }}" hint-placeholder-val="false"><div class="ui-ship-empty">没有匹配的谷子。</div></sc-if>
                 <sc-for list="{{ shipItemChoices }}" as="it" hint-placeholder-count="4"><label class="ui-ship-check"><input type="checkbox" checked="{{ it.checked }}" onChange="{{ it.onToggle }}"><span>{{ it.label }}</span></label></sc-for>
               </div>
+              </sc-if>
               <div class="ui-ship-label">备注（可选）</div>
               <input class="ui-ship-input" value="{{ shipNote }}" onChange="{{ onShipNote }}" placeholder="例如：第一次国际运费 / 订单号 / 说明">
               <sc-if value="{{ hasShipNotice }}" hint-placeholder-val="false"><div class="ui-ship-notice">{{ shipNotice }}</div></sc-if>
-              <button onClick="{{ saveShipping }}" style="width:100%;margin-top:6px;min-height:44px;border:none;border-radius:13px;background:var(--accent,#ff3355);color:#fff;font-family:inherit;font-weight:900;font-size:14px;cursor:pointer">保存并关联</button>
+              <button onClick="{{ saveShipping }}" style="width:100%;margin-top:6px;min-height:44px;border:none;border-radius:13px;background:var(--accent,#ff3355);color:#fff;font-family:inherit;font-weight:900;font-size:14px;cursor:pointer">保存</button>
             </sc-if>
 
             <sc-if value="{{ itemShipListView }}" hint-placeholder-val="{{ true }}">
@@ -2130,7 +2163,7 @@
                           <sc-if value="{{ rec.isShared }}" hint-placeholder-val="{{ false }}"><div style="font-size:10.5px;color:#ff3355;margin-top:2px">共享给其他 {{ rec.sharedCount }} 件谷子</div></sc-if>
                         </div>
                         <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0">
-                          <button onClick="{{ rec.onRelink }}" style="font-family:inherit;font-size:11px;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:4px 8px;border-radius:7px;cursor:pointer;white-space:nowrap">改关联</button>
+                          <button onClick="{{ rec.onRelink }}" style="font-family:inherit;font-size:11px;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:4px 8px;border-radius:7px;cursor:pointer;white-space:nowrap">编辑</button>
                           <button onClick="{{ rec.onUnlink }}" style="font-family:inherit;font-size:11px;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:4px 8px;border-radius:7px;cursor:pointer;white-space:nowrap">移除本件</button>
                         </div>
                       </div>
@@ -2153,6 +2186,75 @@
           <sc-if value="{{ hasBulkEditNav }}" hint-placeholder-val="false"><button class="ui-btn-soft" onClick="{{ saveBulkPrev }}">上一<span class="ui-footer-extra">张</span></button></sc-if>
           <sc-if value="{{ hasBulkEditNav }}" hint-placeholder-val="false"><button class="ui-btn-soft" onClick="{{ saveBulkNext }}">保存<span class="ui-footer-extra">并</span>下一张<span class="ui-footer-extra"> {{ bulkEditProgress }}</span></button></sc-if>
           <button class="ui-btn-primary" onClick="{{ saveItem }}">保存</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ===== 编辑资料（备注/图片/关联谷子，独立顶层弹窗，编辑弹窗/排发中心都可以触发） ===== -->
+  <sc-if value="{{ relinkOpen }}" hint-placeholder-val="false">
+    <div style="position:fixed;inset:0;z-index:500;background:rgba(30,22,54,.55);display:flex;align-items:center;justify-content:center;padding:16px" onClick="{{ closeRelink }}">
+      <div style="width:100%;max-width:480px;max-height:88vh;display:flex;flex-direction:column;background:linear-gradient(160deg,#fff,#f5f2fb);border-radius:18px;overflow:hidden;box-shadow:0 20px 60px rgba(30,22,54,.35)" onClick="{{ stop }}">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #e1dbf0;flex-shrink:0">
+          <div><div style="font-weight:900;font-size:15px;color:#251d49">编辑资料</div><div style="font-size:11.5px;color:#837da4;margin-top:1px">{{ relinkTitle }}</div></div>
+          <button onClick="{{ closeRelink }}" style="width:30px;height:30px;border-radius:9px;border:1px solid #ded7ee;background:#fff;color:#595287;font-size:17px;cursor:pointer">×</button>
+        </div>
+        <div style="flex:1;min-height:0;overflow-y:auto;padding:12px 16px;display:flex;flex-direction:column;gap:14px">
+
+          <div>
+            <div style="font-size:11.5px;font-weight:700;color:#544f7e;margin-bottom:5px">团／渠道（排发用）</div>
+            <input value="{{ relinkGroup }}" onChange="{{ onRelinkGroup }}" placeholder="例如：ゼッツ第一团／某某代购群" style="width:100%;font-family:inherit;font-size:13px;border:1px solid #ded7ee;border-radius:9px;padding:9px 11px;background:#fff;color:#251d49;outline:none;box-sizing:border-box">
+          </div>
+
+          <div>
+            <button onClick="{{ toggleRelinkNote }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;font-family:inherit;background:none;border:none;padding:0;cursor:pointer;color:#544f7e"><span style="font-size:11.5px;font-weight:700">备注（可选）</span><span style="font-size:11px">{{ relinkNoteCaret }}</span></button>
+            <sc-if value="{{ relinkNoteOpen }}" hint-placeholder-val="{{ false }}">
+              <textarea value="{{ relinkNote }}" onChange="{{ onRelinkNote }}" placeholder="例如：第一次国际运费 / 订单号 / 说明" style="width:100%;margin-top:6px;min-height:52px;font-family:inherit;font-size:13px;border:1px solid #ded7ee;border-radius:9px;padding:9px 11px;background:#fff;color:#251d49;outline:none;resize:vertical;box-sizing:border-box"></textarea>
+            </sc-if>
+          </div>
+
+          <div>
+            <div style="font-size:11.5px;font-weight:700;color:#544f7e;margin-bottom:5px">图片</div>
+            <sc-if value="{{ noRelinkImages }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;color:#938db0;padding:8px 0">这条资料还没有图片。</div></sc-if>
+            <sc-for list="{{ relinkImageRows }}" as="im" hint-placeholder-count="2">
+              <div style="{{ im.cardStyle }}display:flex;gap:9px;align-items:center;background:#fff;border:1px solid #e8e2f2;border-radius:11px;padding:8px;margin-bottom:6px">
+                <div style="{{ im.thumbStyle }}background-size:cover;background-position:center;width:44px;height:44px;border-radius:8px;flex-shrink:0;background-color:#f0edf7"></div>
+                <select value="{{ im.role }}" onChange="{{ im.onRoleChange }}" style="flex:1;min-width:0;font-family:inherit;font-size:12.5px;border:1px solid #ded7ee;border-radius:8px;padding:7px;background:#fff;color:#251d49">
+                  <sc-for list="{{ relinkRoleOptions }}" as="opt" hint-placeholder-count="3"><option value="{{ opt.value }}">{{ opt.label }}</option></sc-for>
+                </select>
+                <button onClick="{{ im.onToggleRemove }}" style="flex-shrink:0;font-family:inherit;font-size:11.5px;color:#e23b5d;background:rgba(226,59,93,.08);border:1px solid rgba(226,59,93,.22);padding:7px 10px;border-radius:8px;cursor:pointer;white-space:nowrap">{{ im.removeLabel }}</button>
+              </div>
+            </sc-for>
+            <sc-if value="{{ hasRelinkNewFiles }}" hint-placeholder-val="{{ false }}">
+              <sc-for list="{{ relinkNewFileRows }}" as="nf" hint-placeholder-count="1">
+                <div style="display:flex;gap:9px;align-items:center;background:rgba(50,38,90,.04);border:1px dashed #ded7ee;border-radius:11px;padding:8px;margin-bottom:6px">
+                  <div style="flex-shrink:0;font-size:11px;color:#544f7e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:70px">＋ {{ nf.filename }}</div>
+                  <select value="{{ nf.role }}" onChange="{{ nf.onRoleChange }}" style="flex:1;min-width:0;font-family:inherit;font-size:12.5px;border:1px solid #ded7ee;border-radius:8px;padding:7px;background:#fff;color:#251d49">
+                    <sc-for list="{{ relinkRoleOptions }}" as="opt" hint-placeholder-count="3"><option value="{{ opt.value }}">{{ opt.label }}</option></sc-for>
+                  </select>
+                  <button onClick="{{ nf.onRemove }}" style="flex-shrink:0;font-family:inherit;font-size:11.5px;color:#e23b5d;background:rgba(226,59,93,.08);border:1px solid rgba(226,59,93,.22);padding:7px 10px;border-radius:8px;cursor:pointer">撤销</button>
+                </div>
+              </sc-for>
+            </sc-if>
+            <label style="display:flex;align-items:center;justify-content:center;min-height:44px;border:2px dashed var(--accent-border,#ded7ee);border-radius:11px;background:#fff;cursor:pointer;text-align:center;color:#595287;font-size:12.5px;margin-top:4px">
+              <span>＋ 添加图片</span><input type="file" multiple accept="image/png,image/jpeg,image/webp" onChange="{{ onRelinkNewFiles }}" style="display:none">
+            </label>
+          </div>
+
+          <div>
+            <div style="font-size:11.5px;font-weight:700;color:#544f7e;margin-bottom:5px">关联谷子</div>
+            <input value="{{ relinkSearch }}" onChange="{{ onRelinkSearch }}" placeholder="搜索谷子名称 / 角色" style="width:100%;font-family:inherit;font-size:13px;border:1px solid #ded7ee;border-radius:9px;padding:9px 11px;background:#fff;color:#251d49;outline:none;box-sizing:border-box">
+            <div style="font-size:11.5px;color:#837da4;margin:8px 0">勾选＝关联，取消勾选＝解除关联。已选 <strong style="color:var(--accent,#ff3355)">{{ relinkSelectedCount }}</strong> 个谷子。</div>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <sc-if value="{{ noRelinkChoices }}" hint-placeholder-val="false"><div style="padding:20px;text-align:center;color:#938db0;font-size:13px">没有匹配的谷子。</div></sc-if>
+              <sc-for list="{{ relinkItemChoices }}" as="it" hint-placeholder-count="5"><label style="display:flex;align-items:center;gap:9px;padding:9px 10px;background:#fff;border:1px solid #f0ebf8;border-radius:10px;cursor:pointer"><input type="checkbox" checked="{{ it.checked }}" onChange="{{ it.onToggle }}"><span style="font-size:13px;color:#251d49;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ it.label }}</span></label></sc-for>
+            </div>
+          </div>
+
+        </div>
+        <div style="display:flex;gap:10px;padding:14px 16px;border-top:1px solid #e1dbf0;flex-shrink:0">
+          <button onClick="{{ closeRelink }}" style="flex:1;font-family:inherit;font-size:14px;font-weight:700;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;border-radius:11px;padding:11px;cursor:pointer">取消</button>
+          <button onClick="{{ saveRelink }}" style="flex:1;font-family:inherit;font-size:14px;font-weight:900;color:#fff;background:var(--accent,#ff3355);border:none;border-radius:11px;padding:11px;cursor:pointer">保存</button>
         </div>
       </div>
     </div>
@@ -2427,103 +2529,29 @@
           <sc-if value="{{ shipNotConnected }}" hint-placeholder-val="false"><div class="ui-ship-notice" style="margin:0 0 14px">排发中心用来集中管理肾表／付款截图等图片，需要连接同步代码后才能上传、双端查看。谷子的日常记录不受影响，本地照常使用。手机端可在「我的 → 云端」里生成或连接，电脑端在「设置 → 同步代码」里。</div></sc-if>
           <div class="ui-ship-grid">
             <div style="display:flex;flex-direction:column;gap:16px;min-width:0">
-            <div class="ui-ship-card">
-              <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer" onClick="{{ toggleShipAddForm }}">
-                <div class="ui-ship-title" style="margin:0">新增资料</div>
-                <span style="font-size:12px;color:#837da4">{{ shipAddCaret }}</span>
-              </div>
-              <sc-if value="{{ shipAddExpanded }}" hint-placeholder-val="true">
-              <div style="margin-top:12px">
-              <div class="ui-ship-label">团／渠道（必填）</div>
-              <div style="position:relative">
-                <input class="ui-ship-input" style="padding-right:34px" value="{{ shipGroup }}" onChange="{{ onShipGroup }}" placeholder="例如：ゼッツ第一团／某某代购群">
-                <sc-if value="{{ hasShipGroupMenu }}" hint-placeholder-val="{{ false }}"><button onClick="{{ toggleShipGroupMenu }}" style="position:absolute;right:1px;top:1px;bottom:1px;width:34px;border:none;background:transparent;color:#938db0;font-size:11px;cursor:pointer;border-radius:0 12px 12px 0">▾</button></sc-if>
-                <sc-if value="{{ shipGroupMenuOpen }}" hint-placeholder-val="{{ false }}">
-                  <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:8;background:#fff;border:1px solid #ded7ee;border-radius:12px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:240px;overflow-y:auto">
-                    <sc-for list="{{ shipGroupMenuItems }}" as="o" hint-placeholder-count="3"><div style="{{ o.rowStyle }}"><button onClick="{{ o.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ o.label }}</button></div></sc-for>
-                  </div>
-                </sc-if>
-              </div>
-              <div style="font-size:11.5px;color:#837da4;line-height:1.55;margin-top:7px">同一团／渠道的资料会集中整理。国际资料可以分多次添加，每次只关联实际涉及的谷子。</div>
-              <div style="font-size:11.5px;color:#837da4;margin-top:6px">当前 CN：<strong style="color:var(--accent,#ff3355)">{{ fixedCn }}</strong></div>
-              <div class="ui-ship-label">资料类型</div>
-              <div style="position:relative">
-                <button onClick="{{ toggleShipTypeMenu }}" class="ui-ship-input" style="display:flex;align-items:center;justify-content:space-between;gap:8px;text-align:left;cursor:pointer"><span>{{ shipTypeDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
-                <sc-if value="{{ shipTypeMenuOpen }}" hint-placeholder-val="{{ false }}">
-                  <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:8;background:#fff;border:1px solid #ded7ee;border-radius:12px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:240px;overflow-y:auto">
-                    <sc-for list="{{ shipTypeMenuItems }}" as="o" hint-placeholder-count="4"><div style="{{ o.rowStyle }}"><button onClick="{{ o.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ o.label }}</button></div></sc-for>
-                  </div>
-                </sc-if>
-              </div>
-              <div class="ui-ship-label">图片内容</div>
-              <div style="position:relative">
-                <button onClick="{{ toggleShipRoleMenu }}" class="ui-ship-input" style="display:flex;align-items:center;justify-content:space-between;gap:8px;text-align:left;cursor:pointer"><span>{{ shipRoleDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
-                <sc-if value="{{ shipRoleMenuOpen }}" hint-placeholder-val="{{ false }}">
-                  <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:8;background:#fff;border:1px solid #ded7ee;border-radius:12px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:240px;overflow-y:auto">
-                    <sc-for list="{{ shipRoleMenuItems }}" as="o" hint-placeholder-count="3"><div style="{{ o.rowStyle }}"><button onClick="{{ o.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ o.label }}</button></div></sc-for>
-                  </div>
-                </sc-if>
-              </div>
-              <div class="ui-ship-label">添加图片（可多选）</div>
-              <label style="display:flex;align-items:center;justify-content:center;min-height:82px;border:2px dashed var(--accent-border,#ded7ee);border-radius:14px;background:#fff;cursor:pointer;text-align:center;color:#595287;font-size:13px;padding:10px">
-                <span>{{ shipUploadText }}</span><input type="file" multiple accept="image/png,image/jpeg,image/webp" onChange="{{ onShipImage }}" style="display:none">
-              </label>
-              <sc-if value="{{ hasShipDraftImage }}" hint-placeholder-val="false"><div style="margin-top:8px;padding:9px;border-radius:12px;background:#fff;border:1px solid #e5def0;font-size:11.5px;color:#595287;line-height:1.6">{{ shipDraftImageSummary }}<br><button onClick="{{ clearShipImages }}" style="margin-top:5px;border:1px solid rgba(226,59,93,.22);background:rgba(226,59,93,.06);color:#e23b5d;border-radius:7px;padding:4px 8px;cursor:pointer">清空待上传图片</button></div></sc-if>
-              <div class="ui-ship-label">关联谷子</div>
-              <div style="font-size:11.5px;color:#837da4;line-height:1.55;margin-bottom:7px">例如：本体资料关联 A／B／C；第一次国际资料关联 A／B，第二次再单独关联 C。</div>
-              <div class="ui-ship-filterbar">
-                <input class="ui-ship-input" value="{{ shipSearch }}" onChange="{{ onShipSearch }}" placeholder="搜索名称 / 角色 / 种类 / 订单号">
-                <div style="position:relative">
-                  <button onClick="{{ toggleShipStatusMenu }}" class="ui-ship-input" style="display:flex;align-items:center;justify-content:space-between;gap:8px;text-align:left;cursor:pointer"><span>{{ shipStatusDisplay }}</span><span style="color:#938db0;font-size:11px">▾</span></button>
-                  <sc-if value="{{ shipStatusMenuOpen }}" hint-placeholder-val="{{ false }}">
-                    <div style="position:absolute;left:0;right:0;top:100%;margin-top:5px;z-index:8;background:#fff;border:1px solid #ded7ee;border-radius:12px;box-shadow:0 14px 36px rgba(0,0,0,.16);padding:6px;max-height:240px;overflow-y:auto">
-                      <sc-for list="{{ shipStatusMenuItems }}" as="o" hint-placeholder-count="4"><div style="{{ o.rowStyle }}"><button onClick="{{ o.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ o.label }}</button></div></sc-for>
-                    </div>
-                  </sc-if>
-                </div>
-              </div>
-              <div style="font-size:11.5px;color:#837da4;line-height:1.5">当前团／渠道匹配 <strong style="color:#251d49">{{ shipVisibleCount }}</strong> 个，已选 <strong style="color:var(--accent,#ff3355)">{{ shipSelectedCount }}</strong> 个。未选择团／渠道时会显示全部谷子。</div>
-              <div class="ui-ship-actions">
-                <button class="ui-ship-action" onClick="{{ selectAllVisibleShipItems }}">全选当前结果</button>
-                <button class="ui-ship-action" onClick="{{ clearShipItems }}">清空选择</button>
-                <button class="ui-ship-action" onClick="{{ reuseLastShipItems }}">沿用上一份关联谷子</button>
-              </div>
-              <div class="ui-ship-checks">
-                <sc-if value="{{ noShipItemChoices }}" hint-placeholder-val="false"><div class="ui-ship-empty">这个团／渠道下暂时没有匹配的谷子。请检查谷子的“渠道”字段，或清空筛选后搜索。</div></sc-if>
-                <sc-for list="{{ shipItemChoices }}" as="it" hint-placeholder-count="4"><label class="ui-ship-check"><input type="checkbox" checked="{{ it.checked }}" onChange="{{ it.onToggle }}"><span>{{ it.label }}</span></label></sc-for>
-              </div>
-              <div class="ui-ship-label">备注（可选）</div>
-              <input class="ui-ship-input" value="{{ shipNote }}" onChange="{{ onShipNote }}" placeholder="例如：第一次国际运费 / 订单号 / 说明">
-              <sc-if value="{{ hasShipNotice }}" hint-placeholder-val="false"><div class="ui-ship-notice">{{ shipNotice }}</div></sc-if>
-              <button onClick="{{ saveShipping }}" style="width:100%;margin-top:13px;min-height:44px;border:none;border-radius:13px;background:var(--accent,#ff3355);color:#fff;font-family:inherit;font-weight:900;font-size:14px;cursor:pointer">保存并关联</button>
-              </div>
-              </sc-if>
-            </div>
-
-              <div class="ui-ship-card">
-                <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px"><div class="ui-ship-title" style="margin:0">最近排发记录</div><span style="font-size:11.5px;color:#837da4">{{ shippingBatchCount }} 次</span></div>
-                <sc-if value="{{ noShippingBatches }}" hint-placeholder-val="true"><div style="padding:18px;text-align:center;color:#938db0;font-size:13px">导出排发长图后，会在这里保存本次排发的谷子和资料数量。</div></sc-if>
-                <div style="max-height:220px;overflow-y:auto">
-                <sc-for list="{{ shippingBatchRows }}" as="b" hint-placeholder-count="3"><div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid #eee9f8"><div style="flex:1;min-width:0"><strong style="display:block;font-size:13px;color:#251d49;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ b.name }}</strong><small style="display:block;font-size:11px;color:#938db0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ b.group }} · {{ b.itemCount }}谷 · {{ b.documentCount }}资料 · {{ b.date }}</small></div><button onClick="{{ b.onDelete }}" style="flex-shrink:0;font-family:inherit;font-size:11px;white-space:nowrap;border:1px solid rgba(226,59,93,.22);background:rgba(226,59,93,.07);color:#e23b5d;border-radius:8px;padding:5px 9px;cursor:pointer">删除</button></div></sc-for>
-                </div>
-              </div>
-            </div>
-
-            <div style="display:flex;flex-direction:column;gap:16px;min-width:0">
               <div class="ui-ship-card">
                 <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px"><div class="ui-ship-title" style="margin:0">已有资料</div><span style="font-size:11.5px;color:#837da4">{{ shippingPackageCount }} 个团／渠道 · {{ shippingCount }} 份资料</span></div>
-                <sc-if value="{{ noShippingPackages }}" hint-placeholder-val="true"><div style="padding:22px;text-align:center;color:#938db0;font-size:13px">这里还没有资料。录入谷子时可以直接添加本体资料，之后再补国际资料或其他内容。</div></sc-if>
-                <sc-if value="{{ hasShippingChannels }}" hint-placeholder-val="false"><div style="display:flex;gap:7px;overflow-x:auto;padding-bottom:8px;margin-bottom:6px"><sc-for list="{{ shippingChannelChips }}" as="c" hint-placeholder-count="3"><button onClick="{{ c.onClick }}" style="{{ c.style }}">{{ c.label }}</button></sc-for></div></sc-if>
-                <div style="max-height:min(46vh,300px);overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:8px;border:1px solid #ece7f5;border-radius:12px;padding:6px;background:rgba(255,255,255,.5)">
+                <sc-if value="{{ noShippingPackages }}" hint-placeholder-val="true"><div style="padding:18px;text-align:center;color:#938db0;font-size:13px">这里还没有资料。录入谷子时可以直接添加本体资料，之后再补国际资料或其他内容。</div></sc-if>
+                <sc-if value="{{ hasShippingChannels }}" hint-placeholder-val="false"><div style="display:flex;gap:7px;overflow-x:auto;padding-bottom:6px;margin-bottom:5px"><sc-for list="{{ shippingChannelChips }}" as="c" hint-placeholder-count="3"><button onClick="{{ c.onClick }}" style="{{ c.style }}">{{ c.label }}</button></sc-for></div></sc-if>
+                <div style="max-height:min(40vh,320px);overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:8px;border:1px solid #ece7f5;border-radius:12px;padding:6px;background:rgba(255,255,255,.5)">
                 <sc-for list="{{ shippingPackageRows }}" as="p" hint-placeholder-count="2">
-                    <sc-for list="{{ p.records }}" as="r" hint-placeholder-count="3"><div style="display:flex;gap:10px;align-items:flex-start;padding:8px;background:#fff;border:1px solid #f0ebf8;border-radius:10px"><div class="ui-ship-thumb" style="{{ r.thumbStyle }};flex-shrink:0;width:56px;height:56px"></div><div class="ui-ship-meta" style="flex:1;min-width:0"><strong>{{ r.type }}</strong><small style="display:block;color:#595287;margin-top:1px">关联：{{ r.itemNames }}</small><small style="display:block;color:#938db0">{{ r.note }}</small></div><div style="display:flex;flex-direction:column;gap:5px;flex-shrink:0"><button onClick="{{ r.onRelink }}" style="font-family:inherit;font-size:11.5px;border:1px solid #ded7ee;background:rgba(50,38,90,.05);color:#4c4580;border-radius:8px;padding:6px 9px;cursor:pointer;white-space:nowrap">改关联</button><button onClick="{{ r.onDelete }}" style="font-family:inherit;font-size:11.5px;border:1px solid rgba(226,59,93,.22);background:rgba(226,59,93,.07);color:#e23b5d;border-radius:8px;padding:6px 9px;cursor:pointer;white-space:nowrap">删除</button></div></div></sc-for>
+                    <sc-for list="{{ p.records }}" as="r" hint-placeholder-count="3"><div style="display:flex;gap:10px;align-items:flex-start;padding:8px;background:#fff;border:1px solid #f0ebf8;border-radius:10px"><div class="ui-ship-thumb" style="{{ r.thumbStyle }};flex-shrink:0;width:56px;height:56px"></div><div class="ui-ship-meta" style="flex:1;min-width:0"><strong>{{ r.type }}</strong><small style="display:block;color:#595287;margin-top:1px">关联：{{ r.itemNames }}</small><small style="display:block;color:#938db0">{{ r.note }}</small></div><div style="display:flex;flex-direction:column;gap:5px;flex-shrink:0"><button onClick="{{ r.onRelink }}" style="font-family:inherit;font-size:11.5px;border:1px solid #ded7ee;background:rgba(50,38,90,.05);color:#4c4580;border-radius:8px;padding:6px 9px;cursor:pointer;white-space:nowrap">编辑</button><button onClick="{{ r.onDelete }}" style="font-family:inherit;font-size:11.5px;border:1px solid rgba(226,59,93,.22);background:rgba(226,59,93,.07);color:#e23b5d;border-radius:8px;padding:6px 9px;cursor:pointer;white-space:nowrap">删除</button></div></div></sc-for>
                 </sc-for>
                 </div>
               </div>
 
               <div class="ui-ship-card">
-                <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px"><div class="ui-ship-title" style="margin:0">选择谷子 · 生成排发长图</div><button onClick="{{ exportSelectedShipping }}" style="font-family:inherit;font-size:13px;font-weight:900;color:#fff;background:var(--accent,#ff3355);border:none;padding:9px 13px;border-radius:10px;cursor:pointer">导出所选谷子的 PNG</button></div>
-                <div style="font-size:11.5px;color:#837da4;line-height:1.55;margin-bottom:8px">这里只列出「已经有关联资料」的谷子。先按团／渠道筛选，再勾选本次要排发的谷子——系统会自动把每个谷子的本体、国际等资料汇总去重。</div>
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px"><div class="ui-ship-title" style="margin:0;font-size:12.5px;color:#6f6996">最近排发记录</div><span style="font-size:10.5px;color:#a49ec4">{{ shippingBatchCount }} 次</span></div>
+                <sc-if value="{{ noShippingBatches }}" hint-placeholder-val="true"><div style="padding:14px;text-align:center;color:#aaa3bd;font-size:12px">导出排发长图后，会在这里保存本次排发的谷子和资料数量。</div></sc-if>
+                <div style="max-height:130px;overflow-y:auto">
+                <sc-for list="{{ shippingBatchRows }}" as="b" hint-placeholder-count="3"><div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-top:1px solid #eee9f8"><div style="flex:1;min-width:0"><strong style="display:block;font-size:12px;color:#544f7e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ b.name }}</strong><small style="display:block;font-size:10.5px;color:#a49ec4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ b.group }} · {{ b.itemCount }}谷 · {{ b.documentCount }}资料 · {{ b.date }}</small></div><button onClick="{{ b.onDelete }}" style="flex-shrink:0;font-family:inherit;font-size:10.5px;white-space:nowrap;border:1px solid rgba(226,59,93,.22);background:rgba(226,59,93,.07);color:#e23b5d;border-radius:7px;padding:4px 8px;cursor:pointer">删除</button></div></sc-for>
+                </div>
+              </div>
+            </div>
+
+            <div class="ui-ship-card">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px"><div class="ui-ship-title" style="margin:0">选择谷子</div><span style="font-size:11.5px;color:#837da4">当前 <strong style="color:#251d49">{{ exportVisibleCount }}</strong> · 已选 <strong style="color:var(--accent,#ff3355)">{{ exportSelectedCount }}</strong></span></div>
+                <div style="font-size:11.5px;color:#837da4;line-height:1.55;margin-bottom:8px">这里只列出「已经有关联资料」的谷子。先按团／渠道筛选，再勾选本次要排发的谷子。</div>
                 <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
                   <select value="{{ exportGroup }}" onChange="{{ onExportGroup }}" style="flex:1;min-width:150px;font-family:inherit;font-size:12.5px;border:1px solid #ded7ee;border-radius:9px;padding:8px;background:#fff;color:#251d49">
                     <option value="">全部团／渠道</option>
@@ -2534,48 +2562,26 @@
                 <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
                   <button onClick="{{ selectAllExportItems }}" class="ui-ship-action">全选当前结果</button>
                   <button onClick="{{ clearExportItems }}" class="ui-ship-action">清空选择</button>
-                  <span style="font-size:11.5px;color:#837da4;align-self:center">当前 <strong style="color:#251d49">{{ exportVisibleCount }}</strong> 个 · 已选 <strong style="color:var(--accent,#ff3355)">{{ exportSelectedCount }}</strong> 个</span>
                 </div>
-                <div style="max-height:260px;overflow-y:auto;border:1px solid #ece7f5;border-radius:11px;padding:6px;margin-bottom:12px;background:#fff">
-                  <sc-if value="{{ noExportChoices }}" hint-placeholder-val="false"><div style="padding:20px;text-align:center;color:#938db0;font-size:12.5px">这个团／渠道下还没有带资料的谷子。先在上方「新增资料」里给谷子关联资料，或换一个团。</div></sc-if>
+                <div style="max-height:260px;overflow-y:auto;border:1px solid #ece7f5;border-radius:11px;padding:6px;background:#fff">
+                  <sc-if value="{{ noExportChoices }}" hint-placeholder-val="false"><div style="padding:20px;text-align:center;color:#938db0;font-size:12.5px">这个团／渠道下还没有带资料的谷子。先去某个谷子的编辑弹窗「排发」tab 里添加资料，或换一个团。</div></sc-if>
                   <sc-for list="{{ exportItemChoices }}" as="it" hint-placeholder-count="4"><label class="ui-ship-check"><input type="checkbox" checked="{{ it.checked }}" onChange="{{ it.onToggle }}"><span>{{ it.label }}</span></label></sc-for>
                 </div>
+            </div>
+
+            <div class="ui-ship-card">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px"><div class="ui-ship-title" style="margin:0">生成排发长图</div><button onClick="{{ exportSelectedShipping }}" style="font-family:inherit;font-size:13px;font-weight:900;color:#fff;background:var(--accent,#ff3355);border:none;padding:9px 13px;border-radius:10px;cursor:pointer">导出所选谷子的 PNG</button></div>
                 <div class="ui-ship-preview">
                   <div class="ui-ship-preview-head"><strong>CN：{{ previewCn }}</strong><span>{{ previewGroup }} · {{ previewBatch }}</span></div>
                   <div class="ui-ship-item-summary">{{ previewItemSummary }}</div>
                   <sc-if value="{{ noPreviewPackage }}" hint-placeholder-val="true"><div style="height:180px;display:flex;align-items:center;justify-content:center;color:#aaa3bd;font-size:12px;text-align:center;padding:0 20px">在上方勾选要排发的谷子，这里会实时汇总它们关联的资料</div></sc-if>
                   <div class="ui-ship-package-images"><sc-for list="{{ previewPackageRows }}" as="r" hint-placeholder-count="0"><figure class="ui-ship-package-image">{{ r.imgEl }}<figcaption>{{ r.type }}<sc-if value="{{ r.hasNote }}" hint-placeholder-val="false"> · {{ r.note }}</sc-if></figcaption></figure></sc-for></div>
                 </div>
-              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <sc-if value="{{ relinkOpen }}" hint-placeholder-val="false">
-    <div style="position:fixed;inset:0;z-index:500;background:rgba(30,22,54,.55);display:flex;align-items:center;justify-content:center;padding:16px" onClick="{{ closeRelink }}">
-      <div style="width:100%;max-width:460px;max-height:82vh;display:flex;flex-direction:column;background:linear-gradient(160deg,#fff,#f5f2fb);border-radius:18px;overflow:hidden;box-shadow:0 20px 60px rgba(30,22,54,.35)" onClick="{{ stop }}">
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #e1dbf0">
-          <div><div style="font-weight:900;font-size:15px;color:#251d49">修改关联</div><div style="font-size:11.5px;color:#837da4;margin-top:1px">{{ relinkTitle }}</div></div>
-          <button onClick="{{ closeRelink }}" style="width:30px;height:30px;border-radius:9px;border:1px solid #ded7ee;background:#fff;color:#595287;font-size:17px;cursor:pointer">×</button>
-        </div>
-        <div style="padding:12px 16px 0">
-          <div style="font-size:11.5px;font-weight:700;color:#544f7e;margin-bottom:5px">备注</div>
-          <textarea value="{{ relinkNote }}" onChange="{{ onRelinkNote }}" placeholder="给这份资料写点备注（可留空）" style="width:100%;min-height:52px;font-family:inherit;font-size:13px;border:1px solid #ded7ee;border-radius:9px;padding:9px 11px;background:#fff;color:#251d49;outline:none;resize:vertical;box-sizing:border-box"></textarea>
-          <input value="{{ relinkSearch }}" onChange="{{ onRelinkSearch }}" placeholder="搜索谷子名称 / 角色" style="width:100%;margin-top:10px;font-family:inherit;font-size:13px;border:1px solid #ded7ee;border-radius:9px;padding:9px 11px;background:#fff;color:#251d49;outline:none;box-sizing:border-box">
-          <div style="font-size:11.5px;color:#837da4;margin:8px 0">勾选＝关联，取消勾选＝解除关联。已选 <strong style="color:var(--accent,#ff3355)">{{ relinkSelectedCount }}</strong> 个谷子。</div>
-        </div>
-        <div style="flex:1;min-height:0;overflow-y:auto;padding:0 16px;display:flex;flex-direction:column;gap:6px">
-          <sc-if value="{{ noRelinkChoices }}" hint-placeholder-val="false"><div style="padding:20px;text-align:center;color:#938db0;font-size:13px">没有匹配的谷子。</div></sc-if>
-          <sc-for list="{{ relinkItemChoices }}" as="it" hint-placeholder-count="5"><label style="display:flex;align-items:center;gap:9px;padding:9px 10px;background:#fff;border:1px solid #f0ebf8;border-radius:10px;cursor:pointer"><input type="checkbox" checked="{{ it.checked }}" onChange="{{ it.onToggle }}"><span style="font-size:13px;color:#251d49;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ it.label }}</span></label></sc-for>
-        </div>
-        <div style="display:flex;gap:10px;padding:14px 16px;border-top:1px solid #e1dbf0">
-          <button onClick="{{ closeRelink }}" style="flex:1;font-family:inherit;font-size:14px;font-weight:700;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;border-radius:11px;padding:11px;cursor:pointer">取消</button>
-          <button onClick="{{ saveRelink }}" style="flex:1;font-family:inherit;font-size:14px;font-weight:900;color:#fff;background:var(--accent,#ff3355);border:none;border-radius:11px;padding:11px;cursor:pointer">保存关联</button>
-        </div>
-      </div>
-    </div>
-    </sc-if>
   </sc-if>
   <!-- ===== MOBILE 我的 面板 ===== -->
   <sc-if value="{{ mobileMineOpen }}" hint-placeholder-val="false">
@@ -2638,7 +2644,7 @@ class Component extends DCLogic {
   CHAR_IMG = { '诺克斯': 'assets/c_nox.webp', 'NOX': 'assets/r_blue.webp', 'MIDNIGHT SHADOW': 'assets/r_nox_midnight.webp', 'NOX KNIGHT': 'assets/r_lady.webp', 'ZEZTZ': 'assets/r_red.webp', '西格': 'assets/c_zeke.webp', 'DAWN': 'assets/r_zeztz.webp', '宁梦': 'assets/c_nemu.webp', '南云成华': 'assets/c_nagumo.webp', 'ZERO': 'assets/c_zero.webp', '万津莫': 'assets/c_matsu.webp', '万津美浪': 'assets/c_minami.webp', '富士见铁也': 'assets/c_fujimi.webp', 'THE LADY': 'assets/c_lady.webp', 'CODE': 'assets/c_code.webp' };
   imgUrls = {};
   cloudImageMap = {};
-  state = { items: [], view: null, sets: [], lastSetId: '', setMenuOpen: false, feeOpen: false, colInfoOpen: false, setInfoOpen: false, recentWorks: [], collapsedGroups: {}, reminderMenuOpen: false, monthlyBudget: '', budgets: {}, ledgerDetailKey: '', ledgerDetailType: 'day', ledgerDetailLabel: '', tableSortKey: '', tableSortDir: 'desc', tableHiddenCols: [], tableColumnMenuOpen: false, nameStyleMode: 'default', displayMode: 'standard', dashboardCards: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], purchaseChannelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, purchaseChannels: [], purchaseChannelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], hiddenPurchaseChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, purchaseChannel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, dataManageOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, cloudPending: false, cloudLastSyncedAt: '', cloudRemoteUpdatedAt: '', modalOpen: false, editing: null, draft: null, savedAt: 0, batchMode: false, selectedIds: [], bulkEditIds: [], bulkEditIndex: 0, ledgerRange: 'month', ledgerMode: 'month', ledgerYear: String(new Date().getFullYear()), ledgerMonth: String(new Date().getMonth()+1), ledgerWeek: '', ledgerPieBy: 'character', ledgerPieActive: 0, batchEditOpen: false, batchEditField: '', batchOn: null, shippingOpen: false, shippingRecords: [], shippingBatches: [], shippingDraft: null, shippingPreviewNotice: '', shippingPreviewPaid: '', shippingPreviewCn: '', shippingPreviewGroup: '', shippingPreviewBatch: '', shippingPreviewPackageKey: '', itemEvidenceDrafts: [], itemEvidenceExistingIds: [], itemEvidenceOpen: false, exportGroup: '', exportSearch: '', exportIds: [], shipAddCollapsed: true, shippingViewChannel: null, relinkRecordId: null, relinkItemIds: [], relinkSearch: '', relinkNote: '', mobileMineOpen: false, cloudPageOpen: false, modalTab: 'edit', shippingRolesCustom: (() => { try { return JSON.parse(localStorage.getItem('zzz_shipping_roles') || '{}') || {}; } catch (e) { return {}; } })(), shipRoleManageOpen: false, shipRoleManageType: '', itemShipDraftOpen: false, linkExistingShipOpen: false, linkExistingSearch: '' };
+  state = { items: [], view: null, sets: [], lastSetId: '', setMenuOpen: false, feeOpen: false, colInfoOpen: false, setInfoOpen: false, recentWorks: [], collapsedGroups: {}, reminderMenuOpen: false, monthlyBudget: '', budgets: {}, ledgerDetailKey: '', ledgerDetailType: 'day', ledgerDetailLabel: '', tableSortKey: '', tableSortDir: 'desc', tableHiddenCols: [], tableColumnMenuOpen: false, nameStyleMode: 'default', displayMode: 'standard', dashboardCards: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], purchaseChannelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, purchaseChannels: [], purchaseChannelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], hiddenPurchaseChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, purchaseChannel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, dataManageOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, cloudPending: false, cloudLastSyncedAt: '', cloudRemoteUpdatedAt: '', modalOpen: false, editing: null, draft: null, savedAt: 0, batchMode: false, selectedIds: [], bulkEditIds: [], bulkEditIndex: 0, ledgerRange: 'month', ledgerMode: 'month', ledgerYear: String(new Date().getFullYear()), ledgerMonth: String(new Date().getMonth()+1), ledgerWeek: '', ledgerPieBy: 'character', ledgerPieActive: 0, batchEditOpen: false, batchEditField: '', batchOn: null, shippingOpen: false, shippingRecords: [], shippingBatches: [], shippingDraft: null, shippingPreviewNotice: '', shippingPreviewPaid: '', shippingPreviewCn: '', shippingPreviewGroup: '', shippingPreviewBatch: '', shippingPreviewPackageKey: '', itemEvidenceDrafts: [], itemEvidenceExistingIds: [], itemEvidenceOpen: false, exportGroup: '', exportSearch: '', exportIds: [], shipAddCollapsed: true, shippingViewChannel: null, relinkRecordId: null, relinkItemIds: [], relinkSearch: '', relinkNote: '', relinkGroup: '', relinkNoteOpen: false, relinkImages: [], relinkNewFiles: [], relinkRecordType: '', mobileMineOpen: false, cloudPageOpen: false, modalTab: 'edit', shippingRolesCustom: (() => { try { return JSON.parse(localStorage.getItem('zzz_shipping_roles') || '{}') || {}; } catch (e) { return {}; } })(), shipRoleManageOpen: false, shipRoleManageType: '', itemShipDraftOpen: false, itemShipItemsPanelOpen: false, linkExistingShipOpen: false, linkExistingSearch: '' };
 
   setRoot = (el) => { this.rootEl = el; if (el) { this.applyThemeVars(); this.applyBg(); } };
   applyThemeVars() {
@@ -3426,21 +3432,40 @@ class Component extends DCLogic {
   selectAllVisibleShipItems=()=>this.setState(st=>{const d=st.shippingDraft||this.newShippingDraft(),ids=this.shippingVisibleItems(d).map(x=>x.id);return{shippingDraft:{...d,itemIds:[...new Set([...(d.itemIds||[]),...ids])]}};});
   clearShipItems=()=>this.setState(st=>({shippingDraft:{...(st.shippingDraft||this.newShippingDraft()),itemIds:[]}}));
   // ==== 修改某份资料关联了哪些谷子（取消 / 补关联）====
-  openRelinkRecord=(recordId)=>()=>{const rec=(this.state.shippingRecords||[]).find(r=>r.id===recordId);if(!rec)return;this.setState({relinkRecordId:recordId,relinkItemIds:[...(rec.itemIds||[])],relinkSearch:'',relinkNote:rec.note||''});};
-  closeRelink=()=>this.setState({relinkRecordId:null,relinkItemIds:[],relinkSearch:'',relinkNote:''});
+  openRelinkRecord=(recordId)=>()=>{const rec=(this.state.shippingRecords||[]).find(r=>r.id===recordId);if(!rec)return;this.setState({relinkRecordId:recordId,relinkItemIds:[...(rec.itemIds||[])],relinkSearch:'',relinkNote:rec.note||'',relinkGroup:rec.group||'',relinkNoteOpen:false,relinkImages:(rec.images||[]).map(im=>({...im,toRemove:false})),relinkNewFiles:[],relinkRecordType:rec.type||'补充资料'});};
+  closeRelink=()=>this.setState({relinkRecordId:null,relinkItemIds:[],relinkSearch:'',relinkNote:'',relinkGroup:'',relinkNoteOpen:false,relinkImages:[],relinkNewFiles:[],relinkRecordType:''});
+  onRelinkGroup=(e)=>{const v=e&&e.target?e.target.value:'';this.setState({relinkGroup:v});};
+  toggleRelinkNote=()=>this.setState(st=>({relinkNoteOpen:!st.relinkNoteOpen}));
+  toggleRelinkImageRemove=(imgId)=>()=>this.setState(st=>({relinkImages:(st.relinkImages||[]).map(im=>im.id===imgId?{...im,toRemove:!im.toRemove}:im)}));
+  setRelinkImageRole=(imgId)=>(e)=>{const v=e&&e.target?e.target.value:'';this.setState(st=>({relinkImages:(st.relinkImages||[]).map(im=>im.id===imgId?{...im,role:v}:im)}));};
+  onRelinkNewFiles=(e)=>{const files=[...((e&&e.target&&e.target.files)||[])];if(!files.length)return;this.setState(st=>{const type=st.relinkRecordType||'补充资料';const defRole=this.shippingRoles(type)[0];const add=[];for(const f of files){if(/^image\/(png|jpeg|webp)$/i.test(f.type||'')&&f.size<=10*1024*1024)add.push({file:f,role:defRole,filename:f.name||'图片'});}return{relinkNewFiles:[...(st.relinkNewFiles||[]),...add]};});e.target.value='';};
+  removeRelinkNewFile=(idx)=>()=>this.setState(st=>({relinkNewFiles:(st.relinkNewFiles||[]).filter((_,i)=>i!==idx)}));
+  setRelinkNewFileRole=(idx)=>(e)=>{const v=e&&e.target?e.target.value:'';this.setState(st=>({relinkNewFiles:(st.relinkNewFiles||[]).map((f,i)=>i===idx?{...f,role:v}:f)}));};
+  toggleRelinkItem=(id)=>()=>this.setState(st=>{const a=st.relinkItemIds||[];return{relinkItemIds:a.includes(id)?a.filter(x=>x!==id):[...a,id]};});
   onRelinkNote=(e)=>{const v=e&&e.target?e.target.value:'';this.setState({relinkNote:v});};
   onRelinkSearch=(e)=>{const v=e&&e.target?e.target.value:'';this.setState({relinkSearch:v});};
-  toggleRelinkItem=(id)=>()=>this.setState(st=>{const a=st.relinkItemIds||[];return{relinkItemIds:a.includes(id)?a.filter(x=>x!==id):[...a,id]};});
   saveRelink=async()=>{
     const recordId=this.state.relinkRecordId;const rec=(this.state.shippingRecords||[]).find(r=>r.id===recordId);if(!rec)return;
     const nextIds=[...new Set(this.state.relinkItemIds||[])];
     const prevIds=rec.itemIds||[];
     const nextNote=String(this.state.relinkNote||'').trim();
+    const nextGroup=String(this.state.relinkGroup||'').trim();
+    const relinkImages=this.state.relinkImages||[];
+    const imagesToRemove=relinkImages.filter(im=>im.toRemove);
+    const roleChanges=relinkImages.filter(im=>!im.toRemove).filter(im=>{const orig=(rec.images||[]).find(x=>x.id===im.id);return orig&&orig.role!==im.role;});
+    const newFiles=this.state.relinkNewFiles||[];
     if(rec.local){
-      const meta=this.loadLocalShippingMeta();const m=meta.find(x=>x.id===recordId);if(m){m.itemIds=nextIds;m.note=nextNote;this.persistLocalShippingMeta(meta);}
+      const meta=this.loadLocalShippingMeta();const m=meta.find(x=>x.id===recordId);
+      if(m){
+        m.itemIds=nextIds;m.note=nextNote;if(nextGroup)m.group=nextGroup;
+        if(imagesToRemove.length){const removeIds=new Set(imagesToRemove.map(x=>x.id));m.imgs=(m.imgs||[]).filter(im=>!removeIds.has(im.id));for(const im of imagesToRemove){try{await this.idbPut(im.id,null);}catch(e){}}}
+        for(const rc of roleChanges){const target=(m.imgs||[]).find(im=>im.id===rc.id);if(target)target.role=rc.role;}
+        if(newFiles.length){const now=Date.now();m.imgs=m.imgs||[];for(let i=0;i<newFiles.length;i++){const f=newFiles[i];const id='shipimg_'+now+'_'+i+'_'+Math.random().toString(36).slice(2,6);await this.idbPut(id,f.file);m.imgs.push({id,role:f.role||'其他附件',filename:f.filename||(f.file&&f.file.name)||'图片'});}}
+        this.persistLocalShippingMeta(meta);
+      }
       this.closeRelink();await this.loadLocalShipping();return;
     }
-    if(!this.sb){alert('云端未就绪，暂时无法修改关联。');return;}
+    if(!this.sb){alert('云端未就绪，暂时无法修改。');return;}
     const code=this.shippingSyncCode();
     this.setState({cloudBusy:true});
     try{
@@ -3449,14 +3474,24 @@ class Component extends DCLogic {
       if(toAdd.length)await this.linkDocumentItems(recordId,toAdd,code);
       for(const item_id of toRemove){const{error}=await this.sb.from('shipping_document_items').delete().eq('document_id',recordId).eq('item_id',item_id);if(error)throw error;}
       if(nextNote!==String(rec.note||'').trim()){const{error:ne}=await this.sb.from('shipping_documents').update({note:nextNote}).eq('id',recordId);if(ne)throw ne;}
+      if(nextGroup&&nextGroup!==String(rec.group||'').trim()){const ch=await this.ensureShippingChannel(code,nextGroup);const{error:ce}=await this.sb.from('shipping_documents').update({channel_id:ch.id}).eq('id',recordId);if(ce)throw ce;}
+      if(imagesToRemove.length){
+        const paths=imagesToRemove.map(im=>im.storagePath).filter(Boolean);
+        if(paths.length){const{error:re}=await this.sb.storage.from(this.SUPA_SHIPPING_BUCKET).remove(paths);if(re)throw re;}
+        const ids=imagesToRemove.map(im=>im.id).filter(Boolean);
+        if(ids.length){const{error:de}=await this.sb.from('shipping_document_images').delete().in('id',ids);if(de)throw de;}
+      }
+      for(const rc of roleChanges){const{error:ue}=await this.sb.from('shipping_document_images').update({image_role:rc.role}).eq('id',rc.id);if(ue)throw ue;}
+      if(newFiles.length)await this.uploadDocumentImages(code,recordId,nextGroup||rec.group,newFiles);
       this.setState({cloudBusy:false});this.closeRelink();await this.loadShippingFromCloud(code);
-    }catch(e){this.setState({cloudBusy:false});alert('修改关联失败：'+((e&&e.message)||e));}
+    }catch(e){this.setState({cloudBusy:false});alert('保存失败：'+((e&&e.message)||e));}
   };
   switchModalTab = (tab) => () => this.setState({ modalTab: tab, itemShipDraftOpen: false });
   curEditItemId() { return this.state.editing || (this.state.draft && this.state.draft.id) || ''; }
   itemShipRecordsFor(itemId) { return (this.state.shippingRecords || []).filter(r => (r.itemIds || []).includes(itemId)); }
-  openItemAddShip = () => { const id = this.curEditItemId(); const base = this.newShippingDraft(); this.setState({ shippingDraft: { ...base, itemIds: id ? [id] : [] }, itemShipDraftOpen: true, shipNotice: '' }); };
+  openItemAddShip = () => { const id = this.curEditItemId(); const base = this.newShippingDraft(); this.setState({ shippingDraft: { ...base, itemIds: id ? [id] : [] }, itemShipDraftOpen: true, itemShipItemsPanelOpen: false, shipNotice: '' }); };
   closeItemAddShip = () => this.setState({ itemShipDraftOpen: false, shipNotice: '' });
+  toggleItemShipItemsPanel = () => this.setState(s => ({ itemShipItemsPanelOpen: !s.itemShipItemsPanelOpen }));
   openLinkExistingShip = () => this.setState({ linkExistingShipOpen: true, linkExistingSearch: '' });
   closeLinkExistingShip = () => this.setState({ linkExistingShipOpen: false, linkExistingSearch: '' });
   onLinkExistingSearch = (e) => { const v = e && e.target ? e.target.value : ''; this.setState({ linkExistingSearch: v }); };
@@ -3499,15 +3534,15 @@ class Component extends DCLogic {
   async loadShippingBatches(codeArg){const code=String(codeArg||this.shippingSyncCode()).trim().toUpperCase();if(!this.sb||!code){this.setState({shippingBatches:[]});return[];}try{const{data,error}=await this.sb.from('shipping_batches').select('id,sync_code,channel_id,batch_name,cn,note,item_count,document_count,export_filename,item_ids,document_ids,exported_at,created_at,updated_at').eq('sync_code',code).order('exported_at',{ascending:false}).limit(50);if(error)throw error;const channelIds=[...new Set((data||[]).map(x=>x.channel_id).filter(Boolean))];let cmap={};if(channelIds.length){const r=await this.sb.from('shipping_channels').select('id,channel_name').in('id',channelIds);if(r.error)throw r.error;cmap=Object.fromEntries((r.data||[]).map(x=>[x.id,x.channel_name]));}const rows=(data||[]).map(x=>({...x,group:cmap[x.channel_id]||'未分类渠道',dateText:x.exported_at?new Date(x.exported_at).toLocaleString('zh-CN',{hour12:false}):''}));this.setState({shippingBatches:rows});return rows;}catch(e){console.warn('读取排发历史失败',e);this.setState({shippingBatches:[]});return[];}}
   async createShippingBatch(records,items,group,filename){const code=this.shippingSyncCode();if(!this.sb||!code)return null;const channel=await this.ensureShippingChannel(code,group||'未分类渠道');const itemIds=[...new Set((items||[]).map(x=>x.id).filter(Boolean))],documentIds=[...new Set((records||[]).map(x=>x.id).filter(Boolean))];const now=new Date().toISOString(),batchName=`${group||'未分类渠道'} · ${new Date().toLocaleDateString('zh-CN')}`;const payload={sync_code:code,client_uuid:this.clientUuid(),channel_id:channel.id,batch_name:batchName,cn:(this.state.collectorName||'').trim()||null,note:null,item_count:itemIds.length,document_count:documentIds.length,export_filename:filename,item_ids:itemIds,document_ids:documentIds,exported_at:now};const{data,error}=await this.sb.from('shipping_batches').insert([payload]).select('id').single();if(error)throw error;const rows=(items||[]).map(it=>({batch_id:data.id,item_id:it.id,sync_code:code,item_snapshot:{name:it.name||'',character:it.character||'',type:it.type||'',qty:it.qty||1,status:it.status||''}}));if(rows.length){const r=await this.sb.from('shipping_batch_items').insert(rows);if(r.error)throw r.error;}await this.loadShippingBatches(code);return data.id;}
   deleteShippingBatch=(id)=>async()=>{if(!confirm('删除这条排发历史？只会删除历史记录，不会删除谷子或资料。'))return;if(!this.sb)return;const{error}=await this.sb.from('shipping_batches').delete().eq('id',id);if(error){alert('删除失败：'+error.message);return;}await this.loadShippingBatches();};
-  saveShipping=async()=>{const d=this.state.shippingDraft||this.newShippingDraft(),code=this.shippingSyncCode();if(!d.group.trim()){this.setState({shipNotice:'请先填写团／渠道。'});return;}if(!(d.files||[]).length){this.setState({shipNotice:'请至少选择一张资料图片。'});return;}if(!(d.itemIds||[]).length){this.setState({shipNotice:'请选择这份资料涉及的谷子。'});return;}
+  saveShipping=async()=>{const d=this.state.shippingDraft||this.newShippingDraft(),code=this.shippingSyncCode();if(!d.group.trim()){this.setState({shipNotice:'请先填写团／渠道。'});return;}if(!(d.files||[]).length){this.setState({shipNotice:'请至少选择一张资料图片。'});return;}
     if(!code){this.setState({cloudBusy:true,shipNotice:''});try{const now=Date.now();const imgs=[];for(let i=0;i<d.files.length;i++){const f=d.files[i];const id='shipimg_'+now+'_'+i+'_'+Math.random().toString(36).slice(2,6);await this.idbPut(id,f.file||f);imgs.push({id,role:f.role||d.role||'其他附件',filename:f.filename||(f.file&&f.file.name)||'图片'});}
       const rec={id:'shiploc_'+now+'_'+Math.random().toString(36).slice(2,6),group:d.group.trim(),cn:(this.state.collectorName||'').trim(),type:d.type,title:d.type,note:(d.note||'').trim(),itemIds:[...new Set(d.itemIds||[])],createdAt:now,imgs};
       const meta=this.loadLocalShippingMeta();meta.push(rec);this.persistLocalShippingMeta(meta);
       const next={...this.newShippingDraft(),group:d.group.trim(),itemIds:[...(d.itemIds||[])],type:d.type,role:this.shippingRoles(d.type)[0]};
       await this.loadLocalShipping();
-      this.setState({shippingDraft:next,shippingPreviewPackageKey:d.group.trim()+'||排发中心',shippingPreviewGroup:d.group.trim(),cloudBusy:false,shipNotice:'资料已保存到本机，并完成谷子关联。（连接同步代码后可跨设备同步）'});
+      this.setState({shippingDraft:next,shippingPreviewPackageKey:d.group.trim()+'||排发中心',shippingPreviewGroup:d.group.trim(),cloudBusy:false,shipNotice:((d.itemIds||[]).length?'资料已保存到本机，并完成谷子关联。':'资料已保存到本机，还没有关联谷子，之后可以在「已有资料」里点"改关联"补上。')+'（连接同步代码后可跨设备同步）'});
     }catch(e){this.setState({cloudBusy:false,shipNotice:'资料保存失败：'+((e&&e.message)||e)});}return;}
-    this.setState({cloudBusy:true,shipNotice:''});try{const documentId=await this.createShippingDocument(code,{...d,title:d.type});await this.uploadDocumentImages(code,documentId,d.group,d.files);await this.linkDocumentItems(documentId,d.itemIds,code);const next={...this.newShippingDraft(),group:d.group.trim(),itemIds:[...(d.itemIds||[])],type:d.type,role:this.shippingRoles(d.type)[0]};await this.loadShippingFromCloud(code);this.setState({shippingDraft:next,shippingPreviewPackageKey:d.group.trim()+'||排发中心',shippingPreviewGroup:d.group.trim(),cloudBusy:false,shipNotice:'排发资料已上传，并完成谷子关联。'});}catch(e){this.setState({cloudBusy:false,shipNotice:'资料上传失败：'+((e&&e.message)||e)});}};
+    this.setState({cloudBusy:true,shipNotice:''});try{const documentId=await this.createShippingDocument(code,{...d,title:d.type});await this.uploadDocumentImages(code,documentId,d.group,d.files);await this.linkDocumentItems(documentId,d.itemIds,code);const next={...this.newShippingDraft(),group:d.group.trim(),itemIds:[...(d.itemIds||[])],type:d.type,role:this.shippingRoles(d.type)[0]};await this.loadShippingFromCloud(code);this.setState({shippingDraft:next,shippingPreviewPackageKey:d.group.trim()+'||排发中心',shippingPreviewGroup:d.group.trim(),cloudBusy:false,shipNotice:(d.itemIds||[]).length?'排发资料已上传，并完成谷子关联。':'排发资料已上传，还没有关联谷子，之后可以在「已有资料」里点"改关联"补上。'});}catch(e){this.setState({cloudBusy:false,shipNotice:'资料上传失败：'+((e&&e.message)||e)});}};
   deleteShipping=(id)=>async()=>{if(!confirm('删除这份业务资料？其中全部图片及谷子关联都会一起删除。'))return;const rec=(this.state.shippingRecords||[]).find(x=>x.id===id);if(!rec)return;if(rec.local){const meta=this.loadLocalShippingMeta().filter(m=>m.id!==id);this.persistLocalShippingMeta(meta);for(const im of (rec.images||[])){try{await this.idbPut(im.localId||im.id,null);}catch(e){}}await this.loadLocalShipping();return;}if(!this.sb)return;try{const paths=(rec.images||[]).map(x=>x.storagePath).filter(Boolean);if(paths.length){const{error}=await this.sb.storage.from(this.SUPA_SHIPPING_BUCKET).remove(paths);if(error)throw error;}const{error:de}=await this.sb.from('shipping_documents').delete().eq('id',id);if(de)throw de;await this.loadShippingFromCloud();}catch(e){alert('删除失败：'+((e&&e.message)||e));}};
   viewShippingPackage=(key)=>()=>this.setState({shippingPreviewPackageKey:key,shippingPreviewGroup:String(key||'').split('||')[0]||'',shippingPreviewBatch:'按所选谷子动态汇总'});
   selectedShippingItemIds(){const ex=this.state.exportIds||[];if(ex.length)return[...new Set(ex)];const d=this.state.shippingDraft||this.newShippingDraft();return[...new Set(d.itemIds||[])];}
@@ -5700,8 +5735,10 @@ class Component extends DCLogic {
     const rarityChips = ['全部', ...rarityOrdered].map(x => ({ label: x, style: this.chipStyle(x === '全部' ? raritySel.length === 0 : raritySel.includes(x)), onClick: this.chipClick(() => this.toggleSel('raritySel', x === '全部' ? '__all__' : x)) }));
     const showMethodFilter = !!(this.state.filterOn || {}).method;
     const showSetFilter = !!(this.state.filterOn || {}).set;
-    const showTagFilter = !!(this.state.filterOn || {}).tags;
-    const showRarityFilter = !!(this.state.filterOn || {}).rarity;
+    const hasTagsField = fieldVisible('tags');
+    const hasRarityField = fieldVisible('rarity');
+    const showTagFilter = hasTagsField && !!(this.state.filterOn || {}).tags;
+    const showRarityFilter = hasRarityField && !!(this.state.filterOn || {}).rarity;
     const customFilterRows = (this.state.customFields || []).filter(f => this.state.filterOn[f.key]).map(f => {
       const present = [...new Set(items.map(i => i.custom && i.custom[f.key]).filter(Boolean))];
       const orderMap = this.state.customFilterOrder || {};
@@ -5762,7 +5799,7 @@ class Component extends DCLogic {
     const soldState = dStatus === '已出物' || dStatus === '出售中' || dStatus === '已出/已卖出';
     const showReminderFields = !!dStatus && !arrivedState && !soldState;
     const reminderDateLabel = dStatus === '已下单' ? '下单日期' : dStatus === '待补款' ? '补款截止日' : dStatus === '已补款' ? '补款日期' : dStatus === '待尾款' ? '尾款截止日' : dStatus === '已尾款' ? '尾款日期' : dStatus === '排发中' ? '预计排发日' : dStatus === '已发货' ? '发货日' : dStatus === '已归家' || dStatus === '已到货' ? '归家日期' : dStatus === '已出物' || dStatus === '已出/已卖出' ? '出物日期' : '提醒日期';
-    const reminderDateHint = dStatus === '已下单' ? '· 即购买日期，钱包按此统计' : (dStatus === '待补款' || dStatus === '待尾款') ? '· 到期自动提醒' : '· 写入状态时间轴';
+    const reminderDateHint = dStatus === '已下单' ? '· 购买日期' : (dStatus === '待补款' || dStatus === '待尾款') ? '· 到期提醒' : '· 状态记录';
     const dAcquire = this.state.draft ? (this.state.draft.acquire || '') : '';
     const acquireMenuItems = ((this.state.acquireOrder && this.state.acquireOrder.length) ? this.state.acquireOrder : ['日谷','国谷','同人']).map(c => ({ name: c, onPick: () => this.pickAcquire(c), onRename: (ev) => this.renameListOption('acquireOrder', 'zzz_acquire_order', 'acquire', c, '来源方式', ev), onDel: (ev) => this.delListOption('acquireOrder', 'zzz_acquire_order', 'acquire', c, ev), rowStyle: this.menuRow(dAcquire === c) }));
     const acquireDisplay = dAcquire || '选择来源方式';
@@ -6308,7 +6345,7 @@ class Component extends DCLogic {
     };
     const dashboardCollectionRows = dashCfg.collection.map((v, i) => ({ no: '卡片' + (i + 1), value: v, options: dashOps.collection, onChange: setDashCard('collection', i) }));
     const dashboardSaleRows = dashCfg.sale.map((v, i) => ({ no: '卡片' + (i + 1), value: v, options: dashOps.sale, onChange: setDashCard('sale', i) }));
-    const fieldRows = ['character', 'type', 'series', 'channel', 'purchaseChannel', 'status', 'form', 'acquire'].filter(k => fieldVisible(k)).map(k => {
+    const fieldRows = ['character', 'type', 'series', 'channel', 'purchaseChannel', 'status', 'form', 'acquire', 'tags', 'rarity'].filter(k => fieldVisible(k)).map(k => {
       const sOn = (draftStatsOn || {})[k] !== false;
       const fOn = !!draftFilterOn[k];
       return { key: k, labelVal: L(k), onLabel: updateDraftFieldLabel(k), onDel: this.deleteBaseField(k), filterOn: fOn, onToggle: toggleDraftFilterOn(k), onStatsToggle: toggleDraftStatsOn(k),
@@ -6434,6 +6471,20 @@ class Component extends DCLogic {
     const relinkTitle = _relinkRec ? ((_relinkRec.typeLabel || _relinkRec.type || '资料') + (_relinkRec.group ? ' · ' + _relinkRec.group : '')) : '';
     const relinkItemChoices = _relinkRec ? (this.state.items || []).filter(it => { if (!_relinkQ) return true; const hay = [it.name, it.character, it.type, it.series, it.purchaseChannel].map(x => String(x || '').toLowerCase()).join(' '); return hay.includes(_relinkQ); }).slice(0, 300).map(it => ({ id: it.id, label: (it.name || '未命名') + (it.character ? ' · ' + it.character : '') + (it.status ? ' · ' + it.status : ''), checked: _relinkSel.includes(it.id), onToggle: this.toggleRelinkItem(it.id) })) : [];
     const relinkSelectedCount = _relinkSel.length;
+    const relinkRoleOptions = this.shippingRoles(this.state.relinkRecordType || (_relinkRec && _relinkRec.type) || '补充资料').map(v => ({ value: v, label: this.shippingRoleLabel(v) }));
+    const relinkImageRows = (this.state.relinkImages || []).map(im => ({
+      id: im.id, image: im.image, role: im.role,
+      onToggleRemove: this.toggleRelinkImageRemove(im.id), onRoleChange: this.setRelinkImageRole(im.id),
+      thumbStyle: { backgroundImage: `url(${im.image})` },
+      cardStyle: im.toRemove ? { opacity: 0.4 } : {},
+      removeLabel: im.toRemove ? '撤销移除' : '移除'
+    }));
+    const noRelinkImages = relinkImageRows.length === 0;
+    const relinkNewFileRows = (this.state.relinkNewFiles || []).map((f, idx) => ({
+      idx, filename: f.filename, role: f.role,
+      onRemove: this.removeRelinkNewFile(idx), onRoleChange: this.setRelinkNewFileRole(idx)
+    }));
+    const hasRelinkNewFiles = relinkNewFileRows.length > 0;
     const _exRecs = this.state.shippingRecords || [];
     const _exGroupSet = [...new Set(_exRecs.map(r=>String(r.group||'未分类渠道')).filter(Boolean))];
     const _exVisible = this.exportVisibleItems();
@@ -6525,7 +6576,7 @@ class Component extends DCLogic {
 
     return {
       setRoot: this.setRoot, setImportRef: this.setImportRef, setExcelImportRef: this.setExcelImportRef, stop: this.stop,
-      openShipping: this.openShipping, closeShipping: this.closeShipping, shippingOpen: this.state.shippingOpen, shippingCount: shipRecords.length, shippingPackageCount: shippingPackageRows.length, shippingBatchRows, shippingBatchCount:shippingBatchRows.length, noShippingBatches:shippingBatchRows.length===0, shippingTypes: this.SHIPPING_TYPES, shippingTypeOptions:this.SHIPPING_TYPES.map(value=>({value,label:this.shippingTypeLabel(value).module})), shippingRoleOptions:this.shippingRoles(shipDraft.type).map(value=>({value,label:this.shippingRoleLabel(value)})), shipRole:shipDraft.role || this.shippingRoles(shipDraft.type)[0], shipGroup: shipDraft.group || '',  shipBatch: '排发中心', shipTypeMenuItems: this.SHIPPING_TYPES.map(v=>({label:this.shippingTypeLabel(v).module,onPick:this.pickShip('type',v),rowStyle:this.menuRow((shipDraft.type||'本体资料')===v)})), shipTypeDisplay: this.shippingTypeLabel(shipDraft.type||'本体资料').module, shipTypeMenuOpen: this.state.shipTypeMenuOpen, toggleShipTypeMenu: this.toggleShipMenu('shipTypeMenuOpen'), shipRoleMenuItems: this.shippingRoles(shipDraft.type).map(v=>({label:this.shippingRoleLabel(v),onPick:this.pickShip('role',v),rowStyle:this.menuRow((shipDraft.role||this.shippingRoles(shipDraft.type)[0])===v)})), shipRoleDisplay: this.shippingRoleLabel(shipDraft.role||this.shippingRoles(shipDraft.type)[0]), shipRoleMenuOpen: this.state.shipRoleMenuOpen, toggleShipRoleMenu: this.toggleShipMenu('shipRoleMenuOpen'), shipStatusMenuItems: ['全部',...shipStatusOptions].map(v=>({label:v==='全部'?'全部状态':v,onPick:this.pickShip('status',v),rowStyle:this.menuRow((shipDraft.status||'全部')===v)})), shipStatusDisplay: (shipDraft.status&&shipDraft.status!=='全部')?shipDraft.status:'全部状态', shipStatusMenuOpen: this.state.shipStatusMenuOpen, toggleShipStatusMenu: this.toggleShipMenu('shipStatusMenuOpen'), shipGroupMenuItems: [...new Set([...(this.state.purchaseChannels||[]),...(this.state.channels||[]),...((this.state.shippingRecords||[]).map(r=>r.group).filter(Boolean))])].map(v=>({label:v,onPick:this.pickShip('group',v),rowStyle:this.menuRow(shipDraft.group===v)})), shipGroupMenuOpen: this.state.shipGroupMenuOpen, toggleShipGroupMenu: this.toggleShipMenu('shipGroupMenuOpen'), hasShipGroupMenu: [...new Set([...(this.state.purchaseChannels||[]),...(this.state.channels||[])])].length>0, shippingGroups: [...new Set([...(this.state.purchaseChannels || []), ...shipRecords.map(r => r.group).filter(Boolean)])], shippingBatches: [...new Set(shipRecords.filter(r => !shipDraft.group || r.group === shipDraft.group).map(r => r.batch).filter(Boolean))], fixedCn: cnPrefix || '未填写', shipType: shipDraft.type || '本体资料', openShipRoleManageForType: this.openShipRoleManage(shipDraft.type || '本体资料'), shipNote: shipDraft.note || '', shipSearch: shipDraft.search || '', shipStatus: shipDraft.status || '全部', shipStatusOptions, shipVisibleCount: shipVisibleItems.length, shipSelectedCount: (shipDraft.itemIds || []).length, noShipItemChoices: shipItemChoices.length === 0, onShipGroup: this.onShipField('group'), onShipBatch: this.onShipField('batch'), onShipType: this.onShipField('type'), onShipRole:this.onShipField('role'), onShipNote: this.onShipField('note'), onShipSearch: this.onShipField('search'), onShipStatus: this.onShipField('status'), selectAllVisibleShipItems: this.selectAllVisibleShipItems, clearShipItems: this.clearShipItems, reuseLastShipItems: this.reuseLastShipItems, onShipImage: this.onShipImage, saveShipping: this.saveShipping, shipNotice: this.state.shipNotice || '', hasShipNotice: !!this.state.shipNotice, shipNotConnected: !this.shippingSyncCode(), shipItemChoices, relinkOpen, relinkTitle, relinkItemChoices, relinkSelectedCount, onRelinkSearch: this.onRelinkSearch, relinkSearch: this.state.relinkSearch || '', closeRelink: this.closeRelink, saveRelink: this.saveRelink, relinkNote: this.state.relinkNote || '', onRelinkNote: this.onRelinkNote, stopEvt: (e)=>{ e && e.stopPropagation && e.stopPropagation(); }, noRelinkChoices: relinkItemChoices.length === 0, shippingPackageRows: shippingPackageRowsView, shippingChannelChips, hasShippingChannels: shippingChannelChips.length > 0, noShippingPackages: shippingPackageRows.length === 0, hasShipDraftImage:(shipDraft.files||[]).length>0, shipUploadText:(shipDraft.files||[]).length?'＋ 继续添加图片':'＋ 添加资料图片', shipDraftImageSummary:(shipDraft.files||[]).map(x=>this.shippingRoleLabel(x.role)+'：'+x.filename).join('；'), clearShipImages:this.clearShipImages, previewCn: cnPrefix || '未填写', previewGroup: this.state.shippingPreviewGroup || (previewRecords[0] && previewRecords[0].group) || '未选择团／渠道', previewBatch: '按当前勾选谷子自动汇总', previewPackageRows, previewItemSummary, noPreviewPackage: previewPackageRows.length === 0, exportShippingPackage: this.exportShippingPackage, exportSelectedShipping:this.exportSelectedShipping,
+      openShipping: this.openShipping, closeShipping: this.closeShipping, shippingOpen: this.state.shippingOpen, shippingCount: shipRecords.length, shippingPackageCount: shippingPackageRows.length, shippingBatchRows, shippingBatchCount:shippingBatchRows.length, noShippingBatches:shippingBatchRows.length===0, shippingTypes: this.SHIPPING_TYPES, shippingTypeOptions:this.SHIPPING_TYPES.map(value=>({value,label:this.shippingTypeLabel(value).module})), shippingRoleOptions:this.shippingRoles(shipDraft.type).map(value=>({value,label:this.shippingRoleLabel(value)})), shipRole:shipDraft.role || this.shippingRoles(shipDraft.type)[0], shipGroup: shipDraft.group || '',  shipBatch: '排发中心', shipTypeMenuItems: this.SHIPPING_TYPES.map(v=>({label:this.shippingTypeLabel(v).module,onPick:this.pickShip('type',v),rowStyle:this.menuRow((shipDraft.type||'本体资料')===v)})), shipTypeDisplay: this.shippingTypeLabel(shipDraft.type||'本体资料').module, shipTypeMenuOpen: this.state.shipTypeMenuOpen, toggleShipTypeMenu: this.toggleShipMenu('shipTypeMenuOpen'), shipRoleMenuItems: this.shippingRoles(shipDraft.type).map(v=>({label:this.shippingRoleLabel(v),onPick:this.pickShip('role',v),rowStyle:this.menuRow((shipDraft.role||this.shippingRoles(shipDraft.type)[0])===v)})), shipRoleDisplay: this.shippingRoleLabel(shipDraft.role||this.shippingRoles(shipDraft.type)[0]), shipRoleMenuOpen: this.state.shipRoleMenuOpen, toggleShipRoleMenu: this.toggleShipMenu('shipRoleMenuOpen'), shipStatusMenuItems: ['全部',...shipStatusOptions].map(v=>({label:v==='全部'?'全部状态':v,onPick:this.pickShip('status',v),rowStyle:this.menuRow((shipDraft.status||'全部')===v)})), shipStatusDisplay: (shipDraft.status&&shipDraft.status!=='全部')?shipDraft.status:'全部状态', shipStatusMenuOpen: this.state.shipStatusMenuOpen, toggleShipStatusMenu: this.toggleShipMenu('shipStatusMenuOpen'), shipGroupMenuItems: [...new Set([...(this.state.purchaseChannels||[]),...(this.state.channels||[]),...((this.state.shippingRecords||[]).map(r=>r.group).filter(Boolean))])].map(v=>({label:v,onPick:this.pickShip('group',v),rowStyle:this.menuRow(shipDraft.group===v)})), shipGroupMenuOpen: this.state.shipGroupMenuOpen, toggleShipGroupMenu: this.toggleShipMenu('shipGroupMenuOpen'), hasShipGroupMenu: [...new Set([...(this.state.purchaseChannels||[]),...(this.state.channels||[])])].length>0, shippingGroups: [...new Set([...(this.state.purchaseChannels || []), ...shipRecords.map(r => r.group).filter(Boolean)])], shippingBatches: [...new Set(shipRecords.filter(r => !shipDraft.group || r.group === shipDraft.group).map(r => r.batch).filter(Boolean))], fixedCn: cnPrefix || '未填写', shipType: shipDraft.type || '本体资料', openShipRoleManageForType: this.openShipRoleManage(shipDraft.type || '本体资料'), shipNote: shipDraft.note || '', shipSearch: shipDraft.search || '', shipStatus: shipDraft.status || '全部', shipStatusOptions, shipVisibleCount: shipVisibleItems.length, shipSelectedCount: (shipDraft.itemIds || []).length, noShipItemChoices: shipItemChoices.length === 0, onShipGroup: this.onShipField('group'), onShipBatch: this.onShipField('batch'), onShipType: this.onShipField('type'), onShipRole:this.onShipField('role'), onShipNote: this.onShipField('note'), onShipSearch: this.onShipField('search'), onShipStatus: this.onShipField('status'), selectAllVisibleShipItems: this.selectAllVisibleShipItems, clearShipItems: this.clearShipItems, reuseLastShipItems: this.reuseLastShipItems, onShipImage: this.onShipImage, saveShipping: this.saveShipping, shipNotice: this.state.shipNotice || '', hasShipNotice: !!this.state.shipNotice, shipNotConnected: !this.shippingSyncCode(), shipItemChoices, relinkOpen, relinkTitle, relinkItemChoices, relinkSelectedCount, onRelinkSearch: this.onRelinkSearch, relinkSearch: this.state.relinkSearch || '', closeRelink: this.closeRelink, saveRelink: this.saveRelink, relinkNote: this.state.relinkNote || '', onRelinkNote: this.onRelinkNote, relinkGroup: this.state.relinkGroup || '', onRelinkGroup: this.onRelinkGroup, relinkNoteOpen: this.state.relinkNoteOpen, toggleRelinkNote: this.toggleRelinkNote, relinkNoteCaret: this.state.relinkNoteOpen ? '▲' : '▼', stopEvt: (e)=>{ e && e.stopPropagation && e.stopPropagation(); }, noRelinkChoices: relinkItemChoices.length === 0, relinkRoleOptions, relinkImageRows, noRelinkImages, onRelinkNewFiles: this.onRelinkNewFiles, relinkNewFileRows, hasRelinkNewFiles, shippingPackageRows: shippingPackageRowsView, shippingChannelChips, hasShippingChannels: shippingChannelChips.length > 0, noShippingPackages: shippingPackageRows.length === 0, hasShipDraftImage:(shipDraft.files||[]).length>0, shipUploadText:(shipDraft.files||[]).length?'＋ 继续添加图片':'＋ 添加资料图片', shipDraftImageSummary:(shipDraft.files||[]).map(x=>this.shippingRoleLabel(x.role)+'：'+x.filename).join('；'), clearShipImages:this.clearShipImages, previewCn: cnPrefix || '未填写', previewGroup: this.state.shippingPreviewGroup || (previewRecords[0] && previewRecords[0].group) || '未选择团／渠道', previewBatch: '按当前勾选谷子自动汇总', previewPackageRows, previewItemSummary, noPreviewPackage: previewPackageRows.length === 0, exportShippingPackage: this.exportShippingPackage, exportSelectedShipping:this.exportSelectedShipping,
       toggleShipAddForm: this.toggleAddFormCollapsed, shipAddExpanded: !this.state.shipAddCollapsed, shipAddCaret: this.state.shipAddCollapsed ? '▼ 展开' : '▲ 收起',
       exportGroup: this.state.exportGroup || '', exportSearch: this.state.exportSearch || '', onExportGroup: this.onExportGroup, onExportSearch: this.onExportSearch, exportGroupOptions, exportItemChoices, noExportChoices: exportItemChoices.length === 0, exportVisibleCount: _exVisible.length, exportSelectedCount: _exIds.length, selectAllExportItems: this.selectAllExportItems, clearExportItems: this.clearExportItems,
       workGroupLabel: this.state.workGroupLabel, workGroupName: curWork.group || this.DEFAULT_GROUP, workName: curWork.name || '', workTabs, workGroups, libraryTree, libAllActive, libAllStyle, libAllCount, recentRows, hasRecent, mobileWorkGroups, isAllWorks, switchAll: () => this.switchWork(this.ALL_WORKS), workMenuOpen: this.state.workMenuOpen, toggleWorkMenu: this.toggleWorkMenu, addWork: this.addWork,
@@ -6592,7 +6643,7 @@ class Component extends DCLogic {
       showTagFilter, showRarityFilter, yrCards, showYrReview, yrLabel: yearKey + ' 年度回顾',
       mobileFilterCat, mobileFilterCatChips, galleryIconStyle, circleIconStyle, mobileGroupTabs, gtAll, gtInhand, gtAir, gtSale,
       modalTab: this.state.modalTab || 'edit', switchToEditTab: this.switchModalTab('edit'), switchToShipTab: this.switchModalTab('ship'), isEditTab: modalTabIsEdit, isShipTab: !modalTabIsEdit, editTabStyle, shipTabStyle,
-      itemShipGroups, hasItemShipRecords, noItemShipRecords, itemShipDraftOpen: this.state.itemShipDraftOpen, itemShipListView: !this.state.itemShipDraftOpen, openItemAddShip: this.openItemAddShip, closeItemAddShip: this.closeItemAddShip,
+      itemShipGroups, hasItemShipRecords, noItemShipRecords, itemShipDraftOpen: this.state.itemShipDraftOpen, itemShipListView: !this.state.itemShipDraftOpen, openItemAddShip: this.openItemAddShip, closeItemAddShip: this.closeItemAddShip, toggleItemShipItemsPanel: this.toggleItemShipItemsPanel, itemShipItemsPanelOpen: this.state.itemShipItemsPanelOpen, itemShipItemsCaret: this.state.itemShipItemsPanelOpen ? '▲ 收起' : '▼ 展开选择',
       openLinkExistingShip: this.openLinkExistingShip, closeLinkExistingShip: this.closeLinkExistingShip, linkExistingShipOpen: this.state.linkExistingShipOpen, linkExistingSearch: this.state.linkExistingSearch || '', onLinkExistingSearch: this.onLinkExistingSearch, linkExistingRows, noLinkExistingRows,
       shipRoleManageOpen: this.state.shipRoleManageOpen, closeShipRoleManage: this.closeShipRoleManage, shipRoleManageTitle, shipRoleManageRows, shipRoleAdd: this.shipRoleAdd,
       toast: this.state.toast || '', hasToast: !!this.state.toast, showTip: this.showTip,
@@ -6601,7 +6652,7 @@ class Component extends DCLogic {
       budgetInput: (this.state.budgets || {})[budgetMonthKey] || '', hasFeeComposition, feeComposition, feeTotalText, budgetDisplayText: budget > 0 ? (cur + this.fmt(budget)) : (isAllScope ? '不适用' : '未设置'), consumeTitle: TXT.consumeTitle || '消费表', ledgerMonthAreaPath, jumpBudgetThisMonth: this.jumpBudgetThisMonth, ledgerDetailOpen, ledgerDetailItems, ledgerDetailTitle, ledgerDetailTotal, ledgerDetailEmpty, closeLedgerDetail: this.closeLedgerDetail, onBudgetChange: this.onBudgetChange, onBudgetQuickEdit: this.onBudgetQuickEdit, ledgerScopeText, ledgerRangeText, mobileWalletRangeText, mobileWalletScopeText, ledgerModeChips, ledgerYearOptions, ledgerMonthOptions, ledgerWeekOptions, ledgerYear, ledgerMonth, ledgerWeek, showLedgerYear, showLedgerMonth, showLedgerWeek, onLedgerYear: this.onLedgerYear, onLedgerMonth: this.onLedgerMonth, onLedgerWeek: this.onLedgerWeek, ledgerPieBy, onLedgerPieBy: this.onLedgerPieBy, ledgerPieChips, ledgerPieTitle, ledgerPieStyle, ledgerPieRows, ledgerPieTotal, ledgerPieCenterLabel, ledgerPieTopText, ledgerPieTip, ledgerPieSegments, ledgerPieActiveName, ledgerPieActivePercent, ledgerPieActiveValue, ledgerPieActiveDot, ledgerDetailRows, ledgerDetailSummary, monthSpentText: cur + this.fmt(monthSpent), monthSpentBig: cur + this.fmtBig(monthSpent), monthSpentFull: cur + this.fmt(monthSpent), budgetRemainText: panelRemainText, budgetRemainStyle: panelRemainStyle, budgetPctText: panelPctText, budgetPctStyle: panelPctStyle, budgetBarStyle: panelBarStyle, budgetStatusText: panelStatusText, ledgerTitle: TXT.ledgerTitle, ledgerHelpText: '', budgetLabel: panelBudgetLabel, spentLabel: panelSpentLabel, remainLabel: panelRemainLabel, progressLabel: panelProgressLabel, showBudgetEdit, showBudgetView: !showBudgetEdit, monthsTitle: TXT.months, reminderCenterTitle: TXT.reminderCenter, noReminderText: TXT.noReminder, mobileWalletTitle: TXT.walletMini, miniBudgetLabel: TXT.miniBudget, miniSpentLabel: TXT.miniSpent, miniRemainLabel: TXT.miniRemain, addItemText: TXT.addItem, ledgerMonths: ledgerMonthCells, barTop, barBottom, areaColor, ledgerMonthBars, ledgerMonthDots, ledgerMonthLinePoints, ledgerMonthHint, ledgerMonthTotal, ledgerMonthPeakText, topCostRows, topQtyRows, topCharacterRows, topPlatformRows, ledgerRankCards, reviewCards, completeSetRows, reviewPeriodText, achievementRows, ledgerRankTitle1, ledgerRankTitle2, ledgerRankTitle3, ledgerRankTitle4, upcomingReminders, ledgerReminderRows, hasLedgerReminders: ledgerReminderRows.length > 0, noLedgerReminders: ledgerReminderRows.length === 0, hasUpcomingReminders: upcomingReminders.length > 0, mobileReminderText, mobileReminderDetail, mobileTodoRows, mobileBudgetText: budget > 0 ? (cur + this.fmt(budget)) : '未设', reminderCountText,
       qtyBadgeStyle: { position: 'absolute', top: '1px', right: '5px', minWidth: '22px', height: '22px', padding: '0 6px', borderRadius: '999px', background: `radial-gradient(circle at 32% 28%, ${this.accentLight(0.5)}, ${this.accentColor()} 82%)`, color: '#fff', fontSize: '12px', fontWeight: 800, lineHeight: 1, fontFamily: "'Orbitron',sans-serif", display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: `0 3px 9px ${this.accentAlpha(0.5)}`, border: '2.5px solid #fff' },
       modalOpen: this.state.modalOpen, modalTitle: this.state.editing ? '编辑谷子' : '新增谷子', isEditing: !!this.state.editing, isNewItem: !this.state.editing, duplicateCurrent: this.duplicateCurrent, deleteCurrent: this.deleteCurrent,
-      itemEvidenceSelectedCount:(this.state.itemEvidenceDrafts||[]).length, hasItemEvidenceDrafts:(this.state.itemEvidenceDrafts||[]).length>0, noCloudForItemEvidence:!this.shippingSyncCode(), itemEvidenceExistingSelect:'', itemEvidenceExistingCount:(this.state.itemEvidenceExistingIds||[]).length, itemEvidenceExistingOptions:(this.state.shippingRecords||[]).filter(r=>r.type==='本体资料').map(r=>({value:r.id,label:[r.group,r.title,r.note,(r.images||[]).length+'张图'].filter(Boolean).join(' · ')})), onItemEvidenceExistingSelect:this.onItemEvidenceExistingSelect, itemEvidenceOpen:!!this.state.itemEvidenceOpen, toggleItemEvidence:this.toggleItemEvidence, itemEvidenceCaret:this.state.itemEvidenceOpen?'▲ 收起':'▼ 展开', itemEvidenceBadge:((this.state.itemEvidenceDrafts||[]).length+(this.state.itemEvidenceExistingIds||[]).length)>0?('已选 '+((this.state.itemEvidenceDrafts||[]).length+(this.state.itemEvidenceExistingIds||[]).length)): '可选填', itemEvidenceSummary:(()=>{const a=(this.state.itemEvidenceDrafts||[]).length,b=(this.state.itemEvidenceExistingIds||[]).length;if(a||b)return ['待上传 '+a+' 张',b?'复用 '+b+' 份':''].filter(Boolean).join(' · ');return '肾表、群内交款要求、付款截图，或使用已有资料';})(),
+      itemEvidenceSelectedCount:(this.state.itemEvidenceDrafts||[]).length, hasItemEvidenceDrafts:(this.state.itemEvidenceDrafts||[]).length>0, noCloudForItemEvidence:!this.shippingSyncCode(), itemEvidenceExistingSelect:'', itemEvidenceExistingCount:(this.state.itemEvidenceExistingIds||[]).length, itemEvidenceExistingOptions:(this.state.shippingRecords||[]).filter(r=>r.type==='本体资料').map(r=>({value:r.id,label:[r.group,r.title,r.note,(r.images||[]).length+'张图'].filter(Boolean).join(' · ')})), onItemEvidenceExistingSelect:this.onItemEvidenceExistingSelect, itemEvidenceOpen:!!this.state.itemEvidenceOpen, toggleItemEvidence:this.toggleItemEvidence, itemEvidenceCaret:this.state.itemEvidenceOpen?'▲ 收起':'▼ 展开', itemEvidenceBadge:((this.state.itemEvidenceDrafts||[]).length+(this.state.itemEvidenceExistingIds||[]).length)>0?('已选 '+((this.state.itemEvidenceDrafts||[]).length+(this.state.itemEvidenceExistingIds||[]).length)): '可选填', itemEvidenceSummary:(()=>{const a=(this.state.itemEvidenceDrafts||[]).length,b=(this.state.itemEvidenceExistingIds||[]).length;if(a||b)return ['待上传 '+a+' 张',b?'复用 '+b+' 份':''].filter(Boolean).join(' · ');return '可以先不填，保存后再补';})(),
       itemEvidenceRequirementName:(()=>{const n=(this.state.itemEvidenceDrafts||[]).filter(x=>x.role==='肾表／群内交款要求').length;return n?n+' 张已选':'点击选择';})(),
       itemEvidencePaidName:(()=>{const n=(this.state.itemEvidenceDrafts||[]).filter(x=>x.role==='我的付款截图').length;return n?n+' 张已选':'点击选择';})(),
       onItemEvidenceRequirement:this.onItemEvidencePick('肾表／群内交款要求'), onItemEvidencePaid:this.onItemEvidencePick('我的付款截图'),
@@ -6613,7 +6664,7 @@ class Component extends DCLogic {
       draftTimelineRows, showBrandField: fieldVisible('series') && !!(d && d.series), draftWorkName, draftWorkGroupName, draftWorkMenuGroups, draftWorkMenuOpen: this.state.draftWorkMenuOpen, toggleDraftWorkMenu: this.toggleDraftWorkMenu, addWorkInline: this.addWorkInline, draftIsSelling, draftNotSelling,
       manageOpen: this.state.manageOpen, closeManage: this.closeManage, manageTitle, manageRows, manageAddText, onManageAdd, manageCanRenameLabel, onManageRenameLabel, manageCanToggle, manageCanBatch, manageFilterOn, workManageOpen: this.state.workManageOpen, openWorkManage: this.openWorkManage, closeWorkManage: this.closeWorkManage, workManageGroups, addGroupAlone: this.addGroupAlone, setManageOpen: this.state.setManageOpen, openSetManage: this.openSetManage, closeSetManage: this.closeSetManage, setManageList, addSetInManage: this.addSetInManage, hasSetManageList: setManageList.length > 0, setFieldLabel: this.setLabelText(), renameSetLabel: this.renameSetLabel, setFilterStyle, setGroupStyle, setBatchStyle, setFilterText: setFilterOn ? '筛选 ✓' : '筛选', setGroupText: setGroupOn ? '分组 ✓' : '分组', setBatchText: setBatchOn ? '批量 ✓' : '批量', onSetToggleFilter: this.toggleFilterOn('set'), onSetToggleGroup: this.toggleStatsOn('set'), onSetToggleBatch: this.toggleBatchOn('set'), manageGroupOn, onManageToggleFilter, onManageToggleGroup, manageFilterStyle, manageGroupStyle, manageFilterText: manageFilterOn ? '筛选 ✓' : '筛选', manageGroupText: manageGroupOn ? '分组 ✓' : '分组', manageBatchOn, onManageToggleBatch, manageBatchStyle, manageBatchText: manageBatchOn ? '批量 ✓' : '批量',
       mgrStatus: () => this.openManage('status'), mgrMethod: () => this.openManage('method'), mgrTradeTags: () => this.openManage('tradeTags'), mgrRarityTags: () => this.openManage('rarityTags'),
-      lblMethod: (this.state.fieldLabels||{}).method || '购买方式', lblTags: (this.state.fieldLabels||{}).tags || '交易标签', lblRarity: (this.state.fieldLabels||{}).rarity || '稀有度 / 心动标签', mgrCharacter: () => this.openManage('character'), mgrType: () => this.openManage('type'), mgrForm: () => this.openManage('form'), mgrSeries: () => this.openManage('series'), mgrAcquire: () => this.openManage('acquire'), mgrChannel: () => this.openManage('channel'), mgrPurchaseChannel: () => this.openManage('purchaseChannel'), mgrReminder: () => this.openManage('reminder'), mgrTrade: () => this.openManage('tradeTags'), mgrRarity: () => this.openManage('rarityTags'),
+      lblMethod: (this.state.fieldLabels||{}).method || '购买方式', lblTags: (this.state.fieldLabels||{}).tags || '交易标签', lblRarity: (this.state.fieldLabels||{}).rarity || '稀有度 / 心动标签', hasTagsField, hasRarityField, mgrCharacter: () => this.openManage('character'), mgrType: () => this.openManage('type'), mgrForm: () => this.openManage('form'), mgrSeries: () => this.openManage('series'), mgrAcquire: () => this.openManage('acquire'), mgrChannel: () => this.openManage('channel'), mgrPurchaseChannel: () => this.openManage('purchaseChannel'), mgrReminder: () => this.openManage('reminder'), mgrTrade: () => this.openManage('tradeTags'), mgrRarity: () => this.openManage('rarityTags'),
       setMenuOpen: this.state.setMenuOpen, toggleSetMenu: this.toggleSetMenu, addSet: this.addSet, clearSet: () => this.pickSet(''),
       setDisplay: (() => { const s = this.setById(d && d.setId); if (!s) return '（选择套装）'; const got = this.setCollectedCodes(s.id, d && d.id).length; return s.name + (s.total ? '（' + got + '/' + s.total + '）' : ''); })(),
       hasSet: !!(d && d.setId && this.setById(d.setId)),
