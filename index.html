@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>谷子收纳</title>
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23ff3355'/%3E%3Cg fill='none' stroke='white' stroke-width='3.5' stroke-linejoin='round' stroke-linecap='round'%3E%3Cpath d='M32 14 L50 23 L32 32 L14 23 Z'/%3E%3Cpath d='M14 23 L14 43 L32 52 L50 43 L50 23'/%3E%3Cpath d='M32 32 L32 52'/%3E%3C/g%3E%3C/svg%3E">
 <script src="./support.js"></script>
 </head>
@@ -729,6 +729,197 @@
   .ui-ship-item-summary{font-size:11.5px;line-height:1.55;color:#544f7e;background:#fff;border:1px solid #e8e2f2;border-radius:12px;padding:8px 11px;margin-bottom:10px;white-space:pre-wrap;max-height:120px;overflow-y:auto}
   @media(max-width:800px), (max-width:900px) and (max-height:500px) and (orientation:landscape) and (pointer:coarse){.ui-ship-grid{grid-template-columns:1fr}.ui-ship-checks{grid-template-columns:1fr}.ui-ship-pair{grid-template-columns:1fr}.ui-ship-pair img{height:260px}}
 
+  /* ===== Mobile V33: one compact visual system (UI only) ===== */
+  @media (max-width:640px), (max-width:900px) and (max-height:500px) and (orientation:landscape) and (pointer:coarse){
+    :root{
+      --ui-mobile-text:10.5px;
+      --ui-mobile-help:9.5px;
+      --ui-mobile-title:12.5px;
+      --ui-mobile-hero:15px;
+      --ui-mobile-control:34px;
+      --ui-mobile-gap:6px;
+    }
+    html,body{-webkit-text-size-adjust:100%;text-size-adjust:100%;overflow-x:clip}
+    body{font-size:var(--ui-mobile-text);line-height:1.42}
+    .ui-app{
+      font-size:var(--ui-mobile-text) !important;
+      line-height:1.42;
+      padding-top:max(9px,env(safe-area-inset-top)) !important;
+      padding-right:max(8px,env(safe-area-inset-right)) !important;
+      padding-left:max(8px,env(safe-area-inset-left)) !important;
+      padding-bottom:calc(76px + env(safe-area-inset-bottom)) !important;
+    }
+    .ui-app button:not(.ui-bottom-tab-add),
+    .ui-modal-card button,
+    .ui-settings-modal button,
+    .ui-ship-card button{
+      min-height:var(--ui-mobile-control) !important;
+      padding:5px 8px !important;
+      border-radius:8px !important;
+      font-size:10.5px !important;
+      line-height:1.2 !important;
+    }
+    .ui-app input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="color"]),
+    .ui-app select,.ui-app textarea,
+    .ui-modal-card input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="color"]),
+    .ui-modal-card select,.ui-modal-card textarea,
+    .ui-settings-modal input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="color"]),
+    .ui-settings-modal select,.ui-settings-modal textarea{
+      min-height:var(--ui-mobile-control) !important;
+      padding:6px 8px !important;
+      border-radius:8px !important;
+      font-size:11.5px !important;
+      line-height:1.3 !important;
+    }
+    .ui-app textarea,.ui-modal-card textarea,.ui-settings-modal textarea{min-height:68px !important}
+    .ui-app ::placeholder,.ui-modal-card ::placeholder,.ui-settings-modal ::placeholder{font-size:10.5px !important}
+    .ui-app small,.ui-app .ui-field-hint,.ui-app .ui-filter-help,.ui-app .ui-ledger-subtitle,
+    .ui-modal-card small,.ui-settings-modal small{font-size:var(--ui-mobile-help) !important;line-height:1.4 !important}
+
+    /* Keep inline legacy sizes from creating random jumps on phones. */
+    .ui-app [style*="font-size:9px"],.ui-app [style*="font-size:9.5px"],
+    .ui-app [style*="font-size:10px"],.ui-app [style*="font-size:10.5px"],
+    .ui-app [style*="font-size:11px"],.ui-app [style*="font-size:11.5px"]{font-size:var(--ui-mobile-help) !important}
+    .ui-app [style*="font-size:12px"],.ui-app [style*="font-size:12.5px"],
+    .ui-app [style*="font-size:13px"],.ui-app [style*="font-size:13.5px"],
+    .ui-app [style*="font-size:14px"],.ui-app [style*="font-size:14.5px"]{font-size:var(--ui-mobile-text) !important}
+    .ui-app [style*="font-size:15px"],.ui-app [style*="font-size:16px"],
+    .ui-app [style*="font-size:17px"]{font-size:var(--ui-mobile-title) !important}
+
+    .ui-header{gap:8px !important;margin-bottom:10px !important}
+    .ui-header > div:first-child{gap:8px !important}
+    .ui-header .ui-editable-text{letter-spacing:.03em !important}
+    .ui-work-switch{gap:7px !important;padding:8px 9px !important;margin-bottom:9px !important;border-radius:10px !important}
+    .ui-work-switch > div:first-child{gap:6px !important}
+    .ui-work-switch > div:last-child > button{min-height:32px !important}
+    .ui-work-menu{font-size:10.5px !important;border-radius:10px !important;padding:5px !important}
+    .ui-toolbar{padding:6px !important;margin-bottom:8px !important;border-radius:9px !important}
+    .ui-filters-panel{padding:7px !important;gap:6px !important;border-radius:10px !important}
+    .ui-filter-summary{padding:6px 8px !important;gap:5px 9px !important;margin-bottom:8px !important;font-size:10px !important}
+    .ui-group-tabs{gap:3px !important}
+    .ui-group-tabs > button{min-height:30px !important;padding:4px 2px !important;font-size:9.5px !important}
+    .ui-mobile-home-toprow,.ui-mobile-filter-cats{gap:4px !important;margin-bottom:8px !important}
+
+    .ui-gallery-grid{gap:6px !important;grid-template-columns:repeat(3,minmax(0,1fr)) !important;align-items:stretch !important}
+    .ui-gallery-card{height:264px !important;min-height:264px !important;max-height:264px !important;border-radius:10px !important}
+    .ui-gallery-card-body{min-height:0 !important;padding:6px !important;gap:4px !important;overflow:hidden !important}
+    .ui-gallery-name{font-size:10.5px !important;line-height:1.28 !important}
+    .ui-card-meta-line{margin-top:3px !important;min-height:17px !important;max-height:17px !important;overflow:hidden !important}
+    .ui-card-meta-line > span,.ui-mobile-card-main > span{min-height:17px !important;max-height:17px !important;padding:1px 5px !important;border-radius:999px !important;font-size:8.5px !important;line-height:1.15 !important;max-width:100% !important;overflow:hidden !important;text-overflow:ellipsis !important}
+    .ui-card-meta-line > span > div,.ui-mobile-card-main > span > div{width:12px !important;height:12px !important;margin:0 3px 0 -2px !important}
+    .ui-mobile-card-price{padding-top:5px !important;gap:4px !important}
+    .ui-mobile-card-price [style*="font-size:18px"]{font-size:13px !important}
+    .ui-group-badge,.ui-status-badge{top:5px !important;font-size:8px !important;line-height:1.1 !important;padding:2px 4px !important;box-shadow:0 3px 9px rgba(50,38,90,.1) !important}
+    .ui-group-badge{left:5px !important}.ui-status-badge{right:5px !important}
+    .ui-card-edit-row{margin-top:auto !important;justify-content:flex-end !important;min-height:23px !important;max-height:23px !important;flex-shrink:0 !important}
+    .ui-app .ui-card-edit-btn{flex:0 0 auto !important;width:auto !important;min-width:42px !important;height:23px !important;min-height:23px !important;padding:2px 7px !important;border-radius:6px !important;font-size:9px !important}
+    .ui-card-stars-overlay{padding:1px 2px !important;gap:0 !important}
+    .ui-app .ui-card-stars-overlay button{width:10px !important;min-width:10px !important;height:11px !important;min-height:11px !important;padding:0 !important;border-radius:0 !important;line-height:1 !important}
+    .ui-app .ui-card-stars-overlay button .ui-line-icon{width:8px !important;height:8px !important;vertical-align:0 !important}
+    .ui-circle-wrap{gap:10px 6px !important}
+    .ui-circle-name{font-size:9.5px !important;line-height:1.25 !important}
+
+    .ui-stats-grid,.ui-ledger-grid{gap:6px !important}
+    .ui-stats-grid > div,.ui-ledger-card{padding:7px 8px !important;border-radius:9px !important}
+    .ui-stats-grid > div > div:first-child,.ui-ledger-card > div:first-child{font-size:9px !important;margin-bottom:3px !important}
+    .ui-stats-grid > div > div:last-child,
+    .ui-ledger-card > div[style*="font-size:24px"],
+    .ui-ledger-card > div[style*="font-size:22px"],
+    .ui-ledger-card input[style*="font-size:22px"]{font-size:12.5px !important}
+    .ui-ledger-title,.ui-ship-title,.ui-modal-card h2,.ui-modal-card h3,.ui-settings-modal h2,.ui-settings-modal h3{font-size:var(--ui-mobile-title) !important;line-height:1.3 !important}
+    .ui-mini-select{min-height:32px !important;padding:5px 7px !important;font-size:10.5px !important}
+
+    .ui-modal-backdrop,.ui-settings-backdrop{
+      padding-top:max(7px,env(safe-area-inset-top)) !important;
+      padding-right:max(7px,env(safe-area-inset-right)) !important;
+      padding-bottom:max(7px,env(safe-area-inset-bottom)) !important;
+      padding-left:max(7px,env(safe-area-inset-left)) !important;
+    }
+    .ui-modal-card,.ui-item-modal,.ui-settings-modal{border-radius:14px !important;max-height:calc(var(--ui-vvh) - max(14px,env(safe-area-inset-top)) - max(14px,env(safe-area-inset-bottom))) !important}
+    .ui-modal-card .ui-modal-footer,.ui-settings-modal .ui-settings-footer{gap:4px !important;padding:6px 7px calc(6px + env(safe-area-inset-bottom)) !important}
+    .ui-modal-card .ui-modal-footer > button,.ui-settings-modal .ui-settings-footer > button{min-height:34px !important;padding:5px 3px !important;font-size:10px !important}
+    .ui-item-modal .ui-form-grid{gap:6px !important}
+    .ui-item-modal .ui-form-grid > div{align-self:start !important;min-width:0 !important}
+    .ui-item-modal .ui-form-grid > div:not([style*="grid-column:1/-1"]) > div:first-child{min-height:23px !important;max-height:23px !important;margin-bottom:3px !important;line-height:1.15 !important}
+    .ui-item-modal button[title^="管理"]{width:auto !important;min-width:0 !important;height:21px !important;min-height:21px !important;padding:2px 5px !important;border-radius:5px !important;font-size:8.5px !important;line-height:1 !important;white-space:nowrap !important}
+    .ui-item-modal button[title^="管理"] .ui-line-icon{width:10px !important;height:10px !important}
+
+    .ui-mobile-home-toprow > div:last-child{gap:2px !important}
+    .ui-mobile-home-toprow > div:last-child > button{min-height:28px !important;padding:3px 2px !important;font-size:8.5px !important;letter-spacing:-.02em !important;overflow:visible !important;text-overflow:clip !important}
+    .ui-mobile-home-toprow > div:last-child > button svg{width:9px !important;height:9px !important;margin-right:1px !important}
+
+    .ui-ledger-month-card{padding:9px !important;border-radius:11px !important;background:linear-gradient(155deg,#fff 0%,#faf7ff 58%,#f2edfb 100%) !important}
+    .ui-ledger-month-chart{height:104px !important;border-radius:10px !important;border-color:rgba(124,92,214,.12) !important;background:linear-gradient(180deg,rgba(255,255,255,.98),rgba(248,245,254,.9)) !important;box-shadow:inset 0 1px 0 rgba(255,255,255,.9) !important}
+    .ui-ledger-month-chart::before{inset:11px 9px 20px !important;background:repeating-linear-gradient(to bottom,rgba(85,70,140,.055) 0 1px,transparent 1px 21px) !important}
+    .ui-ledger-month-svg{inset:6px 7px 17px !important;width:calc(100% - 14px) !important;height:calc(100% - 23px) !important}
+    .ui-ledger-month-axis{gap:3px !important;margin-top:5px !important}
+    .ui-ledger-month-cell{padding:4px !important;border-radius:7px !important;background:rgba(255,255,255,.74) !important}
+    .ui-ledger-month-label{font-size:8.5px !important}.ui-ledger-month-amount{font-size:9.5px !important}
+    .ui-ledger-pie-compact{grid-template-columns:108px minmax(0,1fr) !important;gap:9px !important;align-items:center !important}
+    .ui-ledger-pie-wrap{width:108px !important;height:108px !important;margin:0 !important}
+    .ui-ledger-pie-svg{width:108px !important;height:108px !important;filter:drop-shadow(0 6px 12px rgba(50,38,90,.09)) !important}
+    .ui-ledger-pie-center{inset:29px !important;gap:1px !important}
+    .ui-ledger-pie-center span{font-size:8px !important}.ui-ledger-pie-center strong{font-size:10px !important;max-width:62px !important}
+    .ui-ledger-pie-info{padding:7px 8px !important;border-radius:8px !important}
+    .ui-ledger-pie-info-name{font-size:10px !important;gap:5px !important}.ui-ledger-pie-info-name i{width:7px !important;height:7px !important;box-shadow:none !important}
+    .ui-ledger-pie-info-meta{font-size:8.5px !important;margin-top:2px !important}.ui-ledger-pie-info-value{font-size:11px !important;margin-top:3px !important}
+    .ui-mine-sheet > div{padding:7px 10px calc(70px + env(safe-area-inset-bottom)) !important;border-radius:16px 16px 0 0 !important}
+    .ui-mine-sheet button{min-height:42px !important;padding:9px 10px !important;margin-bottom:6px !important;border-radius:10px !important;font-size:11px !important}
+
+    .ui-ship-grid{gap:8px !important}
+    .ui-ship-card{padding:8px !important;border-radius:10px !important}
+    .ui-ship-label{font-size:9.5px !important;margin:5px 0 3px !important}
+    .ui-ship-input{min-height:34px !important;padding:6px 8px !important;font-size:11px !important;border-radius:8px !important}
+    .ui-ship-notice{font-size:9.5px !important;padding:6px 7px !important;border-radius:8px !important}
+    .ui-ship-check{font-size:10px !important;padding:5px 7px !important;border-radius:8px !important}
+    .ui-ship-action{font-size:9.5px !important;padding:4px 7px !important}
+    .ui-ship-meta strong{font-size:10.5px !important}.ui-ship-meta small{font-size:9px !important}
+
+    .ui-relink-backdrop{padding:max(7px,env(safe-area-inset-top)) max(7px,env(safe-area-inset-right)) max(7px,env(safe-area-inset-bottom)) max(7px,env(safe-area-inset-left)) !important}
+    .ui-relink-modal{max-height:calc(var(--ui-vvh) - max(14px,env(safe-area-inset-top)) - max(14px,env(safe-area-inset-bottom))) !important;border-radius:14px !important}
+    .ui-relink-header{padding:8px 10px !important;min-height:44px !important}
+    .ui-relink-header > div > div:first-child{font-size:12.5px !important}
+    .ui-relink-header > div > div:last-child{font-size:9.5px !important}
+    .ui-app .ui-relink-header > button{width:28px !important;min-width:28px !important;height:28px !important;min-height:28px !important;padding:0 !important}
+    .ui-relink-body{padding:8px 10px !important;gap:9px !important}
+    .ui-relink-label{margin-bottom:4px !important;font-size:9.5px !important}
+    .ui-app .ui-relink-note-toggle{min-height:24px !important;padding:0 !important;font-size:9.5px !important}
+    .ui-relink-image-row,.ui-relink-new-row{display:flex !important;flex-wrap:nowrap !important;align-items:center !important;gap:6px !important;min-height:44px !important;margin-bottom:5px !important;padding:5px !important;border-radius:8px !important}
+    .ui-relink-image-row > div{width:34px !important;height:34px !important;border-radius:6px !important}
+    .ui-relink-new-row > div{flex:0 1 64px !important;max-width:64px !important;font-size:9px !important}
+    .ui-app .ui-relink-image-row > button:first-of-type,.ui-app .ui-relink-new-row > button:first-of-type{flex:1 1 auto !important;width:auto !important;min-width:0 !important;height:32px !important;min-height:32px !important;padding:4px 6px !important;font-size:10px !important}
+    .ui-app .ui-relink-image-row > button:last-child,.ui-app .ui-relink-new-row > button:last-child{flex:0 0 58px !important;width:58px !important;min-width:58px !important;height:32px !important;min-height:32px !important;padding:4px !important;font-size:9px !important;white-space:nowrap !important}
+    .ui-relink-add-image{min-height:34px !important;margin-top:3px !important;border-width:1px !important;border-radius:8px !important;font-size:10px !important}
+    .ui-relink-choice{min-height:34px !important;padding:5px 7px !important;gap:6px !important;border-radius:8px !important;font-size:10px !important}
+    .ui-relink-choice input{width:15px !important;height:15px !important;min-height:15px !important;flex:0 0 15px !important}
+    .ui-relink-choice span{font-size:10px !important}
+    .ui-relink-footer{gap:6px !important;padding:6px 8px calc(6px + env(safe-area-inset-bottom)) !important;background:rgba(255,255,255,.96) !important}
+    .ui-app .ui-relink-footer > button{height:36px !important;min-height:36px !important;padding:5px !important;border-radius:8px !important;font-size:10.5px !important}
+
+    .ui-bottom-tab{
+      min-height:52px !important;
+      padding:4px 7px calc(4px + env(safe-area-inset-bottom)) !important;
+      -webkit-backdrop-filter:blur(14px);
+      backdrop-filter:blur(14px);
+      transform:translateZ(0);
+    }
+    .ui-bottom-tab > button:not(.ui-bottom-tab-add){min-width:44px;min-height:40px !important;padding:3px 2px !important;font-size:9px !important;gap:1px !important}
+    .ui-bottom-tab svg{width:18px;height:18px;stroke-width:1.9}
+    .ui-bottom-tab-add{width:46px;height:46px;margin-top:-15px;border-width:3px}
+    .ui-bottom-tab-add .ui-line-icon{width:20px;height:20px}
+    .ui-page-inner{padding-bottom:calc(64px + env(safe-area-inset-bottom)) !important}
+    .ui-mobile-auto .ui-main-add,.ui-mobile-simple .ui-main-add,.ui-mobile-full .ui-main-add,
+    .ui-mobile-auto .ui-mobile-batch-action,.ui-mobile-simple .ui-mobile-batch-action,.ui-mobile-full .ui-mobile-batch-action{bottom:calc(66px + env(safe-area-inset-bottom)) !important;min-height:38px !important}
+    .ui-line-icon{width:14px;height:14px;stroke-width:1.9;vertical-align:-2px}
+    .ui-line-icon-md{width:17px;height:17px}.ui-line-icon-lg{width:20px;height:20px}
+  }
+
+  @media (max-width:350px){
+    .ui-app{padding-left:max(6px,env(safe-area-inset-left)) !important;padding-right:max(6px,env(safe-area-inset-right)) !important}
+    .ui-gallery-grid{gap:5px !important}
+    .ui-app button:not(.ui-bottom-tab-add),.ui-modal-card button,.ui-settings-modal button{padding-inline:5px !important}
+  }
+
 </style>
 </helmet>
 <div ref="{{ setRoot }}" class="ui-app {{ appClass }}" style="min-height:100vh;background:radial-gradient(circle at 15% -5%, #ddd2f2 0%, transparent 50%), radial-gradient(circle at 92% 4%, #f3d8e6 0%, transparent 45%), linear-gradient(165deg,#e7e1f4,#ece8f6 70%);color:#251d49;font-family:'Noto Sans SC',sans-serif;padding:clamp(14px,3vw,34px) clamp(12px,3vw,34px) 60px;-webkit-font-smoothing:antialiased">
@@ -1217,7 +1408,6 @@
               </sc-if>
               <span class="ui-group-badge" style="{{ row.groupBadgeStyle }}">{{ row.groupText }}</span>
               <span class="ui-status-badge" style="{{ row.statusBadgeStyle }}">{{ row.status }}</span>
-              <div class="ui-card-stars-overlay" title="点星星设烫度" style="position:absolute;bottom:8px;left:8px;display:inline-flex;align-items:center;padding:2px 5px;border-radius:999px;background:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.6);box-shadow:0 3px 9px rgba(46,35,86,.14);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)"><sc-for list="{{ row.cardStars }}" as="st" hint-placeholder-count="5"><button onClick="{{ st.onClick }}" style="{{ st.style }}" aria-label="设置烫度"><svg class="ui-line-icon ui-line-icon-sm" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="m12 3 2.7 5.5 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg></button></sc-for></div>
               <sc-if value="{{ row.hasImg2 }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;bottom:8px;right:8px;background:rgba(255,255,255,.88);color:#544f7e;font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:999px;border:1px solid #ded7ee">{{ row.imageCountText }}</span></sc-if>
             </div>
             <div class="ui-gallery-card-body" style="padding:12px 13px 13px;display:flex;flex-direction:column;gap:9px;flex:1">
@@ -1252,8 +1442,8 @@
               </div>
               <sc-if value="{{ row.hasHeld }}" hint-placeholder-val="{{ false }}"><div class="ui-mobile-card-extra" style="font-size:11.5px;color:#837da4;display:flex;align-items:center;gap:5px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>{{ row.heldText }}</div></sc-if>
               <sc-if value="{{ row.hasReminderAlert }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;font-weight:800;color:#e23b5d;background:rgba(226,59,93,.08);border:1px solid rgba(226,59,93,.25);border-radius:9px;padding:7px 9px;display:flex;align-items:center;gap:6px"><svg class="ui-line-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 3.5 19h17zM12 9v4m0 3h.01"/></svg>{{ row.reminderBadgeText }}</div></sc-if>
-              <div style="display:flex;gap:7px;margin-top:3px">
-                <button onClick="{{ row.onEdit }}" style="flex:1;font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:7px;border-radius:9px;cursor:pointer">编辑</button>
+              <div class="ui-card-edit-row" style="display:flex;gap:7px;margin-top:3px">
+                <button class="ui-card-edit-btn" onClick="{{ row.onEdit }}" style="flex:1;font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:7px;border-radius:9px;cursor:pointer">编辑</button>
               </div>
             </div>
           </div>
@@ -1430,7 +1620,6 @@
                   <div style="{{ g.style }}"></div>
                 </sc-for>
                 <sc-if value="{{ row.noImg }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Orbitron';font-weight:900;font-size:26px;color:#b9b3d2">{{ row.ph }}</div></sc-if>
-                <sc-if value="{{ row.hasHeat }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;bottom:3px;right:6px;color:#ff7a1a;font-size:11px;text-shadow:0 1px 2px rgba(255,255,255,.9)">{{ row.starsText }}</span></sc-if>
               </div>
               <sc-if value="{{ row.showQty }}" hint-placeholder-val="{{ false }}"><span style="{{ qtyBadgeStyle }}">{{ row.qty }}</span></sc-if>
               <span class="ui-circle-name" style="font-size:11px;color:#544f7e;line-height:1.25;text-align:center;max-width:92px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">{{ row.name }}</span>
@@ -1496,10 +1685,10 @@
                   <linearGradient id="zzzArea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{{ areaColor }}" stop-opacity="0.22"></stop><stop offset="1" stop-color="{{ areaColor }}" stop-opacity="0"></stop></linearGradient>
                 </defs>
                 <sc-for list="{{ ledgerMonthBars }}" as="b" hint-placeholder-count="6"><rect x="{{ b.hitX }}" y="{{ b.hitY }}" width="{{ b.hitW }}" height="{{ b.hitH }}" fill="transparent" style="cursor:pointer" onClick="{{ b.onClick }}"></rect></sc-for>
-                <sc-for list="{{ ledgerMonthBars }}" as="b" hint-placeholder-count="6"><rect x="{{ b.x }}" y="{{ b.y }}" width="{{ b.w }}" height="{{ b.h }}" rx="6" fill="{{ b.fill }}" style="cursor:pointer;pointer-events:none"></rect></sc-for>
+                <sc-for list="{{ ledgerMonthBars }}" as="b" hint-placeholder-count="6"><rect x="{{ b.x }}" y="{{ b.y }}" width="{{ b.w }}" height="{{ b.h }}" rx="4" fill="{{ b.fill }}" style="cursor:pointer;pointer-events:none"></rect></sc-for>
                 <path d="{{ ledgerMonthAreaPath }}" fill="url(#zzzArea)" stroke="none" style="pointer-events:none"></path>
-                <polyline points="{{ ledgerMonthLinePoints }}" fill="none" stroke="var(--accent,#ff3355)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" style="pointer-events:none"></polyline>
-                <sc-for list="{{ ledgerMonthDots }}" as="d" hint-placeholder-count="6"><circle cx="{{ d.x }}" cy="{{ d.y }}" r="5.5" fill="#fff" stroke="{{ d.color }}" strokeWidth="3" vectorEffect="non-scaling-stroke" style="pointer-events:none"></circle></sc-for>
+                <polyline points="{{ ledgerMonthLinePoints }}" fill="none" stroke="var(--accent,#ff3355)" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" style="pointer-events:none"></polyline>
+                <sc-for list="{{ ledgerMonthDots }}" as="d" hint-placeholder-count="6"><circle cx="{{ d.x }}" cy="{{ d.y }}" r="3.2" fill="#fff" stroke="{{ d.color }}" strokeWidth="2" vectorEffect="non-scaling-stroke" style="pointer-events:none"></circle></sc-for>
                 <sc-for list="{{ ledgerMonthBars }}" as="b" hint-placeholder-count="0"><sc-if value="{{ b.showLabel }}" hint-placeholder-val="{{ false }}"><text x="{{ b.labelX }}" y="{{ b.labelY }}" text-anchor="middle" font-family="Orbitron" font-size="15" font-weight="700" fill="var(--accent,#ff3355)" style="pointer-events:none">{{ b.amountText }}</text></sc-if></sc-for>
               </svg>
             </div>
@@ -2254,62 +2443,62 @@
 
   <!-- ===== 编辑资料（备注/图片/关联谷子，独立顶层弹窗，编辑弹窗/排发中心都可以触发） ===== -->
   <sc-if value="{{ relinkOpen }}" hint-placeholder-val="false">
-    <div style="position:fixed;inset:0;z-index:500;background:rgba(30,22,54,.55);display:flex;align-items:center;justify-content:center;padding:16px" onClick="{{ closeRelink }}">
-      <div style="width:100%;max-width:480px;max-height:88dvh;display:flex;flex-direction:column;background:linear-gradient(160deg,#fff,#f5f2fb);border-radius:18px;overflow:hidden;box-shadow:0 20px 60px rgba(30,22,54,.35)" onClick="{{ stop }}">
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #e1dbf0;flex-shrink:0">
+    <div class="ui-relink-backdrop" style="position:fixed;inset:0;z-index:500;background:rgba(30,22,54,.55);display:flex;align-items:center;justify-content:center;padding:16px" onClick="{{ closeRelink }}">
+      <div class="ui-relink-modal" style="width:100%;max-width:480px;max-height:88dvh;display:flex;flex-direction:column;background:linear-gradient(160deg,#fff,#f5f2fb);border-radius:18px;overflow:hidden;box-shadow:0 20px 60px rgba(30,22,54,.35)" onClick="{{ stop }}">
+        <div class="ui-relink-header" style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #e1dbf0;flex-shrink:0">
           <div><div style="font-weight:900;font-size:15px;color:#251d49">编辑资料</div><div style="font-size:11.5px;color:#837da4;margin-top:1px">{{ relinkTitle }}</div></div>
           <button onClick="{{ closeRelink }}" style="width:30px;height:30px;border-radius:9px;border:1px solid #ded7ee;background:#fff;color:#595287;font-size:17px;cursor:pointer">×</button>
         </div>
-        <div style="flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:12px 16px;display:flex;flex-direction:column;gap:14px">
+        <div class="ui-relink-body" style="flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:12px 16px;display:flex;flex-direction:column;gap:14px">
 
           <div>
-            <div style="font-size:11.5px;font-weight:700;color:#544f7e;margin-bottom:5px">团／渠道（排发用）</div>
+            <div class="ui-relink-label" style="font-size:11.5px;font-weight:700;color:#544f7e;margin-bottom:5px">团／渠道（排发用）</div>
             <button onClick="{{ openRelinkGroupSelect }}" style="width:100%;font-family:inherit;font-size:13px;border:1px solid #ded7ee;border-radius:9px;padding:9px 11px;background:#fff;color:#251d49;text-align:left;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;box-sizing:border-box"><span style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ relinkGroupText }}</span><span style="color:#938db0;font-size:11px;flex-shrink:0">▾</span></button>
           </div>
 
           <div>
-            <button onClick="{{ toggleRelinkNote }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;font-family:inherit;background:none;border:none;padding:0;cursor:pointer;color:#544f7e"><span style="font-size:11.5px;font-weight:700">备注（可选）</span><span style="font-size:11px">{{ relinkNoteCaret }}</span></button>
+            <button class="ui-relink-note-toggle" onClick="{{ toggleRelinkNote }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;font-family:inherit;background:none;border:none;padding:0;cursor:pointer;color:#544f7e"><span style="font-size:11.5px;font-weight:700">备注（可选）</span><span style="font-size:11px">{{ relinkNoteCaret }}</span></button>
             <sc-if value="{{ relinkNoteOpen }}" hint-placeholder-val="{{ false }}">
               <textarea value="{{ relinkNote }}" onChange="{{ onRelinkNote }}" placeholder="例如：第一次国际运费 / 订单号 / 说明" style="width:100%;margin-top:6px;min-height:52px;font-family:inherit;font-size:13px;border:1px solid #ded7ee;border-radius:9px;padding:9px 11px;background:#fff;color:#251d49;outline:none;resize:vertical;box-sizing:border-box"></textarea>
             </sc-if>
           </div>
 
           <div>
-            <div style="font-size:11.5px;font-weight:700;color:#544f7e;margin-bottom:5px">图片</div>
+            <div class="ui-relink-label" style="font-size:11.5px;font-weight:700;color:#544f7e;margin-bottom:5px">图片</div>
             <sc-if value="{{ noRelinkImages }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;color:#938db0;padding:8px 0">这条资料还没有图片。</div></sc-if>
             <sc-for list="{{ relinkImageRows }}" as="im" hint-placeholder-count="2">
-              <div style="{{ im.cardStyle }}display:flex;gap:7px;align-items:center;background:#fff;border:1px solid #e8e2f2;border-radius:11px;padding:7px;margin-bottom:6px">
-                <div style="{{ im.thumbStyle }}background-size:cover;background-position:center;width:36px;height:36px;border-radius:8px;flex-shrink:0;background-color:#f0edf7"></div>
+              <div class="ui-relink-image-row" style="{{ im.cardStyle }}display:flex;gap:7px;align-items:center;background:#fff;border:1px solid #e8e2f2;border-radius:11px;padding:7px;margin-bottom:6px">
+                <sc-if value="{{ im.hasThumb }}" hint-placeholder-val="{{ true }}"><div style="{{ im.thumbStyle }}background-size:cover;background-position:center;width:36px;height:36px;border-radius:8px;flex-shrink:0;background-color:#f0edf7"></div></sc-if>
                 <button onClick="{{ im.onOpenRole }}" style="flex:1;min-width:0;font-family:inherit;font-size:12px;border:1px solid #ded7ee;border-radius:8px;padding:6px 8px;background:#fff;color:#251d49;text-align:left;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:6px;overflow:hidden"><span style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ im.roleLabel }}</span><span style="color:#938db0;font-size:10px;flex-shrink:0">▾</span></button>
                 <button onClick="{{ im.onToggleRemove }}" style="flex-shrink:0;font-family:inherit;font-size:11px;color:#e23b5d;background:rgba(226,59,93,.08);border:1px solid rgba(226,59,93,.22);padding:6px 8px;border-radius:8px;cursor:pointer;white-space:nowrap">{{ im.removeLabel }}</button>
               </div>
             </sc-for>
             <sc-if value="{{ hasRelinkNewFiles }}" hint-placeholder-val="{{ false }}">
               <sc-for list="{{ relinkNewFileRows }}" as="nf" hint-placeholder-count="1">
-                <div style="display:flex;gap:9px;align-items:center;background:rgba(50,38,90,.04);border:1px dashed #ded7ee;border-radius:11px;padding:8px;margin-bottom:6px">
+                <div class="ui-relink-new-row" style="display:flex;gap:9px;align-items:center;background:rgba(50,38,90,.04);border:1px dashed #ded7ee;border-radius:11px;padding:8px;margin-bottom:6px">
                   <div style="flex-shrink:0;font-size:11px;color:#544f7e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:70px">＋ {{ nf.filename }}</div>
                   <button onClick="{{ nf.onOpenRole }}" style="flex:1;min-width:0;font-family:inherit;font-size:12px;border:1px solid #ded7ee;border-radius:8px;padding:6px 8px;background:#fff;color:#251d49;text-align:left;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:6px;overflow:hidden"><span style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ nf.roleLabel }}</span><span style="color:#938db0;font-size:10px;flex-shrink:0">▾</span></button>
                   <button onClick="{{ nf.onRemove }}" style="flex-shrink:0;font-family:inherit;font-size:11.5px;color:#e23b5d;background:rgba(226,59,93,.08);border:1px solid rgba(226,59,93,.22);padding:7px 10px;border-radius:8px;cursor:pointer">撤销</button>
                 </div>
               </sc-for>
             </sc-if>
-            <label style="display:flex;align-items:center;justify-content:center;min-height:44px;border:2px dashed var(--accent-border,#ded7ee);border-radius:11px;background:#fff;cursor:pointer;text-align:center;color:#595287;font-size:12.5px;margin-top:4px">
+            <label class="ui-relink-add-image" style="display:flex;align-items:center;justify-content:center;min-height:44px;border:2px dashed var(--accent-border,#ded7ee);border-radius:11px;background:#fff;cursor:pointer;text-align:center;color:#595287;font-size:12.5px;margin-top:4px">
               <span>＋ 添加图片</span><input type="file" multiple accept="image/png,image/jpeg,image/webp" onChange="{{ onRelinkNewFiles }}" style="display:none">
             </label>
           </div>
 
           <div>
-            <div style="font-size:11.5px;font-weight:700;color:#544f7e;margin-bottom:5px">关联谷子</div>
+            <div class="ui-relink-label" style="font-size:11.5px;font-weight:700;color:#544f7e;margin-bottom:5px">关联谷子</div>
             <input value="{{ relinkSearch }}" onChange="{{ onRelinkSearch }}" placeholder="搜索谷子名称 / 角色" style="width:100%;font-family:inherit;font-size:13px;border:1px solid #ded7ee;border-radius:9px;padding:9px 11px;background:#fff;color:#251d49;outline:none;box-sizing:border-box">
             <div style="font-size:11.5px;color:#837da4;margin:8px 0">勾选＝关联，取消勾选＝解除关联。已选 <strong style="color:var(--accent,#ff3355)">{{ relinkSelectedCount }}</strong> 个谷子。<sc-if value="{{ hasRelinkGroupFilter }}" hint-placeholder-val="{{ false }}"><br>当前只显示「{{ relinkGroup }}」渠道的谷子（搜索可查看全部）。</sc-if></div>
             <div style="display:flex;flex-direction:column;gap:6px">
               <sc-if value="{{ noRelinkChoices }}" hint-placeholder-val="false"><div style="padding:20px;text-align:center;color:#938db0;font-size:13px">没有匹配的谷子。</div></sc-if>
-              <sc-for list="{{ relinkItemChoices }}" as="it" hint-placeholder-count="5"><label style="display:flex;align-items:center;gap:9px;padding:9px 10px;background:#fff;border:1px solid #f0ebf8;border-radius:10px;cursor:pointer"><input type="checkbox" checked="{{ it.checked }}" onChange="{{ it.onToggle }}"><span style="font-size:13px;color:#251d49;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ it.label }}</span></label></sc-for>
+              <sc-for list="{{ relinkItemChoices }}" as="it" hint-placeholder-count="5"><label class="ui-relink-choice" style="display:flex;align-items:center;gap:9px;padding:9px 10px;background:#fff;border:1px solid #f0ebf8;border-radius:10px;cursor:pointer"><input type="checkbox" checked="{{ it.checked }}" onChange="{{ it.onToggle }}"><span style="font-size:13px;color:#251d49;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ it.label }}</span></label></sc-for>
             </div>
           </div>
 
         </div>
-        <div style="display:flex;gap:10px;padding:14px 16px;border-top:1px solid #e1dbf0;flex-shrink:0">
+        <div class="ui-relink-footer" style="display:flex;gap:10px;padding:14px 16px;border-top:1px solid #e1dbf0;flex-shrink:0">
           <button onClick="{{ closeRelink }}" style="flex:1;font-family:inherit;font-size:14px;font-weight:700;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;border-radius:11px;padding:11px;cursor:pointer">取消</button>
           <button onClick="{{ saveRelink }}" style="flex:1;font-family:inherit;font-size:14px;font-weight:900;color:#fff;background:var(--accent,#ff3355);border:none;border-radius:11px;padding:11px;cursor:pointer">保存</button>
         </div>
@@ -6583,7 +6772,7 @@ class Component extends DCLogic {
       roleLabel: this.shippingRoleLabel(im.role),
       onOpenRole: (ev) => this.openGenericSelect('图片分类', relinkRoleOptions, im.role, (v) => this.setRelinkImageRole(im.id)({ target: { value: v } }), ev),
       onToggleRemove: this.toggleRelinkImageRemove(im.id), onRoleChange: this.setRelinkImageRole(im.id),
-      thumbStyle: { backgroundImage: `url(${im.image})` },
+      hasThumb: !!String(im.image || '').trim(), thumbStyle: { backgroundImage: `url(${im.image})` },
       cardStyle: im.toRemove ? { opacity: 0.4 } : {},
       removeLabel: im.toRemove ? '撤销移除' : '移除'
     }));
@@ -6683,7 +6872,7 @@ class Component extends DCLogic {
     const galleryIconStyle = { ...this.segStyle(view === 'gallery'), padding: '4px 6px', fontSize: '11px', borderRadius: '6px' };
     const circleIconStyle = { ...this.segStyle(view === 'circle'), padding: '4px 6px', fontSize: '11px', borderRadius: '6px' };
     const mobileGroupTabStyle = { padding: '6px 3px', fontSize: '10px', borderRadius: '7px', flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' };
-    const mobileGroupTextLabel = t => t.key === 'all' ? '全部' : t.label.split(' ').slice(1).join(' ');
+    const mobileGroupTextLabel = t => t.label || (t.key === 'all' ? '全部' : '');
     const mobileGroupTabs = groupTabs.map(t => ({ ...t, mobileLabel: mobileGroupTextLabel(t), style: { ...t.style, ...mobileGroupTabStyle } }));
     const gtAll = mobileGroupTabs.find(t => t.key === 'all') || mobileGroupTabs[0];
     const gtInhand = mobileGroupTabs.find(t => t.key === 'inhand') || mobileGroupTabs[0];
@@ -6837,12 +7026,12 @@ class Component extends DCLogic {
     '📑':'M6 3h9l4 4v14H6zM15 3v5h4M9 12h6m-6 4h6','💴':'M4 7h16v10H4zM8 10h8m-8 4h8','🏷':'M4 5h7l9 9-6 6-9-9zM8 9h.01','🔗':'M9 15l6-6m-8.5 9.5-1 1a3.5 3.5 0 0 1-5-5l4-4a3.5 3.5 0 0 1 5 0m5-1a3.5 3.5 0 0 1 5 0 3.5 3.5 0 0 1 0 5l-4 4a3.5 3.5 0 0 1-5 0',
     '🏡':'M3 11.5 12 4l9 7.5M5.5 10v9h4.5v-6h4v6h4.5v-9','☁':'M7 18a4 4 0 0 1-.5-7.97A5 5 0 0 1 16 9.5a3.5 3.5 0 0 1 .5 8.5z','💸':'M5 17 10 12l3 3 6-8M14 7h5v5',
     '⌂':'M3 11.5 12 4l9 7.5M5.5 10v9h4.5v-6h4v6h4.5v-9','▧':'M3 4h18v16H3zM8 4v16M3 10h5','◎':'M12 4a8 8 0 1 0 0 16 8 8 0 0 0 0-16zm0 5a3 3 0 1 0 0 6 3 3 0 0 0 0-6z','▤':'M3 4h18v16H3zM3 9h18M9 9v11',
-    '▾':'m7 9 5 5 5-5','▸':'m9 7 5 5-5 5','▼':'m7 9 5 5 5-5','▲':'m7 15 5-5 5 5','↑':'M12 19V5m-5 5 5-5 5 5','↓':'M12 5v14m-5-5 5 5 5-5','↕':'M12 4v16m-4-12 4-4 4 4m-8 8 4 4 4-4','›':'m9 6 6 6-6 6',
+    '▾':'m7 9 5 5 5-5','▸':'m9 7 5 5-5 5','▼':'m7 9 5 5 5-5','▲':'m7 15 5-5 5 5','↑':'M12 19V5m-5 5 5-5 5 5','↓':'M12 5v14m-5-5 5 5 5-5','↕':'M12 4v16m-4-12 4-4 4 4m-8 8 4 4 4-4','›':'m9 6 6 6-6 6','←':'M19 12H5m6-6-6 6 6 6','✕':'M6 6l12 12M18 6 6 18','×':'M6 6l12 12M18 6 6 18','⋮':'M12 5h.01M12 12h.01M12 19h.01',
     '★':'m12 3 2.7 5.5 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z','✓':'m5 12 4 4L19 6','✅':'m5 12 4 4L19 6','⏳':'M7 3h10M7 21h10M8 3c0 5 8 5 8 9s-8 4-8 9','🎉':'m6 18 4-12 8 8zM14 4l1-2m3 5 2-1m-1 5h3',
     '🔴':'M12 5a7 7 0 1 0 0 14 7 7 0 0 0 0-14','🟠':'M12 5a7 7 0 1 0 0 14 7 7 0 0 0 0-14','🟡':'M12 5a7 7 0 1 0 0 14 7 7 0 0 0 0-14','🔵':'M12 5a7 7 0 1 0 0 14 7 7 0 0 0 0-14','🟢':'M12 5a7 7 0 1 0 0 14 7 7 0 0 0 0-14','✿':'M12 8c-1-5-6-4-5 0-5-1-5 4 0 5-1 5 4 6 5 1 5 5 0 5 1 5 6 4 5-1 5 1 5-4 0-5 1-5-4-6-5-1z'
   };
-  var tokenPattern = /^(\s*)(＋|⚙|📦|🗂|🆕|⚠️?|⬆|⬇|📑|💴|🏷️?|🔗|🏡|☁️?|💸|⌂|▧|◎|▤|▾|▸|▼|▲|↑|↓|↕|★|✓|✅|⏳|🎉|🔴|🟠|🟡|🔵|🟢|✿)(\s*)/u;
-  var endPattern = /(\s*)(›)$/u;
+  var tokenPattern = /^(\s*)(＋|⚙|📦|🗂|🆕|⚠️?|⬆|⬇|📑|💴|🏷️?|🔗|🏡|☁️?|💸|⌂|▧|◎|▤|▾|▸|▼|▲|↑|↓|↕|←|✕|×|⋮|★|✓|✅|⏳|🎉|🔴|🟠|🟡|🔵|🟢|✿)(\s*)/u;
+  var endPattern = /(\s*)(›|▾|▼|▲|✓)$/u;
   var makeIcon = function (token) {
     token = token.replace('\uFE0F', '');
     var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
