@@ -230,6 +230,7 @@
     .ui-mobile-auto .ui-header-status-pill,.ui-mobile-simple .ui-header-status-pill,.ui-mobile-full .ui-header-status-pill{display:none !important;}
     .ui-hide-mobile{display:none !important;}
     /* 手机底部 tab 栏 */
+    .ui-modal-open .ui-bottom-tab{display:none !important;}
     .ui-bottom-tab{position:fixed;left:0;right:0;bottom:0;z-index:360;display:flex;align-items:center;justify-content:space-around;gap:2px;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-top:1px solid #eadff3;padding:4px 8px calc(4px + env(safe-area-inset-bottom));box-shadow:0 -6px 20px rgba(46,35,86,.08)}
     .ui-bottom-tab-add{flex:0 0 auto;width:52px;height:52px;margin-top:-18px;border-radius:50%;background:var(--accent,#ff3355);color:#fff;border:4px solid #fff;box-shadow:0 6px 16px var(--accent-shadow,rgba(255,51,85,.4));display:flex;align-items:center;justify-content:center;cursor:pointer;font-family:inherit}
     .ui-page-inner{padding-bottom:calc(78px + env(safe-area-inset-bottom)) !important;}
@@ -1153,15 +1154,15 @@
               </div>
               </sc-if>
               <div class="ui-mobile-card-price" style="display:flex;align-items:flex-end;justify-content:space-between;gap:8px;margin-top:2px;padding-top:9px;border-top:1px solid rgba(50,38,90,.05)">
-                <div>
+                <div style="min-width:0;overflow:hidden">
                   <div style="font-size:11px;color:#837da4">总价 · 数量{{ row.qtyText }}</div>
-                  <div style="font-family:'Orbitron';font-weight:700;font-size:18px;color:#251d49">{{ row.totalText }}</div>
+                  <div style="font-family:'Orbitron';font-weight:700;font-size:18px;color:#251d49;overflow:hidden;text-overflow:ellipsis">{{ row.totalText }}</div>
                   <sc-if value="{{ row.hasBreakdown }}" hint-placeholder-val="{{ false }}"><div class="ui-card-breakdown" style="font-size:10.5px;color:#938db0;margin-top:1px">{{ row.breakdownText }}</div></sc-if>
                   <sc-if value="{{ row.hasOriginal }}" hint-placeholder-val="{{ false }}"><div class="ui-card-breakdown" style="font-size:10.5px;color:#938db0">原价 {{ row.originalText }}{{ row.channelSuffix }}</div></sc-if>
                   <sc-if value="{{ row.showChannelOnly }}" hint-placeholder-val="{{ false }}"><div class="ui-card-breakdown" style="font-size:10.5px;color:#938db0">{{ row.channelLineText }}</div></sc-if>
                 </div>
                 <sc-if value="{{ row.hasProfit }}" hint-placeholder-val="{{ false }}">
-                  <div style="text-align:right"><div style="font-size:11px;color:#837da4">盈亏</div><div style="font-family:'Orbitron';font-size:15px"><span style="{{ row.profitStyle }}">{{ row.profitText }}</span></div></div>
+                  <div style="text-align:right;flex-shrink:0"><div style="font-size:11px;color:#837da4">盈亏</div><div style="font-family:'Orbitron';font-size:15px"><span style="{{ row.profitStyle }}">{{ row.profitText }}</span></div></div>
                 </sc-if>
               </div>
               <sc-if value="{{ row.hasHeld }}" hint-placeholder-val="{{ false }}"><div class="ui-mobile-card-extra" style="font-size:11.5px;color:#837da4">⏳ {{ row.heldText }}</div></sc-if>
@@ -1404,7 +1405,7 @@
             </div>
             <div class="ui-ledger-month-chart">
               <sc-if value="{{ ledgerDetailOpen }}" hint-placeholder-val="{{ false }}">
-                <div style="position:absolute;top:8px;right:8px;z-index:5;width:min(240px,72%);max-height:calc(100% - 16px);overflow-y:auto;background:#fff;border:1px solid #e1dbf0;border-radius:12px;box-shadow:0 12px 30px rgba(50,38,90,.2);padding:10px 12px">
+                <div style="width:100%;max-height:260px;overflow-y:auto;background:#fff;border:1px solid #e1dbf0;border-radius:12px;box-shadow:0 6px 18px rgba(50,38,90,.08);padding:10px 12px;margin-bottom:10px">
                   <div style="position:sticky;top:0;background:#fff;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px;padding-bottom:6px;border-bottom:1px solid rgba(50,38,90,.06)">
                     <div style="font-size:12px;font-weight:800;color:#251d49;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ ledgerDetailTitle }}</div>
                     <button onClick="{{ closeLedgerDetail }}" style="flex-shrink:0;width:20px;height:20px;border-radius:6px;border:none;background:rgba(50,38,90,.08);color:#595287;font-size:13px;line-height:1;cursor:pointer">×</button>
@@ -2570,15 +2571,9 @@
     <button onClick="{{ tabMine }}" style="{{ tabMineStyle }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M4.8 20c.7-3.8 3.8-6.2 7.2-6.2s6.5 2.4 7.2 6.2"/></svg><span>我的</span></button>
   </nav>
   <sc-if value="{{ genericSelectOpen }}" hint-placeholder-val="false">
-  <div style="position:fixed;inset:0;z-index:600;background:rgba(30,22,54,.45);display:flex;align-items:flex-end;justify-content:center" onClick="{{ closeGenericSelect }}">
-    <div style="width:100%;max-width:460px;background:linear-gradient(160deg,#fff,#f5f2fb);border-radius:20px 20px 0 0;max-height:70vh;display:flex;flex-direction:column;box-shadow:0 -10px 40px rgba(30,22,54,.3)" onClick="{{ stop }}">
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid #e1dbf0;flex-shrink:0">
-        <div style="font-weight:800;font-size:15px;color:#251d49">{{ genericSelectTitle }}</div>
-        <button onClick="{{ closeGenericSelect }}" style="width:30px;height:30px;border-radius:9px;border:1px solid #ded7ee;background:#fff;color:#595287;font-size:17px;cursor:pointer">×</button>
-      </div>
-      <div style="flex:1;min-height:0;overflow-y:auto;padding:8px 12px calc(14px + env(safe-area-inset-bottom))">
-        <sc-for list="{{ genericSelectRows }}" as="o" hint-placeholder-count="6"><button onClick="{{ o.onPick }}" style="{{ o.active ? 'background:color-mix(in srgb,var(--accent,#ff3355) 12%,transparent);color:var(--accent,#ff3355);font-weight:700;' : 'background:#fff;color:#251d49;' }}display:flex;align-items:center;width:100%;text-align:left;font-family:inherit;font-size:14px;border:1px solid #eee9f8;border-radius:11px;padding:12px 14px;margin-bottom:6px;cursor:pointer"><span style="flex:1;min-width:0">{{ o.label }}</span><sc-if value="{{ o.active }}" hint-placeholder-val="{{ false }}"><span style="color:var(--accent,#ff3355);font-weight:900">✓</span></sc-if></button></sc-for>
-      </div>
+  <div style="position:fixed;inset:0;z-index:600;background:transparent" onClick="{{ closeGenericSelect }}">
+    <div style="{{ genericSelectPopStyle }}" onClick="{{ stop }}">
+      <sc-for list="{{ genericSelectRows }}" as="o" hint-placeholder-count="6"><div style="{{ o.rowStyle }}"><button onClick="{{ o.onPick }}" style="flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;color:#251d49;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ o.label }}</button><sc-if value="{{ o.active }}" hint-placeholder-val="{{ false }}"><span style="color:var(--accent,#ff3355);font-weight:900;font-size:13px;flex-shrink:0">✓</span></sc-if></div></sc-for>
     </div>
   </div>
   </sc-if>
@@ -2622,7 +2617,7 @@ class Component extends DCLogic {
   CHAR_IMG = { '诺克斯': 'assets/c_nox.webp', 'NOX': 'assets/r_blue.webp', 'MIDNIGHT SHADOW': 'assets/r_nox_midnight.webp', 'NOX KNIGHT': 'assets/r_lady.webp', 'ZEZTZ': 'assets/r_red.webp', '西格': 'assets/c_zeke.webp', 'DAWN': 'assets/r_zeztz.webp', '宁梦': 'assets/c_nemu.webp', '南云成华': 'assets/c_nagumo.webp', 'ZERO': 'assets/c_zero.webp', '万津莫': 'assets/c_matsu.webp', '万津美浪': 'assets/c_minami.webp', '富士见铁也': 'assets/c_fujimi.webp', 'THE LADY': 'assets/c_lady.webp', 'CODE': 'assets/c_code.webp' };
   imgUrls = {};
   cloudImageMap = {};
-  state = { items: [], view: null, sets: [], lastSetId: '', setMenuOpen: false, feeOpen: false, colInfoOpen: false, setInfoOpen: false, recentWorks: [], collapsedGroups: {}, reminderMenuOpen: false, monthlyBudget: '', budgets: {}, ledgerDetailKey: '', ledgerDetailType: 'day', ledgerDetailLabel: '', tableSortKey: '', tableSortDir: 'desc', tableHiddenCols: [], tableColumnMenuOpen: false, nameStyleMode: 'default', displayMode: 'standard', dashboardCards: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], purchaseChannelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, purchaseChannels: [], purchaseChannelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], hiddenPurchaseChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, purchaseChannel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, dataManageOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, cloudPending: false, cloudLastSyncedAt: '', cloudRemoteUpdatedAt: '', modalOpen: false, editing: null, draft: null, savedAt: 0, batchMode: false, selectedIds: [], bulkEditIds: [], bulkEditIndex: 0, ledgerRange: 'month', ledgerMode: 'month', ledgerYear: String(new Date().getFullYear()), ledgerMonth: String(new Date().getMonth()+1), ledgerWeek: '', ledgerPieBy: 'character', ledgerPieActive: 0, batchEditOpen: false, batchEditField: '', batchOn: null, shippingOpen: false, shippingRecords: [], shippingBatches: [], shippingDraft: null, shippingPreviewNotice: '', shippingPreviewPaid: '', shippingPreviewCn: '', shippingPreviewGroup: '', shippingPreviewBatch: '', shippingPreviewPackageKey: '', itemEvidenceDrafts: [], itemEvidenceExistingIds: [], itemEvidenceOpen: false, exportGroup: '', exportSearch: '', exportIds: [], shipAddCollapsed: true, shippingViewChannel: null, relinkRecordId: null, relinkItemIds: [], relinkSearch: '', relinkNote: '', relinkGroup: '', relinkNoteOpen: false, relinkImages: [], relinkNewFiles: [], relinkRecordType: '', mobileMineOpen: false, cloudPageOpen: false, modalTab: 'edit', shippingRolesCustom: (() => { try { return JSON.parse(localStorage.getItem('zzz_shipping_roles') || '{}') || {}; } catch (e) { return {}; } })(), shipRoleManageOpen: false, shipRoleManageType: '', itemShipDraftOpen: false, itemShipItemsPanelOpen: false, linkExistingShipOpen: false, linkExistingSearch: '', linkExistingChannel: '', genericSelectOpen: false, genericSelectTitle: '', genericSelectOptions: [], genericSelectValue: '' };
+  state = { items: [], view: null, sets: [], lastSetId: '', setMenuOpen: false, feeOpen: false, colInfoOpen: false, setInfoOpen: false, recentWorks: [], collapsedGroups: {}, reminderMenuOpen: false, monthlyBudget: '', budgets: {}, ledgerDetailKey: '', ledgerDetailType: 'day', ledgerDetailLabel: '', tableSortKey: '', tableSortDir: 'desc', tableHiddenCols: [], tableColumnMenuOpen: false, nameStyleMode: 'default', displayMode: 'standard', dashboardCards: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], purchaseChannelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, purchaseChannels: [], purchaseChannelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], hiddenPurchaseChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, purchaseChannel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, dataManageOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, cloudPending: false, cloudLastSyncedAt: '', cloudRemoteUpdatedAt: '', modalOpen: false, editing: null, draft: null, savedAt: 0, batchMode: false, selectedIds: [], bulkEditIds: [], bulkEditIndex: 0, ledgerRange: 'month', ledgerMode: 'month', ledgerYear: String(new Date().getFullYear()), ledgerMonth: String(new Date().getMonth()+1), ledgerWeek: '', ledgerPieBy: 'character', ledgerPieActive: 0, batchEditOpen: false, batchEditField: '', batchOn: null, shippingOpen: false, shippingRecords: [], shippingBatches: [], shippingDraft: null, shippingPreviewNotice: '', shippingPreviewPaid: '', shippingPreviewCn: '', shippingPreviewGroup: '', shippingPreviewBatch: '', shippingPreviewPackageKey: '', itemEvidenceDrafts: [], itemEvidenceExistingIds: [], itemEvidenceOpen: false, exportGroup: '', exportSearch: '', exportIds: [], shipAddCollapsed: true, shippingViewChannel: null, relinkRecordId: null, relinkItemIds: [], relinkSearch: '', relinkNote: '', relinkGroup: '', relinkNoteOpen: false, relinkImages: [], relinkNewFiles: [], relinkRecordType: '', mobileMineOpen: false, cloudPageOpen: false, modalTab: 'edit', shippingRolesCustom: (() => { try { return JSON.parse(localStorage.getItem('zzz_shipping_roles') || '{}') || {}; } catch (e) { return {}; } })(), shipRoleManageOpen: false, shipRoleManageType: '', itemShipDraftOpen: false, itemShipItemsPanelOpen: false, linkExistingShipOpen: false, linkExistingSearch: '', linkExistingChannel: '', genericSelectOpen: false, genericSelectTitle: '', genericSelectOptions: [], genericSelectValue: '', genericSelectAnchor: null };
 
   setRoot = (el) => { this.rootEl = el; if (el) { this.applyThemeVars(); this.applyBg(); } };
   applyThemeVars() {
@@ -3321,7 +3316,7 @@ class Component extends DCLogic {
     e.target.value='';
   };
   onItemEvidenceExistingSelect = (e) => { const id=String((e&&e.target&&e.target.value)||''); if(!id)return; this.setState(st=>({itemEvidenceExistingIds:[...new Set([...(st.itemEvidenceExistingIds||[]),id])]})); e.target.value=''; };
-  openItemEvidenceExistingSelect = () => { const opts = (this.state.shippingRecords||[]).filter(r=>r.type==='本体资料').map(r=>({ value:r.id, label:[r.group,r.title,r.note,(r.images||[]).length+'张图'].filter(Boolean).join(' · ') })); if (!opts.length) { alert('还没有「本体资料」类型的资料可选。'); return; } this.openGenericSelect('选择已有本体资料', opts, '', (id) => { if(!id) return; this.setState(st=>({ itemEvidenceExistingIds:[...new Set([...(st.itemEvidenceExistingIds||[]),id])] })); }); };
+  openItemEvidenceExistingSelect = (ev) => { const opts = (this.state.shippingRecords||[]).filter(r=>r.type==='本体资料').map(r=>({ value:r.id, label:[r.group,r.title,r.note,(r.images||[]).length+'张图'].filter(Boolean).join(' · ') })); if (!opts.length) { alert('还没有「本体资料」类型的资料可选。'); return; } this.openGenericSelect('选择已有本体资料', opts, '', (id) => { if(!id) return; this.setState(st=>({ itemEvidenceExistingIds:[...new Set([...(st.itemEvidenceExistingIds||[]),id])] })); }, ev); };
   async linkExistingDocumentsToItem(item){const ids=this.state.itemEvidenceExistingIds||[];if(!ids.length||!item||!item.id||!this.sb)return;const rows=ids.map(document_id=>({document_id,item_id:item.id,sync_code:this.shippingSyncCode()}));const{error}=await this.sb.from('shipping_document_items').upsert(rows,{onConflict:'document_id,item_id'});if(error)throw error;}
   async ensureShippingChannel(code,name){
     const channelName=String(name||'').trim(); if(!channelName)throw new Error('请先填写渠道 / 排发群。');
@@ -3379,8 +3374,16 @@ class Component extends DCLogic {
   closeShipMenus(extra={}){return{shipTypeMenuOpen:false,shipRoleMenuOpen:false,shipStatusMenuOpen:false,shipGroupMenuOpen:false,...extra};}
   // ==== 通用自定义下拉（替代原生 select，避免 iPhone 弹出系统滚轮）====
   // 用法：openGenericSelect(title, options:[{value,label}], currentValue, onPickFn)
-  openGenericSelect = (title, options, current, onPick) => { this._genericSelectPick = onPick; this.setState({ genericSelectOpen: true, genericSelectTitle: title || '选择', genericSelectOptions: options || [], genericSelectValue: current }); };
-  closeGenericSelect = () => this.setState({ genericSelectOpen: false, genericSelectOptions: [] });
+  openGenericSelect = (title, options, current, onPick, ev) => {
+    this._genericSelectPick = onPick;
+    let anchor = null;
+    try {
+      const el = ev && (ev.currentTarget || ev.target);
+      if (el && el.getBoundingClientRect) { const r = el.getBoundingClientRect(); anchor = { left: r.left, right: r.right, top: r.top, bottom: r.bottom, width: r.width }; }
+    } catch (e) {}
+    this.setState({ genericSelectOpen: true, genericSelectTitle: title || '选择', genericSelectOptions: options || [], genericSelectValue: current, genericSelectAnchor: anchor });
+  };
+  closeGenericSelect = () => this.setState({ genericSelectOpen: false, genericSelectOptions: [], genericSelectAnchor: null });
   pickGenericSelect = (v) => () => { const fn = this._genericSelectPick; this.closeGenericSelect(); if (fn) fn(v); };
   toggleShipMenu=(key)=>()=>this.setState(s=>this.closeShipMenus({[key]:!s[key]}));
   pickShip=(k,v)=>()=>this.setState(st=>{const d={...(st.shippingDraft||this.newShippingDraft()),[k]:v};if(k==='type')d.role=this.shippingRoles(v)[0]||'其他附件';return{shippingDraft:d,...this.closeShipMenus()};});
@@ -3391,7 +3394,7 @@ class Component extends DCLogic {
   // ==== 生成排发长图：独立的选谷子器（自带团筛选 + 勾选，不依赖左边新增表单）====
   toggleAddFormCollapsed=()=>this.setState(st=>({shipAddCollapsed:!st.shipAddCollapsed}));
   onExportGroup=(e)=>{const v=e&&e.target?e.target.value:'';this.setState({exportGroup:v});};
-  openExportGroupSelect = () => { const opts = [{ value:'', label:'全部团／渠道' }, ...(this._exportGroupOpts||[]).map(g => ({ value:g, label:g }))]; this.openGenericSelect('筛选团／渠道', opts, this.state.exportGroup || '', (v) => this.setState({ exportGroup: v })); };
+  openExportGroupSelect = (ev) => { const opts = [{ value:'', label:'全部团／渠道' }, ...(this._exportGroupOpts||[]).map(g => ({ value:g, label:g }))]; this.openGenericSelect('筛选团／渠道', opts, this.state.exportGroup || '', (v) => this.setState({ exportGroup: v }), ev); };
   onExportSearch=(e)=>{const v=e&&e.target?e.target.value:'';this.setState({exportSearch:v});};
   toggleExportItem=(id)=>()=>this.setState(st=>{const a=Array.isArray(st.exportIds)?st.exportIds:[];return{exportIds:a.includes(id)?a.filter(x=>x!==id):[...a,id]};});
   // 导出选谷子器可见的谷子：只列出「有关联排发资料」的谷子，按团/渠道 + 搜索过滤
@@ -4978,9 +4981,9 @@ class Component extends DCLogic {
   onLedgerYear = (e) => this.setState({ ledgerYear: e.target.value });
   onLedgerMonth = (e) => this.setState({ ledgerMonth: e.target.value });
   onLedgerWeek = (e) => this.setState({ ledgerWeek: e.target.value });
-  openLedgerYearSelect = () => { const yrs = this._ledgerYearOpts || []; this.openGenericSelect('选择年份', yrs.map(y => ({ value: y, label: y + '年' })), this.state.ledgerYear, (v) => this.setState({ ledgerYear: v })); };
-  openLedgerMonthSelect = () => { this.openGenericSelect('选择月份', Array.from({length:12},(_,i)=>({ value:String(i+1), label:(i+1)+'月' })), this.state.ledgerMonth, (v) => this.setState({ ledgerMonth: v })); };
-  openLedgerWeekSelect = () => { const wks = this._ledgerWeekOpts || []; this.openGenericSelect('选择周', wks, this.state.ledgerWeek, (v) => this.setState({ ledgerWeek: v })); };
+  openLedgerYearSelect = (ev) => { const yrs = this._ledgerYearOpts || []; this.openGenericSelect('选择年份', yrs.map(y => ({ value: y, label: y + '年' })), this.state.ledgerYear, (v) => this.setState({ ledgerYear: v }), ev); };
+  openLedgerMonthSelect = (ev) => { this.openGenericSelect('选择月份', Array.from({length:12},(_,i)=>({ value:String(i+1), label:(i+1)+'月' })), this.state.ledgerMonth, (v) => this.setState({ ledgerMonth: v }), ev); };
+  openLedgerWeekSelect = (ev) => { const wks = this._ledgerWeekOpts || []; this.openGenericSelect('选择周', wks, this.state.ledgerWeek, (v) => this.setState({ ledgerWeek: v }), ev); };
   ledgerDateRange(range) {
     const now = new Date();
     const mode = this.state.ledgerMode || range || 'month';
@@ -6291,7 +6294,8 @@ class Component extends DCLogic {
     const cloudSaveDotStyle = { width: '6px', height: '6px', borderRadius: '50%', background: cloudDotColor, boxShadow: '0 0 8px ' + cloudDotColor, flexShrink: 0 };
     const mobileMode = this.state.mobileMode || 'auto';
     const mobileTabView = this.state.mobileMineOpen ? 'mine' : (this.state.view === 'ledger' ? 'ledger' : (this.state.filtersOpen ? 'search' : 'home'));
-    const appClass = 'ui-app ui-mobile-full ui-view-' + mobileTabView + ' ui-fcat-' + (this.state.mobileFilterCat || 'none') + (this.state.filtersOpen ? ' ui-filters-open' : '') + (this.state.batchMode ? ' ui-batch-active' : '');
+    const _anyModalOpen = this.state.modalOpen || this.state.shippingOpen || this.state.settingsOpen || this.state.dataManageOpen || this.state.relinkRecordId || this.state.batchEditOpen || this.state.ledgerDetailKey || this.state.cloudPageOpen;
+    const appClass = 'ui-app ui-mobile-full ui-view-' + mobileTabView + ' ui-fcat-' + (this.state.mobileFilterCat || 'none') + (this.state.filtersOpen ? ' ui-filters-open' : '') + (this.state.batchMode ? ' ui-batch-active' : '') + (_anyModalOpen ? ' ui-modal-open' : '');
     const mobileModeText = mobileMode === 'full' ? '清爽模式' : '完整模式';
     const activeCustomFilterCount = Object.values(this.state.customFilterSel || {}).reduce((n, arr) => n + (Array.isArray(arr) && arr.length ? 1 : 0), 0);
     const activeFilterCount = (charSel.length ? 1 : 0) + (typeSel.length ? 1 : 0) + (seriesFilter !== '全部' ? 1 : 0) + (formSel.length ? 1 : 0) + (statusSel.length ? 1 : 0) + (acquireSel.length ? 1 : 0) + (methodSel.length ? 1 : 0) + (setSel.length ? 1 : 0) + (channelSel.length ? 1 : 0) + ((purchaseChannelSel || []).length ? 1 : 0) + (tagSel.length ? 1 : 0) + (raritySel.length ? 1 : 0) + activeCustomFilterCount + (groupBySafe !== 'none' ? 1 : 0);
@@ -6479,7 +6483,7 @@ class Component extends DCLogic {
     const relinkImageRows = (this.state.relinkImages || []).map(im => ({
       id: im.id, image: im.image, role: im.role,
       roleLabel: this.shippingRoleLabel(im.role),
-      onOpenRole: () => this.openGenericSelect('图片分类', relinkRoleOptions, im.role, (v) => this.setRelinkImageRole(im.id)({ target: { value: v } })),
+      onOpenRole: (ev) => this.openGenericSelect('图片分类', relinkRoleOptions, im.role, (v) => this.setRelinkImageRole(im.id)({ target: { value: v } }), ev),
       onToggleRemove: this.toggleRelinkImageRemove(im.id), onRoleChange: this.setRelinkImageRole(im.id),
       thumbStyle: { backgroundImage: `url(${im.image})` },
       cardStyle: im.toRemove ? { opacity: 0.4 } : {},
@@ -6489,7 +6493,7 @@ class Component extends DCLogic {
     const relinkNewFileRows = (this.state.relinkNewFiles || []).map((f, idx) => ({
       idx, filename: f.filename, role: f.role,
       roleLabel: this.shippingRoleLabel(f.role),
-      onOpenRole: () => this.openGenericSelect('图片分类', relinkRoleOptions, f.role, (v) => this.setRelinkNewFileRole(idx)({ target: { value: v } })),
+      onOpenRole: (ev) => this.openGenericSelect('图片分类', relinkRoleOptions, f.role, (v) => this.setRelinkNewFileRole(idx)({ target: { value: v } }), ev),
       onRemove: this.removeRelinkNewFile(idx), onRoleChange: this.setRelinkNewFileRole(idx)
     }));
     const hasRelinkNewFiles = relinkNewFileRows.length > 0;
@@ -6660,7 +6664,19 @@ class Component extends DCLogic {
       itemShipGroups, hasItemShipRecords, noItemShipRecords, itemShipDraftOpen: this.state.itemShipDraftOpen, itemShipListView: !this.state.itemShipDraftOpen, openItemAddShip: this.openItemAddShip, closeItemAddShip: this.closeItemAddShip, toggleItemShipItemsPanel: this.toggleItemShipItemsPanel, itemShipItemsPanelOpen: this.state.itemShipItemsPanelOpen, itemShipItemsCaret: this.state.itemShipItemsPanelOpen ? '▲ 收起' : '▼ 展开选择',
       openLinkExistingShip: this.openLinkExistingShip, closeLinkExistingShip: this.closeLinkExistingShip, linkExistingShipOpen: this.state.linkExistingShipOpen, linkExistingSearch: this.state.linkExistingSearch || '', onLinkExistingSearch: this.onLinkExistingSearch, linkExistingRows, noLinkExistingRows, linkExistingChannelChips, hasLinkExistingChannels: linkExistingChannelChips.length > 1,
       genericSelectOpen: this.state.genericSelectOpen, genericSelectTitle: this.state.genericSelectTitle || '选择', closeGenericSelect: this.closeGenericSelect,
-      genericSelectRows: (this.state.genericSelectOptions || []).map(o => ({ label: o.label, active: String(o.value) === String(this.state.genericSelectValue), onPick: this.pickGenericSelect(o.value) })),
+      genericSelectPopStyle: (() => {
+        const a = this.state.genericSelectAnchor;
+        const base = { position: 'fixed', zIndex: 601, background: '#ffffff', border: '1px solid #ded7ee', borderRadius: '11px', boxShadow: '0 14px 36px rgba(0,0,0,.16)', padding: '6px', maxHeight: '240px', overflowY: 'auto', WebkitOverflowScrolling: 'touch' };
+        if (!a) { return { ...base, left: '50%', top: '40%', transform: 'translate(-50%,-50%)', width: 'min(90vw,340px)' }; }
+        const vw = (typeof window !== 'undefined' ? window.innerWidth : 380);
+        const vh = (typeof window !== 'undefined' ? window.innerHeight : 700);
+        const width = Math.max(a.width, 160);
+        let left = a.left; if (left + width > vw - 8) left = Math.max(8, vw - 8 - width);
+        const spaceBelow = vh - a.bottom;
+        if (spaceBelow < 200 && a.top > spaceBelow) { return { ...base, left: left + 'px', bottom: (vh - a.top + 5) + 'px', width: width + 'px', maxHeight: Math.min(240, a.top - 16) + 'px' }; }
+        return { ...base, left: left + 'px', top: (a.bottom + 5) + 'px', width: width + 'px', maxHeight: Math.min(240, spaceBelow - 16) + 'px' };
+      })(),
+      genericSelectRows: (this.state.genericSelectOptions || []).map(o => ({ label: o.label, active: String(o.value) === String(this.state.genericSelectValue), rowStyle: this.menuRow(String(o.value) === String(this.state.genericSelectValue)), onPick: this.pickGenericSelect(o.value) })),
       shipRoleManageOpen: this.state.shipRoleManageOpen, closeShipRoleManage: this.closeShipRoleManage, shipRoleManageTitle, shipRoleManageRows, shipRoleAdd: this.shipRoleAdd,
       toast: this.state.toast || '', hasToast: !!this.state.toast, showTip: this.showTip,
       displayRows, isEmpty: itemRows.length === 0 && view !== 'ledger' && view !== 'dashboard', isDashboard: view === 'dashboard', isTable: view === 'table', isGallery: view === 'gallery', isCircle: view === 'circle', isLedger: view === 'ledger',
