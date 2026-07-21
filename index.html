@@ -912,7 +912,7 @@
     .ui-relink-body{padding:8px 10px !important;gap:9px !important}
     .ui-relink-label{margin-bottom:4px !important;font-size:9.5px !important}
     .ui-app .ui-relink-note-toggle{min-height:24px !important;padding:0 !important;font-size:9.5px !important}
-    .ui-relink-image-row,.ui-relink-new-row{display:flex !important;flex-wrap:nowrap !important;align-items:center !important;gap:6px !important;min-height:44px !important;margin-bottom:5px !important;padding:5px !important;border-radius:8px !important}
+    .ui-relink-image-row,.ui-relink-new-row{display:flex !important;flex-direction:row !important;flex-wrap:nowrap !important;align-items:center !important;gap:6px !important;min-height:44px !important;margin-bottom:5px !important;padding:5px !important;border-radius:8px !important}
     .ui-relink-image-row > div{width:34px !important;height:34px !important;border-radius:6px !important}
     .ui-relink-new-row > div{flex:0 1 64px !important;max-width:64px !important;font-size:9px !important}
     .ui-app .ui-relink-image-row > button:first-of-type,.ui-app .ui-relink-new-row > button:first-of-type{flex:1 1 auto !important;width:auto !important;min-width:0 !important;height:32px !important;min-height:32px !important;padding:4px 6px !important;font-size:10px !important}
@@ -2468,7 +2468,7 @@
 
   <!-- ===== 编辑资料（备注/图片/关联谷子，独立顶层弹窗，编辑弹窗/排发中心都可以触发） ===== -->
   <sc-if value="{{ relinkOpen }}" hint-placeholder-val="false">
-    <div class="ui-relink-backdrop" style="position:fixed;inset:0;z-index:500;background:rgba(30,22,54,.55);display:flex;align-items:center;justify-content:center;padding:16px" onClick="{{ closeRelink }}">
+    <div class="ui-relink-backdrop" style="position:fixed;inset:0;z-index:560;background:rgba(30,22,54,.55);display:flex;align-items:center;justify-content:center;padding:16px" onClick="{{ closeRelink }}">
       <div class="ui-relink-modal" style="width:100%;max-width:480px;max-height:88dvh;display:flex;flex-direction:column;background:linear-gradient(160deg,#fff,#f5f2fb);border-radius:18px;overflow:hidden;box-shadow:0 20px 60px rgba(30,22,54,.35)" onClick="{{ stop }}">
         <div class="ui-relink-header" style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #e1dbf0;flex-shrink:0">
           <div><div style="font-weight:900;font-size:15px;color:#251d49">编辑资料</div><div style="font-size:11.5px;color:#837da4;margin-top:1px">{{ relinkTitle }}</div></div>
