@@ -443,6 +443,21 @@
     .ui-batch-option-grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important;}
   }
 
+  /* ===== 手机端统一：字号层级 + 控件高度/间距（仅 ≤640，不影响电脑端） ===== */
+  @media (max-width:640px){
+    /* 控件统一：高度、圆角、字号一致（input/select/textarea 保持 16px 防 iOS 缩放） */
+    .ui-app button:not(.ui-bottom-tab-add):not(.ui-mini-select){min-height:38px;}
+    .ui-app .ui-modal-card button, .ui-app .ui-ship-card button{min-height:38px;}
+    /* 标题层级：卡片标题 15 / 区块标题 14 / 正文 13.5 / 辅助 12 */
+    .ui-app .ui-ship-title{font-size:15px !important;}
+    .ui-app .ui-ship-label{font-size:12px !important;}
+    /* 安全区域：底部 tab 栏与悬浮按钮避让 iOS Home 指示条与浏览器工具栏 */
+    .ui-bottom-tab{padding-bottom:calc(6px + env(safe-area-inset-bottom)) !important;}
+    .ui-app{padding-bottom:calc(90px + env(safe-area-inset-bottom)) !important;}
+    /* 弹窗底部按钮避让安全区域 */
+    .ui-modal-footer{padding-bottom:calc(12px + env(safe-area-inset-bottom)) !important;}
+  }
+
   /* ===== Desktop app-shell: left sidebar ===== */
   .ui-sidebar{display:none;}
   .ui-sidebar-brand{display:flex;flex-direction:column;align-items:stretch;gap:10px;padding:2px 6px 14px;}
@@ -856,7 +871,7 @@
     <sc-if value="{{ hasUpcomingReminders }}" hint-placeholder-val="{{ false }}">
       <div class="ui-reminder-strip" style="background:rgba(226,59,93,.07);border:1px solid rgba(226,59,93,.24);border-left:4px solid #e23b5d;border-radius:13px;padding:10px 12px;color:#e23b5d;font-size:13px;font-weight:800">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:7px">
-          <span>📌 今日待办</span><span style="font-size:11.5px;color:#837da4;font-weight:700">{{ mobileReminderText }}</span>
+          <span style="display:inline-flex;align-items:center;gap:6px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v6"/><path d="M8 9h8l-1.2 4H9.2z"/><path d="M12 13v8"/></svg>今日待办</span><span style="font-size:11.5px;color:#837da4;font-weight:700">{{ mobileReminderText }}</span>
         </div>
         <sc-for list="{{ mobileTodoRows }}" as="todo" hint-placeholder-count="2">
           <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;background:#fff;border:1px solid rgba(226,59,93,.16);border-radius:10px;padding:7px 9px;margin-top:6px;color:#251d49;font-weight:700">
@@ -872,7 +887,7 @@
 
     <div class="ui-mobile-ledger-mini" style="background:linear-gradient(135deg,#ffffff,#f7f3ff);border:1px solid #ded7ee;border-radius:13px;padding:11px 12px">
       <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px">
-        <div style="font-weight:900;font-size:13px;color:#251d49">💰 本月账单</div>
+        <div style="font-weight:900;font-size:13px;color:#251d49;display:inline-flex;align-items:center;gap:6px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2.5"/><path d="M3 10h18"/><circle cx="16.5" cy="14.5" r="1.4" fill="currentColor" stroke="none"/></svg>本月账单</div>
         <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
           <span style="font-size:11px;color:#837da4">{{ budgetPctText }}</span>
           <button onClick="{{ onBudgetQuickEdit }}" style="font-family:inherit;font-size:11.5px;font-weight:700;color:#4c4580;background:#fff;border:1px solid #ded7ee;border-radius:999px;padding:4px 8px;cursor:pointer">改预算</button>
@@ -888,7 +903,7 @@
 
     <!-- ===== FILTERS ===== -->
     <div class="ui-filters-panel" style="background:rgba(255,255,255,.6);border:1px solid #e3def1;border-radius:14px;padding:14px 16px;margin-bottom:18px;display:flex;flex-direction:column;gap:12px">
-      <input value="{{ search }}" onChange="{{ onSearch }}" placeholder="🔍 搜索名称 / 角色 / 种类 / 备注…" style="width:100%;padding:10px 13px;border-radius:10px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+      <input value="{{ search }}" onChange="{{ onSearch }}" placeholder="搜索名称 / 角色 / 种类 / 备注…" style="width:100%;padding:10px 13px;border-radius:10px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
       <div class="ui-mobile-filter-cats" style="display:none;gap:6px;overflow-x:auto;padding-bottom:2px">
         <sc-for list="{{ mobileFilterCatChips }}" as="cat" hint-placeholder-count="5">
           <button onClick="{{ cat.onClick }}" style="{{ cat.style }}">{{ cat.label }}</button>
@@ -1180,7 +1195,7 @@
                   <div style="text-align:right;flex-shrink:0"><div style="font-size:10px;color:#837da4">盈亏</div><div style="font-family:'Orbitron';font-size:15px"><span style="{{ row.profitStyle }}">{{ row.profitText }}</span></div></div>
                 </sc-if>
               </div>
-              <sc-if value="{{ row.hasHeld }}" hint-placeholder-val="{{ false }}"><div class="ui-mobile-card-extra" style="font-size:11.5px;color:#837da4">⏳ {{ row.heldText }}</div></sc-if>
+              <sc-if value="{{ row.hasHeld }}" hint-placeholder-val="{{ false }}"><div class="ui-mobile-card-extra" style="font-size:11.5px;color:#837da4;display:flex;align-items:center;gap:5px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>{{ row.heldText }}</div></sc-if>
               <sc-if value="{{ row.hasReminderAlert }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;font-weight:800;color:#e23b5d;background:rgba(226,59,93,.08);border:1px solid rgba(226,59,93,.25);border-radius:9px;padding:7px 9px">⚠ {{ row.reminderBadgeText }}</div></sc-if>
               <div style="display:flex;gap:7px;margin-top:3px">
                 <button onClick="{{ row.onEdit }}" style="flex:1;font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:7px;border-radius:9px;cursor:pointer">编辑</button>
@@ -1419,36 +1434,38 @@
               </div>
             </div>
             <div class="ui-ledger-month-chart">
-              <sc-if value="{{ ledgerDetailOpen }}" hint-placeholder-val="{{ false }}">
-                <div style="position:fixed;inset:0;z-index:420;background:rgba(30,22,54,.45);display:flex;align-items:center;justify-content:center;padding:20px" onClick="{{ closeLedgerDetail }}">
-                <div style="width:100%;max-width:400px;max-height:70dvh;overflow-y:auto;background:linear-gradient(160deg,#fff,#f7f4fc);border:1px solid #e1dbf0;border-radius:16px;box-shadow:0 24px 60px rgba(30,22,54,.32);padding:14px 16px" onClick="{{ stop }}">
-                  <div style="position:sticky;top:0;background:#fff;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:8px;margin:-14px -16px 10px;padding:14px 16px 10px;border-bottom:1px solid rgba(50,38,90,.08)">
-                    <div style="font-size:14px;font-weight:800;color:#251d49;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ ledgerDetailTitle }}</div>
-                    <button onClick="{{ closeLedgerDetail }}" style="flex-shrink:0;width:26px;height:26px;border-radius:8px;border:1px solid #ded7ee;background:#fff;color:#595287;font-size:15px;line-height:1;cursor:pointer">×</button>
-                  </div>
-                  <sc-if value="{{ ledgerDetailEmpty }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;color:#938db0;padding:6px 0">这一天没有消费记录</div></sc-if>
-                  <sc-for list="{{ ledgerDetailItems }}" as="d" hint-placeholder-count="0">
-                    <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 0;border-top:1px solid rgba(50,38,90,.06)">
-                      <div style="min-width:0"><div style="font-size:13px;color:#251d49;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ d.name }} <span style="color:#938db0">{{ d.qtyText }}</span></div></div>
-                      <div style="font-family:'Orbitron';font-size:12.5px;color:#251d49;white-space:nowrap">{{ d.costText }}</div>
-                    </div>
-                  </sc-for>
-                  <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding-top:8px;margin-top:4px;border-top:1px solid #e1dbf0"><span style="font-size:12px;color:#837da4">合计</span><span style="font-family:'Orbitron';font-size:13.5px;font-weight:800;color:#251d49">{{ ledgerDetailTotal }}</span></div>
-                </div>
-                </div>
-              </sc-if>
               <svg class="ui-ledger-month-svg" viewBox="0 0 600 170" preserveAspectRatio="none" aria-label="消费表">
                 <defs>
                   <linearGradient id="zzzBar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{{ barTop }}"></stop><stop offset="1" stop-color="{{ barBottom }}"></stop></linearGradient>
                   <linearGradient id="zzzBarAccent" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{{ areaColor }}"></stop><stop offset="1" stop-color="{{ barBottom }}"></stop></linearGradient>
                   <linearGradient id="zzzArea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{{ areaColor }}" stop-opacity="0.22"></stop><stop offset="1" stop-color="{{ areaColor }}" stop-opacity="0"></stop></linearGradient>
                 </defs>
-                <sc-for list="{{ ledgerMonthBars }}" as="b" hint-placeholder-count="6"><rect x="{{ b.x }}" y="{{ b.y }}" width="{{ b.w }}" height="{{ b.h }}" rx="7" fill="{{ b.fill }}" style="cursor:pointer" onClick="{{ b.onClick }}"></rect></sc-for>
-                <path d="{{ ledgerMonthAreaPath }}" fill="url(#zzzArea)" stroke="none"></path>
-                <polyline points="{{ ledgerMonthLinePoints }}" fill="none" stroke="var(--accent,#ff3355)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke"></polyline>
-                <sc-for list="{{ ledgerMonthDots }}" as="d" hint-placeholder-count="6"><circle cx="{{ d.x }}" cy="{{ d.y }}" r="5.5" fill="#fff" stroke="{{ d.color }}" strokeWidth="3" vectorEffect="non-scaling-stroke"></circle></sc-for>
+                <sc-for list="{{ ledgerMonthBars }}" as="b" hint-placeholder-count="6"><rect x="{{ b.hitX }}" y="{{ b.hitY }}" width="{{ b.hitW }}" height="{{ b.hitH }}" fill="transparent" style="cursor:pointer" onClick="{{ b.onClick }}"></rect></sc-for>
+                <sc-for list="{{ ledgerMonthBars }}" as="b" hint-placeholder-count="6"><rect x="{{ b.x }}" y="{{ b.y }}" width="{{ b.w }}" height="{{ b.h }}" rx="6" fill="{{ b.fill }}" style="cursor:pointer;pointer-events:none"></rect></sc-for>
+                <path d="{{ ledgerMonthAreaPath }}" fill="url(#zzzArea)" stroke="none" style="pointer-events:none"></path>
+                <polyline points="{{ ledgerMonthLinePoints }}" fill="none" stroke="var(--accent,#ff3355)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" style="pointer-events:none"></polyline>
+                <sc-for list="{{ ledgerMonthDots }}" as="d" hint-placeholder-count="6"><circle cx="{{ d.x }}" cy="{{ d.y }}" r="5.5" fill="#fff" stroke="{{ d.color }}" strokeWidth="3" vectorEffect="non-scaling-stroke" style="pointer-events:none"></circle></sc-for>
+                <sc-for list="{{ ledgerMonthBars }}" as="b" hint-placeholder-count="0"><sc-if value="{{ b.showLabel }}" hint-placeholder-val="{{ false }}"><text x="{{ b.labelX }}" y="{{ b.labelY }}" text-anchor="middle" font-family="Orbitron" font-size="15" font-weight="700" fill="var(--accent,#ff3355)" style="pointer-events:none">{{ b.amountText }}</text></sc-if></sc-for>
               </svg>
             </div>
+            <sc-if value="{{ ledgerDetailOpen }}" hint-placeholder-val="{{ false }}">
+              <div style="position:fixed;inset:0;z-index:420;background:rgba(30,22,54,.45);display:flex;align-items:center;justify-content:center;padding:20px" onClick="{{ closeLedgerDetail }}">
+              <div style="width:100%;max-width:400px;max-height:70dvh;overflow-y:auto;background:linear-gradient(160deg,#fff,#f7f4fc);border:1px solid #e1dbf0;border-radius:16px;box-shadow:0 24px 60px rgba(30,22,54,.32);padding:14px 16px" onClick="{{ stop }}">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid rgba(50,38,90,.08)">
+                  <div style="font-size:14px;font-weight:800;color:#251d49;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ ledgerDetailTitle }}</div>
+                  <button onClick="{{ closeLedgerDetail }}" style="flex-shrink:0;width:26px;height:26px;border-radius:8px;border:1px solid #ded7ee;background:#fff;color:#595287;font-size:15px;line-height:1;cursor:pointer">×</button>
+                </div>
+                <sc-if value="{{ ledgerDetailEmpty }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;color:#938db0;padding:6px 0">这一天没有消费记录</div></sc-if>
+                <sc-for list="{{ ledgerDetailItems }}" as="d" hint-placeholder-count="0">
+                  <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 0;border-top:1px solid rgba(50,38,90,.06)">
+                    <div style="min-width:0"><div style="font-size:13px;color:#251d49;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ d.name }} <span style="color:#938db0">{{ d.qtyText }}</span></div></div>
+                    <div style="font-family:'Orbitron';font-size:12.5px;color:#251d49;white-space:nowrap">{{ d.costText }}</div>
+                  </div>
+                </sc-for>
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding-top:8px;margin-top:4px;border-top:1px solid #e1dbf0"><span style="font-size:12px;color:#837da4">合计</span><span style="font-family:'Orbitron';font-size:13.5px;font-weight:800;color:#251d49">{{ ledgerDetailTotal }}</span></div>
+              </div>
+              </div>
+            </sc-if>
             <div class="ui-ledger-month-axis">
               <sc-for list="{{ ledgerMonths }}" as="m" hint-placeholder-count="6"><div class="ui-ledger-month-cell" style="{{ m.cellStyle }}" onClick="{{ m.onClick }}"><div class="ui-ledger-month-label">{{ m.label }}</div><div class="ui-ledger-month-amount">{{ m.amount }}</div></div></sc-for>
             </div>
@@ -2572,10 +2589,10 @@
     <div style="width:100%;background:linear-gradient(160deg,#fff,#f5f2fb);border-radius:22px 22px 0 0;padding:8px 16px calc(84px + env(safe-area-inset-bottom));max-height:80dvh;overflow-y:auto" onClick="{{ stop }}">
       <div style="width:38px;height:4px;border-radius:999px;background:#ded7ee;margin:8px auto 14px"></div>
       <div style="font-weight:900;font-size:17px;color:#251d49;margin-bottom:14px">我的</div>
-      <button onClick="{{ openShipping }}" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;font-family:inherit;font-size:15px;font-weight:700;color:#251d49;background:#fff;border:1px solid #e8e2f2;border-radius:14px;padding:15px;margin-bottom:10px;cursor:pointer"><span style="font-size:20px">📦</span>排发中心<span style="margin-left:auto;font-size:13px;color:#938db0">{{ shippingCount }} 份资料 ›</span></button>
-      <button onClick="{{ openCloudPage }}" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;font-family:inherit;font-size:15px;font-weight:700;color:#251d49;background:#fff;border:1px solid #e8e2f2;border-radius:14px;padding:15px;margin-bottom:10px;cursor:pointer"><span style="font-size:20px">☁️</span>云端<span style="margin-left:auto;font-size:13px;color:#938db0">{{ cloudSaveText }} ›</span></button>
-      <button onClick="{{ openSettings }}" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;font-family:inherit;font-size:15px;font-weight:700;color:#251d49;background:#fff;border:1px solid #e8e2f2;border-radius:14px;padding:15px;margin-bottom:10px;cursor:pointer"><span style="font-size:20px">⚙️</span>设置<span style="margin-left:auto;font-size:13px;color:#938db0">›</span></button>
-      <button onClick="{{ openDataManage }}" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;font-family:inherit;font-size:15px;font-weight:700;color:#251d49;background:#fff;border:1px solid #e8e2f2;border-radius:14px;padding:15px;cursor:pointer"><span style="font-size:20px">🗂️</span>数据管理<span style="margin-left:auto;font-size:13px;color:#938db0">›</span></button>
+      <button onClick="{{ openShipping }}" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;font-family:inherit;font-size:15px;font-weight:700;color:#251d49;background:#fff;border:1px solid #e8e2f2;border-radius:14px;padding:15px;margin-bottom:10px;cursor:pointer"><span style="display:inline-flex;color:var(--accent,#ff3355)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5 12 4l9 4.5v7L12 20l-9-4.5z"/><path d="M3 8.5 12 13l9-4.5"/><path d="M12 13v7"/></svg></span>排发中心<span style="margin-left:auto;font-size:13px;color:#938db0">{{ shippingCount }} 份资料 ›</span></button>
+      <button onClick="{{ openCloudPage }}" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;font-family:inherit;font-size:15px;font-weight:700;color:#251d49;background:#fff;border:1px solid #e8e2f2;border-radius:14px;padding:15px;margin-bottom:10px;cursor:pointer"><span style="display:inline-flex;color:var(--accent,#ff3355)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4 4 0 0 1-.5-7.97A5 5 0 0 1 16 9.5a3.5 3.5 0 0 1 .5 8.5z"/></svg></span>云端<span style="margin-left:auto;font-size:13px;color:#938db0">{{ cloudSaveText }} ›</span></button>
+      <button onClick="{{ openSettings }}" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;font-family:inherit;font-size:15px;font-weight:700;color:#251d49;background:#fff;border:1px solid #e8e2f2;border-radius:14px;padding:15px;margin-bottom:10px;cursor:pointer"><span style="display:inline-flex;color:var(--accent,#ff3355)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19 12a7 7 0 0 0-.13-1.33l1.7-1.3-1.8-3.1-2 .82a7 7 0 0 0-2.3-1.33L14 3.5h-3.6l-.37 2.14a7 7 0 0 0-2.3 1.33l-2-.82-1.8 3.1 1.7 1.3A7 7 0 0 0 5 12a7 7 0 0 0 .13 1.33l-1.7 1.3 1.8 3.1 2-.82a7 7 0 0 0 2.3 1.33L10.4 20.5H14l.37-2.14a7 7 0 0 0 2.3-1.33l2 .82 1.8-3.1-1.7-1.3A7 7 0 0 0 19 12z"/></svg></span>设置<span style="margin-left:auto;font-size:13px;color:#938db0">›</span></button>
+      <button onClick="{{ openDataManage }}" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;font-family:inherit;font-size:15px;font-weight:700;color:#251d49;background:#fff;border:1px solid #e8e2f2;border-radius:14px;padding:15px;cursor:pointer"><span style="display:inline-flex;color:var(--accent,#ff3355)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span>数据管理<span style="margin-left:auto;font-size:13px;color:#938db0">›</span></button>
     </div>
   </div>
   </sc-if>
@@ -4999,6 +5016,7 @@ class Component extends DCLogic {
   onLedgerYear = (e) => this.setState({ ledgerYear: e.target.value });
   onLedgerMonth = (e) => this.setState({ ledgerMonth: e.target.value });
   onLedgerWeek = (e) => this.setState({ ledgerWeek: e.target.value });
+  pickLedgerBar = (i) => () => this.setState(s => ({ ledgerActiveBar: s.ledgerActiveBar === i ? null : i }));
   openLedgerYearSelect = (ev) => { const yrs = this._ledgerYearOpts || []; this.openGenericSelect('选择年份', yrs.map(y => ({ value: y, label: y + '年' })), this.state.ledgerYear, (v) => this.setState({ ledgerYear: v }), ev); };
   openLedgerMonthSelect = (ev) => { this.openGenericSelect('选择月份', Array.from({length:12},(_,i)=>({ value:String(i+1), label:(i+1)+'月' })), this.state.ledgerMonth, (v) => this.setState({ ledgerMonth: v }), ev); };
   openLedgerWeekSelect = (ev) => { const wks = this._ledgerWeekOpts || []; this.openGenericSelect('选择周', wks, this.state.ledgerWeek, (v) => this.setState({ ledgerWeek: v }), ev); };
@@ -5144,10 +5162,10 @@ class Component extends DCLogic {
   onBudgetQuickEdit = () => { const key = this._budgetKey || this.monthKey(new Date()); const current = (this.state.budgets || {})[key] || ''; const v = window.prompt('请输入 ' + (this._budgetLabel || '本月') + '预算', current); if (v === null) return; const clean = String(v || '').trim(); if (clean && (isNaN(Number(clean)) || Number(clean) < 0)) { window.alert('预算请输入大于等于 0 的数字'); return; } this.setBudgetValue(clean); };
   setGallery = () => this.setState({ view: 'gallery' });
   // 手机底部 tab 动作
-  tabHome = () => this.setState({ view: 'gallery', filtersOpen: false, mobileMineOpen: false, batchMode: false, selectedIds: [] });
-  tabSearch = () => this.setState({ view: 'gallery', filtersOpen: true, mobileMineOpen: false });
-  tabLedger = () => this.setState({ view: 'ledger', filtersOpen: false, mobileMineOpen: false, batchMode: false, selectedIds: [] });
-  tabMine = () => this.setState({ mobileMineOpen: true });
+  tabHome = () => this.setState({ view: 'gallery', filtersOpen: false, mobileMineOpen: false, batchMode: false, selectedIds: [], modalOpen: false });
+  tabSearch = () => this.setState({ view: 'gallery', filtersOpen: true, mobileMineOpen: false, modalOpen: false });
+  tabLedger = () => this.setState({ view: 'ledger', filtersOpen: false, mobileMineOpen: false, batchMode: false, selectedIds: [], modalOpen: false });
+  tabMine = () => this.setState(s => ({ mobileMineOpen: !s.mobileMineOpen, modalOpen: false }));
   closeMine = () => this.setState({ mobileMineOpen: false });
   openCloudPage = () => this.setState({ cloudPageOpen: true, mobileMineOpen: false });
   closeCloudPage = () => this.setState({ cloudPageOpen: false });
@@ -6009,7 +6027,8 @@ class Component extends DCLogic {
       return { label: x.label, amount: cur + this.fmt(x.value), value: x.value, cellStyle: { ...(over ? overCellStyle : {}), cursor: 'pointer' }, onClick: () => this.openLedgerDetail(x.key, x.keyType, x.label) };
     });
     const barTop = this.accentLight(0.15), barBottom = this.accentLight(0.72), areaColor = this.accentColor();
-    const ledgerMonthBars = monthValues.map((x, i) => { const h = x.value > 0 ? Math.max(8, Math.round(x.value / maxMonth * monthChartMaxH)) : 3; const cx = nPoints > 1 ? 30 + i * stepX : 300; return { x: String(cx - Number(barW)/2), y: String(monthChartBaseY - h), w: barW, h: String(h), fill: i === monthValues.length - 1 ? 'url(#zzzBarAccent)' : 'url(#zzzBar)', onClick: () => this.openLedgerDetail(x.key, x.keyType, x.label) }; });
+    const activeBar = (this.state.ledgerActiveBar == null ? monthValues.length - 1 : this.state.ledgerActiveBar);
+    const ledgerMonthBars = monthValues.map((x, i) => { const h = x.value > 0 ? Math.max(8, Math.round(x.value / maxMonth * monthChartMaxH)) : 3; const cx = nPoints > 1 ? 30 + i * stepX : 300; const hitW = Math.max(Number(barW), stepX || 40); const on = i === activeBar; const labelY = Math.max(14, monthChartBaseY - h - 9); return { x: String(cx - Number(barW)/2), y: String(monthChartBaseY - h), w: barW, h: String(h), fill: on ? 'url(#zzzBarAccent)' : 'url(#zzzBar)', hitX: String(cx - hitW/2), hitW: String(hitW), hitY: '10', hitH: String(monthChartBaseY - 10 + 6), onClick: this.pickLedgerBar(i), showLabel: on && x.value > 0, labelX: String(cx), labelY: String(labelY), amountText: cur + this.fmt(x.value) }; });
     const ledgerMonthDots = monthValues.map((x, i) => { const y = monthChartBaseY - (x.value > 0 ? Math.max(8, Math.round(x.value / maxMonth * monthChartMaxH)) : 3); const cx = nPoints > 1 ? 30 + i * stepX : 300; return { x: String(cx), y: String(y), color: this.accentColor() }; });
     const ledgerMonthLinePoints = ledgerMonthDots.map(d => d.x + ',' + d.y).join(' ');
     const ledgerMonthAreaPath = ledgerMonthDots.length ? ('M ' + ledgerMonthDots[0].x + ',' + monthChartBaseY + ' L ' + ledgerMonthDots.map(d => d.x + ',' + d.y).join(' L ') + ' L ' + ledgerMonthDots[ledgerMonthDots.length - 1].x + ',' + monthChartBaseY + ' Z') : '';
@@ -6311,7 +6330,7 @@ class Component extends DCLogic {
     const cloudSavePillStyle = { display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: cloudSaveColor, background: cloudSaveBg, border: '1px solid ' + cloudSaveBorder, padding: '6px 11px', borderRadius: '999px' };
     const cloudSaveDotStyle = { width: '6px', height: '6px', borderRadius: '50%', background: cloudDotColor, boxShadow: '0 0 8px ' + cloudDotColor, flexShrink: 0 };
     const mobileMode = this.state.mobileMode || 'auto';
-    const mobileTabView = this.state.mobileMineOpen ? 'mine' : (this.state.view === 'ledger' ? 'ledger' : (this.state.filtersOpen ? 'search' : 'home'));
+    const mobileTabView = this.state.view === 'ledger' ? 'ledger' : (this.state.filtersOpen ? 'search' : 'home');
     const _anyModalOpen = this.state.modalOpen || this.state.shippingOpen || this.state.settingsOpen || this.state.dataManageOpen || this.state.relinkRecordId || this.state.batchEditOpen || this.state.ledgerDetailKey || this.state.cloudPageOpen;
     const appClass = 'ui-app ui-mobile-full ui-view-' + mobileTabView + ' ui-fcat-' + (this.state.mobileFilterCat || 'none') + (this.state.filtersOpen ? ' ui-filters-open' : '') + (this.state.batchMode ? ' ui-batch-active' : '') + (_anyModalOpen ? ' ui-modal-open' : '');
     const mobileModeText = mobileMode === 'full' ? '清爽模式' : '完整模式';
