@@ -3245,8 +3245,18 @@ class Component extends DCLogic {
       try { this.sb = window.supabase.createClient(url, key); } catch (e) { this.sb = null; }
     }
   }
-  AUTH_EMAIL_DOMAIN = '@guzi.local';
-  authEmailFor(username) { return String(username || '').trim().toLowerCase().replace(/[^a-z0-9_.-]/g, '') + this.AUTH_EMAIL_DOMAIN; }
+  AUTH_EMAIL_DOMAIN = '@guzi-app.com';
+  authEmailFor(username) {
+    const raw = String(username || '').trim().toLowerCase();
+    // 允许中文等任意用户名：ASCII 直接用，非 ASCII 转成十六进制，保证邮箱本地部分合法且唯一
+    let local = '';
+    for (const ch of raw) {
+      if (/[a-z0-9]/.test(ch)) local += ch;
+      else { const cp = ch.codePointAt(0).toString(16); local += 'x' + cp; }
+    }
+    if (!local) local = 'u0';
+    return local + this.AUTH_EMAIL_DOMAIN;
+  }
   async checkAuthSession() {
     if (!this.sb || !this.sb.auth) { this.setState({ authReady: true, authUser: null }); return; }
     try {
