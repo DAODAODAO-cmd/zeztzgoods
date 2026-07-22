@@ -1721,21 +1721,7 @@
                 <sc-for list="{{ ledgerMonthBars }}" as="b" hint-placeholder-count="0"><sc-if value="{{ b.showLabel }}" hint-placeholder-val="{{ false }}"><text x="{{ b.labelX }}" y="{{ b.labelY }}" text-anchor="middle" font-family="Orbitron" font-size="15" font-weight="700" fill="var(--accent,#ff3355)" style="pointer-events:none">{{ b.amountText }}</text></sc-if></sc-for>
               </svg>
             </div>
-            <div class="ui-ledger-stat-cells" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px;margin-top:14px">
-              <div style="display:flex;align-items:center;min-height:80px;padding:14px 16px;background:#faf9fd;border:1px solid rgba(112,92,165,.08);border-radius:16px">
-                <div style="display:grid;place-items:center;width:40px;height:40px;flex:0 0 40px;margin-right:12px;border-radius:12px;font-size:17px;font-weight:800;font-family:'Orbitron';color:var(--accent,#ff3355);background:var(--accent-soft,rgba(255,51,85,.1))">¥</div>
-                <div style="min-width:0"><div style="margin-bottom:3px;font-size:11.5px;color:#7f7a96;font-weight:500">{{ ledgerPeakLabel }}</div><div style="font-family:'Orbitron';font-size:17px;font-weight:700;color:#251d49;letter-spacing:-.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ledgerPeakValue }}</div><div style="margin-top:2px;font-size:10.5px;color:#a49ec4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ledgerPeakDate }}</div></div>
-              </div>
-              <div style="display:flex;align-items:center;min-height:80px;padding:14px 16px;background:#faf9fd;border:1px solid rgba(112,92,165,.08);border-radius:16px">
-                <div style="display:grid;place-items:center;width:40px;height:40px;flex:0 0 40px;margin-right:12px;border-radius:12px;font-size:15px;font-weight:800;color:#2f7ed8;background:#e7f1ff">日</div>
-                <div style="min-width:0"><div style="margin-bottom:3px;font-size:11.5px;color:#7f7a96;font-weight:500">{{ ledgerDaysLabel }}</div><div style="font-family:'Orbitron';font-size:17px;font-weight:700;color:#251d49;letter-spacing:-.3px;white-space:nowrap">{{ ledgerDaysValue }}</div><div style="margin-top:2px;font-size:10.5px;color:#a49ec4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ledgerDaysNote }}</div></div>
-              </div>
-              <div style="display:flex;align-items:center;min-height:80px;padding:14px 16px;background:#faf9fd;border:1px solid rgba(112,92,165,.08);border-radius:16px">
-                <div style="display:grid;place-items:center;width:40px;height:40px;flex:0 0 40px;margin-right:12px;border-radius:12px;font-size:15px;font-weight:800;color:#1a9c68;background:#e5f8ef">均</div>
-                <div style="min-width:0"><div style="margin-bottom:3px;font-size:11.5px;color:#7f7a96;font-weight:500">日均消费</div><div style="font-family:'Orbitron';font-size:17px;font-weight:700;color:#251d49;letter-spacing:-.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ledgerAvgValue }}</div><div style="margin-top:2px;font-size:10.5px;color:#a49ec4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ledgerAvgNote }}</div></div>
-              </div>
-            </div>
-              <div style="position:fixed;inset:0;z-index:420;background:rgba(30,22,54,.45);display:flex;align-items:center;justify-content:center;padding:20px" onClick="{{ closeLedgerDetail }}">
+              <div style="position:fixed;inset:0;z-index:560;background:rgba(30,22,54,.45);display:flex;align-items:center;justify-content:center;padding:20px" onClick="{{ closeLedgerDetail }}">
               <div style="width:100%;max-width:400px;max-height:70dvh;overflow-y:auto;background:linear-gradient(160deg,#fff,#f7f4fc);border:1px solid #e1dbf0;border-radius:16px;box-shadow:0 24px 60px rgba(30,22,54,.32);padding:14px 16px" onClick="{{ stop }}">
                 <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid rgba(50,38,90,.08)">
                   <div style="font-size:14px;font-weight:800;color:#251d49;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ ledgerDetailTitle }}</div>
@@ -1798,6 +1784,20 @@
           </div>
         </div>
 
+        <div class="ui-ledger-stat-cells" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px;margin-top:14px">
+              <div style="display:flex;align-items:center;min-height:80px;padding:14px 16px;background:#faf9fd;border:1px solid rgba(112,92,165,.08);border-radius:16px">
+                <div style="display:grid;place-items:center;width:40px;height:40px;flex:0 0 40px;margin-right:12px;border-radius:12px;font-size:17px;font-weight:800;font-family:'Orbitron';color:var(--accent,#ff3355);background:var(--accent-soft,rgba(255,51,85,.1))">¥</div>
+                <div style="min-width:0"><div style="margin-bottom:3px;font-size:11.5px;color:#7f7a96;font-weight:500">{{ ledgerPeakLabel }}</div><div style="font-family:'Orbitron';font-size:17px;font-weight:700;color:#251d49;letter-spacing:-.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ledgerPeakValue }}</div><div style="margin-top:2px;font-size:10.5px;color:#a49ec4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ledgerPeakDate }}</div></div>
+              </div>
+              <div style="display:flex;align-items:center;min-height:80px;padding:14px 16px;background:#faf9fd;border:1px solid rgba(112,92,165,.08);border-radius:16px">
+                <div style="display:grid;place-items:center;width:40px;height:40px;flex:0 0 40px;margin-right:12px;border-radius:12px;font-size:15px;font-weight:800;color:#2f7ed8;background:#e7f1ff">日</div>
+                <div style="min-width:0"><div style="margin-bottom:3px;font-size:11.5px;color:#7f7a96;font-weight:500">{{ ledgerDaysLabel }}</div><div style="font-family:'Orbitron';font-size:17px;font-weight:700;color:#251d49;letter-spacing:-.3px;white-space:nowrap">{{ ledgerDaysValue }}</div><div style="margin-top:2px;font-size:10.5px;color:#a49ec4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ledgerDaysNote }}</div></div>
+              </div>
+              <div style="display:flex;align-items:center;min-height:80px;padding:14px 16px;background:#faf9fd;border:1px solid rgba(112,92,165,.08);border-radius:16px">
+                <div style="display:grid;place-items:center;width:40px;height:40px;flex:0 0 40px;margin-right:12px;border-radius:12px;font-size:15px;font-weight:800;color:#1a9c68;background:#e5f8ef">均</div>
+                <div style="min-width:0"><div style="margin-bottom:3px;font-size:11.5px;color:#7f7a96;font-weight:500">日均消费</div><div style="font-family:'Orbitron';font-size:17px;font-weight:700;color:#251d49;letter-spacing:-.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ledgerAvgValue }}</div><div style="margin-top:2px;font-size:10.5px;color:#a49ec4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ledgerAvgNote }}</div></div>
+              </div>
+            </div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px">
           <sc-for list="{{ ledgerRankCards }}" as="card" hint-placeholder-count="4">
             <div class="ui-ledger-card">
@@ -2712,17 +2712,17 @@
           </div>
 
           <div style="border-top:1px solid #e1dbf0;padding-top:16px">
-            <div style="font-weight:700;font-size:14px;color:#251d49;margin-bottom:4px">字段管理</div>
-            <div style="font-size:11.5px;color:#938db0;margin-bottom:10px;line-height:1.6">删除用不到的字段（编辑页、顶部筛选、分组会一起隐藏，已填数据保留）；也可新增自定义字段。改动只影响你自己。</div>
-            <div style="display:flex;flex-wrap:wrap;gap:7px">
+            <div style="font-weight:700;font-size:12.5px;color:#251d49;margin-bottom:4px">字段管理</div>
+            <div style="font-size:10.5px;color:#938db0;margin-bottom:8px;line-height:1.6">删除用不到的字段（编辑页、顶部筛选、分组会一起隐藏，已填数据保留）；也可新增自定义字段。改动只影响你自己。</div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px">
               <sc-for list="{{ fieldRows }}" as="f" hint-placeholder-count="7">
-                <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(50,38,90,.04);border:1px solid #e8e2f2;border-radius:999px;padding:5px 6px 5px 12px;font-size:13px;color:#251d49">{{ f.labelVal }}<button onClick="{{ f.onDel }}" title="删除字段" style="flex-shrink:0;width:18px;height:18px;border-radius:50%;border:none;background:rgba(226,59,93,.12);color:#e23b5d;cursor:pointer;font-size:12px;line-height:1">×</button></span>
+                <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(50,38,90,.04);border:1px solid #e8e2f2;border-radius:999px;padding:3px 5px 3px 10px;font-size:11.5px;color:#251d49">{{ f.labelVal }}<button onClick="{{ f.onDel }}" title="删除字段" style="flex-shrink:0;width:15px;height:15px;border-radius:50%;border:none;background:rgba(226,59,93,.12);color:#e23b5d;cursor:pointer;font-size:10px;line-height:1">×</button></span>
               </sc-for>
               <sc-for list="{{ customFieldRows }}" as="f" hint-placeholder-count="0">
-                <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(50,38,90,.04);border:1px solid #e8e2f2;border-radius:999px;padding:5px 6px 5px 12px;font-size:13px;color:#251d49">{{ f.labelVal }}<button onClick="{{ f.onDel }}" title="删除" style="flex-shrink:0;width:18px;height:18px;border-radius:50%;border:none;background:rgba(226,59,93,.12);color:#e23b5d;cursor:pointer;font-size:12px;line-height:1">×</button></span>
+                <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(50,38,90,.04);border:1px solid #e8e2f2;border-radius:999px;padding:3px 5px 3px 10px;font-size:11.5px;color:#251d49">{{ f.labelVal }}<button onClick="{{ f.onDel }}" title="删除" style="flex-shrink:0;width:15px;height:15px;border-radius:50%;border:none;background:rgba(226,59,93,.12);color:#e23b5d;cursor:pointer;font-size:10px;line-height:1">×</button></span>
               </sc-for>
-              <button onClick="{{ addCustomField }}" style="font-family:inherit;font-size:13px;color:#544f7e;background:none;border:1px dashed #ded7ee;padding:5px 13px;border-radius:999px;cursor:pointer">＋ 字段</button>
-              <button onClick="{{ restoreBaseFields }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:5px 13px;border-radius:999px;cursor:pointer">恢复默认</button>
+              <button onClick="{{ addCustomField }}" style="font-family:inherit;font-size:11.5px;color:#544f7e;background:none;border:1px dashed #ded7ee;padding:3px 11px;border-radius:999px;cursor:pointer">＋ 字段</button>
+              <button onClick="{{ restoreBaseFields }}" style="font-family:inherit;font-size:11.5px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:3px 11px;border-radius:999px;cursor:pointer">恢复默认</button>
             </div>
           </div>
 
@@ -6394,7 +6394,7 @@ class Component extends DCLogic {
     const ledgerAvgNote = isMonthDayMode ? ('按本月 ' + monthValues.length + ' 天计算') : (isYearMode ? '按 12 个月计算' : ('按 ' + monthValues.length + ' 期计算'));
     const detailKey = this.state.ledgerDetailKey || '';
     const detailType = this.state.ledgerDetailType || 'day';
-    const ledgerDetailOpen = !!detailKey;
+    const ledgerDetailOpen = !!detailKey && (view === 'ledger' || this.state.view === 'ledger');
     const ledgerDetailMatched = detailKey ? ledgerItems.map(it => ({ it, entries: this.cashFlowEntries(it).filter(cf => detailType === 'day' ? cf.date === detailKey : String(cf.date || '').slice(0, 7) === detailKey) })).filter(x => x.entries.length) : [];
     const ledgerDetailItems = ledgerDetailMatched.map(x => { const e = this.enrich(x.it); const amount = x.entries.reduce((s, cf) => s + cf.amount, 0); return { name: x.it.name || '未命名', qtyText: (e.qty > 1 ? '×' + e.qty : ''), costText: cur + this.fmt(amount), character: x.it.character || '' }; });
     const ledgerDetailTotal = cur + this.fmt(ledgerDetailMatched.reduce((s, x) => s + x.entries.reduce((a, cf) => a + cf.amount, 0), 0));
