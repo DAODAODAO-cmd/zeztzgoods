@@ -963,13 +963,7 @@
 </helmet>
 <div ref="{{ setRoot }}" class="ui-app {{ appClass }}" style="min-height:100vh;background:radial-gradient(circle at 15% -5%, #ddd2f2 0%, transparent 50%), radial-gradient(circle at 92% 4%, #f3d8e6 0%, transparent 45%), linear-gradient(165deg,#e7e1f4,#ece8f6 70%);color:#251d49;font-family:'Noto Sans SC',sans-serif;padding:clamp(14px,3vw,34px) clamp(12px,3vw,34px) 60px;-webkit-font-smoothing:antialiased">
   <sc-if value="{{ authChecking }}" hint-placeholder-val="{{ true }}">
-    <div style="position:fixed;inset:0;z-index:9100;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(circle at 20% 0%, #e2d8f5 0%, transparent 55%), radial-gradient(circle at 90% 10%, #f5dbe8 0%, transparent 50%), linear-gradient(165deg,#ece7f7,#f3effb)">
-      <div style="width:100%;max-width:320px;text-align:center;background:rgba(255,255,255,.94);border:1px solid #e1dbf0;border-radius:20px;box-shadow:0 24px 60px rgba(38,29,74,.18);padding:30px 24px">
-        <div style="width:40px;height:40px;margin:0 auto 14px;border:4px solid #e4ddef;border-top-color:var(--accent,#ff3355);border-radius:50%;animation:uiSyncSpin .8s linear infinite"></div>
-        <div style="font-weight:800;color:#251d49">正在检查登录状态…</div>
-        <div style="font-size:11.5px;color:#938db0;margin-top:6px">已登录的设备会自动继续，不会重复要求登录</div>
-      </div>
-    </div>
+    <div aria-hidden="true" style="position:fixed;inset:0;z-index:9100;background:radial-gradient(circle at 15% -5%, #ddd2f2 0%, transparent 50%), radial-gradient(circle at 92% 4%, #f3d8e6 0%, transparent 45%), linear-gradient(165deg,#e7e1f4,#ece8f6 70%)"></div>
   </sc-if>
   <sc-if value="{{ authLoggedOut }}" hint-placeholder-val="{{ true }}">
     <div style="position:fixed;inset:0;z-index:9000;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(circle at 20% 0%, #e2d8f5 0%, transparent 55%), radial-gradient(circle at 90% 10%, #f5dbe8 0%, transparent 50%), linear-gradient(165deg,#ece7f7,#f3effb)">
@@ -2727,7 +2721,7 @@
 
           <div class="ui-settings-cloud-section" style="border-top:1px solid #e1dbf0;padding-top:16px">
             <div style="font-weight:700;font-size:14px;color:#251d49;margin-bottom:4px">账号云端</div>
-            <div style="font-size:11.5px;color:#938db0;margin-bottom:10px;line-height:1.6">当前账号：{{ authCurrentName }}。同步码已转为后台兼容键，日常不再需要复制。上传和读取仍由你手动确认。</div>
+            <div style="font-size:11.5px;color:#938db0;margin-bottom:10px;line-height:1.6">当前账号：{{ authCurrentName }} · 云同步已连接</div>
             <div style="background:rgba(255,255,255,.68);border:1px solid #e1dbf0;border-radius:13px;padding:12px 13px">
               <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px">
                 <div style="font-weight:700;font-size:13px;color:#251d49">{{ accountCloudTitle }}</div>
@@ -2824,11 +2818,11 @@
           <button onClick="{{ closeCloudPage }}" style="font-family:inherit;font-size:13px;color:#938db0;background:none;border:none;cursor:pointer;padding:6px">✕</button>
         </div>
         <div style="padding:18px 22px 22px;display:flex;flex-direction:column;gap:14px;max-height:75dvh;overflow-y:auto">
-          <div style="font-size:11.5px;color:#938db0;line-height:1.6">当前账号：{{ authCurrentName }}。同步码已转为后台兼容键，日常只需要用户名和密码。</div>
+          <div style="font-size:11.5px;color:#938db0;line-height:1.6">当前账号：{{ authCurrentName }} · 云同步已连接</div>
           <div style="background:rgba(255,255,255,.68);border:1px solid #e1dbf0;border-radius:13px;padding:12px 13px">
             <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px">
               <div style="font-weight:700;font-size:13px;color:#251d49">{{ accountCloudTitle }}</div>
-              <span style="font-size:11px;color:#0f8f50">用户名已绑定</span>
+              <span style="font-size:11px;color:#0f8f50">● 已连接</span>
             </div>
             <sc-if value="{{ hasCloudStatus }}" hint-placeholder-val="false"><div style="font-size:11.5px;color:#544f7e;line-height:1.6;margin-top:8px">{{ cloudStatus }}</div></sc-if>
           </div>
