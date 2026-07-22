@@ -3209,10 +3209,26 @@ class Component extends DCLogic {
   // ===== Supabase（云同步、快照与事件）=====
   initSupabase() {
     this.sb = null;
+    this.dataSb = null;
     this.loadCloudImageMap();
     const url = this.SUPA_URL, key = this.SUPA_KEY;
     if (url && key && window.supabase && window.supabase.createClient) {
-      try { this.sb = window.supabase.createClient(url, key); } catch (e) { this.sb = null; }
+      try {
+        // 登录客户端只负责 Auth。旧数据库的 RLS 仅给 anon 放行；若复用登录客户端，
+        // 登录后请求会变成 authenticated，反而看不到旧同步码且无法更新旧收藏库。
+        const authSb = window.supabase.createClient(url, key);
+        const dataSb = window.supabase.createClient(url, key, {
+          auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false }
+        });
+        this.dataSb = dataSb;
+        this.sb = new Proxy(authSb, {
+          get(target, prop) {
+            if (prop === 'from') return dataSb.from.bind(dataSb);
+            if (prop === 'storage') return dataSb.storage;
+            return target[prop];
+          }
+        });
+      } catch (e) { this.sb = null; this.dataSb = null; }
     }
   }
   AUTH_EMAIL_DOMAIN = '@guzi-app.com';
