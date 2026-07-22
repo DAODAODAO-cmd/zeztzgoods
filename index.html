@@ -100,6 +100,9 @@
     .ui-ledger-month-chart{position:relative;height:132px;border:1px solid #eee9f8;border-radius:13px;background:linear-gradient(180deg,#fff,#faf8ff);overflow:hidden}
     .ui-ledger-month-chart::before{content:'';position:absolute;inset:14px 12px 26px;background:repeating-linear-gradient(to bottom,rgba(50,38,90,.07) 0 1px,transparent 1px 24px);pointer-events:none}
     .ui-ledger-month-svg{position:absolute;inset:8px 8px 22px;width:calc(100% - 16px);height:calc(100% - 30px);overflow:visible}
+    .ui-ledger-axis{position:absolute;left:8px;right:8px;bottom:5px;height:14px;pointer-events:none}
+    .ui-ledger-axis-tick{position:absolute;transform:translateX(-50%);font-size:10px;font-weight:600;color:#a49ec4;white-space:nowrap}
+    .ui-ledger-peak{position:absolute;top:4px;transform:translateX(-50%);font-family:Orbitron,sans-serif;font-size:12px;font-weight:700;color:#fff;padding:3px 9px;border-radius:9px;white-space:nowrap;pointer-events:none;z-index:2}
     .ui-ledger-month-axis{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:5px;margin-top:7px}
     .ui-ledger-month-cell{min-width:0;background:rgba(255,255,255,.72);border:1px solid #eee9f8;border-radius:9px;padding:5px 7px}
     .ui-ledger-month-label{font-size:11px;color:#837da4;margin-bottom:1px;white-space:nowrap}
@@ -958,6 +961,43 @@
 </style>
 </helmet>
 <div ref="{{ setRoot }}" class="ui-app {{ appClass }}" style="min-height:100vh;background:radial-gradient(circle at 15% -5%, #ddd2f2 0%, transparent 50%), radial-gradient(circle at 92% 4%, #f3d8e6 0%, transparent 45%), linear-gradient(165deg,#e7e1f4,#ece8f6 70%);color:#251d49;font-family:'Noto Sans SC',sans-serif;padding:clamp(14px,3vw,34px) clamp(12px,3vw,34px) 60px;-webkit-font-smoothing:antialiased">
+  <sc-if value="{{ authLoggedOut }}" hint-placeholder-val="{{ true }}">
+    <div style="position:fixed;inset:0;z-index:9000;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(circle at 20% 0%, #e2d8f5 0%, transparent 55%), radial-gradient(circle at 90% 10%, #f5dbe8 0%, transparent 50%), linear-gradient(165deg,#ece7f7,#f3effb)">
+      <div style="width:100%;max-width:360px;background:rgba(255,255,255,.96);border:1px solid #e1dbf0;border-radius:22px;box-shadow:0 30px 70px rgba(38,29,74,.22);padding:30px 26px">
+        <div style="text-align:center;margin-bottom:22px">
+          <div style="width:52px;height:52px;margin:0 auto 12px;border-radius:15px;background:var(--accent,#ff3355);display:flex;align-items:center;justify-content:center;color:#fff"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5 12 4l8 4.5v7L12 20l-8-4.5z"/><path d="M4 8.5 12 13l8-4.5M12 13v7"/></svg></div>
+          <div style="font-family:'Orbitron',sans-serif;font-weight:800;font-size:19px;color:#251d49">谷子收纳</div>
+          <div style="font-size:12px;color:#938db0;margin-top:4px"><sc-if value="{{ authIsLogin }}" hint-placeholder-val="{{ true }}">登录后开始整理你的收藏</sc-if><sc-if value="{{ authIsRegister }}" hint-placeholder-val="{{ false }}">注册一个新账号</sc-if></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:11px">
+          <div>
+            <div style="font-size:12px;color:#544f7e;font-weight:600;margin-bottom:5px">用户名</div>
+            <input value="{{ authUsername }}" onChange="{{ onAuthUsername }}" placeholder="给自己起个用户名" autocomplete="username" style="width:100%;box-sizing:border-box;padding:11px 13px;border-radius:11px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:16px;font-family:inherit;outline:none">
+          </div>
+          <div>
+            <div style="font-size:12px;color:#544f7e;font-weight:600;margin-bottom:5px">密码</div>
+            <input type="password" value="{{ authPassword }}" onChange="{{ onAuthPassword }}" placeholder="至少 8 位" autocomplete="current-password" style="width:100%;box-sizing:border-box;padding:11px 13px;border-radius:11px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:16px;font-family:inherit;outline:none">
+          </div>
+          <sc-if value="{{ authIsRegister }}" hint-placeholder-val="{{ false }}">
+          <div>
+            <div style="font-size:12px;color:#544f7e;font-weight:600;margin-bottom:5px">确认密码</div>
+            <input type="password" value="{{ authPassword2 }}" onChange="{{ onAuthPassword2 }}" placeholder="再输一次密码" autocomplete="new-password" style="width:100%;box-sizing:border-box;padding:11px 13px;border-radius:11px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:16px;font-family:inherit;outline:none">
+          </div>
+          </sc-if>
+          <sc-if value="{{ hasAuthError }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;color:#e23b5d;background:rgba(226,59,93,.07);border:1px solid rgba(226,59,93,.2);border-radius:9px;padding:8px 11px">{{ authError }}</div></sc-if>
+          <sc-if value="{{ authIsLogin }}" hint-placeholder-val="{{ true }}">
+            <button onClick="{{ doLogin }}" style="width:100%;margin-top:4px;min-height:46px;border:none;border-radius:13px;background:var(--accent,#ff3355);color:#fff;font-family:inherit;font-weight:800;font-size:15px;cursor:pointer">{{ authLoginBtnText }}</button>
+            <div style="text-align:center;font-size:12.5px;color:#938db0;margin-top:4px">还没有账号？<span onClick="{{ toRegisterMode }}" style="color:var(--accent,#ff3355);font-weight:700;cursor:pointer">去注册</span></div>
+          </sc-if>
+          <sc-if value="{{ authIsRegister }}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{ doRegister }}" style="width:100%;margin-top:4px;min-height:46px;border:none;border-radius:13px;background:var(--accent,#ff3355);color:#fff;font-family:inherit;font-weight:800;font-size:15px;cursor:pointer">{{ authRegisterBtnText }}</button>
+            <div style="text-align:center;font-size:12.5px;color:#938db0;margin-top:4px">已有账号？<span onClick="{{ toLoginMode }}" style="color:var(--accent,#ff3355);font-weight:700;cursor:pointer">去登录</span></div>
+          </sc-if>
+          <div style="font-size:10.5px;color:#b7b1cc;line-height:1.5;margin-top:6px;text-align:center">用户名密码用来对应你的云端数据。请牢记密码，忘记后难以找回。</div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
   <aside class="ui-sidebar">
     <div class="ui-sidebar-brand">
       <div class="ui-sidebar-logo" onClick="{{ uploadLogo }}" title="点击更换 Logo" style="{{ sidebarLogoStyle }}"><sc-if value="{{ logoFallback }}" hint-placeholder-val="{{ true }}"><div class="ui-logo-fallback ui-logo-fallback-sidebar"><span><svg class="ui-line-icon ui-line-icon-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5 12 4l8 4.5v7L12 20l-8-4.5z"/><path d="M4 8.5 12 13l8-4.5M12 13v7"/></svg></span><strong>{{ title }}</strong><em>{{ workName }}</em></div></sc-if></div>
@@ -1193,7 +1233,7 @@
       <button class="ui-mobile-filter-toggle" onClick="{{ toggleFiltersOpen }}"><span>{{ filterToggleText }}</span><span>{{ filterSummaryText }}</span></button>
       <sc-if value="{{ showCharF }}" hint-placeholder-val="{{ true }}">
       <div class="ui-filter-extra" data-cat="character" style="display:flex;align-items:center;gap:9px">
-        <span style="font-size:12px;color:#837da4;flex-shrink:0;width:34px">{{ labelChar }}</span>
+        <span style="font-size:12px;color:#837da4;flex-shrink:0;width:28px;text-align:center;line-height:1.25;word-break:break-all">{{ labelChar }}</span>
         <div style="display:flex;gap:7px;overflow-x:auto;padding-bottom:3px">
           <sc-for list="{{ charChips }}" as="chip" hint-placeholder-count="5">
             <button draggable="{{ chip.draggable }}" onMouseDown="{{ chip.onMouseDown }}" onMouseUp="{{ chip.onMouseUp }}" onTouchStart="{{ chip.onTouchStart }}" onTouchEnd="{{ chip.onTouchEnd }}" onTouchCancel="{{ chip.onTouchCancel }}" onDragStart="{{ chip.onDragStart }}" onDragOver="{{ chip.onDragOver }}" onDrop="{{ chip.onDrop }}" onDoubleClick="{{ chip.onDblClick }}" onClick="{{ chip.onClick }}" style="{{ chip.style }}"><sc-if value="{{ chip.hasImg }}" hint-placeholder-val="{{ false }}"><div style="{{ chip.imgStyle }}"></div></sc-if>{{ chip.label }}</button>
@@ -1203,7 +1243,7 @@
       </sc-if>
       <sc-if value="{{ showTypeF }}" hint-placeholder-val="{{ true }}">
       <div class="ui-filter-extra" data-cat="type" style="display:flex;align-items:center;gap:9px">
-        <span style="font-size:12px;color:#837da4;flex-shrink:0;width:34px">{{ labelType }}</span>
+        <span style="font-size:12px;color:#837da4;flex-shrink:0;width:28px;text-align:center;line-height:1.25;word-break:break-all">{{ labelType }}</span>
         <div style="display:flex;gap:7px;overflow-x:auto;padding-bottom:3px">
           <sc-for list="{{ typeChips }}" as="chip" hint-placeholder-count="5">
             <button draggable="{{ chip.draggable }}" onMouseDown="{{ chip.onMouseDown }}" onMouseUp="{{ chip.onMouseUp }}" onTouchStart="{{ chip.onTouchStart }}" onTouchEnd="{{ chip.onTouchEnd }}" onTouchCancel="{{ chip.onTouchCancel }}" onDragStart="{{ chip.onDragStart }}" onDragOver="{{ chip.onDragOver }}" onDrop="{{ chip.onDrop }}" onDoubleClick="{{ chip.onDblClick }}" onClick="{{ chip.onClick }}" style="{{ chip.style }}">{{ chip.label }}</button>
@@ -1213,7 +1253,7 @@
       </sc-if>
       <sc-if value="{{ showSeriesF }}" hint-placeholder-val="{{ false }}">
       <div class="ui-filter-extra" data-cat="series" style="display:flex;align-items:center;gap:9px">
-        <span style="font-size:12px;color:#837da4;flex-shrink:0;width:34px">{{ labelSeries }}</span>
+        <span style="font-size:12px;color:#837da4;flex-shrink:0;width:28px;text-align:center;line-height:1.25;word-break:break-all">{{ labelSeries }}</span>
         <div style="display:flex;gap:7px;overflow-x:auto;padding-bottom:3px">
           <sc-for list="{{ seriesChips }}" as="chip" hint-placeholder-count="3">
             <button draggable="{{ chip.draggable }}" onMouseDown="{{ chip.onMouseDown }}" onMouseUp="{{ chip.onMouseUp }}" onTouchStart="{{ chip.onTouchStart }}" onTouchEnd="{{ chip.onTouchEnd }}" onTouchCancel="{{ chip.onTouchCancel }}" onDragStart="{{ chip.onDragStart }}" onDragOver="{{ chip.onDragOver }}" onDrop="{{ chip.onDrop }}" onDoubleClick="{{ chip.onDblClick }}" onClick="{{ chip.onClick }}" style="{{ chip.style }}">{{ chip.label }}</button>
@@ -1223,7 +1263,7 @@
       </sc-if>
       <sc-if value="{{ showFormF }}" hint-placeholder-val="{{ true }}">
       <div class="ui-filter-extra" data-cat="form" style="display:flex;align-items:center;gap:9px">
-        <span style="font-size:12px;color:#837da4;flex-shrink:0;width:34px">{{ labelForm }}</span>
+        <span style="font-size:12px;color:#837da4;flex-shrink:0;width:28px;text-align:center;line-height:1.25;word-break:break-all">{{ labelForm }}</span>
         <div style="display:flex;gap:7px;overflow-x:auto;padding-bottom:3px">
           <sc-for list="{{ formChips }}" as="chip" hint-placeholder-count="5">
             <button draggable="{{ chip.draggable }}" onMouseDown="{{ chip.onMouseDown }}" onMouseUp="{{ chip.onMouseUp }}" onTouchStart="{{ chip.onTouchStart }}" onTouchEnd="{{ chip.onTouchEnd }}" onTouchCancel="{{ chip.onTouchCancel }}" onDragStart="{{ chip.onDragStart }}" onDragOver="{{ chip.onDragOver }}" onDrop="{{ chip.onDrop }}" onDoubleClick="{{ chip.onDblClick }}" onClick="{{ chip.onClick }}" style="{{ chip.style }}">{{ chip.label }}</button>
@@ -1233,7 +1273,7 @@
       </sc-if>
       <sc-if value="{{ showStatusF }}" hint-placeholder-val="false">
       <div class="ui-filter-extra" data-cat="status" style="display:flex;align-items:center;gap:9px">
-        <span style="font-size:12px;color:#837da4;flex-shrink:0;width:34px">{{ labelStatus }}</span>
+        <span style="font-size:12px;color:#837da4;flex-shrink:0;width:28px;text-align:center;line-height:1.25;word-break:break-all">{{ labelStatus }}</span>
         <div style="display:flex;gap:7px;overflow-x:auto;padding-bottom:3px">
           <sc-for list="{{ statusChips }}" as="chip" hint-placeholder-count="5">
             <button draggable="{{ chip.draggable }}" onMouseDown="{{ chip.onMouseDown }}" onMouseUp="{{ chip.onMouseUp }}" onTouchStart="{{ chip.onTouchStart }}" onTouchEnd="{{ chip.onTouchEnd }}" onTouchCancel="{{ chip.onTouchCancel }}" onDragStart="{{ chip.onDragStart }}" onDragOver="{{ chip.onDragOver }}" onDrop="{{ chip.onDrop }}" onDoubleClick="{{ chip.onDblClick }}" onClick="{{ chip.onClick }}" style="{{ chip.style }}">{{ chip.label }}</button>
@@ -1243,7 +1283,7 @@
       </sc-if>
       <sc-if value="{{ showAcquireF }}" hint-placeholder-val="{{ true }}">
       <div class="ui-filter-extra" data-cat="acquire" style="display:flex;align-items:center;gap:9px">
-        <span style="font-size:12px;color:#837da4;flex-shrink:0;width:34px">{{ labelAcquire }}</span>
+        <span style="font-size:12px;color:#837da4;flex-shrink:0;width:28px;text-align:center;line-height:1.25;word-break:break-all">{{ labelAcquire }}</span>
         <div style="display:flex;gap:7px;overflow-x:auto;padding-bottom:3px">
           <sc-for list="{{ acquireChips }}" as="chip" hint-placeholder-count="4">
             <button draggable="{{ chip.draggable }}" onMouseDown="{{ chip.onMouseDown }}" onMouseUp="{{ chip.onMouseUp }}" onTouchStart="{{ chip.onTouchStart }}" onTouchEnd="{{ chip.onTouchEnd }}" onTouchCancel="{{ chip.onTouchCancel }}" onDragStart="{{ chip.onDragStart }}" onDragOver="{{ chip.onDragOver }}" onDrop="{{ chip.onDrop }}" onDoubleClick="{{ chip.onDblClick }}" onClick="{{ chip.onClick }}" style="{{ chip.style }}">{{ chip.label }}</button>
@@ -1253,7 +1293,7 @@
       </sc-if>
       <sc-if value="{{ showMethodF }}" hint-placeholder-val="{{ false }}">
       <div class="ui-filter-extra" data-cat="method" style="display:flex;align-items:center;gap:9px">
-        <span style="font-size:12px;color:#837da4;flex-shrink:0;white-space:nowrap">{{ labelMethod }}</span>
+        <span style="font-size:12px;color:#837da4;flex-shrink:0;width:28px;text-align:center;line-height:1.25;word-break:break-all">{{ labelMethod }}</span>
         <div style="display:flex;gap:7px;overflow-x:auto;padding-bottom:3px">
           <sc-for list="{{ methodChips }}" as="chip" hint-placeholder-count="4">
             <button onClick="{{ chip.onClick }}" style="{{ chip.style }}">{{ chip.label }}</button>
@@ -1263,7 +1303,7 @@
       </sc-if>
       <sc-if value="{{ showChannelF }}" hint-placeholder-val="{{ false }}">
       <div class="ui-filter-extra" data-cat="channel" style="display:flex;align-items:center;gap:9px">
-        <span style="font-size:12px;color:#837da4;flex-shrink:0;width:34px">{{ labelChannel }}</span>
+        <span style="font-size:12px;color:#837da4;flex-shrink:0;width:28px;text-align:center;line-height:1.25;word-break:break-all">{{ labelChannel }}</span>
         <div style="display:flex;gap:7px;overflow-x:auto;padding-bottom:3px">
           <sc-for list="{{ channelChips }}" as="chip" hint-placeholder-count="4">
             <button draggable="{{ chip.draggable }}" onMouseDown="{{ chip.onMouseDown }}" onMouseUp="{{ chip.onMouseUp }}" onTouchStart="{{ chip.onTouchStart }}" onTouchEnd="{{ chip.onTouchEnd }}" onTouchCancel="{{ chip.onTouchCancel }}" onDragStart="{{ chip.onDragStart }}" onDragOver="{{ chip.onDragOver }}" onDrop="{{ chip.onDrop }}" onDoubleClick="{{ chip.onDblClick }}" onClick="{{ chip.onClick }}" style="{{ chip.style }}">{{ chip.label }}</button>
@@ -1273,7 +1313,7 @@
       </sc-if>
       <sc-if value="{{ showPurchaseChannelF }}" hint-placeholder-val="{{ false }}">
       <div class="ui-filter-extra" data-cat="purchaseChannel" style="display:flex;align-items:center;gap:9px">
-        <span style="font-size:12px;color:#837da4;flex-shrink:0;width:34px">{{ labelPurchaseChannel }}</span>
+        <span style="font-size:12px;color:#837da4;flex-shrink:0;width:28px;text-align:center;line-height:1.25;word-break:break-all">{{ labelPurchaseChannel }}</span>
         <div style="display:flex;gap:7px;overflow-x:auto;padding-bottom:3px">
           <sc-for list="{{ purchaseChannelChips }}" as="chip" hint-placeholder-count="4">
             <button draggable="{{ chip.draggable }}" onMouseDown="{{ chip.onMouseDown }}" onMouseUp="{{ chip.onMouseUp }}" onTouchStart="{{ chip.onTouchStart }}" onTouchEnd="{{ chip.onTouchEnd }}" onTouchCancel="{{ chip.onTouchCancel }}" onDragStart="{{ chip.onDragStart }}" onDragOver="{{ chip.onDragOver }}" onDrop="{{ chip.onDrop }}" onDoubleClick="{{ chip.onDblClick }}" onClick="{{ chip.onClick }}" style="{{ chip.style }}">{{ chip.label }}</button>
@@ -1283,7 +1323,7 @@
       </sc-if>
       <sc-if value="{{ showSetF }}" hint-placeholder-val="{{ false }}">
       <div class="ui-filter-extra" data-cat="set" style="display:flex;align-items:center;gap:9px">
-        <span style="font-size:12px;color:#837da4;flex-shrink:0;width:34px">{{ labelSet }}</span>
+        <span style="font-size:12px;color:#837da4;flex-shrink:0;width:28px;text-align:center;line-height:1.25;word-break:break-all">{{ labelSet }}</span>
         <div style="display:flex;gap:7px;overflow-x:auto;padding-bottom:3px">
           <sc-for list="{{ setChips }}" as="chip" hint-placeholder-count="4">
             <button onClick="{{ chip.onClick }}" style="{{ chip.style }}">{{ chip.label }}</button>
@@ -1293,7 +1333,7 @@
       </sc-if>
       <sc-if value="{{ showTagFilter }}" hint-placeholder-val="{{ false }}">
       <div class="ui-filter-extra" data-cat="tag" style="display:flex;align-items:center;gap:9px">
-        <span style="font-size:12px;color:#837da4;flex-shrink:0;width:34px">{{ labelTags }}</span>
+        <span style="font-size:12px;color:#837da4;flex-shrink:0;width:28px;text-align:center;line-height:1.25;word-break:break-all">{{ labelTags }}</span>
         <div style="display:flex;gap:7px;overflow-x:auto;padding-bottom:3px">
           <sc-for list="{{ tagChips }}" as="chip" hint-placeholder-count="4">
             <button onClick="{{ chip.onClick }}" style="{{ chip.style }}">{{ chip.label }}</button>
@@ -1303,7 +1343,7 @@
       </sc-if>
       <sc-if value="{{ showRarityFilter }}" hint-placeholder-val="{{ false }}">
       <div class="ui-filter-extra" data-cat="rarity" style="display:flex;align-items:center;gap:9px">
-        <span style="font-size:12px;color:#837da4;flex-shrink:0;width:34px">{{ labelRarity }}</span>
+        <span style="font-size:12px;color:#837da4;flex-shrink:0;width:28px;text-align:center;line-height:1.25;word-break:break-all">{{ labelRarity }}</span>
         <div style="display:flex;gap:7px;overflow-x:auto;padding-bottom:3px">
           <sc-for list="{{ rarityChips }}" as="chip" hint-placeholder-count="4">
             <button onClick="{{ chip.onClick }}" style="{{ chip.style }}">{{ chip.label }}</button>
@@ -1313,7 +1353,7 @@
       </sc-if>
       <sc-for list="{{ customFilterRows }}" as="cf" hint-placeholder-count="0">
       <div class="ui-filter-extra" data-cat="custom" style="display:flex;align-items:center;gap:9px">
-        <span style="font-size:12px;color:#837da4;flex-shrink:0;width:34px">{{ cf.label }}</span>
+        <span style="font-size:12px;color:#837da4;flex-shrink:0;width:28px;text-align:center;line-height:1.25;word-break:break-all">{{ cf.label }}</span>
         <div style="display:flex;gap:7px;overflow-x:auto;padding-bottom:3px">
           <sc-for list="{{ cf.chips }}" as="chip" hint-placeholder-count="3">
             <button draggable="{{ chip.draggable }}" onMouseDown="{{ chip.onMouseDown }}" onMouseUp="{{ chip.onMouseUp }}" onTouchStart="{{ chip.onTouchStart }}" onTouchEnd="{{ chip.onTouchEnd }}" onTouchCancel="{{ chip.onTouchCancel }}" onDragStart="{{ chip.onDragStart }}" onDragOver="{{ chip.onDragOver }}" onDrop="{{ chip.onDrop }}" onDoubleClick="{{ chip.onDblClick }}" onClick="{{ chip.onClick }}" style="{{ chip.style }}">{{ chip.label }}</button>
@@ -1322,7 +1362,7 @@
       </div>
       </sc-for>
       <div class="ui-filter-extra" data-cat="group" style="display:flex;align-items:center;gap:9px">
-        <span style="font-size:12px;color:#837da4;flex-shrink:0;width:34px">分组</span>
+        <span style="font-size:12px;color:#837da4;flex-shrink:0;width:28px;text-align:center;line-height:1.25;word-break:break-all">分组</span>
         <div style="display:flex;gap:7px;overflow-x:auto;padding-bottom:3px">
           <sc-for list="{{ groupByChips }}" as="chip" hint-placeholder-count="3">
             <button onClick="{{ chip.onClick }}" style="{{ chip.style }}">{{ chip.label }}</button>
@@ -1712,14 +1752,14 @@
             <div class="ui-ledger-month-chart">
               <svg class="ui-ledger-month-svg" viewBox="0 0 600 170" preserveAspectRatio="none" aria-label="消费表">
                 <defs>
-                  <linearGradient id="zzzBar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{{ barTop }}"></stop><stop offset="1" stop-color="{{ barBottom }}"></stop></linearGradient>
-                  <linearGradient id="zzzBarAccent" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{{ areaColor }}"></stop><stop offset="1" stop-color="{{ barBottom }}"></stop></linearGradient>
-                  <linearGradient id="zzzArea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{{ areaColor }}" stop-opacity="0.22"></stop><stop offset="1" stop-color="{{ areaColor }}" stop-opacity="0"></stop></linearGradient>
+                  <linearGradient id="zzzBar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{{ accentColorVal }}" stop-opacity="0.9"></stop><stop offset="1" stop-color="{{ accentColorVal }}" stop-opacity="0.5"></stop></linearGradient>
+                  <linearGradient id="zzzBarAccent" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{{ accentColorVal }}"></stop><stop offset="1" stop-color="{{ accentColorVal }}" stop-opacity="0.65"></stop></linearGradient>
                 </defs>
                 <sc-for list="{{ ledgerMonthBars }}" as="b" hint-placeholder-count="6"><rect x="{{ b.hitX }}" y="{{ b.hitY }}" width="{{ b.hitW }}" height="{{ b.hitH }}" fill="transparent" style="cursor:pointer" onClick="{{ b.onClick }}"></rect></sc-for>
-                <sc-for list="{{ ledgerMonthBars }}" as="b" hint-placeholder-count="6"><rect x="{{ b.x }}" y="{{ b.y }}" width="{{ b.w }}" height="{{ b.h }}" rx="6" fill="{{ b.fill }}" style="cursor:pointer;pointer-events:none"></rect></sc-for>
-                <sc-for list="{{ ledgerMonthBars }}" as="b" hint-placeholder-count="0"><sc-if value="{{ b.showLabel }}" hint-placeholder-val="{{ false }}"><text x="{{ b.labelX }}" y="{{ b.labelY }}" text-anchor="middle" font-family="Orbitron" font-size="15" font-weight="700" fill="var(--accent,#ff3355)" style="pointer-events:none">{{ b.amountText }}</text></sc-if></sc-for>
+                <sc-for list="{{ ledgerMonthBars }}" as="b" hint-placeholder-count="6"><sc-if value="{{ b.hasBar }}" hint-placeholder-val="{{ true }}"><rect x="{{ b.x }}" y="{{ b.y }}" width="{{ b.w }}" height="{{ b.h }}" rx="3" fill="{{ b.fill }}" style="cursor:pointer;pointer-events:none"></rect></sc-if></sc-for>
               </svg>
+              <sc-if value="{{ hasLedgerPeakBubble }}" hint-placeholder-val="{{ false }}"><span class="ui-ledger-peak" style="{{ ledgerPeakBubbleStyle }}">{{ ledgerPeakBubbleText }}</span></sc-if>
+              <div class="ui-ledger-axis"><sc-for list="{{ ledgerMonthBars }}" as="b" hint-placeholder-count="6"><sc-if value="{{ b.axisLabel }}" hint-placeholder-val="{{ false }}"><span class="ui-ledger-axis-tick" style="{{ b.axisStyle }}">{{ b.axisLabel }}</span></sc-if></sc-for></div>
             </div>
             <sc-if value="{{ ledgerDetailOpen }}" hint-placeholder-val="{{ false }}">
               <div style="position:fixed;inset:0;z-index:560;background:rgba(30,22,54,.45);display:flex;align-items:center;justify-content:center;padding:20px" onClick="{{ closeLedgerDetail }}">
@@ -2884,6 +2924,9 @@
       <button onClick="{{ openCloudPage }}" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;font-family:inherit;font-size:15px;font-weight:700;color:#251d49;background:#fff;border:1px solid #e8e2f2;border-radius:14px;padding:15px;margin-bottom:10px;cursor:pointer"><span style="display:inline-flex;color:var(--accent,#ff3355)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4 4 0 0 1-.5-7.97A5 5 0 0 1 16 9.5a3.5 3.5 0 0 1 .5 8.5z"/></svg></span>云端<span style="margin-left:auto;font-size:13px;color:#938db0">{{ cloudSaveText }} ›</span></button>
       <button onClick="{{ openSettings }}" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;font-family:inherit;font-size:15px;font-weight:700;color:#251d49;background:#fff;border:1px solid #e8e2f2;border-radius:14px;padding:15px;margin-bottom:10px;cursor:pointer"><span style="display:inline-flex;color:var(--accent,#ff3355)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19 12a7 7 0 0 0-.13-1.33l1.7-1.3-1.8-3.1-2 .82a7 7 0 0 0-2.3-1.33L14 3.5h-3.6l-.37 2.14a7 7 0 0 0-2.3 1.33l-2-.82-1.8 3.1 1.7 1.3A7 7 0 0 0 5 12a7 7 0 0 0 .13 1.33l-1.7 1.3 1.8 3.1 2-.82a7 7 0 0 0 2.3 1.33L10.4 20.5H14l.37-2.14a7 7 0 0 0 2.3-1.33l2 .82 1.8-3.1-1.7-1.3A7 7 0 0 0 19 12z"/></svg></span>设置<span style="margin-left:auto;font-size:13px;color:#938db0">›</span></button>
       <button onClick="{{ openDataManage }}" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;font-family:inherit;font-size:15px;font-weight:700;color:#251d49;background:#fff;border:1px solid #e8e2f2;border-radius:14px;padding:15px;cursor:pointer"><span style="display:inline-flex;color:var(--accent,#ff3355)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span>数据管理<span style="margin-left:auto;font-size:13px;color:#938db0">›</span></button>
+      <sc-if value="{{ authLoggedIn }}" hint-placeholder-val="{{ false }}">
+      <button onClick="{{ doLogout }}" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;font-family:inherit;font-size:15px;font-weight:700;color:#e23b5d;background:#fff;border:1px solid #f2dbe2;border-radius:14px;padding:15px;margin-top:10px;cursor:pointer"><span style="display:inline-flex"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg></span>退出登录<span style="margin-left:auto;font-size:12px;color:#938db0">{{ authCurrentName }}</span></button>
+      </sc-if>
     </div>
   </div>
   </sc-if>
@@ -2942,7 +2985,7 @@ class Component extends DCLogic {
   CHAR_IMG = { '诺克斯': 'assets/c_nox.webp', 'NOX': 'assets/r_blue.webp', 'MIDNIGHT SHADOW': 'assets/r_nox_midnight.webp', 'NOX KNIGHT': 'assets/r_lady.webp', 'ZEZTZ': 'assets/r_red.webp', '西格': 'assets/c_zeke.webp', 'DAWN': 'assets/r_zeztz.webp', '宁梦': 'assets/c_nemu.webp', '南云成华': 'assets/c_nagumo.webp', 'ZERO': 'assets/c_zero.webp', '万津莫': 'assets/c_matsu.webp', '万津美浪': 'assets/c_minami.webp', '富士见铁也': 'assets/c_fujimi.webp', 'THE LADY': 'assets/c_lady.webp', 'CODE': 'assets/c_code.webp' };
   imgUrls = {};
   cloudImageMap = {};
-  state = { items: [], view: null, shipWatermark: (function(){try{return localStorage.getItem('zzz_ship_watermark')!=='0';}catch(e){return true;}})(), sets: [], lastSetId: '', setMenuOpen: false, feeOpen: false, colInfoOpen: false, setInfoOpen: false, recentWorks: [], collapsedGroups: {}, reminderMenuOpen: false, monthlyBudget: '', budgets: {}, ledgerDetailKey: '', ledgerDetailType: 'day', ledgerDetailLabel: '', tableSortKey: '', tableSortDir: 'desc', tableHiddenCols: [], tableColumnMenuOpen: false, nameStyleMode: 'default', displayMode: 'standard', dashboardCards: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], purchaseChannelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, purchaseChannels: [], purchaseChannelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], hiddenPurchaseChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, purchaseChannel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, dataManageOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, cloudPending: false, cloudLastSyncedAt: '', cloudRemoteUpdatedAt: '', modalOpen: false, editing: null, draft: null, savedAt: 0, batchMode: false, selectedIds: [], bulkEditIds: [], bulkEditIndex: 0, ledgerRange: 'month', ledgerMode: 'month', ledgerYear: String(new Date().getFullYear()), ledgerMonth: String(new Date().getMonth()+1), ledgerWeek: '', ledgerPieBy: 'character', ledgerPieActive: 0, batchEditOpen: false, batchEditField: '', batchOn: null, shippingOpen: false, shippingRecords: [], shippingBatches: [], shippingDraft: null, shippingPreviewNotice: '', shippingPreviewPaid: '', shippingPreviewCn: '', shippingPreviewGroup: '', shippingPreviewBatch: '', shippingPreviewPackageKey: '', itemEvidenceDrafts: [], itemEvidenceExistingIds: [], itemEvidenceOpen: false, exportGroup: '', exportSearch: '', exportIds: [], shipAddCollapsed: true, shippingViewChannel: null, relinkRecordId: null, relinkItemIds: [], relinkSearch: '', relinkNote: '', relinkGroup: '', relinkNoteOpen: false, relinkImages: [], relinkNewFiles: [], relinkRecordType: '', mobileMineOpen: false, cloudPageOpen: false, modalTab: 'edit', shippingRolesCustom: (() => { try { return JSON.parse(localStorage.getItem('zzz_shipping_roles') || '{}') || {}; } catch (e) { return {}; } })(), shipRoleManageOpen: false, shipRoleManageType: '', itemShipDraftOpen: false, itemShipItemsPanelOpen: false, linkExistingShipOpen: false, linkExistingSearch: '', linkExistingChannel: '', genericSelectOpen: false, genericSelectTitle: '', genericSelectOptions: [], genericSelectValue: '', genericSelectAnchor: null };
+  state = { items: [], view: null, shipWatermark: (function(){try{return localStorage.getItem('zzz_ship_watermark')!=='0';}catch(e){return true;}})(), sets: [], lastSetId: '', setMenuOpen: false, feeOpen: false, colInfoOpen: false, setInfoOpen: false, recentWorks: [], collapsedGroups: {}, reminderMenuOpen: false, monthlyBudget: '', budgets: {}, ledgerDetailKey: '', ledgerDetailType: 'day', ledgerDetailLabel: '', tableSortKey: '', tableSortDir: 'desc', tableHiddenCols: [], tableColumnMenuOpen: false, nameStyleMode: 'default', displayMode: 'standard', dashboardCards: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], purchaseChannelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, purchaseChannels: [], purchaseChannelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], hiddenPurchaseChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, purchaseChannel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, dataManageOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, cloudPending: false, cloudLastSyncedAt: '', cloudRemoteUpdatedAt: '', modalOpen: false, editing: null, draft: null, savedAt: 0, batchMode: false, selectedIds: [], bulkEditIds: [], bulkEditIndex: 0, ledgerRange: 'month', ledgerMode: 'month', ledgerYear: String(new Date().getFullYear()), ledgerMonth: String(new Date().getMonth()+1), ledgerWeek: '', ledgerPieBy: 'character', ledgerPieActive: 0, batchEditOpen: false, batchEditField: '', batchOn: null, shippingOpen: false, shippingRecords: [], shippingBatches: [], shippingDraft: null, shippingPreviewNotice: '', shippingPreviewPaid: '', shippingPreviewCn: '', shippingPreviewGroup: '', shippingPreviewBatch: '', shippingPreviewPackageKey: '', itemEvidenceDrafts: [], itemEvidenceExistingIds: [], itemEvidenceOpen: false, exportGroup: '', exportSearch: '', exportIds: [], shipAddCollapsed: true, shippingViewChannel: null, relinkRecordId: null, relinkItemIds: [], relinkSearch: '', relinkNote: '', relinkGroup: '', relinkNoteOpen: false, relinkImages: [], relinkNewFiles: [], relinkRecordType: '', mobileMineOpen: false, cloudPageOpen: false, modalTab: 'edit', shippingRolesCustom: (() => { try { return JSON.parse(localStorage.getItem('zzz_shipping_roles') || '{}') || {}; } catch (e) { return {}; } })(), shipRoleManageOpen: false, shipRoleManageType: '', itemShipDraftOpen: false, itemShipItemsPanelOpen: false, linkExistingShipOpen: false, linkExistingSearch: '', linkExistingChannel: '', genericSelectOpen: false, genericSelectTitle: '', genericSelectOptions: [], genericSelectValue: '', genericSelectAnchor: null, authReady: false, authUser: null, authMode: 'login', authUsername: '', authPassword: '', authPassword2: '', authError: '', authBusy: false };
 
   setRoot = (el) => { this.rootEl = el; if (el) { this.applyThemeVars(); this.applyBg(); } };
   applyThemeVars() {
@@ -3041,6 +3084,7 @@ class Component extends DCLogic {
     this.loadWorkLogos();
     this.loadBg();
     this.initSupabase();
+    this.checkAuthSession();
     if (cloudSyncCode) setTimeout(() => this.loadShippingFromCloud(cloudSyncCode), 0);
     else setTimeout(() => this.loadLocalShipping(), 0);
     this.logEvent('page_view', { title });
@@ -3201,6 +3245,84 @@ class Component extends DCLogic {
       try { this.sb = window.supabase.createClient(url, key); } catch (e) { this.sb = null; }
     }
   }
+  AUTH_EMAIL_DOMAIN = '@guzi.local';
+  authEmailFor(username) { return String(username || '').trim().toLowerCase().replace(/[^a-z0-9_.-]/g, '') + this.AUTH_EMAIL_DOMAIN; }
+  async checkAuthSession() {
+    if (!this.sb || !this.sb.auth) { this.setState({ authReady: true, authUser: null }); return; }
+    try {
+      const { data } = await this.sb.auth.getSession();
+      const user = data && data.session ? data.session.user : null;
+      if (user) { await this.onAuthedUser(user); this.setState({ authReady: true, authUser: user }); }
+      else { this.setState({ authReady: true, authUser: null }); }
+    } catch (e) { this.setState({ authReady: true, authUser: null }); }
+  }
+  // 登录成功后：把账号绑定的同步码取出来接上现有同步机制；老用户首次登录则把本机现有同步码绑定上去（无缝迁移）
+  async onAuthedUser(user) {
+    const meta = (user && user.user_metadata) || {};
+    let code = meta.sync_code || '';
+    const localCode = (() => { try { return localStorage.getItem('zzz_cloud_code') || ''; } catch (e) { return ''; } })();
+    if (!code && localCode) {
+      // 账号还没绑同步码，但本机有旧同步码 → 迁移绑定
+      code = localCode;
+      try { await this.sb.auth.updateUser({ data: { sync_code: code } }); } catch (e) {}
+    }
+    if (code) {
+      try { localStorage.setItem('zzz_cloud_code', code); } catch (e) {}
+      this.setState({ cloudSyncCode: code, cloudCodeInput: code });
+      setTimeout(() => { this.loadShippingFromCloud(code); }, 0);
+    }
+  }
+  onAuthUsername = (e) => this.setState({ authUsername: e && e.target ? e.target.value : '' });
+  onAuthPassword = (e) => this.setState({ authPassword: e && e.target ? e.target.value : '' });
+  onAuthPassword2 = (e) => this.setState({ authPassword2: e && e.target ? e.target.value : '' });
+  switchAuthMode = (m) => () => this.setState({ authMode: m, authError: '' });
+  doRegister = async () => {
+    const u = String(this.state.authUsername || '').trim();
+    const p = String(this.state.authPassword || '');
+    const p2 = String(this.state.authPassword2 || '');
+    if (!u) { this.setState({ authError: '请输入用户名' }); return; }
+    if (u.length < 2) { this.setState({ authError: '用户名太短' }); return; }
+    if (p.length < 8) { this.setState({ authError: '密码至少 8 位' }); return; }
+    if (p !== p2) { this.setState({ authError: '两次密码不一致' }); return; }
+    if (!this.sb || !this.sb.auth) { this.setState({ authError: '云端未就绪' }); return; }
+    this.setState({ authBusy: true, authError: '' });
+    try {
+      // 生成/沿用同步码：本机已有旧码则迁移绑定，否则新建
+      let code = (() => { try { return localStorage.getItem('zzz_cloud_code') || ''; } catch (e) { return ''; } })();
+      if (!code) code = this.genSyncCode();
+      const { data, error } = await this.sb.auth.signUp({ email: this.authEmailFor(u), password: p, options: { data: { username: u, sync_code: code } } });
+      if (error) { this.setState({ authBusy: false, authError: /already/i.test(error.message) ? '这个用户名已被注册' : ('注册失败：' + error.message) }); return; }
+      // 有些项目 signUp 后需要再登录一次
+      let user = data && data.user;
+      if (!(data && data.session)) {
+        const r = await this.sb.auth.signInWithPassword({ email: this.authEmailFor(u), password: p });
+        if (r.error) { this.setState({ authBusy: false, authError: '注册成功但自动登录失败，请手动登录' , authMode: 'login' }); return; }
+        user = r.data.user;
+      }
+      try { localStorage.setItem('zzz_cloud_code', code); } catch (e) {}
+      await this.onAuthedUser(user);
+      this.setState({ authBusy: false, authUser: user, authPassword: '', authPassword2: '' });
+    } catch (e) { this.setState({ authBusy: false, authError: '注册失败：' + ((e && e.message) || e) }); }
+  };
+  doLogin = async () => {
+    const u = String(this.state.authUsername || '').trim();
+    const p = String(this.state.authPassword || '');
+    if (!u || !p) { this.setState({ authError: '请输入用户名和密码' }); return; }
+    if (!this.sb || !this.sb.auth) { this.setState({ authError: '云端未就绪' }); return; }
+    this.setState({ authBusy: true, authError: '' });
+    try {
+      const { data, error } = await this.sb.auth.signInWithPassword({ email: this.authEmailFor(u), password: p });
+      if (error) { this.setState({ authBusy: false, authError: '用户名或密码不对' }); return; }
+      await this.onAuthedUser(data.user);
+      this.setState({ authBusy: false, authUser: data.user, authPassword: '' });
+    } catch (e) { this.setState({ authBusy: false, authError: '登录失败：' + ((e && e.message) || e) }); }
+  };
+  doLogout = async () => {
+    if (!window.confirm('确定退出登录？')) return;
+    try { if (this.sb && this.sb.auth) await this.sb.auth.signOut(); } catch (e) {}
+    this.setState({ authUser: null, authUsername: '', authPassword: '', authPassword2: '', authMode: 'login' });
+  };
+  genSyncCode() { const s = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let c = ''; for (let i = 0; i < 8; i++) c += s[Math.floor(Math.random() * s.length)]; return c; }
   clientUuid() { let id = localStorage.getItem('zzz_client_uuid'); if (!id) { id = (crypto && crypto.randomUUID) ? crypto.randomUUID() : ('u_' + Date.now().toString(36) + Math.random().toString(36).slice(2)); try { localStorage.setItem('zzz_client_uuid', id); } catch (e) {} } return id; }
   sbMeta() { return { client_uuid: this.clientUuid(), collector_name: (this.state.collectorName || '').slice(0, 40) || null }; }
   async logEvent(name, payload) { if (!this.sb) return; try { await this.sb.from('client_events').insert([{ ...this.sbMeta(), event_name: name, payload: payload || {} }]); } catch (e) {} }
@@ -6408,10 +6530,18 @@ class Component extends DCLogic {
     });
     const barTop = this.accentLight(0.15), barBottom = this.accentLight(0.72), areaColor = this.accentColor();
     const activeBar = (this.state.ledgerActiveBar == null ? monthValues.length - 1 : this.state.ledgerActiveBar);
-    const ledgerMonthBars = monthValues.map((x, i) => { const h = x.value > 0 ? Math.max(8, Math.round(x.value / maxMonth * monthChartMaxH)) : 3; const cx = nPoints > 1 ? 30 + i * stepX : 300; const hitW = Math.max(Number(barW), stepX || 40); const on = i === activeBar; const labelY = Math.max(14, monthChartBaseY - h - 9); return { x: String(cx - Number(barW)/2), y: String(monthChartBaseY - h), w: barW, h: String(h), fill: on ? 'url(#zzzBarAccent)' : 'url(#zzzBar)', hitX: String(cx - hitW/2), hitW: String(hitW), hitY: '10', hitH: String(monthChartBaseY - 10 + 6), onClick: this.pickLedgerBar(i), showLabel: on && x.value > 0, labelX: String(cx), labelY: String(labelY), amountText: cur + this.fmt(x.value) }; });
-    const ledgerMonthDots = monthValues.map((x, i) => { const y = monthChartBaseY - (x.value > 0 ? Math.max(8, Math.round(x.value / maxMonth * monthChartMaxH)) : 3); const cx = nPoints > 1 ? 30 + i * stepX : 300; return { x: String(cx), y: String(y), color: this.accentColor() }; });
-    const ledgerMonthLinePoints = ledgerMonthDots.map(d => d.x + ',' + d.y).join(' ');
-    const ledgerMonthAreaPath = ledgerMonthDots.length ? ('M ' + ledgerMonthDots[0].x + ',' + monthChartBaseY + ' L ' + ledgerMonthDots.map(d => d.x + ',' + d.y).join(' L ') + ' L ' + ledgerMonthDots[ledgerMonthDots.length - 1].x + ',' + monthChartBaseY + ' Z') : '';
+    const _peakMax = Math.max(0, ...monthValues.map(v => v.value));
+    const peakIdx = _peakMax > 0 ? monthValues.findIndex(v => v.value === _peakMax) : -1;
+    const barWThin = String(Math.max(5, Math.min(22, Math.floor(360 / nPoints))));
+    const ledgerMonthBars = monthValues.map((x, i) => { const h = x.value > 0 ? Math.max(6, Math.round(x.value / maxMonth * monthChartMaxH)) : 0; const cx = nPoints > 1 ? 30 + i * stepX : 300; const hitW = Math.max(Number(barWThin), stepX || 40); const isPeak = i === peakIdx; const labelY = Math.max(16, monthChartBaseY - h - 11); return { x: String(cx - Number(barWThin)/2), y: String(monthChartBaseY - h), w: barWThin, h: String(h), hasBar: x.value > 0, fill: isPeak ? 'url(#zzzBarAccent)' : 'url(#zzzBar)', hitX: String(cx - hitW/2), hitW: String(hitW), hitY: '10', hitH: String(monthChartBaseY - 10 + 6), onClick: this.pickLedgerBar(i), showLabel: isPeak && x.value > 0, labelX: String(cx), labelY: String(labelY), amountText: cur + this.fmt(x.value), axisLabel: x.value > 0 ? x.label : '', axisStyle: { left: (cx / 600 * 100) + '%' } }; });
+    const ledgerMonthDots = [];
+    const ledgerMonthLinePoints = '';
+    const ledgerMonthAreaPath = '';
+    const _peakBar = peakIdx >= 0 ? monthValues[peakIdx] : null;
+    const _peakCx = peakIdx >= 0 ? (nPoints > 1 ? 30 + peakIdx * stepX : 300) : 0;
+    const hasLedgerPeakBubble = !!(_peakBar && _peakBar.value > 0);
+    const ledgerPeakBubbleText = hasLedgerPeakBubble ? (cur + this.fmt(_peakBar.value)) : '';
+    const ledgerPeakBubbleStyle = { left: (_peakCx / 600 * 100) + '%', background: this.accentColor(), boxShadow: '0 4px 12px ' + this.accentAlpha(0.28) };
     const _lgVals = monthValues.map(x => x.value);
     const _lgTotal = _lgVals.reduce((s, v) => s + v, 0);
     const _lgPeak = _lgVals.length ? Math.max(..._lgVals) : 0;
@@ -7098,7 +7228,7 @@ class Component extends DCLogic {
       navGroupItems,
       openAdd: this.openAdd, openBulkImageImport: this.openBulkImageImport, toggleBatchMode: this.toggleBatchMode, batchMode: this.state.batchMode, showBatchControl, showBatchBar, batchButtonText: this.state.batchMode ? '退出批量' : '批量编辑', mobileBatchText: this.state.batchMode ? '退出' : '批量', batchSelectedText: (this.state.selectedIds || []).length + ' 件', batchSelectVisible: this.batchSelectVisible, batchClear: this.batchClear, batchEditStatus: this.batchEditStatus, batchEditReminder: this.batchEditReminder, batchEditField: this.batchEditField, batchQtyPlus: this.batchQtyPlus, batchDelete: this.batchDelete, hasBulkEditNav: (this.state.bulkEditIds || []).length > 1 && this.state.modalOpen, bulkEditProgress: ((this.bulkCurrentIndex ? this.bulkCurrentIndex() : (this.state.bulkEditIndex || 0)) + 1) + '/' + ((this.state.bulkEditIds || []).length || 1), saveBulkPrev: this.saveBulkPrev, saveBulkNext: this.saveBulkNext,
       search, onSearch: this.onSearch, charChips, addCharacter: this.addCharacter, addTypeF: this.addType, addSeriesF: this.addSeries, addChannelF: this.addChannel, typeChips, seriesChips, showSeriesFilter, formChips, statusChips, showStatusFilter, acquireChips, methodChips, setChips, tagChips, rarityChips, channelChips, purchaseChannelChips, showChannelFilter, showPurchaseChannelFilter, customFilterRows, groupByChips, hasRows: filtered.length > 0, fCountText, fCostText, fSellText, fNetText, fProfitText, fProfitStyle, fSummaryLabel,
-      labelChar: labels.character, labelType: labels.type, labelSeries: labels.series, labelChannel: labels.channel, labelPurchaseChannel: labels.purchaseChannel, labelForm: labels.form, labelStatus: labels.status, labelAcquire: labels.acquire, labelMethod: this.flabel('method'), labelSet: this.flabel('set'), labelTags: this.flabel('tags'), labelRarity: this.flabel('rarity'),
+      labelChar: labels.character, labelType: labels.type, labelSeries: labels.series, labelChannel: labels.channel, labelPurchaseChannel: labels.purchaseChannel, labelForm: labels.form, labelStatus: labels.status, labelAcquire: labels.acquire, labelMethod: this.flabel('method'), labelSet: String(this.flabel('set')||'').replace(/\s*\/\s*/g,'/'), labelTags: this.flabel('tags'), labelRarity: String(this.flabel('rarity')||'').replace(/\s*\/\s*/g,'/'),
       showCharF: fieldVisible('character') && this.state.filterOn.character !== false, showTypeF: fieldVisible('type') && this.state.filterOn.type !== false, showFormF: fieldVisible('form') && this.state.filterOn.form !== false, showStatusF: showStatusFilter, showAcquireF: fieldVisible('acquire') && this.state.filterOn.acquire !== false, showMethodF: showMethodFilter, showSetF: showSetFilter,
       showSeriesF: showSeriesFilter && this.state.filterOn.series !== false, showChannelF: showChannelFilter && this.state.filterOn.channel !== false, showPurchaseChannelF: showPurchaseChannelFilter && this.state.filterOn.purchaseChannel !== false,
       showTagFilter, showRarityFilter, yrCards, showYrReview, yrLabel: yearKey + ' 年度回顾',
@@ -7124,7 +7254,7 @@ class Component extends DCLogic {
       toast: this.state.toast || '', hasToast: !!this.state.toast, showTip: this.showTip,
       displayRows, isEmpty: itemRows.length === 0 && view !== 'ledger' && view !== 'dashboard', isDashboard: view === 'dashboard', isTable: view === 'table', isGallery: view === 'gallery', isCircle: view === 'circle', isLedger: view === 'ledger',
       dashboardTodoRows, dashboardSummaryRows, dashboardRecentItems, dashboardRecentDocs, hasDashboardItems: dashboardRecentItems.length>0, noDashboardItems: dashboardRecentItems.length===0, hasDashboardDocs: dashboardRecentDocs.length>0, noDashboardDocs: dashboardRecentDocs.length===0, dashboardMonthCost: cur + this.fmt(dashboardMonthCostNum), dashboardTotalCost: cur + this.fmt(totalIn),
-      budgetInput: (this.state.budgets || {})[budgetMonthKey] || '', hasFeeComposition, feeComposition, feeTotalText, budgetDisplayText: budget > 0 ? (cur + this.fmt(budget)) : (isAllScope ? '不适用' : '未设置'), consumeTitle: TXT.consumeTitle || '消费表', ledgerMonthAreaPath, jumpBudgetThisMonth: this.jumpBudgetThisMonth, ledgerDetailOpen, ledgerDetailItems, ledgerDetailTitle, ledgerDetailTotal, ledgerDetailEmpty, closeLedgerDetail: this.closeLedgerDetail, onBudgetChange: this.onBudgetChange, onBudgetQuickEdit: this.onBudgetQuickEdit, ledgerScopeText, ledgerRangeText, mobileWalletRangeText, mobileWalletScopeText, ledgerModeChips, ledgerYearOptions, ledgerMonthOptions, ledgerWeekOptions, ledgerYear, ledgerMonth, ledgerWeek, showLedgerYear, showLedgerMonth, showLedgerWeek, onLedgerYear: this.onLedgerYear, onLedgerMonth: this.onLedgerMonth, onLedgerWeek: this.onLedgerWeek, openLedgerYearSelect: this.openLedgerYearSelect, openLedgerMonthSelect: this.openLedgerMonthSelect, openLedgerWeekSelect: this.openLedgerWeekSelect, ledgerYearText, ledgerMonthText, ledgerWeekText, ledgerPieBy, onLedgerPieBy: this.onLedgerPieBy, ledgerPieChips, ledgerPieTitle, ledgerPieStyle, ledgerPieRows, ledgerPieTotal, ledgerPieCenterLabel, ledgerPieTopText, ledgerPieTip, ledgerPieSegments, ledgerPieActiveName, ledgerPieActivePercent, ledgerPieActiveValue, ledgerPieActiveDot, ledgerDetailRows, ledgerDetailSummary, monthSpentText: cur + this.fmt(monthSpent), monthSpentBig: cur + this.fmtBig(monthSpent), monthSpentFull: cur + this.fmt(monthSpent), budgetRemainText: panelRemainText, budgetRemainStyle: panelRemainStyle, budgetPctText: panelPctText, budgetPctStyle: panelPctStyle, budgetBarStyle: panelBarStyle, budgetStatusText: panelStatusText, ledgerTitle: TXT.ledgerTitle, ledgerHelpText: '', budgetLabel: panelBudgetLabel, spentLabel: panelSpentLabel, remainLabel: panelRemainLabel, progressLabel: panelProgressLabel, showBudgetEdit, showBudgetView: !showBudgetEdit, monthsTitle: TXT.months, reminderCenterTitle: TXT.reminderCenter, noReminderText: TXT.noReminder, mobileWalletTitle: TXT.walletMini, miniBudgetLabel: TXT.miniBudget, miniSpentLabel: TXT.miniSpent, miniRemainLabel: TXT.miniRemain, addItemText: TXT.addItem, ledgerMonths: ledgerMonthCells, barTop, barBottom, areaColor, ledgerMonthBars, ledgerMonthDots, ledgerMonthLinePoints, ledgerPeakLabel, ledgerPeakValue, ledgerPeakDate, ledgerDaysLabel, ledgerDaysValue, ledgerDaysNote, ledgerAvgValue, ledgerAvgNote, ledgerMonthHint, ledgerMonthTotal, ledgerMonthPeakText, topCostRows, topQtyRows, topCharacterRows, topPlatformRows, ledgerRankCards, reviewCards, completeSetRows, reviewPeriodText, achievementRows, ledgerRankTitle1, ledgerRankTitle2, ledgerRankTitle3, ledgerRankTitle4, upcomingReminders, ledgerReminderRows, hasLedgerReminders: ledgerReminderRows.length > 0, noLedgerReminders: ledgerReminderRows.length === 0, hasUpcomingReminders: upcomingReminders.length > 0, mobileReminderText, mobileReminderDetail, mobileTodoRows, mobileBudgetText: budget > 0 ? (cur + this.fmt(budget)) : '未设', reminderCountText,
+      budgetInput: (this.state.budgets || {})[budgetMonthKey] || '', hasFeeComposition, feeComposition, feeTotalText, budgetDisplayText: budget > 0 ? (cur + this.fmt(budget)) : (isAllScope ? '不适用' : '未设置'), consumeTitle: TXT.consumeTitle || '消费表', ledgerMonthAreaPath, jumpBudgetThisMonth: this.jumpBudgetThisMonth, ledgerDetailOpen, ledgerDetailItems, ledgerDetailTitle, ledgerDetailTotal, ledgerDetailEmpty, closeLedgerDetail: this.closeLedgerDetail, onBudgetChange: this.onBudgetChange, onBudgetQuickEdit: this.onBudgetQuickEdit, ledgerScopeText, ledgerRangeText, mobileWalletRangeText, mobileWalletScopeText, ledgerModeChips, ledgerYearOptions, ledgerMonthOptions, ledgerWeekOptions, ledgerYear, ledgerMonth, ledgerWeek, showLedgerYear, showLedgerMonth, showLedgerWeek, onLedgerYear: this.onLedgerYear, onLedgerMonth: this.onLedgerMonth, onLedgerWeek: this.onLedgerWeek, openLedgerYearSelect: this.openLedgerYearSelect, openLedgerMonthSelect: this.openLedgerMonthSelect, openLedgerWeekSelect: this.openLedgerWeekSelect, ledgerYearText, ledgerMonthText, ledgerWeekText, ledgerPieBy, onLedgerPieBy: this.onLedgerPieBy, ledgerPieChips, ledgerPieTitle, ledgerPieStyle, ledgerPieRows, ledgerPieTotal, ledgerPieCenterLabel, ledgerPieTopText, ledgerPieTip, ledgerPieSegments, ledgerPieActiveName, ledgerPieActivePercent, ledgerPieActiveValue, ledgerPieActiveDot, ledgerDetailRows, ledgerDetailSummary, monthSpentText: cur + this.fmt(monthSpent), monthSpentBig: cur + this.fmtBig(monthSpent), monthSpentFull: cur + this.fmt(monthSpent), budgetRemainText: panelRemainText, budgetRemainStyle: panelRemainStyle, budgetPctText: panelPctText, budgetPctStyle: panelPctStyle, budgetBarStyle: panelBarStyle, budgetStatusText: panelStatusText, ledgerTitle: TXT.ledgerTitle, ledgerHelpText: '', budgetLabel: panelBudgetLabel, spentLabel: panelSpentLabel, remainLabel: panelRemainLabel, progressLabel: panelProgressLabel, showBudgetEdit, showBudgetView: !showBudgetEdit, monthsTitle: TXT.months, reminderCenterTitle: TXT.reminderCenter, noReminderText: TXT.noReminder, mobileWalletTitle: TXT.walletMini, miniBudgetLabel: TXT.miniBudget, miniSpentLabel: TXT.miniSpent, miniRemainLabel: TXT.miniRemain, addItemText: TXT.addItem, ledgerMonths: ledgerMonthCells, barTop, barBottom, areaColor, ledgerMonthBars, ledgerMonthDots, ledgerMonthLinePoints, accentColorVal: this.accentColor(), hasLedgerPeakBubble, ledgerPeakBubbleText, ledgerPeakBubbleStyle, authReady: this.state.authReady, authLoggedIn: !!this.state.authUser, authLoggedOut: !this.state.authUser, authUsername: this.state.authUsername || '', authPassword: this.state.authPassword || '', authPassword2: this.state.authPassword2 || '', authError: this.state.authError || '', hasAuthError: !!this.state.authError, authBusy: this.state.authBusy, authIsLogin: (this.state.authMode || 'login') === 'login', authIsRegister: this.state.authMode === 'register', onAuthUsername: this.onAuthUsername, onAuthPassword: this.onAuthPassword, onAuthPassword2: this.onAuthPassword2, toLoginMode: this.switchAuthMode('login'), toRegisterMode: this.switchAuthMode('register'), doLogin: this.doLogin, doRegister: this.doRegister, doLogout: this.doLogout, authLoginBtnText: this.state.authBusy ? '登录中…' : '登录', authRegisterBtnText: this.state.authBusy ? '注册中…' : '注册并登录', authCurrentName: ((this.state.authUser && this.state.authUser.user_metadata && this.state.authUser.user_metadata.username) || ''), ledgerPeakLabel, ledgerPeakValue, ledgerPeakDate, ledgerDaysLabel, ledgerDaysValue, ledgerDaysNote, ledgerAvgValue, ledgerAvgNote, ledgerMonthHint, ledgerMonthTotal, ledgerMonthPeakText, topCostRows, topQtyRows, topCharacterRows, topPlatformRows, ledgerRankCards, reviewCards, completeSetRows, reviewPeriodText, achievementRows, ledgerRankTitle1, ledgerRankTitle2, ledgerRankTitle3, ledgerRankTitle4, upcomingReminders, ledgerReminderRows, hasLedgerReminders: ledgerReminderRows.length > 0, noLedgerReminders: ledgerReminderRows.length === 0, hasUpcomingReminders: upcomingReminders.length > 0, mobileReminderText, mobileReminderDetail, mobileTodoRows, mobileBudgetText: budget > 0 ? (cur + this.fmt(budget)) : '未设', reminderCountText,
       qtyBadgeStyle: { position: 'absolute', top: '1px', right: '5px', minWidth: '22px', height: '22px', padding: '0 6px', borderRadius: '999px', background: `radial-gradient(circle at 32% 28%, ${this.accentLight(0.5)}, ${this.accentColor()} 82%)`, color: '#fff', fontSize: '12px', fontWeight: 800, lineHeight: 1, fontFamily: "'Orbitron',sans-serif", display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: `0 3px 9px ${this.accentAlpha(0.5)}`, border: '2.5px solid #fff' },
       modalOpen: this.state.modalOpen, modalTitle: this.state.editing ? '编辑谷子' : '新增谷子', isEditing: !!this.state.editing, isNewItem: !this.state.editing, duplicateCurrent: this.duplicateCurrent, deleteCurrent: this.deleteCurrent,
       itemEvidenceSelectedCount:(this.state.itemEvidenceDrafts||[]).length, hasItemEvidenceDrafts:(this.state.itemEvidenceDrafts||[]).length>0, noCloudForItemEvidence:!this.shippingSyncCode(), itemEvidenceExistingSelect:'', itemEvidenceExistingCount:(this.state.itemEvidenceExistingIds||[]).length, itemEvidenceExistingOptions:(this.state.shippingRecords||[]).filter(r=>r.type==='本体资料').map(r=>({value:r.id,label:[r.group,r.title,r.note,(r.images||[]).length+'张图'].filter(Boolean).join(' · ')})), onItemEvidenceExistingSelect:this.onItemEvidenceExistingSelect, openItemEvidenceExistingSelect:this.openItemEvidenceExistingSelect, itemEvidenceOpen:!!this.state.itemEvidenceOpen, toggleItemEvidence:this.toggleItemEvidence, itemEvidenceCaret:this.state.itemEvidenceOpen?'▲ 收起':'▼ 展开', itemEvidenceBadge:((this.state.itemEvidenceDrafts||[]).length+(this.state.itemEvidenceExistingIds||[]).length)>0?('已选 '+((this.state.itemEvidenceDrafts||[]).length+(this.state.itemEvidenceExistingIds||[]).length)): '可选填', itemEvidenceSummary:(()=>{const a=(this.state.itemEvidenceDrafts||[]).length,b=(this.state.itemEvidenceExistingIds||[]).length;if(a||b)return ['待上传 '+a+' 张',b?'复用 '+b+' 份':''].filter(Boolean).join(' · ');return '可以先不填，保存后再补';})(),
