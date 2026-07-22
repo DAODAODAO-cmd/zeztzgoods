@@ -978,12 +978,6 @@
             <div style="font-size:12px;color:#544f7e;font-weight:600;margin-bottom:5px">密码</div>
             <input type="password" value="{{ authPassword }}" onChange="{{ onAuthPassword }}" placeholder="至少 8 位" autocomplete="current-password" style="width:100%;box-sizing:border-box;padding:11px 13px;border-radius:11px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:16px;font-family:inherit;outline:none">
           </div>
-          <sc-if value="{{ authIsRegister }}" hint-placeholder-val="{{ false }}">
-          <div>
-            <div style="font-size:12px;color:#544f7e;font-weight:600;margin-bottom:5px">确认密码</div>
-            <input type="password" value="{{ authPassword2 }}" onChange="{{ onAuthPassword2 }}" placeholder="再输一次密码" autocomplete="new-password" style="width:100%;box-sizing:border-box;padding:11px 13px;border-radius:11px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:16px;font-family:inherit;outline:none">
-          </div>
-          </sc-if>
           <sc-if value="{{ hasAuthError }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;color:#e23b5d;background:rgba(226,59,93,.07);border:1px solid rgba(226,59,93,.2);border-radius:9px;padding:8px 11px">{{ authError }}</div></sc-if>
           <sc-if value="{{ authIsLogin }}" hint-placeholder-val="{{ true }}">
             <button onClick="{{ doLogin }}" style="width:100%;margin-top:4px;min-height:46px;border:none;border-radius:13px;background:var(--accent,#ff3355);color:#fff;font-family:inherit;font-weight:800;font-size:15px;cursor:pointer">{{ authLoginBtnText }}</button>
@@ -1091,7 +1085,7 @@
         <div style="font-weight:900;font-size:17px;color:#251d49;margin-bottom:8px">欢迎来到谷子收纳！</div>
         <div style="font-size:13.5px;color:#544f7e;line-height:1.8">
           在开始收谷之前，先给自己的收藏库起个名字吧！<br>
-          以后换电脑、换手机的时候，复制同步代码，收藏就会跟着你一起搬家啦<br>
+          以后换电脑、换手机时，登录同一个用户名，收藏和排发资料就能继续使用。<br>
           温馨提示: 推荐先在电脑网页端批量上传图片、整理收藏，再导入到手机。图片和资料都会一起保留，日常查看、补充记录会更方便。
         </div>
         <button onClick="{{ goCloudOrSettings }}" style="margin-top:12px;font-family:inherit;font-size:13px;font-weight:700;color:#fff;background:var(--accent,#ff3355);border:none;padding:9px 16px;border-radius:10px;cursor:pointer;box-shadow:0 6px 18px rgba(50,38,90,.2)">前往设置</button>
@@ -2655,7 +2649,7 @@
           <button onClick="{{ closeDataManage }}" style="width:32px;height:32px;border-radius:9px;border:1px solid #ded7ee;background:rgba(50,38,90,.045);color:#595287;font-size:18px;cursor:pointer;line-height:1">×</button>
         </div>
         <div style="padding:20px 22px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px">
-          <button onClick="{{ confirmJsonExport }}" style="font-family:inherit;text-align:left;background:#fff;border:1px solid #ded7ee;border-radius:14px;padding:14px;cursor:pointer;color:#251d49"><b>导出 谷子备份</b><div style="font-size:12px;color:#837da4;margin-top:5px;line-height:1.5">完整备份所有内容（含图片），换设备时推荐使用。</div></button>
+          <button onClick="{{ confirmJsonExport }}" style="font-family:inherit;text-align:left;background:#fff;border:1px solid #ded7ee;border-radius:14px;padding:14px;cursor:pointer;color:#251d49"><b>导出 谷子备份</b><div style="font-size:12px;color:#837da4;margin-top:5px;line-height:1.5">完整备份收藏、设置、排发资料及图片，换设备时推荐使用。</div></button>
           <button onClick="{{ confirmJsonImport }}" style="font-family:inherit;text-align:left;background:#fff;border:1px solid #ded7ee;border-radius:14px;padding:14px;cursor:pointer;color:#251d49"><b>导入 谷子备份</b><div style="font-size:12px;color:#837da4;margin-top:5px;line-height:1.5">会替换当前所有数据，请确认已备份后再操作。</div></button>
           <button onClick="{{ confirmExcelExport }}" style="font-family:inherit;text-align:left;background:#fff;border:1px solid #ded7ee;border-radius:14px;padding:14px;cursor:pointer;color:#251d49"><b>导出 Excel</b><div style="font-size:12px;color:#837da4;margin-top:5px;line-height:1.5">导出 .xlsx，包含主要资料和谷子图片。</div></button>
           <button onClick="{{ confirmExcelImport }}" style="font-family:inherit;text-align:left;background:#fff;border:1px solid #ded7ee;border-radius:14px;padding:14px;cursor:pointer;color:#251d49"><b>导入 Excel</b><div style="font-size:12px;color:#837da4;margin-top:5px;line-height:1.5">会新增 Excel 中的收藏资料，导入前会再次确认。</div></button>
@@ -2702,35 +2696,26 @@
           </div>
 
           <div class="ui-settings-cloud-section" style="border-top:1px solid #e1dbf0;padding-top:16px">
-            <div style="font-weight:700;font-size:14px;color:#251d49;margin-bottom:4px">同步（换设备用）</div>
-            <div style="font-size:11.5px;color:#938db0;margin-bottom:10px;line-height:1.6">本机修改会自动保存，但不会自动上传。完成一轮整理后，请手动点击“上传到云端”；另一台设备使用前先点击“读取云端数据”。</div>
+            <div style="font-weight:700;font-size:14px;color:#251d49;margin-bottom:4px">账号云端</div>
+            <div style="font-size:11.5px;color:#938db0;margin-bottom:10px;line-height:1.6">当前账号：{{ authCurrentName }}。同步码已转为后台兼容键，日常不再需要复制。上传和读取仍由你手动确认。</div>
             <div style="background:rgba(255,255,255,.68);border:1px solid #e1dbf0;border-radius:13px;padding:12px 13px">
               <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px">
-                <div style="font-weight:700;font-size:13px;color:#251d49">我的同步代码</div>
-                <div style="display:flex;gap:8px;flex-wrap:wrap">
-                  <button onClick="{{ createCloudCollection }}" style="font-family:inherit;font-size:12.5px;font-weight:700;color:#fff;background:var(--accent,#ff3355);border:none;padding:7px 12px;border-radius:9px;cursor:pointer">生成同步代码</button>
-                  <sc-if value="{{ hasCloudCode }}" hint-placeholder-val="false"><button onClick="{{ copyCloudCode }}" style="font-family:inherit;font-size:12.5px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:7px 12px;border-radius:9px;cursor:pointer">复制</button></sc-if>
-                </div>
+                <div style="font-weight:700;font-size:13px;color:#251d49">{{ accountCloudTitle }}</div>
+                <span style="font-size:11px;color:#0f8f50;background:rgba(61,220,151,.1);border:1px solid rgba(61,220,151,.22);border-radius:999px;padding:4px 8px">用户名已绑定</span>
               </div>
-              <sc-if value="{{ hasCloudCode }}" hint-placeholder-val="false">
-                <div style="font-family:'Orbitron';font-weight:800;font-size:22px;letter-spacing:.14em;color:#251d49;background:#fff;border:1px solid #ded7ee;border-radius:10px;padding:9px 12px;display:inline-block">{{ cloudSyncCode }}</div>
-              </sc-if>
-              <sc-if value="{{ noCloudCode }}" hint-placeholder-val="true">
-                <div style="font-size:13px;color:#938db0;background:#fff;border:1px dashed #ded7ee;border-radius:10px;padding:10px 12px;display:inline-block">还没有生成同步代码</div>
-              </sc-if>
               <sc-if value="{{ hasCloudStatus }}" hint-placeholder-val="false"><div style="font-size:11.5px;color:#544f7e;line-height:1.6;margin-top:8px">{{ cloudStatus }}</div></sc-if>
-            </div>
-            <div style="font-size:12px;color:#4a4570;margin:14px 0 6px;font-weight:500">连接其他收藏库</div>
-            <div style="display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center">
-              <input value="{{ cloudCodeInput }}" onChange="{{ onCloudCodeInput }}" placeholder="输入同步代码，例如 K7M9Q2" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:14px;font-family:inherit;outline:none;text-transform:uppercase">
-              <button onClick="{{ connectCloudCollection }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:9px 14px;border-radius:9px;cursor:pointer;white-space:nowrap">连接</button>
             </div>
             <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
               <button onClick="{{ pushCloud }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:9px 16px;border-radius:9px;cursor:pointer">上传到云端</button>
               <button onClick="{{ pullCloud }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:9px 16px;border-radius:9px;cursor:pointer">读取云端数据</button>
+              <button onClick="{{ mergeCloudAndLocal }}" style="font-family:inherit;font-size:13px;font-weight:700;color:#fff;background:var(--accent,#ff3355);border:none;padding:9px 16px;border-radius:9px;cursor:pointer">合并云端与本机</button>
               <button onClick="{{ checkCloudVersion }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:9px 16px;border-radius:9px;cursor:pointer">检查云端版本</button>
-              <sc-if value="{{ hasCloudSync }}" hint-placeholder-val="false"><button onClick="{{ disconnectCloud }}" style="font-family:inherit;font-size:13px;color:#e23b5d;background:rgba(255,51,85,.08);border:1px solid rgba(255,51,85,.25);padding:9px 16px;border-radius:9px;cursor:pointer">退出同步</button></sc-if>
             </div>
+            <details style="margin-top:12px;background:rgba(50,38,90,.035);border:1px solid #e8e2f2;border-radius:11px;padding:9px 11px">
+              <summary style="font-size:12px;color:#595287;font-weight:700;cursor:pointer">迁移以前的同步码／找回旧排发资料</summary>
+              <div style="font-size:11px;color:#938db0;line-height:1.55;margin:8px 0">仅旧用户需要。输入旧同步码后，会把旧收藏库及排发中心资料绑定到当前用户名，不会删除本机资料。</div>
+              <div style="display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center"><input value="{{ cloudCodeInput }}" onChange="{{ onCloudCodeInput }}" placeholder="输入以前的同步码" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:14px;font-family:inherit;outline:none;text-transform:uppercase"><button onClick="{{ connectCloudCollection }}" style="font-family:inherit;font-size:13px;font-weight:700;color:#4c4580;background:#fff;border:1px solid #ded7ee;padding:9px 14px;border-radius:9px;cursor:pointer;white-space:nowrap">迁移旧资料</button></div>
+            </details>
           </div>
 
           <div style="border-top:1px solid #e1dbf0;padding-top:16px">
@@ -2809,38 +2794,23 @@
           <button onClick="{{ closeCloudPage }}" style="font-family:inherit;font-size:13px;color:#938db0;background:none;border:none;cursor:pointer;padding:6px">✕</button>
         </div>
         <div style="padding:18px 22px 22px;display:flex;flex-direction:column;gap:14px;max-height:75dvh;overflow-y:auto">
-          <div style="font-size:11.5px;color:#938db0;line-height:1.6">本机修改会自动保存，但不会自动上传。完成一轮整理后，请点击"上传到云端"；换到另一台设备使用前，先点击"读取云端数据"。</div>
+          <div style="font-size:11.5px;color:#938db0;line-height:1.6">当前账号：{{ authCurrentName }}。同步码已转为后台兼容键，日常只需要用户名和密码。</div>
           <div style="background:rgba(255,255,255,.68);border:1px solid #e1dbf0;border-radius:13px;padding:12px 13px">
             <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px">
-              <div style="font-weight:700;font-size:13px;color:#251d49">我的同步代码</div>
-              <div style="display:flex;gap:8px;flex-wrap:wrap">
-                <button onClick="{{ createCloudCollection }}" style="font-family:inherit;font-size:12.5px;font-weight:700;color:#fff;background:var(--accent,#ff3355);border:none;padding:7px 12px;border-radius:9px;cursor:pointer">生成同步代码</button>
-                <sc-if value="{{ hasCloudCode }}" hint-placeholder-val="false"><button onClick="{{ copyCloudCode }}" style="font-family:inherit;font-size:12.5px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:7px 12px;border-radius:9px;cursor:pointer">复制</button></sc-if>
-              </div>
+              <div style="font-weight:700;font-size:13px;color:#251d49">{{ accountCloudTitle }}</div>
+              <span style="font-size:11px;color:#0f8f50">用户名已绑定</span>
             </div>
-            <sc-if value="{{ hasCloudCode }}" hint-placeholder-val="false">
-              <div style="font-family:'Orbitron';font-weight:800;font-size:22px;letter-spacing:.14em;color:#251d49;background:#fff;border:1px solid #ded7ee;border-radius:10px;padding:9px 12px;display:inline-block">{{ cloudSyncCode }}</div>
-            </sc-if>
-            <sc-if value="{{ noCloudCode }}" hint-placeholder-val="true">
-              <div style="font-size:13px;color:#938db0;background:#fff;border:1px dashed #ded7ee;border-radius:10px;padding:10px 12px;display:inline-block">还没有生成同步代码</div>
-            </sc-if>
             <sc-if value="{{ hasCloudStatus }}" hint-placeholder-val="false"><div style="font-size:11.5px;color:#544f7e;line-height:1.6;margin-top:8px">{{ cloudStatus }}</div></sc-if>
-          </div>
-          <div>
-            <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500">连接其他收藏库</div>
-            <div style="display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center">
-              <input value="{{ cloudCodeInput }}" onChange="{{ onCloudCodeInput }}" placeholder="输入同步代码，例如 K7M9Q2" style="width:100%;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#fff;color:#251d49;font-size:14px;font-family:inherit;outline:none;text-transform:uppercase">
-              <button onClick="{{ connectCloudCollection }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:9px 14px;border-radius:9px;cursor:pointer;white-space:nowrap">连接</button>
-            </div>
           </div>
           <div style="display:flex;gap:8px;flex-wrap:wrap">
             <button onClick="{{ pushCloud }}" style="flex:1;min-width:120px;font-family:inherit;font-size:13px;font-weight:700;color:#fff;background:var(--accent,#ff3355);border:none;padding:11px 14px;border-radius:10px;cursor:pointer">⬆ 上传到云端</button>
             <button onClick="{{ pullCloud }}" style="flex:1;min-width:120px;font-family:inherit;font-size:13px;font-weight:700;color:#4c4580;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:11px 14px;border-radius:10px;cursor:pointer">⬇ 读取云端数据</button>
           </div>
           <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button onClick="{{ mergeCloudAndLocal }}" style="flex:1;font-family:inherit;font-size:13px;font-weight:700;color:#fff;background:var(--accent,#ff3355);border:none;padding:9px 14px;border-radius:9px;cursor:pointer">合并云端与本机</button>
             <button onClick="{{ checkCloudVersion }}" style="font-family:inherit;font-size:13px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:9px 16px;border-radius:9px;cursor:pointer">检查云端版本</button>
-            <sc-if value="{{ hasCloudSync }}" hint-placeholder-val="false"><button onClick="{{ disconnectCloud }}" style="font-family:inherit;font-size:13px;color:#e23b5d;background:rgba(255,51,85,.08);border:1px solid rgba(255,51,85,.25);padding:9px 16px;border-radius:9px;cursor:pointer">退出同步</button></sc-if>
           </div>
+          <details style="background:rgba(50,38,90,.035);border:1px solid #e8e2f2;border-radius:11px;padding:9px 11px"><summary style="font-size:12px;color:#595287;font-weight:700;cursor:pointer">找回旧排发资料</summary><div style="font-size:11px;color:#938db0;line-height:1.55;margin:8px 0">输入以前的同步码，将旧收藏与排发资料绑定到当前用户名。</div><div style="display:grid;grid-template-columns:1fr auto;gap:7px"><input value="{{ cloudCodeInput }}" onChange="{{ onCloudCodeInput }}" placeholder="以前的同步码" style="width:100%;padding:9px;border-radius:9px;border:1px solid #ded7ee;background:#fff;font-size:14px;text-transform:uppercase"><button onClick="{{ connectCloudCollection }}" style="font-family:inherit;font-size:12px;font-weight:700;color:#4c4580;background:#fff;border:1px solid #ded7ee;border-radius:9px;padding:8px 10px">迁移</button></div></details>
         </div>
       </div>
     </div>
@@ -2856,7 +2826,7 @@
           <button onClick="{{ closeShipping }}" style="width:32px;height:32px;border-radius:10px;border:1px solid #ded7ee;background:#fff;color:#595287;font-size:18px;cursor:pointer">×</button>
         </div>
         <div style="padding:12px;overflow:auto;flex:1;min-height:0">
-          <sc-if value="{{ shipNotConnected }}" hint-placeholder-val="false"><div class="ui-ship-notice" style="margin:0 0 14px">排发中心用来集中管理肾表／付款截图等图片，需要连接同步代码后才能上传、双端查看。谷子的日常记录不受影响，本地照常使用。手机端可在「我的 → 云端」里生成或连接，电脑端在「设置 → 同步代码」里。</div></sc-if>
+          <sc-if value="{{ shipNotConnected }}" hint-placeholder-val="false"><div class="ui-ship-notice" style="margin:0 0 14px">账号云端暂未建立，排发资料会先保存在本机。请到「云端」检查账号连接；旧用户可在里面输入以前的同步码找回排发资料。</div></sc-if>
           <div class="ui-ship-grid">
             <div style="display:flex;flex-direction:column;gap:16px;min-width:0">
               <div class="ui-ship-card">
@@ -3257,6 +3227,40 @@ class Component extends DCLogic {
     if (!local) local = 'u0';
     return local + this.AUTH_EMAIL_DOMAIN;
   }
+  async findCloudCollectionByCode(code, fields = 'id,sync_code,data,updated_at') {
+    const normalized = String(code || '').trim().toUpperCase();
+    if (!this.sb || !normalized) return { row: null, count: 0 };
+    // 不使用 single/maybeSingle：旧库若意外有重复码，它们会因“必须是单行”而直接报错。
+    const { data, error } = await this.sb.from('collections').select(fields).eq('sync_code', normalized).order('updated_at', { ascending: false }).limit(2);
+    if (error) throw error;
+    const rows = Array.isArray(data) ? data : [];
+    return { row: rows[0] || null, count: rows.length };
+  }
+  async ensureAccountCloudCollection(user, preferredCode = '') {
+    if (!this.sb || !user) throw new Error('账号或云端尚未就绪');
+    const meta = user.user_metadata || {};
+    const localCode = (() => { try { return localStorage.getItem('zzz_cloud_code') || ''; } catch (e) { return ''; } })();
+    let code = String(preferredCode || meta.sync_code || localCode || this.genSyncCode()).trim().toUpperCase();
+    let found = await this.findCloudCollectionByCode(code);
+    if (!found.row) {
+      const now = new Date().toISOString();
+      const payload = { sync_code: code, client_uuid: this.clientUuid(), cn: this.state.collectorName || null, title: this.state.title || null, data: this.cloudSnapshot(), updated_at: now };
+      const inserted = await this.sb.from('collections').insert([payload]);
+      if (inserted.error) throw inserted.error;
+      found = await this.findCloudCollectionByCode(code);
+      if (!found.row) throw new Error('云端收藏库已提交，但当前账号无权读取；请检查 Supabase collections 表的 RLS 权限');
+    }
+    if (meta.sync_code !== code) {
+      const updated = await this.sb.auth.updateUser({ data: { ...meta, sync_code: code } });
+      if (updated.error) throw updated.error;
+    }
+    try {
+      localStorage.setItem('zzz_cloud_id', found.row.id || '');
+      localStorage.setItem('zzz_cloud_code', code);
+    } catch (e) {}
+    this.setState({ cloudSyncId: found.row.id || '', cloudSyncCode: code, cloudCodeInput: '', cloudRemoteUpdatedAt: found.row.updated_at || '' });
+    return { code, row: found.row, duplicateCount: found.count };
+  }
   async checkAuthSession() {
     if (!this.sb || !this.sb.auth) { this.setState({ authReady: true, authUser: null }); return; }
     try {
@@ -3266,20 +3270,16 @@ class Component extends DCLogic {
       else { this.setState({ authReady: true, authUser: null }); }
     } catch (e) { this.setState({ authReady: true, authUser: null }); }
   }
-  // 登录成功后：把账号绑定的同步码取出来接上现有同步机制；老用户首次登录则把本机现有同步码绑定上去（无缝迁移）
+  // 登录成功后：账号负责定位云端库；同步码只作为兼容旧排发资料的内部关联键。
   async onAuthedUser(user) {
-    const meta = (user && user.user_metadata) || {};
-    let code = meta.sync_code || '';
-    const localCode = (() => { try { return localStorage.getItem('zzz_cloud_code') || ''; } catch (e) { return ''; } })();
-    if (!code && localCode) {
-      // 账号还没绑同步码，但本机有旧同步码 → 迁移绑定
-      code = localCode;
-      try { await this.sb.auth.updateUser({ data: { sync_code: code } }); } catch (e) {}
-    }
-    if (code) {
-      try { localStorage.setItem('zzz_cloud_code', code); } catch (e) {}
-      this.setState({ cloudSyncCode: code, cloudCodeInput: code });
-      setTimeout(() => { this.loadShippingFromCloud(code); }, 0);
+    try {
+      const linked = await this.ensureAccountCloudCollection(user);
+      const warning = linked.duplicateCount > 1 ? '；检测到旧同步码存在重复云端记录，已使用最新一条' : '';
+      this.setState({ cloudStatus: '账号云端已连接，排发资料正在读取' + warning + '。', cloudPending: false });
+      await this.migrateLocalShippingToCloud(linked.code);
+      await this.loadShippingFromCloud(linked.code);
+    } catch (e) {
+      this.setState({ cloudStatus: '账号已登录，但云端连接失败：' + ((e && e.message) || e) });
     }
   }
   onAuthUsername = (e) => this.setState({ authUsername: e && e.target ? e.target.value : '' });
@@ -3289,11 +3289,9 @@ class Component extends DCLogic {
   doRegister = async () => {
     const u = String(this.state.authUsername || '').trim();
     const p = String(this.state.authPassword || '');
-    const p2 = String(this.state.authPassword2 || '');
     if (!u) { this.setState({ authError: '请输入用户名' }); return; }
     if (u.length < 2) { this.setState({ authError: '用户名太短' }); return; }
     if (p.length < 8) { this.setState({ authError: '密码至少 8 位' }); return; }
-    if (p !== p2) { this.setState({ authError: '两次密码不一致' }); return; }
     if (!this.sb || !this.sb.auth) { this.setState({ authError: '云端未就绪' }); return; }
     this.setState({ authBusy: true, authError: '' });
     try {
@@ -3481,7 +3479,7 @@ class Component extends DCLogic {
     return code;
   }
   cloudSnapshot(imageMapArg) {
-    const keys = ['zzz_cn','zzz_currency','zzz_accent','zzz_title','zzz_subtitle','zzz_footer','zzz_works','zzz_current_work','zzz_work_group_label','zzz_field_labels','zzz_filter_on','zzz_stats_on','zzz_batch_on','zzz_custom_fields','zzz_deleted_fields','zzz_custom_filter_order','zzz_shipping_roles'];
+    const keys = ['zzz_cn','zzz_currency','zzz_accent','zzz_title','zzz_subtitle','zzz_footer','zzz_works','zzz_current_work','zzz_recent_works','zzz_work_group_label','zzz_sets','zzz_last_set','zzz_budgets','zzz_monthly_budget','zzz_dashboard_cards','zzz_name_style','zzz_display_mode','zzz_field_labels','zzz_filter_on','zzz_stats_on','zzz_batch_on','zzz_custom_fields','zzz_deleted_fields','zzz_custom_filter_order','zzz_shipping_roles'];
     const allWorks = this.state.works || [];
     ['zzz_char_order','zzz_types','zzz_series','zzz_channels','zzz_purchase_channels','zzz_form_order','zzz_acquire_order','zzz_status','zzz_hidden_types','zzz_hidden_channels','zzz_hidden_purchase_channels'].forEach(base => {
       allWorks.forEach(w => keys.push(w.id === this.MAIN_WORK ? base : base + '__' + w.id));
@@ -3509,6 +3507,10 @@ class Component extends DCLogic {
     filterOn = { purchaseChannel: true, ...filterOn };
     let statsOn = null; try { statsOn = JSON.parse(localStorage.getItem('zzz_stats_on') || 'null') || null; } catch(e) {}
     let batchOn = null; try { batchOn = JSON.parse(localStorage.getItem('zzz_batch_on') || 'null') || null; } catch(e) {}
+    let sets = []; try { sets = JSON.parse(localStorage.getItem('zzz_sets') || '[]') || []; } catch(e) {}
+    let budgets = {}; try { budgets = JSON.parse(localStorage.getItem('zzz_budgets') || '{}') || {}; } catch(e) {}
+    let recentWorks = []; try { recentWorks = JSON.parse(localStorage.getItem('zzz_recent_works') || '[]') || []; } catch(e) {}
+    let dashboardCards = null; try { dashboardCards = JSON.parse(localStorage.getItem('zzz_dashboard_cards') || 'null') || null; } catch(e) {}
     
     let deletedFields = []; try { deletedFields = JSON.parse(localStorage.getItem('zzz_deleted_fields') || '[]') || []; } catch(e) {}
     let customFields = []; try { customFields = JSON.parse(localStorage.getItem('zzz_custom_fields') || '[]') || []; } catch(e) {}
@@ -3521,9 +3523,51 @@ class Component extends DCLogic {
       workGroupLabel: localStorage.getItem('zzz_work_group_label') || this.state.workGroupLabel,
       collectorName: localStorage.getItem('zzz_cn') || '', currency: localStorage.getItem('zzz_currency') || '', accent: localStorage.getItem('zzz_accent') || '',
       title: localStorage.getItem('zzz_title') || this.state.title, subtitle: localStorage.getItem('zzz_subtitle') || this.state.subtitle, footer: localStorage.getItem('zzz_footer') || this.state.footer,
-      fieldLabels: { ...this.FIELD_DEFAULTS, ...fieldLabels }, filterOn, statsOn, batchOn, deletedFields, customFields, customFilterOrder, shippingRolesCustom, ...lists, savedAt: Date.now()
+      fieldLabels: { ...this.FIELD_DEFAULTS, ...fieldLabels }, filterOn, statsOn, batchOn, sets, budgets, recentWorks, dashboardCards: dashboardCards || this.state.dashboardCards, lastSetId: localStorage.getItem('zzz_last_set') || '', nameStyleMode: localStorage.getItem('zzz_name_style') || this.state.nameStyleMode, displayMode: localStorage.getItem('zzz_display_mode') || this.state.displayMode, deletedFields, customFields, customFilterOrder, shippingRolesCustom, ...lists, savedAt: Date.now()
     }, () => { this.applyThemeVars(); this.applyBg(); this.loadImages(items); });
   }
+  mergeCloudAndLocal = async () => {
+    const code = this.shippingSyncCode();
+    if (!this.sb || !code) { this.setState({ cloudStatus: '账号云端尚未连接。' }); return; }
+    this.setState({ cloudBusy: true, cloudStatus: '正在合并云端、本机与排发资料…' });
+    try {
+      let row = null;
+      const id = this.state.cloudSyncId || localStorage.getItem('zzz_cloud_id') || '';
+      if (id) {
+        const q = await this.sb.from('collections').select('id,sync_code,data,updated_at').eq('id', id).limit(1);
+        if (q.error) throw q.error;
+        row = Array.isArray(q.data) ? q.data[0] : null;
+      }
+      if (!row) row = (await this.findCloudCollectionByCode(code)).row;
+      const remote = (row && row.data && typeof row.data === 'object') ? row.data : {};
+      const local = this.cloudSnapshot();
+      const byId = new Map();
+      (Array.isArray(remote.items) ? remote.items : []).forEach(it => { if (it && it.id != null) byId.set(String(it.id), it); });
+      (Array.isArray(local.items) ? local.items : []).forEach(it => { if (it && it.id != null) byId.set(String(it.id), it); });
+      const merged = {
+        ...remote,
+        ...local,
+        version: Math.max(Number(remote.version) || 0, Number(local.version) || 0, 2),
+        updated_at: new Date().toISOString(),
+        items: Array.from(byId.values()),
+        imageMap: { ...(remote.imageMap || {}), ...(local.imageMap || {}) },
+        local: { ...(remote.local || {}), ...(local.local || {}) }
+      };
+      await this.applyCloudSnapshot(merged);
+      const shipResult = await this.migrateLocalShippingToCloud(code);
+      const now = new Date().toISOString();
+      const targetId = (row && row.id) || this.state.cloudSyncId;
+      const update = await this.sb.from('collections').update({ data: merged, updated_at: now, client_uuid: this.clientUuid() }).eq('id', targetId).select('id,sync_code,updated_at');
+      if (update.error) throw update.error;
+      const updatedRow = Array.isArray(update.data) ? update.data[0] : null;
+      if (!updatedRow) throw new Error('合并结果未能写回云端，请检查 collections 表的更新权限');
+      localStorage.setItem('zzz_cloud_last_synced_at', updatedRow.updated_at || now);
+      await this.loadShippingFromCloud(code);
+      this.setState({ cloudBusy: false, cloudPending: false, cloudLastSyncedAt: updatedRow.updated_at || now, cloudRemoteUpdatedAt: updatedRow.updated_at || now, cloudStatus: '合并完成：收藏共 ' + merged.items.length + ' 件；本地排发资料新增上传 ' + shipResult.migrated + ' 份。' });
+    } catch (e) {
+      this.setState({ cloudBusy: false, cloudPending: true, cloudStatus: '合并失败：' + ((e && e.message) || e) });
+    }
+  };
   markCloudPending = (message = '') => {
     if (!this.state.cloudSyncCode && !localStorage.getItem('zzz_cloud_code')) return;
     this.setState({ cloudPending: true, cloudStatus: message || '本机有未上传的修改。请完成整理后手动上传到云端。' });
@@ -3538,8 +3582,7 @@ class Component extends DCLogic {
     if (!this.cloudReady() || !code) { this.setState({ cloudStatus: '还没有连接同步代码。' }); return; }
     this.setState({ cloudBusy: true, cloudStatus: '正在检查云端版本…' });
     try {
-      const { data, error } = await this.sb.from('collections').select('id,sync_code,updated_at,data').eq('sync_code', code).single();
-      if (error) throw error;
+      const data = (await this.findCloudCollectionByCode(code, 'id,sync_code,updated_at,data')).row;
       if (!data) throw new Error('没有找到云端收藏库');
       const remoteAt = data.updated_at || (data.data && data.data.updated_at) || '';
       const localAt = this.state.cloudLastSyncedAt || localStorage.getItem('zzz_cloud_last_synced_at') || '';
@@ -3558,8 +3601,10 @@ class Component extends DCLogic {
         const code = this.genSyncCode();
         const imgSync = await this.syncCloudImagesForItems(this.state.items || []);
         const snap = this.cloudSnapshot(imgSync.map);
-        const { data, error } = await this.sb.from('collections').insert([{ sync_code: code, client_uuid: this.clientUuid(), cn: ((this.state.settingsDraft && this.state.settingsDraft.collectorName) || this.state.collectorName || null), title: ((this.state.settingsDraft && this.state.settingsDraft.title) || this.state.title || null), data: snap }]).select('id,sync_code').single();
-        if (!error && data) {
+        const inserted = await this.sb.from('collections').insert([{ sync_code: code, client_uuid: this.clientUuid(), cn: ((this.state.settingsDraft && this.state.settingsDraft.collectorName) || this.state.collectorName || null), title: ((this.state.settingsDraft && this.state.settingsDraft.title) || this.state.title || null), data: snap }]);
+        if (!inserted.error) {
+          const data = (await this.findCloudCollectionByCode(code, 'id,sync_code,updated_at')).row;
+          if (!data) throw new Error('云端记录已提交，但当前账号无权读取；请检查 collections 表权限');
           localStorage.setItem('zzz_cloud_id', data.id); localStorage.setItem('zzz_cloud_code', data.sync_code); localStorage.setItem('zzz_cloud_last_synced_at', new Date().toISOString());
           await this.uploadCollectionSummary(data.sync_code);
           this.setState({ cloudSyncId: data.id, cloudSyncCode: data.sync_code, cloudCodeInput: data.sync_code, cloudStatus: '同步代码已生成！当前资料已上传到云端。以后换电脑、换手机，记得带上它一起出发～', cloudBusy: false, cloudPending: false, cloudLastSyncedAt: new Date().toISOString() });
@@ -3572,22 +3617,29 @@ class Component extends DCLogic {
   onCloudCodeInput = (e) => this.setState({ cloudCodeInput: (e.target.value || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8) });
   connectCloudCollection = async () => {
     const code = (this.state.cloudCodeInput || '').trim().toUpperCase();
-    if (!code) { this.setState({ cloudStatus: '请先输入同步代码。' }); return; }
+    if (!code) { this.setState({ cloudStatus: '请先输入旧同步代码。' }); return; }
     if (!this.cloudReady()) { this.setState({ cloudStatus: 'Supabase 未连接，请检查网络或配置。' }); return; }
-    this.setState({ cloudBusy: true, cloudPending: false, cloudStatus: '正在连接同步代码…' });
+    if (!this.state.authUser) { this.setState({ cloudStatus: '请先登录账号。' }); return; }
+    this.setState({ cloudBusy: true, cloudPending: false, cloudStatus: '正在迁移旧云端与排发资料…' });
     try {
-      const { data, error } = await this.sb.from('collections').select('id,sync_code,data,updated_at').eq('sync_code', code).single();
-      if (error || !data) { this.setState({ cloudStatus: '没有找到这个同步代码。', cloudBusy: false }); return; }
-      localStorage.setItem('zzz_cloud_id', data.id); localStorage.setItem('zzz_cloud_code', data.sync_code);
-      this.setState({ cloudSyncId: data.id, cloudSyncCode: data.sync_code, cloudCodeInput: data.sync_code, cloudStatus: '已连接同步代码：' + data.sync_code + '。云端更新时间：' + this.fmtCloudTime(data.updated_at) + '。请确认后点击“读取云端数据”，不会自动覆盖本机。', cloudBusy: false, cloudPending: false, cloudRemoteUpdatedAt: data.updated_at || '' });
-    } catch (e) { this.setState({ cloudStatus: '连接失败：' + (e.message || e), cloudBusy: false, cloudPending: false }); }
+      const oldCollection = await this.findCloudCollectionByCode(code);
+      const oldDocsQuery = await this.sb.from('shipping_documents').select('id').eq('sync_code', code).limit(1);
+      if (oldDocsQuery.error) throw oldDocsQuery.error;
+      const hasOldShipping = Array.isArray(oldDocsQuery.data) && oldDocsQuery.data.length > 0;
+      if (!oldCollection.row && !hasOldShipping) throw new Error('没有找到这个旧同步码对应的收藏或排发资料');
+      const linked = await this.ensureAccountCloudCollection(this.state.authUser, code);
+      const migrated = await this.migrateLocalShippingToCloud(linked.code);
+      const records = await this.loadShippingFromCloud(linked.code);
+      const count = records.length;
+      this.setState({ cloudSyncId: linked.row.id, cloudSyncCode: linked.code, cloudCodeInput: '', cloudStatus: '旧资料已绑定到当前账号。排发中心已读取 ' + count + ' 份资料；如需继承收藏主数据，请点击“合并云端与本机”。', cloudBusy: false, cloudPending: false, cloudRemoteUpdatedAt: linked.row.updated_at || '' });
+    } catch (e) { this.setState({ cloudStatus: '旧资料迁移失败：' + (e.message || e), cloudBusy: false, cloudPending: false }); }
   };
   // 手机端快捷同步：点一下选择上传或读取
   mobileCloudSync = () => {
     if (this.state.mobileMineOpen) this.setState({ mobileMineOpen: false });
     if (this.state.cloudBusy) { return; }
     const hasCode = !!(this.state.cloudSyncCode || localStorage.getItem('zzz_cloud_code'));
-    if (!hasCode) { alert('还没有连接同步代码。请先到「设置 → 同步」生成或连接同步代码。'); this.openSettings && this.openSettings(); return; }
+    if (!hasCode) { alert('账号云端尚未建立。请先到「设置 → 账号云端」检查连接。'); this.openSettings && this.openSettings(); return; }
     const pending = this.state.cloudPending ? '（本机有未上传的修改）' : '';
     const up = window.confirm('云端同步' + pending + '\n\n点「确定」= 上传到云端（用本机资料覆盖云端）\n点「取消」= 换成读取云端数据到本机');
     if (up) { this.pushCloud(); }
@@ -3598,9 +3650,22 @@ class Component extends DCLogic {
     if (!this.cloudReady() || !code) { if (!auto) this.setState({ cloudStatus: '还没有连接同步代码。', cloudBusy: false }); return; }
     this.setState({ cloudBusy: true, cloudStatus: auto ? '正在自动上传到云端…' : '正在检查并上传到云端…' });
     try {
-      const { data: remote, error: readError } = await this.sb.from('collections').select('id,sync_code,updated_at').eq('sync_code', code).single();
-      if (readError) throw readError;
-      if (!remote) throw new Error('没有找到云端收藏库');
+      const remote = (await this.findCloudCollectionByCode(code, 'id,sync_code,updated_at')).row;
+      if (!remote) {
+        // 云端还没有这个同步码（新账号首次上传）→ 直接创建
+        const imgSync0 = await this.syncCloudImagesForItems(this.state.items || []);
+        const now0 = new Date().toISOString();
+        const insertPayload = { sync_code: code, client_uuid: this.clientUuid(), cn: this.state.collectorName || null, title: this.state.title || null, data: this.cloudSnapshot(imgSync0.map), updated_at: now0 };
+        const inserted = await this.sb.from('collections').insert([insertPayload]);
+        if (inserted.error) throw inserted.error;
+        const created = (await this.findCloudCollectionByCode(code, 'id,sync_code,updated_at')).row;
+        if (!created) throw new Error('云端记录已创建，但当前账号无权读取；请检查 collections 表权限');
+        const syncedAt0 = (created && created.updated_at) || now0;
+        try { localStorage.setItem('zzz_cloud_id', created ? created.id : ''); localStorage.setItem('zzz_cloud_code', code); localStorage.setItem('zzz_cloud_last_synced_at', syncedAt0); } catch (e) {}
+        await this.uploadCollectionSummary(code);
+        this.setState({ cloudSyncId: created ? created.id : '', cloudSyncCode: code, cloudCodeInput: code, cloudStatus: '已创建云端收藏库并上传，共 ' + ((this.state.items || []).length) + ' 件谷子。同步时间：' + this.fmtCloudTime(syncedAt0), cloudBusy: false, cloudPending: false, cloudLastSyncedAt: syncedAt0, cloudRemoteUpdatedAt: syncedAt0 });
+        return;
+      }
       const localSyncedAt = this.state.cloudLastSyncedAt || localStorage.getItem('zzz_cloud_last_synced_at') || '';
       const remoteAt = remote.updated_at || '';
       const remoteNewer = remoteAt && localSyncedAt && new Date(remoteAt).getTime() > new Date(localSyncedAt).getTime() + 1000;
@@ -3612,7 +3677,7 @@ class Component extends DCLogic {
       const imgSync = await this.syncCloudImagesForItems(this.state.items || []);
       const now = new Date().toISOString();
       const payload = { client_uuid: this.clientUuid(), cn: this.state.collectorName || null, title: this.state.title || null, data: this.cloudSnapshot(imgSync.map), updated_at: now };
-      const { data, error } = await this.sb.from('collections').update(payload).eq('sync_code', code).select('id,sync_code,updated_at');
+      const { data, error } = await this.sb.from('collections').update(payload).eq('id', remote.id).select('id,sync_code,updated_at');
       if (error) throw error;
       if (!Array.isArray(data) || data.length !== 1) throw new Error('同步代码 ' + code + ' 没有匹配到云端收藏库，实际更新 ' + ((data && data.length) || 0) + ' 条记录');
       const syncedAt = data[0].updated_at || now;
@@ -3636,8 +3701,14 @@ class Component extends DCLogic {
     }
     this.setState({ cloudBusy: true, cloudStatus: '正在从云端读取…' });
     try {
-      const { data, error } = await this.sb.from('collections').select('id,sync_code,data,updated_at').eq('sync_code', code).single();
-      if (error) throw error;
+      let data = null;
+      const id = this.state.cloudSyncId || localStorage.getItem('zzz_cloud_id') || '';
+      if (id) {
+        const q = await this.sb.from('collections').select('id,sync_code,data,updated_at').eq('id', id).limit(1);
+        if (q.error) throw q.error;
+        data = Array.isArray(q.data) ? q.data[0] : null;
+      }
+      if (!data) data = (await this.findCloudCollectionByCode(code)).row;
       if (!data) throw new Error('没有找到云端收藏库');
       const syncedAt = data.updated_at || (data.data && data.data.updated_at) || new Date().toISOString();
       localStorage.setItem('zzz_cloud_id', data.id);
@@ -3778,12 +3849,12 @@ class Component extends DCLogic {
   async ensureShippingChannel(code,name){
     const channelName=String(name||'').trim(); if(!channelName)throw new Error('请先填写渠道 / 排发群。');
     const payload={sync_code:code,client_uuid:this.clientUuid(),channel_name:channelName,cn:(this.state.collectorName||'').trim()||null};
-    const{data,error}=await this.sb.from('shipping_channels').upsert([payload],{onConflict:'sync_code,channel_name'}).select('id,channel_name').single();if(error)throw error;return data;
+    const{data,error}=await this.sb.from('shipping_channels').upsert([payload],{onConflict:'sync_code,channel_name'}).select('id,channel_name');if(error)throw error;const row=Array.isArray(data)?data[0]:null;if(!row)throw new Error('渠道已提交但无法读取，请检查 shipping_channels 表权限');return row;
   }
   async createShippingDocument(code,d){
     const channel=await this.ensureShippingChannel(code,d.group);
     const payload={sync_code:code,client_uuid:this.clientUuid(),channel_id:channel.id,document_group:d.type||'补充资料',title:(d.title||d.type||'资料').trim(),note:(d.note||'').trim()||null};
-    const{data,error}=await this.sb.from('shipping_documents').insert([payload]).select('id').single();if(error)throw error;return data.id;
+    const{data,error}=await this.sb.from('shipping_documents').insert([payload]).select('id');if(error)throw error;const row=Array.isArray(data)?data[0]:null;if(!row)throw new Error('排发资料已提交但无法读取，请检查 shipping_documents 表权限');return row.id;
   }
   async uploadDocumentImages(code,documentId,group,files){
     let sort=0; const uploaded=[];
@@ -3817,6 +3888,36 @@ class Component extends DCLogic {
   shippingPackageKey(r){return String((r&&r.group)||'未分类渠道')+'||排发中心';}
   loadLocalShippingMeta(){try{return JSON.parse(localStorage.getItem('zzz_shipping_local')||'[]')||[];}catch(e){return[];}}
   persistLocalShippingMeta(arr){try{localStorage.setItem('zzz_shipping_local',JSON.stringify(arr));}catch(e){}}
+  async migrateLocalShippingToCloud(codeArg='') {
+    const code = String(codeArg || this.shippingSyncCode()).trim().toUpperCase();
+    if (!this.sb || !code) return { migrated: 0, skipped: 0, failed: 0 };
+    const meta = this.loadLocalShippingMeta();
+    const markerKey = 'zzz_shipping_migrated__' + code;
+    let done = [];
+    try { done = JSON.parse(localStorage.getItem(markerKey) || '[]') || []; } catch (e) { done = []; }
+    const migratedIds = new Set(done);
+    let migrated = 0, skipped = 0, failed = 0;
+    for (const m of meta) {
+      if (!m || !m.id || migratedIds.has(m.id)) { skipped++; continue; }
+      try {
+        const files = [];
+        for (const im of (m.imgs || [])) {
+          const blob = await this.idbGet(im.id);
+          if (blob) files.push({ file: blob, role: im.role || '其他附件', filename: im.filename || '图片' });
+        }
+        const documentId = await this.createShippingDocument(code, { group: m.group || '未分类渠道', type: m.type || '补充资料', title: m.title || m.type || '资料', note: m.note || '从本机迁移' });
+        if (files.length) await this.uploadDocumentImages(code, documentId, m.group || '未分类渠道', files);
+        if ((m.itemIds || []).length) await this.linkDocumentItems(documentId, m.itemIds, code);
+        migratedIds.add(m.id);
+        localStorage.setItem(markerKey, JSON.stringify(Array.from(migratedIds)));
+        migrated++;
+      } catch (e) {
+        console.error('migrateLocalShippingToCloud failed:', m && m.id, e);
+        failed++;
+      }
+    }
+    return { migrated, skipped, failed };
+  }
   async loadLocalShipping(){
     const meta=this.loadLocalShippingMeta();const records=[];
     for(const m of meta){const imgs=[];for(const im of (m.imgs||[])){let url='';try{const b=await this.idbGet(im.id);if(b)url=URL.createObjectURL(b);}catch(e){}imgs.push({id:im.id,role:im.role,image:url,localId:im.id,filename:im.filename});}
@@ -3982,7 +4083,7 @@ class Component extends DCLogic {
   }
   autoPairShipping=()=>{const rs=this.state.shippingRecords||[];if(!rs.length)return;const key=this.state.shippingPreviewPackageKey||this.shippingPackageKey(rs[0]);this.setState({shippingPreviewPackageKey:key,shippingPreviewGroup:key.split('||')[0]||'',shippingPreviewBatch:'按所选谷子动态汇总'});};
   async loadShippingBatches(codeArg){const code=String(codeArg||this.shippingSyncCode()).trim().toUpperCase();if(!this.sb||!code){this.setState({shippingBatches:[]});return[];}try{const{data,error}=await this.sb.from('shipping_batches').select('id,sync_code,channel_id,batch_name,cn,note,item_count,document_count,export_filename,item_ids,document_ids,exported_at,created_at,updated_at').eq('sync_code',code).order('exported_at',{ascending:false}).limit(50);if(error)throw error;const channelIds=[...new Set((data||[]).map(x=>x.channel_id).filter(Boolean))];let cmap={};if(channelIds.length){const r=await this.sb.from('shipping_channels').select('id,channel_name').in('id',channelIds);if(r.error)throw r.error;cmap=Object.fromEntries((r.data||[]).map(x=>[x.id,x.channel_name]));}const rows=(data||[]).map(x=>({...x,group:cmap[x.channel_id]||'未分类渠道',dateText:x.exported_at?new Date(x.exported_at).toLocaleString('zh-CN',{hour12:false}):''}));this.setState({shippingBatches:rows});return rows;}catch(e){console.warn('读取排发历史失败',e);this.setState({shippingBatches:[]});return[];}}
-  async createShippingBatch(records,items,group,filename){const code=this.shippingSyncCode();if(!this.sb||!code)return null;const channel=await this.ensureShippingChannel(code,group||'未分类渠道');const itemIds=[...new Set((items||[]).map(x=>x.id).filter(Boolean))],documentIds=[...new Set((records||[]).map(x=>x.id).filter(Boolean))];const now=new Date().toISOString(),batchName=`${group||'未分类渠道'} · ${new Date().toLocaleDateString('zh-CN')}`;const payload={sync_code:code,client_uuid:this.clientUuid(),channel_id:channel.id,batch_name:batchName,cn:(this.state.collectorName||'').trim()||null,note:null,item_count:itemIds.length,document_count:documentIds.length,export_filename:filename,item_ids:itemIds,document_ids:documentIds,exported_at:now};const{data,error}=await this.sb.from('shipping_batches').insert([payload]).select('id').single();if(error)throw error;const rows=(items||[]).map(it=>({batch_id:data.id,item_id:it.id,sync_code:code,item_snapshot:{name:it.name||'',character:it.character||'',type:it.type||'',qty:it.qty||1,status:it.status||''}}));if(rows.length){const r=await this.sb.from('shipping_batch_items').insert(rows);if(r.error)throw r.error;}await this.loadShippingBatches(code);return data.id;}
+  async createShippingBatch(records,items,group,filename){const code=this.shippingSyncCode();if(!this.sb||!code)return null;const channel=await this.ensureShippingChannel(code,group||'未分类渠道');const itemIds=[...new Set((items||[]).map(x=>x.id).filter(Boolean))],documentIds=[...new Set((records||[]).map(x=>x.id).filter(Boolean))];const now=new Date().toISOString(),batchName=`${group||'未分类渠道'} · ${new Date().toLocaleDateString('zh-CN')}`;const payload={sync_code:code,client_uuid:this.clientUuid(),channel_id:channel.id,batch_name:batchName,cn:(this.state.collectorName||'').trim()||null,note:null,item_count:itemIds.length,document_count:documentIds.length,export_filename:filename,item_ids:itemIds,document_ids:documentIds,exported_at:now};const{data,error}=await this.sb.from('shipping_batches').insert([payload]).select('id');if(error)throw error;const batch=Array.isArray(data)?data[0]:null;if(!batch)throw new Error('排发历史已提交但无法读取，请检查 shipping_batches 表权限');const rows=(items||[]).map(it=>({batch_id:batch.id,item_id:it.id,sync_code:code,item_snapshot:{name:it.name||'',character:it.character||'',type:it.type||'',qty:it.qty||1,status:it.status||''}}));if(rows.length){const r=await this.sb.from('shipping_batch_items').insert(rows);if(r.error)throw r.error;}await this.loadShippingBatches(code);return batch.id;}
   deleteShippingBatch=(id)=>async()=>{if(!confirm('删除这条排发历史？只会删除历史记录，不会删除谷子或资料。'))return;if(!this.sb)return;const{error}=await this.sb.from('shipping_batches').delete().eq('id',id);if(error){alert('删除失败：'+error.message);return;}await this.loadShippingBatches();};
   saveShipping=async()=>{const d=this.state.shippingDraft||this.newShippingDraft(),code=this.shippingSyncCode();if(!d.group.trim()){this.setState({shipNotice:'请先填写团／渠道。'});return;}if(!(d.files||[]).length){this.setState({shipNotice:'请至少选择一张资料图片。'});return;}
     if(!code){this.setState({cloudBusy:true,shipNotice:''});try{const now=Date.now();const imgs=[];for(let i=0;i<d.files.length;i++){const f=d.files[i];const id='shipimg_'+now+'_'+i+'_'+Math.random().toString(36).slice(2,6);await this.idbPut(id,f.file||f);imgs.push({id,role:f.role||d.role||'其他附件',filename:f.filename||(f.file&&f.file.name)||'图片'});}
@@ -3990,7 +4091,7 @@ class Component extends DCLogic {
       const meta=this.loadLocalShippingMeta();meta.push(rec);this.persistLocalShippingMeta(meta);
       const next={...this.newShippingDraft(),group:d.group.trim(),itemIds:[...(d.itemIds||[])],type:d.type,role:this.shippingRoles(d.type)[0]};
       await this.loadLocalShipping();
-      this.setState({shippingDraft:next,shippingPreviewPackageKey:d.group.trim()+'||排发中心',shippingPreviewGroup:d.group.trim(),cloudBusy:false,shipNotice:((d.itemIds||[]).length?'资料已保存到本机，并完成谷子关联。':'资料已保存到本机，还没有关联谷子，之后可以在「已有资料」里点"改关联"补上。')+'（连接同步代码后可跨设备同步）'});
+      this.setState({shippingDraft:next,shippingPreviewPackageKey:d.group.trim()+'||排发中心',shippingPreviewGroup:d.group.trim(),cloudBusy:false,shipNotice:((d.itemIds||[]).length?'资料已保存到本机，并完成谷子关联。':'资料已保存到本机，还没有关联谷子，之后可以在「已有资料」里点"改关联"补上。')+'（账号云端恢复后可跨设备同步）'});
     }catch(e){this.setState({cloudBusy:false,shipNotice:'资料保存失败：'+((e&&e.message)||e)});}return;}
     this.setState({cloudBusy:true,shipNotice:''});try{const documentId=await this.createShippingDocument(code,{...d,title:d.type});await this.uploadDocumentImages(code,documentId,d.group,d.files);await this.linkDocumentItems(documentId,d.itemIds,code);const next={...this.newShippingDraft(),group:d.group.trim(),itemIds:[...(d.itemIds||[])],type:d.type,role:this.shippingRoles(d.type)[0]};await this.loadShippingFromCloud(code);this.setState({shippingDraft:next,shippingPreviewPackageKey:d.group.trim()+'||排发中心',shippingPreviewGroup:d.group.trim(),cloudBusy:false,shipNotice:(d.itemIds||[]).length?'排发资料已上传，并完成谷子关联。':'排发资料已上传，还没有关联谷子，之后可以在「已有资料」里点"改关联"补上。'});}catch(e){this.setState({cloudBusy:false,shipNotice:'资料上传失败：'+((e&&e.message)||e)});}};
   deleteShipping=(id)=>async()=>{if(!confirm('删除这份业务资料？其中全部图片及谷子关联都会一起删除。'))return;const rec=(this.state.shippingRecords||[]).find(x=>x.id===id);if(!rec)return;if(rec.local){const meta=this.loadLocalShippingMeta().filter(m=>m.id!==id);this.persistLocalShippingMeta(meta);for(const im of (rec.images||[])){try{await this.idbPut(im.localId||im.id,null);}catch(e){}}await this.loadLocalShipping();return;}if(!this.sb)return;try{const paths=(rec.images||[]).map(x=>x.storagePath).filter(Boolean);if(paths.length){const{error}=await this.sb.storage.from(this.SUPA_SHIPPING_BUCKET).remove(paths);if(error)throw error;}const{error:de}=await this.sb.from('shipping_documents').delete().eq('id',id);if(de)throw de;await this.loadShippingFromCloud();}catch(e){alert('删除失败：'+((e&&e.message)||e));}};
@@ -5118,6 +5219,71 @@ class Component extends DCLogic {
   };
 
   // ---- export / import ----
+  async buildShippingBackup() {
+    const localMeta = this.loadLocalShippingMeta();
+    const localById = Object.fromEntries(localMeta.filter(x => x && x.id).map(x => [x.id, x]));
+    const records = [];
+    const seen = new Set();
+    const sources = [...(this.state.shippingRecords || [])];
+    for (const m of localMeta) {
+      if (m && m.id && !sources.some(r => r && r.id === m.id)) sources.push({ ...m, local: true, images: m.imgs || [] });
+    }
+    let missingImages = 0;
+    for (const r of sources) {
+      if (!r || !r.id || seen.has(r.id)) continue;
+      seen.add(r.id);
+      const lm = localById[r.id];
+      const imageSources = lm ? (lm.imgs || []) : (r.images || []);
+      const images = [];
+      for (const im of imageSources) {
+        let dataUrl = '';
+        const localId = im.localId || (lm && im.id) || '';
+        try {
+          let blob = localId ? await this.idbGet(localId) : null;
+          if (!blob && im.image) {
+            const response = await fetch(im.image, { cache: 'no-store' });
+            if (!response.ok) throw new Error('HTTP ' + response.status);
+            blob = await response.blob();
+          }
+          if (blob) dataUrl = await this.blobToDataURL(blob);
+        } catch (e) { console.warn('备份排发图片失败', im && (im.filename || im.id), e); }
+        if (!dataUrl) missingImages++;
+        images.push({ role: im.role || '其他附件', filename: im.filename || '图片', mimeType: im.mimeType || '', dataUrl, sourceUrl: im.image || im.sourceUrl || '' });
+      }
+      records.push({
+        backupId: r.id, group: r.group || '', cn: r.cn || '', type: r.type || '补充资料',
+        title: r.title || '', note: r.note || '', itemIds: [...new Set(r.itemIds || [])],
+        createdAt: r.createdAt || Date.now(), updatedAt: r.updatedAt || r.createdAt || Date.now(), images
+      });
+    }
+    return { version: 1, records, batches: this.state.shippingBatches || [], missingImages };
+  }
+  async restoreShippingBackup(shipping) {
+    if (!shipping || !Array.isArray(shipping.records)) return { records: 0, images: 0, missingImages: 0 };
+    const meta = [];
+    let imageCount = 0, missingImages = 0;
+    for (let ri = 0; ri < shipping.records.length; ri++) {
+      const r = shipping.records[ri] || {};
+      const now = Date.now();
+      const imgs = [];
+      for (let ii = 0; ii < (r.images || []).length; ii++) {
+        const im = r.images[ii] || {};
+        const id = 'shipimg_' + now + '_' + ri + '_' + ii + '_' + Math.random().toString(36).slice(2, 6);
+        if (im.dataUrl) {
+          try { await this.idbPut(id, this.dataURLToBlob(im.dataUrl)); imageCount++; }
+          catch (e) { missingImages++; continue; }
+        } else { missingImages++; continue; }
+        imgs.push({ id, role: im.role || '其他附件', filename: im.filename || '图片' });
+      }
+      meta.push({
+        id: 'shiploc_' + now + '_' + ri + '_' + Math.random().toString(36).slice(2, 6),
+        group: r.group || '', cn: r.cn || '', type: r.type || '补充资料', title: r.title || '', note: r.note || '',
+        itemIds: [...new Set(r.itemIds || [])], createdAt: r.createdAt || now, imgs
+      });
+    }
+    this.persistLocalShippingMeta(meta);
+    return { records: meta.length, images: imageCount, missingImages };
+  }
   doExport = async () => {
     const images = {};
     for (const it of this.state.items) { for (const id of [it.imageId, it.imageId2, it.imageId3, it.imageId4, it.swapImageId]) { if (id) { try { const b = await this.idbGet(id); if (b) images[id] = await this.blobToDataURL(b); } catch (e) {} } } }
@@ -5128,11 +5294,13 @@ class Component extends DCLogic {
     ['zzz_char_order', 'zzz_types', 'zzz_series', 'zzz_channels', 'zzz_purchase_channels', 'zzz_form_order', 'zzz_acquire_order', 'zzz_reminder_types', 'zzz_hidden_types', 'zzz_hidden_channels', 'zzz_hidden_purchase_channels'].forEach(base => { allWorks.forEach(w => { const k = w.id === this.MAIN_WORK ? base : base + '__' + w.id; const v = localStorage.getItem(k); if (v != null) lsDump[k] = v; }); });
     const meta = { charOrder: this.state.charOrder, typesList: this.state.typesList, seriesList: this.state.seriesList, channels: this.state.channels, purchaseChannels: this.state.purchaseChannels, formOrder: this.state.formOrder, acquireOrder: this.state.acquireOrder, reminderTypes: this.state.reminderTypes, hiddenTypes: this.state.hiddenTypes, hiddenChannels: this.state.hiddenChannels, hiddenPurchaseChannels: this.state.hiddenPurchaseChannels, charAssetMap: this.charAssetMap, title: this.state.title, subtitle: this.state.subtitle, footer: this.state.footer, works: allWorks, currentWorkId: this.state.currentWorkId, workGroupLabel: this.state.workGroupLabel, collectorName: this.state.collectorName, currency: this.state.currency, accent: this.state.accent, nameStyleMode: this.state.nameStyleMode, displayMode: this.state.displayMode, lsDump };
     let logo = null; try { const lb = await this.idbGet('zzz_logo'); if (lb) logo = await this.blobToDataURL(lb); } catch (e) {}
-    const payload = { v: 2, exportedAt: new Date().toISOString(), items: this.state.items, images, meta, charAvatars, logo };
+    const shipping = await this.buildShippingBackup();
+    const payload = { v: 3, exportedAt: new Date().toISOString(), items: this.state.items, images, meta, charAvatars, logo, shipping };
     const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
     const cn = (this.state.collectorName || '').trim();
     const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = (cn ? cn + '谷子备份' : '谷子备份') + '_' + new Date().toISOString().slice(0, 10) + '.json'; a.click();
     setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+    if (shipping.missingImages) alert('备份已导出，包含 ' + shipping.records.length + ' 份排发资料；其中 ' + shipping.missingImages + ' 张云端图片因网络或跨域限制未能写入，请保留云端原件。');
   };
   triggerImport = () => { if (this.importRef) this.importRef.click(); };
   onImportFile = async (e) => {
@@ -5153,6 +5321,7 @@ class Component extends DCLogic {
       if (m.charOrder) ns.charOrder = m.charOrder; if (m.typesList) ns.typesList = m.typesList; if (m.seriesList) ns.seriesList = m.seriesList; if (m.channels) ns.channels = m.channels; if (m.purchaseChannels) ns.purchaseChannels = m.purchaseChannels; if (m.formOrder) ns.formOrder = m.formOrder; if (m.acquireOrder) ns.acquireOrder = m.acquireOrder; if (m.reminderTypes) ns.reminderTypes = m.reminderTypes; if (m.hiddenTypes) ns.hiddenTypes = m.hiddenTypes; if (m.hiddenChannels) ns.hiddenChannels = m.hiddenChannels; if (m.hiddenPurchaseChannels) ns.hiddenPurchaseChannels = m.hiddenPurchaseChannels;
       if (m.title) { put('zzz_title', m.title); ns.title = m.title; } if (m.subtitle !== undefined) { put('zzz_subtitle', m.subtitle); ns.subtitle = m.subtitle; } if (m.footer !== undefined) { put('zzz_footer', m.footer); ns.footer = m.footer; }
       if (data.logo) { try { const lb = this.dataURLToBlob(data.logo); await this.idbPut('zzz_logo', lb); this.logoUrl = URL.createObjectURL(lb); } catch (e) {} }
+      const shippingResult = await this.restoreShippingBackup(data.shipping);
       // 作品 / 系列IP + 每作品的列表 + 设置
       if (m.lsDump) { for (const k in m.lsDump) { try { localStorage.setItem(k, m.lsDump[k]); } catch (e) {} } }
       if (Array.isArray(m.works) && m.works.length) { try { localStorage.setItem('zzz_works', JSON.stringify(m.works)); } catch (e) {} ns.works = m.works; }
@@ -5166,6 +5335,14 @@ class Component extends DCLogic {
       const freshLists = this.loadWorkLists(wid, importItems); Object.assign(ns, freshLists); this.charOrder = freshLists.charOrder;
       this.setState(ns);
       this.commit(importItems);
+      if (shippingResult.records) {
+        if (this.shippingSyncCode()) {
+          alert('备份已导入，并恢复 ' + shippingResult.records + ' 份排发资料、' + shippingResult.images + ' 张图片到本机。当前已登录云端账号，可在「账号云端」点击“合并云端与本机”上传这些资料。');
+        } else {
+          await this.loadLocalShipping();
+          alert('备份已导入，并恢复 ' + shippingResult.records + ' 份排发资料、' + shippingResult.images + ' 张图片。');
+        }
+      }
     } catch (err) { alert('导入失败：文件格式不正确'); }
     e.target.value = '';
   };
@@ -7184,7 +7361,7 @@ class Component extends DCLogic {
       openSettings: this.openSettings, closeSettings: this.cancelSettings, cancelSettings: this.cancelSettings, saveSettings: this.saveSettings, clearAllData: this.clearAllData, settingsOpen: this.state.settingsOpen, dataManageOpen: this.state.dataManageOpen, openDataManage: this.openDataManage, batchEditOpen: this.state.batchEditOpen, closeBatchEditor: this.closeBatchEditor, openBatchEditor: this.openBatchEditor, batchEditFields, batchEditOptions, batchEditTitle, batchEditChooseMode, batchEditOptionMode, batchEditBack: this.batchEditBack, closeDataManage: this.closeDataManage, confirmExcelExport: this.confirmExcelExport, confirmExcelTemplate: this.confirmExcelTemplate, confirmExcelImport: this.confirmExcelImport, confirmJsonExport: this.confirmJsonExport, confirmJsonImport: this.confirmJsonImport,
       cnVal: sd.collectorName || '', curVal: sd.currency || this.cur(), accentVal: sd.accent || this.props.accent || '#ff3355', nameStyleVal: sd.nameStyleMode || this.state.nameStyleMode || 'default', displayModeVal: sd.displayMode || this.state.displayMode || 'standard', stylePreviewText: this.previewStyleText(sd.nameStyleMode || this.state.nameStyleMode || 'default'), titleVal: sd.title || '', subtitleVal: sd.subtitle || '', footerVal: sd.footer || '',
       onCn: this.onDraftSettingField('collectorName'), onCurrency: this.onDraftSettingField('currency'), onAccent: this.onDraftSettingField('accent'), onNameStyle: this.setNameStyle, onDisplayMode: this.setDisplayMode, onTitleSet: this.onDraftSettingField('title'), onSubtitleSet: this.onDraftSettingField('subtitle'), onFooterSet: this.onDraftSettingField('footer'),
-      showWelcomeCard: !cnPrefix, cloudSyncCode: this.state.cloudSyncCode || '', hasCloudCode: !!this.state.cloudSyncCode, noCloudCode: !this.state.cloudSyncCode, hasCloudStatus: !!this.state.cloudStatus, cloudStatus: this.state.cloudStatus || '', copyCloudCode: this.copyCloudCode, cloudCodeInput: this.state.cloudCodeInput || '', onCloudCodeInput: this.onCloudCodeInput, createCloudCollection: this.createCloudCollection, connectCloudCollection: this.connectCloudCollection, pushCloud: this.pushCloud, pullCloud: this.pullCloud, mobileCloudSync: this.mobileCloudSync, checkCloudVersion: this.checkCloudVersion, disconnectCloud: this.disconnectCloud, hasCloudSync: !!this.state.cloudSyncId, cloudSyncText: this.state.cloudSyncCode ? ('当前同步代码：' + this.state.cloudSyncCode + '。' + (this.state.cloudStatus || '')) : (this.state.cloudStatus || '未连接云同步。'), cloudPageOpen: this.state.cloudPageOpen, openCloudPage: this.openCloudPage, closeCloudPage: this.closeCloudPage, goCloudOrSettings: this.goCloudOrSettings,
+      showWelcomeCard: !cnPrefix, cloudSyncCode: this.state.cloudSyncCode || '', hasCloudCode: !!this.state.cloudSyncCode, noCloudCode: !this.state.cloudSyncCode, hasCloudStatus: !!this.state.cloudStatus, cloudStatus: this.state.cloudStatus || '', copyCloudCode: this.copyCloudCode, cloudCodeInput: this.state.cloudCodeInput || '', onCloudCodeInput: this.onCloudCodeInput, createCloudCollection: this.createCloudCollection, connectCloudCollection: this.connectCloudCollection, pushCloud: this.pushCloud, pullCloud: this.pullCloud, mergeCloudAndLocal: this.mergeCloudAndLocal, mobileCloudSync: this.mobileCloudSync, checkCloudVersion: this.checkCloudVersion, disconnectCloud: this.disconnectCloud, hasCloudSync: !!this.state.cloudSyncId, accountCloudTitle: this.state.cloudSyncId ? '账号收藏库已连接' : '正在建立账号收藏库', cloudSyncText: this.state.cloudStatus || (this.state.cloudSyncId ? '账号云端已连接。' : '账号云端未连接。'), cloudPageOpen: this.state.cloudPageOpen, openCloudPage: this.openCloudPage, closeCloudPage: this.closeCloudPage, goCloudOrSettings: this.goCloudOrSettings,
       labels, workManageRows, fieldRows, optionGroups, customFieldRows, draftCustomInputs, hasCustomFields: draftCustomFields.length > 0, addCustomField: this.addCustomField, restoreBaseFields: this.restoreBaseFields, migrateSeriesToSet: this.migrateSeriesToSet, migrateSeriesToCustom: this.migrateSeriesToCustom, workSettingGroups, dashboardCollectionRows, dashboardSaleRows, addGroupAlone: this.addGroupAlone, uploadBg: this.uploadBg, clearBg: this.clearBg, hasBg: !!this.bgUrl, addWorkInline: this.addWork,
       addFormOpt: this.addOptionTo('formOrder', 'zzz_form_order', '输入新的形态'), addStatusOpt: this.addOptionTo('statusList', 'zzz_status', '输入新的状态'), addAcquireOpt: this.addOptionTo('acquireOrder', 'zzz_acquire_order', '输入新的来源方式'), formMenuItems, formDisplay, formMenuOpen: this.state.formMenuOpen, toggleFormMenu: this.toggleFormMenu, statusMenuItems, statusDisplay, statusMenuOpen: this.state.statusMenuOpen, toggleStatusMenu: this.toggleStatusMenu, acquireMenuItems, acquireDisplay, acquireMenuOpen: this.state.acquireMenuOpen, toggleAcquireMenu: this.toggleAcquireMenu, methodMenuItems, methodDisplay, methodMenuOpen: this.state.methodMenuOpen, toggleMethodMenu: this.toggleMethodMenu, clearMethod: this.clearMethod, hasMethodItems: methodMenuItems.length > 0,
       lblCharacter: labels.character, lblType: labels.type, lblChannel: labels.channel, lblPurchaseChannel: labels.purchaseChannel, lblSeries: labels.series, lblStatus: labels.status, lblForm: labels.form, lblAcquire: labels.acquire, showReminderFields, reminderDateLabel, reminderDateHint,
