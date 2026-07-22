@@ -952,6 +952,7 @@
     .ui-line-icon-md{width:17px;height:17px}.ui-line-icon-lg{width:20px;height:20px}
   }
 
+  @keyframes uiSyncSpin{to{transform:rotate(360deg)}}
   @media (max-width:350px){
     .ui-app{padding-left:max(6px,env(safe-area-inset-left)) !important;padding-right:max(6px,env(safe-area-inset-right)) !important}
     .ui-gallery-grid{gap:5px !important}
@@ -961,6 +962,15 @@
 </style>
 </helmet>
 <div ref="{{ setRoot }}" class="ui-app {{ appClass }}" style="min-height:100vh;background:radial-gradient(circle at 15% -5%, #ddd2f2 0%, transparent 50%), radial-gradient(circle at 92% 4%, #f3d8e6 0%, transparent 45%), linear-gradient(165deg,#e7e1f4,#ece8f6 70%);color:#251d49;font-family:'Noto Sans SC',sans-serif;padding:clamp(14px,3vw,34px) clamp(12px,3vw,34px) 60px;-webkit-font-smoothing:antialiased">
+  <sc-if value="{{ authChecking }}" hint-placeholder-val="{{ true }}">
+    <div style="position:fixed;inset:0;z-index:9100;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(circle at 20% 0%, #e2d8f5 0%, transparent 55%), radial-gradient(circle at 90% 10%, #f5dbe8 0%, transparent 50%), linear-gradient(165deg,#ece7f7,#f3effb)">
+      <div style="width:100%;max-width:320px;text-align:center;background:rgba(255,255,255,.94);border:1px solid #e1dbf0;border-radius:20px;box-shadow:0 24px 60px rgba(38,29,74,.18);padding:30px 24px">
+        <div style="width:40px;height:40px;margin:0 auto 14px;border:4px solid #e4ddef;border-top-color:var(--accent,#ff3355);border-radius:50%;animation:uiSyncSpin .8s linear infinite"></div>
+        <div style="font-weight:800;color:#251d49">正在检查登录状态…</div>
+        <div style="font-size:11.5px;color:#938db0;margin-top:6px">已登录的设备会自动继续，不会重复要求登录</div>
+      </div>
+    </div>
+  </sc-if>
   <sc-if value="{{ authLoggedOut }}" hint-placeholder-val="{{ true }}">
     <div style="position:fixed;inset:0;z-index:9000;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(circle at 20% 0%, #e2d8f5 0%, transparent 55%), radial-gradient(circle at 90% 10%, #f5dbe8 0%, transparent 50%), linear-gradient(165deg,#ece7f7,#f3effb)">
       <div style="width:100%;max-width:360px;background:rgba(255,255,255,.96);border:1px solid #e1dbf0;border-radius:22px;box-shadow:0 30px 70px rgba(38,29,74,.22);padding:30px 26px">
@@ -989,6 +999,26 @@
           </sc-if>
           <div style="font-size:10.5px;color:#b7b1cc;line-height:1.5;margin-top:6px;text-align:center">用户名密码用来对应你的云端数据。请牢记密码，忘记后难以找回。</div>
         </div>
+      </div>
+    </div>
+  </sc-if>
+  <sc-if value="{{ syncConflictOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;z-index:9050;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(34,25,67,.52);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)">
+      <div style="width:100%;max-width:390px;background:linear-gradient(160deg,#fff,#f7f4fc);border:1px solid #ded7ee;border-radius:22px;box-shadow:0 30px 80px rgba(20,13,48,.38);padding:24px">
+        <div style="display:flex;align-items:center;gap:11px;margin-bottom:12px">
+          <div style="width:42px;height:42px;border-radius:13px;background:rgba(255,183,77,.16);display:flex;align-items:center;justify-content:center;font-size:22px">⚠️</div>
+          <div><div style="font-weight:900;font-size:18px;color:#251d49">请选择要保留的版本</div><div style="font-size:11.5px;color:#938db0;margin-top:2px">完成选择后才可继续使用</div></div>
+        </div>
+        <div style="font-size:12.5px;line-height:1.65;color:#544f7e;background:rgba(50,38,90,.045);border-radius:13px;padding:12px 14px;margin-bottom:14px">
+          云端与当前设备的数据版本不同。为了防止资料被错误覆盖，自动同步已暂时停在这里。
+        </div>
+        <div style="display:grid;grid-template-columns:1fr;gap:9px;margin-bottom:14px">
+          <div style="border:1px solid #e3ddef;border-radius:12px;padding:10px 12px;background:#fff"><div style="font-size:10.5px;color:#938db0">云端更新时间</div><div style="font-weight:800;color:#251d49;margin-top:3px">{{ syncConflictCloudTime }}</div></div>
+          <div style="border:1px solid #e3ddef;border-radius:12px;padding:10px 12px;background:#fff"><div style="font-size:10.5px;color:#938db0">本机上次同步时间</div><div style="font-weight:800;color:#251d49;margin-top:3px">{{ syncConflictLocalTime }}</div></div>
+        </div>
+        <button onClick="{{ chooseCloudVersion }}" style="width:100%;min-height:48px;border:none;border-radius:13px;background:var(--accent,#ff3355);color:#fff;font-family:inherit;font-size:14px;font-weight:900;cursor:pointer;margin-bottom:9px">{{ syncConflictCloudBtnText }}</button>
+        <button onClick="{{ chooseLocalVersion }}" style="width:100%;min-height:48px;border:1px solid #d8d0e8;border-radius:13px;background:#fff;color:#251d49;font-family:inherit;font-size:14px;font-weight:900;cursor:pointer">{{ syncConflictLocalBtnText }}</button>
+        <div style="font-size:10.5px;color:#938db0;text-align:center;line-height:1.5;margin-top:12px">此窗口不能跳过。选择后会恢复自动同步。</div>
       </div>
     </div>
   </sc-if>
@@ -2955,7 +2985,7 @@ class Component extends DCLogic {
   CHAR_IMG = { '诺克斯': 'assets/c_nox.webp', 'NOX': 'assets/r_blue.webp', 'MIDNIGHT SHADOW': 'assets/r_nox_midnight.webp', 'NOX KNIGHT': 'assets/r_lady.webp', 'ZEZTZ': 'assets/r_red.webp', '西格': 'assets/c_zeke.webp', 'DAWN': 'assets/r_zeztz.webp', '宁梦': 'assets/c_nemu.webp', '南云成华': 'assets/c_nagumo.webp', 'ZERO': 'assets/c_zero.webp', '万津莫': 'assets/c_matsu.webp', '万津美浪': 'assets/c_minami.webp', '富士见铁也': 'assets/c_fujimi.webp', 'THE LADY': 'assets/c_lady.webp', 'CODE': 'assets/c_code.webp' };
   imgUrls = {};
   cloudImageMap = {};
-  state = { items: [], view: null, shipWatermark: (function(){try{return localStorage.getItem('zzz_ship_watermark')!=='0';}catch(e){return true;}})(), sets: [], lastSetId: '', setMenuOpen: false, feeOpen: false, colInfoOpen: false, setInfoOpen: false, recentWorks: [], collapsedGroups: {}, reminderMenuOpen: false, monthlyBudget: '', budgets: {}, ledgerDetailKey: '', ledgerDetailType: 'day', ledgerDetailLabel: '', tableSortKey: '', tableSortDir: 'desc', tableHiddenCols: [], tableColumnMenuOpen: false, nameStyleMode: 'default', displayMode: 'standard', dashboardCards: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], purchaseChannelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, purchaseChannels: [], purchaseChannelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], hiddenPurchaseChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, purchaseChannel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, dataManageOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, cloudPending: false, cloudLastSyncedAt: '', cloudRemoteUpdatedAt: '', modalOpen: false, editing: null, draft: null, savedAt: 0, batchMode: false, selectedIds: [], bulkEditIds: [], bulkEditIndex: 0, ledgerRange: 'month', ledgerMode: 'month', ledgerYear: String(new Date().getFullYear()), ledgerMonth: String(new Date().getMonth()+1), ledgerWeek: '', ledgerPieBy: 'character', ledgerPieActive: 0, batchEditOpen: false, batchEditField: '', batchOn: null, shippingOpen: false, shippingRecords: [], shippingBatches: [], shippingDraft: null, shippingPreviewNotice: '', shippingPreviewPaid: '', shippingPreviewCn: '', shippingPreviewGroup: '', shippingPreviewBatch: '', shippingPreviewPackageKey: '', itemEvidenceDrafts: [], itemEvidenceExistingIds: [], itemEvidenceOpen: false, exportGroup: '', exportSearch: '', exportIds: [], shipAddCollapsed: true, shippingViewChannel: null, relinkRecordId: null, relinkItemIds: [], relinkSearch: '', relinkNote: '', relinkGroup: '', relinkNoteOpen: false, relinkImages: [], relinkNewFiles: [], relinkRecordType: '', mobileMineOpen: false, cloudPageOpen: false, modalTab: 'edit', shippingRolesCustom: (() => { try { return JSON.parse(localStorage.getItem('zzz_shipping_roles') || '{}') || {}; } catch (e) { return {}; } })(), shipRoleManageOpen: false, shipRoleManageType: '', itemShipDraftOpen: false, itemShipItemsPanelOpen: false, linkExistingShipOpen: false, linkExistingSearch: '', linkExistingChannel: '', genericSelectOpen: false, genericSelectTitle: '', genericSelectOptions: [], genericSelectValue: '', genericSelectAnchor: null, authReady: false, authUser: null, authMode: 'login', authUsername: '', authPassword: '', authPassword2: '', authError: '', authBusy: false };
+  state = { items: [], view: null, shipWatermark: (function(){try{return localStorage.getItem('zzz_ship_watermark')!=='0';}catch(e){return true;}})(), sets: [], lastSetId: '', setMenuOpen: false, feeOpen: false, colInfoOpen: false, setInfoOpen: false, recentWorks: [], collapsedGroups: {}, reminderMenuOpen: false, monthlyBudget: '', budgets: {}, ledgerDetailKey: '', ledgerDetailType: 'day', ledgerDetailLabel: '', tableSortKey: '', tableSortDir: 'desc', tableHiddenCols: [], tableColumnMenuOpen: false, nameStyleMode: 'default', displayMode: 'standard', dashboardCards: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], purchaseChannelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, purchaseChannels: [], purchaseChannelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], hiddenPurchaseChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, purchaseChannel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, dataManageOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, cloudPending: false, cloudLastSyncedAt: '', cloudRemoteUpdatedAt: '', modalOpen: false, editing: null, draft: null, savedAt: 0, batchMode: false, selectedIds: [], bulkEditIds: [], bulkEditIndex: 0, ledgerRange: 'month', ledgerMode: 'month', ledgerYear: String(new Date().getFullYear()), ledgerMonth: String(new Date().getMonth()+1), ledgerWeek: '', ledgerPieBy: 'character', ledgerPieActive: 0, batchEditOpen: false, batchEditField: '', batchOn: null, shippingOpen: false, shippingRecords: [], shippingBatches: [], shippingDraft: null, shippingPreviewNotice: '', shippingPreviewPaid: '', shippingPreviewCn: '', shippingPreviewGroup: '', shippingPreviewBatch: '', shippingPreviewPackageKey: '', itemEvidenceDrafts: [], itemEvidenceExistingIds: [], itemEvidenceOpen: false, exportGroup: '', exportSearch: '', exportIds: [], shipAddCollapsed: true, shippingViewChannel: null, relinkRecordId: null, relinkItemIds: [], relinkSearch: '', relinkNote: '', relinkGroup: '', relinkNoteOpen: false, relinkImages: [], relinkNewFiles: [], relinkRecordType: '', mobileMineOpen: false, cloudPageOpen: false, modalTab: 'edit', shippingRolesCustom: (() => { try { return JSON.parse(localStorage.getItem('zzz_shipping_roles') || '{}') || {}; } catch (e) { return {}; } })(), shipRoleManageOpen: false, shipRoleManageType: '', itemShipDraftOpen: false, itemShipItemsPanelOpen: false, linkExistingShipOpen: false, linkExistingSearch: '', linkExistingChannel: '', genericSelectOpen: false, genericSelectTitle: '', genericSelectOptions: [], genericSelectValue: '', genericSelectAnchor: null, authReady: false, authUser: null, syncConflict: null, syncConflictChoice: '', initialSyncReady: false, authMode: 'login', authUsername: '', authPassword: '', authPassword2: '', authError: '', authBusy: false };
 
   setRoot = (el) => { this.rootEl = el; if (el) { this.applyThemeVars(); this.applyBg(); } };
   applyThemeVars() {
@@ -3258,6 +3288,7 @@ class Component extends DCLogic {
     const localCode = (() => { try { return localStorage.getItem('zzz_cloud_code') || ''; } catch (e) { return ''; } })();
     let code = String(preferredCode || meta.sync_code || localCode || this.genSyncCode()).trim().toUpperCase();
     let found = await this.findCloudCollectionByCode(code);
+    let createdNow = false;
     if (!found.row) {
       const now = new Date().toISOString();
       const payload = { sync_code: code, client_uuid: this.clientUuid(), cn: this.state.collectorName || null, title: this.state.title || null, data: this.cloudSnapshot(), updated_at: now };
@@ -3265,6 +3296,7 @@ class Component extends DCLogic {
       if (inserted.error) throw inserted.error;
       found = await this.findCloudCollectionByCode(code);
       if (!found.row) throw new Error('云端收藏库已提交，但当前账号无权读取；请检查 Supabase collections 表的 RLS 权限');
+      createdNow = true;
     }
     if (meta.sync_code !== code) {
       const updated = await this.sb.auth.updateUser({ data: { ...meta, sync_code: code } });
@@ -3275,7 +3307,7 @@ class Component extends DCLogic {
       localStorage.setItem('zzz_cloud_code', code);
     } catch (e) {}
     this.setState({ cloudSyncId: found.row.id || '', cloudSyncCode: code, cloudCodeInput: '', cloudRemoteUpdatedAt: found.row.updated_at || '' });
-    return { code, row: found.row, duplicateCount: found.count };
+    return { code, row: found.row, duplicateCount: found.count, createdNow };
   }
   async checkAuthSession() {
     if (!this.sb || !this.sb.auth) { this.setState({ authReady: true, authUser: null }); return; }
@@ -3291,13 +3323,38 @@ class Component extends DCLogic {
     try {
       const linked = await this.ensureAccountCloudCollection(user);
       const warning = linked.duplicateCount > 1 ? '；检测到旧同步码存在重复云端记录，已使用最新一条' : '';
-      this.setState({ cloudStatus: '账号云端已连接，排发资料正在读取' + warning + '。', cloudPending: false });
       await this.migrateLocalShippingToCloud(linked.code);
       await this.loadShippingFromCloud(linked.code);
+      const remoteAt = (linked.row && linked.row.updated_at) || '';
+      const localAt = this.state.cloudLastSyncedAt || (() => { try { return localStorage.getItem('zzz_cloud_last_synced_at') || ''; } catch (e) { return ''; } })();
+      if (linked.createdNow) {
+        if (remoteAt) { try { localStorage.setItem('zzz_cloud_last_synced_at', remoteAt); } catch (e) {} }
+        this.setState({ initialSyncReady: true, syncConflict: null, cloudPending: false, cloudLastSyncedAt: remoteAt, cloudRemoteUpdatedAt: remoteAt, cloudStatus: '账号云端已建立并完成首次同步' + warning + '。' });
+        return;
+      }
+      const remoteNewer = remoteAt && (!localAt || new Date(remoteAt).getTime() > new Date(localAt).getTime() + 1000);
+      if (remoteNewer) {
+        this.setState({ initialSyncReady: false, cloudPending: true, cloudRemoteUpdatedAt: remoteAt, syncConflict: { remoteAt, localAt }, cloudStatus: '云端与本机版本不同，请选择要保留的版本。' });
+        return;
+      }
+      this.setState({ initialSyncReady: true, syncConflict: null, cloudStatus: '账号云端已连接，自动同步已开启' + warning + '。', cloudPending: false, cloudRemoteUpdatedAt: remoteAt || localAt });
     } catch (e) {
-      this.setState({ cloudStatus: '账号已登录，但云端连接失败：' + ((e && e.message) || e) });
+      this.setState({ initialSyncReady: false, cloudStatus: '账号已登录，但云端连接失败：' + ((e && e.message) || e) });
     }
   }
+  openSyncConflict = (remoteAt, localAt) => {
+    this.setState({ initialSyncReady: false, cloudBusy: false, cloudPending: true, cloudRemoteUpdatedAt: remoteAt || '', syncConflict: { remoteAt: remoteAt || '', localAt: localAt || '' }, cloudStatus: '云端与本机版本不同，请选择要保留的版本。' });
+  };
+  chooseCloudVersion = async () => {
+    if (this.state.cloudBusy) return;
+    this.setState({ syncConflictChoice: 'cloud', cloudStatus: '正在使用云端版本覆盖本机…' });
+    await this.pullCloud(true);
+  };
+  chooseLocalVersion = async () => {
+    if (this.state.cloudBusy) return;
+    this.setState({ syncConflictChoice: 'local', cloudStatus: '正在使用本机版本覆盖云端…' });
+    await this.pushCloud(false, true);
+  };
   onAuthUsername = (e) => this.setState({ authUsername: e && e.target ? e.target.value : '' });
   onAuthPassword = (e) => this.setState({ authPassword: e && e.target ? e.target.value : '' });
   onAuthPassword2 = (e) => this.setState({ authPassword2: e && e.target ? e.target.value : '' });
@@ -3661,7 +3718,7 @@ class Component extends DCLogic {
     if (up) { this.pushCloud(); }
     else { const ok = window.confirm('读取云端数据会用云端资料覆盖本机当前内容。\n\n确定要读取吗？'); if (ok) this.pullCloud(); }
   };
-  pushCloud = async (auto) => {
+  pushCloud = async (auto, forceOverwrite) => {
     const code = String(this.state.cloudSyncCode || localStorage.getItem('zzz_cloud_code') || '').trim().toUpperCase();
     if (!this.cloudReady() || !code) { if (!auto) this.setState({ cloudStatus: '还没有连接同步代码。', cloudBusy: false }); return; }
     this.setState({ cloudBusy: true, cloudStatus: auto ? '正在自动上传到云端…' : '正在检查并上传到云端…' });
@@ -3679,16 +3736,15 @@ class Component extends DCLogic {
         const syncedAt0 = (created && created.updated_at) || now0;
         try { localStorage.setItem('zzz_cloud_id', created ? created.id : ''); localStorage.setItem('zzz_cloud_code', code); localStorage.setItem('zzz_cloud_last_synced_at', syncedAt0); } catch (e) {}
         await this.uploadCollectionSummary(code);
-        this.setState({ cloudSyncId: created ? created.id : '', cloudSyncCode: code, cloudCodeInput: code, cloudStatus: '已创建云端收藏库并上传，共 ' + ((this.state.items || []).length) + ' 件谷子。同步时间：' + this.fmtCloudTime(syncedAt0), cloudBusy: false, cloudPending: false, cloudLastSyncedAt: syncedAt0, cloudRemoteUpdatedAt: syncedAt0 });
+        this.setState({ cloudSyncId: created ? created.id : '', cloudSyncCode: code, cloudCodeInput: code, cloudStatus: '已创建云端收藏库并上传，共 ' + ((this.state.items || []).length) + ' 件谷子。同步时间：' + this.fmtCloudTime(syncedAt0), cloudBusy: false, cloudPending: false, cloudLastSyncedAt: syncedAt0, cloudRemoteUpdatedAt: syncedAt0, syncConflict: null, initialSyncReady: true });
         return;
       }
       const localSyncedAt = this.state.cloudLastSyncedAt || localStorage.getItem('zzz_cloud_last_synced_at') || '';
       const remoteAt = remote.updated_at || '';
       const remoteNewer = remoteAt && localSyncedAt && new Date(remoteAt).getTime() > new Date(localSyncedAt).getTime() + 1000;
-      if (remoteNewer) {
-        if (auto) { this.setState({ cloudBusy: false, cloudPending: true, cloudRemoteUpdatedAt: remoteAt, cloudStatus: '云端有较新版本，已暂停自动上传以免覆盖。请手动确认要保留哪一边。' }); return; }
-        const ok = window.confirm('云端版本比本机上次同步记录更新。\n\n云端：' + this.fmtCloudTime(remoteAt) + '\n本机上次同步：' + this.fmtCloudTime(localSyncedAt) + '\n\n继续上传会用本机完整资料覆盖云端。确定继续吗？');
-        if (!ok) { this.setState({ cloudBusy: false, cloudPending: true, cloudRemoteUpdatedAt: remoteAt, cloudStatus: '已取消上传。建议先导出本机备份，再读取云端或确认覆盖。' }); return; }
+      if (remoteNewer && !forceOverwrite) {
+        this.openSyncConflict(remoteAt, localSyncedAt);
+        return;
       }
       const imgSync = await this.syncCloudImagesForItems(this.state.items || []);
       const now = new Date().toISOString();
@@ -3702,16 +3758,16 @@ class Component extends DCLogic {
       localStorage.setItem('zzz_cloud_last_synced_at', syncedAt);
       await this.uploadCollectionSummary(code);
       const imageTip = imgSync.failed ? '；有 ' + imgSync.failed + ' 张图片上传失败' : '';
-      this.setState({ cloudSyncId: data[0].id, cloudSyncCode: data[0].sync_code, cloudCodeInput: data[0].sync_code, cloudStatus: (auto ? '已自动上传到云端（停手 5 分钟触发），共 ' : '已手动上传到云端，共 ') + ((this.state.items || []).length) + ' 件谷子' + imageTip + '。同步时间：' + this.fmtCloudTime(syncedAt), cloudBusy: false, cloudPending: false, cloudLastSyncedAt: syncedAt, cloudRemoteUpdatedAt: syncedAt });
+      this.setState({ cloudSyncId: data[0].id, cloudSyncCode: data[0].sync_code, cloudCodeInput: data[0].sync_code, cloudStatus: (auto ? '已自动上传到云端（停手 5 分钟触发），共 ' : '已手动上传到云端，共 ') + ((this.state.items || []).length) + ' 件谷子' + imageTip + '。同步时间：' + this.fmtCloudTime(syncedAt), cloudBusy: false, cloudPending: false, cloudLastSyncedAt: syncedAt, cloudRemoteUpdatedAt: syncedAt, syncConflict: null, initialSyncReady: true });
     } catch (e) {
       console.error('pushCloud failed:', e);
       this.setState({ cloudStatus: (auto ? '自动上传失败（稍后会再尝试）：' : '上传失败：') + ((e && e.message) || e), cloudBusy: false, cloudPending: true });
     }
   };
-  pullCloud = async () => {
+  pullCloud = async (forceReplace) => {
     const code = String(this.state.cloudSyncCode || this.state.cloudCodeInput || localStorage.getItem('zzz_cloud_code') || '').trim().toUpperCase();
     if (!this.cloudReady() || !code) { this.setState({ cloudStatus: '还没有连接同步代码。', cloudBusy: false }); return; }
-    if (this.state.cloudPending) {
+    if (this.state.cloudPending && !forceReplace) {
       const ok = window.confirm('本机有尚未上传的修改。\n\n读取云端会覆盖本机当前资料。建议先导出 JSON 备份。\n\n确定仍要读取云端吗？');
       if (!ok) { this.setState({ cloudStatus: '已取消读取，本机未上传修改仍保留。' }); return; }
     }
@@ -3733,10 +3789,10 @@ class Component extends DCLogic {
       await this.applyCloudSnapshot(data.data || {});
       await this.loadShippingFromCloud(data.sync_code);
       const itemCount = Array.isArray(data.data && data.data.items) ? data.data.items.length : 0;
-      this.setState({ cloudSyncId: data.id, cloudSyncCode: data.sync_code, cloudCodeInput: data.sync_code, cloudStatus: '已读取云端，共 ' + itemCount + ' 件谷子。云端时间：' + this.fmtCloudTime(syncedAt), cloudBusy: false, cloudPending: false, cloudLastSyncedAt: syncedAt, cloudRemoteUpdatedAt: syncedAt });
+      this.setState({ cloudSyncId: data.id, cloudSyncCode: data.sync_code, cloudCodeInput: data.sync_code, cloudStatus: '已读取云端，共 ' + itemCount + ' 件谷子。云端时间：' + this.fmtCloudTime(syncedAt), cloudBusy: false, cloudPending: false, cloudLastSyncedAt: syncedAt, cloudRemoteUpdatedAt: syncedAt, syncConflict: null, syncConflictChoice: '', initialSyncReady: true });
     } catch (e) {
       console.error('pullCloud failed:', e);
-      this.setState({ cloudStatus: '读取失败：' + ((e && e.message) || e), cloudBusy: false });
+      this.setState({ cloudStatus: '读取失败：' + ((e && e.message) || e), cloudBusy: false, syncConflictChoice: '' });
     }
   };
   disconnectCloud = () => { try { localStorage.removeItem('zzz_cloud_id'); localStorage.removeItem('zzz_cloud_code'); localStorage.removeItem('zzz_cloud_last_synced_at'); } catch(e) {} this.setState({ cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '已退出云同步，本地数据仍保留。', cloudPending: false, cloudLastSyncedAt: '', cloudRemoteUpdatedAt: '' }); };
@@ -7457,7 +7513,7 @@ class Component extends DCLogic {
       toast: this.state.toast || '', hasToast: !!this.state.toast, showTip: this.showTip,
       displayRows, isEmpty: itemRows.length === 0 && view !== 'ledger' && view !== 'dashboard', isDashboard: view === 'dashboard', isTable: view === 'table', isGallery: view === 'gallery', isCircle: view === 'circle', isLedger: view === 'ledger',
       dashboardTodoRows, dashboardSummaryRows, dashboardRecentItems, dashboardRecentDocs, hasDashboardItems: dashboardRecentItems.length>0, noDashboardItems: dashboardRecentItems.length===0, hasDashboardDocs: dashboardRecentDocs.length>0, noDashboardDocs: dashboardRecentDocs.length===0, dashboardMonthCost: cur + this.fmt(dashboardMonthCostNum), dashboardTotalCost: cur + this.fmt(totalIn),
-      budgetInput: (this.state.budgets || {})[budgetMonthKey] || '', hasFeeComposition, feeComposition, feeTotalText, budgetDisplayText: budget > 0 ? (cur + this.fmt(budget)) : (isAllScope ? '不适用' : '未设置'), consumeTitle: TXT.consumeTitle || '消费表', ledgerMonthAreaPath, jumpBudgetThisMonth: this.jumpBudgetThisMonth, ledgerDetailOpen, ledgerDetailItems, ledgerDetailTitle, ledgerDetailTotal, ledgerDetailEmpty, closeLedgerDetail: this.closeLedgerDetail, onBudgetChange: this.onBudgetChange, onBudgetQuickEdit: this.onBudgetQuickEdit, ledgerScopeText, ledgerRangeText, mobileWalletRangeText, mobileWalletScopeText, ledgerModeChips, ledgerYearOptions, ledgerMonthOptions, ledgerWeekOptions, ledgerYear, ledgerMonth, ledgerWeek, showLedgerYear, showLedgerMonth, showLedgerWeek, onLedgerYear: this.onLedgerYear, onLedgerMonth: this.onLedgerMonth, onLedgerWeek: this.onLedgerWeek, openLedgerYearSelect: this.openLedgerYearSelect, openLedgerMonthSelect: this.openLedgerMonthSelect, openLedgerWeekSelect: this.openLedgerWeekSelect, ledgerYearText, ledgerMonthText, ledgerWeekText, ledgerPieBy, onLedgerPieBy: this.onLedgerPieBy, ledgerPieChips, ledgerPieTitle, ledgerPieStyle, ledgerPieRows, ledgerPieTotal, ledgerPieCenterLabel, ledgerPieTopText, ledgerPieTip, ledgerPieSegments, ledgerPieActiveName, ledgerPieActivePercent, ledgerPieActiveValue, ledgerPieActiveDot, ledgerDetailRows, ledgerDetailSummary, monthSpentText: cur + this.fmt(monthSpent), monthSpentBig: cur + this.fmtBig(monthSpent), monthSpentFull: cur + this.fmt(monthSpent), budgetRemainText: panelRemainText, budgetRemainStyle: panelRemainStyle, budgetPctText: panelPctText, budgetPctStyle: panelPctStyle, budgetBarStyle: panelBarStyle, budgetStatusText: panelStatusText, ledgerTitle: TXT.ledgerTitle, ledgerHelpText: '', budgetLabel: panelBudgetLabel, spentLabel: panelSpentLabel, remainLabel: panelRemainLabel, progressLabel: panelProgressLabel, showBudgetEdit, showBudgetView: !showBudgetEdit, monthsTitle: TXT.months, reminderCenterTitle: TXT.reminderCenter, noReminderText: TXT.noReminder, mobileWalletTitle: TXT.walletMini, miniBudgetLabel: TXT.miniBudget, miniSpentLabel: TXT.miniSpent, miniRemainLabel: TXT.miniRemain, addItemText: TXT.addItem, ledgerMonths: ledgerMonthCells, barTop, barBottom, areaColor, ledgerMonthBars, ledgerMonthDots, ledgerMonthLinePoints, accentColorVal: this.accentColor(), hasLedgerPeakBubble, ledgerPeakBubbleText, ledgerPeakBubbleStyle, authReady: this.state.authReady, authLoggedIn: !!this.state.authUser, authLoggedOut: !this.state.authUser, authUsername: this.state.authUsername || '', authPassword: this.state.authPassword || '', authPassword2: this.state.authPassword2 || '', authError: this.state.authError || '', hasAuthError: !!this.state.authError, authBusy: this.state.authBusy, authIsLogin: (this.state.authMode || 'login') === 'login', authIsRegister: this.state.authMode === 'register', onAuthUsername: this.onAuthUsername, onAuthPassword: this.onAuthPassword, onAuthPassword2: this.onAuthPassword2, toLoginMode: this.switchAuthMode('login'), toRegisterMode: this.switchAuthMode('register'), doLogin: this.doLogin, doRegister: this.doRegister, doLogout: this.doLogout, authLoginBtnText: this.state.authBusy ? '登录中…' : '登录', authRegisterBtnText: this.state.authBusy ? '注册中…' : '注册并登录', authCurrentName: ((this.state.authUser && this.state.authUser.user_metadata && this.state.authUser.user_metadata.username) || ''), ledgerPeakLabel, ledgerPeakValue, ledgerPeakDate, ledgerDaysLabel, ledgerDaysValue, ledgerDaysNote, ledgerAvgValue, ledgerAvgNote, ledgerMonthHint, ledgerMonthTotal, ledgerMonthPeakText, topCostRows, topQtyRows, topCharacterRows, topPlatformRows, ledgerRankCards, reviewCards, completeSetRows, reviewPeriodText, achievementRows, ledgerRankTitle1, ledgerRankTitle2, ledgerRankTitle3, ledgerRankTitle4, upcomingReminders, ledgerReminderRows, hasLedgerReminders: ledgerReminderRows.length > 0, noLedgerReminders: ledgerReminderRows.length === 0, hasUpcomingReminders: upcomingReminders.length > 0, mobileReminderText, mobileReminderDetail, mobileTodoRows, mobileBudgetText: budget > 0 ? (cur + this.fmt(budget)) : '未设', reminderCountText,
+      budgetInput: (this.state.budgets || {})[budgetMonthKey] || '', hasFeeComposition, feeComposition, feeTotalText, budgetDisplayText: budget > 0 ? (cur + this.fmt(budget)) : (isAllScope ? '不适用' : '未设置'), consumeTitle: TXT.consumeTitle || '消费表', ledgerMonthAreaPath, jumpBudgetThisMonth: this.jumpBudgetThisMonth, ledgerDetailOpen, ledgerDetailItems, ledgerDetailTitle, ledgerDetailTotal, ledgerDetailEmpty, closeLedgerDetail: this.closeLedgerDetail, onBudgetChange: this.onBudgetChange, onBudgetQuickEdit: this.onBudgetQuickEdit, ledgerScopeText, ledgerRangeText, mobileWalletRangeText, mobileWalletScopeText, ledgerModeChips, ledgerYearOptions, ledgerMonthOptions, ledgerWeekOptions, ledgerYear, ledgerMonth, ledgerWeek, showLedgerYear, showLedgerMonth, showLedgerWeek, onLedgerYear: this.onLedgerYear, onLedgerMonth: this.onLedgerMonth, onLedgerWeek: this.onLedgerWeek, openLedgerYearSelect: this.openLedgerYearSelect, openLedgerMonthSelect: this.openLedgerMonthSelect, openLedgerWeekSelect: this.openLedgerWeekSelect, ledgerYearText, ledgerMonthText, ledgerWeekText, ledgerPieBy, onLedgerPieBy: this.onLedgerPieBy, ledgerPieChips, ledgerPieTitle, ledgerPieStyle, ledgerPieRows, ledgerPieTotal, ledgerPieCenterLabel, ledgerPieTopText, ledgerPieTip, ledgerPieSegments, ledgerPieActiveName, ledgerPieActivePercent, ledgerPieActiveValue, ledgerPieActiveDot, ledgerDetailRows, ledgerDetailSummary, monthSpentText: cur + this.fmt(monthSpent), monthSpentBig: cur + this.fmtBig(monthSpent), monthSpentFull: cur + this.fmt(monthSpent), budgetRemainText: panelRemainText, budgetRemainStyle: panelRemainStyle, budgetPctText: panelPctText, budgetPctStyle: panelPctStyle, budgetBarStyle: panelBarStyle, budgetStatusText: panelStatusText, ledgerTitle: TXT.ledgerTitle, ledgerHelpText: '', budgetLabel: panelBudgetLabel, spentLabel: panelSpentLabel, remainLabel: panelRemainLabel, progressLabel: panelProgressLabel, showBudgetEdit, showBudgetView: !showBudgetEdit, monthsTitle: TXT.months, reminderCenterTitle: TXT.reminderCenter, noReminderText: TXT.noReminder, mobileWalletTitle: TXT.walletMini, miniBudgetLabel: TXT.miniBudget, miniSpentLabel: TXT.miniSpent, miniRemainLabel: TXT.miniRemain, addItemText: TXT.addItem, ledgerMonths: ledgerMonthCells, barTop, barBottom, areaColor, ledgerMonthBars, ledgerMonthDots, ledgerMonthLinePoints, accentColorVal: this.accentColor(), hasLedgerPeakBubble, ledgerPeakBubbleText, ledgerPeakBubbleStyle, authReady: this.state.authReady, authChecking: !this.state.authReady, authLoggedIn: this.state.authReady && !!this.state.authUser, authLoggedOut: this.state.authReady && !this.state.authUser, syncConflictOpen: this.state.authReady && !!this.state.authUser && !!this.state.syncConflict, syncConflictCloudTime: this.fmtCloudTime((this.state.syncConflict && this.state.syncConflict.remoteAt) || this.state.cloudRemoteUpdatedAt || ''), syncConflictLocalTime: ((this.state.syncConflict && this.state.syncConflict.localAt) ? this.fmtCloudTime(this.state.syncConflict.localAt) : '此设备尚无同步记录'), syncConflictCloudBtnText: (this.state.cloudBusy && this.state.syncConflictChoice === 'cloud') ? '正在读取云端…' : '使用云端版本覆盖本机', syncConflictLocalBtnText: (this.state.cloudBusy && this.state.syncConflictChoice === 'local') ? '正在上传本机…' : '使用本机版本覆盖云端', chooseCloudVersion: this.chooseCloudVersion, chooseLocalVersion: this.chooseLocalVersion, authUsername: this.state.authUsername || '', authPassword: this.state.authPassword || '', authPassword2: this.state.authPassword2 || '', authError: this.state.authError || '', hasAuthError: !!this.state.authError, authBusy: this.state.authBusy, authIsLogin: (this.state.authMode || 'login') === 'login', authIsRegister: this.state.authMode === 'register', onAuthUsername: this.onAuthUsername, onAuthPassword: this.onAuthPassword, onAuthPassword2: this.onAuthPassword2, toLoginMode: this.switchAuthMode('login'), toRegisterMode: this.switchAuthMode('register'), doLogin: this.doLogin, doRegister: this.doRegister, doLogout: this.doLogout, authLoginBtnText: this.state.authBusy ? '登录中…' : '登录', authRegisterBtnText: this.state.authBusy ? '注册中…' : '注册并登录', authCurrentName: ((this.state.authUser && this.state.authUser.user_metadata && this.state.authUser.user_metadata.username) || ''), ledgerPeakLabel, ledgerPeakValue, ledgerPeakDate, ledgerDaysLabel, ledgerDaysValue, ledgerDaysNote, ledgerAvgValue, ledgerAvgNote, ledgerMonthHint, ledgerMonthTotal, ledgerMonthPeakText, topCostRows, topQtyRows, topCharacterRows, topPlatformRows, ledgerRankCards, reviewCards, completeSetRows, reviewPeriodText, achievementRows, ledgerRankTitle1, ledgerRankTitle2, ledgerRankTitle3, ledgerRankTitle4, upcomingReminders, ledgerReminderRows, hasLedgerReminders: ledgerReminderRows.length > 0, noLedgerReminders: ledgerReminderRows.length === 0, hasUpcomingReminders: upcomingReminders.length > 0, mobileReminderText, mobileReminderDetail, mobileTodoRows, mobileBudgetText: budget > 0 ? (cur + this.fmt(budget)) : '未设', reminderCountText,
       qtyBadgeStyle: { position: 'absolute', top: '1px', right: '5px', minWidth: '22px', height: '22px', padding: '0 6px', borderRadius: '999px', background: `radial-gradient(circle at 32% 28%, ${this.accentLight(0.5)}, ${this.accentColor()} 82%)`, color: '#fff', fontSize: '12px', fontWeight: 800, lineHeight: 1, fontFamily: "'Orbitron',sans-serif", display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: `0 3px 9px ${this.accentAlpha(0.5)}`, border: '2.5px solid #fff' },
       modalOpen: this.state.modalOpen, modalTitle: this.state.editing ? '编辑谷子' : '新增谷子', isEditing: !!this.state.editing, isNewItem: !this.state.editing, duplicateCurrent: this.duplicateCurrent, deleteCurrent: this.deleteCurrent,
       itemEvidenceSelectedCount:(this.state.itemEvidenceDrafts||[]).length, hasItemEvidenceDrafts:(this.state.itemEvidenceDrafts||[]).length>0, noCloudForItemEvidence:!this.shippingSyncCode(), itemEvidenceExistingSelect:'', itemEvidenceExistingCount:(this.state.itemEvidenceExistingIds||[]).length, itemEvidenceExistingOptions:(this.state.shippingRecords||[]).filter(r=>r.type==='本体资料').map(r=>({value:r.id,label:[r.group,r.title,r.note,(r.images||[]).length+'张图'].filter(Boolean).join(' · ')})), onItemEvidenceExistingSelect:this.onItemEvidenceExistingSelect, openItemEvidenceExistingSelect:this.openItemEvidenceExistingSelect, itemEvidenceOpen:!!this.state.itemEvidenceOpen, toggleItemEvidence:this.toggleItemEvidence, itemEvidenceCaret:this.state.itemEvidenceOpen?'▲ 收起':'▼ 展开', itemEvidenceBadge:((this.state.itemEvidenceDrafts||[]).length+(this.state.itemEvidenceExistingIds||[]).length)>0?('已选 '+((this.state.itemEvidenceDrafts||[]).length+(this.state.itemEvidenceExistingIds||[]).length)): '可选填', itemEvidenceSummary:(()=>{const a=(this.state.itemEvidenceDrafts||[]).length,b=(this.state.itemEvidenceExistingIds||[]).length;if(a||b)return ['待上传 '+a+' 张',b?'复用 '+b+' 份':''].filter(Boolean).join(' · ');return '可以先不填，保存后再补';})(),
