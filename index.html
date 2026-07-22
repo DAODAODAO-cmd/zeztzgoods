@@ -5461,20 +5461,52 @@ class Component extends DCLogic {
       tip: top.length ? top.slice(0,5).map(([n,v]) => n + ' · ' + cur + this.fmt(v) + ' · ' + (total ? Math.round(v/total*100) : 0) + '%').join('\n') : '暂无数据'
     };
   }
-  setLedger = () => this.setState({ view: 'ledger', batchMode: false, selectedIds: [], ledgerDetailKey: '' });
+  setLedger = () => {
+    // iOS Safari 偶尔会把打开钱包的同一次触摸继续派发给新出现的日期格。
+    this._suppressLedgerDetailUntil = Date.now() + 500;
+    this.setState({
+      view: 'ledger',
+      batchMode: false,
+      selectedIds: [],
+      ledgerDetailKey: '',
+      genericSelectOpen: false,
+      genericSelectAnchor: null,
+      mobileMineOpen: false
+    });
+  };
   toggleTableSort = (key) => this.setState(s => ({ tableSortKey: key, tableSortDir: s.tableSortKey === key && s.tableSortDir === 'desc' ? 'asc' : 'desc', view: 'table' }));
   toggleGroupCollapse = (label) => this.setState(s => { const c = { ...(s.collapsedGroups || {}) }; if (c[label]) delete c[label]; else c[label] = true; return { collapsedGroups: c }; });
   setBudgetValue(val) { const key = this._budgetKey || this.monthKey(new Date()); const budgets = { ...(this.state.budgets || {}) }; if (val === '' || val == null) delete budgets[key]; else budgets[key] = val; try { localStorage.setItem('zzz_budgets', JSON.stringify(budgets)); } catch (er) {} this.setState({ budgets }); }
-  openLedgerDetail = (key, type, label) => { if (!key) return; this.setState({ ledgerDetailKey: key, ledgerDetailType: type || 'day', ledgerDetailLabel: label || '' }); };
+  openLedgerDetail = (key, type, label) => {
+    if (!key || Date.now() < (this._suppressLedgerDetailUntil || 0)) return;
+    this.setState({ ledgerDetailKey: key, ledgerDetailType: type || 'day', ledgerDetailLabel: label || '' });
+  };
   closeLedgerDetail = () => this.setState({ ledgerDetailKey: '' });
   jumpBudgetThisMonth = () => { const n = new Date(); this.setState({ ledgerMode: 'month', ledgerRange: 'month', ledgerYear: String(n.getFullYear()), ledgerMonth: String(n.getMonth() + 1), ledgerDetailKey: '' }); };
   onBudgetChange = (e) => { this.setBudgetValue(e.target.value); };
-  onBudgetQuickEdit = () => { const key = this._budgetKey || this.monthKey(new Date()); const current = (this.state.budgets || {})[key] || ''; const v = window.prompt('请输入 ' + (this._budgetLabel || '本月') + '预算', current); if (v === null) return; const clean = String(v || '').trim(); if (clean && (isNaN(Number(clean)) || Number(clean) < 0)) { window.alert('预算请输入大于等于 0 的数字'); return; } this.setBudgetValue(clean); };
+  // 预算统一在钱包页面的输入框中编辑，避免点击钱包附近的操作时弹出浏览器原生 prompt。
+  onBudgetQuickEdit = () => {
+    const now = new Date();
+    this.setState({
+      view: 'ledger',
+      ledgerMode: 'month',
+      ledgerRange: 'month',
+      ledgerYear: String(now.getFullYear()),
+      ledgerMonth: String(now.getMonth() + 1),
+      ledgerDetailKey: '',
+      genericSelectOpen: false,
+      genericSelectAnchor: null,
+      mobileMineOpen: false
+    });
+  };
   setGallery = () => this.setState({ view: 'gallery' });
   // 手机底部 tab 动作
   tabHome = () => this.setState({ view: 'gallery', filtersOpen: false, mobileMineOpen: false, batchMode: false, selectedIds: [], modalOpen: false });
   tabSearch = () => this.setState({ view: 'gallery', filtersOpen: true, mobileMineOpen: false, modalOpen: false });
-  tabLedger = () => this.setState({ view: 'ledger', filtersOpen: false, mobileMineOpen: false, batchMode: false, selectedIds: [], modalOpen: false, ledgerDetailKey: '' });
+  tabLedger = () => {
+    this._suppressLedgerDetailUntil = Date.now() + 500;
+    this.setState({ view: 'ledger', filtersOpen: false, mobileMineOpen: false, batchMode: false, selectedIds: [], modalOpen: false, ledgerDetailKey: '', genericSelectOpen: false, genericSelectAnchor: null });
+  };
   tabMine = () => this.setState(s => ({ mobileMineOpen: !s.mobileMineOpen, modalOpen: false }));
   closeMine = () => this.setState({ mobileMineOpen: false });
   openCloudPage = () => this.setState({ cloudPageOpen: true, mobileMineOpen: false });
@@ -6370,7 +6402,8 @@ class Component extends DCLogic {
       let over = false;
       if (isMonthDayMode) { over = budgetForCells > 0 && cumuForCells > budgetForCells; }
       else if (isYearMode) { cumuBudgetYear += this.num(bmapAll[x.key]); over = cumuBudgetYear > 0 && cumuForCells > cumuBudgetYear; }
-      return { label: x.label, amount: cur + this.fmt(x.value), value: x.value, cellStyle: { ...(over ? overCellStyle : {}), cursor: 'pointer' }, onClick: () => this.openLedgerDetail(x.key, x.keyType, x.label) };
+      const hasDetail = x.value > 0;
+      return { label: x.label, amount: cur + this.fmt(x.value), value: x.value, cellStyle: { ...(over ? overCellStyle : {}), cursor: hasDetail ? 'pointer' : 'default' }, onClick: hasDetail ? (() => this.openLedgerDetail(x.key, x.keyType, x.label)) : null };
     });
     const barTop = this.accentLight(0.15), barBottom = this.accentLight(0.72), areaColor = this.accentColor();
     const activeBar = (this.state.ledgerActiveBar == null ? monthValues.length - 1 : this.state.ledgerActiveBar);
