@@ -602,7 +602,9 @@
   }
   .ui-gallery-card-body{background:linear-gradient(180deg,#fff,var(--accent-bg-a,#fffafd)) !important;}
   .ui-image-mosaic{background:linear-gradient(145deg,var(--accent-bg-b,#fff0f7),#eef8ff) !important;}
-  .ui-app button:not([style*="border-radius:50%"]){border-radius:14px !important;}
+  .ui-app button:not([style*="border-radius:50%"]):not(.ui-wm-toggle){border-radius:14px !important;}
+  .ui-wm-toggle{border-radius:999px !important;min-height:28px !important;height:28px !important;width:46px !important;padding:0 !important;flex:0 0 46px !important;}
+  .ui-wm-toggle:active{transform:none !important;}
   .ui-modal-card input:not([type="file"]):not([type="color"]),
   .ui-modal-card textarea,
   .ui-modal-card button[style*="width:100%"]{border-radius:14px !important;border-color:#efdff1 !important;}
@@ -918,7 +920,7 @@
     .ui-relink-label{margin-bottom:4px !important;font-size:9.5px !important}
     .ui-app .ui-relink-note-toggle{min-height:24px !important;padding:0 !important;font-size:9.5px !important}
     .ui-relink-image-row,.ui-relink-new-row{display:flex !important;flex-direction:row !important;flex-wrap:nowrap !important;align-items:center !important;gap:6px !important;min-height:44px !important;margin-bottom:5px !important;padding:5px !important;border-radius:8px !important}
-    .ui-relink-image-row > div{width:34px !important;height:34px !important;border-radius:6px !important}
+    .ui-relink-image-row > div{flex:0 0 34px !important;width:34px !important;height:34px !important;border-radius:6px !important}
     .ui-relink-new-row > div{flex:0 1 64px !important;max-width:64px !important;font-size:9px !important}
     .ui-app .ui-relink-image-row > button:first-of-type,.ui-app .ui-relink-new-row > button:first-of-type{flex:1 1 auto !important;width:auto !important;min-width:0 !important;height:32px !important;min-height:32px !important;padding:4px 6px !important;font-size:10px !important}
     .ui-app .ui-relink-image-row > button:last-child,.ui-app .ui-relink-new-row > button:last-child{flex:0 0 58px !important;width:58px !important;min-width:58px !important;height:32px !important;min-height:32px !important;padding:4px !important;font-size:9px !important;white-space:nowrap !important}
@@ -2857,7 +2859,7 @@
                 <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px"><div class="ui-ship-title" style="margin:0">生成排发长图</div><button onClick="{{ exportSelectedShipping }}" style="font-family:inherit;font-size:13px;font-weight:900;color:#fff;background:var(--accent,#ff3355);border:none;padding:9px 13px;border-radius:10px;cursor:pointer">{{ shippingExportButtonText }}</button></div>
                 <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;padding:8px 11px;background:rgba(50,38,90,.035);border:1px solid #ece7f6;border-radius:10px">
                   <div style="min-width:0"><div style="font-size:12.5px;font-weight:700;color:#4a4570">CN 水印</div><div style="font-size:10.5px;color:#a49ec4;margin-top:1px">右上角标注收藏者名，防盗图</div></div>
-                  <button onClick="{{ toggleShipWatermark }}" style="{{ shipWatermarkToggleStyle }}" aria-label="切换水印"><span style="{{ shipWatermarkKnobStyle }}"></span></button>
+                  <button onClick="{{ toggleShipWatermark }}" class="ui-wm-toggle" style="{{ shipWatermarkToggleStyle }}" aria-label="切换水印"><span style="{{ shipWatermarkKnobStyle }}"></span></button>
                 </div>
                 <div class="ui-ship-preview">
                   <div class="ui-ship-preview-head"><strong>CN：{{ previewCn }}</strong><span>{{ previewGroup }} · {{ previewBatch }}</span></div>
@@ -6994,8 +6996,8 @@ class Component extends DCLogic {
     const gtSale = mobileGroupTabs.find(t => t.key === 'sale') || mobileGroupTabs[0];
 
     const _wmOn = this.state.shipWatermark !== false;
-    const shipWatermarkToggleStyle = { flexShrink: 0, width: '44px', height: '26px', borderRadius: '999px', border: 'none', cursor: 'pointer', padding: '3px', display: 'flex', justifyContent: _wmOn ? 'flex-end' : 'flex-start', background: _wmOn ? this.accentColor() : '#d8d2ea', transition: 'all .18s' };
-    const shipWatermarkKnobStyle = { width: '20px', height: '20px', borderRadius: '50%', background: '#fff', boxShadow: '0 2px 5px rgba(0,0,0,.2)' };
+    const shipWatermarkToggleStyle = { flexShrink: 0, width: '46px', minWidth: '46px', height: '28px', minHeight: '28px', borderRadius: '999px', border: 'none', cursor: 'pointer', padding: 0, position: 'relative', background: _wmOn ? this.accentColor() : '#d8d2ea', transition: 'background .18s' };
+    const shipWatermarkKnobStyle = { position: 'absolute', top: '3px', left: _wmOn ? '21px' : '3px', width: '22px', height: '22px', borderRadius: '50%', background: '#fff', boxShadow: '0 2px 5px rgba(0,0,0,.25)', transition: 'left .18s' };
     return {
       shippingExportButtonText: this.isPhoneDevice() ? '分享排发长图' : '下载排发长图',
       toggleShipWatermark: this.toggleShipWatermark, shipWatermarkToggleStyle, shipWatermarkKnobStyle,
