@@ -1721,6 +1721,7 @@
                 <sc-for list="{{ ledgerMonthBars }}" as="b" hint-placeholder-count="0"><sc-if value="{{ b.showLabel }}" hint-placeholder-val="{{ false }}"><text x="{{ b.labelX }}" y="{{ b.labelY }}" text-anchor="middle" font-family="Orbitron" font-size="15" font-weight="700" fill="var(--accent,#ff3355)" style="pointer-events:none">{{ b.amountText }}</text></sc-if></sc-for>
               </svg>
             </div>
+            <sc-if value="{{ ledgerDetailOpen }}" hint-placeholder-val="{{ false }}">
               <div style="position:fixed;inset:0;z-index:560;background:rgba(30,22,54,.45);display:flex;align-items:center;justify-content:center;padding:20px" onClick="{{ closeLedgerDetail }}">
               <div style="width:100%;max-width:400px;max-height:70dvh;overflow-y:auto;background:linear-gradient(160deg,#fff,#f7f4fc);border:1px solid #e1dbf0;border-radius:16px;box-shadow:0 24px 60px rgba(30,22,54,.32);padding:14px 16px" onClick="{{ stop }}">
                 <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid rgba(50,38,90,.08)">
@@ -6427,8 +6428,9 @@ class Component extends DCLogic {
     const ledgerAvgNote = isMonthDayMode ? ('按本月 ' + monthValues.length + ' 天计算') : (isYearMode ? '按 12 个月计算' : ('按 ' + monthValues.length + ' 期计算'));
     const detailKey = this.state.ledgerDetailKey || '';
     const detailType = this.state.ledgerDetailType || 'day';
-    const ledgerDetailOpen = !!detailKey && (view === 'ledger' || this.state.view === 'ledger');
     const ledgerDetailMatched = detailKey ? ledgerItems.map(it => ({ it, entries: this.cashFlowEntries(it).filter(cf => detailType === 'day' ? cf.date === detailKey : String(cf.date || '').slice(0, 7) === detailKey) })).filter(x => x.entries.length) : [];
+    // 没有任何匹配消费时绝不显示明细弹窗，防止视图切换事件产生“0 项”空弹窗。
+    const ledgerDetailOpen = !!detailKey && ledgerDetailMatched.length > 0 && (view === 'ledger' || this.state.view === 'ledger');
     const ledgerDetailItems = ledgerDetailMatched.map(x => { const e = this.enrich(x.it); const amount = x.entries.reduce((s, cf) => s + cf.amount, 0); return { name: x.it.name || '未命名', qtyText: (e.qty > 1 ? '×' + e.qty : ''), costText: cur + this.fmt(amount), character: x.it.character || '' }; });
     const ledgerDetailTotal = cur + this.fmt(ledgerDetailMatched.reduce((s, x) => s + x.entries.reduce((a, cf) => a + cf.amount, 0), 0));
     const ledgerDetailTitle = (this.state.ledgerDetailLabel || '') + ' · ' + ledgerDetailMatched.length + ' 项';
