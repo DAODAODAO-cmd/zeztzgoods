@@ -1001,26 +1001,7 @@
       </div>
     </div>
   </sc-if>
-  <sc-if value="{{ syncConflictOpen }}" hint-placeholder-val="{{ false }}">
-    <div style="position:fixed;inset:0;z-index:9050;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(34,25,67,.52);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)">
-      <div style="width:100%;max-width:390px;background:linear-gradient(160deg,#fff,#f7f4fc);border:1px solid #ded7ee;border-radius:22px;box-shadow:0 30px 80px rgba(20,13,48,.38);padding:24px">
-        <div style="display:flex;align-items:center;gap:11px;margin-bottom:12px">
-          <div style="width:42px;height:42px;border-radius:13px;background:rgba(255,183,77,.16);display:flex;align-items:center;justify-content:center;font-size:22px">⚠️</div>
-          <div><div style="font-weight:900;font-size:18px;color:#251d49">请选择要保留的版本</div><div style="font-size:11.5px;color:#938db0;margin-top:2px">完成选择后才可继续使用</div></div>
-        </div>
-        <div style="font-size:12.5px;line-height:1.65;color:#544f7e;background:rgba(50,38,90,.045);border-radius:13px;padding:12px 14px;margin-bottom:14px">
-          云端与当前设备的数据版本不同。为了防止资料被错误覆盖，自动同步已暂时停在这里。
-        </div>
-        <div style="display:grid;grid-template-columns:1fr;gap:9px;margin-bottom:14px">
-          <div style="border:1px solid #e3ddef;border-radius:12px;padding:10px 12px;background:#fff"><div style="font-size:10.5px;color:#938db0">云端更新时间</div><div style="font-weight:800;color:#251d49;margin-top:3px">{{ syncConflictCloudTime }}</div></div>
-          <div style="border:1px solid #e3ddef;border-radius:12px;padding:10px 12px;background:#fff"><div style="font-size:10.5px;color:#938db0">本机上次同步时间</div><div style="font-weight:800;color:#251d49;margin-top:3px">{{ syncConflictLocalTime }}</div></div>
-        </div>
-        <button onClick="{{ chooseCloudVersion }}" style="width:100%;min-height:48px;border:none;border-radius:13px;background:var(--accent,#ff3355);color:#fff;font-family:inherit;font-size:14px;font-weight:900;cursor:pointer;margin-bottom:9px">{{ syncConflictCloudBtnText }}</button>
-        <button onClick="{{ chooseLocalVersion }}" style="width:100%;min-height:48px;border:1px solid #d8d0e8;border-radius:13px;background:#fff;color:#251d49;font-family:inherit;font-size:14px;font-weight:900;cursor:pointer">{{ syncConflictLocalBtnText }}</button>
-        <div style="font-size:10.5px;color:#938db0;text-align:center;line-height:1.5;margin-top:12px">此窗口不能跳过。选择后会恢复自动同步。</div>
-      </div>
-    </div>
-  </sc-if>
+  
   <aside class="ui-sidebar">
     <div class="ui-sidebar-brand">
       <div class="ui-sidebar-logo" onClick="{{ uploadLogo }}" title="点击更换 Logo" style="{{ sidebarLogoStyle }}"><sc-if value="{{ logoFallback }}" hint-placeholder-val="{{ true }}"><div class="ui-logo-fallback ui-logo-fallback-sidebar"><span><svg class="ui-line-icon ui-line-icon-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5 12 4l8 4.5v7L12 20l-8-4.5z"/><path d="M4 8.5 12 13l8-4.5M12 13v7"/></svg></span><strong>{{ title }}</strong><em>{{ workName }}</em></div></sc-if></div>
@@ -3745,12 +3726,7 @@ class Component extends DCLogic {
       }
       const localSyncedAt = this.state.cloudLastSyncedAt || localStorage.getItem('zzz_cloud_last_synced_at') || '';
       const remoteAt = remote.updated_at || '';
-      const remoteNewer = remoteAt && localSyncedAt && new Date(remoteAt).getTime() > new Date(localSyncedAt).getTime() + 1000;
-      if (remoteNewer && !forceOverwrite && !auto) {
-        // 只有手动上传时才提示；自动上传直接以本机为准（当前正在用的设备）
-        this.openSyncConflict(remoteAt, localSyncedAt);
-        return;
-      }
+      // 冲突弹窗已移除：不论自动还是手动，云端较新时都直接以本机为准覆盖
       const imgSync = await this.syncCloudImagesForItems(this.state.items || []);
       const now = new Date().toISOString();
       const payload = { client_uuid: this.clientUuid(), cn: this.state.collectorName || null, title: this.state.title || null, data: this.cloudSnapshot(imgSync.map), updated_at: now };
@@ -7161,7 +7137,7 @@ class Component extends DCLogic {
     const toggleDraftFilterOn = (key) => () => this.updateSettingsDraft({ filterOn: { ...draftFilterOn, [key]: !draftFilterOn[key] } });
     const toggleDraftStatsOn = (key) => () => this.updateSettingsDraft({ statsOn: { ...draftStatsOn, [key]: draftStatsOn[key] === false ? true : false } });
     const L = k => (Object.prototype.hasOwnProperty.call(draftFieldLabels, k) ? draftFieldLabels[k] : (this.FIELD_DEFAULTS[k] || k));
-    const labels = { character: L('character'), type: L('type'), series: L('series'), channel: L('channel'), purchaseChannel: L('purchaseChannel'), status: L('status'), form: L('form'), acquire: L('acquire') };
+    const labels = { character: this.flabel('character'), type: this.flabel('type'), series: this.flabel('series'), channel: this.flabel('channel'), purchaseChannel: this.flabel('purchaseChannel'), status: this.flabel('status'), form: this.flabel('form'), acquire: this.flabel('acquire') };
     const workManageRows = draftWorks.map(w => ({
       id: w.id, nameVal: w.name, groupVal: w.group || this.DEFAULT_GROUP, isCurrent: w.id === this.state.currentWorkId,
       onName: (e) => this.updateSettingsDraft({ works: draftWorks.map(x => x.id === w.id ? { ...x, name: e.target.value } : x) }),
