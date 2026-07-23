@@ -3328,7 +3328,10 @@ class Component extends DCLogic {
       }
       const remoteNewer = remoteAt && (!localAt || new Date(remoteAt).getTime() > new Date(localAt).getTime() + 1000);
       if (remoteNewer) {
-        this.setState({ initialSyncReady: false, cloudPending: true, cloudRemoteUpdatedAt: remoteAt, syncConflict: { remoteAt, localAt }, cloudStatus: '云端与本机版本不同，请选择要保留的版本。' });
+        // 自动同步：云端较新时，直接以云端为准拉取，不再询问
+        this.setState({ syncConflict: null, cloudRemoteUpdatedAt: remoteAt });
+        try { await this.pullCloud(true); } catch (e) {}
+        this.setState({ initialSyncReady: true, cloudPending: false });
         return;
       }
       this.setState({ initialSyncReady: true, syncConflict: null, cloudStatus: '账号云端已连接，自动同步已开启' + warning + '。', cloudPending: false, cloudRemoteUpdatedAt: remoteAt || localAt });
@@ -3736,7 +3739,8 @@ class Component extends DCLogic {
       const localSyncedAt = this.state.cloudLastSyncedAt || localStorage.getItem('zzz_cloud_last_synced_at') || '';
       const remoteAt = remote.updated_at || '';
       const remoteNewer = remoteAt && localSyncedAt && new Date(remoteAt).getTime() > new Date(localSyncedAt).getTime() + 1000;
-      if (remoteNewer && !forceOverwrite) {
+      if (remoteNewer && !forceOverwrite && !auto) {
+        // 只有手动上传时才提示；自动上传直接以本机为准（当前正在用的设备）
         this.openSyncConflict(remoteAt, localSyncedAt);
         return;
       }
