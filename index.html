@@ -5484,19 +5484,27 @@ class Component extends DCLogic {
     const uniq = (arr) => [...new Set((arr || []).filter(v => v !== undefined && v !== null).map(v => String(v)).filter(v => v !== ''))];
     const currentWork = this.state.currentWorkId || this.MAIN_WORK;
     const sourceList = uniq((this.state.acquireOrder && this.state.acquireOrder.length) ? this.state.acquireOrder : ['日谷','国谷','同人']);
-    const methodList = uniq([...(this.state.methodList || []), ...[].concat(...Object.values(this.SOURCE_METHODS || {}))]);
-    const platformList = uniq([].concat(...Object.values(this.SOURCE_PLATFORMS || {}), this.state.channels || []));
+    const hiddenChannels = this.state.hiddenChannels || [];
+    const hiddenPurchase = this.state.hiddenPurchaseChannels || [];
+    // 购买方式：跟新建表单一致——用自定义列表，去掉已隐藏的
+    const hiddenMethods = this.state.hiddenMethods || [];
+    const methodBase = (this.state.methodList && this.state.methodList.length) ? this.state.methodList : [].concat(...Object.values(this.SOURCE_METHODS || {}));
+    const methodList = uniq(methodBase).filter(x => !hiddenMethods.includes(x));
+    // 平台：自定义 channels + 各来源内置平台，去掉已隐藏的
+    const platformList = uniq([].concat(...Object.values(this.SOURCE_PLATFORMS || {}), this.state.channels || [])).filter(x => !hiddenChannels.includes(x));
+    // 渠道：自定义列表，去掉已隐藏的
+    const purchaseList = uniq((this.state.purchaseChannels && this.state.purchaseChannels.length) ? this.state.purchaseChannels : this.CHANNELS).filter(x => !hiddenPurchase.includes(x));
     const setIds = (this.state.sets || []).filter(st => currentWork === this.ALL_WORKS || (st.workId || this.MAIN_WORK) === currentWork).map(st => st.id);
     const m = {
       status: (this.state.statusList && this.state.statusList.length) ? this.state.statusList : this.STATUSES,
       character: this.orderedChars(),
-      type: this.TYPES,
-      form: this.FORMS,
+      type: (this.state.typesList && this.state.typesList.length) ? this.state.typesList : this.TYPES,
+      form: (this.state.formOrder && this.state.formOrder.length) ? this.state.formOrder : this.FORMS,
       series: this.state.seriesList || [],
       acquire: sourceList,
       method: methodList,
       channel: platformList,
-      purchaseChannel: this.state.purchaseChannels || this.CHANNELS,
+      purchaseChannel: purchaseList,
       reminderType: (this.state.reminderTypes && this.state.reminderTypes.length) ? this.state.reminderTypes : this.REMINDER_TYPES,
       setId: setIds,
       lifecycle: ['已归家','空气谷','已出物'],
