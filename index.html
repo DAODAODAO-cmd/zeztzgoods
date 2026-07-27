@@ -951,6 +951,36 @@
     .ui-mobile-auto .ui-mobile-batch-action,.ui-mobile-simple .ui-mobile-batch-action,.ui-mobile-full .ui-mobile-batch-action{bottom:calc(66px + env(safe-area-inset-bottom)) !important;min-height:38px !important}
     .ui-line-icon{width:14px;height:14px;stroke-width:1.9;vertical-align:-2px}
     .ui-line-icon-md{width:17px;height:17px}.ui-line-icon-lg{width:20px;height:20px}
+
+    /* 手机字段管理：覆盖全局按钮最小高度，避免删除圆点把标签撑大 */
+    .ui-settings-modal .ui-field-manage{padding-top:10px !important}
+    .ui-settings-modal .ui-field-manage-title{font-size:11px !important;margin-bottom:3px !important}
+    .ui-settings-modal .ui-field-manage-help{font-size:9px !important;line-height:1.35 !important;margin-bottom:6px !important}
+    .ui-settings-modal .ui-field-chip-wrap{gap:4px !important}
+    .ui-settings-modal .ui-field-chip{
+      gap:3px !important;
+      padding:2px 3px 2px 7px !important;
+      font-size:9.5px !important;
+      line-height:1.2 !important;
+      min-height:19px !important;
+    }
+    .ui-settings-modal .ui-field-chip-delete{
+      width:13px !important;
+      height:13px !important;
+      min-width:13px !important;
+      min-height:13px !important;
+      padding:0 !important;
+      font-size:8px !important;
+      line-height:13px !important;
+      border-radius:50% !important;
+    }
+    .ui-settings-modal .ui-field-chip-action{
+      min-height:21px !important;
+      height:21px !important;
+      padding:2px 8px !important;
+      font-size:9.5px !important;
+      line-height:1 !important;
+    }
   }
 
   @keyframes uiSyncSpin{to{transform:rotate(360deg)}}
@@ -1094,11 +1124,10 @@
       <div style="background:linear-gradient(135deg,#fff7fb,#f4f1ff);border:1px solid #eadff3;border-left:4px solid var(--accent,#ff3355);border-radius:18px;padding:18px 20px;margin-bottom:18px;box-shadow:0 10px 28px rgba(95,68,140,.08)">
         <div style="font-weight:900;font-size:17px;color:#251d49;margin-bottom:8px">欢迎来到谷子收纳！</div>
         <div style="font-size:13.5px;color:#544f7e;line-height:1.8">
-          在开始收谷之前，先给自己的收藏库起个名字吧！<br>
-          以后换电脑、换手机时，登录同一个用户名，收藏和排发资料就能继续使用。<br>
-          温馨提示: 推荐先在电脑网页端批量上传图片、整理收藏，再导入到手机。图片和资料都会一起保留，日常查看、补充记录会更方便。
+          已经自动使用用户名作为 CN，可以直接开始添加谷子。<br>
+          需要修改 CN、收藏标题或外观时，再前往设置即可。登录同一个用户名，换电脑、换手机也能继续使用收藏和排发资料。<br>
+          当收藏超过 2 件后，这张欢迎卡会自动隐藏。
         </div>
-        <button onClick="{{ goCloudOrSettings }}" style="margin-top:12px;font-family:inherit;font-size:13px;font-weight:700;color:#fff;background:var(--accent,#ff3355);border:none;padding:9px 16px;border-radius:10px;cursor:pointer;box-shadow:0 6px 18px rgba(50,38,90,.2)">前往设置</button>
       </div>
     </sc-if>
 
@@ -2747,18 +2776,18 @@
             </div>
           </div>
 
-          <div style="border-top:1px solid #e1dbf0;padding-top:16px">
-            <div style="font-weight:700;font-size:12.5px;color:#251d49;margin-bottom:4px">字段管理</div>
-            <div style="font-size:10.5px;color:#938db0;margin-bottom:8px;line-height:1.6">删除用不到的字段（编辑页、顶部筛选、分组会一起隐藏，已填数据保留）；也可新增自定义字段。改动只影响你自己。</div>
-            <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <div class="ui-field-manage" style="border-top:1px solid #e1dbf0;padding-top:16px">
+            <div class="ui-field-manage-title" style="font-weight:700;font-size:12.5px;color:#251d49;margin-bottom:4px">字段管理</div>
+            <div class="ui-field-manage-help" style="font-size:10.5px;color:#938db0;margin-bottom:8px;line-height:1.6">删除用不到的字段（编辑页、顶部筛选、分组会一起隐藏，已填数据保留）；也可新增自定义字段。改动只影响你自己。</div>
+            <div class="ui-field-chip-wrap" style="display:flex;flex-wrap:wrap;gap:6px">
               <sc-for list="{{ fieldRows }}" as="f" hint-placeholder-count="7">
-                <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(50,38,90,.04);border:1px solid #e8e2f2;border-radius:999px;padding:3px 5px 3px 10px;font-size:11.5px;color:#251d49">{{ f.labelVal }}<button onClick="{{ f.onDel }}" title="删除字段" style="flex-shrink:0;width:15px;height:15px;border-radius:50%;border:none;background:rgba(226,59,93,.12);color:#e23b5d;cursor:pointer;font-size:10px;line-height:1">×</button></span>
+                <span class="ui-field-chip" style="display:inline-flex;align-items:center;gap:5px;background:rgba(50,38,90,.04);border:1px solid #e8e2f2;border-radius:999px;padding:3px 5px 3px 10px;font-size:11.5px;color:#251d49">{{ f.labelVal }}<button class="ui-field-chip-delete" onClick="{{ f.onDel }}" title="删除字段" style="flex-shrink:0;width:15px;height:15px;border-radius:50%;border:none;background:rgba(226,59,93,.12);color:#e23b5d;cursor:pointer;font-size:10px;line-height:1">×</button></span>
               </sc-for>
               <sc-for list="{{ customFieldRows }}" as="f" hint-placeholder-count="0">
-                <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(50,38,90,.04);border:1px solid #e8e2f2;border-radius:999px;padding:3px 5px 3px 10px;font-size:11.5px;color:#251d49">{{ f.labelVal }}<button onClick="{{ f.onDel }}" title="删除" style="flex-shrink:0;width:15px;height:15px;border-radius:50%;border:none;background:rgba(226,59,93,.12);color:#e23b5d;cursor:pointer;font-size:10px;line-height:1">×</button></span>
+                <span class="ui-field-chip" style="display:inline-flex;align-items:center;gap:5px;background:rgba(50,38,90,.04);border:1px solid #e8e2f2;border-radius:999px;padding:3px 5px 3px 10px;font-size:11.5px;color:#251d49">{{ f.labelVal }}<button class="ui-field-chip-delete" onClick="{{ f.onDel }}" title="删除" style="flex-shrink:0;width:15px;height:15px;border-radius:50%;border:none;background:rgba(226,59,93,.12);color:#e23b5d;cursor:pointer;font-size:10px;line-height:1">×</button></span>
               </sc-for>
-              <button onClick="{{ addCustomField }}" style="font-family:inherit;font-size:11.5px;color:#544f7e;background:none;border:1px dashed #ded7ee;padding:3px 11px;border-radius:999px;cursor:pointer">＋ 字段</button>
-              <button onClick="{{ restoreBaseFields }}" style="font-family:inherit;font-size:11.5px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:3px 11px;border-radius:999px;cursor:pointer">恢复默认</button>
+              <button class="ui-field-chip-action" onClick="{{ addCustomField }}" style="font-family:inherit;font-size:11.5px;color:#544f7e;background:none;border:1px dashed #ded7ee;padding:3px 11px;border-radius:999px;cursor:pointer">＋ 字段</button>
+              <button class="ui-field-chip-action" onClick="{{ restoreBaseFields }}" style="font-family:inherit;font-size:11.5px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:3px 11px;border-radius:999px;cursor:pointer">恢复默认</button>
             </div>
           </div>
 
@@ -3300,9 +3329,23 @@ class Component extends DCLogic {
     } catch (e) { this.setState({ authReady: true, authUser: null }); }
     finally { clearTimeout(failSafe); }
   }
+  async ensureUsernameAsCn(user) {
+    const meta = (user && user.user_metadata) || {};
+    const username = String(meta.username || '').trim();
+    if (!username) return '';
+    let current = String(this.state.collectorName || '').trim();
+    if (!current) {
+      try { current = String(localStorage.getItem('zzz_cn') || '').trim(); } catch (e) {}
+    }
+    if (current) return current;
+    try { localStorage.setItem('zzz_cn', username); } catch (e) {}
+    await new Promise(resolve => this.setState({ collectorName: username }, resolve));
+    return username;
+  }
   // 登录成功后：账号负责定位云端库；同步码只作为兼容旧排发资料的内部关联键。
   async onAuthedUser(user) {
     try {
+      await this.ensureUsernameAsCn(user);
       const linked = await this.ensureAccountCloudCollection(user);
       const warning = linked.duplicateCount > 1 ? '；检测到旧同步码存在重复云端记录，已使用最新一条' : '';
       await this.migrateLocalShippingToCloud(linked.code);
@@ -7422,7 +7465,7 @@ class Component extends DCLogic {
       openSettings: this.openSettings, closeSettings: this.cancelSettings, cancelSettings: this.cancelSettings, saveSettings: this.saveSettings, clearAllData: this.clearAllData, settingsOpen: this.state.settingsOpen, dataManageOpen: this.state.dataManageOpen, openDataManage: this.openDataManage, batchEditOpen: this.state.batchEditOpen, closeBatchEditor: this.closeBatchEditor, openBatchEditor: this.openBatchEditor, batchEditFields, batchEditOptions, batchEditTitle, batchEditChooseMode, batchEditOptionMode, batchEditBack: this.batchEditBack, closeDataManage: this.closeDataManage, confirmExcelExport: this.confirmExcelExport, confirmExcelTemplate: this.confirmExcelTemplate, confirmExcelImport: this.confirmExcelImport, confirmJsonExport: this.confirmJsonExport, confirmJsonImport: this.confirmJsonImport,
       cnVal: sd.collectorName || '', curVal: sd.currency || this.cur(), accentVal: sd.accent || this.props.accent || '#ff3355', nameStyleVal: sd.nameStyleMode || this.state.nameStyleMode || 'default', displayModeVal: sd.displayMode || this.state.displayMode || 'standard', stylePreviewText: this.previewStyleText(sd.nameStyleMode || this.state.nameStyleMode || 'default'), titleVal: sd.title || '', subtitleVal: sd.subtitle || '', footerVal: sd.footer || '',
       onCn: this.onDraftSettingField('collectorName'), onCurrency: this.onDraftSettingField('currency'), onAccent: this.onDraftSettingField('accent'), onNameStyle: this.setNameStyle, onDisplayMode: this.setDisplayMode, onTitleSet: this.onDraftSettingField('title'), onSubtitleSet: this.onDraftSettingField('subtitle'), onFooterSet: this.onDraftSettingField('footer'),
-      showWelcomeCard: !cnPrefix, cloudSyncCode: this.state.cloudSyncCode || '', hasCloudCode: !!this.state.cloudSyncCode, noCloudCode: !this.state.cloudSyncCode, hasCloudStatus: !!this.state.cloudStatus, cloudStatus: this.state.cloudStatus || '', copyCloudCode: this.copyCloudCode, cloudCodeInput: this.state.cloudCodeInput || '', onCloudCodeInput: this.onCloudCodeInput, createCloudCollection: this.createCloudCollection, connectCloudCollection: this.connectCloudCollection, pushCloud: this.pushCloud, pullCloud: this.pullCloud, mergeCloudAndLocal: this.mergeCloudAndLocal, mobileCloudSync: this.mobileCloudSync, checkCloudVersion: this.checkCloudVersion, disconnectCloud: this.disconnectCloud, hasCloudSync: !!this.state.cloudSyncId, accountCloudTitle: this.state.cloudSyncId ? '账号收藏库已连接' : '正在建立账号收藏库', cloudSyncText: this.state.cloudStatus || (this.state.cloudSyncId ? '账号云端已连接。' : '账号云端未连接。'), cloudPageOpen: this.state.cloudPageOpen, openCloudPage: this.openCloudPage, closeCloudPage: this.closeCloudPage, goCloudOrSettings: this.goCloudOrSettings,
+      showWelcomeCard: (this.state.items || []).length <= 2, cloudSyncCode: this.state.cloudSyncCode || '', hasCloudCode: !!this.state.cloudSyncCode, noCloudCode: !this.state.cloudSyncCode, hasCloudStatus: !!this.state.cloudStatus, cloudStatus: this.state.cloudStatus || '', copyCloudCode: this.copyCloudCode, cloudCodeInput: this.state.cloudCodeInput || '', onCloudCodeInput: this.onCloudCodeInput, createCloudCollection: this.createCloudCollection, connectCloudCollection: this.connectCloudCollection, pushCloud: this.pushCloud, pullCloud: this.pullCloud, mergeCloudAndLocal: this.mergeCloudAndLocal, mobileCloudSync: this.mobileCloudSync, checkCloudVersion: this.checkCloudVersion, disconnectCloud: this.disconnectCloud, hasCloudSync: !!this.state.cloudSyncId, accountCloudTitle: this.state.cloudSyncId ? '账号收藏库已连接' : '正在建立账号收藏库', cloudSyncText: this.state.cloudStatus || (this.state.cloudSyncId ? '账号云端已连接。' : '账号云端未连接。'), cloudPageOpen: this.state.cloudPageOpen, openCloudPage: this.openCloudPage, closeCloudPage: this.closeCloudPage, goCloudOrSettings: this.goCloudOrSettings,
       labels, workManageRows, fieldRows, optionGroups, customFieldRows, draftCustomInputs, hasCustomFields: draftCustomFields.length > 0, addCustomField: this.addCustomField, restoreBaseFields: this.restoreBaseFields, migrateSeriesToSet: this.migrateSeriesToSet, migrateSeriesToCustom: this.migrateSeriesToCustom, workSettingGroups, dashboardCollectionRows, dashboardSaleRows, addGroupAlone: this.addGroupAlone, uploadBg: this.uploadBg, clearBg: this.clearBg, hasBg: !!this.bgUrl, addWorkInline: this.addWork,
       addFormOpt: this.addOptionTo('formOrder', 'zzz_form_order', '输入新的形态'), addStatusOpt: this.addOptionTo('statusList', 'zzz_status', '输入新的状态'), addAcquireOpt: this.addOptionTo('acquireOrder', 'zzz_acquire_order', '输入新的来源方式'), formMenuItems, formDisplay, formMenuOpen: this.state.formMenuOpen, toggleFormMenu: this.toggleFormMenu, statusMenuItems, statusDisplay, statusMenuOpen: this.state.statusMenuOpen, toggleStatusMenu: this.toggleStatusMenu, acquireMenuItems, acquireDisplay, acquireMenuOpen: this.state.acquireMenuOpen, toggleAcquireMenu: this.toggleAcquireMenu, methodMenuItems, methodDisplay, methodMenuOpen: this.state.methodMenuOpen, toggleMethodMenu: this.toggleMethodMenu, clearMethod: this.clearMethod, hasMethodItems: methodMenuItems.length > 0,
       lblCharacter: labels.character, lblType: labels.type, lblChannel: labels.channel, lblPurchaseChannel: labels.purchaseChannel, lblSeries: labels.series, lblStatus: labels.status, lblForm: labels.form, lblAcquire: labels.acquire, showReminderFields, reminderDateLabel, reminderDateHint,
