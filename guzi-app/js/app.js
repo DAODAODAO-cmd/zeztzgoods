@@ -1515,12 +1515,9 @@ class Component extends DCLogic {
   };
   onMoneyKeyDown = (e) => { if (e.key === 'Enter') { e.preventDefault && e.preventDefault(); e.target.blur(); } };
   fmt(n) { return (Math.round(n * 100) / 100).toLocaleString('zh-CN'); }
-  // 大额金额缩写：万位以下照常显示，超过 1 万用「万」、超过 1 亿用「亿」，避免长数字撑成两行
+  // 金额统一显示完整数字和千位分隔符，不使用「万 / 亿」缩写
   fmtBig(n) {
     const v = Math.round((Number(n) || 0) * 100) / 100;
-    const abs = Math.abs(v);
-    if (abs >= 1e8) return (Math.round(v / 1e8 * 100) / 100).toLocaleString('zh-CN') + '亿';
-    if (abs >= 1e4) return (Math.round(v / 1e4 * 100) / 100).toLocaleString('zh-CN') + '万';
     return this.fmt(v);
   }
   heldSince(d) { if (!d) return ''; const t = new Date(d + 'T00:00:00').getTime(); if (isNaN(t)) return ''; const days = Math.floor((Date.now() - t) / 86400000); if (days < 0) return ''; if (days === 0) return '今天入手'; if (days < 30) return '已持有 ' + days + ' 天'; if (days < 365) { const m = Math.floor(days / 30); return '已持有 ' + m + ' 个月'; } const y = Math.floor(days / 365), rm = Math.floor((days % 365) / 30); return '已持有 ' + y + ' 年' + (rm ? rm + ' 个月' : ''); }

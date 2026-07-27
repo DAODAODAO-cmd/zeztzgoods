@@ -22,12 +22,12 @@
     if (pre) pre.textContent = error && error.message ? error.message : String(error);
   }
 
-  Promise.all([loadText('./guzi-app/templates/template.html'), loadText('./guzi-app/js/app.js')])
+  Promise.all([loadText('./guzi-app/templates/template.html?v=20260727-full-money-1'), loadText('./guzi-app/js/app.js?v=20260727-full-money-1')])
     .then(function (parts) {
       templateNode.innerHTML = parts[0];
       logicNode.textContent = parts[1];
       var support = document.createElement('script');
-      support.src = './guzi-app/js/support.js';
+      support.src = './guzi-app/js/support.js?v=20260727-full-money-1';
       support.onerror = function () { showError(new Error('support.js 加载失败')); };
       document.head.appendChild(support);
     })
