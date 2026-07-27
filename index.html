@@ -3295,7 +3295,7 @@ class Component extends DCLogic {
     try {
       const { data } = await this.sb.auth.getSession();
       const user = data && data.session ? data.session.user : null;
-      if (user) { this.setState({ authReady: true, authUser: user }); await this.onAuthedUser(user); }
+      if (user) { this.setState({ authReady: true, authUser: user }); await this.onAuthedUser(user); await this.logAccountEvent('session_restored', user); }
       else { this.setState({ authReady: true, authUser: null }); }
     } catch (e) { this.setState({ authReady: true, authUser: null }); }
     finally { clearTimeout(failSafe); }
@@ -3368,6 +3368,7 @@ class Component extends DCLogic {
       try { localStorage.setItem('zzz_cloud_code', code); } catch (e) {}
       await this.onAuthedUser(user);
       this.setState({ authBusy: false, authUser: user, authPassword: '', authPassword2: '' });
+      await this.logAccountEvent('register_success', user);
     } catch (e) { this.setState({ authBusy: false, authError: '注册失败：' + ((e && e.message) || e) }); }
   };
   doLogin = async () => {
@@ -3381,17 +3382,45 @@ class Component extends DCLogic {
       if (error) { this.setState({ authBusy: false, authError: '用户名或密码不对' }); return; }
       await this.onAuthedUser(data.user);
       this.setState({ authBusy: false, authUser: data.user, authPassword: '' });
+      await this.logAccountEvent('login_success', data.user);
     } catch (e) { this.setState({ authBusy: false, authError: '登录失败：' + ((e && e.message) || e) }); }
   };
   doLogout = async () => {
     if (!window.confirm('确定退出登录？')) return;
+    await this.logAccountEvent('logout', this.state.authUser);
     try { if (this.sb && this.sb.auth) await this.sb.auth.signOut(); } catch (e) {}
     this.setState({ authUser: null, authUsername: '', authPassword: '', authPassword2: '', authMode: 'login' });
   };
   genSyncCode() { const s = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let c = ''; for (let i = 0; i < 8; i++) c += s[Math.floor(Math.random() * s.length)]; return c; }
   clientUuid() { let id = localStorage.getItem('zzz_client_uuid'); if (!id) { id = (crypto && crypto.randomUUID) ? crypto.randomUUID() : ('u_' + Date.now().toString(36) + Math.random().toString(36).slice(2)); try { localStorage.setItem('zzz_client_uuid', id); } catch (e) {} } return id; }
-  sbMeta() { return { client_uuid: this.clientUuid(), collector_name: (this.state.collectorName || '').slice(0, 40) || null }; }
+  sbMeta() {
+    const user = this.state.authUser || {};
+    const meta = user.user_metadata || {};
+    return {
+      client_uuid: this.clientUuid(),
+      collector_name: (this.state.collectorName || '').slice(0, 40) || null,
+      sync_code: this.shippingSyncCode() || null,
+      auth_user_id: user.id || null,
+      username: String(meta.username || this.state.authUsername || '').slice(0, 80) || null
+    };
+  }
   async logEvent(name, payload) { if (!this.sb) return; try { await this.sb.from('client_events').insert([{ ...this.sbMeta(), event_name: name, payload: payload || {} }]); } catch (e) {} }
+  async logAccountEvent(name, userArg) {
+    if (!this.sb) return;
+    const user = userArg || this.state.authUser || {};
+    const meta = user.user_metadata || {};
+    try {
+      await this.sb.from('client_events').insert([{
+        client_uuid: this.clientUuid(),
+        collector_name: (this.state.collectorName || '').slice(0, 40) || null,
+        sync_code: String(meta.sync_code || this.shippingSyncCode() || '').toUpperCase() || null,
+        auth_user_id: user.id || null,
+        username: String(meta.username || this.state.authUsername || '').slice(0, 80) || null,
+        event_name: name,
+        payload: { source: 'auth', at: new Date().toISOString() }
+      }]);
+    } catch (e) {}
+  }
   async uploadSnapshot(it) {
     if (!this.sb || !it) return;
     const w = this.state.works.find(x => x.id === (it.workId || this.MAIN_WORK)) || {};
