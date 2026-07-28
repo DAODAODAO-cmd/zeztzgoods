@@ -3083,10 +3083,16 @@ class Component extends DCLogic {
     const startGroupBy = 'none';
     const lists = this.loadWorkLists(currentWorkId, items);
     this.charOrder = lists.charOrder;
-    let cloudSyncId = '', cloudSyncCode = '', cloudLastSyncedAt = '';
-    try { cloudSyncId = localStorage.getItem('zzz_cloud_id') || ''; cloudSyncCode = localStorage.getItem('zzz_cloud_code') || ''; cloudLastSyncedAt = localStorage.getItem('zzz_cloud_last_synced_at') || ''; } catch (e) {}
+    let cloudSyncId = '', cloudSyncCode = '', cloudLastSyncedAt = '', cloudLocalModifiedAt = '', cloudPending = false;
+    try {
+      cloudSyncId = localStorage.getItem('zzz_cloud_id') || '';
+      cloudSyncCode = localStorage.getItem('zzz_cloud_code') || '';
+      cloudLastSyncedAt = localStorage.getItem('zzz_cloud_last_synced_at') || '';
+      cloudLocalModifiedAt = localStorage.getItem('zzz_cloud_local_modified_at') || '';
+      cloudPending = localStorage.getItem('zzz_cloud_pending') === '1';
+    } catch (e) {}
     const shippingRecords = [], shippingBatches = [];
-    this.setState({ items, works, currentWorkId, recentWorks, sets, lastSetId, workGroupLabel, title, subtitle, footer, collectorName, shippingRecords, shippingBatches, currency, accent, monthlyBudget, budgets, nameStyleMode, displayMode, dashboardCards, fieldLabels, filterOn, statsOn, batchOn, deletedFields, customFields, customFilterOrder, tableHiddenCols, cloudSyncId, cloudSyncCode, cloudCodeInput: cloudSyncCode || '', cloudLastSyncedAt, mobileMode, filtersOpen: false, groupBy: startGroupBy, view: startView, ...lists }, () => { this.applyThemeVars(); this.applyBg(); });
+    this.setState({ items, works, currentWorkId, recentWorks, sets, lastSetId, workGroupLabel, title, subtitle, footer, collectorName, shippingRecords, shippingBatches, currency, accent, monthlyBudget, budgets, nameStyleMode, displayMode, dashboardCards, fieldLabels, filterOn, statsOn, batchOn, deletedFields, customFields, customFilterOrder, tableHiddenCols, cloudSyncId, cloudSyncCode, cloudCodeInput: cloudSyncCode || '', cloudLastSyncedAt, cloudLocalModifiedAt, cloudPending, mobileMode, filtersOpen: false, groupBy: startGroupBy, view: startView, ...lists }, () => { this.applyThemeVars(); this.applyBg(); if (cloudPending && cloudSyncCode) this.scheduleAutoCloudPush(3000); });
     this.loadImages(items);
     this.loadCharAvatars();
     this.loadLogo();
@@ -3094,9 +3100,19 @@ class Component extends DCLogic {
     this.loadBg();
     this.initSupabase();
     this.checkAuthSession();
+    this.startCloudAutoSync();
     if (cloudSyncCode) setTimeout(() => this.loadShippingFromCloud(cloudSyncCode), 0);
     else setTimeout(() => this.loadLocalShipping(), 0);
     this.logEvent('page_view', { title });
+  }
+  componentWillUnmount() {
+    if (this._autoCloudTimer) clearTimeout(this._autoCloudTimer);
+    if (this._cloudPollTimer) clearInterval(this._cloudPollTimer);
+    if (this._cloudVisibilityHandler && document && document.removeEventListener) document.removeEventListener('visibilitychange', this._cloudVisibilityHandler);
+    if (this._cloudFocusHandler && window && window.removeEventListener) {
+      window.removeEventListener('focus', this._cloudFocusHandler);
+      window.removeEventListener('online', this._cloudFocusHandler);
+    }
   }
   // 每个作品独立的选项列表；主作品沿用旧的无后缀 key 以兼容历史数据
   wkey(base, id) { id = id || this.state.currentWorkId; return id === this.MAIN_WORK ? base : base + '__' + id; }
@@ -3354,7 +3370,17 @@ class Component extends DCLogic {
       const localAt = this.state.cloudLastSyncedAt || (() => { try { return localStorage.getItem('zzz_cloud_last_synced_at') || ''; } catch (e) { return ''; } })();
       if (linked.createdNow) {
         if (remoteAt) { try { localStorage.setItem('zzz_cloud_last_synced_at', remoteAt); } catch (e) {} }
-        this.setState({ initialSyncReady: true, syncConflict: null, cloudPending: false, cloudLastSyncedAt: remoteAt, cloudRemoteUpdatedAt: remoteAt, cloudStatus: '账号云端已建立并完成首次同步' + warning + '。' });
+        this.persistCloudPending(false);
+        this.setState({ initialSyncReady: true, syncConflict: null, cloudPending: false, cloudLocalModifiedAt: '', cloudLastSyncedAt: remoteAt, cloudRemoteUpdatedAt: remoteAt, cloudStatus: '账号云端已建立并完成首次同步' + warning + '。' });
+        return;
+      }
+      const hasPending = this.state.cloudPending || this.cloudPendingStored();
+      const localModifiedAt = this.cloudLocalModifiedTime();
+      if (hasPending) {
+        const localChangeIsNewer = !remoteAt || (localModifiedAt && new Date(localModifiedAt).getTime() >= new Date(remoteAt).getTime() - 1000);
+        this.setState({ initialSyncReady: true, syncConflict: null, cloudPending: true, cloudRemoteUpdatedAt: remoteAt });
+        if (localChangeIsNewer) await this.pushCloud(true);
+        else await this.pullCloud(true);
         return;
       }
       const remoteNewer = remoteAt && (!localAt || new Date(remoteAt).getTime() > new Date(localAt).getTime() + 1000);
@@ -3365,7 +3391,7 @@ class Component extends DCLogic {
         this.setState({ initialSyncReady: true, cloudPending: false });
         return;
       }
-      this.setState({ initialSyncReady: true, syncConflict: null, cloudStatus: '账号云端已连接，自动同步已开启' + warning + '。', cloudPending: false, cloudRemoteUpdatedAt: remoteAt || localAt });
+      this.setState({ initialSyncReady: true, syncConflict: null, cloudStatus: '账号云端已连接，跨设备自动同步已开启' + warning + '。', cloudPending: false, cloudRemoteUpdatedAt: remoteAt || localAt });
     } catch (e) {
       this.setState({ initialSyncReady: false, cloudStatus: '账号已登录，但云端连接失败：' + ((e && e.message) || e) });
     }
@@ -3669,10 +3695,64 @@ class Component extends DCLogic {
       this.setState({ cloudBusy: false, cloudPending: true, cloudStatus: '合并失败：' + ((e && e.message) || e) });
     }
   };
+  cloudPendingStored() {
+    try { return localStorage.getItem('zzz_cloud_pending') === '1'; } catch (e) { return false; }
+  }
+  cloudLocalModifiedTime() {
+    try { return this.state.cloudLocalModifiedAt || localStorage.getItem('zzz_cloud_local_modified_at') || ''; } catch (e) { return this.state.cloudLocalModifiedAt || ''; }
+  }
+  persistCloudPending(pending, modifiedAt = '') {
+    try {
+      if (pending) {
+        localStorage.setItem('zzz_cloud_pending', '1');
+        if (modifiedAt) localStorage.setItem('zzz_cloud_local_modified_at', modifiedAt);
+      } else {
+        localStorage.removeItem('zzz_cloud_pending');
+        localStorage.removeItem('zzz_cloud_local_modified_at');
+      }
+    } catch (e) {}
+  }
   markCloudPending = (message = '') => {
     if (!this.state.cloudSyncCode && !localStorage.getItem('zzz_cloud_code')) return;
-    this.setState({ cloudPending: true, cloudStatus: message || '本机有未上传的修改。请完成整理后手动上传到云端。' });
+    const modifiedAt = new Date().toISOString();
+    this.persistCloudPending(true, modifiedAt);
+    this.setState({ cloudPending: true, cloudLocalModifiedAt: modifiedAt, cloudStatus: message || '本机修改将在几秒内自动同步到云端。' }, () => this.scheduleAutoCloudPush());
   };
+  startCloudAutoSync() {
+    if (this._cloudSyncStarted) return;
+    this._cloudSyncStarted = true;
+    this._cloudVisibilityHandler = () => {
+      if (document.visibilityState === 'visible') this.checkRemoteAutoSync();
+      else this.flushPendingCloudSync();
+    };
+    this._cloudFocusHandler = () => this.checkRemoteAutoSync();
+    if (document && document.addEventListener) document.addEventListener('visibilitychange', this._cloudVisibilityHandler);
+    if (window && window.addEventListener) {
+      window.addEventListener('focus', this._cloudFocusHandler);
+      window.addEventListener('online', this._cloudFocusHandler);
+    }
+    this._cloudPollTimer = setInterval(() => this.checkRemoteAutoSync(), 15000);
+  }
+  flushPendingCloudSync() {
+    const pending = this.state.cloudPending || this.cloudPendingStored();
+    if (pending && !this.state.cloudBusy && this.cloudReady()) {
+      try { this.pushCloud(true); } catch (e) {}
+    }
+  }
+  async checkRemoteAutoSync() {
+    const code = String(this.state.cloudSyncCode || localStorage.getItem('zzz_cloud_code') || '').trim().toUpperCase();
+    if (!code || !this.state.authUser || !this.state.initialSyncReady || this.state.cloudBusy || this.state.cloudPending || this.cloudPendingStored() || !this.cloudReady()) return;
+    if (typeof document !== 'undefined' && document.visibilityState === 'hidden') return;
+    try {
+      const remote = (await this.findCloudCollectionByCode(code, 'id,sync_code,updated_at')).row;
+      if (!remote) return;
+      const remoteAt = remote.updated_at || '';
+      const localAt = this.state.cloudLastSyncedAt || localStorage.getItem('zzz_cloud_last_synced_at') || '';
+      if (remoteAt && (!localAt || new Date(remoteAt).getTime() > new Date(localAt).getTime() + 1000)) {
+        await this.pullCloud(true);
+      }
+    } catch (e) {}
+  }
   fmtCloudTime(v) {
     if (!v) return '未知';
     const d = new Date(v);
@@ -3764,12 +3844,17 @@ class Component extends DCLogic {
         const syncedAt0 = (created && created.updated_at) || now0;
         try { localStorage.setItem('zzz_cloud_id', created ? created.id : ''); localStorage.setItem('zzz_cloud_code', code); localStorage.setItem('zzz_cloud_last_synced_at', syncedAt0); } catch (e) {}
         await this.uploadCollectionSummary(code);
-        this.setState({ cloudSyncId: created ? created.id : '', cloudSyncCode: code, cloudCodeInput: code, cloudStatus: '已创建云端收藏库并上传，共 ' + ((this.state.items || []).length) + ' 件谷子。同步时间：' + this.fmtCloudTime(syncedAt0), cloudBusy: false, cloudPending: false, cloudLastSyncedAt: syncedAt0, cloudRemoteUpdatedAt: syncedAt0, syncConflict: null, initialSyncReady: true });
+        this.persistCloudPending(false);
+        this.setState({ cloudSyncId: created ? created.id : '', cloudSyncCode: code, cloudCodeInput: code, cloudStatus: '已创建云端收藏库并上传，共 ' + ((this.state.items || []).length) + ' 件谷子。同步时间：' + this.fmtCloudTime(syncedAt0), cloudBusy: false, cloudPending: false, cloudLocalModifiedAt: '', cloudLastSyncedAt: syncedAt0, cloudRemoteUpdatedAt: syncedAt0, syncConflict: null, initialSyncReady: true });
         return;
       }
       const localSyncedAt = this.state.cloudLastSyncedAt || localStorage.getItem('zzz_cloud_last_synced_at') || '';
       const remoteAt = remote.updated_at || '';
-      // 冲突弹窗已移除：不论自动还是手动，云端较新时都直接以本机为准覆盖
+      const localModifiedAt = this.cloudLocalModifiedTime();
+      if (auto && !forceOverwrite && remoteAt && localModifiedAt && new Date(remoteAt).getTime() > new Date(localModifiedAt).getTime() + 1000) {
+        await this.pullCloud(true);
+        return;
+      }
       const imgSync = await this.syncCloudImagesForItems(this.state.items || []);
       const now = new Date().toISOString();
       const payload = { client_uuid: this.clientUuid(), cn: this.state.collectorName || null, title: this.state.title || null, data: this.cloudSnapshot(imgSync.map), updated_at: now };
@@ -3782,10 +3867,13 @@ class Component extends DCLogic {
       localStorage.setItem('zzz_cloud_last_synced_at', syncedAt);
       await this.uploadCollectionSummary(code);
       const imageTip = imgSync.failed ? '；有 ' + imgSync.failed + ' 张图片上传失败' : '';
-      this.setState({ cloudSyncId: data[0].id, cloudSyncCode: data[0].sync_code, cloudCodeInput: data[0].sync_code, cloudStatus: (auto ? '已自动上传到云端（停手 5 分钟触发），共 ' : '已手动上传到云端，共 ') + ((this.state.items || []).length) + ' 件谷子' + imageTip + '。同步时间：' + this.fmtCloudTime(syncedAt), cloudBusy: false, cloudPending: false, cloudLastSyncedAt: syncedAt, cloudRemoteUpdatedAt: syncedAt, syncConflict: null, initialSyncReady: true });
+      this.persistCloudPending(false);
+      this.setState({ cloudSyncId: data[0].id, cloudSyncCode: data[0].sync_code, cloudCodeInput: data[0].sync_code, cloudStatus: (auto ? '已自动同步到云端，共 ' : '已手动上传到云端，共 ') + ((this.state.items || []).length) + ' 件谷子' + imageTip + '。同步时间：' + this.fmtCloudTime(syncedAt), cloudBusy: false, cloudPending: false, cloudLocalModifiedAt: '', cloudLastSyncedAt: syncedAt, cloudRemoteUpdatedAt: syncedAt, syncConflict: null, initialSyncReady: true });
     } catch (e) {
       console.error('pushCloud failed:', e);
-      this.setState({ cloudStatus: (auto ? '自动上传失败（稍后会再尝试）：' : '上传失败：') + ((e && e.message) || e), cloudBusy: false, cloudPending: true });
+      const modifiedAt = this.cloudLocalModifiedTime() || new Date().toISOString();
+      this.persistCloudPending(true, modifiedAt);
+      this.setState({ cloudStatus: (auto ? '自动上传失败（稍后会再尝试）：' : '上传失败：') + ((e && e.message) || e), cloudBusy: false, cloudPending: true, cloudLocalModifiedAt: modifiedAt }, () => this.scheduleAutoCloudPush(30000));
     }
   };
   pullCloud = async (forceReplace) => {
@@ -3813,13 +3901,14 @@ class Component extends DCLogic {
       await this.applyCloudSnapshot(data.data || {});
       await this.loadShippingFromCloud(data.sync_code);
       const itemCount = Array.isArray(data.data && data.data.items) ? data.data.items.length : 0;
-      this.setState({ cloudSyncId: data.id, cloudSyncCode: data.sync_code, cloudCodeInput: data.sync_code, cloudStatus: '已读取云端，共 ' + itemCount + ' 件谷子。云端时间：' + this.fmtCloudTime(syncedAt), cloudBusy: false, cloudPending: false, cloudLastSyncedAt: syncedAt, cloudRemoteUpdatedAt: syncedAt, syncConflict: null, syncConflictChoice: '', initialSyncReady: true });
+      this.persistCloudPending(false);
+      this.setState({ cloudSyncId: data.id, cloudSyncCode: data.sync_code, cloudCodeInput: data.sync_code, cloudStatus: '已自动读取云端，共 ' + itemCount + ' 件谷子。云端时间：' + this.fmtCloudTime(syncedAt), cloudBusy: false, cloudPending: false, cloudLocalModifiedAt: '', cloudLastSyncedAt: syncedAt, cloudRemoteUpdatedAt: syncedAt, syncConflict: null, syncConflictChoice: '', initialSyncReady: true });
     } catch (e) {
       console.error('pullCloud failed:', e);
       this.setState({ cloudStatus: '读取失败：' + ((e && e.message) || e), cloudBusy: false, syncConflictChoice: '' });
     }
   };
-  disconnectCloud = () => { try { localStorage.removeItem('zzz_cloud_id'); localStorage.removeItem('zzz_cloud_code'); localStorage.removeItem('zzz_cloud_last_synced_at'); } catch(e) {} this.setState({ cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '已退出云同步，本地数据仍保留。', cloudPending: false, cloudLastSyncedAt: '', cloudRemoteUpdatedAt: '' }); };
+  disconnectCloud = () => { try { localStorage.removeItem('zzz_cloud_id'); localStorage.removeItem('zzz_cloud_code'); localStorage.removeItem('zzz_cloud_last_synced_at'); } catch(e) {} this.persistCloudPending(false); this.setState({ cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '已退出云同步，本地数据仍保留。', cloudPending: false, cloudLocalModifiedAt: '', cloudLastSyncedAt: '', cloudRemoteUpdatedAt: '' }); };
   copyCloudCode = async () => { const code = (this.state.cloudSyncCode || this.state.cloudCodeInput || '').trim(); if (!code) { this.setState({ cloudStatus: '还没有同步代码，先生成一个吧。' }); return; } try { await navigator.clipboard.writeText(code); this.setState({ cloudStatus: '已复制同步代码：' + code }); } catch(e) { window.prompt('复制这串同步代码：', code); } };
   clearAllData = async () => {
     const count = (this.state.items || []).length;
@@ -4430,9 +4519,17 @@ class Component extends DCLogic {
   dataURLToBlob(d) { const [m, b64] = d.split(','); const mime = (m.match(/:(.*?);/) || [])[1] || 'image/png'; const bin = atob(b64); const arr = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i); return new Blob([arr], { type: mime }); }
 
   // ---- persistence ----
-  commit(items) { try { localStorage.setItem('zzz_goods_v1', JSON.stringify(items)); } catch (e) {} const hasCode = !!(this.state.cloudSyncCode || localStorage.getItem('zzz_cloud_code')); this.setState({ items, savedAt: Date.now(), cloudPending: hasCode, cloudStatus: hasCode ? '本机有未上传的修改。停手 5 分钟会自动上传，也可以随时手动上传。' : this.state.cloudStatus }); this.scheduleAutoCloudPush(); }
-  // 停手 5 分钟自动上传：每次改动都重置计时，连续 5 分钟没有新改动才真正上传（需已连接同步代码）
-  scheduleAutoCloudPush() {
+  commit(items) {
+    try { localStorage.setItem('zzz_goods_v1', JSON.stringify(items)); } catch (e) {}
+    const hasCode = !!(this.state.cloudSyncCode || localStorage.getItem('zzz_cloud_code'));
+    const modifiedAt = new Date().toISOString();
+    if (hasCode) this.persistCloudPending(true, modifiedAt);
+    this.setState({ items, savedAt: Date.now(), cloudPending: hasCode, cloudLocalModifiedAt: hasCode ? modifiedAt : '', cloudStatus: hasCode ? '已保存，正在自动同步…' : this.state.cloudStatus }, () => {
+      if (hasCode) this.scheduleAutoCloudPush();
+    });
+  }
+  // 停止编辑数秒后自动上传；连续修改会重置计时，避免每输入一次就发起请求
+  scheduleAutoCloudPush(delay = 8000) {
     const hasCode = !!(this.state.cloudSyncCode || localStorage.getItem('zzz_cloud_code'));
     if (!hasCode) return;
     if (this._autoCloudTimer) clearTimeout(this._autoCloudTimer);
@@ -4442,7 +4539,7 @@ class Component extends DCLogic {
       if (this.state.cloudPending && !this.state.cloudBusy) {
         try { this.pushCloud(true); } catch (e) {}
       }
-    }, 5 * 60 * 1000);
+    }, Math.max(1000, Number(delay) || 8000));
   }
 
   // ---- helpers ----
@@ -4794,8 +4891,8 @@ class Component extends DCLogic {
       const remove = new Set(ids.filter(id => !saved.has(id)));
       if (remove.size) {
         const items = (this.state.items || []).filter(x => !remove.has(x.id));
-        try { localStorage.setItem('zzz_goods_v1', JSON.stringify(items)); } catch (e) {}
-        this.setState({ items, savedAt: Date.now(), cloudPending: !!(this.state.cloudSyncCode || localStorage.getItem('zzz_cloud_code')), cloudStatus: (this.state.cloudSyncCode || localStorage.getItem('zzz_cloud_code')) ? '本机有未上传的修改。请完成整理后手动上传到云端。' : this.state.cloudStatus, modalOpen: false, draft: null, editing: null, bulkEditIds: [], bulkEditIndex: 0 });
+        this.commit(items);
+        this.setState({ modalOpen: false, draft: null, editing: null, bulkEditIds: [], bulkEditIndex: 0 });
         this.bulkSavedIds = new Set();
         return;
       }
