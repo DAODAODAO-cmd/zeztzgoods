@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>谷子收纳</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
-<meta name="app-version" content="20260801-compact-set-net-cost-fix-18">
+<meta name="app-version" content="20260801-status-menu-label-fix-20">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
@@ -3267,6 +3267,10 @@ class Component extends DCLogic {
   }
   normalizeItemData(it) { return this.normalizeItemFees(this.normalizeItemLifecycle(it)); }
   statusText(v) { return this.normalizeStatus(v); }
+  statusMenuText(v) {
+    const s = this.normalizeStatus(v);
+    return s === '已排单' ? '已排单 · 未肾' : (s === '空气谷' ? '空气谷 · 已肾' : s);
+  }
   statusIconPath(v) { return this.STATUS_ICON_PATH[this.normalizeStatus(v)] || this.STATUS_ICON_PATH['已排单']; }
   progressColor(v) { const colors=['#7c5cd6','#2f7fd0','#d14a86','#d9701f','#159a86','#8a62b8','#4f7fbd','#b75d7a']; const s=String(v||''); let h=0; for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))>>>0; return colors[h%colors.length]; }
 
@@ -7022,8 +7026,8 @@ class Component extends DCLogic {
     const formDisplay = dForm || '选择形态';
     const dStatus = this.normalizeStatus(this.state.draft ? (this.state.draft.status || '') : '');
     const normalizedDraftStatus = dStatus;
-    const statusMenuItems = [...this.STATUSES.map(c => ({ name:this.statusText(c), onPick:this.pickStatus(c), rowStyle:this.menuRow(normalizedDraftStatus===c && !(this.state.draft&&this.state.draft.progressStatus)) })), ...progressStatusOptions.map(c=>({name:c,onPick:this.pickProgressStatus(c),rowStyle:this.menuRow((this.state.draft&&this.state.draft.progressStatus)===c)}))];
-    const statusDisplay = (this.state.draft&&this.state.draft.progressStatus) ? ('空气谷 · '+this.state.draft.progressStatus) : (dStatus ? this.statusText(dStatus) : '选择状态');
+    const statusMenuItems = [...this.STATUSES.map(c => ({ name:this.statusMenuText(c), onPick:this.pickStatus(c), rowStyle:this.menuRow(normalizedDraftStatus===c && !(this.state.draft&&this.state.draft.progressStatus)) })), ...progressStatusOptions.map(c=>({name:c,onPick:this.pickProgressStatus(c),rowStyle:this.menuRow((this.state.draft&&this.state.draft.progressStatus)===c)}))];
+    const statusDisplay = (this.state.draft&&this.state.draft.progressStatus) ? (this.statusMenuText('空气谷')+' · '+this.state.draft.progressStatus) : (dStatus ? this.statusMenuText(dStatus) : '选择状态');
     const arrivedState = dStatus === '已归家';
     const soldState = dStatus === '已出物';
     const showReminderFields = !!dStatus && !arrivedState && !soldState;
