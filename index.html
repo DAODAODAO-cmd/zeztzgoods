@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>谷子收纳</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
-<meta name="app-version" content="20260801-mobile-layer-order-fix-17">
+<meta name="app-version" content="20260801-compact-set-net-cost-fix-18">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
@@ -1670,17 +1670,7 @@
     <sc-if value="{{ isGallery }}" hint-placeholder-val="{{ true }}">
       <div class="ui-gallery-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:15px">
         <sc-for list="{{ displayRows }}" as="row" hint-placeholder-count="4">
-          <sc-if value="{{ row.collapsed }}" hint-placeholder-val="{{ false }}">
-            <div onClick="{{ row.onToggleCollapse }}" style="cursor:pointer;aspect-ratio:1/1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;background:linear-gradient(150deg,#eee9f8,#f5f2fc);border:1px solid #ded7ee;border-radius:16px;padding:14px;text-align:center">
-              <sc-if value="{{ row.headerHasImg }}" hint-placeholder-val="{{ false }}"><div style="{{ row.headerImgG }}"></div></sc-if>
-              <sc-if value="{{ row.headerNoImg }}" hint-placeholder-val="{{ true }}">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent,#ff3355)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7.5a2 2 0 0 1 2-2h4.5l1.8 2H19a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-11z"/></svg>
-              </sc-if>
-              <span style="font-weight:700;font-size:13.5px;color:#251d49;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ row.label }}</span>
-              <span style="font-size:11.5px;color:#837da4">{{ row.countText }}</span>
-            </div>
-          </sc-if>
-          <sc-if value="{{ row.expanded }}" hint-placeholder-val="{{ false }}">
+          <sc-if value="{{ row.isHeader }}" hint-placeholder-val="{{ false }}">
             <div class="ui-group-section-head" style="grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:6px;padding:11px 15px;background:linear-gradient(120deg,#eee9f8,#f5f2fc);border:1px solid #ded7ee;border-left:3px solid var(--accent,#ff3355);border-radius:11px">
               <div style="display:flex;align-items:center;gap:10px;min-width:0">
                 <sc-if value="{{ row.headerHasImg }}" hint-placeholder-val="{{ false }}"><div style="{{ row.headerImgG }}"></div></sc-if>
@@ -7496,31 +7486,39 @@ class Component extends DCLogic {
     // 分组：把同类（同角色的人脸+皮套）合并成一组分区显示
     let displayRows = itemRows;
     if (groupBySafe !== 'none') {
-      const keyf = groupBySafe === 'set' ? (i => i.setName ? (i.setName + (i.setVariant ? ' ' + i.setVariant : '')) : '未归类套装') : groupBySafe === 'character' ? (i => i.character || '未分类') : groupBySafe === 'type' ? (i => i.type || '未分类') : groupBySafe === 'series' ? (i => i.series || '未分类') : groupBySafe === 'form' ? (i => (i.form && i.form !== '通用') ? i.form : '通用') : groupBySafe === 'status' ? (i => i.status || '未分类') : groupBySafe === 'acquire' ? (i => i.acquire || '未分类') : groupBySafe === 'method' ? (i => i.method || '未分类') : groupBySafe === 'channel' ? (i => i.channel || '未分类') : groupBySafe === 'purchaseChannel' ? (i => i.purchaseChannel || '未分类') : groupBySafe === 'tags' ? (i => (i.tags && i.tags.length) ? i.tags.join('、') : '未分类') : groupBySafe === 'rarity' ? (i => (i.rarity && i.rarity.length) ? i.rarity.join('、') : '未分类') : groupBySafe === 'work' ? (i => workOfItem(i).name || '未命名作品') : groupBySafe === 'workGroup' ? (i => workOfItem(i).group || this.DEFAULT_GROUP) : groupBySafe && groupBySafe.indexOf('custom:') === 0 ? (i => (i.custom && i.custom[groupBySafe.slice(7)]) || '未分类') : (i => '未分类');
+      const keyf = groupBySafe === 'set' ? (i => i.setName || '未归类套装') : groupBySafe === 'character' ? (i => i.character || '未分类') : groupBySafe === 'type' ? (i => i.type || '未分类') : groupBySafe === 'series' ? (i => i.series || '未分类') : groupBySafe === 'form' ? (i => (i.form && i.form !== '通用') ? i.form : '通用') : groupBySafe === 'status' ? (i => i.status || '未分类') : groupBySafe === 'acquire' ? (i => i.acquire || '未分类') : groupBySafe === 'method' ? (i => i.method || '未分类') : groupBySafe === 'channel' ? (i => i.channel || '未分类') : groupBySafe === 'purchaseChannel' ? (i => i.purchaseChannel || '未分类') : groupBySafe === 'tags' ? (i => (i.tags && i.tags.length) ? i.tags.join('、') : '未分类') : groupBySafe === 'rarity' ? (i => (i.rarity && i.rarity.length) ? i.rarity.join('、') : '未分类') : groupBySafe === 'work' ? (i => workOfItem(i).name || '未命名作品') : groupBySafe === 'workGroup' ? (i => workOfItem(i).group || this.DEFAULT_GROUP) : groupBySafe && groupBySafe.indexOf('custom:') === 0 ? (i => (i.custom && i.custom[groupBySafe.slice(7)]) || '未分类') : (i => '未分类');
       const map = {};
       filtered.forEach(it => {
         const e = this.enrich(it); const k = keyf(it);
-        map[k] = map[k] || { label: k, count: 0, qty: 0, keptCount: 0, keptQty: 0, keptCost: 0, soldCount: 0, soldQty: 0, soldCost: 0, soldRevenue: 0, soldProfit: 0, hasSold: false, ids: [] };
+        map[k] = map[k] || { label: k, count: 0, qty: 0, totalCost: 0, keptCount: 0, keptQty: 0, keptCost: 0, soldCount: 0, soldQty: 0, soldCost: 0, soldRevenue: 0, soldProfit: 0, hasSold: false, ids: [] };
         const m = map[k];
-        m.count++; m.qty += e.qty;
+        m.count++; m.qty += e.qty; m.totalCost += e.cost;
         if (e.sold) { m.soldCount++; m.soldQty += e.qty; m.soldCost += e.cost; m.soldRevenue += e.revenue; m.soldProfit += e.profit; m.hasSold = true; }
         else { m.keptCount++; m.keptQty += e.qty; m.keptCost += e.cost; }
         m.ids.push(it.id);
       });
-      const groups = Object.values(map).sort((a, b) => (b.keptCost + b.soldCost) - (a.keptCost + a.soldCost));
+      const groups = Object.values(map).sort((a, b) => b.totalCost - a.totalCost);
       displayRows = [];
       groups.forEach(gp => {
         const groupKey = groupBySafe + '::' + gp.label;
         const savedCollapsed = this.state.collapsedGroups || {};
         const collapsed = Object.prototype.hasOwnProperty.call(savedCollapsed, groupKey) ? !!savedCollapsed[groupKey] : true;
+        const netSelfCost = gp.totalCost - gp.soldRevenue;
+        const selfCostText = gp.keptQty > 0
+          ? (netSelfCost >= 0
+              ? ('自留成本 ' + cur + this.fmt(netSelfCost) + ' · 每件 ' + cur + this.fmt(netSelfCost / gp.keptQty))
+              : ('已回本 +' + cur + this.fmt(Math.abs(netSelfCost)) + ' · 自留 ' + gp.keptQty + ' 件'))
+          : (netSelfCost > 0
+              ? ('已全部出物 · 亏损 ' + cur + this.fmt(netSelfCost))
+              : (netSelfCost < 0 ? ('已全部出物 · 盈利 +' + cur + this.fmt(Math.abs(netSelfCost))) : '已全部出物 · 已回本'));
         displayRows.push({
           isHeader: true, isItem: false, id: 'hd_' + gp.label, collapsed, expanded: !collapsed, onToggleCollapse: () => this.toggleGroupCollapse(groupKey), caret: collapsed ? '▸' : '▾',
           headerHasImg: groupBySafe === 'character' && !!this.charImg(gp.label), headerNoImg: !(groupBySafe === 'character' && !!this.charImg(gp.label)), headerImgG: { width: '30px', height: '30px', borderRadius: '50%', backgroundImage: `url(${this.charImg(gp.label)})`, backgroundSize: 'cover', backgroundPosition: 'center', border: '1px solid #d4cee7', flexShrink: 0 }, headerImgT: { width: '26px', height: '26px', borderRadius: '50%', backgroundImage: `url(${this.charImg(gp.label)})`, backgroundSize: 'cover', backgroundPosition: 'center', border: '1px solid #d4cee7', flexShrink: 0 },
           label: gp.label,
           countText: gp.hasSold ? ('留 ' + gp.keptQty + ' 件 · 出 ' + gp.soldQty + ' 件') : (gp.count + ' 项 · ' + gp.qty + ' 件'),
-          costText: (gp.hasSold ? '在手投入 ' : '投入 ') + cur + this.fmt(gp.keptCost),
-          profitText: gp.hasSold ? '已出盈亏 ' + (gp.soldProfit >= 0 ? '+' : '') + cur + this.fmt(gp.soldProfit) : '',
-          profitStyle: { color: gp.hasSold ? (gp.soldProfit >= 0 ? '#12a85f' : '#e23b5d') : '#8b85ab' },
+          costText: gp.hasSold ? selfCostText : ('总成本 ' + cur + this.fmt(gp.totalCost)),
+          profitText: gp.hasSold ? ('已回血 ' + cur + this.fmt(gp.soldRevenue)) : '',
+          profitStyle: { color: gp.hasSold ? '#c8860d' : '#8b85ab' },
           dotStyle: { width: '10px', height: '10px', borderRadius: '50%', flexShrink: 0, background: groupBySafe === 'character' ? `hsl(${this.charHue(gp.label)},70%,62%)` : 'var(--accent,#ff3355)' }
         });
         if (!collapsed) gp.ids.forEach(id => displayRows.push(rowById[id]));
