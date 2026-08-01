@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>谷子收纳</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
-<meta name="app-version" content="20260801-status-menu-label-fix-20">
+<meta name="app-version" content="20260801-desktop-cost-summary-fix-25">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
@@ -13,7 +13,7 @@
 </head>
 <body>
 <x-dc>
-<!-- 谷子收纳 V2.1 Stable 完整版：手机简洁 / 网页完整 / 作品独立角色 / 防误关弹窗 -->
+<!-- 谷子收纳：单文件应用入口 -->
 <helmet>
 <title>谷子收纳</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23ff3355'/%3E%3Cg fill='none' stroke='white' stroke-width='3.5' stroke-linejoin='round' stroke-linecap='round'%3E%3Cpath d='M32 14 L50 23 L32 32 L14 23 Z'/%3E%3Cpath d='M14 23 L14 43 L32 52 L50 43 L50 23'/%3E%3Cpath d='M32 32 L32 52'/%3E%3C/g%3E%3C/svg%3E">
@@ -57,7 +57,7 @@
   ::-webkit-scrollbar-thumb:hover{background:#b3abd2}
   ::-webkit-scrollbar-track{background:transparent}
 
-  /* ===== V24 UI 统一优化 ===== */
+  /* ===== 表单与通用控件 ===== */
   .ui-modal-card input:not([type="file"]):not([type="color"]),
   .ui-modal-card select,
   .ui-modal-card button[style*="width:100%"]{
@@ -186,7 +186,7 @@
     .ui-ship-card{padding:11px !important;}
   }
 
-  /* ===== V25 修复：设置底部按钮固定、新增谷子左右对齐、表格视图改为稳定 div 结构 ===== */
+  /* ===== 设置弹窗、编辑表单与表格布局 ===== */
   .ui-settings-modal{max-height:92dvh !important;display:flex !important;flex-direction:column !important;}
   .ui-settings-modal > div:nth-child(2){flex:1 1 auto !important;min-height:0 !important;overflow-y:auto !important;}
   .ui-settings-modal > .ui-modal-footer{position:sticky !important;bottom:0 !important;flex-shrink:0 !important;margin-top:auto !important;z-index:5 !important;}
@@ -427,7 +427,7 @@
   }
 
 
-  /* ===== V3.1 Final: 钱包与批量编辑稳定布局 ===== */
+  /* ===== 钱包与批量编辑布局 ===== */
   .ui-wallet-main-grid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(280px,.72fr);gap:16px;align-items:stretch}
   .ui-wallet-side{display:grid;grid-template-rows:minmax(0,1fr) auto;gap:16px;min-width:0}
   .ui-wallet-reminder-card{max-height:230px;overflow:auto}
@@ -471,7 +471,7 @@
     .ui-modal-footer{padding-bottom:calc(12px + env(safe-area-inset-bottom)) !important;}
   }
 
-  /* ===== Mobile V32: compact type scale, unified controls and safe viewport ===== */
+  /* ===== 手机端字号、控件与安全区域 ===== */
   .ui-line-icon{width:1.15em;height:1.15em;display:inline-block;vertical-align:-.18em;flex:0 0 auto;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
   .ui-line-icon-sm{width:14px;height:14px;vertical-align:-2px}
   .ui-line-icon-md{width:18px;height:18px}
@@ -527,7 +527,7 @@
     .ui-page-inner{padding-bottom:calc(66px + env(safe-area-inset-bottom)) !important}
   }
 
-  /* ===== Desktop app-shell: left sidebar ===== */
+  /* ===== 电脑端框架与左侧栏 ===== */
   .ui-sidebar{display:none;}
   .ui-sidebar-brand{display:flex;flex-direction:column;align-items:stretch;gap:10px;padding:2px 6px 14px;}
   .ui-sidebar-work{position:relative;margin-bottom:12px;}
@@ -579,7 +579,7 @@
     .ui-page-inner{max-width:1180px !important;}
   }
 
-  /* ===== V4 视觉打磨层 ===== */
+  /* ===== 卡片、统计与交互细节 ===== */
   .ui-stats-grid > div{box-shadow:0 2px 10px rgba(95,68,140,.06);transition:transform .16s,box-shadow .16s;}
   .ui-stats-grid > div:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(95,68,140,.12);}
   .ui-gallery-card{box-shadow:0 2px 10px rgba(95,68,140,.05);}
@@ -593,7 +593,7 @@
   .ui-editable-text{border-radius:6px;transition:background .14s;}
   .ui-editable-text:hover{background:rgba(95,68,140,.06);}
   .ui-stats-grid > div{background:linear-gradient(158deg,#ffffff,#faf8ff)!important;border-color:#ece7f6!important;}
-  /* ===== V5 明亮吃谷风：圆润、轻甜、但不过度堆装饰 ===== */
+  /* ===== 明亮圆润的收藏主题 ===== */
   .ui-app{background:linear-gradient(180deg,var(--accent-bg-a,#fff7fb) 0%,#f7fbff 46%,var(--accent-bg-b,#fff9ef) 100%);}
   .ui-page-inner > div[style*="background"],
   .ui-filters-panel,
@@ -625,7 +625,7 @@
   .ui-sidebar-lib-head::before{content:"";display:inline-block;width:14px;height:14px;margin-right:6px;vertical-align:-2px;background:center/contain no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238b82ab' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'/%3E%3C/svg%3E")}
   .ui-sidebar-ip-label{opacity:.92;}
 
-  /* ===== V6 主题色轻量氛围层：主题跟随，但页面始终保持明亮可读 ===== */
+  /* ===== 跟随主题色的页面背景 ===== */
   .ui-app{
     background:
       radial-gradient(circle at 14% -10%,var(--accent-bg-c,rgba(255,236,246,.9)) 0%,rgba(255,255,255,0) 42%),
@@ -693,6 +693,7 @@
     gap:8px;
     margin-top:6px;
   }
+  .ui-card-cost-mobile-label{display:none}
   .ui-gallery-title-row{display:flex;align-items:flex-start;gap:7px;min-width:0}
   .ui-gallery-title-row .ui-gallery-name{flex:1 1 auto;min-width:0}
   .ui-modal-card input:not([type="file"]):not([type="color"]),
@@ -757,7 +758,7 @@
   .ui-ship-item-summary{font-size:11.5px;line-height:1.55;color:#544f7e;background:#fff;border:1px solid #e8e2f2;border-radius:12px;padding:8px 11px;margin-bottom:10px;white-space:pre-wrap;max-height:120px;overflow-y:auto}
   @media(max-width:800px), (max-width:900px) and (max-height:500px) and (orientation:landscape) and (pointer:coarse){.ui-ship-grid{grid-template-columns:1fr}.ui-ship-checks{grid-template-columns:1fr}.ui-ship-pair{grid-template-columns:1fr}.ui-ship-pair img{height:260px}}
 
-  /* ===== Mobile V33: one compact visual system (UI only) ===== */
+  /* ===== 手机端紧凑视觉统一 ===== */
   @media (max-width:640px), (max-width:900px) and (max-height:500px) and (orientation:landscape) and (pointer:coarse){
     :root{
       --ui-mobile-text:10.5px;
@@ -804,7 +805,7 @@
     .ui-app small,.ui-app .ui-field-hint,.ui-app .ui-filter-help,.ui-app .ui-ledger-subtitle,
     .ui-modal-card small,.ui-settings-modal small{font-size:var(--ui-mobile-help) !important;line-height:1.4 !important}
 
-    /* Keep inline legacy sizes from creating random jumps on phones. */
+    /* 统一历史行内字号，避免手机端局部文字忽大忽小。 */
     .ui-app [style*="font-size:9px"],.ui-app [style*="font-size:9.5px"],
     .ui-app [style*="font-size:10px"],.ui-app [style*="font-size:10.5px"],
     .ui-app [style*="font-size:11px"],.ui-app [style*="font-size:11.5px"]{font-size:var(--ui-mobile-help) !important}
@@ -838,6 +839,7 @@
     .ui-card-meta-line > span,.ui-mobile-card-main > span{min-height:17px !important;max-height:17px !important;padding:1px 5px !important;border-radius:999px !important;font-size:8.5px !important;line-height:1.15 !important;max-width:100% !important;overflow:hidden !important;text-overflow:ellipsis !important}
     .ui-card-meta-line > span > div,.ui-mobile-card-main > span > div{width:12px !important;height:12px !important;margin:0 3px 0 -2px !important}
     .ui-mobile-card-price{padding-top:5px !important;gap:4px !important}
+    .ui-card-cost-mobile-label{display:block !important;font-size:8.5px !important;color:#837da4 !important;white-space:nowrap !important}
     .ui-mobile-card-price [style*="font-size:18px"]{font-size:13px !important}
     .ui-group-badge,.ui-status-badge{top:5px !important;font-size:8px !important;line-height:1.1 !important;padding:2px 4px !important;box-shadow:0 3px 9px rgba(50,38,90,.1) !important}
     .ui-group-badge{left:5px !important}.ui-status-badge{right:5px !important}
@@ -1053,7 +1055,7 @@
     .ui-app button:not(.ui-bottom-tab-add),.ui-modal-card button,.ui-settings-modal button{padding-inline:5px !important}
   }
 
-  /* Compact desktop spacing without changing data or interaction logic. */
+  /* 电脑端紧凑间距；不影响数据与交互逻辑。 */
   .ui-settings-backdrop{z-index:760 !important}
   .ui-manage-backdrop{z-index:780 !important}
   /* 内置确认、输入和日期选择属于嵌套弹窗，必须高于设置及管理层。 */
@@ -1276,7 +1278,7 @@
   </aside>
   <div class="ui-page-inner" style="max-width:1280px;margin:0 auto">
 
-    <!-- ===== HEADER ===== -->
+    <!-- 顶部栏 -->
     <div class="ui-header" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px">
       <div style="display:flex;align-items:center;gap:14px">
         <div onClick="{{ uploadLogo }}" title="点击更换 Logo" style="{{ logoStyle }}"><sc-if value="{{ logoFallback }}" hint-placeholder-val="{{ true }}"><div class="ui-logo-fallback ui-logo-fallback-header"><span><svg class="ui-line-icon ui-line-icon-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5 12 4l8 4.5v7L12 20l-8-4.5zM4 8.5 12 13l8-4.5M12 13v7"/></svg></span></div></sc-if></div>
@@ -1316,7 +1318,7 @@
       </div>
     </sc-if>
 
-    <!-- ===== WORK SWITCH ===== -->
+    <!-- 作品切换 -->
     <div class="ui-work-switch" style="display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;background:linear-gradient(120deg,#ffffff,#f3f0fb);border:1px solid #e3def1;border-radius:14px;padding:11px 15px;margin-bottom:16px">
       <div style="display:flex;align-items:baseline;gap:10px;min-width:0">
         <span style="font-size:11.5px;color:#837da4;background:rgba(50,38,90,.06);padding:3px 9px;border-radius:999px;white-space:nowrap">{{ workGroupName }}</span>
@@ -1344,7 +1346,7 @@
       </div>
     </div>
 
-    <!-- ===== SPENT/PENDING SPLIT NOTICE ===== -->
+    <!-- 当前筛选汇总 -->
     <sc-if value="{{ showSpentSplitNotice }}" hint-placeholder-val="false">
       <div style="display:flex;align-items:flex-start;gap:12px;background:linear-gradient(150deg,#fff7ec,#fff);border:1px solid #f0dcb8;border-radius:14px;padding:14px 16px;margin-bottom:16px">
         <div style="flex:1;min-width:0;font-size:13px;line-height:1.6;color:#4c4580">
@@ -1355,7 +1357,7 @@
       </div>
     </sc-if>
 
-    <!-- ===== STATS ===== -->
+    <!-- 顶部统计 -->
     <div class="ui-stats-grid" style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:13px;margin-bottom:20px">
       <div style="background:linear-gradient(150deg,#ffffff,#ffffff);border:1px solid #e1dbf0;border-radius:16px;padding:16px 18px">
         <div style="font-size:12px;color:#544f7e;margin-bottom:8px">已支出</div>
@@ -1387,7 +1389,7 @@
       </div>
     </div>
 
-    <!-- ===== TOOLBAR ===== -->
+    <!-- 视图与批量操作 -->
     <div class="ui-toolbar" style="display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;background:rgba(255,255,255,.72);border:1px solid #e3def1;border-radius:14px;padding:9px 10px;margin-bottom:14px">
       <div class="ui-group-tabs" style="display:flex;gap:4px;background:rgba(50,38,90,.06);padding:4px;border-radius:11px">
         <sc-for list="{{ groupTabs }}" as="tab" hint-placeholder-count="3">
@@ -1455,7 +1457,7 @@
       <div style="height:6px;background:#eee9f8;border-radius:999px;margin-top:10px;overflow:hidden"><div style="{{ budgetBarStyle }}"></div></div>
     </div>
 
-    <!-- ===== FILTERS ===== -->
+    <!-- 搜索与筛选 -->
     <div class="ui-filters-panel" style="background:rgba(255,255,255,.6);border:1px solid #e3def1;border-radius:14px;padding:14px 16px;margin-bottom:18px;display:flex;flex-direction:column;gap:12px">
       <input value="{{ search }}" onChange="{{ onSearch }}" placeholder="搜索名称 / 角色 / 种类 / 备注…" style="width:100%;padding:10px 13px;border-radius:10px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
       <div class="ui-mobile-filter-cats" style="display:none;gap:6px;overflow-x:auto;padding-bottom:2px">
@@ -1610,7 +1612,7 @@
       </div>
     </sc-if>
 
-    <!-- ===== EMPTY STATE ===== -->
+    <!-- 空数据提示 -->
     <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
       <div style="text-align:center;padding:70px 20px;color:#837da4;background:rgba(255,255,255,.5);border:1px dashed #ded7ee;border-radius:18px">
         <div style="font-size:38px;font-weight:900;color:#ded7ee;letter-spacing:.1em;margin-bottom:14px">スヤスヤ…</div>
@@ -1620,7 +1622,7 @@
       </div>
     </sc-if>
 
-    <!-- ===== GALLERY VIEW ===== -->
+    <!-- 图鉴视图 -->
     <sc-if value="{{ isDashboard }}" hint-placeholder-val="{{ false }}">
       <div class="ui-dashboard-page" style="display:flex;flex-direction:column;gap:16px">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
@@ -1717,9 +1719,9 @@
               </sc-if>
               <div class="ui-mobile-card-price" style="display:flex;align-items:flex-end;justify-content:space-between;gap:8px;margin-top:2px;padding-top:9px;border-top:1px solid rgba(50,38,90,.05)">
                 <div style="min-width:0;overflow:hidden">
-                  <div style="font-size:10px;color:#837da4;white-space:nowrap">总价 · 数量{{ row.qtyText }}</div>
+                  <div class="ui-card-cost-mobile-label">总价 · 数量{{ row.qtyText }}</div>
                   <div style="font-family:'Orbitron';font-weight:700;font-size:18px;color:#251d49;overflow:hidden;text-overflow:ellipsis">{{ row.totalText }}</div>
-                  <sc-if value="{{ row.hasBreakdown }}" hint-placeholder-val="{{ false }}"><div class="ui-card-breakdown" style="font-size:10.5px;color:#938db0;margin-top:1px">{{ row.breakdownText }}</div></sc-if>
+                  <sc-if value="{{ row.hasCostSummary }}" hint-placeholder-val="{{ false }}"><div class="ui-card-breakdown" style="{{ row.costSummaryStyle }}">{{ row.costSummaryText }}</div></sc-if>
                   <sc-if value="{{ row.hasOriginal }}" hint-placeholder-val="{{ false }}"><div class="ui-card-breakdown" style="font-size:10.5px;color:#938db0">原价 {{ row.originalText }}{{ row.channelSuffix }}</div></sc-if>
                   <sc-if value="{{ row.showChannelOnly }}" hint-placeholder-val="{{ false }}"><div class="ui-card-breakdown" style="font-size:10.5px;color:#938db0">{{ row.channelLineText }}</div></sc-if>
                 </div>
@@ -1739,7 +1741,7 @@
       </div>
     </sc-if>
 
-    <!-- ===== TABLE VIEW ===== -->
+    <!-- 表格视图 -->
     <sc-if value="{{ isTable }}" hint-placeholder-val="{{ false }}">
       <div class="ui-table-tools">
         <div style="font-size:12px;color:#837da4">{{ tableColumnSummary }}</div>
@@ -1887,7 +1889,7 @@
       </div>
     </sc-if>
 
-    <!-- ===== CIRCLE (DENSE) VIEW ===== -->
+    <!-- 圆图视图 -->
     <sc-if value="{{ isCircle }}" hint-placeholder-val="{{ false }}">
       <div class="ui-circle-wrap" style="display:flex;flex-wrap:wrap;gap:16px 14px;align-items:flex-start">
         <sc-for list="{{ displayRows }}" as="row" hint-placeholder-count="12">
@@ -1916,7 +1918,7 @@
       </div>
     </sc-if>
 
-    <!-- ===== LEDGER VIEW ===== -->
+    <!-- 钱包视图 -->
     <sc-if value="{{ isLedger }}" hint-placeholder-val="{{ false }}">
       <div class="ui-ledger-page">
         <div class="ui-wallet-header-row" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:linear-gradient(120deg,#ffffff,#f3f0fb);border:1px solid #ded7ee;border-radius:16px;padding:15px 18px">
@@ -2121,7 +2123,7 @@
     </div>
   </div>
 
-  <!-- ===== TOAST ===== -->
+  <!-- 页面消息提示 -->
   <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
     <div style="position:fixed;left:50%;bottom:34px;transform:translateX(-50%);z-index:400;background:linear-gradient(150deg,#fff,#f8f5ff);border:1px solid #e3def1;box-shadow:0 14px 40px rgba(50,38,90,.24);border-radius:14px;padding:13px 22px;font-size:14.5px;font-weight:700;color:#251d49;white-space:nowrap">{{ toast }}</div>
   </sc-if>
@@ -2279,7 +2281,7 @@
     </div>
   </sc-if>
 
-  <!-- ===== MODAL ===== -->
+  <!-- 新增与编辑谷子弹窗 -->
   <sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
     <div class="ui-modal-backdrop" style="position:fixed;inset:0;z-index:330;background:rgba(70,58,110,.32);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);display:flex;align-items:flex-start;justify-content:center;padding:28px 14px;overflow-y:auto;animation:fadein .18s ease">
       <div class="ui-modal-card ui-item-modal" onClick="{{ stop }}" style="width:100%;max-width:720px;max-height:96dvh;display:flex;flex-direction:column;background:linear-gradient(160deg,#ffffff,#f4f1fb);border:1px solid #d6cfe9;border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.5);animation:modalpop .22s cubic-bezier(.2,.8,.3,1);overflow:hidden">
@@ -2880,7 +2882,7 @@
     </div>
   </sc-if>
 
-  <!-- ===== SETTINGS MODAL ===== -->
+  <!-- 设置弹窗 -->
   <sc-if value="{{ dataManageOpen }}" hint-placeholder-val="false">
     <div style="position:fixed;inset:0;z-index:400;background:rgba(70,58,110,.32);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);display:flex;align-items:flex-start;justify-content:center;padding:30px 14px;overflow-y:auto;animation:fadein .18s ease">
       <div class="ui-modal-card" onClick="{{ stop }}" style="width:100%;max-width:620px;background:linear-gradient(160deg,#ffffff,#f4f1fb);border:1px solid #d6cfe9;border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.45);animation:modalpop .22s cubic-bezier(.2,.8,.3,1);overflow:hidden">
@@ -3124,7 +3126,7 @@
       </div>
     </div>
   </sc-if>
-  <!-- ===== MOBILE 我的 面板 ===== -->
+  <!-- 手机端“我的”面板 -->
   <sc-if value="{{ mobileMineOpen }}" hint-placeholder-val="false">
   <div class="ui-mine-sheet" style="position:fixed;inset:0;z-index:340;background:rgba(30,22,54,.4);display:flex;align-items:flex-end" onClick="{{ closeMine }}">
     <div style="width:100%;background:linear-gradient(160deg,#fff,#f5f2fb);border-radius:22px 22px 0 0;padding:8px 16px calc(84px + env(safe-area-inset-bottom));max-height:80dvh;overflow-y:auto" onClick="{{ stop }}">
@@ -3140,7 +3142,7 @@
     </div>
   </div>
   </sc-if>
-  <!-- ===== MOBILE 底部 TAB 栏 ===== -->
+  <!-- 手机端底部导航 -->
   <nav class="ui-bottom-tab">
     <button onClick="{{ tabHome }}" style="{{ tabHomeStyle }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9a1 1 0 0 0 1 1H10v-6h4v6h3.5a1 1 0 0 0 1-1v-9"/></svg><span>首页</span></button>
     <button onClick="{{ tabSearch }}" style="{{ tabSearchStyle }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.3-4.3"/></svg><span>搜索</span></button>
@@ -3520,7 +3522,7 @@ class Component extends DCLogic {
   };
   toggleFiltersOpen = () => this.setState(s => ({ filtersOpen: !s.filtersOpen }));
 
-  // ===== Supabase（云同步、快照与事件）=====
+  // ===== Supabase：账号、云同步、快照与事件 =====
   initSupabase() {
     this.sb = null;
     this.dataSb = null;
@@ -3728,7 +3730,7 @@ class Component extends DCLogic {
     } catch (e) {}
   }
 
-  // ===== 云同步（文字数据 + 配置，图片仍保存在本机）=====
+  // ===== 云同步：收藏资料、设置与图片引用 =====
   loadCloudImageMap() {
     if (this._cloudImageMapLoaded) return this.cloudImageMap || {};
     this._cloudImageMapLoaded = true;
@@ -4377,8 +4379,7 @@ class Component extends DCLogic {
   openShipping=()=>this.setState({shippingOpen:true,shipNotice:'',shippingDraft:this.newShippingDraft(),mobileMineOpen:false},()=>{this.autoPairShipping();if(this.shippingSyncCode())this.loadShippingFromCloud();else this.loadLocalShipping();});
   closeShipping=()=>this.setState({shippingOpen:false});
   closeShipMenus(extra={}){return{shipTypeMenuOpen:false,shipRoleMenuOpen:false,shipStatusMenuOpen:false,shipGroupMenuOpen:false,...extra};}
-  // ==== 通用自定义下拉（替代原生 select，避免 iPhone 弹出系统滚轮）====
-  // 用法：openGenericSelect(title, options:[{value,label}], currentValue, onPickFn)
+  // 通用内置下拉：替代原生 select，避免 iPhone 弹出系统滚轮。
   openGenericSelect = (title, options, current, onPick, ev) => {
     this._genericSelectPick = onPick;
     let anchor = null;
@@ -4400,7 +4401,7 @@ class Component extends DCLogic {
   onShipImageDrop=(e)=>{if(!e)return;e.preventDefault&&e.preventDefault();e.stopPropagation&&e.stopPropagation();if(e.currentTarget&&e.currentTarget.classList)e.currentTarget.classList.remove('ui-drag-active');this.addShipFiles((e.dataTransfer&&e.dataTransfer.files)||[]);};
   clearShipImages=()=>this.setState(st=>({shippingDraft:{...(st.shippingDraft||this.newShippingDraft()),files:[]}}));
   toggleShipItem=(id)=>()=>this.setState(st=>{const d=st.shippingDraft||this.newShippingDraft(),a=Array.isArray(d.itemIds)?d.itemIds:[];return{shippingDraft:{...d,itemIds:a.includes(id)?a.filter(x=>x!==id):[...a,id]}};});
-  // ==== 生成排发长图：独立的选谷子器（自带团筛选 + 勾选，不依赖左边新增表单）====
+  // 生成排发长图：使用独立的团筛选与谷子选择器。
   toggleAddFormCollapsed=()=>this.setState(st=>({shipAddCollapsed:!st.shipAddCollapsed}));
   onExportGroup=(e)=>{const v=e&&e.target?e.target.value:'';this.setState({exportGroup:v});};
   openExportGroupSelect = (ev) => { const opts = [{ value:'', label:'全部团／渠道' }, ...(this._exportGroupOpts||[]).map(g => ({ value:g, label:g }))]; this.openGenericSelect('筛选团／渠道', opts, this.state.exportGroup || '', (v) => this.setState({ exportGroup: v }), ev); };
@@ -4428,7 +4429,7 @@ class Component extends DCLogic {
   shippingVisibleItems(draft=null){const d=draft||this.state.shippingDraft||this.newShippingDraft(),group=String(d.group||'').trim().toLowerCase(),q=String(d.search||'').trim().toLowerCase(),status=String(d.status||'全部');return(this.state.items||[]).filter(it=>{const sameGroup=!group||String(it.purchaseChannel||'').trim().toLowerCase()===group,sameStatus=status==='全部'||String(it.status||'')===status,hay=[it.name,it.character,it.type,it.subtype,it.series,it.note,it.purchaseChannel,it.channel,it.setName].map(x=>String(x||'').toLowerCase()).join(' ');return sameGroup&&sameStatus&&(!q||hay.includes(q));});}
   selectAllVisibleShipItems=()=>this.setState(st=>{const d=st.shippingDraft||this.newShippingDraft(),ids=this.shippingVisibleItems(d).map(x=>x.id);return{shippingDraft:{...d,itemIds:[...new Set([...(d.itemIds||[]),...ids])]}};});
   clearShipItems=()=>this.setState(st=>({shippingDraft:{...(st.shippingDraft||this.newShippingDraft()),itemIds:[]}}));
-  // ==== 修改某份资料关联了哪些谷子（取消 / 补关联）====
+  // 修改排发资料与谷子的关联。
   openRelinkRecord=(recordId)=>()=>{const rec=(this.state.shippingRecords||[]).find(r=>r.id===recordId);if(!rec)return;this.setState({relinkRecordId:recordId,relinkItemIds:[...(rec.itemIds||[])],relinkSearch:'',relinkNote:rec.note||'',relinkGroup:rec.group||'',relinkNoteOpen:false,relinkImages:(rec.images||[]).map(im=>({...im,toRemove:false})),relinkNewFiles:[],relinkRecordType:rec.type||'补充资料'});};
   closeRelink=()=>this.setState({relinkRecordId:null,relinkItemIds:[],relinkSearch:'',relinkNote:'',relinkGroup:'',relinkNoteOpen:false,relinkImages:[],relinkNewFiles:[],relinkRecordType:''});
   onRelinkGroup=(e)=>{const v=e&&e.target?e.target.value:'';this.setState({relinkGroup:v});};
@@ -4776,7 +4777,7 @@ class Component extends DCLogic {
     return [];
   }
 
-  // ---- IndexedDB ----
+  // ===== 本机图片存储（IndexedDB） =====
   idbOpen() { return new Promise((res, rej) => { const r = indexedDB.open('zzz_goods_db', 1); r.onupgradeneeded = () => r.result.createObjectStore('images'); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); }); }
   async idbPut(k, v) { const db = await this.idbOpen(); return new Promise((res, rej) => { const tx = db.transaction('images', 'readwrite'); tx.objectStore('images').put(v, k); tx.oncomplete = () => res(); tx.onerror = () => rej(tx.error); }); }
   async idbGet(k) { const db = await this.idbOpen(); return new Promise((res, rej) => { const tx = db.transaction('images', 'readonly'); const rq = tx.objectStore('images').get(k); rq.onsuccess = () => res(rq.result); rq.onerror = () => rej(rq.error); }); }
@@ -4784,7 +4785,7 @@ class Component extends DCLogic {
   blobToDataURL(b) { return new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result); fr.readAsDataURL(b); }); }
   dataURLToBlob(d) { const [m, b64] = d.split(','); const mime = (m.match(/:(.*?);/) || [])[1] || 'image/png'; const bin = atob(b64); const arr = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i); return new Blob([arr], { type: mime }); }
 
-  // ---- persistence ----
+  // ===== 本机资料保存与自动云同步 =====
   commit(items) {
     try { localStorage.setItem('zzz_goods_v1', JSON.stringify(items)); } catch (e) {}
     const hasCode = !!(this.state.cloudSyncCode || localStorage.getItem('zzz_cloud_code'));
@@ -4808,7 +4809,7 @@ class Component extends DCLogic {
     }, Math.max(1000, Number(delay) || 8000));
   }
 
-  // ---- helpers ----
+  // ===== 通用数据与金额工具 =====
   num(v) { const n = parseFloat(v); return isNaN(n) ? 0 : n; }
   // 金额输入支持算式：280+20、500-30、398*2、1000/4、(300+20)*2
   // 自动清理 ¥ ￥ , 空格 RMB 元；结果四舍五入到指定小数位（默认 2 位，汇率用 4 位），整数不带多余小数
@@ -4996,7 +4997,7 @@ class Component extends DCLogic {
     return list.map((u, i) => ({ style: { ...this.mosaicCell(list.length, i), minWidth: 0, minHeight: 0, backgroundImage: `url(${u})`, backgroundSize: 'cover', backgroundPosition: 'center' } }));
   }
 
-  // ---- modal / crud ----
+  // ===== 谷子弹窗与增删改 =====
   beginItemDrag = (id, ev) => {
     this.dragId = id;
     this.blockItemClickUntil = Date.now() + 500;
@@ -5437,7 +5438,7 @@ class Component extends DCLogic {
   removeItem = (it) => { if (!confirm('确定删除「' + (it.name || '该谷子') + '」？')) return; this.commit(this.state.items.filter(x => x.id !== it.id)); };
 
 
-  // ---- V2.3/V3.1 efficiency tools: Excel export/import / batch edit / duplicate check ----
+  // ===== Excel 导入导出、批量编辑与重复检查 =====
   htmlEscape(v) { return String(v == null ? '' : v).replace(/[&<>\"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
   async imgData(id) { if (!id) return ''; try { const b = await this.idbGet(id); return b ? await this.blobToDataURL(b) : ''; } catch (e) { return ''; } }
   excelSheet(name, headers, rows, withImages) {
@@ -5685,7 +5686,7 @@ class Component extends DCLogic {
     e.target.value = '';
   };
 
-  // ---- export / import ----
+  // ===== JSON 备份与恢复 =====
   async buildShippingBackup() {
     const localMeta = this.loadLocalShippingMeta();
     const localById = Object.fromEntries(localMeta.filter(x => x && x.id).map(x => [x.id, x]));
@@ -5815,7 +5816,7 @@ class Component extends DCLogic {
   };
 
 
-  // ---- batch edit helpers ----
+  // ===== 批量编辑 =====
   toggleBatchMode = () => {
     const view = this.state.view || this.props.startView || 'dashboard';
     if (view === 'ledger') return;
@@ -6088,7 +6089,7 @@ class Component extends DCLogic {
   batchQtyPlus = () => { const ids = this.batchIdsOrWarn(); if (!ids) return; this.batchApply(ids, it => ({ ...it, qty: Math.max(1, parseInt(it.qty) || 1) + 1 })); };
   batchDelete = async () => { const ids = this.batchIdsOrWarn(); if (!ids) return; if (!await this.uiConfirm('确定批量删除 ' + ids.length + ' 件谷子？','批量删除')) return; const set = new Set(ids); this.commit((this.state.items || []).filter(it => !set.has(it.id))); this.setState({ selectedIds: [] }); };
 
-  // ---- view setters ----
+  // ===== 页面与视图切换 =====
   dismissSpentSplitNotice = () => { try { localStorage.setItem('zzz_spent_split_notice', '1'); } catch (e) {} this.setState({ spentSplitNoticeDismissed: true }); };
   setDashboard = () => this.setState({ view: 'dashboard', batchMode: false, selectedIds: [] });
   openDashboardStatus = (status) => this.setState({ view: 'gallery', group: 'all', statusSel: status ? [status] : [], filtersOpen: true, batchMode: false, selectedIds: [] });
@@ -6847,7 +6848,6 @@ class Component extends DCLogic {
     const items = this.state.currentWorkId === this.ALL_WORKS ? allItems : groupBy === 'workGroup' ? allItems : groupBy === 'work' ? allItems.filter(it => (workOfItem(it).group || this.DEFAULT_GROUP) === (curWorkForFilter.group || this.DEFAULT_GROUP)) : allItems.filter(it => (it.workId || this.MAIN_WORK) === this.state.currentWorkId);
     const isAllWorks = this.state.currentWorkId === this.ALL_WORKS;
 
-    // stats over all
     let totalIn = 0, totalPending = 0, totalExpectedRecovery = 0, totalSell = 0, totalProfit = 0, colCount = 0, saleCount = 0;
     items.forEach(it => { const e = this.enrich(it); totalIn += this.actualSpentOf(it); totalPending += this.pendingSpentOf(it); totalExpectedRecovery += this.expectedRecoveryOf(it); if (this.groupOf(it) === '出物') saleCount += e.qty; else colCount += e.qty; if (e.sold) { totalSell += e.revenue; totalProfit += e.profit; } });
 
@@ -6873,7 +6873,6 @@ class Component extends DCLogic {
     const nowDash = new Date(); const dashMonthKey = `${nowDash.getFullYear()}-${String(nowDash.getMonth()+1).padStart(2,'0')}`;
     const dashboardMonthCostNum = items.reduce((sum,it)=>{ const raw=it.purchaseDate||it.reminderDate||it.date||it.createdAt; const d=new Date(raw||0); if(!raw||isNaN(d.getTime())) return sum; const k=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`; return k===dashMonthKey ? sum + this.actualSpentOf(it) : sum; },0);
 
-    // group tabs
     const colN = items.filter(i => this.groupOf(i) !== '出物').length, saleN = items.filter(i => this.groupOf(i) === '出物').length;
     const inhandN = items.filter(i => this.groupKind(i) === 'inhand').length;
     const airN = items.filter(i => this.groupKind(i) === 'air').length;
@@ -6890,11 +6889,9 @@ class Component extends DCLogic {
       { key: 'sale', label: '已出物', iconPath: 'M5 17 10 12l3 3 6-8M14 7h5v5', n: saleN }
     ].map(t => ({ label: t.label, iconPath: t.iconPath, n: t.n, active: group === t.key, tipText: this.GLOSSARY[t.label] || '', hasTip: !!this.GLOSSARY[t.label], style: this.navItemStyle(group === t.key), iconStyle: this.navIconStyle(group === t.key), countStyle: this.navCountStyle(group === t.key), onClick: () => this.setFilterState({ group: t.key }) }));
 
-    // base list (group tab filter)
     const matchGroup = it => group === 'all' ? true : group === 'collection' ? this.groupOf(it) !== '出物' : group === 'inhand' ? this.groupKind(it) === 'inhand' : group === 'air' ? this.groupKind(it) === 'air' : this.groupOf(it) === '出物';
     const baseList = items.filter(matchGroup);
 
-    // chips
     const charOrderList = this.orderedChars();
     const presentChars = [...new Set(items.map(i => i.character))];
     const charList = ['全部', ...charOrderList.filter(c => presentChars.includes(c)), ...presentChars.filter(c => c && !charOrderList.includes(c))];
@@ -7097,7 +7094,6 @@ class Component extends DCLogic {
     const _pcStored = ((this.state.purchaseChannels && this.state.purchaseChannels.length) ? this.state.purchaseChannels : this.CHANNELS).filter(x => !hiddenPurchaseChannels.includes(x));
     const _pcOrder = [...new Set([..._pcStored, ...(dPurchaseChannel ? [dPurchaseChannel] : [])])];
     const purchaseChannelMenuItems = _pcOrder.map(c => ({ name: c, active: dPurchaseChannel === c, onPick: () => this.pickPurchaseChannel(c), onRename: (ev) => this.renamePurchaseChannelItem(c, ev), onDel: (ev) => this.delPurchaseChannelItem(c, ev), rowStyle: this.menuRow(dPurchaseChannel === c) }));
-    // rows
     const s = (search || '').toLowerCase();
     const matchSearch = it => !s || [it.name, it.note, it.channel, it.purchaseChannel, it.subtype, it.character, it.type, it.series, (workOfItem(it).group || ''), (workOfItem(it).name || '')].some(x => (x || '').toLowerCase().includes(s));
     const matchForm = it => !fieldVisible('form') || formSel.length === 0 || formSel.includes(it.form || '通用');
@@ -7413,10 +7409,11 @@ class Component extends DCLogic {
       const shipParts = [];
       if (e.sd > 0) shipParts.push('内' + cur + this.fmt(e.sd));
       if (e.si > 0) shipParts.push('际' + cur + this.fmt(e.si));
-      const costParts = [];
-      if (e.buy > 0) costParts.push('单价 ' + cur + this.fmt(e.buy) + ' ×' + e.qty);
-      if ((e.sd + e.si) > 0) costParts.push('邮费 ' + cur + this.fmt(e.sd + e.si));
-      if (e.extraFeeTotal > 0) costParts.push('其他 ' + cur + this.fmt(e.extraFeeTotal));
+      const costSummaryParts = [];
+      if (e.buy > 0) costSummaryParts.push('本体 ' + cur + this.fmt(e.buy) + '×' + e.qty);
+      if ((e.sd + e.si) > 0) costSummaryParts.push('邮费 ' + cur + this.fmt(e.sd + e.si));
+      if (e.extraFeeTotal > 0) costSummaryParts.push('其他 ' + cur + this.fmt(e.extraFeeTotal));
+      const costSummaryText = costSummaryParts.join(' · ');
       const profitStyle = { color: e.profit >= 0 ? '#12a85f' : '#e23b5d', fontWeight: 700 };
       const groupStyle = g === '出物' ? this.badge('#d14a86', 'rgba(255,107,157,.14)', 'rgba(255,107,157,.3)') : this.badge('#6a4fd0', 'rgba(108,92,231,.16)', 'rgba(108,92,231,.32)');
       const fcol = it.form === '人脸' ? '#c8860d' : it.form === '皮套' ? '#2f7fd0' : '#7c5cd6';
@@ -7450,8 +7447,8 @@ class Component extends DCLogic {
         status: this.statusText(displayStatus) + (it.progressStatus ? ' · ' + it.progressStatus : ''), statusIconPath:this.statusIconPath(displayStatus), statusStyle: this.badge(displayStatusColor, 'rgba(50,38,90,.05)', displayStatusColor + '44'),
         qtyText: '×' + e.qty, showQty: e.qty > 1, qty: e.qty,
         totalText: e.cost > 0 ? cur + this.fmt(e.cost) : '—',
-        breakdownText: costParts.join(' ＋'),
-        hasBreakdown: costParts.length > 0,
+        costSummaryText, hasCostSummary: !!costSummaryText,
+        costSummaryStyle: { fontSize: costSummaryText.length > 34 ? '8.5px' : (costSummaryText.length > 27 ? '9.5px' : '10.5px'), color:'#938db0', marginTop:'1px', lineHeight:1.35, whiteSpace:'nowrap', letterSpacing:costSummaryText.length > 34 ? '-.25px' : '0' },
         heldText: rem.text || '', hasHeld: !!(rem.text && !rem.active),
         channelLineText: (it.purchaseChannel || it.channel || '').trim(),
         channelSuffix: (it.purchaseChannel || it.channel || '').trim() && this.num(it.originalPrice) ? ' · ' + (it.purchaseChannel || it.channel || '').trim() : '',
@@ -7529,7 +7526,7 @@ class Component extends DCLogic {
       });
     }
 
-    // draft live calc
+    // 编辑表单中的金额实时预览
     const d = this.state.draft;
     const draftFees = Array.isArray(d && d.fees) ? d.fees : [];
     const draftFeeRows = draftFees.map(f => ({ ...f, onType:this.updateDraftFee(f.id,'type'), onAmount:this.updateDraftFee(f.id,'amount'), onAmountBlur:this.blurDraftFeeAmount(f.id), onNote:this.updateDraftFee(f.id,'note'), onRemove:this.removeDraftFee(f.id) }));
@@ -7610,7 +7607,7 @@ class Component extends DCLogic {
     const groupsMap = {}; workTabs.forEach(w => { (groupsMap[w.group || this.DEFAULT_GROUP] = groupsMap[w.group || this.DEFAULT_GROUP] || []).push(w); });
     const workGroups = Object.keys(groupsMap).map(g => ({ group: g, works: groupsMap[g] }));
 
-    // ===== 收藏库树（侧栏 & 手机） =====
+    // ===== 收藏库树：电脑侧栏与手机切换 =====
     const countByWork = {}; (this.state.items || []).forEach(it => { const wid = it.workId || this.MAIN_WORK; countByWork[wid] = (countByWork[wid] || 0) + 1; });
     const curId = this.state.currentWorkId;
     const workLogoNode = (id, size) => { const u = this.workLogo(id); return u ? { width: size + 'px', height: size + 'px', borderRadius: '7px', flexShrink: 0, backgroundImage: `url(${u})`, backgroundSize: 'cover', backgroundPosition: 'center', border: '1px solid #e3def1' } : { width: size + 'px', height: size + 'px', borderRadius: '7px', flexShrink: 0, background: this.accentAlpha(0.14), border: '1px solid ' + this.accentAlpha(0.25), display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: (size * 0.5) + 'px', color: this.accentColor() }; };
@@ -7621,10 +7618,9 @@ class Component extends DCLogic {
     const libAllCount = (this.state.items || []).length;
     const recentRows = (this.state.recentWorks || []).map(id => works.find(w => w.id === id)).filter(Boolean).slice(0, 3).map(libWorkRow);
     const hasRecent = recentRows.length > 0;
-    // 手机端切换弹窗用
     const mobileWorkGroups = libraryTree;
 
-    // ===== 设置面板数据 =====
+    // ===== 设置面板 =====
     const sd = this.state.settingsDraft || this.makeSettingsDraft();
     const draftFieldLabels = sd.fieldLabels || {};
     const draftFilterOn = sd.filterOn || {};
@@ -7813,7 +7809,7 @@ class Component extends DCLogic {
     const exportGroupText = this.state.exportGroup ? this.state.exportGroup : '全部团／渠道';
     const exportItemChoices = _exVisible.map(it=>{const grps=[...new Set(_exRecs.filter(r=>(r.itemIds||[]).includes(it.id)).map(r=>String(r.group||'未分类渠道')))];return{id:it.id,label:((it.name||'未命名')+(it.character?' · '+it.character:'')+(it.status?' · '+it.status:'')+(grps.length?' 〔'+grps.join('／')+'〕':'')),checked:_exIds.includes(it.id),onToggle:this.toggleExportItem(it.id)};});
 
-    // ===== 单个谷子的"排发"tab =====
+    // ===== 单个谷子的排发页 =====
     const modalTabIsEdit = (this.state.modalTab || 'edit') === 'edit';
     const tabBtnBase = (active) => ({ fontFamily: 'inherit', fontSize: '13px', fontWeight: 700, padding: '8px 16px', border: 'none', borderRadius: '9px 9px 0 0', cursor: 'pointer', background: active ? '#fff' : 'transparent', color: active ? '#251d49' : '#938db0', borderBottom: active ? '2px solid var(--accent,#ff3355)' : '2px solid transparent' });
     const editTabStyle = tabBtnBase(modalTabIsEdit);
@@ -7835,7 +7831,7 @@ class Component extends DCLogic {
     const hasItemShipRecords = itemShipGroups.length > 0;
     const noItemShipRecords = !hasItemShipRecords;
 
-    // ===== 关联已有资料 搜索列表 =====
+    // ===== 已有排发资料搜索与关联 =====
     const linkQ = (this.state.linkExistingSearch || '').trim().toLowerCase();
     const linkCh = String(this.state.linkExistingChannel || '').trim();
     const linkExistingChannels = [...new Set((this.state.shippingRecords || []).map(r => r.group || '未分类渠道'))];
@@ -7857,7 +7853,7 @@ class Component extends DCLogic {
     }));
     const noLinkExistingRows = linkExistingRows.length === 0;
 
-    // ===== 角色分类管理弹窗 =====
+    // ===== 排发角色分类管理 =====
     const shipRoleManageType = this.state.shipRoleManageType || '本体资料';
     const shipRoleManageTitle = '管理「' + this.shippingTypeLabel(shipRoleManageType).module + '」的图片分类';
     const shipRoleManageRows = this.shippingRoles(shipRoleManageType).map((name, idx) => ({
@@ -7866,7 +7862,7 @@ class Component extends DCLogic {
       onMoveUp: this.shipRoleMove(name, -1), onMoveDown: this.shipRoleMove(name, 1)
     }));
 
-    // ===== 手机端：筛选改为「横向分类 tab + 只展开当前选中类别」 =====
+    // ===== 手机端横向分类筛选 =====
     const mobileFilterCatDefs = [
       { key: 'character', label: labels.character, show: fieldVisible('character') && this.state.filterOn.character !== false },
       { key: 'type', label: labels.type, show: fieldVisible('type') && this.state.filterOn.type !== false },
@@ -8029,7 +8025,7 @@ class Component extends DCLogic {
 }
 </script>
 <script>
-/* Mobile viewport + cross-device line-icon normalization; isolated from app data/state. */
+/* 手机视口与跨设备线性图标统一；只影响显示，不接触应用数据。 */
 (function () {
   var root = document.documentElement;
   var updateViewport = function () {
