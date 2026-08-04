@@ -1724,6 +1724,7 @@
                   <sc-if value="{{ row.hasCostSummary }}" hint-placeholder-val="{{ false }}"><div class="ui-card-breakdown" style="{{ row.costSummaryStyle }}">{{ row.costSummaryText }}</div></sc-if>
                   <sc-if value="{{ row.hasOriginal }}" hint-placeholder-val="{{ false }}"><div class="ui-card-breakdown" style="font-size:10.5px;color:#938db0">原价 {{ row.originalText }}{{ row.channelSuffix }}</div></sc-if>
                   <sc-if value="{{ row.showChannelOnly }}" hint-placeholder-val="{{ false }}"><div class="ui-card-breakdown" style="font-size:10.5px;color:#938db0">{{ row.channelLineText }}</div></sc-if>
+                  <sc-if value="{{ row.hasNote }}" hint-placeholder-val="{{ false }}"><div class="ui-card-breakdown" style="font-size:10.5px;color:#938db0;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">{{ row.noteText }}</div></sc-if>
                 </div>
                 <sc-if value="{{ row.hasExpectedSale }}" hint-placeholder-val="{{ false }}">
                   <div style="text-align:right;flex-shrink:0"><div style="font-size:10px;color:#837da4">预计收入</div><div style="font-family:'Orbitron';font-size:15px;font-weight:700;color:#d14a86">{{ row.expectedSaleText }}</div></div>
@@ -7511,6 +7512,7 @@ class Component extends DCLogic {
         groupText: g, groupStyle,
         status: this.statusText(displayStatus) + (it.progressStatus ? ' · ' + it.progressStatus : ''), statusIconPath:this.statusIconPath(displayStatus), statusStyle: this.badge(displayStatusColor, 'rgba(50,38,90,.05)', displayStatusColor + '44'),
         qtyText: '×' + e.qty, showQty: e.qty > 1, qty: e.qty,
+        hasNote: !!(it.note && String(it.note).trim()), noteText: String(it.note || '').trim(),
         totalText: e.cost > 0 ? cur + this.fmt(e.cost) : '—',
         costSummaryText, hasCostSummary: !!costSummaryText,
         costSummaryStyle: { fontSize: costSummaryText.length > 34 ? '8.5px' : (costSummaryText.length > 27 ? '9.5px' : '10.5px'), color:'#938db0', marginTop:'1px', lineHeight:1.35, whiteSpace:'nowrap', letterSpacing:costSummaryText.length > 34 ? '-.25px' : '0' },
