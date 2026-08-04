@@ -1374,9 +1374,6 @@
       <div style="background:linear-gradient(150deg,#ffffff,#eae5f4);border:1px solid #ecd9ee;border-radius:16px;padding:16px 18px">
         <div style="font-size:12px;color:#544f7e;margin-bottom:8px">盈亏</div>
         <div title="{{ statProfitFull }}" style="font-family:'Orbitron';font-weight:700;font-size:24px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><span style="{{ statProfitStyle }}">{{ statProfit }}</span></div>
-        <sc-if value="{{ hasCostMissingWarning }}" hint-placeholder-val="{{ false }}">
-          <div onClick="{{ reviewCostMissing }}" style="cursor:pointer;margin-top:7px;font-size:10.5px;line-height:1.4;color:#c0821f">{{ costMissingWarningText }}</div>
-        </sc-if>
       </div>
       <div style="background:linear-gradient(150deg,#ffffff,#ffffff);border:1px solid #e1dbf0;border-radius:16px;padding:16px 18px">
         <div style="font-size:12px;color:#544f7e;margin-bottom:8px">净投入</div>
@@ -1673,12 +1670,6 @@
     </sc-if>
 
     <sc-if value="{{ isGallery }}" hint-placeholder-val="{{ true }}">
-      <sc-if value="{{ costMissingFilterActive }}" hint-placeholder-val="{{ false }}">
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;background:linear-gradient(150deg,#fff7ec,#fff);border:1px solid #f0dcb8;border-radius:12px;padding:10px 14px;margin-bottom:12px">
-          <span style="font-size:12.5px;color:#4c4580">正在只看「已出物但没记成本」的谷子，选中后可批量补上买入价</span>
-          <button onClick="{{ clearCostMissingFilter }}" style="flex-shrink:0;font-family:inherit;font-size:12px;font-weight:700;color:#4c4580;background:#fff;border:1px solid #ded7ee;padding:6px 11px;border-radius:8px;cursor:pointer">退出筛选</button>
-        </div>
-      </sc-if>
       <div class="ui-gallery-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:15px">
         <sc-for list="{{ displayRows }}" as="row" hint-placeholder-count="4">
           <sc-if value="{{ row.isHeader }}" hint-placeholder-val="{{ false }}">
@@ -1724,7 +1715,6 @@
                 <sc-if value="{{ row.showAcquire }}" hint-placeholder-val="{{ false }}"><span style="{{ row.acquireStyle }}">{{ row.acquireText }}</span></sc-if>
                 <sc-if value="{{ row.hasMethod }}" hint-placeholder-val="{{ false }}"><span style="{{ row.methodStyle }}">{{ row.methodText }}</span></sc-if>
                 <sc-if value="{{ row.hasSwap }}" hint-placeholder-val="{{ false }}"><span style="{{ row.swapStyle }}">{{ row.swapText }}</span></sc-if>
-                <sc-if value="{{ row.hasCostWarning }}" hint-placeholder-val="{{ false }}"><span title="已出物但没有记录成本，盈亏可能不准" style="{{ row.costWarningStyle }}">{{ row.costWarningText }}</span></sc-if>
               </div>
               </sc-if>
               <div class="ui-mobile-card-price" style="display:flex;align-items:flex-end;justify-content:space-between;gap:8px;margin-top:2px;padding-top:9px;border-top:1px solid rgba(50,38,90,.05)">
@@ -1850,7 +1840,7 @@
                 <div class="ui-table-cell"><span style="{{ row.charStyle }}"><sc-if value="{{ row.hasAvatar }}" hint-placeholder-val="{{ false }}"><div style="{{ row.avatarStyle }}"></div></sc-if>{{ row.character }}</span></div>
                 </sc-if>
                 <sc-if value="{{ showTableType }}" hint-placeholder-val="{{ true }}">
-                <div class="ui-table-cell" style="color:#595287">{{ row.typeText }} <sc-if value="{{ row.showForm }}" hint-placeholder-val="{{ false }}"><span style="{{ row.formStyle }}">{{ row.formText }}</span></sc-if> <sc-if value="{{ row.hasSeries }}" hint-placeholder-val="{{ false }}"><span style="{{ row.seriesStyle }}">{{ row.seriesText }}</span></sc-if> <sc-if value="{{ row.showAcquire }}" hint-placeholder-val="{{ false }}"><span style="{{ row.acquireStyle }}">{{ row.acquireText }}</span></sc-if> <sc-if value="{{ row.hasSwap }}" hint-placeholder-val="{{ false }}"><span style="{{ row.swapStyle }}">{{ row.swapText }}</span></sc-if> <sc-if value="{{ row.hasCostWarning }}" hint-placeholder-val="{{ false }}"><span title="已出物但没有记录成本，盈亏可能不准" style="{{ row.costWarningStyle }}">{{ row.costWarningText }}</span></sc-if></div>
+                <div class="ui-table-cell" style="color:#595287">{{ row.typeText }} <sc-if value="{{ row.showForm }}" hint-placeholder-val="{{ false }}"><span style="{{ row.formStyle }}">{{ row.formText }}</span></sc-if> <sc-if value="{{ row.hasSeries }}" hint-placeholder-val="{{ false }}"><span style="{{ row.seriesStyle }}">{{ row.seriesText }}</span></sc-if> <sc-if value="{{ row.showAcquire }}" hint-placeholder-val="{{ false }}"><span style="{{ row.acquireStyle }}">{{ row.acquireText }}</span></sc-if> <sc-if value="{{ row.hasSwap }}" hint-placeholder-val="{{ false }}"><span style="{{ row.swapStyle }}">{{ row.swapText }}</span></sc-if></div>
                 </sc-if>
                 <sc-if value="{{ showTableGroup }}" hint-placeholder-val="{{ true }}">
                 <div class="ui-table-cell"><span style="{{ row.groupStyle }}">{{ row.groupText }}</span></div>
@@ -3241,7 +3231,7 @@ class Component extends DCLogic {
   CHAR_IMG = { '诺克斯': 'assets/c_nox.webp', 'NOX': 'assets/r_blue.webp', 'MIDNIGHT SHADOW': 'assets/r_nox_midnight.webp', 'NOX KNIGHT': 'assets/r_lady.webp', 'ZEZTZ': 'assets/r_red.webp', '西格': 'assets/c_zeke.webp', 'DAWN': 'assets/r_zeztz.webp', '宁梦': 'assets/c_nemu.webp', '南云成华': 'assets/c_nagumo.webp', 'ZERO': 'assets/c_zero.webp', '万津莫': 'assets/c_matsu.webp', '万津美浪': 'assets/c_minami.webp', '富士见铁也': 'assets/c_fujimi.webp', 'THE LADY': 'assets/c_lady.webp', 'CODE': 'assets/c_code.webp' };
   imgUrls = {};
   cloudImageMap = {};
-  state = { items: [], progressStatuses: [], progressStatusColors: {}, uiDialog: null, view: null, shipWatermark: (function(){try{return localStorage.getItem('zzz_ship_watermark')!=='0';}catch(e){return true;}})(), sets: [], lastSetId: '', setMenuOpen: false, feeOpen: false, colInfoOpen: false, setInfoOpen: false, recentWorks: [], collapsedGroups: (function(){try{return JSON.parse(localStorage.getItem('zzz_collapsed_groups')||'{}')||{};}catch(e){return {};}})(), reminderMenuOpen: false, monthlyBudget: '', budgets: {}, ledgerDetailKey: '', ledgerDetailType: 'day', ledgerDetailLabel: '', tableSortKey: '', tableSortDir: 'desc', tableHiddenCols: [], tableColumnMenuOpen: false, nameStyleMode: 'default', displayMode: 'standard', dashboardCards: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], purchaseChannelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, purchaseChannels: [], purchaseChannelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], hiddenPurchaseChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, purchaseChannel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, dataManageOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, cloudPending: false, cloudLastSyncedAt: '', cloudRemoteUpdatedAt: '', modalOpen: false, editing: null, draft: null, savedAt: 0, batchMode: false, selectedIds: [], bulkEditIds: [], bulkEditIndex: 0, ledgerRange: 'month', ledgerMode: 'month', ledgerYear: String(new Date().getFullYear()), ledgerMonth: String(new Date().getMonth()+1), ledgerWeek: '', ledgerPieBy: 'character', ledgerPieActive: 0, batchEditOpen: false, batchEditField: '', batchOn: null, shippingOpen: false, shippingRecords: [], shippingBatches: [], shippingDraft: null, shippingPreviewNotice: '', shippingPreviewPaid: '', shippingPreviewCn: '', shippingPreviewGroup: '', shippingPreviewBatch: '', shippingPreviewPackageKey: '', itemEvidenceDrafts: [], itemEvidenceExistingIds: [], itemEvidenceOpen: false, exportGroup: '', exportSearch: '', exportIds: [], shipAddCollapsed: true, shippingViewChannel: null, relinkRecordId: null, relinkItemIds: [], relinkSearch: '', relinkNote: '', relinkGroup: '', relinkNoteOpen: false, relinkImages: [], relinkNewFiles: [], relinkRecordType: '', mobileMineOpen: false, cloudPageOpen: false, modalTab: 'edit', shippingRolesCustom: (() => { try { return JSON.parse(localStorage.getItem('zzz_shipping_roles') || '{}') || {}; } catch (e) { return {}; } })(), shipRoleManageOpen: false, shipRoleManageType: '', itemShipDraftOpen: false, itemShipItemsPanelOpen: false, linkExistingShipOpen: false, linkExistingSearch: '', linkExistingChannel: '', genericSelectOpen: false, genericSelectTitle: '', genericSelectOptions: [], genericSelectValue: '', genericSelectAnchor: null, authReady: true, authUser: (function(){ try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (/^sb-.*-auth-token$/.test(k) && localStorage.getItem(k)) return { provisional: true, user_metadata: {} }; } } catch (e) {} return null; })(), syncConflict: null, syncConflictChoice: '', initialSyncReady: false, authMode: 'login', authUsername: '', authPassword: '', authPassword2: '', authError: '', authBusy: false, spentSplitNoticeDismissed: (function(){try{return localStorage.getItem('zzz_spent_split_notice')==='1';}catch(e){return false;}})(), costMissingOnly: false, allocateDonorPickerOpen: false, allocateDonorSearch: '' };
+  state = { items: [], progressStatuses: [], progressStatusColors: {}, uiDialog: null, view: null, shipWatermark: (function(){try{return localStorage.getItem('zzz_ship_watermark')!=='0';}catch(e){return true;}})(), sets: [], lastSetId: '', setMenuOpen: false, feeOpen: false, colInfoOpen: false, setInfoOpen: false, recentWorks: [], collapsedGroups: (function(){try{return JSON.parse(localStorage.getItem('zzz_collapsed_groups')||'{}')||{};}catch(e){return {};}})(), reminderMenuOpen: false, monthlyBudget: '', budgets: {}, ledgerDetailKey: '', ledgerDetailType: 'day', ledgerDetailLabel: '', tableSortKey: '', tableSortDir: 'desc', tableHiddenCols: [], tableColumnMenuOpen: false, nameStyleMode: 'default', displayMode: 'standard', dashboardCards: null, group: 'all', groupBy: 'none', search: '', charSel: [], typeSel: [], seriesFilter: '全部', formSel: [], statusSel: [], acquireSel: [], channelSel: [], purchaseChannelSel: [], customFilterSel: {}, customFilterOrder: {}, channels: [], channelMenuOpen: false, purchaseChannels: [], purchaseChannelMenuOpen: false, typesList: [], typeMenuOpen: false, seriesList: [], seriesMenuOpen: false, formMenuOpen: false, statusMenuOpen: false, acquireMenuOpen: false, reminderTypes: [], hiddenTypes: [], hiddenChannels: [], hiddenPurchaseChannels: [], works: [], currentWorkId: 'w_main', workGroupLabel: '系列IP', workMenuOpen: false, mobileMode: 'auto', filtersOpen: false, fieldLabels: {}, filterOn: { character: true, type: true, series: true, form: true, acquire: true, channel: true, purchaseChannel: true, status: false }, statsOn: null, deletedFields: [], customFields: [], optBuf: {}, settingsOpen: false, dataManageOpen: false, settingsDraft: null, collectorName: '', currency: '', accent: '', sbUrl: '', sbKey: '', sbStatus: '', cloudSyncId: '', cloudSyncCode: '', cloudCodeInput: '', cloudStatus: '', cloudBusy: false, cloudPending: false, cloudLastSyncedAt: '', cloudRemoteUpdatedAt: '', modalOpen: false, editing: null, draft: null, savedAt: 0, batchMode: false, selectedIds: [], bulkEditIds: [], bulkEditIndex: 0, ledgerRange: 'month', ledgerMode: 'month', ledgerYear: String(new Date().getFullYear()), ledgerMonth: String(new Date().getMonth()+1), ledgerWeek: '', ledgerPieBy: 'character', ledgerPieActive: 0, batchEditOpen: false, batchEditField: '', batchOn: null, shippingOpen: false, shippingRecords: [], shippingBatches: [], shippingDraft: null, shippingPreviewNotice: '', shippingPreviewPaid: '', shippingPreviewCn: '', shippingPreviewGroup: '', shippingPreviewBatch: '', shippingPreviewPackageKey: '', itemEvidenceDrafts: [], itemEvidenceExistingIds: [], itemEvidenceOpen: false, exportGroup: '', exportSearch: '', exportIds: [], shipAddCollapsed: true, shippingViewChannel: null, relinkRecordId: null, relinkItemIds: [], relinkSearch: '', relinkNote: '', relinkGroup: '', relinkNoteOpen: false, relinkImages: [], relinkNewFiles: [], relinkRecordType: '', mobileMineOpen: false, cloudPageOpen: false, modalTab: 'edit', shippingRolesCustom: (() => { try { return JSON.parse(localStorage.getItem('zzz_shipping_roles') || '{}') || {}; } catch (e) { return {}; } })(), shipRoleManageOpen: false, shipRoleManageType: '', itemShipDraftOpen: false, itemShipItemsPanelOpen: false, linkExistingShipOpen: false, linkExistingSearch: '', linkExistingChannel: '', genericSelectOpen: false, genericSelectTitle: '', genericSelectOptions: [], genericSelectValue: '', genericSelectAnchor: null, authReady: true, authUser: (function(){ try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (/^sb-.*-auth-token$/.test(k) && localStorage.getItem(k)) return { provisional: true, user_metadata: {} }; } } catch (e) {} return null; })(), syncConflict: null, syncConflictChoice: '', initialSyncReady: false, authMode: 'login', authUsername: '', authPassword: '', authPassword2: '', authError: '', authBusy: false, spentSplitNoticeDismissed: (function(){try{return localStorage.getItem('zzz_spent_split_notice')==='1';}catch(e){return false;}})(), allocateDonorPickerOpen: false, allocateDonorSearch: '' };
 
   setRoot = (el) => { this.rootEl = el; if (el) { this.applyThemeVars(); this.applyBg(); } };
   applyThemeVars() {
@@ -6126,6 +6116,7 @@ class Component extends DCLogic {
   batchDelete = async () => { const ids = this.batchIdsOrWarn(); if (!ids) return; if (!await this.uiConfirm('确定批量删除 ' + ids.length + ' 件谷子？','批量删除')) return; const set = new Set(ids); this.commit((this.state.items || []).filter(it => !set.has(it.id))); this.setState({ selectedIds: [] }); };
 
   // ===== 页面与视图切换 =====
+  dismissSpentSplitNotice = () => { try { localStorage.setItem('zzz_spent_split_notice', '1'); } catch (e) {} this.setState({ spentSplitNoticeDismissed: true }); };
   allocateFromSet = () => {
     const d = this.state.draft; if (!d) return;
     const hasDonor = (this.state.items || []).some(it => it.id !== d.id && this.num(it.buyPrice) > 0);
@@ -6151,9 +6142,6 @@ class Component extends DCLogic {
     this.commit(items);
     this.setState(s => { const myDraft = s.draft; if (!myDraft) return null; const myQty = Math.max(1, parseInt(myDraft.qty) || 1); const newMyBuy = round2((this.num(myDraft.buyPrice) * myQty + amount) / myQty); return { draft: { ...myDraft, buyPrice: String(newMyBuy) } }; });
   };
-  reviewCostMissing = () => this.setState({ view: 'gallery', group: 'all', groupBy: 'none', costMissingOnly: true, batchMode: true, selectedIds: [], filtersOpen: false });
-  clearCostMissingFilter = () => this.setState({ costMissingOnly: false });
-  dismissSpentSplitNotice = () => { try { localStorage.setItem('zzz_spent_split_notice', '1'); } catch (e) {} this.setState({ spentSplitNoticeDismissed: true }); };
   setDashboard = () => this.setState({ view: 'dashboard', batchMode: false, selectedIds: [] });
   openDashboardStatus = (status) => this.setState({ view: 'gallery', group: 'all', statusSel: status ? [status] : [], filtersOpen: true, batchMode: false, selectedIds: [] });
   setTable = () => this.setState({ view: 'table' });
@@ -6527,8 +6515,7 @@ class Component extends DCLogic {
     const cost = buy * qty + feeTotal;
     const revenue = sell * qty;
     const sold = this.normalizeStatus(it.status) === '已出物';
-    const costMissing = sold && cost === 0;
-    return { qty, buy, supp, fin, sd, si, other, extraFeeTotal, feeTotal, sell, cost, revenue, sold, costMissing, profit: revenue - cost };
+    return { qty, buy, supp, fin, sd, si, other, extraFeeTotal, feeTotal, sell, cost, revenue, sold, profit: revenue - cost };
   }
   actualSpentOf(it) { return this.normalizeStatus(it && it.status) === '已排单' ? 0 : this.enrich(it || {}).cost; }
   pendingSpentOf(it) { return this.normalizeStatus(it && it.status) === '已排单' ? this.enrich(it || {}).cost : 0; }
@@ -6912,8 +6899,8 @@ class Component extends DCLogic {
     const items = this.state.currentWorkId === this.ALL_WORKS ? allItems : groupBy === 'workGroup' ? allItems : groupBy === 'work' ? allItems.filter(it => (workOfItem(it).group || this.DEFAULT_GROUP) === (curWorkForFilter.group || this.DEFAULT_GROUP)) : allItems.filter(it => (it.workId || this.MAIN_WORK) === this.state.currentWorkId);
     const isAllWorks = this.state.currentWorkId === this.ALL_WORKS;
 
-    let totalIn = 0, totalPending = 0, totalExpectedRecovery = 0, totalSell = 0, totalProfit = 0, colCount = 0, saleCount = 0, costMissingCount = 0;
-    items.forEach(it => { const e = this.enrich(it); totalIn += this.actualSpentOf(it); totalPending += this.pendingSpentOf(it); totalExpectedRecovery += this.expectedRecoveryOf(it); if (this.groupOf(it) === '出物') saleCount += e.qty; else colCount += e.qty; if (e.sold) { totalSell += e.revenue; totalProfit += e.profit; if (e.costMissing) costMissingCount++; } });
+    let totalIn = 0, totalPending = 0, totalExpectedRecovery = 0, totalSell = 0, totalProfit = 0, colCount = 0, saleCount = 0;
+    items.forEach(it => { const e = this.enrich(it); totalIn += this.actualSpentOf(it); totalPending += this.pendingSpentOf(it); totalExpectedRecovery += this.expectedRecoveryOf(it); if (this.groupOf(it) === '出物') saleCount += e.qty; else colCount += e.qty; if (e.sold) { totalSell += e.revenue; totalProfit += e.profit; } });
 
     const displayStatusOf = (it) => this.normalizeStatus(it && it.status);
     const dashCount = (status) => items.filter(it => displayStatusOf(it) === status).reduce((n,it)=>n + Math.max(1, parseInt(it.qty)||1), 0);
@@ -7047,19 +7034,19 @@ class Component extends DCLogic {
     const sellPricePlaceholder = draftIsExpectedSale ? '填预计每个能卖多少钱' : '已卖出的实际成交价';
     const buyPriceLabel = _dSellStatus === '已排单' ? '预计付款' : '已付款';
     const buyPricePlaceholder = _dSellStatus === '已排单' ? '预计每个需要支付多少' : '每个实际支付多少';
-    const _dDraft = this.state.draft || {};
+    const _allocDraft = this.state.draft || {};
     const _allocCur = this.state.currency || '¥';
     const _allocQ = String(this.state.allocateDonorSearch || '').trim().toLowerCase();
     const allocateDonorRows = (this.state.items || [])
-      .filter(it => it.id !== _dDraft.id && this.num(it.buyPrice) > 0)
+      .filter(it => it.id !== _allocDraft.id && this.num(it.buyPrice) > 0)
       .filter(it => !_allocQ || (it.name || '').toLowerCase().includes(_allocQ) || (it.character || '').toLowerCase().includes(_allocQ))
       .sort((a, b) => {
-        const aSame = (a.setId && _dDraft.setId && a.setId === _dDraft.setId) ? 0 : 1;
-        const bSame = (b.setId && _dDraft.setId && b.setId === _dDraft.setId) ? 0 : 1;
+        const aSame = (a.setId && _allocDraft.setId && a.setId === _allocDraft.setId) ? 0 : 1;
+        const bSame = (b.setId && _allocDraft.setId && b.setId === _allocDraft.setId) ? 0 : 1;
         if (aSame !== bSame) return aSame - bSame;
         return (this.num(b.buyPrice) * Math.max(1, parseInt(b.qty) || 1)) - (this.num(a.buyPrice) * Math.max(1, parseInt(a.qty) || 1));
       })
-      .map(it => ({ id: it.id, label: (it.name || '未命名') + (it.character ? ' · ' + it.character : '') + ((it.setId && _dDraft.setId && it.setId === _dDraft.setId) ? ' · 同套装' : '') + ' · 现记 ' + _allocCur + this.fmt(this.num(it.buyPrice) * Math.max(1, parseInt(it.qty) || 1)), onPick: this.pickAllocateDonor(it.id) }));
+      .map(it => ({ id: it.id, label: (it.name || '未命名') + (it.character ? ' · ' + it.character : '') + ((it.setId && _allocDraft.setId && it.setId === _allocDraft.setId) ? ' · 同套装' : '') + ' · 现记 ' + _allocCur + this.fmt(this.num(it.buyPrice) * Math.max(1, parseInt(it.qty) || 1)), onPick: this.pickAllocateDonor(it.id) }));
     const noAllocateDonorRows = allocateDonorRows.length === 0;
     const feeSectionTitle = _dSellStatus === '已排单' ? '预计付款明细' : (draftIsSelling ? '出物成本明细' : '付款与费用');
     const _mk = this.state.manageKind || '';
@@ -7182,8 +7169,7 @@ class Component extends DCLogic {
     const matchChannel = it => !fieldVisible('channel') || channelSel.length === 0 || channelSel.includes(it.channel || '');
     const matchPurchaseChannel = it => !fieldVisible('purchaseChannel') || (purchaseChannelSel || []).length === 0 || (purchaseChannelSel || []).includes(it.purchaseChannel || '');
     const matchCustomFilters = it => Object.entries(this.state.customFilterSel || {}).every(([k, arr]) => !arr || !arr.length || arr.includes((it.custom && it.custom[k]) || ''));
-    const matchCostMissing = it => !this.state.costMissingOnly || this.enrich(it).costMissing;
-    const filteredBase = baseList.filter(it => (!fieldVisible('character') || charSel.length === 0 || charSel.includes(it.character)) && (!fieldVisible('type') || typeSel.length === 0 || typeSel.includes(it.type)) && (!fieldVisible('series') || seriesFilter === '全部' || (it.series || '') === seriesFilter) && matchForm(it) && matchStatus(it) && matchAcquire(it) && matchMethod(it) && matchSet(it) && matchChannel(it) && matchPurchaseChannel(it) && matchCustomFilters(it) && matchSearch(it) && matchCostMissing(it));
+    const filteredBase = baseList.filter(it => (!fieldVisible('character') || charSel.length === 0 || charSel.includes(it.character)) && (!fieldVisible('type') || typeSel.length === 0 || typeSel.includes(it.type)) && (!fieldVisible('series') || seriesFilter === '全部' || (it.series || '') === seriesFilter) && matchForm(it) && matchStatus(it) && matchAcquire(it) && matchMethod(it) && matchSet(it) && matchChannel(it) && matchPurchaseChannel(it) && matchCustomFilters(it) && matchSearch(it));
     const sortKey = this.state.tableSortKey || '';
     const sortDir = this.state.tableSortDir === 'asc' ? 1 : -1;
     const sortText = v => String(v || '').trim();
@@ -7524,7 +7510,6 @@ class Component extends DCLogic {
         formStyle: this.badge(fcol, fbg, fcol + '44'),
         groupText: g, groupStyle,
         status: this.statusText(displayStatus) + (it.progressStatus ? ' · ' + it.progressStatus : ''), statusIconPath:this.statusIconPath(displayStatus), statusStyle: this.badge(displayStatusColor, 'rgba(50,38,90,.05)', displayStatusColor + '44'),
-        hasCostWarning: !!e.costMissing, costWarningText: '⚠ 未记成本', costWarningStyle: this.badge('#c0821f', 'rgba(226,165,59,.15)', '#c0821f44'),
         qtyText: '×' + e.qty, showQty: e.qty > 1, qty: e.qty,
         totalText: e.cost > 0 ? cur + this.fmt(e.cost) : '—',
         costSummaryText, hasCostSummary: !!costSummaryText,
@@ -8009,10 +7994,9 @@ class Component extends DCLogic {
       sidebarLogoStyle: { width: '100%', height: '112px', borderRadius: '15px', position: 'relative', overflow: 'hidden', flexShrink: 0, cursor: 'pointer', border: '1px solid #e3def1', backgroundColor: 'rgba(255,255,255,.86)', boxShadow: 'inset 0 0 0 1px rgba(255,255,255,.7), 0 8px 20px rgba(50,38,90,.08)', backgroundImage: logoFallback ? 'linear-gradient(145deg,#ffffff,#f8f4ff)' : `url(${headerLogoUrl})`, backgroundSize: logoFallback ? 'cover' : 'contain', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }, title: this.state.title || '谷子收纳', subtitle: this.state.subtitle || '梦 境 特 工 档 案', footer: this.state.footer || '梦境特工档案 · コードナンバー：収集家', uploadLogo: this.uploadLogo, onTitleBlur: this.onTitleBlur, onSubtitleBlur: this.onSubtitleBlur, onFooterBlur: this.onFooterBlur, onCnBlur: this.onCnBlur, onCnFocus: this.onCnFocus,
       statIn: cur + this.fmtBig(totalIn), statSell: cur + this.fmtBig(totalSell), statInFull: cur + this.fmt(totalIn), statSellFull: cur + this.fmt(totalSell), statPending: cur + this.fmtBig(totalPending), statPendingFull: cur + this.fmt(totalPending), statExpected: cur + this.fmtBig(totalExpectedRecovery), statExpectedFull: cur + this.fmt(totalExpectedRecovery),
       showSpentSplitNotice: !this.state.spentSplitNoticeDismissed, dismissSpentSplitNotice: this.dismissSpentSplitNotice,
+      allocateFromSet: this.allocateFromSet, allocateDonorPickerOpen: this.state.allocateDonorPickerOpen, closeAllocateDonorPicker: this.closeAllocateDonorPicker, allocateDonorSearch: this.state.allocateDonorSearch || '', onAllocateDonorSearch: this.onAllocateDonorSearch, allocateDonorRows, noAllocateDonorRows,
       statProfit: (totalProfit >= 0 ? '+' : '') + cur + this.fmtBig(totalProfit), statProfitFull: (totalProfit >= 0 ? '+' : '') + cur + this.fmt(totalProfit),
       statProfitStyle: { color: totalProfit >= 0 ? '#12a85f' : '#e23b5d' },
-      hasCostMissingWarning: costMissingCount > 0, costMissingWarningText: '⚠ 有 ' + costMissingCount + ' 件已出物没记成本，盈亏仅供参考', reviewCostMissing: this.reviewCostMissing,
-      costMissingFilterActive: !!this.state.costMissingOnly, clearCostMissingFilter: this.clearCostMissingFilter,
       statNet: cur + this.fmtBig(totalIn - totalSell), statNetFull: cur + this.fmt(totalIn - totalSell),
       statCol: colCount, statSale: saleCount,
       groupTabs,
@@ -8080,7 +8064,7 @@ class Component extends DCLogic {
       onItemEvidenceRequirement:this.onItemEvidencePick('肾表／群内交款要求'), onItemEvidencePaid:this.onItemEvidencePick('我的付款截图'),
       clearAllItemEvidence:()=>this.setState({itemEvidenceDrafts:[],itemEvidenceExistingIds:[]}),
       draft: d || this.emptyDraft(),
-      CHARACTERS: this.orderedChars(), TYPES: this.TYPES, reminderTypeOptions: (this.state.reminderTypes && this.state.reminderTypes.length ? this.state.reminderTypes : this.REMINDER_TYPES), reminderMenuItems, reminderDisplay, reminderMenuOpen: this.state.reminderMenuOpen, toggleReminderMenu: this.toggleReminderMenu, addReminderType: this.addReminderType, clearReminderType: () => this.pickReminderType(''), STATUSES: this.state.statusList || this.STATUSES, FORMS: this.FORMS, draftIsExpectedSale, sellPriceLabel, sellPricePlaceholder, buyPriceLabel, buyPricePlaceholder, feeSectionTitle, showProgressStatus, allocateFromSet: this.allocateFromSet, allocateDonorPickerOpen: this.state.allocateDonorPickerOpen, closeAllocateDonorPicker: this.closeAllocateDonorPicker, allocateDonorSearch: this.state.allocateDonorSearch || '', onAllocateDonorSearch: this.onAllocateDonorSearch, allocateDonorRows, noAllocateDonorRows,
+      CHARACTERS: this.orderedChars(), TYPES: this.TYPES, reminderTypeOptions: (this.state.reminderTypes && this.state.reminderTypes.length ? this.state.reminderTypes : this.REMINDER_TYPES), reminderMenuItems, reminderDisplay, reminderMenuOpen: this.state.reminderMenuOpen, toggleReminderMenu: this.toggleReminderMenu, addReminderType: this.addReminderType, clearReminderType: () => this.pickReminderType(''), STATUSES: this.state.statusList || this.STATUSES, FORMS: this.FORMS, draftIsExpectedSale, sellPriceLabel, sellPricePlaceholder, buyPriceLabel, buyPricePlaceholder, feeSectionTitle, showProgressStatus,
       closeModal: this.closeModal, saveItem: this.saveItem, onDraftChange: this.onDraftChange, onMoneyBlur: this.onMoneyBlur, onMoneyKeyDown: this.onMoneyKeyDown, addDraftFee:this.addDraftFee, draftFeeRows, noDraftFees:draftFeeRows.length===0, hasDraftFees:draftFeeRows.length>0, draftFeeTotal, autoGrowNote: this.autoGrowNote, charMenuItems, charDisplay, charMenuOpen: this.state.charMenuOpen, toggleCharMenu: this.toggleCharMenu, onTypeChange: this.onTypeChange, onSeriesChange: this.onSeriesChange, fillName: this.fillName, draftStars, typeMenuItems, typeDisplay, hasTypeMenuItems, typeMenuOpen: this.state.typeMenuOpen, toggleTypeMenu: this.toggleTypeMenu, addType: this.addType, seriesMenuItems, seriesDisplay, hasSeriesMenuItems, seriesMenuOpen: this.state.seriesMenuOpen, toggleSeriesMenu: this.toggleSeriesMenu, addSeries: this.addSeries, clearSeries: this.clearSeries, channelMenuItems, channelMenuOpen: this.state.channelMenuOpen, toggleChannelMenu: this.toggleChannelMenu, addChannel: this.addChannel, clearChannel: this.clearChannel, channelDisplay: (this.state.draft && this.state.draft.channel) ? this.state.draft.channel : '（未分类）', hasChannelMenuItems: channelMenuItems.length > 0, purchaseChannelMenuItems, purchaseChannelMenuOpen: this.state.purchaseChannelMenuOpen, togglePurchaseChannelMenu: this.togglePurchaseChannelMenu, addPurchaseChannel: this.addPurchaseChannel, clearPurchaseChannel: this.clearPurchaseChannel, purchaseChannelDisplay: (this.state.draft && this.state.draft.purchaseChannel) ? this.state.draft.purchaseChannel : '（未分类）', hasPurchaseChannelMenuItems: purchaseChannelMenuItems.length > 0, fillBuyFromRate: this.fillBuyFromRate, draftHasConv, draftConvText, draftIsGacha, draftSwapped,
       onImagePick: this.onImagePick, onImagePick2: this.onImagePick2, onImagePick3: this.onImagePick3, onImagePickSwap: this.onImagePickSwap, onImageDragOver: this.onImageDragOver, onImageDragLeave: this.onImageDragLeave, onDraftImageDrop: this.onDraftImageDrop, onShipImageDrop: this.onShipImageDrop, swapMenuItems, swappedDisplay, swapHint, swapNoteLabel, draftIsSwapKind, swapMenuOpen: this.state.swapMenuOpen, toggleSwapMenu: this.toggleSwapMenu, swapCharMenuItems, swapCharDisplay, swapCharMenuOpen: this.state.swapCharMenuOpen, toggleSwapCharMenu: this.toggleSwapCharMenu, clearSwapCharacter: this.clearSwapCharacter, swapCharHasAvatar, swapCharAvatarStyle, removeDraftImg: this.removeDraftImg, removeDraftImg2: this.removeDraftImg2, removeDraftImg3: this.removeDraftImg3, removeDraftImg4: this.removeDraftImg4, removeDraftSwapImg: this.removeDraftSwapImg,
       draftTimelineRows, showBrandField: fieldVisible('series') && !!(d && d.series), draftWorkName, draftWorkGroupName, draftWorkMenuGroups, draftWorkMenuOpen: this.state.draftWorkMenuOpen, toggleDraftWorkMenu: this.toggleDraftWorkMenu, addWorkInline: this.addWorkInline, draftIsSelling, draftNotSelling,
