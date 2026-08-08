@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
 <title>谷子收纳</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
-<meta name="app-version" content="20260801-desktop-cost-summary-fix-25">
+<meta name="app-version" content="20260808-mobile-control-layout-fix-26">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
@@ -747,6 +747,11 @@
   .ui-ship-record-actions{display:flex;align-items:center;gap:4px;flex-shrink:0}
   .ui-ship-record-actions button{font-family:inherit;font-size:11px;color:#4c4580;background:rgba(50,38,90,.05);border:1px solid #ded7ee;padding:5px 7px;border-radius:7px;cursor:pointer;white-space:nowrap}
   .ui-ship-record-actions button.danger{color:#e23b5d;background:rgba(226,59,93,.07);border-color:rgba(226,59,93,.22)}
+  .ui-compact-action{display:inline-flex;align-items:center;justify-content:center;width:auto;min-width:0;min-height:26px;padding:4px 9px;border-radius:7px;font-family:inherit;font-size:11px;font-weight:600;line-height:1;white-space:nowrap}
+  .ui-status-date-input{height:34px;min-height:34px;padding:6px 9px !important}
+  .ui-image-count-badge{font-size:9px !important;line-height:1 !important;padding:3px 6px !important}
+  .ui-card-side-money{max-width:42%;min-width:0;overflow:hidden}
+  .ui-card-side-money-value{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .ui-ship-meta{min-width:0}.ui-ship-meta strong{display:block;font-size:13.5px;color:#251d49;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ui-ship-meta small{display:block;color:#837da4;font-size:11.5px;line-height:1.5;margin-top:3px}
   .ui-ship-preview{background:linear-gradient(180deg,#fff,#faf8ff);border:1px solid #ded7ee;border-radius:16px;padding:14px}
   .ui-ship-preview-head{text-align:center;border-bottom:2px solid var(--accent,#ff3355);padding-bottom:7px;margin-bottom:9px}.ui-ship-preview-head strong{display:block;font-size:14px;color:#251d49}.ui-ship-preview-head span{font-size:11px;color:#837da4}
@@ -840,11 +845,12 @@
     .ui-card-meta-line > span > div,.ui-mobile-card-main > span > div{width:12px !important;height:12px !important;margin:0 3px 0 -2px !important}
     .ui-mobile-card-price{padding-top:5px !important;gap:4px !important}
     .ui-card-cost-mobile-label{display:block !important;font-size:8px !important;color:#837da4 !important;white-space:nowrap !important;letter-spacing:-.2px !important}
-    .ui-qty-x{font-size:6.5px !important;color:#a49ec4 !important;margin-left:1px;vertical-align:middle}
+    .ui-qty-x{display:inline-block !important;font-size:8px !important;color:#a49ec4 !important;margin-left:2px !important;vertical-align:baseline !important;line-height:1 !important;position:relative !important;top:0 !important}
     .ui-mobile-card-price [style*="font-size:18px"]{font-size:11px !important}
     .ui-mobile-card-price [style*="font-size:15px"]{font-size:11px !important}
     .ui-mobile-card-price [style*="font-size:10px"]{font-size:8px !important}
     .ui-group-badge,.ui-status-badge{top:5px !important;font-size:8px !important;line-height:1.1 !important;padding:2px 4px !important;box-shadow:0 3px 9px rgba(50,38,90,.1) !important}
+    .ui-image-count-badge{bottom:5px !important;right:5px !important;font-size:7px !important;padding:2px 4px !important;border-radius:999px !important}
     .ui-group-badge{left:5px !important}.ui-status-badge{right:5px !important}
     .ui-card-edit-row{display:none !important}
     .ui-card-stars-overlay{padding:1px 2px !important;gap:0 !important}
@@ -1135,9 +1141,9 @@
     font-size:8.5px !important;
     line-height:1 !important;
   }
-  .ui-mobile-auto.ui-view-search .ui-filters-panel .ui-filter-extra > button,
-  .ui-mobile-simple.ui-view-search .ui-filters-panel .ui-filter-extra > button,
-  .ui-mobile-full.ui-view-search .ui-filters-panel .ui-filter-extra > button{
+  .ui-mobile-auto.ui-view-search .ui-filters-panel .ui-filter-extra button,
+  .ui-mobile-simple.ui-view-search .ui-filters-panel .ui-filter-extra button,
+  .ui-mobile-full.ui-view-search .ui-filters-panel .ui-filter-extra button{
     min-height:21px !important;
     height:21px !important;
     padding:1px 6px !important;
@@ -1145,6 +1151,11 @@
     font-size:8.5px !important;
     line-height:1 !important;
   }
+  .ui-item-modal button.ui-compact-action{width:auto !important;min-width:0 !important;height:23px !important;min-height:23px !important;padding:2px 7px !important;border-radius:6px !important;font-size:8.5px !important;line-height:1 !important}
+  .ui-item-modal input.ui-status-date-input{height:29px !important;min-height:29px !important;padding:3px 7px !important;font-size:11px !important;border-radius:7px !important}
+  .ui-mobile-card-price{display:grid !important;grid-template-columns:minmax(0,1fr) minmax(0,auto) !important;align-items:end !important}
+  .ui-card-side-money{max-width:66px !important;min-width:0 !important;overflow:hidden !important}
+  .ui-card-side-money-value{font-size:8.5px !important;letter-spacing:-.03em !important;white-space:nowrap !important;overflow:hidden !important;text-overflow:ellipsis !important}
   .ui-mobile-auto .ui-group-section-head,
   .ui-mobile-simple .ui-group-section-head,
   .ui-mobile-full .ui-group-section-head{
@@ -1701,7 +1712,7 @@
               </sc-if>
               <span class="ui-group-badge" style="{{ row.groupBadgeStyle }}">{{ row.groupText }}</span>
               <span class="ui-status-badge" style="{{ row.statusBadgeStyle }}">{{ row.status }}</span>
-              <sc-if value="{{ row.hasImg2 }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;bottom:8px;right:8px;background:rgba(255,255,255,.88);color:#544f7e;font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:999px;border:1px solid #ded7ee">{{ row.imageCountText }}</span></sc-if>
+              <sc-if value="{{ row.hasImg2 }}" hint-placeholder-val="{{ false }}"><span class="ui-image-count-badge" style="position:absolute;bottom:8px;right:8px;background:rgba(255,255,255,.88);color:#544f7e;font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:999px;border:1px solid #ded7ee">{{ row.imageCountText }}</span></sc-if>
             </div>
             <div class="ui-gallery-card-body" style="padding:12px 13px 13px;display:flex;flex-direction:column;gap:9px;flex:1">
               <div>
@@ -1721,7 +1732,7 @@
               </div>
               </sc-if>
               <div class="ui-mobile-card-price" style="display:flex;align-items:flex-end;justify-content:space-between;gap:8px;margin-top:2px;padding-top:9px;border-top:1px solid rgba(50,38,90,.05)">
-                <div style="min-width:0;overflow:hidden">
+                <div class="ui-card-amount-main" style="min-width:0;overflow:hidden">
                   <div class="ui-card-cost-mobile-label">{{ row.mainAmountLabel }}<span class="ui-qty-x">{{ row.qtyText }}</span></div>
                   <div style="font-family:'Orbitron';font-weight:700;font-size:18px;color:#251d49;overflow:hidden;text-overflow:ellipsis">{{ row.totalText }}</div>
                   <sc-if value="{{ row.hasCostSummary }}" hint-placeholder-val="{{ false }}"><div class="ui-card-breakdown" style="{{ row.costSummaryStyle }}">{{ row.costSummaryText }}</div></sc-if>
@@ -1730,10 +1741,10 @@
                   <sc-if value="{{ row.hasNote }}" hint-placeholder-val="{{ false }}"><div class="ui-card-breakdown" style="font-size:10.5px;color:#938db0;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">{{ row.noteText }}</div></sc-if>
                 </div>
                 <sc-if value="{{ row.hasExpectedSale }}" hint-placeholder-val="{{ false }}">
-                  <div style="text-align:right;flex-shrink:0"><div style="font-size:10px;color:#837da4">预计收入</div><div style="font-family:'Orbitron';font-size:15px;font-weight:700;color:#d14a86">{{ row.expectedSaleText }}</div></div>
+                  <div class="ui-card-side-money" style="text-align:right;flex-shrink:0"><div style="font-size:10px;color:#837da4">预计收入</div><div class="ui-card-side-money-value" title="{{ row.expectedSaleText }}" style="font-family:'Orbitron';font-size:15px;font-weight:700;color:#d14a86">{{ row.expectedSaleText }}</div></div>
                 </sc-if>
                 <sc-if value="{{ row.hasProfit }}" hint-placeholder-val="{{ false }}">
-                  <div style="text-align:right;flex-shrink:0"><div style="font-size:10px;color:#837da4">盈亏</div><div style="font-family:'Orbitron';font-size:15px"><span style="{{ row.profitStyle }}">{{ row.profitText }}</span></div></div>
+                  <div class="ui-card-side-money" style="text-align:right;flex-shrink:0"><div style="font-size:10px;color:#837da4">盈亏</div><div class="ui-card-side-money-value" title="{{ row.profitText }}" style="font-family:'Orbitron';font-size:15px"><span style="{{ row.profitStyle }}">{{ row.profitText }}</span></div></div>
                 </sc-if>
               </div>
               <sc-if value="{{ row.hasHeld }}" hint-placeholder-val="{{ false }}"><div class="ui-mobile-card-extra" style="font-size:11.5px;color:#837da4;display:flex;align-items:center;gap:5px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>{{ row.heldText }}</div></sc-if>
@@ -1795,7 +1806,7 @@
             <div class="ui-table-cell ui-table-num"><button class="ui-table-sort-btn" onClick="{{ sortByShip }}">邮费(内·际)<span class="ui-table-sort-mark">{{ sortShipMark }}</span></button></div>
             </sc-if>
             <sc-if value="{{ showTableSell }}" hint-placeholder-val="{{ true }}">
-            <div class="ui-table-cell ui-table-num"><button class="ui-table-sort-btn" onClick="{{ sortBySell }}">卖出价<span class="ui-table-sort-mark">{{ sortSellMark }}</span></button></div>
+            <div class="ui-table-cell ui-table-num"><button class="ui-table-sort-btn" onClick="{{ sortBySell }}">出物价<span class="ui-table-sort-mark">{{ sortSellMark }}</span></button></div>
             </sc-if>
             <sc-if value="{{ showTableProfit }}" hint-placeholder-val="{{ true }}">
             <div class="ui-table-cell ui-table-num"><button class="ui-table-sort-btn" onClick="{{ sortByProfit }}">盈亏<span class="ui-table-sort-mark">{{ sortProfitMark }}</span></button></div>
@@ -2427,7 +2438,7 @@
             </div>
             <div>
               <div style="font-size:12px;color:#4a4570;margin-bottom:6px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>{{ reminderDateLabel }}</span><span class="ui-field-hint" style="font-size:10.5px;color:#a49ec4;font-weight:400">{{ reminderDateHint }}</span></div>
-              <input name="reminderDate" type="date" value="{{ draft.reminderDate }}" onChange="{{ onDraftChange }}" style="width:100%;box-sizing:border-box;min-width:0;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
+              <input class="ui-status-date-input" name="reminderDate" type="date" value="{{ draft.reminderDate }}" onChange="{{ onDraftChange }}" style="width:100%;box-sizing:border-box;min-width:0;padding:9px 11px;border-radius:9px;border:1px solid #ded7ee;background:#ffffff;color:#251d49;font-size:14px;font-family:inherit;outline:none">
             </div>
             <div style="grid-column:1/-1">
               <button onClick="{{ toggleFee }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 12px;border-radius:9px;border:1px dashed #d4cee7;background:rgba(50,38,90,.03);color:#544f7e;font-family:inherit;font-size:13px;cursor:pointer">
@@ -2460,7 +2471,7 @@
             <div style="grid-column:1/-1">
               <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:7px">
                 <div style="font-size:12px;color:#4a4570;font-weight:700">费用明细</div>
-                <button onClick="{{ addDraftFee }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#fff;background:var(--accent,#ff3355);border:none;padding:3px 10px;border-radius:7px;cursor:pointer;flex-shrink:0">＋ 添加一笔费用</button>
+                <button class="ui-compact-action" onClick="{{ addDraftFee }}" style="color:#fff;background:var(--accent,#ff3355);border:none;cursor:pointer;flex-shrink:0">＋ 添加一笔费用</button>
               </div>
               <sc-if value="{{ noDraftFees }}" hint-placeholder-val="{{ true }}"><div style="border:1px dashed #ddd6e9;border-radius:10px;padding:12px;text-align:center;color:#a19abf;font-size:11.5px">还没有费用明细，需要时再添加</div></sc-if>
               <div style="display:flex;flex-direction:column;gap:7px">
@@ -2740,9 +2751,9 @@
                           <div style="font-size:11px;color:#938db0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ rec.group }}<sc-if value="{{ rec.hasNote }}" hint-placeholder-val="{{ false }}"> · {{ rec.note }}</sc-if></div>
                           <sc-if value="{{ rec.isShared }}" hint-placeholder-val="{{ false }}"><div style="font-size:10.5px;color:#ff3355;margin-top:2px">共享给其他 {{ rec.sharedCount }} 件谷子</div></sc-if>
                         </div>
-                        <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0">
-                          <button onClick="{{ rec.onRelink }}" style="font-family:inherit;font-size:11px;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:4px 8px;border-radius:7px;cursor:pointer;white-space:nowrap">编辑</button>
-                          <button onClick="{{ rec.onUnlink }}" style="font-family:inherit;font-size:11px;color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;padding:4px 8px;border-radius:7px;cursor:pointer;white-space:nowrap">移除本件</button>
+                        <div style="display:flex;flex-direction:column;gap:3px;flex-shrink:0">
+                          <button class="ui-compact-action" onClick="{{ rec.onRelink }}" style="color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;cursor:pointer">编辑</button>
+                          <button class="ui-compact-action" onClick="{{ rec.onUnlink }}" style="color:#544f7e;background:rgba(50,38,90,.06);border:1px solid #ded7ee;cursor:pointer">移除</button>
                         </div>
                       </div>
                     </sc-for>
@@ -5378,7 +5389,7 @@ class Component extends DCLogic {
     let d = this.state.draft; if (!d) return;
     if (!d.name || !d.name.trim()) { const g = this.genName(d); if (!g) { alert('请先填写名称（或选择角色 / 填细分后点自动生成）'); return; } d = { ...d, name: g }; }
     d = { ...d, status: this.normalizeStatus(d.status), reminderType: (d.reminderType === '补款' || d.reminderType === '尾款') ? '付款' : d.reminderType, fees:(Array.isArray(d.fees)?d.fees:[]).map(f=>({...f,type:String(f.type||'其他费用').trim()||'其他费用',amount:String(f.amount||'').trim(),note:String(f.note||'').trim(),date:f.date||this.todayStr()})).filter(f=>this.num(f.amount)>0) };
-    const _moneyLabels = { buyPrice:'买入价', sellPrice:'卖出价', supplementPrice:'补款', finalPrice:'尾款', shipDom:'国内邮费', shipIntl:'国际邮费', otherFee:'费用明细', originalPrice:'原价', rate:'汇率' };
+    const _moneyLabels = { buyPrice:'买入价', sellPrice:'出物价', supplementPrice:'补款', finalPrice:'尾款', shipDom:'国内邮费', shipIntl:'国际邮费', otherFee:'费用明细', originalPrice:'原价', rate:'汇率' };
     const _moneyPatch = {};
     for (const f of Object.keys(_moneyLabels)) {
       const v = d[f];
@@ -5896,7 +5907,7 @@ class Component extends DCLogic {
       { key:'type', label:this.flabel('type'), type:'select', batchKey:'type' },
       { key:'series', label:this.flabel('series'), type:'select', batchKey:'series' },
       { key:'buyPrice', label:'买入价', type:'number' },
-      { key:'sellPrice', label:'卖出价', type:'number' },
+      { key:'sellPrice', label:'出物价', type:'number' },
       { key:'acquire', label:this.flabel('acquire'), type:'select', batchKey:'acquire' },
       { key:'method', label:this.flabel('method'), type:'select', batchKey:'method' },
       { key:'channel', label:this.flabel('channel'), type:'select', batchKey:'channel' },
@@ -6165,7 +6176,7 @@ class Component extends DCLogic {
       { key: 'original', label: '原价', width: '100px' },
       { key: 'buy', label: '买入价', width: '100px' },
       { key: 'ship', label: '邮费', width: '118px' },
-      { key: 'sell', label: '卖出价', width: '100px' },
+      { key: 'sell', label: '出物价', width: '100px' },
       { key: 'profit', label: '盈亏', width: '100px' },
       { key: 'channel', label: '平台', width: '130px' },
       { key: 'purchaseChannel', label: '渠道', width: '120px' },
@@ -7038,7 +7049,7 @@ class Component extends DCLogic {
     const draftIsSelling = /出物|出售|卖出|已出/.test(_dSellStatus);
     const draftNotSelling = !draftIsSelling;
     const draftIsExpectedSale = _dSellStatus === '待出物';
-    const sellPriceLabel = draftIsExpectedSale ? '预计卖出价' : '卖出价';
+    const sellPriceLabel = draftIsExpectedSale ? '预计出物价' : '出物价';
     const sellPricePlaceholder = draftIsExpectedSale ? '填预计每个能卖多少钱' : '已卖出的实际成交价';
     const buyPriceLabel = _dSellStatus === '已排单' ? '预计付款' : '已付款';
     const buyPricePlaceholder = _dSellStatus === '已排单' ? '预计每个需要支付多少' : '每个实际支付多少';
@@ -7521,7 +7532,7 @@ class Component extends DCLogic {
         qtyText: '*' + e.qty, showQty: e.qty > 1, qty: e.qty,
         hasNote: !!(it.note && String(it.note).trim()), noteText: String(it.note || '').trim(),
         totalText: e.sold ? (cur + this.fmt(e.revenue)) : (e.cost > 0 ? cur + this.fmt(e.cost) : '—'),
-        mainAmountLabel: (e.sold ? '卖出价' : '总价') + ' · 数量',
+        mainAmountLabel: (e.sold ? '出物价' : '总价') + ' · 数量',
         costSummaryText, hasCostSummary: !!costSummaryText,
         costSummaryStyle: { fontSize: costSummaryText.length > 34 ? '8.5px' : (costSummaryText.length > 27 ? '9.5px' : '10.5px'), color:'#938db0', marginTop:'1px', lineHeight:1.35, whiteSpace:'nowrap', letterSpacing:costSummaryText.length > 34 ? '-.25px' : '0' },
         heldText: rem.text || '', hasHeld: !!(rem.text && !rem.active),
